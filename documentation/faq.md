@@ -1,8 +1,8 @@
 ---
 id: faq000
-title: Semantic Flow FAQ
+title: FAQ
 desc: ''
-updated: 1752026524927
+updated: 1755716847166
 created: 1751351477000
 ---
 

@@ -1,7 +1,7 @@
 ---
 id: l9g8eki3dtir51o4jagac5a
-title: Principle
+title: Principles
 desc: ''
-updated: 1751241185879
+updated: 1755716873111
 created: 1751241185879
 ---

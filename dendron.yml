@@ -91,7 +91,7 @@ publishing:
     writeStubs: false
     siteRootDir: docs
     seo:
-        title: Semantic Flow Documentation
+        title: Semantic Flow Docs
         description: A dendron-based wiki for sflo
     github:
         enableEditLink: true
