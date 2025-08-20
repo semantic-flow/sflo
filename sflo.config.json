@@ -1,0 +1,19 @@
+{
+    "port": 8787,
+    "plugins": [
+        {
+            "name": "elements",
+            "enabled": true,
+            "options": { "path": "/docs", "specUrl": "/openapi.json" }
+        },
+        {
+            "name": "mesh-server",
+            "enabled": false,
+            "options": {
+                "meshes": [
+                    { "id": "demo", "root": "./examples/mesh-demo" }
+                ]
+            }
+        }
+    ]
+}
