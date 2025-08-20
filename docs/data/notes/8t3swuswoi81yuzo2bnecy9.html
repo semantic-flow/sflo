@@ -1,0 +1,100 @@
+<h1 id="flow-snapshot">flow snapshot<a aria-hidden="true" class="anchor-heading icon-link" href="#flow-snapshot"></a></h1>
+<p><strong>flow snapshots</strong> are mesh elements that are datasets and represent the evolutionary steps of <a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a>, whether <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a>, <a href="/sflo/notes/9bu4sgma5c54bmwyl6ofg4c">reference flow</a>, or <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a>. </p>
+<p>flow snapshots have corresponding <a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">distributions</a> and are the connective tissue between nodes and their RDF-based representation.</p>
+<h2 id="relationship-to-node-flows">Relationship to node flows<a aria-hidden="true" class="anchor-heading icon-link" href="#relationship-to-node-flows"></a></h2>
+<p>flow snapshots are the successive realizations of <a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a>.</p>
+<h3 id="relationship-pattern">Relationship pattern:<a aria-hidden="true" class="anchor-heading icon-link" href="#relationship-pattern"></a></h3>
+<p>node flows have at least two layers:</p>
+<ul>
+<li>current version (<code>_current/</code>)</li>
+<li>working version (<code>_next</code>)</li>
+</ul>
+<p>Versioned components </p>
+<h3 id="ontology-data-node-example">Ontology Data Node Example<a aria-hidden="true" class="anchor-heading icon-link" href="#ontology-data-node-example"></a></h3>
+<pre class="language-file"><code class="language-file">/my-ontology/               ← Data Node: Conceptual, data-oriented "thing"
+├── _meta-component/                   ← Reference node flow (reference data about ontology)
+│   ├── _current/           ← flow snapshot (current reference data)
+│   ├── _next/              ← flow snapshot (working draft)
+│   ├── _v1/                ← flow snapshot (version 1 reference data)
+│   └── _v2/                ← flow snapshot (version 2 reference data)
+├── _ref-component/                   ← Reference node flow (reference data about ontology)
+│   ├── _current/           ← flow snapshot (current reference data)
+│   ├── _next/              ← flow snapshot (working draft)
+│   ├── _v1/                ← flow snapshot (version 1 reference data)
+│   └── _v2/                ← flow snapshot (version 2 reference data)
+└── _data-component/                  ← Data node flow (ontology definition--by-dataset)
+    ├── _current/           ← flow snapshot (current definition)
+    ├── _next/              ← flow snapshot (working draft)
+    └── _v1/                ← flow snapshot (version 1 definition)
+</code></pre>
+<p>In this example:</p>
+<ul>
+<li><code>_current/</code>, <code>_v1/</code>, <code>_v2/</code>, <code>_next/</code> are all flow snapshots</li>
+<li>Each contains actual data files and distributions</li>
+<li>They represent specific temporal states of their parent node flows</li>
+</ul>
+<h2 id="temporal-nature">Temporal Nature<a aria-hidden="true" class="anchor-heading icon-link" href="#temporal-nature"></a></h2>
+<p>flow snapshots capture datasets at specific moments:</p>
+<ul>
+<li><strong>Current versions</strong> (<code>_current/</code>) - The active working state</li>
+<li><strong>Next versions</strong> (<code>_next/</code>) - Draft content for future release</li>
+<li><strong>Historical versions</strong> (<code>_v1/</code>, <code>_v2/</code>) - Immutable snapshots from the past</li>
+</ul>
+<h2 id="content-structure">Content Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#content-structure"></a></h2>
+<p>flow snapshots contain:</p>
+<ul>
+<li><strong>Data files</strong> - The actual dataset content (<code>.ttl</code>, <code>.rdf</code>, <code>.jsonld</code>)</li>
+<li><strong>Distributions</strong> - Multiple format representations of the same data</li>
+<li><strong>Metadata</strong> - Information about the specific version/snapshot</li>
+</ul>
+<h3 id="example-structure">Example Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#example-structure"></a></h3>
+<pre class="language-file"><code class="language-file">_current/
+├── my-ontology.ttl         ← Distribution
+├── my-ontology.rdf         ← Distribution  
+└── my-ontology.jsonld      ← Distribution
+</code></pre>
+<h2 id="immutability">Immutability<a aria-hidden="true" class="anchor-heading icon-link" href="#immutability"></a></h2>
+<p><strong><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></strong> (historical flow snapshots, i.e., versioned folders like <code>_v1/</code>, <code>_v2/</code>) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.</p>
+<p><strong><a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a></strong> (the latest "woven" flow snapshots, <code>_current</code>) should not be modified directly by users, but will be updated "on weave" if the <a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a> has evolved. </p>
+<p><strong><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></strong> (working flow snapshots, <code>_next/</code>) are mutable:</p>
+<ul>
+<li>Can be edited and updated during development</li>
+<li>Represent evolving state of the node flow</li>
+</ul>
+<h2 id="creation-and-lifecycle">Creation and Lifecycle<a aria-hidden="true" class="anchor-heading icon-link" href="#creation-and-lifecycle"></a></h2>
+<p>flow snapshots are created through:</p>
+<ul>
+<li><strong>Initial authoring</strong> - Creating <code>_current/</code> content</li>
+<li><strong>Versioning</strong> - Snapshotting <code>_current/</code> to <code>_v1/</code>, <code>_v2/</code> during <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.concept.weave (Private)</a></li>
+<li><strong>Draft preparation</strong> - Working in <code>_next/</code> for future releases</li>
+</ul>
+<h2 id="related-concepts">Related Concepts<a aria-hidden="true" class="anchor-heading icon-link" href="#related-concepts"></a></h2>
+<ul>
+<li><strong><a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a></strong> - Parent conceptual entities</li>
+<li><strong><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Versioning</a></strong> - Process of creating versioned flow snapshots</li>
+<li><strong><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a></strong> - Operation that manages flow snapshot lifecycle</li>
+</ul>
+<hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a></li>
+<li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">layer distribution</a></li>
+<li><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></li>
+<li><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></li>
+</ol>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/2qp8vfjygd43lmwcmj6362r">Working Distribution</a></li>
+<li><a href="/sflo/notes/osqi7xn4mw3j9v0kvsoc5uo">Why Dont Data Nodes Contain Distributions Directly</a></li>
+<li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset</a></li>
+<li><a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+<li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
+<li><a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a></li>
+<li><a href="/sflo/notes/xz41kd5hzao6yjybm05uw4l">current snapshot folder</a></li>
+<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a></li>
+<li><a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a></li>
+<li><a href="/sflo/notes/sif626tmt3mw3nir5gv1s1a">unified dataset</a></li>
+<li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">layer distribution</a></li>
+</ul>

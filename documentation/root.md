@@ -2,9 +2,29 @@
 id: voy7zrf0f6bs86m02uadhaf
 title: Semantic Flow Documentation
 desc: ''
-updated: 1755714752622
+updated: 1755716140409
 created: 1755709990079
 ---
 
-A **dereferenceable, versioned semantic mesh** will be the foundation for a new
-era of knowledge graphs.
+**Dereferenceable, versioned semantic meshes** will be the foundation for a new era of knowledge graphs.
+
+[[now]] | [[todo]] | [[principle]] | [[contributor.djradon.dev-log]]
+
+## What Is Semantic Flow?
+
+**Semantic Flow** is a framework for managing and publishing resource indicators, knowledge graphs and other semantic data by leveraging GitHub, Gitlab, and other free static hosting services. It enables a **dereferenceable Semantic Web** where every HTTP IRI returns meaningful content.
+
+[[sflo.concept.mesh-repo]] provide storage, [[Semantic Meshes|sflo.concept.mesh]] provide resource management and publishing, and [[semantic sites|sflo.concept.semantic-site]] support data discovery and explainability.
+
+## Benefits
+
+- own your own self-describing data and data schemas
+- complete version history when you want it
+- reliable persistence
+- truly FAIR (Findable, Accessible, Interoperable, and Reusable)
+
+## Features
+
+- seamlessly integrate other data sources anywhere in your mesh
+- generate and customize mini-sites or single-page applications for nodes in your mesh
+- see [[feature]] for a list of planned features

@@ -1,0 +1,157 @@
+<h1 id="composability">Composability<a aria-hidden="true" class="anchor-heading icon-link" href="#composability"></a></h1>
+<p>//TODO: re-verify this ai-generated content</p>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>Composability is the ability to combine multiple meshes or extract submeshes to create new, functional semantic structures. Semantic Flow enables flexible mesh composition through git-native operations and intelligent reference resolution.</p>
+<h2 id="key-concepts">Key Concepts<a aria-hidden="true" class="anchor-heading icon-link" href="#key-concepts"></a></h2>
+<h3 id="mesh-boundaries">Mesh Boundaries<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-boundaries"></a></h3>
+<p>Each git repository represents a complete mesh with its own root namespace. Cross-mesh references use absolute URIs, while intra-mesh references use relative URIs.</p>
+<h3 id="upward-reference-problem">Upward Reference Problem<a aria-hidden="true" class="anchor-heading icon-link" href="#upward-reference-problem"></a></h3>
+<p>When extracting submeshes, upward references can break. For example, if something within <code>ns/djradon/bio/</code> references <code>../../</code> (pointing to <code>ns/djradon/</code>), that reference will break if only the <code>bio/</code> subtree is copied elsewhere.</p>
+<h3 id="weaving-process-solution">Weaving Process Solution<a aria-hidden="true" class="anchor-heading icon-link" href="#weaving-process-solution"></a></h3>
+<p>During weaving, tools:</p>
+<ol>
+<li><strong>Scan for broken relatives</strong>: Check all relative URLs in the mesh</li>
+<li><strong>Convert broken ones</strong>: Replace with absolute URLs using canonical publication data</li>
+<li><strong>Leave working relatives alone</strong>: Preserve transposability where possible</li>
+</ol>
+<p>After weaving, submeshes are semantically complete and can be composed using standard file operations.</p>
+<h2 id="incorporating-external-meshes">Incorporating External Meshes<a aria-hidden="true" class="anchor-heading icon-link" href="#incorporating-external-meshes"></a></h2>
+<h3 id="importing-no-external-connection">Importing (No External Connection)<a aria-hidden="true" class="anchor-heading icon-link" href="#importing-no-external-connection"></a></h3>
+<p>Import meshes or submeshes as permanent copies with no ongoing connection to the source:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Method 1: Git archive (clean, can target specific paths)</span>
+<span class="token function">git</span> archive --remote<span class="token operator">=</span>https://github.com/djradon/mesh.git main ns/djradon/ <span class="token operator">|</span> <span class="token function">tar</span> -x -C collaborators/
+<span class="token function">git</span> <span class="token function">add</span> collaborators/djradon/
+<span class="token function">git</span> commit -m <span class="token string">"Import djradon's mesh"</span>
+
+<span class="token comment"># Method 2: Download and copy</span>
+<span class="token function">curl</span> -L https://github.com/djradon/mesh/archive/main.zip -o mesh.zip
+<span class="token function">unzip</span> mesh.zip
+<span class="token function">cp</span> -r mesh-main/ns/djradon/ collaborators/djradon/
+<span class="token function">git</span> <span class="token function">add</span> collaborators/djradon/
+<span class="token function">git</span> commit -m <span class="token string">"Import djradon's mesh"</span>
+</code></pre>
+<p>The imported content becomes permanently part of your repository with no external dependencies.</p>
+<h3 id="embedding-maintains-external-connection">Embedding (Maintains External Connection)<a aria-hidden="true" class="anchor-heading icon-link" href="#embedding-maintains-external-connection"></a></h3>
+<p>Embed external meshes while maintaining a connection for updates:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Import with ongoing connection to source repo</span>
+<span class="token function">git</span> subtree <span class="token function">add</span> --prefix<span class="token operator">=</span>collaborators/djradon/ https://github.com/djradon/mesh.git main --squash
+
+<span class="token comment"># Update embedded mesh later</span>
+<span class="token function">git</span> subtree pull --prefix<span class="token operator">=</span>collaborators/djradon/ https://github.com/djradon/mesh.git main --squash
+</code></pre>
+<p>The embedded content becomes part of your repository and site, but you can pull updates from the source repository.</p>
+<h3 id="directory-structure-after-incorporation">Directory Structure After Incorporation<a aria-hidden="true" class="anchor-heading icon-link" href="#directory-structure-after-incorporation"></a></h3>
+<pre><code>your-mesh/
+├── _flow/                           # Your mesh metadata
+├── _handle/
+├── ns/
+│   └── yourdata/
+└── collaborators/
+    └── djradon/                     # Imported/embedded mesh - served as static files
+        ├── _flow/                   # Their mesh metadata
+        ├── _handle/
+        └── ns/
+            └── djradon/
+</code></pre>
+<p>All files are served directly as static content when the repository is published (e.g., via GitHub Pages).</p>
+<h2 id="extracting-submeshes">Extracting Submeshes<a aria-hidden="true" class="anchor-heading icon-link" href="#extracting-submeshes"></a></h2>
+<h3 id="post-weave-extraction">Post-Weave Extraction<a aria-hidden="true" class="anchor-heading icon-link" href="#post-weave-extraction"></a></h3>
+<p>After weaving resolves broken references, any subtree becomes a semantically complete mesh that can be copied using standard file operations:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Copy submesh to create standalone mesh</span>
+<span class="token function">cp</span> -r ns/djradon/ <span class="token punctuation">..</span>/standalone-mesh/
+
+<span class="token comment"># Copy submesh to another location (e.g., for backup)</span>
+<span class="token function">rsync</span> -av collaborators/alice/ backup/alice/
+</code></pre>
+<h3 id="pre-weave-considerations">Pre-Weave Considerations<a aria-hidden="true" class="anchor-heading icon-link" href="#pre-weave-considerations"></a></h3>
+<p>Before weaving, analyze upward dependencies:</p>
+<ul>
+<li>Identify references that point outside the intended extraction boundary</li>
+<li>Determine if the extracted submesh will be semantically complete</li>
+<li>Consider whether broken references should become absolute URLs</li>
+</ul>
+<h2 id="cross-mesh-references">Cross-Mesh References<a aria-hidden="true" class="anchor-heading icon-link" href="#cross-mesh-references"></a></h2>
+<h3 id="between-independent-meshes">Between Independent Meshes<a aria-hidden="true" class="anchor-heading icon-link" href="#between-independent-meshes"></a></h3>
+<p>References between separate mesh repositories use absolute URIs:</p>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># Reference to external mesh</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">knows</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://alice.github.io/mesh/ns/alice/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+</code></pre>
+<h3 id="discovery-patterns">Discovery Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#discovery-patterns"></a></h3>
+<p><strong>TBD</strong>: Standardized mechanisms for:</p>
+<ul>
+<li>Mesh discovery and registration</li>
+<li>Stable cross-mesh URI patterns</li>
+<li>Handling moved or unavailable external meshes</li>
+</ul>
+<h2 id="composition-patterns">Composition Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#composition-patterns"></a></h2>
+<h3 id="collaborative-collection">Collaborative Collection<a aria-hidden="true" class="anchor-heading icon-link" href="#collaborative-collection"></a></h3>
+<p>Multiple researchers contributing to a shared mesh:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Add each contributor's mesh</span>
+<span class="token function">git</span> subtree <span class="token function">add</span> --prefix<span class="token operator">=</span>contributors/alice/ https://alice.example/mesh.git main
+<span class="token function">git</span> subtree <span class="token function">add</span> --prefix<span class="token operator">=</span>contributors/bob/ https://bob.example/mesh.git main
+</code></pre>
+<h3 id="organizational-hierarchy">Organizational Hierarchy<a aria-hidden="true" class="anchor-heading icon-link" href="#organizational-hierarchy"></a></h3>
+<p>Department-level meshes within institutional mesh:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Add department submeshes</span>
+<span class="token function">git</span> subtree <span class="token function">add</span> --prefix<span class="token operator">=</span>departments/cs/ https://github.com/cs-dept/mesh.git main
+<span class="token function">git</span> subtree <span class="token function">add</span> --prefix<span class="token operator">=</span>departments/bio/ https://github.com/bio-dept/mesh.git main
+</code></pre>
+<h3 id="temporal-snapshots">Temporal Snapshots<a aria-hidden="true" class="anchor-heading icon-link" href="#temporal-snapshots"></a></h3>
+<p>Preserving historical versions of external meshes:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Import specific version</span>
+<span class="token function">git</span> subtree <span class="token function">add</span> --prefix<span class="token operator">=</span>snapshots/2024/djradon/ https://github.com/djradon/mesh.git v2024.1
+</code></pre>
+<h2 id="best-practices">Best Practices<a aria-hidden="true" class="anchor-heading icon-link" href="#best-practices"></a></h2>
+<h3 id="for-mesh-designers">For Mesh Designers<a aria-hidden="true" class="anchor-heading icon-link" href="#for-mesh-designers"></a></h3>
+<ol>
+<li><strong>Minimize upward references</strong> in submesh boundaries to reduce weaving complexity</li>
+<li><strong>Design clear extraction points</strong> - consider which subtrees should be independently viable</li>
+<li><strong>Document dependencies</strong> - note which parts of the mesh reference external components</li>
+<li><strong>Use semantic boundaries</strong> - align mesh structure with logical domain boundaries</li>
+</ol>
+<h3 id="for-mesh-composers">For Mesh Composers<a aria-hidden="true" class="anchor-heading icon-link" href="#for-mesh-composers"></a></h3>
+<ol>
+<li><strong>Choose import vs embed</strong> based on maintenance needs - import for permanent copies, embed for ongoing updates</li>
+<li><strong>Import entire meshes</strong> rather than attempting partial extraction from external repos</li>
+<li><strong>Weave before extraction</strong> to ensure semantic completeness</li>
+<li><strong>Maintain incorporation metadata</strong> - track source repositories and versions</li>
+<li><strong>Test extracted submeshes</strong> independently before distribution</li>
+</ol>
+<h3 id="for-cross-mesh-references">For Cross-Mesh References<a aria-hidden="true" class="anchor-heading icon-link" href="#for-cross-mesh-references"></a></h3>
+<ol>
+<li><strong>Use absolute URIs</strong> for references to external meshes</li>
+<li><strong>Prefer stable, canonical URIs</strong> over temporary or redirect-based URLs</li>
+<li><strong>Document external dependencies</strong> for mesh consumers</li>
+<li><strong>Consider fallback strategies</strong> for unavailable external resources</li>
+</ol>
+<h2 id="workflow-integration">Workflow Integration<a aria-hidden="true" class="anchor-heading icon-link" href="#workflow-integration"></a></h2>
+<h3 id="development-workflow">Development Workflow<a aria-hidden="true" class="anchor-heading icon-link" href="#development-workflow"></a></h3>
+<ol>
+<li>Incorporate external meshes using import (permanent) or embed (updateable) as needed</li>
+<li>Work with relative references for local development</li>
+<li>Weave before sharing to resolve broken dependencies</li>
+<li>Test extracted submeshes independently</li>
+</ol>
+<h3 id="maintenance-workflow">Maintenance Workflow<a aria-hidden="true" class="anchor-heading icon-link" href="#maintenance-workflow"></a></h3>
+<ol>
+<li>For embedded meshes: periodically update with <code>git subtree pull</code></li>
+<li>For imported meshes: manually re-import if updates are needed</li>
+<li>Re-weave after updates to handle any new broken references</li>
+<li>Validate that composition still functions correctly</li>
+<li>Update documentation of external dependencies</li>
+</ol>
+<h2 id="tbd-items">TBD Items<a aria-hidden="true" class="anchor-heading icon-link" href="#tbd-items"></a></h2>
+<ul>
+<li><strong>Cross-mesh reference protocols</strong>: Standardized discovery and resolution mechanisms</li>
+<li><strong>Version compatibility</strong>: Handling version mismatches between composed meshes</li>
+<li><strong>Dependency management</strong>: Tools for tracking and updating external mesh dependencies</li>
+<li><strong>Conflict resolution</strong>: Handling namespace or identifier conflicts between composed meshes</li>
+<li><strong>Performance optimization</strong>: Efficient composition strategies for large meshes</li>
+</ul>
+<p>Composability enables Semantic Flow meshes to be combined and extracted flexibly while maintaining semantic integrity through intelligent tooling and clear design patterns.</p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/s1yduc399adt3ihvnwievrd">Reference Path Choices</a></li>
+<li><a href="/sflo/notes/fd1whkyvoagggk6ubysjl50">Semantic Flow Log</a></li>
+</ul>

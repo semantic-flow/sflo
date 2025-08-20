@@ -1,0 +1,64 @@
+<h1 id="node-flow">node flow<a aria-hidden="true" class="anchor-heading icon-link" href="#node-flow"></a></h1>
+<p>There are three types of node flows - they are the most important parts of a node:</p>
+<pre><code>- [[sflo.concept.mesh.resource.element.node-component.metadata]] (mandatory)
+- [[sflo.concept.mesh.resource.element.node-component.reference]] (optional)
+- [[sflo.concept.mesh.resource.element.node-component.data]] (only for [[sflo.concept.mesh.resource.node.data]])
+</code></pre>
+<p><strong>node flows</strong> are dcat:DatasetSeries representing abstract datasets about their node's metadata, referent, and payload data that exist through time, independent of any specific version or realization.</p>
+<h2 id="relationship-to-node-flows">Relationship to node flows<a aria-hidden="true" class="anchor-heading icon-link" href="#relationship-to-node-flows"></a></h2>
+<p>As DatasetSeries, node flows are realized through <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a>, which are temporal concrete versions of the abstract concept. To borrow a phrase from the PROV model, we say that a layer is a specialization of the node flow.</p>
+<h3 id="relationship-pattern">Relationship pattern:<a aria-hidden="true" class="anchor-heading icon-link" href="#relationship-pattern"></a></h3>
+<p>Every node flow has at least two concrete layers: <a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a> and <a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a>.</p>
+<p>The node flow is a <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">related-topics.dcat.dataset-series (Private)</a> and may have multiple flow snapshots, i.e., <a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a>s.</p>
+<ul>
+<li>node flow: "My ontology definitions" (persistent concept)</li>
+<li>flow snapshots: v1.0, v1.1, current version, working draft of next version (specific realizations)</li>
+</ul>
+<h3 id="ontology-example">Ontology Example<a aria-hidden="true" class="anchor-heading icon-link" href="#ontology-example"></a></h3>
+<pre class="language-file"><code class="language-file">/my-ontology/
+├── _ref-component/                    ← node flow (reference data about ontology)
+│   ├── _current/           ← flow snapshot
+│   ├── _v1/                ← flow snapshot  
+│   └── _v2/                ← flow snapshot
+└── _data-component/                  ← node flow (ontology definitions)
+    ├── _current/           ← flow snapshot
+    └── _v1/                ← flow snapshot
+</code></pre>
+<p>In this example:</p>
+<p>_ref/ represents the node flow of reference information about the ontology
+_data/ represents the node flow of the ontology's definitional content
+Each _current/, _v1/, etc. contains flow snapshot realizations</p>
+<h2 id="persistent-identity">Persistent Identity<a aria-hidden="true" class="anchor-heading icon-link" href="#persistent-identity"></a></h2>
+<p>node flows provide conceptual continuity by:</p>
+<ul>
+<li>Maintaining meaning across versions and changes</li>
+<li>Preserving references from external sources</li>
+<li>Enabling evolution while keeping identity stable</li>
+<li>Supporting versioning without losing conceptual coherence</li>
+</ul>
+<hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a></li>
+<li><a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a></li>
+<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
+<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></li>
+<li><a href="/sflo/notes/9bu4sgma5c54bmwyl6ofg4c">reference flow</a></li>
+<li><a href="/sflo/notes/sif626tmt3mw3nir5gv1s1a">unified dataset</a></li>
+</ol>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Versioning</a></li>
+<li><a href="/sflo/notes/20dz80zbx82nrym7e88ozy7">de-versioned component</a></li>
+<li><a href="/sflo/notes/elncscz2versnfcbtvqsg46">versioned component</a></li>
+<li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset</a></li>
+<li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">mesh element</a></li>
+<li><a href="/sflo/notes/o2926clbf63vi9kln79kapg">handle</a></li>
+<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a></li>
+<li><a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a></li>
+<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
+<li><a href="/sflo/notes/sif626tmt3mw3nir5gv1s1a">unified dataset</a></li>
+<li><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></li>
+</ul>

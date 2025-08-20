@@ -1,0 +1,3 @@
+
+- it's better if you don't have to, but if you do... 
+  - maybe hashes should be stored for distributions, so people can detect that they've changed.

@@ -1,0 +1,16 @@
+<h1 id="why-dont-namespace-nodes-have-reference-flows">Why don't namespace nodes have reference flows?<a aria-hidden="true" class="anchor-heading icon-link" href="#why-dont-namespace-nodes-have-reference-flows"></a></h1>
+<h2 id="question">Question<a aria-hidden="true" class="anchor-heading icon-link" href="#question"></a></h2>
+<p>Why don't <a href="/sflo/notes/lvbmfa3hjpzxjv1iaaugsnb">namespace nodes</a> and <a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a> have <a href="/sflo/notes/9bu4sgma5c54bmwyl6ofg4c">reference flows</a> like <a href="/sflo/notes/3y8yampfa5x8eo6ul5ged11">reference nodes</a> do?</p>
+<h2 id="answer">Answer<a aria-hidden="true" class="anchor-heading icon-link" href="#answer"></a></h2>
+<p>URLs that correspond to namespace nodes and data nodes don't have a referent other than themselves. This helps avoid ambiguity when interpreting their URLs. (see the <a href="/sflo/notes/4ado7w6mwrrcphy9p1kpfa3">Single Referent Principle</a>). </p>
+<p>e.g.:</p>
+<ul>
+<li><code>ns/</code> : doesn't refer to anything, it's just a namespace</li>
+<li><code>ns/people</code> : does this refer to people in general, i.e. conceptually? or to a dataset? if it's got a data flow, it refers to a dataset. If it's got a reference flow, it refers to something other than a dataset.</li>
+</ul>
+<p>Since reference nodes can do everything namespace nodes can do (i.e., contain other nodes), there's no drawback to making namespace nodes into reference nodes.</p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/faq000">Semantic Flow FAQ</a></li>
+</ul>

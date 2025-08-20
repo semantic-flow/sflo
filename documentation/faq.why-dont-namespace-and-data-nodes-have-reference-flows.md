@@ -12,7 +12,7 @@ Why don't [[namespace nodes|concept.mesh.resource.node.namespace]] and [[concept
 
 ## Answer
 
-URLs that correspond to namespace nodes and data nodes don't have a referent other than themselves. This helps avoid ambiguity when interpreting their URLs. (see the [[sflo.principle.single-referent]]). 
+URLs that correspond to namespace nodes and data nodes don't have a referent other than themselves. This helps avoid ambiguity when interpreting their URLs. (see the [[principle.single-referent]]). 
 
 e.g.:
 - `ns/` : doesn't refer to anything, it's just a namespace

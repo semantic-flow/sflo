@@ -1,0 +1,16 @@
+<h1 id="pseudo-immutability">pseudo-immutability<a aria-hidden="true" class="anchor-heading icon-link" href="#pseudo-immutability"></a></h1>
+<p>In a filesystem-based structure like a <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.concept.mesh (Private)</a>, you can't really prevent changes. But some things in a mesh should be treated as immutable, like <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.concept.mesh.resource.element.flow.snapshot.version (Private)</a> and <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.concept.relative-identifier (Private)</a>.</p>
+<p><strong>Pseudo-immutability</strong> acknowledges that things might be changed, for various reasons:</p>
+<ul>
+<li>accidental changes</li>
+<li>"cleaning up" of data for legal reasons, e.g.: personally-identifiable information (PII) or "the right to be forgotten."</li>
+<li>fixing of typos or other errors</li>
+<li>re-organizing namespaces</li>
+</ul>
+<p>If you're updating a dataset, the principle of pseudo-immutability is preserved in that the old data can still exist and be discoverable from the metadata </p>
+<p><strong>Psuedo-immutability</strong> also acknowledges that for non-atomic data especially, "the next version" is going to keep changing until a checkout or "weave". And that sometime you want the "latest" data for a given resource, and without sophisticated database management (e.g., )</p>
+<h2 id="mitigations">Mitigations<a aria-hidden="true" class="anchor-heading icon-link" href="#mitigations"></a></h2>
+<ul>
+<li>metadata can track changes and supply reasons</li>
+<li>tooling can be used to make changes in ways that don't break the API</li>
+</ul>

@@ -1,0 +1,184 @@
+<h1 id="semantic-flow-urls">Semantic Flow URLs<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-flow-urls"></a></h1>
+<h2 id="types-of-urls-in-semantic-flow">Types of URLs in Semantic Flow<a aria-hidden="true" class="anchor-heading icon-link" href="#types-of-urls-in-semantic-flow"></a></h2>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>sflow URL type</th><th>referent</th><th>example</th><th>versionable</th></tr></thead><tbody><tr><td>namespace node</td><td>-none-</td><td><code>https://ex.org/ns/</code></td><td>❌</td></tr><tr><td>reference node</td><td>concept</td><td><code>https://ex.org/ns/dave/</code></td><td>❌</td></tr><tr><td>abstract reference dataset</td><td>reference dataset</td><td><code>https://ex.org/ns/dave/_ref/</code></td><td>✅</td></tr><tr><td>concrete reference dataset</td><td>reference dataset</td><td><code>https://ex.org/ns/dave/_ref/_current</code></td><td>❌</td></tr><tr><td>data node</td><td>concept w/ associated abstract dataset</td><td><code>https://ex.org/ns/dave-bio/</code></td><td>❌</td></tr><tr><td>abstract data dataset</td><td>abstract dataset</td><td><code>https://ex.org/ns/dave-bio/_data/</code></td><td>✅</td></tr><tr><td>concrete data dataset</td><td>concrete dataset</td><td><code>https://ex.org/ns/dave-bio/_data/_next/</code></td><td>❌</td></tr><tr><td>distribution</td><td>content</td><td><code>https://ex.org/ns/dave-bio/_v1/dave-bio_v1.trig</code></td><td>❌</td></tr><tr><td>abstract meta dataset</td><td>node metadata dataset</td><td><code>https://ex.org/ns/dave-bio/_meta/</code></td><td>✅</td></tr><tr><td>concrete meta dataset</td><td>node metadata dataset</td><td><code>https://ex.org/ns/dave-bio/_meta/_current</code></td><td>❌</td></tr><tr><td>handle</td><td>mesh node</td><td><code>https://ex.org/ns/dave/_handle/</code></td><td>❌</td></tr><tr><td>resource documentation</td><td>resource page (content)</td><td><code>https://ex.org/ns/dave/index.html</code></td><td>❌</td></tr><tr><td>resource documentation</td><td>README file (content)</td><td><code>https://ex.org/ns/dave/README.md</code></td><td>❌</td></tr><tr><td>asset tree</td><td>collection of assets</td><td><code>https://ex.org/ns/assets/</code></td><td>❌</td></tr><tr><td>asset folder</td><td>sub-collection of assets</td><td><code>https://ex.org/ns/assets/images/</code></td><td>❌</td></tr><tr><td>asset</td><td>content</td><td><code>https://ex.org/ns/assets/images/logo.svg</code></td><td>❌</td></tr></tbody></table></div>
+<p>Example:</p>
+<ul>
+<li><code>ns/</code> = namespace node for organizing content</li>
+<li><code>ns/dave/</code> = refers to Dave the person (reference node)</li>
+<li><code>ns/dave/index.html</code> = is the resource page about Dave</li>
+<li><code>ns/dave-bio/</code> = refers to Dave's biographical dataset (data node)</li>
+<li><code>ns/dave-bio/_data/</code> = abstract dataset containing Dave's bio data</li>
+<li><code>ns/dave-bio/_data/_current/</code> = current concrete dataset snapshot</li>
+<li><code>ns/dave-bio/_data/_v1/dave-bio_v1.trig</code> = is the RDF distribution from version 1</li>
+<li><code>ns/dave/_assets/images/dave-headshot.jpg</code> = is an image asset; considered to be "attached" to the mesh, but not a mesh resource</li>
+</ul>
+<h2 id="url-senses">URL Senses<a aria-hidden="true" class="anchor-heading icon-link" href="#url-senses"></a></h2>
+<h3 id="content-urls"><strong>Content URLs</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#content-urls"></a></h3>
+<p>URLs that point to <strong>concrete information resources</strong> (files on disk or over HTTP):</p>
+<ul>
+<li><strong>Distribution URLs</strong> → materialized datasets, e.g. <code>test.ttl</code>, <code>dave_v1.jsonld</code>, etc.</li>
+<li><strong>Resource page URLs</strong> → e.g. <code>index.html</code></li>
+<li><strong>Resource documentation URLs</strong> → e.g. <code>README.md</code>, <code>CHANGELOG.md</code></li>
+<li><strong>Asset URLs</strong> → e.g. <code>.png</code>, <code>.css</code>, <code>.js</code></li>
+</ul>
+<p>These are <em>retrievable representations</em> (materialized content).</p>
+<hr>
+<h3 id="concept-urls"><strong>Concept URLs</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#concept-urls"></a></h3>
+<p>URLs that refer to <strong>concepts, entities, or abstract things</strong>, including:</p>
+<ul>
+<li><strong>Namespace node URLs</strong> → Organizational containers</li>
+<li><strong>Reference node URLs</strong> → Concepts: people, places, ideas, fictional characters, etc.</li>
+<li><strong>Data node URLs</strong> → Concepts with associated datasets</li>
+<li><strong>Abstract dataset URLs</strong> → Dataset-as-persistent-concept</li>
+<li><strong>Concrete dataset URLs</strong> → Specific dataset snapshots</li>
+<li><strong>Handle URLs</strong> → Mesh node identities</li>
+</ul>
+<h3 id="url-pattern-semantics">URL Pattern Semantics<a aria-hidden="true" class="anchor-heading icon-link" href="#url-pattern-semantics"></a></h3>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>URL Type</th><th>Trailing Slash?</th><th>Refers to…</th><th>Example</th></tr></thead><tbody><tr><td>Content URL</td><td>No</td><td>A fetchable document or asset</td><td><code>https://example.org/ns/foo/index.html</code></td></tr><tr><td>Concept URL</td><td>Yes (<code>/</code>)</td><td>A real-world or mesh concept</td><td><code>https://example.org/ns/foo/</code></td></tr></tbody></table></div>
+<p>Even though you might be tempted to think of a datasets as concrete things, the URLs for data nodes, abstract datasets, and concrete datasets all refer to concepts, i.e., <strong>non-retrievable entities</strong>. Only Distribution URLs refer to downloadable data, i.e., dataset distributions.</p>
+<h3 id="why-referent-matters">Why referent matters<a aria-hidden="true" class="anchor-heading icon-link" href="#why-referent-matters"></a></h3>
+<p>Understanding what a URL refers to is crucial for proper semantic web implementation. In the past, people have tried to use content URLs to represent the things they refer to. A classic example is using <code>http://example.org/person.html</code> to identify a person, when it actually identifies an HTML document about the person. This conflation creates semantic ambiguity and breaks linked data principles.</p>
+<p>Semantic Flow enforces clear referent distinctions through URL patterns: slash-terminated URLs always refer to concepts or entities, while extension-terminated URLs always refer to retrievable content. This prevents the classic "document vs thing" confusion that has plagued semantic web implementations.</p>
+<hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/s1yduc399adt3ihvnwievrd">Reference Path Choices</a></li>
+</ol>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/17l23vl7sqg997hr773dh23">Relative Identifier</a></li>
+<li><a href="/sflo/notes/ynqxgf8uv2bgbdi81wlz29g">Semantic Site</a></li>
+<li><a href="/sflo/notes/b666mbhgg9k0jsrk46ui4zs">file resource facet</a></li>
+<li><a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+</ul>

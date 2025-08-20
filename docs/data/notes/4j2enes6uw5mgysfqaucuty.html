@@ -1,0 +1,559 @@
+<h1 id="hateoas-driven-api-recipe">Hateoas Driven API Recipe<a aria-hidden="true" class="anchor-heading icon-link" href="#hateoas-driven-api-recipe"></a></h1>
+<h2 id="your-use-case">Your Use Case<a aria-hidden="true" class="anchor-heading icon-link" href="#your-use-case"></a></h2>
+<p>You're not just documenting the API — you're using it:</p>
+<ul>
+<li>To <strong>operate a mesh manually</strong>, before clients exist.</li>
+<li>You need an <strong>executable interface</strong>, not just static documentation.</li>
+<li>You want <strong>structured examples</strong> (i.e. <strong>recipes</strong>) that can act as proto-clients or decision-paths.</li>
+<li>You lean toward <strong>HATEOAS</strong> style: i.e., user follows links (or rels), maybe inputting small bits along the way.</li>
+</ul>
+<hr>
+<h2 id="-this-is-not-what-scalar-is-designed-for">🔥 This is <em>not</em> what Scalar is designed for<a aria-hidden="true" class="anchor-heading icon-link" href="#-this-is-not-what-scalar-is-designed-for"></a></h2>
+<p>Scalar is a <strong>docs tool</strong>, great for:</p>
+<ul>
+<li>Rendering OpenAPI reference UIs.</li>
+<li>Hosting and styling spec-based endpoints.</li>
+<li><strong>Not</strong> for chaining calls, dynamic flows, or acting like a human-in-the-loop client.</li>
+</ul>
+<p>Even Stoplight or RapiDoc start to feel clunky in your context, because what you’re actually describing is closer to:</p>
+<h3 id="--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows">> ✅ A human-usable API client with structured, composable, inspectable <strong>API macros or flows</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows"></a></h3>
+<hr>
+<h2 id="-so-yes-you-probably-need-to-build-something">🚨 So yes, you probably need to build something.<a aria-hidden="true" class="anchor-heading icon-link" href="#-so-yes-you-probably-need-to-build-something"></a></h2>
+<p>But here's how to think about it critically, so you <strong>don’t throw away everything</strong> or reinvent everything either.</p>
+<hr>
+<h2 id="-what-you-actually-want-a-hateoas-recipe-runner">🧠 What You Actually Want: A “HATEOAS Recipe Runner”<a aria-hidden="true" class="anchor-heading icon-link" href="#-what-you-actually-want-a-hateoas-recipe-runner"></a></h2>
+<p>You’re describing a system that does the following:</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody><tr><td>🔧 <strong>Embeds real OpenAPI</strong></td><td>So you get type safety, endpoint listings, schemas, validation</td></tr><tr><td>🧪 <strong>Can execute requests</strong></td><td>Full HTTP interaction, possibly with state/cookies/token</td></tr><tr><td>🪜 <strong>Supports recipes/flows</strong></td><td>Sequence of calls, possibly branching via hypermedia</td></tr><tr><td>🧵 <strong>Has local state/input</strong></td><td>To reuse values from previous steps</td></tr><tr><td>📎 <strong>HATEOAS link traversal</strong></td><td>e.g. follow <code>"next"</code> or <code>"create"</code> link relations dynamically</td></tr><tr><td>🧰 <strong>Deno/TS-native</strong></td><td>So it integrates with your mesh, Weave, etc.</td></tr><tr><td>🧭 <strong>Interactive + replayable</strong></td><td>You can try things, backtrack, debug</td></tr></tbody></table></div>
+<h2 id="your-use-case-1">Your Use Case<a aria-hidden="true" class="anchor-heading icon-link" href="#your-use-case-1"></a></h2>
+<p>You're not just documenting the API — you're using it:</p>
+<ul>
+<li>To <strong>operate a mesh manually</strong>, before clients exist.</li>
+<li>You need an <strong>executable interface</strong>, not just static documentation.</li>
+<li>You want <strong>structured examples</strong> (i.e. <strong>recipes</strong>) that can act as proto-clients or decision-paths.</li>
+<li>You lean toward <strong>HATEOAS</strong> style: i.e., user follows links (or rels), maybe inputting small bits along the way.</li>
+</ul>
+<hr>
+<h2 id="-this-is-not-what-scalar-is-designed-for-1">🔥 This is <em>not</em> what Scalar is designed for<a aria-hidden="true" class="anchor-heading icon-link" href="#-this-is-not-what-scalar-is-designed-for-1"></a></h2>
+<p>Scalar is a <strong>docs tool</strong>, great for:</p>
+<ul>
+<li>Rendering OpenAPI reference UIs.</li>
+<li>Hosting and styling spec-based endpoints.</li>
+<li><strong>Not</strong> for chaining calls, dynamic flows, or acting like a human-in-the-loop client.</li>
+</ul>
+<p>Even Stoplight or RapiDoc start to feel clunky in your context, because what you’re actually describing is closer to:</p>
+<h3 id="--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-1">> ✅ A human-usable API client with structured, composable, inspectable <strong>API macros or flows</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-1"></a></h3>
+<hr>
+<h2 id="-so-yes-you-probably-need-to-build-something-1">🚨 So yes, you probably need to build something.<a aria-hidden="true" class="anchor-heading icon-link" href="#-so-yes-you-probably-need-to-build-something-1"></a></h2>
+<p>But here's how to think about it critically, so you <strong>don’t throw away everything</strong> or reinvent everything either.</p>
+<hr>
+<h2 id="-what-you-actually-want-a-hateoas-recipe-runner-1">🧠 What You Actually Want: A “HATEOAS Recipe Runner”<a aria-hidden="true" class="anchor-heading icon-link" href="#-what-you-actually-want-a-hateoas-recipe-runner-1"></a></h2>
+<p>You’re describing a system that does the following:</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody><tr><td>🔧 <strong>Embeds real OpenAPI</strong></td><td>So you get type safety, endpoint listings, schemas, validation</td></tr><tr><td>🧪 <strong>Can execute requests</strong></td><td>Full HTTP interaction, possibly with state/cookies/token</td></tr><tr><td>🪜 <strong>Supports recipes/flows</strong></td><td>Sequence of calls, possibly branching via hypermedia</td></tr><tr><td>🧵 <strong>Has local state/input</strong></td><td>To reuse values from previous steps</td></tr><tr><td>📎 <strong>HATEOAS link traversal</strong></td><td>e.g. follow <code>"next"</code> or <code>"create"</code> link relations dynamically</td></tr><tr><td>🧰 <strong>Deno/TS-native</strong></td><td>So it integrates with your mesh, Weave, etc.</td></tr><tr><td>🧭 <strong>Interactive + replayable</strong></td><td>You can try things, backtrack, debug</td></tr></tbody></table></div>
+<h2 id="your-use-case-2">Your Use Case<a aria-hidden="true" class="anchor-heading icon-link" href="#your-use-case-2"></a></h2>
+<p>You're not just documenting the API — you're using it:</p>
+<ul>
+<li>To <strong>operate a mesh manually</strong>, before clients exist.</li>
+<li>You need an <strong>executable interface</strong>, not just static documentation.</li>
+<li>You want <strong>structured examples</strong> (i.e. <strong>recipes</strong>) that can act as proto-clients or decision-paths.</li>
+<li>You lean toward <strong>HATEOAS</strong> style: i.e., user follows links (or rels), maybe inputting small bits along the way.</li>
+</ul>
+<hr>
+<h2 id="-this-is-not-what-scalar-is-designed-for-2">🔥 This is <em>not</em> what Scalar is designed for<a aria-hidden="true" class="anchor-heading icon-link" href="#-this-is-not-what-scalar-is-designed-for-2"></a></h2>
+<p>Scalar is a <strong>docs tool</strong>, great for:</p>
+<ul>
+<li>Rendering OpenAPI reference UIs.</li>
+<li>Hosting and styling spec-based endpoints.</li>
+<li><strong>Not</strong> for chaining calls, dynamic flows, or acting like a human-in-the-loop client.</li>
+</ul>
+<p>Even Stoplight or RapiDoc start to feel clunky in your context, because what you’re actually describing is closer to:</p>
+<h3 id="--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-2">> ✅ A human-usable API client with structured, composable, inspectable <strong>API macros or flows</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-2"></a></h3>
+<hr>
+<h2 id="-so-yes-you-probably-need-to-build-something-2">🚨 So yes, you probably need to build something.<a aria-hidden="true" class="anchor-heading icon-link" href="#-so-yes-you-probably-need-to-build-something-2"></a></h2>
+<p>But here's how to think about it critically, so you <strong>don’t throw away everything</strong> or reinvent everything either.</p>
+<hr>
+<h2 id="-what-you-actually-want-a-hateoas-recipe-runner-2">🧠 What You Actually Want: A “HATEOAS Recipe Runner”<a aria-hidden="true" class="anchor-heading icon-link" href="#-what-you-actually-want-a-hateoas-recipe-runner-2"></a></h2>
+<p>You’re describing a system that does the following:</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody><tr><td>🔧 <strong>Embeds real OpenAPI</strong></td><td>So you get type safety, endpoint listings, schemas, validation</td></tr><tr><td>🧪 <strong>Can execute requests</strong></td><td>Full HTTP interaction, possibly with state/cookies/token</td></tr><tr><td>🪜 <strong>Supports recipes/flows</strong></td><td>Sequence of calls, possibly branching via hypermedia</td></tr><tr><td>🧵 <strong>Has local state/input</strong></td><td>To reuse values from previous steps</td></tr><tr><td>📎 <strong>HATEOAS link traversal</strong></td><td>e.g. follow <code>"next"</code> or <code>"create"</code> link relations dynamically</td></tr><tr><td>🧰 <strong>Deno/TS-native</strong></td><td>So it integrates with your mesh, Weave, etc.</td></tr><tr><td>🧭 <strong>Interactive + replayable</strong></td><td>You can try things, backtrack, debug</td></tr></tbody></table></div>
+<h2 id="your-use-case-3">Your Use Case<a aria-hidden="true" class="anchor-heading icon-link" href="#your-use-case-3"></a></h2>
+<p>You're not just documenting the API — you're using it:</p>
+<ul>
+<li>To <strong>operate a mesh manually</strong>, before clients exist.</li>
+<li>You need an <strong>executable interface</strong>, not just static documentation.</li>
+<li>You want <strong>structured examples</strong> (i.e. <strong>recipes</strong>) that can act as proto-clients or decision-paths.</li>
+<li>You lean toward <strong>HATEOAS</strong> style: i.e., user follows links (or rels), maybe inputting small bits along the way.</li>
+</ul>
+<hr>
+<h2 id="-this-is-not-what-scalar-is-designed-for-3">🔥 This is <em>not</em> what Scalar is designed for<a aria-hidden="true" class="anchor-heading icon-link" href="#-this-is-not-what-scalar-is-designed-for-3"></a></h2>
+<p>Scalar is a <strong>docs tool</strong>, great for:</p>
+<ul>
+<li>Rendering OpenAPI reference UIs.</li>
+<li>Hosting and styling spec-based endpoints.</li>
+<li><strong>Not</strong> for chaining calls, dynamic flows, or acting like a human-in-the-loop client.</li>
+</ul>
+<p>Even Stoplight or RapiDoc start to feel clunky in your context, because what you’re actually describing is closer to:</p>
+<h3 id="--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-3">> ✅ A human-usable API client with structured, composable, inspectable <strong>API macros or flows</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-3"></a></h3>
+<hr>
+<h2 id="-so-yes-you-probably-need-to-build-something-3">🚨 So yes, you probably need to build something.<a aria-hidden="true" class="anchor-heading icon-link" href="#-so-yes-you-probably-need-to-build-something-3"></a></h2>
+<p>But here's how to think about it critically, so you <strong>don’t throw away everything</strong> or reinvent everything either.</p>
+<hr>
+<h2 id="-what-you-actually-want-a-hateoas-recipe-runner-3">🧠 What You Actually Want: A “HATEOAS Recipe Runner”<a aria-hidden="true" class="anchor-heading icon-link" href="#-what-you-actually-want-a-hateoas-recipe-runner-3"></a></h2>
+<p>You’re describing a system that does the following:</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody><tr><td>🔧 <strong>Embeds real OpenAPI</strong></td><td>So you get type safety, endpoint listings, schemas, validation</td></tr><tr><td>🧪 <strong>Can execute requests</strong></td><td>Full HTTP interaction, possibly with state/cookies/token</td></tr><tr><td>🪜 <strong>Supports recipes/flows</strong></td><td>Sequence of calls, possibly branching via hypermedia</td></tr><tr><td>🧵 <strong>Has local state/input</strong></td><td>To reuse values from previous steps</td></tr><tr><td>📎 <strong>HATEOAS link traversal</strong></td><td>e.g. follow <code>"next"</code> or <code>"create"</code> link relations dynamically</td></tr><tr><td>🧰 <strong>Deno/TS-native</strong></td><td>So it integrates with your mesh, Weave, etc.</td></tr><tr><td>🧭 <strong>Interactive + replayable</strong></td><td>You can try things, backtrack, debug</td></tr></tbody></table></div>
+<h2 id="your-use-case-4">Your Use Case<a aria-hidden="true" class="anchor-heading icon-link" href="#your-use-case-4"></a></h2>
+<p>You're not just documenting the API — you're using it:</p>
+<ul>
+<li>To <strong>operate a mesh manually</strong>, before clients exist.</li>
+<li>You need an <strong>executable interface</strong>, not just static documentation.</li>
+<li>You want <strong>structured examples</strong> (i.e. <strong>recipes</strong>) that can act as proto-clients or decision-paths.</li>
+<li>You lean toward <strong>HATEOAS</strong> style: i.e., user follows links (or rels), maybe inputting small bits along the way.</li>
+</ul>
+<hr>
+<h2 id="-this-is-not-what-scalar-is-designed-for-4">🔥 This is <em>not</em> what Scalar is designed for<a aria-hidden="true" class="anchor-heading icon-link" href="#-this-is-not-what-scalar-is-designed-for-4"></a></h2>
+<p>Scalar is a <strong>docs tool</strong>, great for:</p>
+<ul>
+<li>Rendering OpenAPI reference UIs.</li>
+<li>Hosting and styling spec-based endpoints.</li>
+<li><strong>Not</strong> for chaining calls, dynamic flows, or acting like a human-in-the-loop client.</li>
+</ul>
+<p>Even Stoplight or RapiDoc start to feel clunky in your context, because what you’re actually describing is closer to:</p>
+<h3 id="--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-4">> ✅ A human-usable API client with structured, composable, inspectable <strong>API macros or flows</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-4"></a></h3>
+<hr>
+<h2 id="-so-yes-you-probably-need-to-build-something-4">🚨 So yes, you probably need to build something.<a aria-hidden="true" class="anchor-heading icon-link" href="#-so-yes-you-probably-need-to-build-something-4"></a></h2>
+<p>But here's how to think about it critically, so you <strong>don’t throw away everything</strong> or reinvent everything either.</p>
+<hr>
+<h2 id="-what-you-actually-want-a-hateoas-recipe-runner-4">🧠 What You Actually Want: A “HATEOAS Recipe Runner”<a aria-hidden="true" class="anchor-heading icon-link" href="#-what-you-actually-want-a-hateoas-recipe-runner-4"></a></h2>
+<p>You’re describing a system that does the following:</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody><tr><td>🔧 <strong>Embeds real OpenAPI</strong></td><td>So you get type safety, endpoint listings, schemas, validation</td></tr><tr><td>🧪 <strong>Can execute requests</strong></td><td>Full HTTP interaction, possibly with state/cookies/token</td></tr><tr><td>🪜 <strong>Supports recipes/flows</strong></td><td>Sequence of calls, possibly branching via hypermedia</td></tr><tr><td>🧵 <strong>Has local state/input</strong></td><td>To reuse values from previous steps</td></tr><tr><td>📎 <strong>HATEOAS link traversal</strong></td><td>e.g. follow <code>"next"</code> or <code>"create"</code> link relations dynamically</td></tr><tr><td>🧰 <strong>Deno/TS-native</strong></td><td>So it integrates with your mesh, Weave, etc.</td></tr><tr><td>🧭 <strong>Interactive + replayable</strong></td><td>You can try things, backtrack, debug</td></tr></tbody></table></div>
+<h2 id="your-use-case-5">Your Use Case<a aria-hidden="true" class="anchor-heading icon-link" href="#your-use-case-5"></a></h2>
+<p>You're not just documenting the API — you're using it:</p>
+<ul>
+<li>To <strong>operate a mesh manually</strong>, before clients exist.</li>
+<li>You need an <strong>executable interface</strong>, not just static documentation.</li>
+<li>You want <strong>structured examples</strong> (i.e. <strong>recipes</strong>) that can act as proto-clients or decision-paths.</li>
+<li>You lean toward <strong>HATEOAS</strong> style: i.e., user follows links (or rels), maybe inputting small bits along the way.</li>
+</ul>
+<hr>
+<h2 id="-this-is-not-what-scalar-is-designed-for-5">🔥 This is <em>not</em> what Scalar is designed for<a aria-hidden="true" class="anchor-heading icon-link" href="#-this-is-not-what-scalar-is-designed-for-5"></a></h2>
+<p>Scalar is a <strong>docs tool</strong>, great for:</p>
+<ul>
+<li>Rendering OpenAPI reference UIs.</li>
+<li>Hosting and styling spec-based endpoints.</li>
+<li><strong>Not</strong> for chaining calls, dynamic flows, or acting like a human-in-the-loop client.</li>
+</ul>
+<p>Even Stoplight or RapiDoc start to feel clunky in your context, because what you’re actually describing is closer to:</p>
+<h3 id="--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-5">> ✅ A human-usable API client with structured, composable, inspectable <strong>API macros or flows</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-5"></a></h3>
+<hr>
+<h2 id="-so-yes-you-probably-need-to-build-something-5">🚨 So yes, you probably need to build something.<a aria-hidden="true" class="anchor-heading icon-link" href="#-so-yes-you-probably-need-to-build-something-5"></a></h2>
+<p>But here's how to think about it critically, so you <strong>don’t throw away everything</strong> or reinvent everything either.</p>
+<hr>
+<h2 id="-what-you-actually-want-a-hateoas-recipe-runner-5">🧠 What You Actually Want: A “HATEOAS Recipe Runner”<a aria-hidden="true" class="anchor-heading icon-link" href="#-what-you-actually-want-a-hateoas-recipe-runner-5"></a></h2>
+<p>You’re describing a system that does the following:</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody><tr><td>🔧 <strong>Embeds real OpenAPI</strong></td><td>So you get type safety, endpoint listings, schemas, validation</td></tr><tr><td>🧪 <strong>Can execute requests</strong></td><td>Full HTTP interaction, possibly with state/cookies/token</td></tr><tr><td>🪜 <strong>Supports recipes/flows</strong></td><td>Sequence of calls, possibly branching via hypermedia</td></tr><tr><td>🧵 <strong>Has local state/input</strong></td><td>To reuse values from previous steps</td></tr><tr><td>📎 <strong>HATEOAS link traversal</strong></td><td>e.g. follow <code>"next"</code> or <code>"create"</code> link relations dynamically</td></tr><tr><td>🧰 <strong>Deno/TS-native</strong></td><td>So it integrates with your mesh, Weave, etc.</td></tr><tr><td>🧭 <strong>Interactive + replayable</strong></td><td>You can try things, backtrack, debug</td></tr></tbody></table></div>
+<h2 id="your-use-case-6">Your Use Case<a aria-hidden="true" class="anchor-heading icon-link" href="#your-use-case-6"></a></h2>
+<p>You're not just documenting the API — you're using it:</p>
+<ul>
+<li>To <strong>operate a mesh manually</strong>, before clients exist.</li>
+<li>You need an <strong>executable interface</strong>, not just static documentation.</li>
+<li>You want <strong>structured examples</strong> (i.e. <strong>recipes</strong>) that can act as proto-clients or decision-paths.</li>
+<li>You lean toward <strong>HATEOAS</strong> style: i.e., user follows links (or rels), maybe inputting small bits along the way.</li>
+</ul>
+<hr>
+<h2 id="-this-is-not-what-scalar-is-designed-for-6">🔥 This is <em>not</em> what Scalar is designed for<a aria-hidden="true" class="anchor-heading icon-link" href="#-this-is-not-what-scalar-is-designed-for-6"></a></h2>
+<p>Scalar is a <strong>docs tool</strong>, great for:</p>
+<ul>
+<li>Rendering OpenAPI reference UIs.</li>
+<li>Hosting and styling spec-based endpoints.</li>
+<li><strong>Not</strong> for chaining calls, dynamic flows, or acting like a human-in-the-loop client.</li>
+</ul>
+<p>Even Stoplight or RapiDoc start to feel clunky in your context, because what you’re actually describing is closer to:</p>
+<h3 id="--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-6">> ✅ A human-usable API client with structured, composable, inspectable <strong>API macros or flows</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-6"></a></h3>
+<hr>
+<h2 id="-so-yes-you-probably-need-to-build-something-6">🚨 So yes, you probably need to build something.<a aria-hidden="true" class="anchor-heading icon-link" href="#-so-yes-you-probably-need-to-build-something-6"></a></h2>
+<p>But here's how to think about it critically, so you <strong>don’t throw away everything</strong> or reinvent everything either.</p>
+<hr>
+<h2 id="-what-you-actually-want-a-hateoas-recipe-runner-6">🧠 What You Actually Want: A “HATEOAS Recipe Runner”<a aria-hidden="true" class="anchor-heading icon-link" href="#-what-you-actually-want-a-hateoas-recipe-runner-6"></a></h2>
+<p>You’re describing a system that does the following:</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody><tr><td>🔧 <strong>Embeds real OpenAPI</strong></td><td>So you get type safety, endpoint listings, schemas, validation</td></tr><tr><td>🧪 <strong>Can execute requests</strong></td><td>Full HTTP interaction, possibly with state/cookies/token</td></tr><tr><td>🪜 <strong>Supports recipes/flows</strong></td><td>Sequence of calls, possibly branching via hypermedia</td></tr><tr><td>🧵 <strong>Has local state/input</strong></td><td>To reuse values from previous steps</td></tr><tr><td>📎 <strong>HATEOAS link traversal</strong></td><td>e.g. follow <code>"next"</code> or <code>"create"</code> link relations dynamically</td></tr><tr><td>🧰 <strong>Deno/TS-native</strong></td><td>So it integrates with your mesh, Weave, etc.</td></tr><tr><td>🧭 <strong>Interactive + replayable</strong></td><td>You can try things, backtrack, debug</td></tr></tbody></table></div>
+<h2 id="your-use-case-7">Your Use Case<a aria-hidden="true" class="anchor-heading icon-link" href="#your-use-case-7"></a></h2>
+<p>You're not just documenting the API — you're using it:</p>
+<ul>
+<li>To <strong>operate a mesh manually</strong>, before clients exist.</li>
+<li>You need an <strong>executable interface</strong>, not just static documentation.</li>
+<li>You want <strong>structured examples</strong> (i.e. <strong>recipes</strong>) that can act as proto-clients or decision-paths.</li>
+<li>You lean toward <strong>HATEOAS</strong> style: i.e., user follows links (or rels), maybe inputting small bits along the way.</li>
+</ul>
+<hr>
+<h2 id="-this-is-not-what-scalar-is-designed-for-7">🔥 This is <em>not</em> what Scalar is designed for<a aria-hidden="true" class="anchor-heading icon-link" href="#-this-is-not-what-scalar-is-designed-for-7"></a></h2>
+<p>Scalar is a <strong>docs tool</strong>, great for:</p>
+<ul>
+<li>Rendering OpenAPI reference UIs.</li>
+<li>Hosting and styling spec-based endpoints.</li>
+<li><strong>Not</strong> for chaining calls, dynamic flows, or acting like a human-in-the-loop client.</li>
+</ul>
+<p>Even Stoplight or RapiDoc start to feel clunky in your context, because what you’re actually describing is closer to:</p>
+<h3 id="--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-7">> ✅ A human-usable API client with structured, composable, inspectable <strong>API macros or flows</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-7"></a></h3>
+<hr>
+<h2 id="-so-yes-you-probably-need-to-build-something-7">🚨 So yes, you probably need to build something.<a aria-hidden="true" class="anchor-heading icon-link" href="#-so-yes-you-probably-need-to-build-something-7"></a></h2>
+<p>But here's how to think about it critically, so you <strong>don’t throw away everything</strong> or reinvent everything either.</p>
+<hr>
+<h2 id="-what-you-actually-want-a-hateoas-recipe-runner-7">🧠 What You Actually Want: A “HATEOAS Recipe Runner”<a aria-hidden="true" class="anchor-heading icon-link" href="#-what-you-actually-want-a-hateoas-recipe-runner-7"></a></h2>
+<p>You’re describing a system that does the following:</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody><tr><td>🔧 <strong>Embeds real OpenAPI</strong></td><td>So you get type safety, endpoint listings, schemas, validation</td></tr><tr><td>🧪 <strong>Can execute requests</strong></td><td>Full HTTP interaction, possibly with state/cookies/token</td></tr><tr><td>🪜 <strong>Supports recipes/flows</strong></td><td>Sequence of calls, possibly branching via hypermedia</td></tr><tr><td>🧵 <strong>Has local state/input</strong></td><td>To reuse values from previous steps</td></tr><tr><td>📎 <strong>HATEOAS link traversal</strong></td><td>e.g. follow <code>"next"</code> or <code>"create"</code> link relations dynamically</td></tr><tr><td>🧰 <strong>Deno/TS-native</strong></td><td>So it integrates with your mesh, Weave, etc.</td></tr><tr><td>🧭 <strong>Interactive + replayable</strong></td><td>You can try things, backtrack, debug</td></tr></tbody></table></div>
+<h2 id="your-use-case-8">Your Use Case<a aria-hidden="true" class="anchor-heading icon-link" href="#your-use-case-8"></a></h2>
+<p>You're not just documenting the API — you're using it:</p>
+<ul>
+<li>To <strong>operate a mesh manually</strong>, before clients exist.</li>
+<li>You need an <strong>executable interface</strong>, not just static documentation.</li>
+<li>You want <strong>structured examples</strong> (i.e. <strong>recipes</strong>) that can act as proto-clients or decision-paths.</li>
+<li>You lean toward <strong>HATEOAS</strong> style: i.e., user follows links (or rels), maybe inputting small bits along the way.</li>
+</ul>
+<hr>
+<h2 id="-this-is-not-what-scalar-is-designed-for-8">🔥 This is <em>not</em> what Scalar is designed for<a aria-hidden="true" class="anchor-heading icon-link" href="#-this-is-not-what-scalar-is-designed-for-8"></a></h2>
+<p>Scalar is a <strong>docs tool</strong>, great for:</p>
+<ul>
+<li>Rendering OpenAPI reference UIs.</li>
+<li>Hosting and styling spec-based endpoints.</li>
+<li><strong>Not</strong> for chaining calls, dynamic flows, or acting like a human-in-the-loop client.</li>
+</ul>
+<p>Even Stoplight or RapiDoc start to feel clunky in your context, because what you’re actually describing is closer to:</p>
+<h3 id="--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-8">> ✅ A human-usable API client with structured, composable, inspectable <strong>API macros or flows</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#--a-human-usable-api-client-with-structured-composable-inspectable-api-macros-or-flows-8"></a></h3>
+<hr>
+<h2 id="-so-yes-you-probably-need-to-build-something-8">🚨 So yes, you probably need to build something.<a aria-hidden="true" class="anchor-heading icon-link" href="#-so-yes-you-probably-need-to-build-something-8"></a></h2>
+<p>But here's how to think about it critically, so you <strong>don’t throw away everything</strong> or reinvent everything either.</p>
+<hr>
+<h2 id="-what-you-actually-want-a-hateoas-recipe-runner-8">🧠 What You Actually Want: A “HATEOAS Recipe Runner”<a aria-hidden="true" class="anchor-heading icon-link" href="#-what-you-actually-want-a-hateoas-recipe-runner-8"></a></h2>
+<p>You’re describing a system that does the following:</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody><tr><td>🔧 <strong>Embeds real OpenAPI</strong></td><td>So you get type safety, endpoint listings, schemas, validation</td></tr><tr><td>🧪 <strong>Can execute requests</strong></td><td>Full HTTP interaction, possibly with state/cookies/token</td></tr><tr><td>🪜 <strong>Supports recipes/flows</strong></td><td>Sequence of calls, possibly branching via hypermedia</td></tr><tr><td>🧵 <strong>Has local state/input</strong></td><td>To reuse values from previous steps</td></tr><tr><td>📎 <strong>HATEOAS link traversal</strong></td><td>e.g. follow <code>"next"</code> or <code>"create"</code> link relations dynamically</td></tr><tr><td>🧰 <strong>Deno/TS-native</strong></td><td>So it integrates with your mesh, Weave, etc.</td></tr><tr><td>🧭 <strong>Interactive + replayable</strong></td><td>You can try things, backtrack, debug</td></tr></tbody></table></div>

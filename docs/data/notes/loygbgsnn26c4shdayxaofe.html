@@ -1,0 +1,19 @@
+<h1 id="resource-fragment">Resource Fragment<a aria-hidden="true" class="anchor-heading icon-link" href="#resource-fragment"></a></h1>
+<p>Resource fragments are <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.product.service.design.htmx (Private)</a> fragments, support dynamic behaviour in <a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a> or external web apps without a "live" backend.</p>
+<p>For resource pages, they're most useful for "saving bandwidth": data that might not be needed can be loaded later.</p>
+<p>For external apps, they save the overhead of parsing and discovery.</p>
+<p>Fragment generation can be configured per node or inherited from config hierarchy.</p>
+<h2 id="multiple-resource-fragments-in-assets"><strong>Multiple Resource Fragments in Assets</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#multiple-resource-fragments-in-assets"></a></h2>
+<p>This is a natural extension of your asset tree concept (.9):</p>
+<pre><code>mesh-node/
+├── _assets/
+│   ├── fragments/               # Generated resource pages
+│   │   ├── README.html          # generated from README.md
+│   │   ├── CHANGELOG.html       # generated from CHANGELOG.md
+│   │   └── back-references.html # list of back-references
+│   └── styles/
+│       └── common.css
+├── _meta-component/
+├── CHANGELOG.md
+└── README.md
+</code></pre>

@@ -1,0 +1,46 @@
+<h1 id="reference-path-choices">Reference Path Choices<a aria-hidden="true" class="anchor-heading icon-link" href="#reference-path-choices"></a></h1>
+<p>RDF supports different approaches for resource referencing, each with tradeoffs:</p>
+<h2 id="relative-urls">Relative URLs<a aria-hidden="true" class="anchor-heading icon-link" href="#relative-urls"></a></h2>
+<ul>
+<li>maximum composability</li>
+</ul>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In ns/djradon/_ref/djradon_ref.trig</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">Person</span></span> <span class="token punctuation">;</span>                    <span class="token comment"># The document itself</span>
+   <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">knows</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../alice/<span class="token punctuation">></span></span> <span class="token punctuation">;</span>           <span class="token comment"># Another node in the mesh</span>
+   <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span><span class="token local-name">seeAlso</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>bio/bio.html<span class="token punctuation">></span></span> <span class="token punctuation">.</span>   <span class="token comment"># A resource page</span>
+</code></pre>
+<h2 id="absolute-paths">Absolute paths<a aria-hidden="true" class="anchor-heading icon-link" href="#absolute-paths"></a></h2>
+<ul>
+<li>clearer context
+<ul>
+<li><code>../../../</code> makes eyes swim</li>
+</ul>
+</li>
+<li>good intra-mesh transposability</li>
+</ul>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In ns/djradon/_ref/djradon_ref.trig</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">Person</span></span> <span class="token punctuation">;</span>
+   <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">knows</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>/ns/alice/<span class="token punctuation">></span></span> <span class="token punctuation">;</span>          <span class="token comment"># Clear namespace context</span>
+   <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span><span class="token local-name">seeAlso</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>/ns/djradon/bio/bio.html<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+</code></pre>
+<p><strong>Fully qualified URIs</strong> </p>
+<ul>
+<li>explicit but limits <a href="/sflo/notes/fv43m7jgc5rrqv20pe9enb4">Transposability</a> and <a href="/sflo/notes/4b9afsut6cakxh55iabvirt">Composability</a></li>
+</ul>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In ns/djradon/_ref/djradon_ref.trig</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">Person</span></span> <span class="token punctuation">;</span>
+   <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">knows</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://example.com/mesh/ns/alice/<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+   <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span><span class="token local-name">seeAlso</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://example.com/mesh/ns/djradon/bio/bio.html<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+</code></pre>
+<p><strong>Choosing between approaches:</strong></p>
+<ul>
+<li>Use <strong>relative URIs</strong> for maximum composability when embedding or importing meshes and submeshes</li>
+<li>Use <strong>absolute paths</strong> for clearer namespace context and better support for moving submeshes within the same mesh hierarchy</li>
+<li>Use <strong>fully qualified URLs</strong> only for cross-mesh references</li>
+<li>Relative and absolute paths both preserve relationships when moving complete meshes between domains</li>
+</ul>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/fv43m7jgc5rrqv20pe9enb4">Transposability</a></li>
+</ul>

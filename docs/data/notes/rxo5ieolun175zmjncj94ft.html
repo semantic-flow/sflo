@@ -1,0 +1,18 @@
+<h1 id="publication">Publication<a aria-hidden="true" class="anchor-heading icon-link" href="#publication"></a></h1>
+<h2 id="publication-history-tracking">Publication History Tracking<a aria-hidden="true" class="anchor-heading icon-link" href="#publication-history-tracking"></a></h2>
+<p>The inferred publication locations can be used to maintain a history of where a mesh has been published, which aids in citation consistency and discovery:</p>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In _flow/ metadata</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span>_handle<span class="token punctuation">></span></span> <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">publishedAt</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://myorganization.github.io/data-mesh/ns/djradon/<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+          <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">previousPublications</span></span> <span class="token punctuation">(</span> 
+            <span class="token url"><span class="token punctuation">&#x3C;</span>https://djradon.github.io/mesh/ns/djradon/<span class="token punctuation">></span></span>
+            <span class="token url"><span class="token punctuation">&#x3C;</span>https://oldsite.com/research/ns/djradon/<span class="token punctuation">></span></span>
+          <span class="token punctuation">)</span> <span class="token punctuation">;</span>
+          <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">gitRemote</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://github.com/myorganization/data-mesh.git<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+          <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">movedFrom</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://github.com/djradon/mesh.git<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+</code></pre>
+<p>This allows external citations to find resources even after they've been moved, and provides a clear provenance trail.</p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/fv43m7jgc5rrqv20pe9enb4">Transposability</a></li>
+</ul>

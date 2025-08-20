@@ -1,0 +1,310 @@
+<h1 id="config-inheritance-resolution">Config Inheritance Resolution<a aria-hidden="true" class="anchor-heading icon-link" href="#config-inheritance-resolution"></a></h1>
+<h1 id="inheritablenodeconfig-inheritance-resolution">InheritableNodeConfig Inheritance Resolution<a aria-hidden="true" class="anchor-heading icon-link" href="#inheritablenodeconfig-inheritance-resolution"></a></h1>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>The Semantic Flow platform supports sophisticated configuration inheritance through the <code>InheritableNodeConfig</code> class. This document describes how inheritance resolution works across the platform, service, and node hierarchy.</p>
+<h2 id="core-concepts">Core Concepts<a aria-hidden="true" class="anchor-heading icon-link" href="#core-concepts"></a></h2>
+<h3 id="two-types-of-configuration">Two Types of Configuration<a aria-hidden="true" class="anchor-heading icon-link" href="#two-types-of-configuration"></a></h3>
+<ol>
+<li>
+<p><strong>OperationalNodeConfig</strong>: A node's actual operational settings that control its behavior</p>
+<ul>
+<li>Does NOT participate in inheritance chain</li>
+<li>Controls the node's own behavior (versioning, distribution formats, etc.)</li>
+<li>Can have <code>nodeConfigInheritanceEnabled</code> to determine if it inherits from parents</li>
+</ul>
+</li>
+<li>
+<p><strong>InheritableNodeConfig</strong>: Configuration that can be passed down to child nodes</p>
+<ul>
+<li>Participates in inheritance chain</li>
+<li>Can be attached to Platform, Service, or Node</li>
+<li>Provides defaults for child nodes</li>
+</ul>
+</li>
+</ol>
+<h2 id="inheritance-hierarchy">Inheritance Hierarchy<a aria-hidden="true" class="anchor-heading icon-link" href="#inheritance-hierarchy"></a></h2>
+<p>The inheritance chain follows this precedence (most specific wins):</p>
+<pre><code>1. Node's own OperationalNodeConfig (if exists)
+2. Parent Node's InheritableNodeConfig (if exists and inheritance enabled)
+3. Grandparent Node's InheritableNodeConfig (walks up tree)
+4. Service-level InheritableNodeConfig (if exists)
+5. Platform-level InheritableNodeConfig (ultimate fallback)
+</code></pre>
+<h2 id="resolution-algorithm">Resolution Algorithm<a aria-hidden="true" class="anchor-heading icon-link" href="#resolution-algorithm"></a></h2>
+<h3 id="for-operationalnodeconfig">For OperationalNodeConfig<a aria-hidden="true" class="anchor-heading icon-link" href="#for-operationalnodeconfig"></a></h3>
+<p>When resolving a node's operational configuration:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">function</span> <span class="token function">resolveOperationalConfig</span><span class="token punctuation">(</span>node<span class="token operator">:</span> <span class="token maybe-class-name">Node</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">OperationalNodeConfig</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Step 1: Check if node has its own OperationalNodeConfig</span>
+  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span><span class="token property-access">hasOperationalNodeConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> node<span class="token punctuation">.</span><span class="token property-access">operationalNodeConfig</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Step 2: Check if inheritance is enabled (default: true)</span>
+  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>node<span class="token punctuation">.</span><span class="token property-access">nodeConfigInheritanceEnabled</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> <span class="token function">createDefaultOperationalConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Step 3: Walk up the tree collecting InheritableNodeConfigs</span>
+  <span class="token keyword">const</span> inheritanceChain <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> current <span class="token operator">=</span> node<span class="token punctuation">.</span><span class="token property-access">parent</span><span class="token punctuation">;</span>
+  
+  <span class="token keyword control-flow">while</span> <span class="token punctuation">(</span>current<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>current<span class="token punctuation">.</span><span class="token property-access">hasInheritableNodeConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      inheritanceChain<span class="token punctuation">.</span><span class="token method function property-access">push</span><span class="token punctuation">(</span>current<span class="token punctuation">.</span><span class="token property-access">inheritableNodeConfig</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    current <span class="token operator">=</span> current<span class="token punctuation">.</span><span class="token property-access">parent</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Step 4: Add service-level InheritableNodeConfig</span>
+  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>service<span class="token punctuation">.</span><span class="token property-access">hasInheritableNodeConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    inheritanceChain<span class="token punctuation">.</span><span class="token method function property-access">push</span><span class="token punctuation">(</span>service<span class="token punctuation">.</span><span class="token property-access">inheritableNodeConfig</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Step 5: Add platform-level InheritableNodeConfig</span>
+  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>platform<span class="token punctuation">.</span><span class="token property-access">hasInheritableNodeConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    inheritanceChain<span class="token punctuation">.</span><span class="token method function property-access">push</span><span class="token punctuation">(</span>platform<span class="token punctuation">.</span><span class="token property-access">inheritableNodeConfig</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Step 6: Merge configs (most specific wins)</span>
+  <span class="token keyword control-flow">return</span> <span class="token function">mergeConfigs</span><span class="token punctuation">(</span>inheritanceChain<span class="token punctuation">.</span><span class="token method function property-access">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="for-inheritablenodeconfig">For InheritableNodeConfig<a aria-hidden="true" class="anchor-heading icon-link" href="#for-inheritablenodeconfig"></a></h3>
+<p>When a node needs to determine what configuration to pass to its children:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">function</span> <span class="token function">resolveInheritableConfig</span><span class="token punctuation">(</span>node<span class="token operator">:</span> <span class="token maybe-class-name">Node</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">InheritableNodeConfig</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Step 1: If node has its own InheritableNodeConfig, use it</span>
+  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">.</span><span class="token property-access">hasInheritableNodeConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> node<span class="token punctuation">.</span><span class="token property-access">inheritableNodeConfig</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Step 2: Check if inheritance propagation is enabled</span>
+  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>node<span class="token punctuation">.</span><span class="token property-access">inheritableConfigPropagationEnabled</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> <span class="token keyword null nil">null</span><span class="token punctuation">;</span> <span class="token comment">// No config to pass down</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Step 3: Walk up to find nearest InheritableNodeConfig</span>
+  <span class="token keyword">let</span> current <span class="token operator">=</span> node<span class="token punctuation">.</span><span class="token property-access">parent</span><span class="token punctuation">;</span>
+  
+  <span class="token keyword control-flow">while</span> <span class="token punctuation">(</span>current<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>current<span class="token punctuation">.</span><span class="token property-access">hasInheritableNodeConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword control-flow">return</span> current<span class="token punctuation">.</span><span class="token property-access">inheritableNodeConfig</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    current <span class="token operator">=</span> current<span class="token punctuation">.</span><span class="token property-access">parent</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Step 4: Fall back to service-level</span>
+  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>service<span class="token punctuation">.</span><span class="token property-access">hasInheritableNodeConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> service<span class="token punctuation">.</span><span class="token property-access">inheritableNodeConfig</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Step 5: Fall back to platform-level</span>
+  <span class="token keyword control-flow">return</span> platform<span class="token punctuation">.</span><span class="token property-access">inheritableNodeConfig</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="property-level-inheritance">Property-Level Inheritance<a aria-hidden="true" class="anchor-heading icon-link" href="#property-level-inheritance"></a></h2>
+<p>Configuration inheritance works at the property level, not all-or-nothing:</p>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "parent:inheritableConfig",
+  "@type": "conf:InheritableNodeConfig",
+  "conf:versioningEnabled": true,
+  "conf:distributionFormats": ["application/trig", "application/ld+json"],
+  "conf:generateUnifiedDataset": true
+}
+
+{
+  "@id": "child:inheritableConfig",
+  "@type": "conf:InheritableNodeConfig",
+  "conf:versioningEnabled": false
+  // Inherits distributionFormats and generateUnifiedDataset from parent
+}
+</code></pre>
+<h2 id="configuration-control-properties">Configuration Control Properties<a aria-hidden="true" class="anchor-heading icon-link" href="#configuration-control-properties"></a></h2>
+<h3 id="nodeconfiginheritanceenabled-childs-perspective">nodeConfigInheritanceEnabled (Child's Perspective)<a aria-hidden="true" class="anchor-heading icon-link" href="#nodeconfiginheritanceenabled-childs-perspective"></a></h3>
+<p>Controls whether a node inherits configuration from its parent hierarchy:</p>
+<ul>
+<li><strong>Domain</strong>: <code>conf:OperationalNodeConfig</code></li>
+<li><strong>Default</strong>: <code>true</code></li>
+<li><strong>Effect</strong>: When <code>false</code>, the node uses only its own config or system defaults</li>
+</ul>
+<h3 id="inheritableconfigpropagationenabled-parents-perspective---configuration-firewall">inheritableConfigPropagationEnabled (Parent's Perspective - Configuration Firewall)<a aria-hidden="true" class="anchor-heading icon-link" href="#inheritableconfigpropagationenabled-parents-perspective---configuration-firewall"></a></h3>
+<p>Creates a <strong>configuration firewall</strong> that blocks ALL inheritance from flowing through this node to its children:</p>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "conf:inheritableConfigPropagationEnabled",
+  "@type": "owl:DatatypeProperty",
+  "rdfs:label": "inheritable config propagation enabled",
+  "rdfs:comment": "Configuration firewall control. When false, blocks ALL InheritableNodeConfig from this node AND all ancestors (including Platform and Service configs) from reaching child nodes. Creates a hard configuration boundary.",
+  "schema:domainIncludes": { "@id": "node:Handle" },
+  "schema:rangeIncludes": { "@id": "xsd:boolean" }
+}
+</code></pre>
+<p><strong>Default</strong>: <code>true</code> - Inheritance flows normally through this node</p>
+<p><strong>Key Distinction</strong>: The <code>inheritableConfigPropagationEnabled</code> property is completely independent of whether the node has its own InheritableNodeConfig:</p>
+<ul>
+<li>A node can have <code>inheritableConfigPropagationEnabled: false</code> WITH an InheritableNodeConfig (the config exists but won't be passed down)</li>
+<li>A node can have <code>inheritableConfigPropagationEnabled: false</code> WITHOUT an InheritableNodeConfig (blocks all inheritance from above)</li>
+<li>When set to <code>false</code>, it creates a complete configuration barrier, blocking ALL inheritance (regardless of source) from reaching child nodes</li>
+</ul>
+<p><strong>Effect on child nodes</strong>: They must either:</p>
+<ol>
+<li>Define their own complete OperationalNodeConfig</li>
+<li>Use bare platform defaults, ignoring any parent NodeConfig and any NodeConfig defaults set in the ServiceConfig</li>
+</ol>
+<h2 id="use-cases">Use Cases<a aria-hidden="true" class="anchor-heading icon-link" href="#use-cases"></a></h2>
+<h3 id="platform-wide-defaults">Platform-Wide Defaults<a aria-hidden="true" class="anchor-heading icon-link" href="#platform-wide-defaults"></a></h3>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "platform:config",
+  "@type": "fsvc:PlatformServiceConfig",
+  "conf:hasInheritableNodeConfig": {
+    "@type": "conf:InheritableNodeConfig",
+    "conf:versioningEnabled": true,
+    "conf:distributionFormats": ["application/trig", "application/ld+json"]
+  }
+}
+</code></pre>
+<h3 id="service-specific-overrides">Service-Specific Overrides<a aria-hidden="true" class="anchor-heading icon-link" href="#service-specific-overrides"></a></h3>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "service:config",
+  "@type": "fsvc:ServiceConfig",
+  "conf:hasInheritableNodeConfig": {
+    "@type": "conf:InheritableNodeConfig",
+    "conf:versioningEnabled": false  // Override platform default
+  }
+}
+</code></pre>
+<h3 id="node-with-different-operational-and-inheritable-configs">Node with Different Operational and Inheritable Configs<a aria-hidden="true" class="anchor-heading icon-link" href="#node-with-different-operational-and-inheritable-configs"></a></h3>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "node:handle",
+  "@type": "node:Handle",
+  "conf:hasOperationalNodeConfig": {
+    "@type": "conf:OperationalNodeConfig",
+    "conf:versioningEnabled": false,  // This node doesn't version
+    "conf:distributionFormats": ["application/trig"]
+  },
+  "conf:hasInheritableNodeConfig": {
+    "@type": "conf:InheritableNodeConfig",
+    "conf:versioningEnabled": true,  // But children should version
+    "conf:distributionFormats": ["application/trig", "application/ld+json", "text/turtle"]
+  }
+}
+</code></pre>
+<h3 id="configuration-firewall---stopping-all-inheritance">Configuration Firewall - Stopping ALL Inheritance<a aria-hidden="true" class="anchor-heading icon-link" href="#configuration-firewall---stopping-all-inheritance"></a></h3>
+<p>When you need to create a hard configuration boundary that blocks ALL inheritance (not just the node's own config):</p>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "boundary:node",
+  "@type": "node:Handle",
+  "conf:inheritableConfigPropagationEnabled": false
+  // Creates a configuration firewall - children get NO inheritance from:
+  // - This node's InheritableNodeConfig
+  // - Any parent node's InheritableNodeConfig
+  // - Service-level InheritableNodeConfig
+  // - Platform-level InheritableNodeConfig
+}
+</code></pre>
+<p><strong>Use Cases for Configuration Firewalls:</strong></p>
+<ol>
+<li><strong>Test/Development Isolation</strong>:</li>
+</ol>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "test:boundary",
+  "@type": "node:Handle",
+  "conf:inheritableConfigPropagationEnabled": false,
+  "rdfs:comment": "Test subtree isolated from production configs"
+}
+</code></pre>
+<ol start="2">
+<li><strong>Multi-tenant Boundaries</strong>:</li>
+</ol>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "tenant:acme:root",
+  "@type": "node:Handle",
+  "conf:inheritableConfigPropagationEnabled": false,
+  "conf:hasInheritableNodeConfig": {
+    "@type": "conf:InheritableNodeConfig",
+    "conf:versioningEnabled": true,
+    "dcterms:rightsHolder": { "@id": "https://acme.example.org" }
+    // This InheritableNodeConfig exists but won't propagate to children
+    // because inheritableConfigPropagationEnabled is false
+  }
+}
+</code></pre>
+<p>Note: In this case, the node HAS an InheritableNodeConfig but blocks it from propagating. This might seem contradictory, but could be useful if the config is used for other purposes (documentation, templates, etc.) or if propagation is conditionally enabled later.</p>
+<ol start="3">
+<li><strong>Legacy System Integration</strong>:</li>
+</ol>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "legacy:integration:point",
+  "@type": "node:Handle",
+  "conf:inheritableConfigPropagationEnabled": false,
+  "rdfs:comment": "Legacy systems below this point use their own config scheme"
+}
+</code></pre>
+<h2 id="implementation-notes">Implementation Notes<a aria-hidden="true" class="anchor-heading icon-link" href="#implementation-notes"></a></h2>
+<h3 id="config-resolution-service">Config Resolution Service<a aria-hidden="true" class="anchor-heading icon-link" href="#config-resolution-service"></a></h3>
+<p>The config resolution service should:</p>
+<ol>
+<li>Cache resolved configurations for performance</li>
+<li>Invalidate cache when parent configs change</li>
+<li>Support partial config objects (only override specific properties)</li>
+<li>Validate merged configs against SHACL shapes</li>
+</ol>
+<h3 id="default-behavior">Default Behavior<a aria-hidden="true" class="anchor-heading icon-link" href="#default-behavior"></a></h3>
+<ul>
+<li>If no configuration exists at any level, system provides sensible defaults</li>
+<li><code>nodeConfigInheritanceEnabled</code> defaults to <code>true</code></li>
+<li><code>inheritableConfigPropagationEnabled</code> defaults to <code>true</code></li>
+<li>Empty InheritableNodeConfig means "use all defaults"</li>
+</ul>
+<h3 id="migration-path">Migration Path<a aria-hidden="true" class="anchor-heading icon-link" href="#migration-path"></a></h3>
+<p>For existing systems:</p>
+<ol>
+<li>Convert existing NodeConfig to OperationalNodeConfig</li>
+<li>Create InheritableNodeConfig from service defaults</li>
+<li>Set <code>nodeConfigInheritanceEnabled</code> based on current behavior</li>
+<li>Gradually adopt property-level inheritance</li>
+</ol>
+<h2 id="benefits">Benefits<a aria-hidden="true" class="anchor-heading icon-link" href="#benefits"></a></h2>
+<ol>
+<li><strong>Flexibility</strong>: Nodes can have different operational settings than what they pass to children</li>
+<li><strong>Granularity</strong>: Property-level inheritance allows fine-grained control</li>
+<li><strong>Clarity</strong>: Clear separation between operational and inheritable configuration</li>
+<li><strong>Scalability</strong>: Platform/Service/Node hierarchy supports large deployments</li>
+<li><strong>Control</strong>: Can stop inheritance at any level when needed</li>
+</ol>
+<h2 id="complexity-management">Complexity Management<a aria-hidden="true" class="anchor-heading icon-link" href="#complexity-management"></a></h2>
+<p>While the system supports sophisticated inheritance, common use cases remain simple:</p>
+<h3 id="simple-case-1-use-all-defaults">Simple Case 1: Use All Defaults<a aria-hidden="true" class="anchor-heading icon-link" href="#simple-case-1-use-all-defaults"></a></h3>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "simple:node",
+  "@type": "node:Handle"
+  // Gets all config from inheritance chain
+}
+</code></pre>
+<h3 id="simple-case-2-override-one-setting">Simple Case 2: Override One Setting<a aria-hidden="true" class="anchor-heading icon-link" href="#simple-case-2-override-one-setting"></a></h3>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "simple:node",
+  "@type": "node:Handle",
+  "conf:hasOperationalNodeConfig": {
+    "@type": "conf:OperationalNodeConfig",
+    "conf:versioningEnabled": false
+    // Everything else inherited
+  }
+}
+</code></pre>
+<h3 id="simple-case-3-service-wide-settings">Simple Case 3: Service-Wide Settings<a aria-hidden="true" class="anchor-heading icon-link" href="#simple-case-3-service-wide-settings"></a></h3>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@id": "service:config",
+  "@type": "fsvc:ServiceConfig",
+  "conf:hasInheritableNodeConfig": {
+    "@type": "conf:InheritableNodeConfig",
+    "conf:versioningEnabled": true,
+    "conf:distributionFormats": ["application/trig"]
+    // All nodes in service get these defaults
+  }
+}
+</code></pre>
+<h2 id="see-also">See Also<a aria-hidden="true" class="anchor-heading icon-link" href="#see-also"></a></h2>
+<ul>
+<li><a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a></li>
+<li><a href="/sflo/notes/pqjdlyd8g80x3yr9o3p82mj">node config</a></li>
+<li><a href="/sflo/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a></li>
+</ul>

@@ -38,7 +38,7 @@ Unlike other components:
 - **Node IRI** (`ns/djradon/bio-dataset/`) refers to its semantic entity (abstract dataset or thing)
 - **Unified Component IRI** (`ns/djradon/bio-dataset/_unified/`) refers to the aggregated DatasetSeries
 - **Distribution files** are serializations of the unified dataset
-- **No violation** of [[single referent principle|sflo.principle.single-referent]]
+- **No violation** of [[single referent principle|principle.single-referent]]
 
 ### Content Composition
 ```turtle
