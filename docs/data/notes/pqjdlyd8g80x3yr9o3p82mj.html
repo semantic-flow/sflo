@@ -9,17 +9,17 @@
 <li>attribution defaults</li>
 </ul>
 <p>Node configuration is held in memory by the <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">flow service (Private)</a>, and is calculated when the service starts.</p>
-<p>Node configuration is at least partially determined by "config specification", which happens in <a href="/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a> and can be inherited to contained nodes.</p>
+<p>Node configuration is at least partially determined by "config specification", which happens in <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a> and can be inherited to contained nodes.</p>
 <p>If config specification is missing, (i.e., config spec inheritance is turned off or unspecified), node configuration will be determined from service-level config specification, i.e. <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.product.service.config (Private)</a>. In case there is none, the service will use sensible defaults at the root level which will be inherited down the mesh.</p>
 <h3 id="initial-config-specification">Initial Config Specification<a aria-hidden="true" class="anchor-heading icon-link" href="#initial-config-specification"></a></h3>
 <ul>
-<li>When a node is initially created, if config-defaults-inheritance is turned on for its parent node, it will have its <a href="/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a> populated based on any parent <a href="/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a> files present in the hierarchy. If there are none, its <a href="/notes/074yxm151l47n1aak58ggni">current snapshot</a> will not be created.</li>
+<li>When a node is initially created, if config-defaults-inheritance is turned on for its parent node, it will have its <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a> populated based on any parent <a href="/sflo/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a> files present in the hierarchy. If there are none, its <a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a> will not be created.</li>
 </ul>
 <h3 id="calculating-node-config">Calculating Node Config<a aria-hidden="true" class="anchor-heading icon-link" href="#calculating-node-config"></a></h3>
 <p>When the <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.product.service (Private)</a> starts, it calculates non-default config settings for every node.</p>
 <ul>
 <li>determines the "default" settings for this service instance from <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.product.service.config (Private)</a></li>
-<li>if the node has a <a href="/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a> , the service will use any settings there that differ from its defaults</li>
+<li>if the node has a <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a> , the service will use any settings there that differ from its defaults</li>
 <li>if config-inheritance is turned on for a node, the service will scan back up the hierarchy to compose any missing "non-default" settings</li>
 <li>the result is an in-memory "shadow mesh" known as the <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.product.service.components.node-config-map (Private)</a> containing any non-default settings for the mesh</li>
 </ul>
@@ -35,15 +35,15 @@
 <ul>
 <li>versioning is turned on for all components</li>
 <li>distribution syntaxes are .trig and jsonld</li>
-<li>resource pages are generated using a standard template and CSS file that get copied into a <a href="/notes/c4wo7mdjzcit2bmvqr5sx4u">mesh repo</a>'s root <a href="/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a> upon initialization</li>
-<li><a href="/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a> are not generated</li>
-<li><a href="/notes/sif626tmt3mw3nir5gv1s1a">unified dataset</a></li>
+<li>resource pages are generated using a standard template and CSS file that get copied into a <a href="/sflo/notes/c4wo7mdjzcit2bmvqr5sx4u">mesh repo</a>'s root <a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a> upon initialization</li>
+<li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a> are not generated</li>
+<li><a href="/sflo/notes/sif626tmt3mw3nir5gv1s1a">unified dataset</a></li>
 </ul>
 </li>
 </ul>
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a></li>
-<li><a href="/notes/config-inheritance-resolution">Config Inheritance Resolution</a></li>
+<li><a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a></li>
+<li><a href="/sflo/notes/config-inheritance-resolution">Config Inheritance Resolution</a></li>
 </ul>

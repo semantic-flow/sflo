@@ -1,39 +1,39 @@
 <h1 id="handle">handle<a aria-hidden="true" class="anchor-heading icon-link" href="#handle"></a></h1>
-<p>A <strong>handle</strong> is a simple element that supports <a href="/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a>s. It has a very special semantic use: instead of refering to itself, it refers to its containing node "as a mesh resource." So it becomes a "management interface" for the node.</p>
+<p>A <strong>handle</strong> is a simple element that supports <a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a>s. It has a very special semantic use: instead of refering to itself, it refers to its containing node "as a mesh resource." So it becomes a "management interface" for the node.</p>
 <h2 id="example">Example<a aria-hidden="true" class="anchor-heading icon-link" href="#example"></a></h2>
 <p>If <code>/temperature-data/</code> URL refers to an abstract dataset, <code>/temperature-data/_handle</code> refers to the temperature-data node itself: something that can have a node config and provenance metadata about who created the node (as opposed to who created the dataset).</p>
 <h2 id="justification">Justification<a aria-hidden="true" class="anchor-heading icon-link" href="#justification"></a></h2>
-<p>Element identifiers don't have an obvious referent other than themselves. e.g., ns/djradon/bio-dataset/_data refers only to a specific <a href="/notes/rregmt56znauz71qgypet6a">node flow</a>. </p>
-<p>So when they're mentioned in <a href="/notes/0y6p8e594peoult03gobm94">metadata flow</a> or <a href="/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a>, it's clear enough that their identifiers refer to them "as mesh resources."</p>
-<p>But because the URL of a <a href="/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a> refers to a namespace; an abstract dataset; or a thing or concept --  based on the <a href="/notes/4ado7w6mwrrcphy9p1kpfa3">Single Referent Principle</a> principle, you should not use the node's URL to refer to it "as a mesh resource."</p>
+<p>Element identifiers don't have an obvious referent other than themselves. e.g., ns/djradon/bio-dataset/_data refers only to a specific <a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a>. </p>
+<p>So when they're mentioned in <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> or <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a>, it's clear enough that their identifiers refer to them "as mesh resources."</p>
+<p>But because the URL of a <a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a> refers to a namespace; an abstract dataset; or a thing or concept --  based on the <a href="/sflo/notes/4ado7w6mwrrcphy9p1kpfa3">Single Referent Principle</a> principle, you should not use the node's URL to refer to it "as a mesh resource."</p>
 <h2 id="issues">Issues<a aria-hidden="true" class="anchor-heading icon-link" href="#issues"></a></h2>
 <h3 id="no-url-to-refer-to-the-handle-itself">No URL to refer to the handle itself<a aria-hidden="true" class="anchor-heading icon-link" href="#no-url-to-refer-to-the-handle-itself"></a></h3>
 <p>Luckily there's not much reason to have to refer to the handle-as-mesh-element because they are always co-created with the node, live forever, never change, don't have data of their own. But you can use the "fragment identifier" trick if there's ever a need to refer to the handle. e.g. /temperature-data/_handle/#</p>
 <h2 id="containment-rules">Containment Rules<a aria-hidden="true" class="anchor-heading icon-link" href="#containment-rules"></a></h2>
 <ul>
-<li>must-be-contained-in: <a href="/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a></li>
+<li>must-be-contained-in: <a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a></li>
 <li>cannot-be-contained-in: 
 <ul>
-<li><a href="/notes/9c27yly4ed3ju7msf8luhge">mesh element</a></li>
+<li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">mesh element</a></li>
 </ul>
 </li>
 </ul>
 <hr>
 <strong>Children</strong>
 <ol>
-<li><a href="/notes/8uslab6gy073jcq6kz9nhyn">handle resource page</a></li>
+<li><a href="/sflo/notes/8uslab6gy073jcq6kz9nhyn">handle resource page</a></li>
 </ol>
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
-<li><a href="/notes/faq002">Why are there elements at the top of a repo?</a></li>
-<li><a href="/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
-<li><a href="/notes/9c27yly4ed3ju7msf8luhge">mesh element</a></li>
-<li><a href="/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a></li>
-<li><a href="/notes/4n7pbx1g9o80d6omk8hcj56">handle folder</a></li>
-<li><a href="/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a></li>
-<li><a href="/notes/3y8yampfa5x8eo6ul5ged11">reference node</a></li>
-<li><a href="/notes/0y6p8e594peoult03gobm94">metadata flow</a></li>
-<li><a href="/notes/8uslab6gy073jcq6kz9nhyn">handle resource page</a></li>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/faq002">Why are there elements at the top of a repo?</a></li>
+<li><a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+<li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">mesh element</a></li>
+<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a></li>
+<li><a href="/sflo/notes/4n7pbx1g9o80d6omk8hcj56">handle folder</a></li>
+<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a></li>
+<li><a href="/sflo/notes/3y8yampfa5x8eo6ul5ged11">reference node</a></li>
+<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></li>
+<li><a href="/sflo/notes/8uslab6gy073jcq6kz9nhyn">handle resource page</a></li>
 </ul>

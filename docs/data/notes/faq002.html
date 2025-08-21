@@ -1,8 +1,8 @@
 <h1 id="why-are-there-elements-at-the-top-of-a-repo">Why are there elements at the top of a repo?<a aria-hidden="true" class="anchor-heading icon-link" href="#why-are-there-elements-at-the-top-of-a-repo"></a></h1>
 <h2 id="question">Question<a aria-hidden="true" class="anchor-heading icon-link" href="#question"></a></h2>
-<p>Why are there <a href="/notes/9c27yly4ed3ju7msf8luhge">mesh elements</a> like <code>_meta/</code>, <code>_handle/</code>, and <code>_assets/</code> at the top level of a repository? Shouldn't elements only be inside nodes?</p>
+<p>Why are there <a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">mesh elements</a> like <code>_meta/</code>, <code>_handle/</code>, and <code>_assets/</code> at the top level of a repository? Shouldn't elements only be inside nodes?</p>
 <h2 id="answer">Answer<a aria-hidden="true" class="anchor-heading icon-link" href="#answer"></a></h2>
-<p>Elements at the repository root exist because <strong>the repository root itself is a <a href="/notes/8hmkiyjtsey7z8y5oi5xdxm">mesh node</a></strong> - specifically, it's the <a href="/notes/llzh1jdoieldfpff4v3ealw">root node</a> of the mesh.</p>
+<p>Elements at the repository root exist because <strong>the repository root itself is a <a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">mesh node</a></strong> - specifically, it's the <a href="/sflo/notes/llzh1jdoieldfpff4v3ealw">root node</a> of the mesh.</p>
 <h3 id="repository-root--mesh-root-node">Repository Root = Mesh Root Node<a aria-hidden="true" class="anchor-heading icon-link" href="#repository-root--mesh-root-node"></a></h3>
 <p>Every semantic mesh has a root node, and in a repository-based mesh, the repository root <strong>is</strong> that root node. It's a "nameless" node locally (represented as "/") that can be any type of mesh node:</p>
 <ul>
@@ -12,8 +12,8 @@
 </ul>
 <p>Since the repository root is a mesh node, it follows the same rules as any other node and must contain:</p>
 <ul>
-<li><strong><code>_meta/</code></strong>: corresponds to the <a href="/notes/0y6p8e594peoult03gobm94">metadata flow</a> with administrative metadata for the root node</li>
-<li><strong><code>_handle/</code></strong>: corresponds to <a href="/notes/o2926clbf63vi9kln79kapg">node handle</a> for referential indirection</li>
+<li><strong><code>_meta/</code></strong>: corresponds to the <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> with administrative metadata for the root node</li>
+<li><strong><code>_handle/</code></strong>: corresponds to <a href="/sflo/notes/o2926clbf63vi9kln79kapg">node handle</a> for referential indirection</li>
 </ul>
 <p>The root node may contain <strong>other elements</strong>: Depending on the root node type (e.g., <code>_ref/</code> for reference nodes, <code>_data/</code> for versioned datasets)</p>
 <h3 id="consistency-principle">Consistency Principle<a aria-hidden="true" class="anchor-heading icon-link" href="#consistency-principle"></a></h3>
@@ -23,5 +23,5 @@
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/notes/faq000">FAQ</a></li>
+<li><a href="/sflo/notes/faq000">FAQ</a></li>
 </ul>
