@@ -1,16 +1,16 @@
 <h1 id="mesh-resource">mesh resource<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-resource"></a></h1>
 <h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
-<p>A <strong>mesh resource</strong> is any addressable component within a <a href="/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a>. Every mesh resource has a unique <a href="/notes/17l23vl7sqg997hr773dh23">Relative Identifier</a> based on its path and locally unique name, making it dereferenceable via URL.</p>
-<p>In RDF terms, a resource is any node in an RDF graph that can be represented with an IRI (the other kinds of RDF graph nodes are literals and blank nodes). So theoretically, files and folders in <a href="/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a> could be considered RDF resources. But they are not considered <strong>mesh</strong> resources</p>
+<p>A <strong>mesh resource</strong> is any addressable component within a <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a>. Every mesh resource has a unique <a href="/sflo/notes/17l23vl7sqg997hr773dh23">Relative Identifier</a> based on its path and locally unique name, making it dereferenceable via URL.</p>
+<p>In RDF terms, a resource is any node in an RDF graph that can be represented with an IRI (the other kinds of RDF graph nodes are literals and blank nodes). So theoretically, files and folders in <a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a> could be considered RDF resources. But they are not considered <strong>mesh</strong> resources</p>
 <h2 id="types-of-mesh-resources">Types of Mesh Resources<a aria-hidden="true" class="anchor-heading icon-link" href="#types-of-mesh-resources"></a></h2>
 <p>The structure of a semantic mesh is built on a fundamental distinction between <strong>extensible</strong> and <strong>terminal</strong> resources:</p>
 <ul>
-<li><strong><a href="/notes/8hmkiyjtsey7z8y5oi5xdxm">Mesh nodes</a></strong> are extensible namespace containers:</li>
-<li><strong><a href="/notes/9c27yly4ed3ju7msf8luhge">Mesh elements</a></strong> are terminal mesh resources:
+<li><strong><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">Mesh nodes</a></strong> are extensible namespace containers:</li>
+<li><strong><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">Mesh elements</a></strong> are terminal mesh resources:
 <ul>
 <li>Can be physically represented as folders or files
 <ul>
-<li>Folder <a href="/notes/17l23vl7sqg997hr773dh23">Relative Identifier</a> are part of the namespace but cannot be extended beyond their own internal structure</li>
+<li>Folder <a href="/sflo/notes/17l23vl7sqg997hr773dh23">Relative Identifier</a> are part of the namespace but cannot be extended beyond their own internal structure</li>
 </ul>
 </li>
 <li>All files and folders within an element folder are considerd to be part of the parent node</li>
@@ -19,21 +19,21 @@
 </ul>
 <p><strong>Folder-based elements:</strong></p>
 <ul>
-<li><strong><a href="/notes/0y6p8e594peoult03gobm94">metadata flows</a></strong>: Administrative metadata (in <code>_meta-component/</code> folders)</li>
-<li><strong><a href="/notes/9bu4sgma5c54bmwyl6ofg4c">reference flows</a></strong>: Referent data (in <code>_ref-component/</code> folders)</li>
-<li><strong><a href="/notes/3lqeacm90xhf0b8jrrerfop">Asset trees</a></strong>: File collections (in <code>_assets/</code> folders)</li>
-<li><strong><a href="/notes/r6akf3zjimf3ubkxpqmeubc">Version datasets</a></strong>: Versioned snapshots</li>
-<li><strong><a href="/notes/yci31i07s3bwpl9jd2hptod">next snapshots</a></strong>: Draft workspaces</li>
+<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flows</a></strong>: Administrative metadata (in <code>_meta-component/</code> folders)</li>
+<li><strong><a href="/sflo/notes/9bu4sgma5c54bmwyl6ofg4c">reference flows</a></strong>: Referent data (in <code>_ref-component/</code> folders)</li>
+<li><strong><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">Asset trees</a></strong>: File collections (in <code>_assets/</code> folders)</li>
+<li><strong><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">Version datasets</a></strong>: Versioned snapshots</li>
+<li><strong><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshots</a></strong>: Draft workspaces</li>
 </ul>
 <p><strong>File-based elements:</strong></p>
 <ul>
 <li><strong>Documentation files</strong>: 
 <ul>
-<li><a href="/notes/wvzsqsdcvkd1d2adyeqw996">Resource pages</a> are index.html files that provide de-referencability for their containing <a href="/notes/17l23vl7sqg997hr773dh23">Relative Identifier</a> <a href="/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+<li><a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">Resource pages</a> are index.html files that provide de-referencability for their containing <a href="/sflo/notes/17l23vl7sqg997hr773dh23">Relative Identifier</a> <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
 <li><strong>README.md and CHANGELOG.md</strong>: unstructured documentation</li>
 </ul>
 </li>
-<li><strong><a href="/notes/0n1lq6aq1gskj46bpcx9h4h">Layer distribution files</a></strong>: Data files in RDF formats</li>
+<li><strong><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">Layer distribution files</a></strong>: Data files in RDF formats</li>
 </ul>
 <h2 id="physical-vs-logical-structure">Physical vs Logical Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#physical-vs-logical-structure"></a></h2>
 <p><strong>Physical Representation:</strong></p>
@@ -49,9 +49,9 @@
 <li>Resources maintain semantic relationships through containment and cross-references</li>
 </ul>
 <h2 id="asset-tree-special-case">Asset Tree Special Case<a aria-hidden="true" class="anchor-heading icon-link" href="#asset-tree-special-case"></a></h2>
-<p><a href="/notes/3lqeacm90xhf0b8jrrerfop">Asset trees</a> represent a special category where:</p>
+<p><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">Asset trees</a> represent a special category where:</p>
 <ul>
-<li>The asset tree itself (with its <a href="/notes/0y6p8e594peoult03gobm94">metadata flow</a>) is part of the mesh structure</li>
+<li>The asset tree itself (with its <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a>) is part of the mesh structure</li>
 <li>The files and folders contained within asset trees are "attached to" but not "contained in" the mesh</li>
 <li>Asset tree contents are addressable but are not considered semantic flow resources</li>
 </ul>
@@ -59,14 +59,14 @@
 <hr>
 <strong>Children</strong>
 <ol>
-<li><a href="/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a></li>
-<li><a href="/notes/9c27yly4ed3ju7msf8luhge">mesh element</a></li>
+<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a></li>
+<li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">mesh element</a></li>
 </ol>
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
-<li><a href="/notes/llzh1jdoieldfpff4v3ealw">root node</a></li>
-<li><a href="/notes/jyxdcjrv3npwwki06sfspqg">mesh resource type</a></li>
-<li><a href="/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a></li>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/llzh1jdoieldfpff4v3ealw">root node</a></li>
+<li><a href="/sflo/notes/jyxdcjrv3npwwki06sfspqg">mesh resource type</a></li>
+<li><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a></li>
 </ul>

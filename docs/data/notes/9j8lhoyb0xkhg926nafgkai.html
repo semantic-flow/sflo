@@ -1,6 +1,6 @@
 <h1 id="data-flow">data flow<a aria-hidden="true" class="anchor-heading icon-link" href="#data-flow"></a></h1>
 <h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
-<p>data flows (_data-component/) are <a href="/notes/rregmt56znauz71qgypet6a">node flows</a> that effectively associate a versioned dataset with a mesh node. They contain the actual content payload of data nodes and provide the primary data storage functionality within the semantic flow mesh architecture.</p>
+<p>data flows (_data-component/) are <a href="/sflo/notes/rregmt56znauz71qgypet6a">node flows</a> that effectively associate a versioned dataset with a mesh node. They contain the actual content payload of data nodes and provide the primary data storage functionality within the semantic flow mesh architecture.</p>
 <h2 id="purpose">Purpose<a aria-hidden="true" class="anchor-heading icon-link" href="#purpose"></a></h2>
 <p>data flows serve as the primary content containers for mesh nodes, providing:</p>
 <ul>
@@ -10,13 +10,13 @@
 <li><strong>State Management</strong>: Track current, draft, and versioned states of data</li>
 </ul>
 <h2 id="structure">Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#structure"></a></h2>
-<p>data flows organize content through <a href="/notes/8t3swuswoi81yuzo2bnecy9">flow snapshots</a>:</p>
+<p>data flows organize content through <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshots</a>:</p>
 <ul>
 <li><code>_current/</code> - Current stable version of the dataset</li>
 <li><code>_next/</code> - Draft/work-in-progress version</li>
 <li><code>_v1/</code>, <code>_v2/</code>, etc. - Versioned snapshots for historical access</li>
 </ul>
-<p>Like all <a href="/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a>, they should contain an <code>index.html</code> <a href="/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a> -- a human-readable description for the component</p>
+<p>Like all <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a>, they should contain an <code>index.html</code> <a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a> -- a human-readable description for the component</p>
 <h2 id="relationship-to-data-nodes">Relationship to Data Nodes<a aria-hidden="true" class="anchor-heading icon-link" href="#relationship-to-data-nodes"></a></h2>
 <p>data flows create the fundamental association between nodes and their content:</p>
 <h2 id="content-types">Content Types<a aria-hidden="true" class="anchor-heading icon-link" href="#content-types"></a></h2>
@@ -38,7 +38,7 @@
 <li><strong>N-Quads (.nq)</strong>: Line-based RDF format</li>
 </ul>
 <h2 id="example">Example<a aria-hidden="true" class="anchor-heading icon-link" href="#example"></a></h2>
-<p>From the <a href="/notes/s5ild34tbe4w2wt4m8ldllg">semantic mesh example</a>:</p>
+<p>From the <a href="/sflo/notes/s5ild34tbe4w2wt4m8ldllg">semantic mesh example</a>:</p>
 <pre><code>/test-ns/djradon-bio/_data/          # data flow
 ├── _current/                        # current snapshot
 │   ├── djradon-bio.ttl             # turtle distribution
@@ -62,16 +62,16 @@
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
-<li><a href="/notes/osqi7xn4mw3j9v0kvsoc5uo">Why Dont Data Nodes Contain Distributions Directly</a></li>
-<li><a href="/notes/6ki4upsdymjb9vy82oec2cf">dataset</a></li>
-<li><a href="/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
-<li><a href="/notes/rc1wsoryoff9ffxb8wwbf9p">user resource facet</a></li>
-<li><a href="/notes/9c27yly4ed3ju7msf8luhge">mesh element</a></li>
-<li><a href="/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
-<li><a href="/notes/4cfum6mrz7w7prcmytk4v5x">data flow folder</a></li>
-<li><a href="/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a></li>
-<li><a href="/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
-<li><a href="/notes/0n1lq6aq1gskj46bpcx9h4h">layer distribution</a></li>
-<li><a href="/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></li>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/osqi7xn4mw3j9v0kvsoc5uo">Why Dont Data Nodes Contain Distributions Directly</a></li>
+<li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset</a></li>
+<li><a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+<li><a href="/sflo/notes/rc1wsoryoff9ffxb8wwbf9p">user resource facet</a></li>
+<li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">mesh element</a></li>
+<li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
+<li><a href="/sflo/notes/4cfum6mrz7w7prcmytk4v5x">data flow folder</a></li>
+<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a></li>
+<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
+<li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">layer distribution</a></li>
+<li><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></li>
 </ul>
