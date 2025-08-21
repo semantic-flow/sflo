@@ -1,8 +1,8 @@
 <h1 id="flow-snapshot">flow snapshot<a aria-hidden="true" class="anchor-heading icon-link" href="#flow-snapshot"></a></h1>
-<p><strong>flow snapshots</strong> are mesh elements that are datasets and represent the evolutionary steps of <a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a>, whether <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a>, <a href="/sflo/notes/9bu4sgma5c54bmwyl6ofg4c">reference flow</a>, or <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a>. </p>
-<p>flow snapshots have corresponding <a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">distributions</a> and are the connective tissue between nodes and their RDF-based representation.</p>
+<p><strong>flow snapshots</strong> are mesh elements that are datasets and represent the evolutionary steps of <a href="/notes/rregmt56znauz71qgypet6a">node flow</a>, whether <a href="/notes/0y6p8e594peoult03gobm94">metadata flow</a>, <a href="/notes/9bu4sgma5c54bmwyl6ofg4c">reference flow</a>, or <a href="/notes/9j8lhoyb0xkhg926nafgkai">data flow</a>. </p>
+<p>flow snapshots have corresponding <a href="/notes/0n1lq6aq1gskj46bpcx9h4h">distributions</a> and are the connective tissue between nodes and their RDF-based representation.</p>
 <h2 id="relationship-to-node-flows">Relationship to node flows<a aria-hidden="true" class="anchor-heading icon-link" href="#relationship-to-node-flows"></a></h2>
-<p>flow snapshots are the successive realizations of <a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a>.</p>
+<p>flow snapshots are the successive realizations of <a href="/notes/rregmt56znauz71qgypet6a">node flow</a>.</p>
 <h3 id="relationship-pattern">Relationship pattern:<a aria-hidden="true" class="anchor-heading icon-link" href="#relationship-pattern"></a></h3>
 <p>node flows have at least two layers:</p>
 <ul>
@@ -54,9 +54,9 @@
 └── my-ontology.jsonld      ← Distribution
 </code></pre>
 <h2 id="immutability">Immutability<a aria-hidden="true" class="anchor-heading icon-link" href="#immutability"></a></h2>
-<p><strong><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></strong> (historical flow snapshots, i.e., versioned folders like <code>_v1/</code>, <code>_v2/</code>) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.</p>
-<p><strong><a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a></strong> (the latest "woven" flow snapshots, <code>_current</code>) should not be modified directly by users, but will be updated "on weave" if the <a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a> has evolved. </p>
-<p><strong><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></strong> (working flow snapshots, <code>_next/</code>) are mutable:</p>
+<p><strong><a href="/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></strong> (historical flow snapshots, i.e., versioned folders like <code>_v1/</code>, <code>_v2/</code>) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.</p>
+<p><strong><a href="/notes/074yxm151l47n1aak58ggni">current snapshot</a></strong> (the latest "woven" flow snapshots, <code>_current</code>) should not be modified directly by users, but will be updated "on weave" if the <a href="/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a> has evolved. </p>
+<p><strong><a href="/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></strong> (working flow snapshots, <code>_next/</code>) are mutable:</p>
 <ul>
 <li>Can be edited and updated during development</li>
 <li>Represent evolving state of the node flow</li>
@@ -70,31 +70,31 @@
 </ul>
 <h2 id="related-concepts">Related Concepts<a aria-hidden="true" class="anchor-heading icon-link" href="#related-concepts"></a></h2>
 <ul>
-<li><strong><a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a></strong> - Parent conceptual entities</li>
-<li><strong><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Versioning</a></strong> - Process of creating versioned flow snapshots</li>
-<li><strong><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a></strong> - Operation that manages flow snapshot lifecycle</li>
+<li><strong><a href="/notes/rregmt56znauz71qgypet6a">node flow</a></strong> - Parent conceptual entities</li>
+<li><strong><a href="/notes/m24m2p2s7iom3rwzvp28kvy">Versioning</a></strong> - Process of creating versioned flow snapshots</li>
+<li><strong><a href="/notes/rall4fbxm369okmy5383sf8">Weave Process</a></strong> - Operation that manages flow snapshot lifecycle</li>
 </ul>
 <hr>
 <strong>Children</strong>
 <ol>
-<li><a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a></li>
-<li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">layer distribution</a></li>
-<li><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></li>
-<li><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></li>
+<li><a href="/notes/074yxm151l47n1aak58ggni">current snapshot</a></li>
+<li><a href="/notes/0n1lq6aq1gskj46bpcx9h4h">layer distribution</a></li>
+<li><a href="/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></li>
+<li><a href="/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></li>
 </ol>
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
-<li><a href="/sflo/notes/2qp8vfjygd43lmwcmj6362r">Working Distribution</a></li>
-<li><a href="/sflo/notes/osqi7xn4mw3j9v0kvsoc5uo">Why Dont Data Nodes Contain Distributions Directly</a></li>
-<li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset</a></li>
-<li><a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
-<li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
-<li><a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a></li>
-<li><a href="/sflo/notes/xz41kd5hzao6yjybm05uw4l">current snapshot folder</a></li>
-<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a></li>
-<li><a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a></li>
-<li><a href="/sflo/notes/sif626tmt3mw3nir5gv1s1a">unified dataset</a></li>
-<li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">layer distribution</a></li>
+<li><a href="/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/notes/2qp8vfjygd43lmwcmj6362r">Working Distribution</a></li>
+<li><a href="/notes/osqi7xn4mw3j9v0kvsoc5uo">Why Dont Data Nodes Contain Distributions Directly</a></li>
+<li><a href="/notes/6ki4upsdymjb9vy82oec2cf">dataset</a></li>
+<li><a href="/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+<li><a href="/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
+<li><a href="/notes/rregmt56znauz71qgypet6a">node flow</a></li>
+<li><a href="/notes/xz41kd5hzao6yjybm05uw4l">current snapshot folder</a></li>
+<li><a href="/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a></li>
+<li><a href="/notes/9j8lhoyb0xkhg926nafgkai">data flow</a></li>
+<li><a href="/notes/sif626tmt3mw3nir5gv1s1a">unified dataset</a></li>
+<li><a href="/notes/0n1lq6aq1gskj46bpcx9h4h">layer distribution</a></li>
 </ul>

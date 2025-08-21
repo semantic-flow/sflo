@@ -19,9 +19,6 @@
     "editor.tabCompletion": "on",
     "typescript.preferences.includePackageJsonAutoImports": "auto",
     "typescript.suggest.autoImports": true,
-    "search.exclude": {
-      "docs/**": true
-    },
     "files.exclude": {
       "docs/**": true
     }

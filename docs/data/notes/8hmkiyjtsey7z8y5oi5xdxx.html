@@ -1,8 +1,8 @@
 <h1 id="data-node">data node<a aria-hidden="true" class="anchor-heading icon-link" href="#data-node"></a></h1>
 <h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
-<p><strong>Data nodes</strong> are <a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">mesh nodes</a> that represent a data concept, have an abstract "payload" dataset in the form of an <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> (an <a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a>). The node data flow is in turn instantiated by conceptual <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a>s that represent the data's evolution and current state.</p>
-<p>Unlike <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">dataset elements</a> which contain concrete data distributions, data nodes serve as conceptual containers that organize and provide identity for data without containing the data directly. I.e., Data nodes only contain concrete datasets by virtue of containing <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> (also abstract) and its layers, which have concrete distributions.</p>
-<p>Data nodes are physically represented as <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">mesh folders</a> and correspond to <a href="/sflo/notes/7qo569nzfk3l8yo1ah6erb2">namespace segments</a>.</p>
+<p><strong>Data nodes</strong> are <a href="/notes/8hmkiyjtsey7z8y5oi5xdxm">mesh nodes</a> that represent a data concept, have an abstract "payload" dataset in the form of an <a href="/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> (an <a href="/notes/rregmt56znauz71qgypet6a">node flow</a>). The node data flow is in turn instantiated by conceptual <a href="/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a>s that represent the data's evolution and current state.</p>
+<p>Unlike <a href="/notes/8t3swuswoi81yuzo2bnecy9">dataset elements</a> which contain concrete data distributions, data nodes serve as conceptual containers that organize and provide identity for data without containing the data directly. I.e., Data nodes only contain concrete datasets by virtue of containing <a href="/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> (also abstract) and its layers, which have concrete distributions.</p>
+<p>Data nodes are physically represented as <a href="/notes/p3mbdrze0qe8uvko4i16t1s">mesh folders</a> and correspond to <a href="/notes/7qo569nzfk3l8yo1ah6erb2">namespace segments</a>.</p>
 <h2 id="abstract-vs-concrete-data">Abstract vs Concrete Data<a aria-hidden="true" class="anchor-heading icon-link" href="#abstract-vs-concrete-data"></a></h2>
 <h3 id="abstract-data-concept-data-node">Abstract Data Concept (Data Node)<a aria-hidden="true" class="anchor-heading icon-link" href="#abstract-data-concept-data-node"></a></h3>
 <p>A data node represents the <strong>idea</strong> or <strong>concept</strong> represented by a dataset:</p>
@@ -18,7 +18,7 @@ This idea or concept is the referent of the data node's URL. </li>
 <li><strong>Organizational structure</strong></li>
 </ul>
 <h3 id="data-flows-dataset-elements">data flows (Dataset Elements)<a aria-hidden="true" class="anchor-heading icon-link" href="#data-flows-dataset-elements"></a></h3>
-<p><a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> refer to themselves and contain layers:</p>
+<p><a href="/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> refer to themselves and contain layers:</p>
 <ul>
 <li><code>/ns/monsters/_data/_v4/</code> = "the current monster data flow"</li>
 <li><code>/ns/weather-stations/_v3/</code> = "version 3 of weather station data"</li>
@@ -31,16 +31,16 @@ This idea or concept is the referent of the data node's URL. </li>
 <h2 id="required-structure">Required Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#required-structure"></a></h2>
 <p>Every data node must contain:</p>
 <ul>
-<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></strong> (<code>_meta-component/</code>): Administrative metadata about the data concept</li>
-<li><strong><a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a></strong> (<code>_data-component/</code>): dataset data</li>
-<li><strong><a href="/sflo/notes/o2926clbf63vi9kln79kapg">Node handle</a></strong> (<code>_node-handle/</code>): Referential indirection for the node</li>
+<li><strong><a href="/notes/0y6p8e594peoult03gobm94">metadata flow</a></strong> (<code>_meta-component/</code>): Administrative metadata about the data concept</li>
+<li><strong><a href="/notes/9j8lhoyb0xkhg926nafgkai">data flow</a></strong> (<code>_data-component/</code>): dataset data</li>
+<li><strong><a href="/notes/o2926clbf63vi9kln79kapg">Node handle</a></strong> (<code>_node-handle/</code>): Referential indirection for the node</li>
 </ul>
 <h2 id="optional-structure">Optional Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#optional-structure"></a></h2>
 <ul>
-<li><strong><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">Asset trees</a></strong> (<code>_assets/</code>): Attached file collections</li>
-<li><a href="/sflo/notes/ciq7uj49ag97v8sl5sphggj">CHANGELOG</a> and <a href="/sflo/notes/48hukiv1sxpifhhhq7b5xw9">README</a></li>
-<li><a href="/sflo/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a></li>
-<li><a href="/sflo/notes/sif626tmt3mw3nir5gv1s1a">unified dataset</a> </li>
+<li><strong><a href="/notes/3lqeacm90xhf0b8jrrerfop">Asset trees</a></strong> (<code>_assets/</code>): Attached file collections</li>
+<li><a href="/notes/ciq7uj49ag97v8sl5sphggj">CHANGELOG</a> and <a href="/notes/48hukiv1sxpifhhhq7b5xw9">README</a></li>
+<li><a href="/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a></li>
+<li><a href="/notes/sif626tmt3mw3nir5gv1s1a">unified dataset</a> </li>
 </ul>
 <h2 id="key-characteristics">Key Characteristics<a aria-hidden="true" class="anchor-heading icon-link" href="#key-characteristics"></a></h2>
 <h3 id="not-a-dataset">Not a Dataset<a aria-hidden="true" class="anchor-heading icon-link" href="#not-a-dataset"></a></h3>
@@ -50,7 +50,7 @@ This idea or concept is the referent of the data node's URL. </li>
 <li>Data nodes serve as stable conceptual anchors</li>
 </ul>
 <h3 id="overlap-with-reference-nodes">Overlap with Reference Nodes<a aria-hidden="true" class="anchor-heading icon-link" href="#overlap-with-reference-nodes"></a></h3>
-<p>Data nodes function like <a href="/sflo/notes/3y8yampfa5x8eo6ul5ged11">reference nodes</a>, in that they refer to something... but their referent is very specific: an (abstract) dataset that may evolve over time.</p>
+<p>Data nodes function like <a href="/notes/3y8yampfa5x8eo6ul5ged11">reference nodes</a>, in that they refer to something... but their referent is very specific: an (abstract) dataset that may evolve over time.</p>
 <h3 id="extensible-container">Extensible Container<a aria-hidden="true" class="anchor-heading icon-link" href="#extensible-container"></a></h3>
 <p>Like all mesh nodes, data nodes can contain other mesh nodes and elements, making them extensible namespace containers.</p>
 <h2 id="examples">Examples<a aria-hidden="true" class="anchor-heading icon-link" href="#examples"></a></h2>
@@ -65,15 +65,15 @@ This idea or concept is the referent of the data node's URL. </li>
 <hr>
 <strong>Children</strong>
 <ol>
-<li><a href="/sflo/notes/tn4fb1v558dd7sh1r5ubh7n">mesh data-series node</a></li>
+<li><a href="/notes/tn4fb1v558dd7sh1r5ubh7n">mesh data-series node</a></li>
 </ol>
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
-<li><a href="/sflo/notes/osqi7xn4mw3j9v0kvsoc5uo">Why Dont Data Nodes Contain Distributions Directly</a></li>
-<li><a href="/sflo/notes/faq001">Why don't namespace nodes have reference flows?</a></li>
-<li><a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
-<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a></li>
-<li><a href="/sflo/notes/tn4fb1v558dd7sh1r5ubh7n">mesh data-series node</a></li>
+<li><a href="/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/notes/osqi7xn4mw3j9v0kvsoc5uo">Why Dont Data Nodes Contain Distributions Directly</a></li>
+<li><a href="/notes/faq001">Why don't namespace nodes have reference flows?</a></li>
+<li><a href="/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+<li><a href="/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a></li>
+<li><a href="/notes/tn4fb1v558dd7sh1r5ubh7n">mesh data-series node</a></li>
 </ul>
