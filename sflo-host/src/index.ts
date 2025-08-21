@@ -1,25 +1,68 @@
 import Fastify from "fastify";
 import { loadConfig } from "@semantic-flow/config";
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-// Import plugins you plan to allow by name
-import elements from "@semantic-flow/plugin-elements";
-import meshServer from "@semantic-flow/plugin-mesh-server";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const registry = new Map<string, any>([
-  ["elements", elements],
-  ["mesh-server", meshServer]
-  // add: ["sparql", await import("@semantic-flow/plugin-sparql").then(m=>m.default)]
-]);
+// Dynamic plugin loading - use source files in development
+async function loadPlugins() {
+  const isDev = process.env.NODE_ENV === 'development';
+
+  if (isDev) {
+    // Load from source files for hot reload
+    const elementsPath = join(__dirname, '../../plugins/elements/src/index.ts');
+    const meshServerPath = join(__dirname, '../../plugins/mesh-server/src/index.ts');
+
+    const [elements, meshServer] = await Promise.all([
+      import(elementsPath).then(m => m.default),
+      import(meshServerPath).then(m => m.default)
+    ]);
+
+    return new Map<string, any>([
+      ["elements", elements],
+      ["mesh-server", meshServer]
+    ]);
+  } else {
+    // Load from built packages in production
+    const [elements, meshServer] = await Promise.all([
+      import("@semantic-flow/plugin-elements").then(m => m.default),
+      import("@semantic-flow/plugin-mesh-server").then(m => m.default)
+    ]);
+
+    return new Map<string, any>([
+      ["elements", elements],
+      ["mesh-server", meshServer]
+    ]);
+  }
+}
 
 export async function startHost(configPath?: string) {
   const app = Fastify({ "logger": true });
   const conf = await loadConfig(configPath);
 
+  // Load plugins dynamically based on environment
+  const registry = await loadPlugins();
+
   // An example OpenAPI stub so Elements has something to render
+  // in sflo-host/src/index.ts
   app.get("/openapi.json", async () => ({
-    "openapi": "3.0.3",
-    "info": { "title": "SFLO API", "version": "0.0.0" },
-    "paths": {}
+    openapi: "3.0.3",
+    info: { title: "SFLO API", version: "0.1.0" },
+    paths: {
+      "/health": {
+        get: {
+          summary: "Health check",
+          responses: {
+            "200": {
+              description: "OK",
+              content: { "text/plain": { schema: { type: "string" }, example: "ok" } }
+            }
+          }
+        }
+      }
+    }
   }));
 
   for (const p of conf.plugins) {

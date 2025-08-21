@@ -1,6 +1,6 @@
 ---
 id: fd1whkyvoagggk6ubysjl50
-title: "djradon's sflo devlog" 
+title: djradon's sflo devlog
 desc: ''
 updated: 1755716801127
 created: 1727801720160

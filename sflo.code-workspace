@@ -9,16 +9,20 @@
   ],
   "settings": {
     "dendron.rootDir": ".",
+    "dendron.enableSelfContainedVaultWorkspace": true,
     "files.autoSave": "onFocusChange",
     "pasteImage.path": "${currentFileDir}/assets/images",
     "pasteImage.prefix": "/",
-    "markdown-preview-enhanced.enableWikiLinkSyntax": true,
-    "markdown-preview-enhanced.wikiLinkFileExtension": ".md",
     "editor.snippetSuggestions": "inline",
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "editor.suggest.showSnippets": true,
     "editor.tabCompletion": "on",
-    "dendron.enableSelfContainedVaultWorkspace": true
+    "search.exclude": {
+      "docs/**": true
+    },
+    "files.exclude": {
+      "docs/**": true
+    }
   },
   "extensions": {
     "recommendations": [

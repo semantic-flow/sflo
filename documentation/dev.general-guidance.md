@@ -2,7 +2,7 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Semantic Flow General Guidance
 desc: ''
-updated: 1754524436757
+updated: 1755737185783
 created: 1751259888479
 ---
 
@@ -154,8 +154,7 @@ Project documentation, specifications, journaling, and design choices are stored
 ### Language & Runtime
 
 - **TypeScript**: Use strict TypeScript configuration with modern ES2022+ features
-- **Deno**: Prefer Deno over Node.js; avoid Node.js-specific dependencies
-- **Imports**: Use Deno-style imports with URLs (e.g., `import { assertEquals } from "https://deno.land/std/assert/assert_equals.ts"`)
+- Use NodeJS v24 and the latest best practices
 
 ### RDF Data Handling
 
@@ -202,10 +201,7 @@ Project documentation, specifications, journaling, and design choices are stored
 
 ### Code Style
 
-- **Linting**: Use Deno's built-in linter (`deno lint`)
-  - If using any is actually clearer than not using it, it's okay, just add the // deno-lint-ignore comment
-- use flow-core/src/deps.ts for centralizing imports
-- import use single quotes
+- If using any is actually clearer than not using it, it's okay, just add the // deno-lint-ignore comment
 - Use `satisfies` whenever you're writing a literal config object that should be checked against a TypeScript shape, but you want to retain the full type of the literal for use in your program.
 
 ### Error Handling
@@ -225,149 +221,18 @@ The platform uses **LogContext-enhanced error handling** from `flow-core/src/uti
 
 #### LogContext Structure
 
-```ts
-interface LogContext {
-  operation?: string;           // 'startup', 'config-resolve', 'api-request', 'weave'
-  component?: string;          // 'config-resolver', 'mesh-scanner', 'api-handler'
-  operationId?: string;        // Unique operation identifiers
-  serviceContext?: {...};      // Service name, version, environment
-  configContext?: {...};       // Configuration paths and types
-  apiContext?: {...};          // Request IDs and API details
-  performanceMetrics?: {...};  // Duration, memory usage, timing
-  errorContext?: {...};        // Error details and recovery info
-  metadata?: Record<string, unknown>; // Additional contextual data
-}
-```
-
 #### handleCaughtError Examples
 
-**Basic Usage:**
-```ts
-import { handleCaughtError } from '../../../flow-core/src/utils/logger/error-handlers.ts';
-
-async function processConfiguration() {
-  try {
-    // some async operation
-  } catch (error) {
-    await handleCaughtError(error, 'Configuration processing failed');
-    throw new Error('Operation failed');
-  }
-}
-```
-
-**With LogContext:**
-```ts
-import { handleCaughtError } from '../../../flow-core/src/utils/logger/error-handlers.ts';
-import { LogContext } from '../../../flow-core/src/utils/logger/logger-types.ts';
-
-async function loadConfigurationFile(configPath: string, requestId?: string) {
-  const logContext: LogContext = {
-    operation: 'config-resolve',
-    component: 'config-loader',
-    operationId: crypto.randomUUID(),
-    configContext: {
-      configPath,
-      configType: 'file'
-    },
-    apiContext: requestId ? { requestId } : undefined,
-    performanceMetrics: {
-      startTime: Date.now()
-    }
-  };
-
-  try {
-    // load configuration file
-  } catch (error) {
-    await handleCaughtError(
-      error,
-      'Failed to load configuration file',
-      logContext,
-      { attemptedPath: configPath }
-    );
-    throw new ConfigurationError('Configuration loading failed');
-  }
-}
-```
-
-#### handleError Examples
-
-**API Error Handling:**
-```ts
-import { handleError } from '../../../flow-core/src/utils/logger/error-handlers.ts';
-
-async function handleApiRequest(request: Request) {
-  const requestId = request.headers.get('x-request-id') || crypto.randomUUID();
-  
-  if (!isValidRequest(request)) {
-    await handleError(
-      'Invalid API request received',
-      'Request validation failed',
-      {
-        operation: 'api-request',
-        component: 'api-handler',
-        apiContext: {
-          requestId,
-          method: request.method,
-          url: request.url
-        },
-        metadata: {
-          userAgent: request.headers.get('user-agent'),
-          contentType: request.headers.get('content-type')
-        }
-      }
-    );
-    return new Response('Bad Request', { status: 400 });
-  }
-}
-```
 
 **Startup Error Handling:**
-```ts
-import { handleError } from '../../../flow-core/src/utils/logger/error-handlers.ts';
 
-async function initializeService() {
-  const startTime = Date.now();
-  
-  if (!await validateEnvironment()) {
-    await handleError(
-      'Service initialization failed',
-      'Environment validation failed',
-      {
-        operation: 'startup',
-        component: 'service-initializer',
-        performanceMetrics: {
-          duration: Date.now() - startTime
-        },
-        errorContext: {
-          recoverable: false,
-          requiresRestart: true
-        }
-      }
-    );
-    throw new Error('Service initialization failed');
-  }
-}
-```
-
-#### Import Patterns
-
-**Service-level imports:**
-```ts
-// For flow-service components
-import { handleCaughtError, handleError } from '../../../flow-core/src/utils/logger/error-handlers.ts';
-import { LogContext } from '../../../flow-core/src/utils/logger/logger-types.ts';
-```
-
-**Component-specific imports:**
-```ts
-// For route handlers and utilities
-import { handleCaughtError } from '../../../../flow-core/src/utils/logger/error-handlers.ts';
-```
 
 This pattern ensures **uniform error reporting** with rich contextual information, **easier debugging** through structured logging, and **consistent integration** with console, file, and Sentry logging tiers.
+
+
 ### Testing
 
-- **Unit Tests**: Use Deno's built-in test runner; tests are located in test/unit/ dir
+- **Unit Tests**: use 
 - **Integration Tests**: Test mesh operations end-to-end; tests are located in test/integration/ dir
 - **RDF Validation**: Test both .trig and JSON-LD parsing/serialization
 - **Mock Data**: Create test mesh structures following documentation patterns

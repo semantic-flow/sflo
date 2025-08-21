@@ -8,7 +8,7 @@ created: 1755709990079
 
 **Dereferenceable, versioned semantic meshes** will be the foundation for a new era of knowledge graphs.
 
-[[now]] | [[todo]] | [[principle]] | [[contributor.djradon.dev-log]]
+[[now]] | [[todo]] | [[principle]] | [[dev.contributor.djradon.dev-log]]
 
 ## What Is Semantic Flow?
 

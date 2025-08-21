@@ -6,6 +6,7 @@
     "bin": { "sflo-host": "dist/index.js" },
     "scripts": {
         "dev": "tsx src/index.ts",
+        "dev:debug": "tsx --inspect src/index.ts",
         "build": "tsup src/index.ts --format esm --dts"
     },
     "dependencies": {
