@@ -12,6 +12,10 @@
         "sourceMap": true,
         "outDir": "dist",
         "resolveJsonModule": true,
-        "types": ["node"]
+        "types": ["node"],
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./*"]
+        }
     }
 }

@@ -1,0 +1,18 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./*"]
+        }
+    },
+    "include": [],
+    "references": [
+        { "path": "./cli" },
+        { "path": "./sflo-host" },
+        { "path": "./shared/config" },
+        { "path": "./shared/core" },
+        { "path": "./plugins/elements" },
+        { "path": "./plugins/mesh-server" }
+    ]
+}

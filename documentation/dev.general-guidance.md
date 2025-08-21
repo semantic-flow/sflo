@@ -2,7 +2,7 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Semantic Flow General Guidance
 desc: ''
-updated: 1755737185783
+updated: 1755750852129
 created: 1751259888479
 ---
 
@@ -11,13 +11,13 @@ created: 1751259888479
 ## Workspace Components
 
 - The sflow-platform repo/folder is organized as a monorepo, divided into a few different modules:
-  - **flow-service/**: Service component
-  - **flow-cli/**: Command-line application that consumes the flow-service
-  - **flow-web/**: Web frontend for the flow-service
-  - **flow-core/**: cross-cutting code like type schemas, logging, and config
-- the **sflo-dendron-notes/** repo: wiki-based notes about mesh structure, specifications, and concepts; in Dendron format
-- the **test-ns/** repo: Test mesh repo
-- **ontology/**: modular architecture for the Semantic Flow platform
+  - **sflo-host/**: host service with plugin architecture
+  - **sflo-api/**: plugin providing Semantic Flow functionality via REST
+  - **cli/**: Command-line application that consumes the sflo-api
+  - **sflo-web/**: Web frontend, can connect to any sflo-api instance
+  - **shared/**: cross-cutting code like type schemas (core), logging, and config
+- **test-ns/** repo: Test mesh repo
+- **ontology/**: repo containing relevant ontologies:
   - `mesh` - Core mesh architecture with base classes (Resource, Node, Element) and fundamental types
   - `node` - Node operations including Handle, Flow types, and operational relationships
   - `flow` - Temporal concepts including Snapshot types and versioning relationships
@@ -29,7 +29,7 @@ created: 1751259888479
 
 ### Semantic Mesh
 
-A dereferenceable, versioned collection of semantic data and supporting resources, where every HTTP URI returns meaningful content.
+A dereferenceable, versioned collection of semantic data and supporting resources, where every HTTP URI returns meaningful content. See [[concept.mesh]]
 
 #### Core Components
 
@@ -53,7 +53,7 @@ A dereferenceable, versioned collection of semantic data and supporting resource
 
 - The repo IS the site:
   - can be served locally
-  - SSG (Static Site Generator) not required
+  - no separate SSG (Static Site Generator) necessary
     - but static resource page generation should happen on every weave as necessary
   - after push, you should be able to see the changed mesh at the corresponding github pages URL
 
@@ -99,13 +99,12 @@ A dereferenceable, versioned collection of semantic data and supporting resource
 
 ### Project notes
 
-Project documentation, specifications, journaling, and design choices are stored in `sflo-dendron-notes/` using Dendron's hierarchical note system. Key documentation hierarchies include:
+Project documentation, specifications, and design choices are stored in `documentation/` using Dendron's hierarchical note system. Key documentation hierarchies include:
 
-- **Concepts**: `sflo.concept.*` files talk about general Semantic Flow concepts
-- **Mesh docs**: `sflo.concept.mesh.*` files define the semantic mesh architecture
-- **Product specifications**: `sflo.product.*` files detail each component
-- **Use cases**: `sflo.use-cases.*` files
-- **Conversation logs**: `sflo.conv.*` files track design decisions and development history; BEWARE! These conversations contain information and decisions that have been superceded. Only reference conversations when necessary for historical context. Newer conversations are usually less misleading.
+- **Concepts**: `concept.*` files talk about general Semantic Flow concepts
+- **Mesh docs**: `concept.mesh.*` files define the semantic mesh architecture
+- **Product specifications**: `product.*` files detail each component
+- **Use cases**: `use-cases.*` for feature planning and testing
 
 ### Component Development with Docs
 
@@ -163,7 +162,7 @@ Project documentation, specifications, journaling, and design choices are stored
 - **RDF Libraries**: Use RDF.js ecosystem libraries consistently across components
 - **Namespace Management**: Follow URL-based identifier patterns as defined in `sflo.concept.identifier.md`
 - **Reserved Names**: Validate against underscore-prefixed reserved identifiers per `sflo.concept.identifier.md`
-- The most effective validation strategy combines TypeScript structural validation with RDF semantic validation: DEV Community +2
+- The most effective validation strategy combines TypeScript structural validation with RDF semantic validation:
 
 ### Semantic Mesh Architecture
 
@@ -177,8 +176,7 @@ Project documentation, specifications, journaling, and design choices are stored
 - **Code Comments**: reference corresponding documentation by filename (e.g., `// See sflo.concept.mesh.resource.node.md`)
 - **Interface Definitions**: Link to concept documentation in TSDoc comments
 - **Cross-Reference Validation**: Ensure consistency between code and documentation; if docs need updating, let me know
-- **API Documentation**: Generate from TSDoc comments
-- 
+- **API Documentation**: Generate from TSDoc comments?
 
 ### Component Architecture
 
@@ -197,7 +195,7 @@ Project documentation, specifications, journaling, and design choices are stored
 - **Mesh Resources**: Follow mesh resource naming conventions from @/ontology/alpha/_node-data/_next/flow-ontology-alpha.trig
 - **Constants**: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. semantic-flow/flow-core/src/mesh-constants.ts
 - **File size**: For ease of AI-based editing, prefer lots of small files over one huge file
-- **Quoting**: For easier compatibility with JSON files, 
+- **Quoting**: For easier compatibility with JSON files, use double quotes everywhere
 
 ### Code Style
 
@@ -232,7 +230,7 @@ This pattern ensures **uniform error reporting** with rich contextual informatio
 
 ### Testing
 
-- **Unit Tests**: use 
+- **Unit Tests**: place unit tests in `src/__tests__` folder; with `.test.ts` suffix; target ≥80% critical-path coverage and include both success and failure cases.
 - **Integration Tests**: Test mesh operations end-to-end; tests are located in test/integration/ dir
 - **RDF Validation**: Test both .trig and JSON-LD parsing/serialization
 - **Mock Data**: Create test mesh structures following documentation patterns

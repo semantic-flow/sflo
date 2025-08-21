@@ -2,11 +2,13 @@
 id: fd1whkyvoagggk6ubysjl50
 title: djradon's sflo devlog
 desc: ''
-updated: 1755748402836
+updated: 1755752503539
 created: 1727801720160
 ---
 
+## t.2025.08.20.22
 
+- the AIs feel like they have a lot more exp
 
 ## t.2025.08.20.12
 

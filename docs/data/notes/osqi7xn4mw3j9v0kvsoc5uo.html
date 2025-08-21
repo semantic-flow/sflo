@@ -1,6 +1,6 @@
 <h1 id="why-dont-data-nodes-contain-distributions-directly">Why Dont Data Nodes Contain Distributions Directly<a aria-hidden="true" class="anchor-heading icon-link" href="#why-dont-data-nodes-contain-distributions-directly"></a></h1>
 <h2 id="question">Question<a aria-hidden="true" class="anchor-heading icon-link" href="#question"></a></h2>
-<p>Why don't <a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data nodes</a> contain distribution files directly? Why do I need to go to <code>_current/</code> to find the actual data?</p>
+<p>Why don't <a href="/notes/8hmkiyjtsey7z8y5oi5xdxx">data nodes</a> contain distribution files directly? Why do I need to go to <code>_current/</code> to find the actual data?</p>
 <h2 id="answer">Answer<a aria-hidden="true" class="anchor-heading icon-link" href="#answer"></a></h2>
 <p>Data nodes represent <strong>abstract data concepts</strong>, not concrete data instances. This separation provides several important benefits:</p>
 <h3 id="clear-semantic-distinction">Clear Semantic Distinction<a aria-hidden="true" class="anchor-heading icon-link" href="#clear-semantic-distinction"></a></h3>
@@ -20,19 +20,19 @@
 <li><code>_v1/</code>, <code>_v2/</code> - historical versions</li>
 </ul>
 <h3 id="consistent-architecture">Consistent Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#consistent-architecture"></a></h3>
-<p>This mirrors how <a href="/sflo/notes/3y8yampfa5x8eo6ul5ged11">reference nodes</a> work:</p>
+<p>This mirrors how <a href="/notes/3y8yampfa5x8eo6ul5ged11">reference nodes</a> work:</p>
 <ul>
 <li><strong>Reference nodes</strong>: Abstract entity concept + <code>_ref/</code> element with concrete data</li>
 <li><strong>Data nodes</strong>: Abstract data concept + <code>_current/</code> element with concrete data</li>
 </ul>
 <h3 id="metadata-separation">Metadata Separation<a aria-hidden="true" class="anchor-heading icon-link" href="#metadata-separation"></a></h3>
-<p>The data node's <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> contains system metadata about the data concept and its components, while each <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> can also contain (concept-specific) metadata.</p>
+<p>The data node's <a href="/notes/0y6p8e594peoult03gobm94">metadata flow</a> contains system metadata about the data concept and its components, while each <a href="/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> can also contain (concept-specific) metadata.</p>
 <p>TODO: example</p>
 <h2 id="analogy">Analogy<a aria-hidden="true" class="anchor-heading icon-link" href="#analogy"></a></h2>
 <p>Think of it like a library:</p>
 <ul>
 <li><strong>Data node</strong> = "The concept of the Encyclopedia Britannica"</li>
 <li><strong>data flow</strong> = The Encyclopedia Britannica as an ongoing series of editions</li>
-<li><strong><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></strong> = Specific editions (1990 edition, 2020 edition, current edition)</li>
+<li><strong><a href="/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></strong> = Specific editions (1990 edition, 2020 edition, current edition)</li>
 </ul>
 <p>You can refer to "Encyclopedia Britannica" as a general concept or as a series without specifying which edition, or you can reference a specific edition when you need concrete data.</p>

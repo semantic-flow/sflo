@@ -128,7 +128,6 @@
     "enablePrettyLinks": true,
     "searchMode": "search",
     "siteUrl": "https://semantic-flow.github.io/sflo",
-    "assetsPrefix": "/sflo",
     "siteFaviconPath": "favicon.ico",
     "siteIndex": "root"
   }

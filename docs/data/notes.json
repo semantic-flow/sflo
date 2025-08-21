@@ -11,8 +11,8 @@
       "title": "This page has not yet sprouted",
       "schemaStub": false,
       "type": "note",
-      "updated": 1755744707006,
-      "created": 1755744707006,
+      "updated": 1755749687810,
+      "created": 1755749687810,
       "desc": "",
       "links": [],
       "anchors": {},
@@ -2799,7 +2799,7 @@
       "id": "fd1whkyvoagggk6ubysjl50",
       "title": "djradon's sflo devlog",
       "desc": "",
-      "updated": 1755716801127,
+      "updated": 1755748402836,
       "created": 1727801720160,
       "custom": {},
       "fname": "dev.contributor.djradon.dev-log",
@@ -2809,62 +2809,8 @@
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "8292e897f9a4edcb1762d2e9ce88b028",
+      "contentHash": "65d039b4090e2677f33701713d2216db",
       "links": [
-        {
-          "type": "wiki",
-          "from": {
-            "fname": "dev.contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "concept.mesh-repo",
-          "position": {
-            "start": {
-              "line": 23,
-              "column": 14,
-              "offset": 1592
-            },
-            "end": {
-              "line": 23,
-              "column": 35,
-              "offset": 1613
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "sameFile": false,
-          "to": {
-            "fname": "concept.mesh-repo"
-          }
-        },
-        {
-          "type": "wiki",
-          "from": {
-            "fname": "dev.contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "t.cs.ai.assistant.memory-hygiene",
-          "position": {
-            "start": {
-              "line": 35,
-              "column": 6,
-              "offset": 2367
-            },
-            "end": {
-              "line": 35,
-              "column": 42,
-              "offset": 2403
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "sameFile": false,
-          "to": {
-            "fname": "t.cs.ai.assistant.memory-hygiene"
-          }
-        },
         {
           "type": "wiki",
           "from": {
@@ -2875,14 +2821,14 @@
           "value": "concept.transposability",
           "position": {
             "start": {
-              "line": 65,
+              "line": 12,
               "column": 56,
-              "offset": 3487
+              "offset": 210
             },
             "end": {
-              "line": 65,
+              "line": 12,
               "column": 83,
-              "offset": 3514
+              "offset": 237
             },
             "indent": []
           },
@@ -2902,14 +2848,14 @@
           "value": "concept.composability",
           "position": {
             "start": {
-              "line": 65,
+              "line": 12,
               "column": 88,
-              "offset": 3519
+              "offset": 242
             },
             "end": {
-              "line": 65,
+              "line": 12,
               "column": 113,
-              "offset": 3544
+              "offset": 267
             },
             "indent": []
           },
@@ -2929,14 +2875,14 @@
           "value": "concept.mesh.resource.element.node-config-defaults",
           "position": {
             "start": {
-              "line": 66,
+              "line": 13,
               "column": 7,
-              "offset": 3552
+              "offset": 275
             },
             "end": {
-              "line": 66,
+              "line": 13,
               "column": 61,
-              "offset": 3606
+              "offset": 329
             },
             "indent": []
           },
@@ -2944,6 +2890,60 @@
           "sameFile": false,
           "to": {
             "fname": "concept.mesh.resource.element.node-config-defaults"
+          }
+        },
+        {
+          "type": "wiki",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "t.cs.ai.assistant.memory-hygiene",
+          "position": {
+            "start": {
+              "line": 41,
+              "column": 6,
+              "offset": 1510
+            },
+            "end": {
+              "line": 41,
+              "column": 42,
+              "offset": 1546
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "sameFile": false,
+          "to": {
+            "fname": "t.cs.ai.assistant.memory-hygiene"
+          }
+        },
+        {
+          "type": "wiki",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "concept.mesh-repo",
+          "position": {
+            "start": {
+              "line": 58,
+              "column": 14,
+              "offset": 2360
+            },
+            "end": {
+              "line": 58,
+              "column": 35,
+              "offset": 2381
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "sameFile": false,
+          "to": {
+            "fname": "concept.mesh-repo"
           }
         },
         {
@@ -2956,14 +2956,14 @@
           "value": "daily.journal.2024.10.31",
           "position": {
             "start": {
-              "line": 37,
+              "line": 43,
               "column": 1,
-              "offset": 2406
+              "offset": 1549
             },
             "end": {
-              "line": 37,
+              "line": 43,
               "column": 44,
-              "offset": 2449
+              "offset": 1592
             },
             "indent": []
           },
@@ -2983,14 +2983,14 @@
           "value": "daily.journal.2024.10.31",
           "position": {
             "start": {
-              "line": 38,
+              "line": 44,
               "column": 1,
-              "offset": 2450
+              "offset": 1593
             },
             "end": {
-              "line": 38,
+              "line": 44,
               "column": 44,
-              "offset": 2493
+              "offset": 1636
             },
             "indent": []
           },
@@ -3010,14 +3010,14 @@
           "value": "daily.journal.2024.10.31",
           "position": {
             "start": {
-              "line": 39,
+              "line": 45,
               "column": 1,
-              "offset": 2494
+              "offset": 1637
             },
             "end": {
-              "line": 39,
+              "line": 45,
               "column": 44,
-              "offset": 2537
+              "offset": 1680
             },
             "indent": []
           },
@@ -3037,14 +3037,14 @@
           "value": "daily.journal.2024.10.31",
           "position": {
             "start": {
-              "line": 40,
+              "line": 46,
               "column": 1,
-              "offset": 2538
+              "offset": 1681
             },
             "end": {
-              "line": 40,
+              "line": 46,
               "column": 44,
-              "offset": 2581
+              "offset": 1724
             },
             "indent": []
           },
@@ -3078,91 +3078,11 @@
         }
       ],
       "anchors": {
-        "t2024100109": {
+        "t2025082012": {
           "type": "header",
-          "text": "t.2024.10.01.09",
-          "value": "t2024100109",
-          "line": 8,
-          "column": 0,
-          "depth": 2
-        },
-        "chatgpt-memory": {
-          "type": "header",
-          "text": "chatgpt memory",
-          "value": "chatgpt-memory",
+          "text": "t.2025.08.20.12",
+          "value": "t2025082012",
           "line": 10,
-          "column": 0,
-          "depth": 3
-        },
-        "t2024102815": {
-          "type": "header",
-          "text": "t.2024.10.28.15",
-          "value": "t2024102815",
-          "line": 14,
-          "column": 0,
-          "depth": 2
-        },
-        "t2024102906": {
-          "type": "header",
-          "text": "t.2024.10.29.06",
-          "value": "t2024102906",
-          "line": 19,
-          "column": 0,
-          "depth": 2
-        },
-        "t2024102909": {
-          "type": "header",
-          "text": "t.2024.10.29.09",
-          "value": "t2024102909",
-          "line": 27,
-          "column": 0,
-          "depth": 2
-        },
-        "t2024102911": {
-          "type": "header",
-          "text": "t.2024.10.29.11",
-          "value": "t2024102911",
-          "line": 32,
-          "column": 0,
-          "depth": 2
-        },
-        "t2024103104": {
-          "type": "header",
-          "text": "t.2024.10.31.04",
-          "value": "t2024103104",
-          "line": 39,
-          "column": 0,
-          "depth": 2
-        },
-        "t2024111106": {
-          "type": "header",
-          "text": "t.2024.11.11.06",
-          "value": "t2024111106",
-          "line": 49,
-          "column": 0,
-          "depth": 2
-        },
-        "t2025062920": {
-          "type": "header",
-          "text": "t.2025.06.29.20",
-          "value": "t2025062920",
-          "line": 53,
-          "column": 0,
-          "depth": 2
-        },
-        "t2025070522": {
-          "type": "header",
-          "text": "t.2025.07.05.22",
-          "value": "t2025070522",
-          "line": 61,
-          "column": 0,
-          "depth": 2
-        },
-        "t2025070705": {
-          "type": "header",
-          "text": "t.2025.07.07.05",
-          "value": "t2025070705",
-          "line": 65,
           "column": 0,
           "depth": 2
         },
@@ -3170,17 +3090,97 @@
           "type": "header",
           "text": "t.2025.07.12.06",
           "value": "t2025071206",
-          "line": 69,
+          "line": 16,
           "column": 0,
           "depth": 2
         },
-        "t2025082012": {
+        "t2025070705": {
           "type": "header",
-          "text": "t.2025.08.20.12",
-          "value": "t2025082012",
-          "line": 78,
+          "text": "t.2025.07.07.05",
+          "value": "t2025070705",
+          "line": 25,
           "column": 0,
           "depth": 2
+        },
+        "t2025070522": {
+          "type": "header",
+          "text": "t.2025.07.05.22",
+          "value": "t2025070522",
+          "line": 29,
+          "column": 0,
+          "depth": 2
+        },
+        "t2025062920": {
+          "type": "header",
+          "text": "t.2025.06.29.20",
+          "value": "t2025062920",
+          "line": 33,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024111106": {
+          "type": "header",
+          "text": "t.2024.11.11.06",
+          "value": "t2024111106",
+          "line": 41,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024103104": {
+          "type": "header",
+          "text": "t.2024.10.31.04",
+          "value": "t2024103104",
+          "line": 45,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024102911": {
+          "type": "header",
+          "text": "t.2024.10.29.11",
+          "value": "t2024102911",
+          "line": 55,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024102909": {
+          "type": "header",
+          "text": "t.2024.10.29.09",
+          "value": "t2024102909",
+          "line": 62,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024102906": {
+          "type": "header",
+          "text": "t.2024.10.29.06",
+          "value": "t2024102906",
+          "line": 67,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024102815": {
+          "type": "header",
+          "text": "t.2024.10.28.15",
+          "value": "t2024102815",
+          "line": 75,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024100109": {
+          "type": "header",
+          "text": "t.2024.10.01.09",
+          "value": "t2024100109",
+          "line": 80,
+          "column": 0,
+          "depth": 2
+        },
+        "chatgpt-memory": {
+          "type": "header",
+          "text": "chatgpt memory",
+          "value": "chatgpt-memory",
+          "line": 82,
+          "column": 0,
+          "depth": 3
         }
       },
       "children": [],
@@ -3265,13 +3265,13 @@
         "m24m2p2s7iom3rwzvp28kvy",
         "rall4fbxm369okmy5383sf8",
         "2qp8vfjygd43lmwcmj6362r",
-        "hzz2wqvamre40u6y5c12w1m",
-        "po99y96n8oc6th3sahup20c"
+        "0usg6xvu04b9o78udv8699e",
+        "0pqqporgpmqq30jsi7z5w1f"
       ],
       "parent": "voy7zrf0f6bs86m02uadhaf",
       "data": {}
     },
-    "po99y96n8oc6th3sahup20c": {
+    "0pqqporgpmqq30jsi7z5w1f": {
       "fname": "concept.semantic-mesh",
       "stub": true,
       "vault": {
@@ -3281,9 +3281,9 @@
       },
       "schemaStub": false,
       "type": "note",
-      "updated": 1755744705452,
-      "created": 1755744705452,
-      "id": "po99y96n8oc6th3sahup20c",
+      "updated": 1755749686224,
+      "created": 1755749686224,
+      "id": "0pqqporgpmqq30jsi7z5w1f",
       "desc": "",
       "links": [],
       "anchors": {},
@@ -3335,10 +3335,10 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "po99y96n8oc6th3sahup20c",
+      "parent": "0pqqporgpmqq30jsi7z5w1f",
       "data": {}
     },
-    "hzz2wqvamre40u6y5c12w1m": {
+    "0usg6xvu04b9o78udv8699e": {
       "fname": "concept.flow",
       "stub": true,
       "vault": {
@@ -3348,9 +3348,9 @@
       },
       "schemaStub": false,
       "type": "note",
-      "updated": 1755744705449,
-      "created": 1755744705449,
-      "id": "hzz2wqvamre40u6y5c12w1m",
+      "updated": 1755749686221,
+      "created": 1755749686221,
+      "id": "0usg6xvu04b9o78udv8699e",
       "desc": "",
       "links": [],
       "anchors": {},
@@ -3459,7 +3459,7 @@
         }
       },
       "children": [],
-      "parent": "hzz2wqvamre40u6y5c12w1m",
+      "parent": "0usg6xvu04b9o78udv8699e",
       "data": {}
     },
     "2qp8vfjygd43lmwcmj6362r": {
@@ -4652,14 +4652,14 @@
           "type": "backlink",
           "position": {
             "start": {
-              "line": 65,
+              "line": 12,
               "column": 56,
-              "offset": 3487
+              "offset": 210
             },
             "end": {
-              "line": 65,
+              "line": 12,
               "column": 83,
-              "offset": 3514
+              "offset": 237
             },
             "indent": []
           },
@@ -8429,12 +8429,12 @@
         "gg6sytx57oq77ugqk7x3tvn",
         "jyxdcjrv3npwwki06sfspqg",
         "xmdevh3s6gvp93m3nyc6683",
-        "j2183abq5syu66jm1r3tjb4"
+        "yagtp0nf2p82q2ltsurrud3"
       ],
       "parent": "p0vd6xnshcxw14ztkglxyxn",
       "data": {}
     },
-    "j2183abq5syu66jm1r3tjb4": {
+    "yagtp0nf2p82q2ltsurrud3": {
       "fname": "concept.mesh.flow-facet",
       "stub": true,
       "vault": {
@@ -8444,9 +8444,9 @@
       },
       "schemaStub": false,
       "type": "note",
-      "updated": 1755744705453,
-      "created": 1755744705453,
-      "id": "j2183abq5syu66jm1r3tjb4",
+      "updated": 1755749686225,
+      "created": 1755749686225,
+      "id": "yagtp0nf2p82q2ltsurrud3",
       "desc": "",
       "links": [],
       "anchors": {},
@@ -8638,7 +8638,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "j2183abq5syu66jm1r3tjb4",
+      "parent": "yagtp0nf2p82q2ltsurrud3",
       "data": {}
     },
     "j15tveot7ja8tmxy7vvmpjz": {
@@ -8857,7 +8857,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "j2183abq5syu66jm1r3tjb4",
+      "parent": "yagtp0nf2p82q2ltsurrud3",
       "data": {}
     },
     "mjrp94i4d65x6ypgdd2ki0v": {
@@ -8960,7 +8960,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "j2183abq5syu66jm1r3tjb4",
+      "parent": "yagtp0nf2p82q2ltsurrud3",
       "data": {}
     },
     "20dz80zbx82nrym7e88ozy7": {
@@ -9036,7 +9036,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "j2183abq5syu66jm1r3tjb4",
+      "parent": "yagtp0nf2p82q2ltsurrud3",
       "data": {}
     },
     "xmdevh3s6gvp93m3nyc6683": {
@@ -9674,12 +9674,12 @@
       "children": [
         "9c27yly4ed3ju7msf8luhge",
         "8hmkiyjtsey7z8y5oi5xdxm",
-        "r7uj5hgb8oi70gko5irwarm"
+        "z00tvjo21ohb2h92u6wbc98"
       ],
       "parent": "h6ssv16gdyf56gg235dxv85",
       "data": {}
     },
-    "r7uj5hgb8oi70gko5irwarm": {
+    "z00tvjo21ohb2h92u6wbc98": {
       "fname": "concept.mesh.resource.folder",
       "stub": true,
       "vault": {
@@ -9689,9 +9689,9 @@
       },
       "schemaStub": false,
       "type": "note",
-      "updated": 1755744705458,
-      "created": 1755744705458,
-      "id": "r7uj5hgb8oi70gko5irwarm",
+      "updated": 1755749686233,
+      "created": 1755749686233,
+      "id": "z00tvjo21ohb2h92u6wbc98",
       "desc": "",
       "links": [],
       "anchors": {},
@@ -9775,7 +9775,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "ragu0uc06vmiqvmn41r070e": {
@@ -9819,7 +9819,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "cxqccr4kfh6vbss1l14lrzd": {
@@ -9890,7 +9890,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "2e32bq0efjnbdyd5cyj5bnw": {
@@ -9961,7 +9961,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "btt731d4bsjpwoyszlnn6i2": {
@@ -10038,7 +10038,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "q8slazhp0ua68v3hsggkp4o": {
@@ -10109,7 +10109,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "4n7pbx1g9o80d6omk8hcj56": {
@@ -10229,7 +10229,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "4cfum6mrz7w7prcmytk4v5x": {
@@ -10278,7 +10278,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "xz41kd5hzao6yjybm05uw4l": {
@@ -10327,7 +10327,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "hfmgd0w82phfjkre3ippnk9": {
@@ -10376,7 +10376,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "0qtlo26phu45trajyzki5od": {
@@ -10447,7 +10447,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "r7uj5hgb8oi70gko5irwarm",
+      "parent": "z00tvjo21ohb2h92u6wbc98",
       "data": {}
     },
     "8hmkiyjtsey7z8y5oi5xdxm": {
@@ -13395,14 +13395,14 @@
           "type": "backlink",
           "position": {
             "start": {
-              "line": 66,
+              "line": 13,
               "column": 7,
-              "offset": 3552
+              "offset": 275
             },
             "end": {
-              "line": 66,
+              "line": 13,
               "column": 61,
-              "offset": 3606
+              "offset": 329
             },
             "indent": []
           },
@@ -22663,14 +22663,14 @@
           "type": "backlink",
           "position": {
             "start": {
-              "line": 23,
+              "line": 58,
               "column": 14,
-              "offset": 1592
+              "offset": 2360
             },
             "end": {
-              "line": 23,
+              "line": 58,
               "column": 35,
-              "offset": 1613
+              "offset": 2381
             },
             "indent": []
           },
@@ -22932,14 +22932,14 @@
           "type": "backlink",
           "position": {
             "start": {
-              "line": 65,
+              "line": 12,
               "column": 88,
-              "offset": 3519
+              "offset": 242
             },
             "end": {
-              "line": 65,
+              "line": 12,
               "column": 113,
-              "offset": 3544
+              "offset": 267
             },
             "indent": []
           },

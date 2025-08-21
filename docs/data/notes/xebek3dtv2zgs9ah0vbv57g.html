@@ -1,5 +1,5 @@
 <h1 id="semantic-flow-general-guidance">Semantic Flow General Guidance<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-flow-general-guidance"></a></h1>
-<p><strong>Semantic Flow</strong> is a framework for managing knowledge graphs and other Semantic Web resources in publish-ready <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic meshes</a></p>
+<p><strong>Semantic Flow</strong> is a framework for managing knowledge graphs and other Semantic Web resources in publish-ready <a href="/notes/h6ssv16gdyf56gg235dxv85">semantic meshes</a></p>
 <h2 id="workspace-components">Workspace Components<a aria-hidden="true" class="anchor-heading icon-link" href="#workspace-components"></a></h2>
 <ul>
 <li>The sflow-platform repo/folder is organized as a monorepo, divided into a few different modules:
@@ -141,7 +141,7 @@
 <ul>
 <li>The project uses a sophisticated JSON-LD based configuration system with multiple layers</li>
 <li><strong>Service Configuration resolution order</strong>: CLI arguments → Environment variables → Config file → Defaults</li>
-<li>The <a href="/sflo/semantic-flow/flow-service/src/config/defaults.ts"><code>defaults.ts</code></a> file is the source for "platform default" configuration</li>
+<li>The <a href="/semantic-flow/flow-service/src/config/defaults.ts"><code>defaults.ts</code></a> file is the source for "platform default" configuration</li>
 </ul>
 <h3 id="logging-system-architecture">Logging System Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#logging-system-architecture"></a></h3>
 <ul>
@@ -161,8 +161,8 @@
 </ul>
 <h3 id="error-handling-patterns">Error Handling Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#error-handling-patterns"></a></h3>
 <ul>
-<li>Use the <a href="/sflo/semantic-flow/flow-service/src/utils/logger.ts"><code>handleCaughtError</code></a> utility for consistent error handling</li>
-<li><strong>Documentation</strong>: See <a href="/sflo/semantic-flow/flow-service/documentation/error-handling-usage.md">error-handling-usage.md</a> for comprehensive usage examples</li>
+<li>Use the <a href="/semantic-flow/flow-service/src/utils/logger.ts"><code>handleCaughtError</code></a> utility for consistent error handling</li>
+<li><strong>Documentation</strong>: See <a href="/semantic-flow/flow-service/documentation/error-handling-usage.md">error-handling-usage.md</a> for comprehensive usage examples</li>
 <li>The error handling system integrates with all logging tiers (console, file, Sentry)</li>
 </ul>
 <h3 id="file-organization">File Organization<a aria-hidden="true" class="anchor-heading icon-link" href="#file-organization"></a></h3>
