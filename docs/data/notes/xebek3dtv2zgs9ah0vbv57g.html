@@ -4,15 +4,15 @@
 <ul>
 <li>The sflow-platform repo/folder is organized as a monorepo, divided into a few different modules:
 <ul>
-<li><strong>flow-service/</strong>: Service component</li>
-<li><strong>flow-cli/</strong>: Command-line application that consumes the flow-service</li>
-<li><strong>flow-web/</strong>: Web frontend for the flow-service</li>
-<li><strong>flow-core/</strong>: cross-cutting code like type schemas, logging, and config</li>
+<li><strong>sflo-host/</strong>: host service with plugin architecture</li>
+<li><strong>sflo-api/</strong>: plugin providing Semantic Flow functionality via REST</li>
+<li><strong>cli/</strong>: Command-line application that consumes the sflo-api</li>
+<li><strong>sflo-web/</strong>: Web frontend, can connect to any sflo-api instance</li>
+<li><strong>shared/</strong>: cross-cutting code like type schemas (core), logging, and config</li>
 </ul>
 </li>
-<li>the <strong>sflo-dendron-notes/</strong> repo: wiki-based notes about mesh structure, specifications, and concepts; in Dendron format</li>
-<li>the <strong>test-ns/</strong> repo: Test mesh repo</li>
-<li><strong>ontology/</strong>: modular architecture for the Semantic Flow platform
+<li><strong>test-ns/</strong> repo: Test mesh repo</li>
+<li><strong>ontology/</strong>: repo containing relevant ontologies:
 <ul>
 <li><code>mesh</code> - Core mesh architecture with base classes (Resource, Node, Element) and fundamental types</li>
 <li><code>node</code> - Node operations including Handle, Flow types, and operational relationships</li>
@@ -25,7 +25,7 @@
 </ul>
 <h2 id="key-concepts">Key Concepts<a aria-hidden="true" class="anchor-heading icon-link" href="#key-concepts"></a></h2>
 <h3 id="semantic-mesh">Semantic Mesh<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-mesh"></a></h3>
-<p>A dereferenceable, versioned collection of semantic data and supporting resources, where every HTTP URI returns meaningful content.</p>
+<p>A dereferenceable, versioned collection of semantic data and supporting resources, where every HTTP URI returns meaningful content. See <a href="/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></p>
 <h4 id="core-components">Core Components<a aria-hidden="true" class="anchor-heading icon-link" href="#core-components"></a></h4>
 <ul>
 <li><strong>Mesh Resources</strong>:
@@ -61,7 +61,7 @@
 <li>The repo IS the site:
 <ul>
 <li>can be served locally</li>
-<li>SSG (Static Site Generator) not required
+<li>no separate SSG (Static Site Generator) necessary
 <ul>
 <li>but static resource page generation should happen on every weave as necessary</li>
 </ul>
@@ -123,13 +123,12 @@
 <li>official project documentation should be generated in <code>documentation</code> directory in markdown</li>
 </ul>
 <h3 id="project-notes">Project notes<a aria-hidden="true" class="anchor-heading icon-link" href="#project-notes"></a></h3>
-<p>Project documentation, specifications, journaling, and design choices are stored in <code>sflo-dendron-notes/</code> using Dendron's hierarchical note system. Key documentation hierarchies include:</p>
+<p>Project documentation, specifications, and design choices are stored in <code>documentation/</code> using Dendron's hierarchical note system. Key documentation hierarchies include:</p>
 <ul>
-<li><strong>Concepts</strong>: <code>sflo.concept.*</code> files talk about general Semantic Flow concepts</li>
-<li><strong>Mesh docs</strong>: <code>sflo.concept.mesh.*</code> files define the semantic mesh architecture</li>
-<li><strong>Product specifications</strong>: <code>sflo.product.*</code> files detail each component</li>
-<li><strong>Use cases</strong>: <code>sflo.use-cases.*</code> files</li>
-<li><strong>Conversation logs</strong>: <code>sflo.conv.*</code> files track design decisions and development history; BEWARE! These conversations contain information and decisions that have been superceded. Only reference conversations when necessary for historical context. Newer conversations are usually less misleading.</li>
+<li><strong>Concepts</strong>: <code>concept.*</code> files talk about general Semantic Flow concepts</li>
+<li><strong>Mesh docs</strong>: <code>concept.mesh.*</code> files define the semantic mesh architecture</li>
+<li><strong>Product specifications</strong>: <code>product.*</code> files detail each component</li>
+<li><strong>Use cases</strong>: <code>use-cases.*</code> for feature planning and testing</li>
 </ul>
 <h3 id="component-development-with-docs">Component Development with Docs<a aria-hidden="true" class="anchor-heading icon-link" href="#component-development-with-docs"></a></h3>
 <ul>
@@ -188,7 +187,7 @@
 <li><strong>RDF Libraries</strong>: Use RDF.js ecosystem libraries consistently across components</li>
 <li><strong>Namespace Management</strong>: Follow URL-based identifier patterns as defined in <code>sflo.concept.identifier.md</code></li>
 <li><strong>Reserved Names</strong>: Validate against underscore-prefixed reserved identifiers per <code>sflo.concept.identifier.md</code></li>
-<li>The most effective validation strategy combines TypeScript structural validation with RDF semantic validation: DEV Community +2</li>
+<li>The most effective validation strategy combines TypeScript structural validation with RDF semantic validation:</li>
 </ul>
 <h3 id="semantic-mesh-architecture">Semantic Mesh Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-mesh-architecture"></a></h3>
 <ul>
@@ -202,8 +201,7 @@
 <li><strong>Code Comments</strong>: reference corresponding documentation by filename (e.g., <code>// See sflo.concept.mesh.resource.node.md</code>)</li>
 <li><strong>Interface Definitions</strong>: Link to concept documentation in TSDoc comments</li>
 <li><strong>Cross-Reference Validation</strong>: Ensure consistency between code and documentation; if docs need updating, let me know</li>
-<li><strong>API Documentation</strong>: Generate from TSDoc comments</li>
-<li></li>
+<li><strong>API Documentation</strong>: Generate from TSDoc comments?</li>
 </ul>
 <h3 id="component-architecture">Component Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#component-architecture"></a></h3>
 <ul>
@@ -225,7 +223,7 @@
 <li><strong>Mesh Resources</strong>: Follow mesh resource naming conventions from <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">@/ontology/alpha/_node-data/_next/flow-ontology-alpha.trig (Private)</a></li>
 <li><strong>Constants</strong>: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. semantic-flow/flow-core/src/mesh-constants.ts</li>
 <li><strong>File size</strong>: For ease of AI-based editing, prefer lots of small files over one huge file</li>
-<li><strong>Quoting</strong>: For easier compatibility with JSON files, </li>
+<li><strong>Quoting</strong>: For easier compatibility with JSON files, use double quotes everywhere</li>
 </ul>
 <h3 id="code-style">Code Style<a aria-hidden="true" class="anchor-heading icon-link" href="#code-style"></a></h3>
 <ul>
@@ -252,7 +250,7 @@
 <p>This pattern ensures <strong>uniform error reporting</strong> with rich contextual information, <strong>easier debugging</strong> through structured logging, and <strong>consistent integration</strong> with console, file, and Sentry logging tiers.</p>
 <h3 id="testing">Testing<a aria-hidden="true" class="anchor-heading icon-link" href="#testing"></a></h3>
 <ul>
-<li><strong>Unit Tests</strong>: use </li>
+<li><strong>Unit Tests</strong>: place unit tests in <code>src/__tests__</code> folder; with <code>.test.ts</code> suffix; target ≥80% critical-path coverage and include both success and failure cases.</li>
 <li><strong>Integration Tests</strong>: Test mesh operations end-to-end; tests are located in test/integration/ dir</li>
 <li><strong>RDF Validation</strong>: Test both .trig and JSON-LD parsing/serialization</li>
 <li><strong>Mock Data</strong>: Create test mesh structures following documentation patterns</li>

@@ -1,5 +1,7 @@
 
+## t.2025.08.20.22
 
+- the AIs feel like they have a lot more exp
 
 ## t.2025.08.20.12
 

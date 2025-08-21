@@ -104,5 +104,5 @@ publishing:
     enableTaskNotes: true
     enablePrettyLinks: true
     searchMode: search
-    siteUrl: https://semantic-flow.github.io/sflo
-    # assetsPrefix: /sflo
+    siteUrl: https://semantic-flow.github.io/
+    assetsPrefix: /sflo

@@ -1,0 +1,62 @@
+<h1 id="use-case-radio-show-websiste">Use Case: Radio Show Websiste<a aria-hidden="true" class="anchor-heading icon-link" href="#use-case-radio-show-websiste"></a></h1>
+<p>Suppose DJ Radon wants to publish a website about himself, his musical activities, and maybe some album reviews. Call it a wiki, call it a knowledgebase, call it a show site. </p>
+<p>To get started, he wants to publish his top-5 most-played tracks of the week. </p>
+<p>Publishing them as plain-text might be adequate for this situation, but say he eventually wanted to make his site linked: you can click from a playlist, to an album, to a track, to an artist. </p>
+<p>But to get started:</p>
+<ul>
+<li>A <strong>namespace</strong> <code>/test-ns/</code></li>
+<li>A <strong>thing</strong> <code>/ns/djradon/</code></li>
+<li>A <strong>dataset</strong> <code>/ns/djradon/picks/</code></li>
+</ul>
+<h4 id="mesh-directory-structure">Mesh Directory Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-directory-structure"></a></h4>
+<pre class="language-file"><code class="language-file">test-ns                    # namespace node
+   djradon                 # ref node (refering to a human dj)
+      bio                  # data node
+      picks                # data node 
+      underbrush           # ref node
+         playlists         # data (series) node
+            1996-11-10     # data node
+            1996-11-17     # data node
+</code></pre>
+<h4 id="sample-rdf-turtle">Sample RDF (Turtle)<a aria-hidden="true" class="anchor-heading icon-link" href="#sample-rdf-turtle"></a></h4>
+<ol>
+<li>
+<p><strong>Namespace metadata</strong></p>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># /ns/_id/ns_id.trig</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">Namespace</span></span> <span class="token punctuation">;</span>
+   <span class="token function"><span class="token prefix">dct<span class="token punctuation">:</span></span><span class="token local-name">title</span></span> <span class="token string">"Namespace Root"</span> <span class="token punctuation">;</span>
+   <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">contains</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://example.org/ns/djradon/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Thing metadata</strong></p>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># /ns/djradon/_id/djradon_id.trig</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">Thing</span></span> <span class="token punctuation">;</span>
+   <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span><span class="token local-name">label</span></span> <span class="token string">"djradon"</span> <span class="token punctuation">;</span>
+   <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">backlink</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://example.org/ns/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Dataset metadata</strong></p>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># /ns/djradon/picks/_id/picks_id.trig</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">VersionedDataset</span></span> <span class="token punctuation">;</span>
+   <span class="token function"><span class="token prefix">dct<span class="token punctuation">:</span></span><span class="token local-name">title</span></span> <span class="token string">"djradon picks"</span> <span class="token punctuation">;</span>
+   <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">backlink</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://example.org/ns/djradon/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Current distribution</strong></p>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># /ns/djradon/picks/picks.trig</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token function"><span class="token prefix">dct<span class="token punctuation">:</span></span><span class="token local-name">issued</span></span> <span class="token string">"2025-06-22"</span><span class="token punctuation">^^</span><span class="token function"><span class="token prefix">xsd<span class="token punctuation">:</span></span><span class="token local-name">date</span></span> <span class="token punctuation">;</span>
+   <span class="token function"><span class="token prefix">dct<span class="token punctuation">:</span></span><span class="token local-name">creator</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://example.org/agents/bot<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Historical version</strong></p>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># /ns/djradon/picks/_v-series/v1/picks_v1.trig</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token function"><span class="token prefix">dct<span class="token punctuation">:</span></span><span class="token local-name">issued</span></span> <span class="token string">"2025-06-01"</span><span class="token punctuation">^^</span><span class="token function"><span class="token prefix">xsd<span class="token punctuation">:</span></span><span class="token local-name">date</span></span> <span class="token punctuation">.</span>
+</code></pre>
+</li>
+</ol>
+<hr>
+<p>With these few rules and a tiny folder-walking parser your <strong>Semantic Mesh</strong> is unambiguously self-describing, easy to validate, and ready for any RDF-aware tooling.</p>
