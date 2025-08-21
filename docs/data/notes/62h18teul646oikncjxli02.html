@@ -1,0 +1,29 @@
+<h1 id="testing">Testing<a aria-hidden="true" class="anchor-heading icon-link" href="#testing"></a></h1>
+<h2 id="available-scripts">Available Scripts<a aria-hidden="true" class="anchor-heading icon-link" href="#available-scripts"></a></h2>
+<ul>
+<li><code>pnpm test</code> - Run all tests once</li>
+<li><code>pnpm test:watch</code> - Run tests in watch mode (automatically re-runs tests when files change)</li>
+<li><code>pnpm test:ui</code> - Run tests with Vitest UI (visual interface in browser)</li>
+<li><code>pnpm test:coverage</code> - Run tests with coverage report</li>
+</ul>
+<h2 id="watch-mode">Watch Mode<a aria-hidden="true" class="anchor-heading icon-link" href="#watch-mode"></a></h2>
+<p>Watch mode automatically re-runs your tests whenever you save changes to:</p>
+<ul>
+<li>Test files (<code>.test.ts</code>, <code>.spec.ts</code>)</li>
+<li>Source files being tested</li>
+<li>Dependencies of those files</li>
+</ul>
+<p>This provides instant feedback during development - you can see test results immediately after making changes without manually re-running tests.</p>
+<h2 id="debugging-tests">Debugging Tests<a aria-hidden="true" class="anchor-heading icon-link" href="#debugging-tests"></a></h2>
+<ol>
+<li><strong>Open a test file</strong> in VSCode</li>
+<li><strong>Set breakpoints</strong> in the test or source code</li>
+<li><strong>Select "Debug Current Test File"</strong> configuration</li>
+<li><strong>Press F5</strong> to debug the current test file</li>
+</ol>
+<h2 id="test-structure">Test Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#test-structure"></a></h2>
+<p>Tests are located in <code>__tests__</code> directories within each package:</p>
+<ul>
+<li><code>sflo-host/src/__tests__/</code> - Tests for the host service</li>
+<li>Add similar directories in other packages as needed</li>
+</ul>

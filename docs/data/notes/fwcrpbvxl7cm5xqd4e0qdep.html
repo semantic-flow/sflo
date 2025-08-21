@@ -1,0 +1,79 @@
+<h1 id="debugging">Debugging<a aria-hidden="true" class="anchor-heading icon-link" href="#debugging"></a></h1>
+<h2 id="available-scripts">Available Scripts<a aria-hidden="true" class="anchor-heading icon-link" href="#available-scripts"></a></h2>
+<h3 id="root-level">Root Level<a aria-hidden="true" class="anchor-heading icon-link" href="#root-level"></a></h3>
+<ul>
+<li><code>pnpm dev</code> - Start sflo-host with hot reload (nodemon + tsx)</li>
+<li><code>pnpm dev:debug</code> - Start sflo-host with hot reload and debugging enabled</li>
+<li><code>pnpm dev:tsx</code> - Start sflo-host without hot reload (direct tsx)</li>
+<li><code>pnpm dev:tsx:debug</code> - Start sflo-host without hot reload, with debugging</li>
+</ul>
+<h3 id="package-level-sflo-host">Package Level (sflo-host)<a aria-hidden="true" class="anchor-heading icon-link" href="#package-level-sflo-host"></a></h3>
+<ul>
+<li><code>pnpm --filter @semantic-flow/host dev</code> - Start development server (no hot reload)</li>
+<li><code>pnpm --filter @semantic-flow/host dev:debug</code> - Start with debugging (no hot reload)</li>
+</ul>
+<h2 id="vscode-debug-configurations">VSCode Debug Configurations<a aria-hidden="true" class="anchor-heading icon-link" href="#vscode-debug-configurations"></a></h2>
+<p>The following debug configurations are available in <code>.vscode/launch.json</code>:</p>
+<ol>
+<li><strong>Attach to sflo-host</strong> - Attach to running development server (recommended)</li>
+<li><strong>Launch sflo-host</strong> - Launch and debug from VSCode</li>
+<li><strong>Launch sflo-host (wait for attach)</strong> - Launch with startup debugging (uses <code>--inspect-brk</code>)</li>
+<li><strong>Debug Current Test File</strong> - Debug the currently open test file</li>
+</ol>
+<h2 id="tips">Tips<a aria-hidden="true" class="anchor-heading icon-link" href="#tips"></a></h2>
+<ul>
+<li>Use the attach configuration for the best development experience</li>
+<li>The development server supports hot reload, so you can modify code while debugging</li>
+<li>Changes to plugin files will trigger automatic server restart</li>
+<li>Debugger will reconnect automatically after hot reload</li>
+</ul>
+<h2 id="debugging-workflows">Debugging Workflows<a aria-hidden="true" class="anchor-heading icon-link" href="#debugging-workflows"></a></h2>
+<h3 id="primary-workflow-attach-to-running-process">Primary Workflow: Attach to Running Process<a aria-hidden="true" class="anchor-heading icon-link" href="#primary-workflow-attach-to-running-process"></a></h3>
+<ol>
+<li>
+<p><strong>Start the development server with debug support:</strong></p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">pnpm</span> dev:debug
+</code></pre>
+<p>This starts <code>sflo-host</code> with the <code>--inspect</code> flag on port 9229.</p>
+</li>
+<li>
+<p><strong>Set breakpoints</strong> inside handler functions (not on route definition lines).</p>
+</li>
+<li>
+<p><strong>Attach the debugger:</strong></p>
+<ul>
+<li>Open the Run and Debug panel (Ctrl+Shift+D)</li>
+<li>Select "Attach to sflo-host" configuration</li>
+<li>Click the play button or press F5</li>
+</ul>
+</li>
+<li>
+<p><strong>Make HTTP requests</strong> to trigger your breakpoints (e.g., visit <a href="http://127.0.0.1:8787/openapi.json">http://127.0.0.1:8787/openapi.json</a>)</p>
+</li>
+</ol>
+<h3 id="alternative-launch-from-vscode">Alternative: Launch from VSCode<a aria-hidden="true" class="anchor-heading icon-link" href="#alternative-launch-from-vscode"></a></h3>
+<p><strong>Option 1: Standard Launch</strong></p>
+<ol>
+<li><strong>Set breakpoints</strong> inside handler functions</li>
+<li><strong>Select "Launch sflo-host"</strong> configuration</li>
+<li><strong>Press F5</strong> to start debugging</li>
+</ol>
+<p><strong>Option 2: Launch with Break (for startup debugging)</strong></p>
+<ol>
+<li><strong>Select "Launch sflo-host (wait for attach)"</strong> configuration</li>
+<li><strong>Press F5</strong> - server will pause before starting</li>
+<li><strong>Set breakpoints</strong> and continue execution</li>
+<li><strong>Useful for debugging server initialization</strong></li>
+</ol>
+<h2 id="understanding-breakpoint-behavior">Understanding Breakpoint Behavior<a aria-hidden="true" class="anchor-heading icon-link" href="#understanding-breakpoint-behavior"></a></h2>
+<p><strong>Important:</strong> When debugging HTTP routes, place breakpoints <strong>inside the handler functions</strong>, not on the route definition lines:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token comment">// ❌ This breakpoint hits during server startup (route registration)</span>
+app<span class="token punctuation">.</span><span class="token method function property-access">get</span><span class="token punctuation">(</span><span class="token string">"/openapi.json"</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>  <span class="token comment">// &#x3C;- Don't put breakpoint here</span>
+  
+<span class="token comment">// ✅ This breakpoint hits when the route is actually called</span>
+app<span class="token punctuation">.</span><span class="token method function property-access">get</span><span class="token punctuation">(</span><span class="token string">"/openapi.json"</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token string-property property">"openapi"</span><span class="token operator">:</span> <span class="token string">"3.0.3"</span><span class="token punctuation">,</span>  <span class="token comment">// &#x3C;- Put breakpoint here instead</span>
+  <span class="token string-property property">"info"</span><span class="token operator">:</span> <span class="token punctuation">{</span> <span class="token string-property property">"title"</span><span class="token operator">:</span> <span class="token string">"SFLO API"</span><span class="token punctuation">,</span> <span class="token string-property property">"version"</span><span class="token operator">:</span> <span class="token string">"0.0.0"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"paths"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>

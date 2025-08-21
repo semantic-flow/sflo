@@ -11,8 +11,8 @@
       "title": "This page has not yet sprouted",
       "schemaStub": false,
       "type": "note",
-      "updated": 1755716270531,
-      "created": 1755716270531,
+      "updated": 1755744707006,
+      "created": 1755744707006,
       "desc": "",
       "links": [],
       "anchors": {},
@@ -24,7 +24,7 @@
       "id": "voy7zrf0f6bs86m02uadhaf",
       "title": "Semantic Flow Documentation",
       "desc": "",
-      "updated": 1755716140409,
+      "updated": 1755716995138,
       "created": 1755709990079,
       "custom": {
         "nav_order": 0,
@@ -37,7 +37,7 @@
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "a85a894fbaf533039f790504720f1a89",
+      "contentHash": "33b763c521897064b83f4151cf73db5b",
       "links": [
         {
           "type": "wiki",
@@ -127,7 +127,7 @@
             "id": "voy7zrf0f6bs86m02uadhaf",
             "vaultName": "sflo"
           },
-          "value": "contributor.djradon.dev-log",
+          "value": "dev.contributor.djradon.dev-log",
           "position": {
             "start": {
               "line": 4,
@@ -136,15 +136,15 @@
             },
             "end": {
               "line": 4,
-              "column": 69,
-              "offset": 175
+              "column": 73,
+              "offset": 179
             },
             "indent": []
           },
           "xvault": false,
           "sameFile": false,
           "to": {
-            "fname": "contributor.djradon.dev-log"
+            "fname": "dev.contributor.djradon.dev-log"
           }
         },
         {
@@ -154,24 +154,24 @@
             "id": "voy7zrf0f6bs86m02uadhaf",
             "vaultName": "sflo"
           },
-          "value": "sflo.concept.mesh-repo",
+          "value": "concept.mesh-repo",
           "position": {
             "start": {
               "line": 10,
               "column": 1,
-              "offset": 493
+              "offset": 497
             },
             "end": {
               "line": 10,
-              "column": 27,
-              "offset": 519
+              "column": 22,
+              "offset": 518
             },
             "indent": []
           },
           "xvault": false,
           "sameFile": false,
           "to": {
-            "fname": "sflo.concept.mesh-repo"
+            "fname": "concept.mesh-repo"
           }
         },
         {
@@ -181,25 +181,24 @@
             "id": "voy7zrf0f6bs86m02uadhaf",
             "vaultName": "sflo"
           },
-          "value": "sflo.concept.mesh",
-          "alias": "Semantic Meshes",
+          "value": "concept.mesh",
           "position": {
             "start": {
               "line": 10,
-              "column": 45,
-              "offset": 537
+              "column": 40,
+              "offset": 536
             },
             "end": {
               "line": 10,
-              "column": 82,
-              "offset": 574
+              "column": 56,
+              "offset": 552
             },
             "indent": []
           },
           "xvault": false,
           "sameFile": false,
           "to": {
-            "fname": "sflo.concept.mesh"
+            "fname": "concept.mesh"
           }
         },
         {
@@ -209,25 +208,24 @@
             "id": "voy7zrf0f6bs86m02uadhaf",
             "vaultName": "sflo"
           },
-          "value": "sflo.concept.semantic-site",
-          "alias": "semantic sites",
+          "value": "concept.semantic-site",
           "position": {
             "start": {
               "line": 10,
-              "column": 131,
-              "offset": 623
+              "column": 105,
+              "offset": 601
             },
             "end": {
               "line": 10,
-              "column": 176,
-              "offset": 668
+              "column": 130,
+              "offset": 626
             },
             "indent": []
           },
           "xvault": false,
           "sameFile": false,
           "to": {
-            "fname": "sflo.concept.semantic-site"
+            "fname": "concept.semantic-site"
           }
         },
         {
@@ -242,12 +240,12 @@
             "start": {
               "line": 23,
               "column": 7,
-              "offset": 1082
+              "offset": 1040
             },
             "end": {
               "line": 23,
               "column": 18,
-              "offset": 1093
+              "offset": 1051
             },
             "indent": []
           },
@@ -286,7 +284,7 @@
       },
       "children": [
         "p0vd6xnshcxw14ztkglxyxn",
-        "sg6tqgoz8cwwmpt0a0r8783",
+        "19a9e7c270ebne02zeg3fje",
         "faq000",
         "ggle3sz2jv3vf53t9qplrzo",
         "yxn5rsqsv2gq4s6wbnxsjsj",
@@ -857,9 +855,9 @@
     },
     "l9g8eki3dtir51o4jagac5a": {
       "id": "l9g8eki3dtir51o4jagac5a",
-      "title": "Principle",
+      "title": "Principles",
       "desc": "",
-      "updated": 1751241185879,
+      "updated": 1755716873111,
       "created": 1751241185879,
       "custom": {},
       "fname": "principle",
@@ -869,7 +867,7 @@
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "9f6c278ae8db804070c62d2426dc5d5e",
+      "contentHash": "bc8bc15e49f268ddfdbbcea86204f083",
       "links": [
         {
           "from": {
@@ -1163,9 +1161,9 @@
     },
     "yxn5rsqsv2gq4s6wbnxsjsj": {
       "id": "yxn5rsqsv2gq4s6wbnxsjsj",
-      "title": "Now",
+      "title": " Now",
       "desc": "",
-      "updated": 1755715411842,
+      "updated": 1755716895653,
       "created": 1755715411842,
       "custom": {},
       "fname": "now",
@@ -1175,7 +1173,7 @@
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "ea0cc3ed45204dc77eed8fffc66fa542",
+      "contentHash": "6931bfe1a1c1b27f1a41ef87b299f834",
       "links": [
         {
           "from": {
@@ -1207,9 +1205,9 @@
     },
     "ggle3sz2jv3vf53t9qplrzo": {
       "id": "ggle3sz2jv3vf53t9qplrzo",
-      "title": "Feature",
+      "title": "Features",
       "desc": "",
-      "updated": 1751157352336,
+      "updated": 1755716853883,
       "created": 1750467210778,
       "custom": {},
       "fname": "feature",
@@ -1219,7 +1217,7 @@
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "867993e2471139f1d174a6182a4d2426",
+      "contentHash": "b8105f0ec29adbc6f0476084de805d65",
       "links": [
         {
           "from": {
@@ -1232,12 +1230,12 @@
             "start": {
               "line": 23,
               "column": 7,
-              "offset": 1082
+              "offset": 1040
             },
             "end": {
               "line": 23,
               "column": 18,
-              "offset": 1093
+              "offset": 1051
             },
             "indent": []
           },
@@ -1383,9 +1381,9 @@
     },
     "faq000": {
       "id": "faq000",
-      "title": "Semantic Flow FAQ",
+      "title": "FAQ",
       "desc": "",
-      "updated": 1752026524927,
+      "updated": 1755716847166,
       "created": 1751351477000,
       "custom": {},
       "fname": "faq",
@@ -1395,7 +1393,7 @@
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "0c6e42820390b02b35be5ab681221fc2",
+      "contentHash": "0a52f3e23245f447216e0c86e400f221",
       "links": [
         {
           "type": "wiki",
@@ -2174,505 +2172,131 @@
       "parent": "faq000",
       "data": {}
     },
-    "sg6tqgoz8cwwmpt0a0r8783": {
-      "id": "sg6tqgoz8cwwmpt0a0r8783",
-      "title": "Contributors",
+    "19a9e7c270ebne02zeg3fje": {
+      "id": "19a9e7c270ebne02zeg3fje",
+      "title": "Development",
       "desc": "",
-      "updated": 1755716208723,
-      "created": 1755715168834,
+      "updated": 1755744228626,
+      "created": 1755743361031,
       "custom": {},
-      "fname": "contributor",
+      "fname": "dev",
       "type": "note",
       "vault": {
         "fsPath": "documentation",
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "614ae3f93e15b25b6c2c615c50148a0d",
+      "contentHash": "9f4805b89731984e25402c631ece82e8",
       "links": [],
       "anchors": {
         "building-the-docs": {
           "type": "header",
           "text": "Building the docs",
           "value": "building-the-docs",
-          "line": 9,
-          "column": 0,
-          "depth": 2
-        }
-      },
-      "children": [
-        "xebek3dtv2zgs9ah0vbv57g",
-        "lykyw24j9iamftfezwgpjji"
-      ],
-      "parent": "voy7zrf0f6bs86m02uadhaf",
-      "data": {}
-    },
-    "lykyw24j9iamftfezwgpjji": {
-      "fname": "contributor.djradon",
-      "stub": true,
-      "vault": {
-        "fsPath": "documentation",
-        "selfContained": false,
-        "name": "sflo"
-      },
-      "schemaStub": false,
-      "type": "note",
-      "updated": 1755716268884,
-      "created": 1755716268884,
-      "id": "lykyw24j9iamftfezwgpjji",
-      "desc": "",
-      "links": [],
-      "anchors": {},
-      "children": [
-        "2zb4o6y7kbklo6lw0nvoulq",
-        "fd1whkyvoagggk6ubysjl50"
-      ],
-      "parent": "sg6tqgoz8cwwmpt0a0r8783",
-      "data": {},
-      "title": "Djradon"
-    },
-    "fd1whkyvoagggk6ubysjl50": {
-      "id": "fd1whkyvoagggk6ubysjl50",
-      "title": "Semantic Flow Log",
-      "desc": "",
-      "updated": 1752324337371,
-      "created": 1727801720160,
-      "custom": {},
-      "fname": "contributor.djradon.dev-log",
-      "type": "note",
-      "vault": {
-        "fsPath": "documentation",
-        "selfContained": false,
-        "name": "sflo"
-      },
-      "contentHash": "5bf1d7b2d3ce48cb9fd50deddd592dce",
-      "links": [
-        {
-          "type": "wiki",
-          "from": {
-            "fname": "contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "concept.mesh-repo",
-          "position": {
-            "start": {
-              "line": 23,
-              "column": 14,
-              "offset": 1592
-            },
-            "end": {
-              "line": 23,
-              "column": 35,
-              "offset": 1613
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "sameFile": false,
-          "to": {
-            "fname": "concept.mesh-repo"
-          }
-        },
-        {
-          "type": "wiki",
-          "from": {
-            "fname": "contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "t.cs.ai.assistant.memory-hygiene",
-          "position": {
-            "start": {
-              "line": 35,
-              "column": 6,
-              "offset": 2367
-            },
-            "end": {
-              "line": 35,
-              "column": 42,
-              "offset": 2403
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "sameFile": false,
-          "to": {
-            "fname": "t.cs.ai.assistant.memory-hygiene"
-          }
-        },
-        {
-          "type": "wiki",
-          "from": {
-            "fname": "contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "concept.transposability",
-          "position": {
-            "start": {
-              "line": 65,
-              "column": 56,
-              "offset": 3487
-            },
-            "end": {
-              "line": 65,
-              "column": 83,
-              "offset": 3514
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "sameFile": false,
-          "to": {
-            "fname": "concept.transposability"
-          }
-        },
-        {
-          "type": "wiki",
-          "from": {
-            "fname": "contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "concept.composability",
-          "position": {
-            "start": {
-              "line": 65,
-              "column": 88,
-              "offset": 3519
-            },
-            "end": {
-              "line": 65,
-              "column": 113,
-              "offset": 3544
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "sameFile": false,
-          "to": {
-            "fname": "concept.composability"
-          }
-        },
-        {
-          "type": "wiki",
-          "from": {
-            "fname": "contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "concept.mesh.resource.element.node-config-defaults",
-          "position": {
-            "start": {
-              "line": 66,
-              "column": 7,
-              "offset": 3552
-            },
-            "end": {
-              "line": 66,
-              "column": 61,
-              "offset": 3606
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "sameFile": false,
-          "to": {
-            "fname": "concept.mesh.resource.element.node-config-defaults"
-          }
-        },
-        {
-          "type": "ref",
-          "from": {
-            "fname": "contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "daily.journal.2024.10.31",
-          "position": {
-            "start": {
-              "line": 37,
-              "column": 1,
-              "offset": 2406
-            },
-            "end": {
-              "line": 37,
-              "column": 44,
-              "offset": 2449
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "to": {
-            "fname": "daily.journal.2024.10.31",
-            "anchorHeader": "^fsmlpwwwuvic"
-          }
-        },
-        {
-          "type": "ref",
-          "from": {
-            "fname": "contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "daily.journal.2024.10.31",
-          "position": {
-            "start": {
-              "line": 38,
-              "column": 1,
-              "offset": 2450
-            },
-            "end": {
-              "line": 38,
-              "column": 44,
-              "offset": 2493
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "to": {
-            "fname": "daily.journal.2024.10.31",
-            "anchorHeader": "^padng51sf3k8"
-          }
-        },
-        {
-          "type": "ref",
-          "from": {
-            "fname": "contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "daily.journal.2024.10.31",
-          "position": {
-            "start": {
-              "line": 39,
-              "column": 1,
-              "offset": 2494
-            },
-            "end": {
-              "line": 39,
-              "column": 44,
-              "offset": 2537
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "to": {
-            "fname": "daily.journal.2024.10.31",
-            "anchorHeader": "^4wdvmcwtsqi6"
-          }
-        },
-        {
-          "type": "ref",
-          "from": {
-            "fname": "contributor.djradon.dev-log",
-            "id": "fd1whkyvoagggk6ubysjl50",
-            "vaultName": "sflo"
-          },
-          "value": "daily.journal.2024.10.31",
-          "position": {
-            "start": {
-              "line": 40,
-              "column": 1,
-              "offset": 2538
-            },
-            "end": {
-              "line": 40,
-              "column": 44,
-              "offset": 2581
-            },
-            "indent": []
-          },
-          "xvault": false,
-          "to": {
-            "fname": "daily.journal.2024.10.31",
-            "anchorHeader": "^rx7vbtp5gar1"
-          }
-        },
-        {
-          "from": {
-            "fname": "root",
-            "id": "voy7zrf0f6bs86m02uadhaf",
-            "vaultName": "sflo"
-          },
-          "type": "backlink",
-          "position": {
-            "start": {
-              "line": 4,
-              "column": 38,
-              "offset": 144
-            },
-            "end": {
-              "line": 4,
-              "column": 69,
-              "offset": 175
-            },
-            "indent": []
-          },
-          "value": "contributor.djradon.dev-log"
-        }
-      ],
-      "anchors": {
-        "t2024100109": {
-          "type": "header",
-          "text": "t.2024.10.01.09",
-          "value": "t2024100109",
           "line": 8,
           "column": 0,
           "depth": 2
         },
-        "chatgpt-memory": {
+        "monorepo-layout": {
           "type": "header",
-          "text": "chatgpt memory",
-          "value": "chatgpt-memory",
-          "line": 10,
-          "column": 0,
-          "depth": 3
-        },
-        "t2024102815": {
-          "type": "header",
-          "text": "t.2024.10.28.15",
-          "value": "t2024102815",
+          "text": "Monorepo layout",
+          "value": "monorepo-layout",
           "line": 14,
           "column": 0,
           "depth": 2
         },
-        "t2024102906": {
+        "hot-reload": {
           "type": "header",
-          "text": "t.2024.10.29.06",
-          "value": "t2024102906",
-          "line": 19,
-          "column": 0,
-          "depth": 2
-        },
-        "t2024102909": {
-          "type": "header",
-          "text": "t.2024.10.29.09",
-          "value": "t2024102909",
-          "line": 27,
-          "column": 0,
-          "depth": 2
-        },
-        "t2024102911": {
-          "type": "header",
-          "text": "t.2024.10.29.11",
-          "value": "t2024102911",
-          "line": 32,
-          "column": 0,
-          "depth": 2
-        },
-        "t2024103104": {
-          "type": "header",
-          "text": "t.2024.10.31.04",
-          "value": "t2024103104",
-          "line": 39,
-          "column": 0,
-          "depth": 2
-        },
-        "t2024111106": {
-          "type": "header",
-          "text": "t.2024.11.11.06",
-          "value": "t2024111106",
-          "line": 49,
-          "column": 0,
-          "depth": 2
-        },
-        "t2025062920": {
-          "type": "header",
-          "text": "t.2025.06.29.20",
-          "value": "t2025062920",
-          "line": 53,
-          "column": 0,
-          "depth": 2
-        },
-        "t2025070522": {
-          "type": "header",
-          "text": "t.2025.07.05.22",
-          "value": "t2025070522",
-          "line": 61,
-          "column": 0,
-          "depth": 2
-        },
-        "t2025070705": {
-          "type": "header",
-          "text": "t.2025.07.07.05",
-          "value": "t2025070705",
-          "line": 65,
-          "column": 0,
-          "depth": 2
-        },
-        "t2025071206": {
-          "type": "header",
-          "text": "t.2025.07.12.06",
-          "value": "t2025071206",
-          "line": 69,
+          "text": "Hot Reload",
+          "value": "hot-reload",
+          "line": 36,
           "column": 0,
           "depth": 2
         }
       },
-      "children": [],
-      "parent": "lykyw24j9iamftfezwgpjji",
+      "children": [
+        "sg6tqgoz8cwwmpt0a0r8783",
+        "fwcrpbvxl7cm5xqd4e0qdep",
+        "xebek3dtv2zgs9ah0vbv57g",
+        "62h18teul646oikncjxli02"
+      ],
+      "parent": "voy7zrf0f6bs86m02uadhaf",
       "data": {}
     },
-    "2zb4o6y7kbklo6lw0nvoulq": {
-      "id": "2zb4o6y7kbklo6lw0nvoulq",
-      "title": "Ai Guidance from djradon",
+    "62h18teul646oikncjxli02": {
+      "id": "62h18teul646oikncjxli02",
+      "title": "Testing",
       "desc": "",
-      "updated": 1753321465082,
-      "created": 1751257346147,
+      "updated": 1755744030170,
+      "created": 1755743557585,
       "custom": {},
-      "fname": "contributor.djradon.ai-guidance",
+      "fname": "dev.testing",
       "type": "note",
       "vault": {
         "fsPath": "documentation",
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "d43492452e6318b3274c8c44b339f4e7",
+      "contentHash": "68bd0434542d0822b168df80d2363dab",
       "links": [],
       "anchors": {
-        "conversational-guidelines": {
+        "available-scripts": {
           "type": "header",
-          "text": "Conversational Guidelines",
-          "value": "conversational-guidelines",
-          "line": 14,
+          "text": "Available Scripts",
+          "value": "available-scripts",
+          "line": 8,
           "column": 0,
           "depth": 2
         },
-        "working-with-documentation": {
+        "watch-mode": {
           "type": "header",
-          "text": "Working with Documentation",
-          "value": "working-with-documentation",
-          "line": 32,
+          "text": "Watch Mode",
+          "value": "watch-mode",
+          "line": 15,
           "column": 0,
-          "depth": 3
+          "depth": 2
+        },
+        "debugging-tests": {
+          "type": "header",
+          "text": "Debugging Tests",
+          "value": "debugging-tests",
+          "line": 24,
+          "column": 0,
+          "depth": 2
+        },
+        "test-structure": {
+          "type": "header",
+          "text": "Test Structure",
+          "value": "test-structure",
+          "line": 31,
+          "column": 0,
+          "depth": 2
         }
       },
       "children": [],
-      "parent": "lykyw24j9iamftfezwgpjji",
+      "parent": "19a9e7c270ebne02zeg3fje",
       "data": {}
     },
     "xebek3dtv2zgs9ah0vbv57g": {
       "id": "xebek3dtv2zgs9ah0vbv57g",
       "title": "Semantic Flow General Guidance",
       "desc": "",
-      "updated": 1754524436757,
+      "updated": 1755737185783,
       "created": 1751259888479,
       "custom": {},
-      "fname": "contributor.general-guidance",
+      "fname": "dev.general-guidance",
       "type": "note",
       "vault": {
         "fsPath": "documentation",
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "ae59f1727b568618296ee3097d187467",
+      "contentHash": "867cb99a7ea217b1fd6d27a44c2c54bc",
       "links": [
         {
           "type": "wiki",
           "from": {
-            "fname": "contributor.general-guidance",
+            "fname": "dev.general-guidance",
             "id": "xebek3dtv2zgs9ah0vbv57g",
             "vaultName": "sflo"
           },
@@ -2700,7 +2324,7 @@
         {
           "type": "wiki",
           "from": {
-            "fname": "contributor.general-guidance",
+            "fname": "dev.general-guidance",
             "id": "xebek3dtv2zgs9ah0vbv57g",
             "vaultName": "sflo"
           },
@@ -2727,7 +2351,7 @@
         {
           "type": "wiki",
           "from": {
-            "fname": "contributor.general-guidance",
+            "fname": "dev.general-guidance",
             "id": "xebek3dtv2zgs9ah0vbv57g",
             "vaultName": "sflo"
           },
@@ -2735,14 +2359,14 @@
           "alias": "@/ontology/alpha/_node-data/_next/flow-ontology-alpha.trig",
           "position": {
             "start": {
-              "line": 191,
+              "line": 190,
               "column": 68,
-              "offset": 10467
+              "offset": 10305
             },
             "end": {
-              "line": 191,
+              "line": 190,
               "column": 126,
-              "offset": 10525
+              "offset": 10363
             },
             "indent": []
           },
@@ -2933,7 +2557,7 @@
           "type": "header",
           "text": "RDF Data Handling",
           "value": "rdf-data-handling",
-          "line": 159,
+          "line": 158,
           "column": 0,
           "depth": 3
         },
@@ -2941,7 +2565,7 @@
           "type": "header",
           "text": "Semantic Mesh Architecture",
           "value": "semantic-mesh-architecture",
-          "line": 168,
+          "line": 167,
           "column": 0,
           "depth": 3
         },
@@ -2949,7 +2573,7 @@
           "type": "header",
           "text": "Documentation-Driven Development",
           "value": "documentation-driven-development",
-          "line": 175,
+          "line": 174,
           "column": 0,
           "depth": 3
         },
@@ -2957,7 +2581,7 @@
           "type": "header",
           "text": "Component Architecture",
           "value": "component-architecture",
-          "line": 183,
+          "line": 182,
           "column": 0,
           "depth": 3
         },
@@ -2965,7 +2589,7 @@
           "type": "header",
           "text": "File Organization & Naming",
           "value": "file-organization--naming",
-          "line": 191,
+          "line": 190,
           "column": 0,
           "depth": 3
         },
@@ -2973,7 +2597,7 @@
           "type": "header",
           "text": "Code Style",
           "value": "code-style",
-          "line": 202,
+          "line": 201,
           "column": 0,
           "depth": 3
         },
@@ -2981,7 +2605,7 @@
           "type": "header",
           "text": "Error Handling",
           "value": "error-handling",
-          "line": 210,
+          "line": 206,
           "column": 0,
           "depth": 3
         },
@@ -2989,7 +2613,7 @@
           "type": "header",
           "text": "Enhanced Error Handling with LogContext",
           "value": "enhanced-error-handling-with-logcontext",
-          "line": 217,
+          "line": 213,
           "column": 0,
           "depth": 4
         },
@@ -2997,7 +2621,7 @@
           "type": "header",
           "text": "LogContext Structure",
           "value": "logcontext-structure",
-          "line": 225,
+          "line": 221,
           "column": 0,
           "depth": 4
         },
@@ -3005,23 +2629,7 @@
           "type": "header",
           "text": "handleCaughtError Examples",
           "value": "handlecaughterror-examples",
-          "line": 241,
-          "column": 0,
-          "depth": 4
-        },
-        "handleerror-examples": {
-          "type": "header",
-          "text": "handleError Examples",
-          "value": "handleerror-examples",
-          "line": 291,
-          "column": 0,
-          "depth": 4
-        },
-        "import-patterns": {
-          "type": "header",
-          "text": "Import Patterns",
-          "value": "import-patterns",
-          "line": 351,
+          "line": 223,
           "column": 0,
           "depth": 4
         },
@@ -3029,7 +2637,7 @@
           "type": "header",
           "text": "Testing",
           "value": "testing",
-          "line": 367,
+          "line": 232,
           "column": 0,
           "depth": 3
         },
@@ -3037,20 +2645,591 @@
           "type": "header",
           "text": "Performance",
           "value": "performance",
-          "line": 375,
+          "line": 240,
           "column": 0,
           "depth": 3
         }
       },
       "children": [],
+      "parent": "19a9e7c270ebne02zeg3fje",
+      "data": {}
+    },
+    "fwcrpbvxl7cm5xqd4e0qdep": {
+      "id": "fwcrpbvxl7cm5xqd4e0qdep",
+      "title": "Debugging",
+      "desc": "",
+      "updated": 1755743911504,
+      "created": 1755743408280,
+      "custom": {},
+      "fname": "dev.debugging",
+      "type": "note",
+      "vault": {
+        "fsPath": "documentation",
+        "selfContained": false,
+        "name": "sflo"
+      },
+      "contentHash": "2f9d9d37fc281ea990075455cedfe359",
+      "links": [],
+      "anchors": {
+        "available-scripts": {
+          "type": "header",
+          "text": "Available Scripts",
+          "value": "available-scripts",
+          "line": 8,
+          "column": 0,
+          "depth": 2
+        },
+        "root-level": {
+          "type": "header",
+          "text": "Root Level",
+          "value": "root-level",
+          "line": 10,
+          "column": 0,
+          "depth": 3
+        },
+        "package-level-sflo-host": {
+          "type": "header",
+          "text": "Package Level (sflo-host)",
+          "value": "package-level-sflo-host",
+          "line": 17,
+          "column": 0,
+          "depth": 3
+        },
+        "vscode-debug-configurations": {
+          "type": "header",
+          "text": "VSCode Debug Configurations",
+          "value": "vscode-debug-configurations",
+          "line": 22,
+          "column": 0,
+          "depth": 2
+        },
+        "tips": {
+          "type": "header",
+          "text": "Tips",
+          "value": "tips",
+          "line": 31,
+          "column": 0,
+          "depth": 2
+        },
+        "debugging-workflows": {
+          "type": "header",
+          "text": "Debugging Workflows",
+          "value": "debugging-workflows",
+          "line": 39,
+          "column": 0,
+          "depth": 2
+        },
+        "primary-workflow-attach-to-running-process": {
+          "type": "header",
+          "text": "Primary Workflow: Attach to Running Process",
+          "value": "primary-workflow-attach-to-running-process",
+          "line": 41,
+          "column": 0,
+          "depth": 3
+        },
+        "alternative-launch-from-vscode": {
+          "type": "header",
+          "text": "Alternative: Launch from VSCode",
+          "value": "alternative-launch-from-vscode",
+          "line": 58,
+          "column": 0,
+          "depth": 3
+        },
+        "understanding-breakpoint-behavior": {
+          "type": "header",
+          "text": "Understanding Breakpoint Behavior",
+          "value": "understanding-breakpoint-behavior",
+          "line": 71,
+          "column": 0,
+          "depth": 2
+        }
+      },
+      "children": [],
+      "parent": "19a9e7c270ebne02zeg3fje",
+      "data": {}
+    },
+    "sg6tqgoz8cwwmpt0a0r8783": {
+      "id": "sg6tqgoz8cwwmpt0a0r8783",
+      "title": "Contributors",
+      "desc": "",
+      "updated": 1755744210310,
+      "created": 1755715168834,
+      "custom": {},
+      "fname": "dev.contributor",
+      "type": "note",
+      "vault": {
+        "fsPath": "documentation",
+        "selfContained": false,
+        "name": "sflo"
+      },
+      "contentHash": "353170e634768d3eb7cff34e1c5e3b4e",
+      "links": [],
+      "anchors": {},
+      "children": [
+        "o8uaso0kt7yebk4v87k7dz9"
+      ],
+      "parent": "19a9e7c270ebne02zeg3fje",
+      "data": {}
+    },
+    "o8uaso0kt7yebk4v87k7dz9": {
+      "id": "o8uaso0kt7yebk4v87k7dz9",
+      "title": "Djradon",
+      "desc": "",
+      "updated": 1755716109258,
+      "created": 1755716109258,
+      "custom": {},
+      "fname": "dev.contributor.djradon",
+      "type": "note",
+      "vault": {
+        "fsPath": "documentation",
+        "selfContained": false,
+        "name": "sflo"
+      },
+      "contentHash": "5d6edd416f33dbd567c86e33082db506",
+      "links": [],
+      "anchors": {},
+      "children": [
+        "2zb4o6y7kbklo6lw0nvoulq",
+        "fd1whkyvoagggk6ubysjl50"
+      ],
       "parent": "sg6tqgoz8cwwmpt0a0r8783",
+      "data": {}
+    },
+    "fd1whkyvoagggk6ubysjl50": {
+      "id": "fd1whkyvoagggk6ubysjl50",
+      "title": "djradon's sflo devlog",
+      "desc": "",
+      "updated": 1755716801127,
+      "created": 1727801720160,
+      "custom": {},
+      "fname": "dev.contributor.djradon.dev-log",
+      "type": "note",
+      "vault": {
+        "fsPath": "documentation",
+        "selfContained": false,
+        "name": "sflo"
+      },
+      "contentHash": "8292e897f9a4edcb1762d2e9ce88b028",
+      "links": [
+        {
+          "type": "wiki",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "concept.mesh-repo",
+          "position": {
+            "start": {
+              "line": 23,
+              "column": 14,
+              "offset": 1592
+            },
+            "end": {
+              "line": 23,
+              "column": 35,
+              "offset": 1613
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "sameFile": false,
+          "to": {
+            "fname": "concept.mesh-repo"
+          }
+        },
+        {
+          "type": "wiki",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "t.cs.ai.assistant.memory-hygiene",
+          "position": {
+            "start": {
+              "line": 35,
+              "column": 6,
+              "offset": 2367
+            },
+            "end": {
+              "line": 35,
+              "column": 42,
+              "offset": 2403
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "sameFile": false,
+          "to": {
+            "fname": "t.cs.ai.assistant.memory-hygiene"
+          }
+        },
+        {
+          "type": "wiki",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "concept.transposability",
+          "position": {
+            "start": {
+              "line": 65,
+              "column": 56,
+              "offset": 3487
+            },
+            "end": {
+              "line": 65,
+              "column": 83,
+              "offset": 3514
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "sameFile": false,
+          "to": {
+            "fname": "concept.transposability"
+          }
+        },
+        {
+          "type": "wiki",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "concept.composability",
+          "position": {
+            "start": {
+              "line": 65,
+              "column": 88,
+              "offset": 3519
+            },
+            "end": {
+              "line": 65,
+              "column": 113,
+              "offset": 3544
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "sameFile": false,
+          "to": {
+            "fname": "concept.composability"
+          }
+        },
+        {
+          "type": "wiki",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "concept.mesh.resource.element.node-config-defaults",
+          "position": {
+            "start": {
+              "line": 66,
+              "column": 7,
+              "offset": 3552
+            },
+            "end": {
+              "line": 66,
+              "column": 61,
+              "offset": 3606
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "sameFile": false,
+          "to": {
+            "fname": "concept.mesh.resource.element.node-config-defaults"
+          }
+        },
+        {
+          "type": "ref",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "daily.journal.2024.10.31",
+          "position": {
+            "start": {
+              "line": 37,
+              "column": 1,
+              "offset": 2406
+            },
+            "end": {
+              "line": 37,
+              "column": 44,
+              "offset": 2449
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "to": {
+            "fname": "daily.journal.2024.10.31",
+            "anchorHeader": "^fsmlpwwwuvic"
+          }
+        },
+        {
+          "type": "ref",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "daily.journal.2024.10.31",
+          "position": {
+            "start": {
+              "line": 38,
+              "column": 1,
+              "offset": 2450
+            },
+            "end": {
+              "line": 38,
+              "column": 44,
+              "offset": 2493
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "to": {
+            "fname": "daily.journal.2024.10.31",
+            "anchorHeader": "^padng51sf3k8"
+          }
+        },
+        {
+          "type": "ref",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "daily.journal.2024.10.31",
+          "position": {
+            "start": {
+              "line": 39,
+              "column": 1,
+              "offset": 2494
+            },
+            "end": {
+              "line": 39,
+              "column": 44,
+              "offset": 2537
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "to": {
+            "fname": "daily.journal.2024.10.31",
+            "anchorHeader": "^4wdvmcwtsqi6"
+          }
+        },
+        {
+          "type": "ref",
+          "from": {
+            "fname": "dev.contributor.djradon.dev-log",
+            "id": "fd1whkyvoagggk6ubysjl50",
+            "vaultName": "sflo"
+          },
+          "value": "daily.journal.2024.10.31",
+          "position": {
+            "start": {
+              "line": 40,
+              "column": 1,
+              "offset": 2538
+            },
+            "end": {
+              "line": 40,
+              "column": 44,
+              "offset": 2581
+            },
+            "indent": []
+          },
+          "xvault": false,
+          "to": {
+            "fname": "daily.journal.2024.10.31",
+            "anchorHeader": "^rx7vbtp5gar1"
+          }
+        },
+        {
+          "from": {
+            "fname": "root",
+            "id": "voy7zrf0f6bs86m02uadhaf",
+            "vaultName": "sflo"
+          },
+          "type": "backlink",
+          "position": {
+            "start": {
+              "line": 4,
+              "column": 38,
+              "offset": 144
+            },
+            "end": {
+              "line": 4,
+              "column": 73,
+              "offset": 179
+            },
+            "indent": []
+          },
+          "value": "dev.contributor.djradon.dev-log"
+        }
+      ],
+      "anchors": {
+        "t2024100109": {
+          "type": "header",
+          "text": "t.2024.10.01.09",
+          "value": "t2024100109",
+          "line": 8,
+          "column": 0,
+          "depth": 2
+        },
+        "chatgpt-memory": {
+          "type": "header",
+          "text": "chatgpt memory",
+          "value": "chatgpt-memory",
+          "line": 10,
+          "column": 0,
+          "depth": 3
+        },
+        "t2024102815": {
+          "type": "header",
+          "text": "t.2024.10.28.15",
+          "value": "t2024102815",
+          "line": 14,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024102906": {
+          "type": "header",
+          "text": "t.2024.10.29.06",
+          "value": "t2024102906",
+          "line": 19,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024102909": {
+          "type": "header",
+          "text": "t.2024.10.29.09",
+          "value": "t2024102909",
+          "line": 27,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024102911": {
+          "type": "header",
+          "text": "t.2024.10.29.11",
+          "value": "t2024102911",
+          "line": 32,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024103104": {
+          "type": "header",
+          "text": "t.2024.10.31.04",
+          "value": "t2024103104",
+          "line": 39,
+          "column": 0,
+          "depth": 2
+        },
+        "t2024111106": {
+          "type": "header",
+          "text": "t.2024.11.11.06",
+          "value": "t2024111106",
+          "line": 49,
+          "column": 0,
+          "depth": 2
+        },
+        "t2025062920": {
+          "type": "header",
+          "text": "t.2025.06.29.20",
+          "value": "t2025062920",
+          "line": 53,
+          "column": 0,
+          "depth": 2
+        },
+        "t2025070522": {
+          "type": "header",
+          "text": "t.2025.07.05.22",
+          "value": "t2025070522",
+          "line": 61,
+          "column": 0,
+          "depth": 2
+        },
+        "t2025070705": {
+          "type": "header",
+          "text": "t.2025.07.07.05",
+          "value": "t2025070705",
+          "line": 65,
+          "column": 0,
+          "depth": 2
+        },
+        "t2025071206": {
+          "type": "header",
+          "text": "t.2025.07.12.06",
+          "value": "t2025071206",
+          "line": 69,
+          "column": 0,
+          "depth": 2
+        },
+        "t2025082012": {
+          "type": "header",
+          "text": "t.2025.08.20.12",
+          "value": "t2025082012",
+          "line": 78,
+          "column": 0,
+          "depth": 2
+        }
+      },
+      "children": [],
+      "parent": "o8uaso0kt7yebk4v87k7dz9",
+      "data": {}
+    },
+    "2zb4o6y7kbklo6lw0nvoulq": {
+      "id": "2zb4o6y7kbklo6lw0nvoulq",
+      "title": "Ai Guidance from djradon",
+      "desc": "",
+      "updated": 1753321465082,
+      "created": 1751257346147,
+      "custom": {},
+      "fname": "dev.contributor.djradon.ai-guidance",
+      "type": "note",
+      "vault": {
+        "fsPath": "documentation",
+        "selfContained": false,
+        "name": "sflo"
+      },
+      "contentHash": "d43492452e6318b3274c8c44b339f4e7",
+      "links": [],
+      "anchors": {
+        "conversational-guidelines": {
+          "type": "header",
+          "text": "Conversational Guidelines",
+          "value": "conversational-guidelines",
+          "line": 14,
+          "column": 0,
+          "depth": 2
+        },
+        "working-with-documentation": {
+          "type": "header",
+          "text": "Working with Documentation",
+          "value": "working-with-documentation",
+          "line": 32,
+          "column": 0,
+          "depth": 3
+        }
+      },
+      "children": [],
+      "parent": "o8uaso0kt7yebk4v87k7dz9",
       "data": {}
     },
     "p0vd6xnshcxw14ztkglxyxn": {
       "id": "p0vd6xnshcxw14ztkglxyxn",
-      "title": "Concept",
+      "title": "Concepts",
       "desc": "",
-      "updated": 1729878944496,
+      "updated": 1755716828102,
       "created": 1729878944496,
       "custom": {},
       "fname": "concept",
@@ -3060,7 +3239,7 @@
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "66f765563e72ecdbd5a235b15ad4435f",
+      "contentHash": "c757001971da178ee096c5a8fb22333d",
       "links": [],
       "anchors": {},
       "children": [
@@ -3086,13 +3265,13 @@
         "m24m2p2s7iom3rwzvp28kvy",
         "rall4fbxm369okmy5383sf8",
         "2qp8vfjygd43lmwcmj6362r",
-        "7ghwd21fymrkas50ncknepc",
-        "devroduffv4wwu5y50bbdfl"
+        "hzz2wqvamre40u6y5c12w1m",
+        "po99y96n8oc6th3sahup20c"
       ],
       "parent": "voy7zrf0f6bs86m02uadhaf",
       "data": {}
     },
-    "devroduffv4wwu5y50bbdfl": {
+    "po99y96n8oc6th3sahup20c": {
       "fname": "concept.semantic-mesh",
       "stub": true,
       "vault": {
@@ -3102,9 +3281,9 @@
       },
       "schemaStub": false,
       "type": "note",
-      "updated": 1755716268883,
-      "created": 1755716268883,
-      "id": "devroduffv4wwu5y50bbdfl",
+      "updated": 1755744705452,
+      "created": 1755744705452,
+      "id": "po99y96n8oc6th3sahup20c",
       "desc": "",
       "links": [],
       "anchors": {},
@@ -3156,10 +3335,10 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "devroduffv4wwu5y50bbdfl",
+      "parent": "po99y96n8oc6th3sahup20c",
       "data": {}
     },
-    "7ghwd21fymrkas50ncknepc": {
+    "hzz2wqvamre40u6y5c12w1m": {
       "fname": "concept.flow",
       "stub": true,
       "vault": {
@@ -3169,9 +3348,9 @@
       },
       "schemaStub": false,
       "type": "note",
-      "updated": 1755716268879,
-      "created": 1755716268879,
-      "id": "7ghwd21fymrkas50ncknepc",
+      "updated": 1755744705449,
+      "created": 1755744705449,
+      "id": "hzz2wqvamre40u6y5c12w1m",
       "desc": "",
       "links": [],
       "anchors": {},
@@ -3280,7 +3459,7 @@
         }
       },
       "children": [],
-      "parent": "7ghwd21fymrkas50ncknepc",
+      "parent": "hzz2wqvamre40u6y5c12w1m",
       "data": {}
     },
     "2qp8vfjygd43lmwcmj6362r": {
@@ -4466,7 +4645,7 @@
         },
         {
           "from": {
-            "fname": "contributor.djradon.dev-log",
+            "fname": "dev.contributor.djradon.dev-log",
             "id": "fd1whkyvoagggk6ubysjl50",
             "vaultName": "sflo"
           },
@@ -4724,6 +4903,28 @@
           "to": {
             "fname": "concept.mesh-repo"
           }
+        },
+        {
+          "from": {
+            "fname": "root",
+            "id": "voy7zrf0f6bs86m02uadhaf",
+            "vaultName": "sflo"
+          },
+          "type": "backlink",
+          "position": {
+            "start": {
+              "line": 10,
+              "column": 105,
+              "offset": 601
+            },
+            "end": {
+              "line": 10,
+              "column": 130,
+              "offset": 626
+            },
+            "indent": []
+          },
+          "value": "concept.semantic-site"
         },
         {
           "from": {
@@ -7915,7 +8116,29 @@
         },
         {
           "from": {
-            "fname": "contributor.general-guidance",
+            "fname": "root",
+            "id": "voy7zrf0f6bs86m02uadhaf",
+            "vaultName": "sflo"
+          },
+          "type": "backlink",
+          "position": {
+            "start": {
+              "line": 10,
+              "column": 40,
+              "offset": 536
+            },
+            "end": {
+              "line": 10,
+              "column": 56,
+              "offset": 552
+            },
+            "indent": []
+          },
+          "value": "concept.mesh"
+        },
+        {
+          "from": {
+            "fname": "dev.general-guidance",
             "id": "xebek3dtv2zgs9ah0vbv57g",
             "vaultName": "sflo"
           },
@@ -8206,12 +8429,12 @@
         "gg6sytx57oq77ugqk7x3tvn",
         "jyxdcjrv3npwwki06sfspqg",
         "xmdevh3s6gvp93m3nyc6683",
-        "fs2ijfy87n1viqv65n7z285"
+        "j2183abq5syu66jm1r3tjb4"
       ],
       "parent": "p0vd6xnshcxw14ztkglxyxn",
       "data": {}
     },
-    "fs2ijfy87n1viqv65n7z285": {
+    "j2183abq5syu66jm1r3tjb4": {
       "fname": "concept.mesh.flow-facet",
       "stub": true,
       "vault": {
@@ -8221,9 +8444,9 @@
       },
       "schemaStub": false,
       "type": "note",
-      "updated": 1755716268885,
-      "created": 1755716268885,
-      "id": "fs2ijfy87n1viqv65n7z285",
+      "updated": 1755744705453,
+      "created": 1755744705453,
+      "id": "j2183abq5syu66jm1r3tjb4",
       "desc": "",
       "links": [],
       "anchors": {},
@@ -8415,7 +8638,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "fs2ijfy87n1viqv65n7z285",
+      "parent": "j2183abq5syu66jm1r3tjb4",
       "data": {}
     },
     "j15tveot7ja8tmxy7vvmpjz": {
@@ -8634,7 +8857,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "fs2ijfy87n1viqv65n7z285",
+      "parent": "j2183abq5syu66jm1r3tjb4",
       "data": {}
     },
     "mjrp94i4d65x6ypgdd2ki0v": {
@@ -8737,7 +8960,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "fs2ijfy87n1viqv65n7z285",
+      "parent": "j2183abq5syu66jm1r3tjb4",
       "data": {}
     },
     "20dz80zbx82nrym7e88ozy7": {
@@ -8813,7 +9036,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "fs2ijfy87n1viqv65n7z285",
+      "parent": "j2183abq5syu66jm1r3tjb4",
       "data": {}
     },
     "xmdevh3s6gvp93m3nyc6683": {
@@ -9451,12 +9674,12 @@
       "children": [
         "9c27yly4ed3ju7msf8luhge",
         "8hmkiyjtsey7z8y5oi5xdxm",
-        "3xiy6c552la07zna9stvuoj"
+        "r7uj5hgb8oi70gko5irwarm"
       ],
       "parent": "h6ssv16gdyf56gg235dxv85",
       "data": {}
     },
-    "3xiy6c552la07zna9stvuoj": {
+    "r7uj5hgb8oi70gko5irwarm": {
       "fname": "concept.mesh.resource.folder",
       "stub": true,
       "vault": {
@@ -9466,9 +9689,9 @@
       },
       "schemaStub": false,
       "type": "note",
-      "updated": 1755716268892,
-      "created": 1755716268892,
-      "id": "3xiy6c552la07zna9stvuoj",
+      "updated": 1755744705458,
+      "created": 1755744705458,
+      "id": "r7uj5hgb8oi70gko5irwarm",
       "desc": "",
       "links": [],
       "anchors": {},
@@ -9552,7 +9775,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "ragu0uc06vmiqvmn41r070e": {
@@ -9596,7 +9819,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "cxqccr4kfh6vbss1l14lrzd": {
@@ -9667,7 +9890,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "2e32bq0efjnbdyd5cyj5bnw": {
@@ -9738,7 +9961,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "btt731d4bsjpwoyszlnn6i2": {
@@ -9815,7 +10038,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "q8slazhp0ua68v3hsggkp4o": {
@@ -9886,7 +10109,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "4n7pbx1g9o80d6omk8hcj56": {
@@ -10006,7 +10229,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "4cfum6mrz7w7prcmytk4v5x": {
@@ -10055,7 +10278,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "xz41kd5hzao6yjybm05uw4l": {
@@ -10104,7 +10327,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "hfmgd0w82phfjkre3ippnk9": {
@@ -10153,7 +10376,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "0qtlo26phu45trajyzki5od": {
@@ -10224,7 +10447,7 @@
       ],
       "anchors": {},
       "children": [],
-      "parent": "3xiy6c552la07zna9stvuoj",
+      "parent": "r7uj5hgb8oi70gko5irwarm",
       "data": {}
     },
     "8hmkiyjtsey7z8y5oi5xdxm": {
@@ -13165,7 +13388,7 @@
         },
         {
           "from": {
-            "fname": "contributor.djradon.dev-log",
+            "fname": "dev.contributor.djradon.dev-log",
             "id": "fd1whkyvoagggk6ubysjl50",
             "vaultName": "sflo"
           },
@@ -22323,6 +22546,28 @@
         },
         {
           "from": {
+            "fname": "root",
+            "id": "voy7zrf0f6bs86m02uadhaf",
+            "vaultName": "sflo"
+          },
+          "type": "backlink",
+          "position": {
+            "start": {
+              "line": 10,
+              "column": 1,
+              "offset": 497
+            },
+            "end": {
+              "line": 10,
+              "column": 22,
+              "offset": 518
+            },
+            "indent": []
+          },
+          "value": "concept.mesh-repo"
+        },
+        {
+          "from": {
             "fname": "concept.node-config",
             "id": "pqjdlyd8g80x3yr9o3p82mj",
             "vaultName": "sflo"
@@ -22411,7 +22656,7 @@
         },
         {
           "from": {
-            "fname": "contributor.djradon.dev-log",
+            "fname": "dev.contributor.djradon.dev-log",
             "id": "fd1whkyvoagggk6ubysjl50",
             "vaultName": "sflo"
           },
@@ -22680,7 +22925,7 @@
         },
         {
           "from": {
-            "fname": "contributor.djradon.dev-log",
+            "fname": "dev.contributor.djradon.dev-log",
             "id": "fd1whkyvoagggk6ubysjl50",
             "vaultName": "sflo"
           },
@@ -22929,7 +23174,7 @@
       "id": "voy7zrf0f6bs86m02uadhaf",
       "title": "Semantic Flow Documentation",
       "desc": "",
-      "updated": 1755716140409,
+      "updated": 1755716995138,
       "created": 1755709990079,
       "custom": {
         "nav_order": 0,
@@ -22942,7 +23187,7 @@
         "selfContained": false,
         "name": "sflo"
       },
-      "contentHash": "a85a894fbaf533039f790504720f1a89",
+      "contentHash": "33b763c521897064b83f4151cf73db5b",
       "links": [
         {
           "type": "wiki",
@@ -23032,7 +23277,7 @@
             "id": "voy7zrf0f6bs86m02uadhaf",
             "vaultName": "sflo"
           },
-          "value": "contributor.djradon.dev-log",
+          "value": "dev.contributor.djradon.dev-log",
           "position": {
             "start": {
               "line": 4,
@@ -23041,15 +23286,15 @@
             },
             "end": {
               "line": 4,
-              "column": 69,
-              "offset": 175
+              "column": 73,
+              "offset": 179
             },
             "indent": []
           },
           "xvault": false,
           "sameFile": false,
           "to": {
-            "fname": "contributor.djradon.dev-log"
+            "fname": "dev.contributor.djradon.dev-log"
           }
         },
         {
@@ -23059,24 +23304,24 @@
             "id": "voy7zrf0f6bs86m02uadhaf",
             "vaultName": "sflo"
           },
-          "value": "sflo.concept.mesh-repo",
+          "value": "concept.mesh-repo",
           "position": {
             "start": {
               "line": 10,
               "column": 1,
-              "offset": 493
+              "offset": 497
             },
             "end": {
               "line": 10,
-              "column": 27,
-              "offset": 519
+              "column": 22,
+              "offset": 518
             },
             "indent": []
           },
           "xvault": false,
           "sameFile": false,
           "to": {
-            "fname": "sflo.concept.mesh-repo"
+            "fname": "concept.mesh-repo"
           }
         },
         {
@@ -23086,25 +23331,24 @@
             "id": "voy7zrf0f6bs86m02uadhaf",
             "vaultName": "sflo"
           },
-          "value": "sflo.concept.mesh",
-          "alias": "Semantic Meshes",
+          "value": "concept.mesh",
           "position": {
             "start": {
               "line": 10,
-              "column": 45,
-              "offset": 537
+              "column": 40,
+              "offset": 536
             },
             "end": {
               "line": 10,
-              "column": 82,
-              "offset": 574
+              "column": 56,
+              "offset": 552
             },
             "indent": []
           },
           "xvault": false,
           "sameFile": false,
           "to": {
-            "fname": "sflo.concept.mesh"
+            "fname": "concept.mesh"
           }
         },
         {
@@ -23114,25 +23358,24 @@
             "id": "voy7zrf0f6bs86m02uadhaf",
             "vaultName": "sflo"
           },
-          "value": "sflo.concept.semantic-site",
-          "alias": "semantic sites",
+          "value": "concept.semantic-site",
           "position": {
             "start": {
               "line": 10,
-              "column": 131,
-              "offset": 623
+              "column": 105,
+              "offset": 601
             },
             "end": {
               "line": 10,
-              "column": 176,
-              "offset": 668
+              "column": 130,
+              "offset": 626
             },
             "indent": []
           },
           "xvault": false,
           "sameFile": false,
           "to": {
-            "fname": "sflo.concept.semantic-site"
+            "fname": "concept.semantic-site"
           }
         },
         {
@@ -23147,12 +23390,12 @@
             "start": {
               "line": 23,
               "column": 7,
-              "offset": 1082
+              "offset": 1040
             },
             "end": {
               "line": 23,
               "column": 18,
-              "offset": 1093
+              "offset": 1051
             },
             "indent": []
           },
@@ -23191,7 +23434,7 @@
       },
       "children": [
         "p0vd6xnshcxw14ztkglxyxn",
-        "sg6tqgoz8cwwmpt0a0r8783",
+        "19a9e7c270ebne02zeg3fje",
         "faq000",
         "ggle3sz2jv3vf53t9qplrzo",
         "yxn5rsqsv2gq4s6wbnxsjsj",
@@ -23201,14 +23444,14 @@
       ],
       "parent": null,
       "data": {},
-      "body": "\n**Dereferenceable, versioned semantic meshes** will be the foundation for a new era of knowledge graphs.\n\n[[now]] | [[todo]] | [[principle]] | [[contributor.djradon.dev-log]]\n\n## What Is Semantic Flow?\n\n**Semantic Flow** is a framework for managing and publishing resource indicators, knowledge graphs and other semantic data by leveraging GitHub, Gitlab, and other free static hosting services. It enables a **dereferenceable Semantic Web** where every HTTP IRI returns meaningful content.\n\n[[sflo.concept.mesh-repo]] provide storage, [[Semantic Meshes|sflo.concept.mesh]] provide resource management and publishing, and [[semantic sites|sflo.concept.semantic-site]] support data discovery and explainability.\n\n## Benefits\n\n- own your own self-describing data and data schemas\n- complete version history when you want it\n- reliable persistence\n- truly FAIR (Findable, Accessible, Interoperable, and Reusable)\n\n## Features\n\n- seamlessly integrate other data sources anywhere in your mesh\n- generate and customize mini-sites or single-page applications for nodes in your mesh\n- see [[feature]] for a list of planned features"
+      "body": "\n**Dereferenceable, versioned semantic meshes** will be the foundation for a new era of knowledge graphs.\n\n[[now]] | [[todo]] | [[principle]] | [[dev.contributor.djradon.dev-log]]\n\n## What Is Semantic Flow?\n\n**Semantic Flow** is a framework for managing and publishing resource indicators, knowledge graphs and other semantic data by leveraging GitHub, Gitlab, and other free static hosting services. It enables a **dereferenceable Semantic Web** where every HTTP IRI returns meaningful content.\n\n[[concept.mesh-repo]] provide storage, [[concept.mesh]] provide resource management and publishing, and [[concept.semantic-site]] support data discovery and explainability.\n\n## Benefits\n\n- own your own self-describing data and data schemas\n- complete version history when you want it\n- reliable persistence\n- truly FAIR (Findable, Accessible, Interoperable, and Reusable)\n\n## Features\n\n- seamlessly integrate other data sources anywhere in your mesh\n- generate and customize mini-sites or single-page applications for nodes in your mesh\n- see [[feature]] for a list of planned features\n"
     }
   ],
   "noteIndex": {
     "id": "voy7zrf0f6bs86m02uadhaf",
     "title": "Semantic Flow Documentation",
     "desc": "",
-    "updated": 1755716140409,
+    "updated": 1755716995138,
     "created": 1755709990079,
     "custom": {
       "nav_order": 0,
@@ -23221,7 +23464,7 @@
       "selfContained": false,
       "name": "sflo"
     },
-    "contentHash": "a85a894fbaf533039f790504720f1a89",
+    "contentHash": "33b763c521897064b83f4151cf73db5b",
     "links": [
       {
         "type": "wiki",
@@ -23311,7 +23554,7 @@
           "id": "voy7zrf0f6bs86m02uadhaf",
           "vaultName": "sflo"
         },
-        "value": "contributor.djradon.dev-log",
+        "value": "dev.contributor.djradon.dev-log",
         "position": {
           "start": {
             "line": 4,
@@ -23320,15 +23563,15 @@
           },
           "end": {
             "line": 4,
-            "column": 69,
-            "offset": 175
+            "column": 73,
+            "offset": 179
           },
           "indent": []
         },
         "xvault": false,
         "sameFile": false,
         "to": {
-          "fname": "contributor.djradon.dev-log"
+          "fname": "dev.contributor.djradon.dev-log"
         }
       },
       {
@@ -23338,24 +23581,24 @@
           "id": "voy7zrf0f6bs86m02uadhaf",
           "vaultName": "sflo"
         },
-        "value": "sflo.concept.mesh-repo",
+        "value": "concept.mesh-repo",
         "position": {
           "start": {
             "line": 10,
             "column": 1,
-            "offset": 493
+            "offset": 497
           },
           "end": {
             "line": 10,
-            "column": 27,
-            "offset": 519
+            "column": 22,
+            "offset": 518
           },
           "indent": []
         },
         "xvault": false,
         "sameFile": false,
         "to": {
-          "fname": "sflo.concept.mesh-repo"
+          "fname": "concept.mesh-repo"
         }
       },
       {
@@ -23365,25 +23608,24 @@
           "id": "voy7zrf0f6bs86m02uadhaf",
           "vaultName": "sflo"
         },
-        "value": "sflo.concept.mesh",
-        "alias": "Semantic Meshes",
+        "value": "concept.mesh",
         "position": {
           "start": {
             "line": 10,
-            "column": 45,
-            "offset": 537
+            "column": 40,
+            "offset": 536
           },
           "end": {
             "line": 10,
-            "column": 82,
-            "offset": 574
+            "column": 56,
+            "offset": 552
           },
           "indent": []
         },
         "xvault": false,
         "sameFile": false,
         "to": {
-          "fname": "sflo.concept.mesh"
+          "fname": "concept.mesh"
         }
       },
       {
@@ -23393,25 +23635,24 @@
           "id": "voy7zrf0f6bs86m02uadhaf",
           "vaultName": "sflo"
         },
-        "value": "sflo.concept.semantic-site",
-        "alias": "semantic sites",
+        "value": "concept.semantic-site",
         "position": {
           "start": {
             "line": 10,
-            "column": 131,
-            "offset": 623
+            "column": 105,
+            "offset": 601
           },
           "end": {
             "line": 10,
-            "column": 176,
-            "offset": 668
+            "column": 130,
+            "offset": 626
           },
           "indent": []
         },
         "xvault": false,
         "sameFile": false,
         "to": {
-          "fname": "sflo.concept.semantic-site"
+          "fname": "concept.semantic-site"
         }
       },
       {
@@ -23426,12 +23667,12 @@
           "start": {
             "line": 23,
             "column": 7,
-            "offset": 1082
+            "offset": 1040
           },
           "end": {
             "line": 23,
             "column": 18,
-            "offset": 1093
+            "offset": 1051
           },
           "indent": []
         },
@@ -23470,7 +23711,7 @@
     },
     "children": [
       "p0vd6xnshcxw14ztkglxyxn",
-      "sg6tqgoz8cwwmpt0a0r8783",
+      "19a9e7c270ebne02zeg3fje",
       "faq000",
       "ggle3sz2jv3vf53t9qplrzo",
       "yxn5rsqsv2gq4s6wbnxsjsj",
@@ -23480,7 +23721,7 @@
     ],
     "parent": null,
     "data": {},
-    "body": "\n**Dereferenceable, versioned semantic meshes** will be the foundation for a new era of knowledge graphs.\n\n[[now]] | [[todo]] | [[principle]] | [[contributor.djradon.dev-log]]\n\n## What Is Semantic Flow?\n\n**Semantic Flow** is a framework for managing and publishing resource indicators, knowledge graphs and other semantic data by leveraging GitHub, Gitlab, and other free static hosting services. It enables a **dereferenceable Semantic Web** where every HTTP IRI returns meaningful content.\n\n[[sflo.concept.mesh-repo]] provide storage, [[Semantic Meshes|sflo.concept.mesh]] provide resource management and publishing, and [[semantic sites|sflo.concept.semantic-site]] support data discovery and explainability.\n\n## Benefits\n\n- own your own self-describing data and data schemas\n- complete version history when you want it\n- reliable persistence\n- truly FAIR (Findable, Accessible, Interoperable, and Reusable)\n\n## Features\n\n- seamlessly integrate other data sources anywhere in your mesh\n- generate and customize mini-sites or single-page applications for nodes in your mesh\n- see [[feature]] for a list of planned features"
+    "body": "\n**Dereferenceable, versioned semantic meshes** will be the foundation for a new era of knowledge graphs.\n\n[[now]] | [[todo]] | [[principle]] | [[dev.contributor.djradon.dev-log]]\n\n## What Is Semantic Flow?\n\n**Semantic Flow** is a framework for managing and publishing resource indicators, knowledge graphs and other semantic data by leveraging GitHub, Gitlab, and other free static hosting services. It enables a **dereferenceable Semantic Web** where every HTTP IRI returns meaningful content.\n\n[[concept.mesh-repo]] provide storage, [[concept.mesh]] provide resource management and publishing, and [[concept.semantic-site]] support data discovery and explainability.\n\n## Benefits\n\n- own your own self-describing data and data schemas\n- complete version history when you want it\n- reliable persistence\n- truly FAIR (Findable, Accessible, Interoperable, and Reusable)\n\n## Features\n\n- seamlessly integrate other data sources anywhere in your mesh\n- generate and customize mini-sites or single-page applications for nodes in your mesh\n- see [[feature]] for a list of planned features\n"
   },
   "vaults": [
     {

@@ -88,8 +88,7 @@
     "enableEditorDecorations": true,
     "maxPreviewsCached": 10,
     "maxNoteLength": 204800,
-    "enableFullHierarchyNoteTitle": false,
-    "enablePersistentHistory": false
+    "enableFullHierarchyNoteTitle": false
   },
   "preview": {
     "enableFMTitle": true,
@@ -112,7 +111,7 @@
     "writeStubs": false,
     "siteRootDir": "docs",
     "seo": {
-      "title": "Semantic Flow Documentation",
+      "title": "Semantic Flow Docs",
       "description": "A dendron-based wiki for sflo"
     },
     "github": {

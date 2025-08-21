@@ -1,5 +1,9 @@
 packages:
-  - "cli"
-  - "plugins/*"
-  - "sflo-host"
-  - "shared/*"
+  - cli
+  - plugins/*
+  - sflo-host
+  - shared/*
+
+ignoredBuiltDependencies:
+  - esbuild
+  - sqlite3

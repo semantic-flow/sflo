@@ -68,3 +68,8 @@ Ready.
   - the tree walk for config-defaults only needs to happen when:
     - a node's config is empty
     - config schema version gets bumped?
+
+## t.2025.08.20.12
+
+- starting a rewrite with NodeJS. But Deno will always be my #1.
+- 

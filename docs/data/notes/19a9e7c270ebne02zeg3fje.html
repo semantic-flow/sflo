@@ -1,0 +1,38 @@
+<h1 id="development">Development<a aria-hidden="true" class="anchor-heading icon-link" href="#development"></a></h1>
+<h2 id="building-the-docs">Building the docs<a aria-hidden="true" class="anchor-heading icon-link" href="#building-the-docs"></a></h2>
+<pre class="language-shell"><code class="language-shell">npx dendron publish <span class="token builtin class-name">export</span> --target github --yes
+</code></pre>
+<h2 id="monorepo-layout">Monorepo layout<a aria-hidden="true" class="anchor-heading icon-link" href="#monorepo-layout"></a></h2>
+<pre><code>sflo/
+  cli/                        # the sflo CLI (binary)
+  plugins/
+    elements/
+    mesh-server/              # static mesh server(s)
+    sflo-web/                 # your web UI, if you want it as a plugin
+    sflo-api/
+    sparql/
+    sparql-update/
+    sparql-editor/            # SIB Swiss editor at /play
+  sflo-host/                  # the big service that loads plugins
+  shared/
+    core/                     # RDFine/LDKit, SHACL, types
+    auth/                     # JWT + GitHub device flow
+    config/                   # runtime/config loaders (RDF/JSON)
+    utils/                    # misc helpers
+</code></pre>
+<h2 id="hot-reload">Hot Reload<a aria-hidden="true" class="anchor-heading icon-link" href="#hot-reload"></a></h2>
+<p>The development setup includes automatic hot reload using nodemon:</p>
+<ul>
+<li><strong>Watches</strong>: <code>sflo-host/src</code>, <code>plugins/*/src</code>, <code>shared/*/src</code></li>
+<li><strong>Auto-restarts</strong> when any watched file changes</li>
+<li><strong>Loads plugins from source</strong> in development mode (not built <code>dist</code> files)</li>
+<li><strong>Preserves debugger connection</strong> after restart</li>
+</ul>
+<hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/sg6tqgoz8cwwmpt0a0r8783">Contributors</a></li>
+<li><a href="/sflo/notes/fwcrpbvxl7cm5xqd4e0qdep">Debugging</a></li>
+<li><a href="/sflo/notes/xebek3dtv2zgs9ah0vbv57g">Semantic Flow General Guidance</a></li>
+<li><a href="/sflo/notes/62h18teul646oikncjxli02">Testing</a></li>
+</ol>
