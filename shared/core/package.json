@@ -7,6 +7,6 @@
     "exports": { ".": "./dist/index.js" },
     "scripts": {
         "dev": "tsx watch src/index.ts",
-        "build": "tsup src/index.ts"
+        "build": "tsup src/index.ts --format esm --dts"
     }
 }
