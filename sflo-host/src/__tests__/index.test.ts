@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { startHost } from '@/sflo-host/src/index.js'
-import { loadConfig } from '@/shared/config/src/index.js'
+import { startHost } from '@/index.js'
+import { loadConfig } from '@semantic-flow/config'
 
 describe('sflo-host', () => {
   it('should export startHost function', () => {

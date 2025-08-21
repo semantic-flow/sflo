@@ -1,16 +1,15 @@
 {
     "watch": [
-        "sflo-host/src",
-        "plugins/*/src",
-        "shared/*/src"
+        "sflo-host/dist",
+        "plugins/*/dist",
+        "shared/*/dist"
     ],
-    "ext": "ts,js,json",
+    "ext": "js,json",
     "ignore": [
         "node_modules",
-        "dist",
         "**/*.test.ts",
         "**/*.spec.ts"
     ],
-    "exec": "NODE_ENV=development tsx --inspect sflo-host/src/index.ts",
+    "exec": "NODE_ENV=development node --inspect sflo-host/dist/index.js",
     "verbose": true
 }

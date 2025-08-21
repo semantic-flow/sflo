@@ -1,11 +1,5 @@
 {
     "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "@/*": ["./*"]
-        }
-    },
     "include": [],
     "references": [
         { "path": "./cli" },

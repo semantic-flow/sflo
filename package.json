@@ -15,6 +15,7 @@
   "scripts": {
     "dev": "nodemon",
     "dev:debug": "nodemon",
+    "dev:watch": "tsc -b -w --preserveWatchOutput",
     "dev:tsx": "pnpm --filter @semantic-flow/host dev",
     "dev:tsx:debug": "pnpm --filter @semantic-flow/host dev:debug",
     "build": "pnpm -r build",

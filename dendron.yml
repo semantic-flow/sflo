@@ -105,4 +105,4 @@ publishing:
     enablePrettyLinks: true
     searchMode: search
     siteUrl: https://semantic-flow.github.io/sflo
-    assetsPrefix: /sflo  # Not needed since siteUrl already includes /sflo
+    assetsPrefix: /sflo 

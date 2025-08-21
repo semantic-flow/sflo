@@ -2,7 +2,7 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Semantic Flow General Guidance
 desc: ''
-updated: 1755750852129
+updated: 1755792313323
 created: 1751259888479
 ---
 
@@ -196,6 +196,36 @@ Project documentation, specifications, and design choices are stored in `documen
 - **Constants**: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. semantic-flow/flow-core/src/mesh-constants.ts
 - **File size**: For ease of AI-based editing, prefer lots of small files over one huge file
 - **Quoting**: For easier compatibility with JSON files, use double quotes everywhere
+
+### Import Path Policy
+
+- Inter-package imports (between workspace packages):
+  - Use workspace package specifiers.
+  - Examples:
+    - `import { startHost } from "@semantic-flow/host"`
+    - `import { loadConfig } from "@semantic-flow/config"`
+  - Rationale:
+    - Keeps package boundaries clear and publish-ready
+    - pnpm resolves to local workspace packages during development, so you get your local builds—not the registry
+    - Compatible with build/watch flows and CI
+
+- Intra-package imports (within a single package):
+  - Use the `@` alias mapped to that package’s `src/` root to avoid relative path chains.
+  - Example (inside a package): `import { something } from "@/features/something"`
+  - Configuration (per package tsconfig):
+    - `"compilerOptions": { "baseUrl": "src", "paths": { "@/*": ["*"] } }`
+  - Tooling notes:
+    - For Node/tsx/Vitest, ensure your runner resolves TS path aliases (e.g., `tsconfig-paths/register` or vite-tsconfig-paths).
+
+- Build/Watch:
+  - The development workflow requires two terminals running concurrently:
+    - **Terminal 1**: Run `pnpm dev:watch` to start the TypeScript compiler in watch mode. This will watch all packages and rebuild them on change.
+    - **Terminal 2**: Run `pnpm dev` to start the `nodemon` server, which will automatically restart when the built files in the `dist` directories are updated.
+  - This setup ensures that changes in any package are automatically compiled and that the server restarts with the latest code.
+  - Keep inter-package imports as package specifiers; avoid deep source imports across packages.
+
+- Publishing:
+  - Each package should export built entry points (e.g., `dist/`) via `exports`/`main`/`types`. The same import paths work identically in dev and prod.
 
 ### Code Style
 
