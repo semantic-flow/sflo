@@ -2,11 +2,21 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Semantic Flow General Guidance
 desc: ''
-updated: 1755792313323
+updated: 1755806277089
 created: 1751259888479
 ---
 
 **Semantic Flow** is a framework for managing knowledge graphs and other Semantic Web resources in publish-ready [[semantic meshes|concept.mesh]]
+
+## Developer Workflow
+
+- Build/Watch:
+  - The development workflow requires two terminals running concurrently:
+    - **Terminal 1**: Run `pnpm dev:watch` to start the TypeScript compiler in watch mode. This will watch all packages and rebuild them on change.
+    - **Terminal 2**: Run `pnpm dev` to start the `nodemon` server, which will automatically restart when the built files in the `dist` directories are updated.
+  - This setup ensures that changes in any package are automatically compiled and that the server restarts with the latest code.
+  - Keep inter-package imports as package specifiers; avoid deep source imports across packages.
+
 
 ## Workspace Components
 
@@ -217,12 +227,6 @@ Project documentation, specifications, and design choices are stored in `documen
   - Tooling notes:
     - For Node/tsx/Vitest, ensure your runner resolves TS path aliases (e.g., `tsconfig-paths/register` or vite-tsconfig-paths).
 
-- Build/Watch:
-  - The development workflow requires two terminals running concurrently:
-    - **Terminal 1**: Run `pnpm dev:watch` to start the TypeScript compiler in watch mode. This will watch all packages and rebuild them on change.
-    - **Terminal 2**: Run `pnpm dev` to start the `nodemon` server, which will automatically restart when the built files in the `dist` directories are updated.
-  - This setup ensures that changes in any package are automatically compiled and that the server restarts with the latest code.
-  - Keep inter-package imports as package specifiers; avoid deep source imports across packages.
 
 - Publishing:
   - Each package should export built entry points (e.g., `dist/`) via `exports`/`main`/`types`. The same import paths work identically in dev and prod.

@@ -2,7 +2,7 @@
 id: pqjdlyd8g80x3yr9o3p82mj
 title: node config
 desc: ''
-updated: 1755579981963
+updated: 1755820242711
 created: 1752325154211
 ---
 
@@ -11,7 +11,7 @@ created: 1752325154211
 Node configuration determines:
 
 - flow versioning
-- resource page and fragment generation
+- resource page and resource fragment generation
 - distribution syntaxes
 - template usage and stylesheets
 - attribution defaults
