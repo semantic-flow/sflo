@@ -2,11 +2,11 @@
 id: c4wo7mdjzcit2bmvqr5sx4u
 title: mesh repo
 desc: ''
-updated: 1751758610214
+updated: 1755850764884
 created: 1729878955236
 ---
 
-A Semantic Flow mesh repository (or mesh repo for short) is a git repository that contains a [[concept.root-node]], and any number of additional, contained [[concept.mesh.resource.node]]
+A Semantic Flow mesh repository (or mesh repo for short) is a git repository that contains a [[concept.root-node]] at the top of the repo, and any number of additional, contained [[concept.mesh.resource.node]]
 
 
 ## Github Repos
@@ -19,8 +19,4 @@ A Semantic Flow mesh repository (or mesh repo for short) is a git repository tha
 
 - can you include a mesh in an existing repo?
   - Sure!
-  - but for composability (i.e., linking a repo into an existing mesh) you need an unbroken chain, so embedding a non-root mesh has to use: 
-    - maybe with symbolic links
-    - git subtree
-
-
+  - but for composability (i.e., linking a repo into an existing mesh) you need an unbroken chain, so embedding a root mesh below the top of a repo might make it harder for people to re-use. 

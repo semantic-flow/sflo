@@ -2,41 +2,55 @@
 id: eo43ueh0viren1xkjcjregc
 title: Semantic Flow URLs
 desc: ''
-updated: 1751747106164
+updated: 1755851465750
 created: 1750368774797
 ---
 
+## Disclaimer
+
+People in the Semantic Web world typically use the term `IRI` rather than `URL`. But people usually know what a URL is, and especially since Semantic Flow IRIs are supposed to locate resources (i.e., be dereferencable), maybe it's better to just call them URLs.
+
 ## Types of URLs in Semantic Flow
 
-| sflow URL type             | referent                               | example                                           | versionable |
-| -------------------------- | -------------------------------------- | ------------------------------------------------- | ----------- |
-| namespace node             | -none-                                 | `https://ex.org/ns/`                              | ❌           |
-| reference node             | concept                                | `https://ex.org/ns/dave/`                         | ❌           |
-| abstract reference dataset | reference dataset                      | `https://ex.org/ns/dave/_ref/`                    | ✅           |
-| concrete reference dataset | reference dataset                      | `https://ex.org/ns/dave/_ref/_current`            | ❌           |
-| data node                  | concept w/ associated abstract dataset | `https://ex.org/ns/dave-bio/`                     | ❌           |
-| abstract data dataset      | abstract dataset                       | `https://ex.org/ns/dave-bio/_data/`               | ✅           |
-| concrete data dataset      | concrete dataset                       | `https://ex.org/ns/dave-bio/_data/_next/`         | ❌           |
-| distribution               | content                                | `https://ex.org/ns/dave-bio/_v1/dave-bio_v1.trig` | ❌           |
-| abstract meta dataset      | node metadata dataset                  | `https://ex.org/ns/dave-bio/_meta/`               | ✅           |
-| concrete meta dataset      | node metadata dataset                  | `https://ex.org/ns/dave-bio/_meta/_current`       | ❌           |
-| handle                     | mesh node                              | `https://ex.org/ns/dave/_handle/`                 | ❌           |
-| resource documentation     | resource page (content)                | `https://ex.org/ns/dave/index.html`               | ❌           |
-| resource documentation     | README file (content)                  | `https://ex.org/ns/dave/README.md`                | ❌           |
-| asset tree                 | collection of assets                   | `https://ex.org/ns/assets/`                       | ❌           |
-| asset folder               | sub-collection of assets               | `https://ex.org/ns/assets/images/`                | ❌           |
-| asset                      | content                                | `https://ex.org/ns/assets/images/logo.svg`        | ❌           |
+| sflow URL type                         | referent                               | example                                                         | versionable |
+| -------------------------------------- | -------------------------------------- | --------------------------------------------------------------- | ----------- |
+| namespace node                         | -none-                                 | `https://ex.org/ns/`                                            | ❌           |
+| reference node                         | concept                                | `https://ex.org/ns/dave/`                                       | ❌           |
+| abstract reference dataset (flow)      | reference dataset series               | `https://ex.org/ns/dave/_ref-flow/`                             | ✅           |
+| concrete reference dataset (snapshot)  | concrete reference dataset             | `https://ex.org/ns/dave/_ref-flow/_current/`                    | ❌           |
+| data node                              | concept w/ associated abstract dataset | `https://ex.org/ns/dave-bio/`                                   | ❌           |
+| abstract data dataset (flow)           | data dataset series                    | `https://ex.org/ns/dave-bio/_data-flow/`                        | ✅           |
+| concrete data dataset (snapshot)       | concrete data dataset                  | `https://ex.org/ns/dave-bio/_data-flow/_next/`                  | ❌           |
+| distribution                           | content / dataset distribution         | `https://ex.org/ns/dave-bio/_data-flow/_v1/dave-bio_v1.trig`    | ❌           |
+| abstract meta dataset (flow)           | node metadata dataset series           | `https://ex.org/ns/dave-bio/_meta-flow/`                        | ✅           |
+| concrete meta dataset (snapshot)       | node metadata dataset                  | `https://ex.org/ns/dave-bio/_meta-flow/_current/`               | ❌           |
+| abstract operational config (flow)     | operational config series              | `https://ex.org/ns/dave-bio/_config-operational-flow/`          | ✅           |
+| concrete operational config (snapshot) | operational config                     | `https://ex.org/ns/dave-bio/_config-operational-flow/_current/` | ❌           |
+| abstract inheritable config (flow)     | inheritable config series              | `https://ex.org/ns/dave-bio/_config-inheritable-flow/`          | ✅           |
+| concrete inheritable config (snapshot) | inheritable config                     | `https://ex.org/ns/dave-bio/_config-inheritable-flow/_current/` | ❌           |
+| handle                                 | mesh node                              | `https://ex.org/ns/dave/_node-handle/`                          | ❌           |
+| resource documentation                 | resource page (content)                | `https://ex.org/ns/dave/index.html`                             | ❌           |
+| resource documentation                 | README file (content)                  | `https://ex.org/ns/dave/README.md`                              | ❌           |
+| asset tree                             | collection of assets                   | `https://ex.org/ns/assets/`                                     | ❌           |
+| asset folder                           | sub-collection of assets               | `https://ex.org/ns/assets/images/`                              | ❌           |
+| asset                                  | content / image                        | `https://ex.org/ns/assets/images/logo.svg`                      | ❌           |
 
 
 Example:
-- `ns/` = namespace node for organizing content
+- `ns/` = namespace node for organizing content and minting IRIs; refers to itself as a namespace
 - `ns/dave/` = refers to Dave the person (reference node)
-- `ns/dave/index.html` = is the resource page about Dave
+- `ns/dave/index.html` = resource page about Dave (content)
 - `ns/dave-bio/` = refers to Dave's biographical dataset (data node)
-- `ns/dave-bio/_data/` = abstract dataset containing Dave's bio data
-- `ns/dave-bio/_data/_current/` = current concrete dataset snapshot
-- `ns/dave-bio/_data/_v1/dave-bio_v1.trig` = is the RDF distribution from version 1
-- `ns/dave/_assets/images/dave-headshot.jpg` = is an image asset; considered to be "attached" to the mesh, but not a mesh resource
+- `ns/dave-bio/_data-flow/` = abstract dataset (DatasetSeries) containing Dave's bio data
+- `ns/dave-bio/_data-flow/_current/` = current concrete dataset snapshot
+- `ns/dave-bio/_data-flow/_v1/dave-bio_v1.trig` = RDF distribution from version 1
+- `ns/dave/_assets/images/dave-headshot.jpg` = an image asset; "attached" to the mesh, but not a mesh resource
+
+### Terminology note: “data dataset”
+- “Data node” identifies the dataset as a concept (not a file).
+- “Abstract data dataset” = the DatasetSeries at `_data-flow/`.
+- “Concrete data dataset” = a snapshot under `_data-flow/` (e.g., `_current/`, `_vN/`).
+- Only distributions (`*.trig`, `*.jsonld`, etc.) are retrievable content files.
 
 
 ## URL Senses

@@ -2,13 +2,13 @@
 id: 9j8lhoyb0xkhg926nafgkai
 title: data flow
 desc: ''
-updated: 1752025335637
+updated: 1755844240972
 created: 1751560483669
 ---
 
 ## Overview
 
-data flows (_data-component/) are [[node flows|concept.mesh.resource.element.flow]] that effectively associate a versioned dataset with a mesh node. They contain the actual content payload of data nodes and provide the primary data storage functionality within the semantic flow mesh architecture.
+data flows (_data-flow/) are [[node flows|concept.mesh.resource.element.flow]] that effectively associate a versioned dataset with a mesh node. They contain the actual content payload of data nodes and provide the primary data storage functionality within the semantic flow mesh architecture.
 
 ## Purpose
 

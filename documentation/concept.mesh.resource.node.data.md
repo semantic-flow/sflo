@@ -2,7 +2,7 @@
 id: 8hmkiyjtsey7z8y5oi5xdxx
 title: data node
 desc: ''
-updated: 1752697259224
+updated: 1755844240968
 created: 1750999795528
 ---
 
@@ -42,8 +42,8 @@ These elements contain:
 
 Every data node must contain:
 
-- **[[concept.mesh.resource.element.flow.metadata]]** (`_meta-component/`): Administrative metadata about the data concept
-- **[[concept.mesh.resource.element.flow.data]]** (`_data-component/`): dataset data
+- **[[concept.mesh.resource.element.flow.metadata]]** (`_meta-flow/`): Administrative metadata about the data concept
+- **[[concept.mesh.resource.element.flow.data]]** (`_data-flow/`): dataset data
 - **[[Node handle|concept.mesh.resource.element.handle]]** (`_node-handle/`): Referential indirection for the node
 
 
@@ -74,7 +74,7 @@ Like all mesh nodes, data nodes can contain other mesh nodes and elements, makin
 ### Unversioned Data Node
 ```
 ns/monsters/
-├── _meta-component/        # metadata about an abstract "monsters dataset"
+├── _meta-flow/        # metadata about an abstract "monsters dataset"
 ├── _node-handle/           # handle for the data node
 └── _current/               # current monster data
     ├── monsters.jsonld     # concrete distribution of the current monster snapshot

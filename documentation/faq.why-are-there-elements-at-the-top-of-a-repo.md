@@ -2,13 +2,13 @@
 id: faq002
 title: Why are there elements at the top of a repo?
 desc: ''
-updated: 1751775462085
+updated: 1755851465745
 created: 1751351383000
 ---
 
 ## Question
 
-Why are there [[mesh elements|concept.mesh.resource.element]] like `_meta/`, `_handle/`, and `_assets/` at the top level of a repository? Shouldn't elements only be inside nodes?
+Why are there [[mesh elements|concept.mesh.resource.element]] like `_meta/`, `_node-handle/`, and `_assets/` at the top level of a repository? Shouldn't elements only be inside nodes?
 
 ## Answer
 
@@ -25,7 +25,7 @@ Every semantic mesh has a root node, and in a repository-based mesh, the reposit
 Since the repository root is a mesh node, it follows the same rules as any other node and must contain:
 
 - **`_meta/`**: corresponds to the [[concept.mesh.resource.element.flow.metadata]] with administrative metadata for the root node
-- **`_handle/`**: corresponds to [[node handle|concept.mesh.resource.element.handle]] for referential indirection
+- **`_node-handle/`**: corresponds to [[node handle|concept.mesh.resource.element.handle]] for referential indirection
 
 The root node may contain **other elements**: Depending on the root node type (e.g., `_ref/` for reference nodes, `_data/` for versioned datasets)
 

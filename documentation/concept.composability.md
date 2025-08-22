@@ -2,7 +2,7 @@
 id: 4b9afsut6cakxh55iabvirt
 title: Composability
 desc: ''
-updated: 1751237165789
+updated: 1755853661238
 created: 1751233874377
 ---
 
@@ -72,13 +72,13 @@ The embedded content becomes part of your repository and site, but you can pull 
 ```
 your-mesh/
 ├── _flow/                           # Your mesh metadata
-├── _handle/
+├── _node-handle/
 ├── ns/
 │   └── yourdata/
 └── collaborators/
     └── djradon/                     # Imported/embedded mesh - served as static files
         ├── _flow/                   # Their mesh metadata
-        ├── _handle/
+        ├── _node-handle/
         └── ns/
             └── djradon/
 ```
@@ -161,8 +161,7 @@ git subtree add --prefix=snapshots/2024/djradon/ https://github.com/djradon/mesh
 
 1. **Minimize upward references** in submesh boundaries to reduce weaving complexity
 2. **Design clear extraction points** - consider which subtrees should be independently viable
-3. **Document dependencies** - note which parts of the mesh reference external components
-4. **Use semantic boundaries** - align mesh structure with logical domain boundaries
+3. **Use semantic boundaries** - align mesh structure with logical domain boundaries
 
 ### For Mesh Composers
 

@@ -2,7 +2,7 @@
 id: c0dzq31sldfjnznpzbcqecq
 title: Check Namespace before Creating
 desc: ''
-updated: 1751748065274
+updated: 1755850422038
 created: 1750467289008
 ---
 
@@ -11,4 +11,4 @@ created: 1750467289008
 
 ## References
 
-- [[sflo.issue.github-bare-namespace-can-overlap-with-repo-namespaces]]
+- [[issue.github-bare-namespace-can-overlap-with-repo-namespaces]]

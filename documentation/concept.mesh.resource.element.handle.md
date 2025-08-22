@@ -2,7 +2,7 @@
 id: o2926clbf63vi9kln79kapg
 title: handle
 desc: ''
-updated: 1753063187498
+updated: 1755851465744
 created: 1751126532834
 ---
 
@@ -10,7 +10,7 @@ A **handle** is a simple element that supports [[concept.mesh.resource.node]]s. 
 
 ## Example
 
-If `/temperature-data/` URL refers to an abstract dataset, `/temperature-data/_handle` refers to the temperature-data node itself: something that can have a node config and provenance metadata about who created the node (as opposed to who created the dataset).
+If `/temperature-data/` URL refers to an abstract dataset, `/temperature-data/_node-handle` refers to the temperature-data node itself: something that can have a node config and provenance metadata about who created the node (as opposed to who created the dataset).
 
 ## Justification
 
@@ -24,7 +24,7 @@ But because the URL of a [[concept.mesh.resource.node]] refers to a namespace; a
 
 ### No URL to refer to the handle itself
 
-Luckily there's not much reason to have to refer to the handle-as-mesh-element because they are always co-created with the node, live forever, never change, don't have data of their own. But you can use the "fragment identifier" trick if there's ever a need to refer to the handle. e.g. /temperature-data/_handle/#
+Luckily there's not much reason to have to refer to the handle-as-mesh-element because they are always co-created with the node, live forever, never change, don't have data of their own. But you can use the "fragment identifier" trick if there's ever a need to refer to the handle. e.g. /temperature-data/_node-handle/#
 
 
 ## Containment Rules

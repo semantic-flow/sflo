@@ -2,7 +2,7 @@
 id: 8t3swuswoi81yuzo2bnecy9
 title: flow snapshot
 desc: ''
-updated: 1752025354996
+updated: 1755854202628
 created: 1751689346769
 ---
 
@@ -16,28 +16,27 @@ flow snapshots are the successive realizations of [[concept.mesh.resource.elemen
 
 ### Relationship pattern:
 
-node flows have at least two layers:
+node flows have at least two snapshots:
 
 - current version (`_current/`)
-- working version (`_next`)
-
-Versioned components 
+- working draft (`_next`)
+- versioned snapshots
 
 ### Ontology Data Node Example
 
 ```file
 /my-ontology/               ← Data Node: Conceptual, data-oriented "thing"
-├── _meta-component/                   ← Reference node flow (reference data about ontology)
+├── _meta-flow/                   ← Reference node flow (reference data about ontology)
 │   ├── _current/           ← flow snapshot (current reference data)
 │   ├── _next/              ← flow snapshot (working draft)
 │   ├── _v1/                ← flow snapshot (version 1 reference data)
 │   └── _v2/                ← flow snapshot (version 2 reference data)
-├── _ref-component/                   ← Reference node flow (reference data about ontology)
+├── _ref-flow/                   ← Reference node flow (reference data about ontology)
 │   ├── _current/           ← flow snapshot (current reference data)
 │   ├── _next/              ← flow snapshot (working draft)
 │   ├── _v1/                ← flow snapshot (version 1 reference data)
 │   └── _v2/                ← flow snapshot (version 2 reference data)
-└── _data-component/                  ← Data node flow (ontology definition--by-dataset)
+└── _data-flow/                  ← Data node flow (ontology definition--by-dataset)
     ├── _current/           ← flow snapshot (current definition)
     ├── _next/              ← flow snapshot (working draft)
     └── _v1/                ← flow snapshot (version 1 definition)
@@ -52,7 +51,7 @@ In this example:
 
 flow snapshots capture datasets at specific moments:
 
-- **Current versions** (`_current/`) - The active working state
+- **Current versions** (`_current/`) - The latest version.
 - **Next versions** (`_next/`) - Draft content for future release
 - **Historical versions** (`_v1/`, `_v2/`) - Immutable snapshots from the past
 
@@ -85,7 +84,7 @@ _current/
 
 flow snapshots are created through:
 - **Initial authoring** - Creating `_current/` content
-- **Versioning** - Snapshotting `_current/` to `_v1/`, `_v2/` during [[sflo.concept.weave]]
+- **Versioning** - Snapshotting `_current/` to `_v1/`, `_v2/` during [[concept.weave]]
 - **Draft preparation** - Working in `_next/` for future releases
 
 ## Related Concepts

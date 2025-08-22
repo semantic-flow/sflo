@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1753420415788
+updated: 1755850422036
 created: 1751128698638
 ---
 
@@ -64,7 +64,7 @@ If you know a sub-mesh is permanently moving to a new location (or even if a bra
 
 ### Resource Page Generation
 
-- uses the [[sflo.product.service.design.in-memory]] to calculate template usage
+- uses the [[product.service.design.in-memory]] to calculate template usage
 - if no templates specified, and no "default template" exists in the root, it can generate its own
   - perhaps there's a default template and css distributed with the service in case its missing from the mesh root
 

@@ -2,7 +2,7 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Semantic Flow General Guidance
 desc: ''
-updated: 1755806277089
+updated: 1755850422031
 created: 1751259888479
 ---
 
@@ -83,7 +83,7 @@ A dereferenceable, versioned collection of semantic data and supporting resource
 
 ### Quadstore
 
-- make sure you are familiar with [[sflo.tech-stack.quadstore.readme]], which documents the API
+- make sure you are familiar with [[tech-stack.quadstore.readme]], which documents the API
 - For testability and in case we ever want to use multiple stores simultaneously, store-accessing functions take a QuadstoreBundle
 - quadstore API calls use "undefined" instead of "null" to represent the wildcard for subjects, predicates, objects, and graphs
 

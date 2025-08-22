@@ -2,7 +2,7 @@
 id: osqi7xn4mw3j9v0kvsoc5uo
 title: Why Dont Data Nodes Contain Distributions Directly
 desc: ''
-updated: 1752025928404
+updated: 1755844240991
 created: 1751387201637
 ---
 
@@ -17,7 +17,7 @@ Data nodes represent **abstract data concepts**, not concrete data instances. Th
 ### Clear Semantic Distinction
 
 - **Data node** (`/ns/monsters/`): "The concept of monster data"
-- **Data compound** (`/ns/monsters/_data-component/`): "The abstract dataset associated with the monster data concept" 
+- **Data compound** (`/ns/monsters/_data-flow/`): "The abstract dataset associated with the monster data concept" 
 - **Data compound layers**: the current, next and historical versions of the dataset
 
 This allows you to reference the concept separately from the associated abstract or concrete dataset.

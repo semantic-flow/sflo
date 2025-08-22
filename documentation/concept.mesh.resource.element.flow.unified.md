@@ -2,7 +2,7 @@
 id: sif626tmt3mw3nir5gv1s1a
 title: unified dataset
 desc: ''
-updated: 1754285384857
+updated: 1755846754691
 created: 1751599398246
 ---
 
@@ -46,11 +46,11 @@ Unlike other components:
 @prefix flow: <https://semantic-flow.github.io/sflo-ontology/> .
 
 # Unified dataset describes its aggregation
-<ns/djradon/bio-dataset/_unified/> a dcat:Dataset ;
+<ns/djradon/bio-dataset/_unified-flow/> a dcat:Dataset ;
   dct:title "Unified view of bio-dataset node" ;
   flow:aggregatedFrom [
-    flow:metaDataset <ns/djradon/bio-dataset/_meta-component/v2/> ;
-    flow:dataDataset <ns/djradon/bio-dataset/_data-component/v1/> ;
+    flow:metaDataset <ns/djradon/bio-dataset/_meta-flow/v2/> ;
+    flow:dataDataset <ns/djradon/bio-dataset/_data-flow/v1/> ;
     flow:aggregatedAt "2025-01-03T19:06:34Z"^^xsd:dateTime
   ] .
 

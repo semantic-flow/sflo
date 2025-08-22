@@ -2,7 +2,7 @@
 id: p3mbdrze0qe8uvko4i16t1s
 title: folder resource facet
 desc: ''
-updated: 1752026071386
+updated: 1755851465747
 created: 1750659145476
 ---
 
@@ -19,20 +19,20 @@ All folder-based resources should contain a [[concept.mesh.resource.element.docu
 
 #### Handle Folders
 
-- [[concept.mesh.resource.folder._handle]] correspond to the [[concept.mesh.resource.element.handle]]
+- [[concept.mesh.resource.folder._node-handle]] correspond to the [[concept.mesh.resource.element.handle]]
 
 #### Abstract Dataset Folders
 
-- **`_meta-component/`**
+- **`_meta-flow/`**
   - correspond to [[concept.mesh.resource.element.flow.metadata]]
   - present in mesh nodes and [[concept.mesh.resource.element.asset-tree]]
 
-- **`_ref-component/`**
+- **`_ref-flow/`**
 
   - correspond to the [[concept.mesh.resource.node.reference]]
   - Contains the **referent data** for [[reference-node|concept.mesh.resource.node.reference]] and optionally [[concept.mesh.resource.node.data]] (i.e., triples that say things about the thing the node represents).
 
-- **`_data-component/`**
+- **`_data-flow/`**
 
   - correspond to the [[concept.mesh.resource.element.flow.data]]
   - contain the dataset associated with the [[concept.mesh.resource.node.data]]

@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1752025355019
+updated: 1755853862173
 created: 1750624002110
 ---
 
@@ -24,7 +24,7 @@ There are two primary categories:
 
 #### Mesh Nodes
 
-[[Mesh nodes|concept.mesh.resource.node]] are the primary structural components, physically represented as [[mesh folders|concept.mesh.resource-facet.folder]]. They extend namespaces and serve as containers.
+[[Mesh nodes|concept.mesh.resource.node]] are the primary structural components of a mesh, physically represented as [[mesh folders|concept.mesh.resource-facet.folder]]. They extend namespaces and serve as containers.
 
 - **[[Namespace nodes|concept.mesh.resource.node.namespace]]**: Empty containers for organizing other mesh nodes
 - **[[Reference nodes|concept.mesh.resource.node.reference]]**: Nodes that refer to external entities (people, concepts, relationships) and contain [[reference flows|concept.mesh.resource.element.flow.reference]]
@@ -67,7 +67,7 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 
 ### Reserved Names
 - All reserved folder names begin with an underscore (_)
-- Examples: `_assets/`, `_meta-component/`, `_ref-component/`, `_current`, `_next`
+- Examples: `_assets/`, `_meta-flow/`, `_ref-flow/`, `_current`, `_next`
 
 ## Logical Structure
 
@@ -77,7 +77,7 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 - Each resource has a unique [[Relative Identifier|concept.relative-identifier]] based on its path and local name
 
 ### Containment Rules
-- **Mesh nodes** are always containers of elements (i.e., at least [[concept.mesh.resource.element.flow.metadata]] and [[concept.mesh.resource.folder._handle]]) and potentially containers of other nodes 
+- **Mesh nodes** are always containers of elements (i.e., at least [[concept.mesh.resource.element.flow.metadata]] and [[concept.mesh.resource.folder._node-handle]]) and potentially containers of other nodes 
   - **namespace nodes**: no additional containment requirements
   - **reference nodes**: must have [[concept.mesh.resource.element.flow.reference]]
   - **data nodes**: must have [[concept.mesh.resource.element.flow.data]] with at least one distributions; and optionally, [[concept.mesh.resource.node.reference]]
@@ -89,7 +89,7 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 ### System vs User Boundaries
 - **System elements**: Generated and managed by the weave process, not intended for user modification
 - **User elements**: Directly modifiable by users ([[concept.mesh.resource.element.flow.snapshot.current]], README.md, CHANGELOG.md)
-- The weave process maintains system elements and generates missing required components
+- The weave process maintains system elements and generates missing required flows
 
 ### Versioning Requirements
 - flow versioning is managed through the [[Versioning|concept.versioning]] system
@@ -109,7 +109,7 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 ### Weave Process
 The [[Weave Process|concept.weave-process]] process maintains mesh integrity by:
 - Checking for required system resources and creating them if missing
-- Generating resource pages for changed components
+- Generating resource pages for changed resources
 - Managing dataset versioning and metadata
 - Ensuring all resources remain addressable and dereferenceable
 

@@ -2,7 +2,7 @@
 id: pqjdlyd8g80x3yr9o3p82mj
 title: node config
 desc: ''
-updated: 1755820242711
+updated: 1755850422033
 created: 1752325154211
 ---
 
@@ -20,7 +20,7 @@ Node configuration is held in memory by the [[flow service|sflo.product.service]
 
 Node configuration is at least partially determined by "config specification", which happens in [[concept.mesh.resource.element.flow.config]] and can be inherited to contained nodes.
 
-If config specification is missing, (i.e., config spec inheritance is turned off or unspecified), node configuration will be determined from service-level config specification, i.e. [[sflo.product.service.config]]. In case there is none, the service will use sensible defaults at the root level which will be inherited down the mesh.
+If config specification is missing, (i.e., config spec inheritance is turned off or unspecified), node configuration will be determined from service-level config specification, i.e. [[product.service.config]]. In case there is none, the service will use sensible defaults at the root level which will be inherited down the mesh.
 
 ### Initial Config Specification
 
@@ -28,18 +28,18 @@ If config specification is missing, (i.e., config spec inheritance is turned off
 
 ### Calculating Node Config
 
-When the [[sflo.product.service]] starts, it calculates non-default config settings for every node.
+When the [[product.service]] starts, it calculates non-default config settings for every node.
 
-- determines the "default" settings for this service instance from [[sflo.product.service.config]]
+- determines the "default" settings for this service instance from [[product.service.config]]
 - if the node has a [[concept.mesh.resource.element.flow.config]] , the service will use any settings there that differ from its defaults
 - if config-inheritance is turned on for a node, the service will scan back up the hierarchy to compose any missing "non-default" settings
--  the result is an in-memory "shadow mesh" known as the [[sflo.product.service.components.node-config-map]] containing any non-default settings for the mesh
+-  the result is an in-memory "shadow mesh" known as the [[product.service.components.node-config-map]] containing any non-default settings for the mesh
 
 If calculated config matches the service defaults, they are ignored.
 
 ## per-service settings for node defaults
 
-- [[sflo.product.service.config]] can establish any mesh-wide settings that diverge from the system defaults
+- [[product.service.config]] can establish any mesh-wide settings that diverge from the system defaults
 
 ## platform node-config defaults
 

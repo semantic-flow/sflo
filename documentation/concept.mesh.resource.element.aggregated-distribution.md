@@ -2,7 +2,7 @@
 id: e6enrj5ztz3hz84ojujef0k
 title: Aggregated Distribution
 desc: ''
-updated: 1755580824347
+updated: 1755854012604
 created: 1751631229565
 ---
 
@@ -14,7 +14,7 @@ Aggregated distributions enable **composable semantic data** by:
 - Combining component data nodes into unified resources
 - Providing complete datasets for external consumption
 - Supporting modular ontology and knowledge base construction
-- Maintaining component independence while enabling composition
+- Maintaining flow independence while enabling composition
 
 This is especially useful for ontologies, when their parts are spread out
 
@@ -22,7 +22,7 @@ This is especially useful for ontologies, when their parts are spread out
 
 During [[concept.weave-process]], aggregated distributions are created by:
 1. **Scanning contained data nodes** recursively within the mesh structure
-2. **Collecting `_data/_current/` distributions** from each component
+2. **Collecting `_data/_current/` distributions** from each flow
 3. **Merging content** with proper URI resolution and prefix handling
 4. **Excluding `_ref`, `_config` and `_meta` datasets** (data content only)
 5. **Generating multiple distributions** (.ttl, .rdf, .jsonld) as configured
@@ -57,7 +57,7 @@ During [[concept.weave-process]], aggregated distributions are created by:
 ## Technical Considerations
 
 **Merging logic handles:**
-- **Relative path resolution** - Converting component-relative URIs to absolute
+- **Relative path resolution** - Converting relative URIs to absolute
 - **Prefix consolidation** - Deduplicating namespace declarations
 - **Graph merging** - Combining RDF graphs from multiple sources; de-dupingz
 - **Base URI handling** - Ensuring consistent URI resolution

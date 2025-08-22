@@ -2,15 +2,15 @@
 id: rregmt56znauz71qgypet6a
 title: node flow
 desc: ''
-updated: 1752025335642
+updated: 1755850422034
 created: 1751688486456
 ---
 
 There are three types of node flows - they are the most important parts of a node:
 
-    - [[sflo.concept.mesh.resource.element.node-component.metadata]] (mandatory)
-    - [[sflo.concept.mesh.resource.element.node-component.reference]] (optional)
-    - [[sflo.concept.mesh.resource.element.node-component.data]] (only for [[sflo.concept.mesh.resource.node.data]])
+    - [[concept.mesh.resource.element.node-component.metadata]] (mandatory)
+    - [[concept.mesh.resource.element.node-component.reference]] (optional)
+    - [[concept.mesh.resource.element.node-component.data]] (only for [[concept.mesh.resource.node.data]])
 
 **node flows** are dcat:DatasetSeries representing abstract datasets about their node's metadata, referent, and payload data that exist through time, independent of any specific version or realization.
 
@@ -31,11 +31,11 @@ The node flow is a [[related-topics.dcat.dataset-series]] and may have multiple 
 
 ```file
 /my-ontology/
-├── _ref-component/                    ← node flow (reference data about ontology)
+├── _ref-flow/                    ← node flow (reference data about ontology)
 │   ├── _current/           ← flow snapshot
 │   ├── _v1/                ← flow snapshot  
 │   └── _v2/                ← flow snapshot
-└── _data-component/                  ← node flow (ontology definitions)
+└── _data-flow/                  ← node flow (ontology definitions)
     ├── _current/           ← flow snapshot
     └── _v1/                ← flow snapshot
 ```

@@ -2,14 +2,14 @@
 id: mf6mhj0ihmdxtftnxfatghj
 title: Mesh CRUD
 desc: 'CReate, Update, or Delete mesh data'
-updated: 1753014787991
+updated: 1755853690567
 created: 1753014706077
 ---
 
 ## Operational Modalities
 
 **A. Manual Manipulation**
-- Pre-built node folder structures with user-editable layers
+- Pre-built node folder structures with user-editable flows and other elements
 - Manual mesh resource creation (nodes; flows, snapshots, distributions and other elements)
 - File-system based editing workflows
 - Validation of hand-crafted mesh structures
@@ -17,7 +17,7 @@ created: 1753014706077
 **B. API-Driven Node Manipulation**
 - Flow-service API endpoints for programmatic node creation
 - Support for root node initialization
-- Component and element management via API
+- Flow and other element management via API
 - RESTful mesh resource manipulation
 
 **C. Dataset Distribution Upload + Extraction**

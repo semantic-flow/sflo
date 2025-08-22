@@ -1,33 +1,21 @@
 ---
 id: 0n1lq6aq1gskj46bpcx9h4h
-title: layer distribution
+title: snapshot distribution
 desc: ''
-updated: 1751992410510
+updated: 1755853577683
 created: 1751138751433
 ---
 
 - [[concept.mesh.resource.element.flow.snapshot]] should have one or more distributions.
-- a layer's distributions should contain the same data, just in different syntaxes 
+- a snapshot's distributions should contain the same data, just in different syntaxes 
 
-## Naming
+## Distribution Filenaming
 
-- [[concept.mesh.resource.element.flow.metadata]] and [[concept.mesh.resource.element.flow.reference]] have their distributions named with "_meta" and "_ref" respectively, but
-- [[concept.mesh.resource.element.flow.data]], being the "payload data", 
+- [[concept.mesh.resource.element.flow.unified]], [[concept.mesh.resource.element.flow.metadata]] have their distributions named with "_unified" and "_meta" respectively.
+- [[concept.mesh.resource.element.flow.config.operational]] and [[concept.mesh.resource.element.flow.config.inheritable]] have their distribution named with "_config" and "_inheritable-config"
+- [[concept.mesh.resource.element.flow.data]] and [[concept.mesh.resource.element.flow.reference]] distributions use the node slug as the base filename (no "_data" or _ref suffix):
+- In `_current/`: `slug.ext` (e.g., `dave-bio.trig`, `dave-bio.jsonld`)
+- In `_vN/`: `slug_vN.ext` (e.g., `dave-bio_v1.trig`)
+  In `_next/`: `slug_next.ext` (e.g., `dave-bio_next.trig`) 
 
 
-## Issues
-
-- TODO: should we only support "named graph"-support formats
-
-## RDF file extensions Support
-
-| Serialization | supported?  | Media Type              | Typical File Extension(s) | Notes                                         |
-| ------------- | ----------- | ----------------------- | ------------------------- |
-| **JSON-LD**   | in progress | `application/ld+json`   | `.jsonld`, `.json`        | JSON-based Linked Data.                       |
-| **Turtle**    | in progress | `text/turtle`           | `.ttl`                    | Widely used, human-readable.                  |
-| **TriG**      | n           | `application/trig`      | `.trig`                   | Turtle + named graphs.                        |
-| **RDF/XML**   | n           | `application/rdf+xml`   | `.rdf`, `.xml`            | The original W3C syntax, verbose XML.         |
-| **Notation3** | n           | `text/n3` (informal)    | `.n3`                     | Superset of Turtle with logical implications. |
-| **N-Triples** | n           | `application/n-triples` | `.nt`                     | Line-based, one triple per line.              |
-| **N-Quads**   | n           | `application/n-quads`   | `.nq`, `.quad`            | Like N-Triples but with graph label.          |
-| **HDT**       | n           | (binary)                | `.hdt`                    | Compressed, random-access format.             |
