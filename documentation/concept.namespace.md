@@ -1,8 +1,8 @@
 ---
 id: vhywrpw2eemb0kfaxa5xhdk
 title: Namespace
-desc: 'hierarchical address space formed by folder paths'
-updated: 1755906101798
+desc: hierarchical address space formed by folder paths
+updated: 1755918431850
 created: 1730226356459
 ---
 
@@ -11,7 +11,7 @@ created: 1730226356459
 A namespace is the hierarchical address space formed by folder names (segments). Every folder extends the namespace with its name, and the resulting path maps directly to the published URL.
 
 - Concept vs content URL semantics: see [[concept.url]]
-- How relative identifiers are resolved: see [[concept.relative-identifier]]
+- How intramesh identifiers are resolved: see [[concept.intramesh-identifier]]
 
 ## Node Types
 

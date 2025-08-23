@@ -57,7 +57,7 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 ### Folder Mapping
 - Mesh nodes correspond physically to [[mesh folders|concept.mesh.resource-facet.folder]]
 - Folder names become namespace segments and URL path components
-- The local [[concept.relative-identifier]] for a node matches its containing folder name
+- The local [[concept.intramesh-identifier]] for a node matches its containing folder name
 
 ### File Organization
 - [[Datasets|concept.mesh.resource-facet.dataset]] are represented by folders containing at least one distribution file
@@ -73,7 +73,7 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 ### Namespace Extension
 - Mesh folders always extend the namespace with a segment corresponding to the folder name
 - This creates a hierarchical URL structure for addressing resources
-- Each resource has a unique [[Relative Identifier|concept.relative-identifier]] based on its path and local name
+- Each resource has a unique [[Intramesh Identifier|concept.intramesh-identifier]] based on its path and local name
 
 ### Containment Rules
 - **Mesh nodes** are always containers of elements (i.e., at least [[concept.mesh.resource.element.flow.metadata]] and [[concept.mesh.resource.folder._node-handle]]) and potentially containers of other nodes 

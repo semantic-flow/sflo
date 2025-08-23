@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1755911800295
+updated: 1755917160632
 created: 1755820864360
 ---
 
@@ -241,19 +241,11 @@ C. URL semantics table alignment
   - Table shows `_meta/` instead of `_meta-flow/`: documentation/concept.url.md
 - Recommendation: Update the table to reflect the “-flow” standard (A).
 
-D. Asset tree metadata location
-- Evidence:
-  - Folder facet allows `_meta-flow` inside asset trees: documentation/concept.mesh.resource-facet.folder.md
-  - Asset tree page says metadata should live in the parent node’s meta flow: documentation/concept.mesh.resource.element.asset-tree.md
-- Recommendation: Decide one rule. Suggested: asset trees are terminal and carry no flows; metadata about them lives in the parent node’s meta flow. Update folder facet accordingly.
-
 E. Flow doc uses legacy `node-component.*` links and terminology
 - Evidence:
   - documentation/concept.mesh.resource.element.flow.md lines reference `node-component.*`
 - Recommendation: Update links to `concept.mesh.resource.element.flow.*` and ensure terminology is “flow” (not “component”).
 
-F. Terminology: “snapshot” vs “snapshot”
-- fixed
 
 G. Incomplete or placeholder docs
 - Evidence (examples):

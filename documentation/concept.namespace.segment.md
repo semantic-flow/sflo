@@ -1,7 +1,7 @@
 ---
 id: 7qo569nzfk3l8yo1ah6erb2
 title: Namespace Segment
-desc: 'a single folder name that extends the namespace path'
+desc: a single folder name that extends the namespace path
 updated: 1755851172247
 created: 1750960024104
 ---
@@ -11,7 +11,7 @@ created: 1750960024104
 A namespace segment is a single folder name that extends the namespace (URL) path. The concatenation of folder names yields the full namespace path for a node.
 
 - Concept vs content URL semantics: see [[concept.url]]
-- How relative identifiers are resolved: see [[concept.relative-identifier]]
+- How relative identifiers are resolved: see [[concept.intramesh-identifier]]
 
 ## Naming (recommended)
 

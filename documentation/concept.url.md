@@ -2,13 +2,13 @@
 id: eo43ueh0viren1xkjcjregc
 title: Semantic Flow URLs
 desc: ''
-updated: 1755906389786
+updated: 1755919830042
 created: 1750368774797
 ---
 
 ## Disclaimer
 
-People in the Semantic Web world typically use the term `IRI` rather than `URL`. But people usually know what a URL is, and especially since Semantic Flow IRIs are supposed to locate resources (i.e., be dereferencable), maybe it's better to just call them URLs.
+People in the Semantic Web world typically use the term `IRI` rather than `URL`. But most people usually know what a URL is, and especially since Semantic Flow IRIs are supposed to locate resources (i.e., be dereferencable), maybe it's better to just call them URLs.
 
 ## Types of URLs in Semantic Flow
 
@@ -44,7 +44,7 @@ Example:
 - `ns/dave/_assets/images/dave-headshot.jpg` = an image asset; "attached" to the mesh, but not a mesh resource
 
 ### Terminology note: “data dataset”
-- “Data node” identifies the dataset as a concept (not a file).
+
 - “Abstract data dataset” = the DatasetSeries at `_data-flow/`.
 - “Concrete data dataset” = a snapshot under `_data-flow/` (e.g., `_current/`, `_vN/`).
 - Only distributions (`*.trig`, `*.jsonld`, etc.) are retrievable content files.
@@ -90,3 +90,7 @@ Even though you might be tempted to think of a datasets as concrete things, the 
 Understanding what a URL refers to is crucial for proper semantic web implementation. In the past, people have tried to use content URLs to represent the things they refer to. A classic example is using `http://example.org/person.html` to identify a person, when it actually identifies an HTML document about the person. This conflation creates semantic ambiguity and breaks linked data principles.
 
 Semantic Flow enforces clear referent distinctions through URL patterns: slash-terminated URLs always refer to concepts or entities, while extension-terminated URLs always refer to retrievable content. This prevents the classic "document vs thing" confusion that has plagued semantic web implementations.
+
+## Namespace-relative basing
+
+see [[concept.namespace-relative-basing]]
