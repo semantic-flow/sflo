@@ -2,7 +2,7 @@
 id: xmdevh3s6gvp93m3nyc6683
 title: mesh resource
 desc: ''
-updated: 1755844240988
+updated: 1755911559919
 created: 1750709094321
 ---
 
@@ -26,16 +26,15 @@ The structure of a semantic mesh is built on a fundamental distinction between *
 
 
 - **[[metadata flows|concept.mesh.resource.element.flow.metadata]]**: Administrative metadata (in `_meta-flow/` folders)
-- **[[reference flows|concept.mesh.resource.element.flow.reference]]**: Referent data (in `_ref-flow/` folders)
 - **[[Asset trees|concept.mesh.resource.element.asset-tree]]**: File collections (in `_assets/` folders)
-- **[[Version datasets|concept.mesh.resource.element.flow.snapshot.version]]**: Versioned snapshots
-- **[[next snapshots|concept.mesh.resource.element.flow.snapshot.next]]**: Draft workspaces
+- **[[Version datasets|concept.mesh.resource.element.flow-snapshot.version]]**: Versioned snapshots
+- **[[next snapshots|concept.mesh.resource.element.flow-snapshot.next]]**: Draft workspaces
 
 **File-based elements:**
 - **Documentation files**: 
   - [[Resource pages|concept.mesh.resource.element.documentation-resource.resource-page]] are index.html files that provide de-referencability for their containing [[concept.relative-identifier]] [[concept.mesh.resource-facet.folder]]
   - **README.md and CHANGELOG.md**: unstructured documentation
-- **[[Layer distribution files|concept.mesh.resource.element.flow.snapshot.distribution]]**: Data files in RDF formats
+- **[[snapshot distribution files|concept.mesh.resource.element.snapshot-distribution]]**: Data files in RDF formats
 
 ## Physical vs Logical Structure
 

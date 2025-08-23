@@ -2,7 +2,7 @@
 id: eo43ueh0viren1xkjcjregc
 title: Semantic Flow URLs
 desc: ''
-updated: 1755851465750
+updated: 1755906389786
 created: 1750368774797
 ---
 
@@ -15,9 +15,6 @@ People in the Semantic Web world typically use the term `IRI` rather than `URL`.
 | sflow URL type                         | referent                               | example                                                         | versionable |
 | -------------------------------------- | -------------------------------------- | --------------------------------------------------------------- | ----------- |
 | namespace node                         | -none-                                 | `https://ex.org/ns/`                                            | ❌           |
-| reference node                         | concept                                | `https://ex.org/ns/dave/`                                       | ❌           |
-| abstract reference dataset (flow)      | reference dataset series               | `https://ex.org/ns/dave/_ref-flow/`                             | ✅           |
-| concrete reference dataset (snapshot)  | concrete reference dataset             | `https://ex.org/ns/dave/_ref-flow/_current/`                    | ❌           |
 | data node                              | concept w/ associated abstract dataset | `https://ex.org/ns/dave-bio/`                                   | ❌           |
 | abstract data dataset (flow)           | data dataset series                    | `https://ex.org/ns/dave-bio/_data-flow/`                        | ✅           |
 | concrete data dataset (snapshot)       | concrete data dataset                  | `https://ex.org/ns/dave-bio/_data-flow/_next/`                  | ❌           |
@@ -38,7 +35,7 @@ People in the Semantic Web world typically use the term `IRI` rather than `URL`.
 
 Example:
 - `ns/` = namespace node for organizing content and minting IRIs; refers to itself as a namespace
-- `ns/dave/` = refers to Dave the person (reference node)
+- `ns/dave/` = refers to Dave the person (data node)
 - `ns/dave/index.html` = resource page about Dave (content)
 - `ns/dave-bio/` = refers to Dave's biographical dataset (data node)
 - `ns/dave-bio/_data-flow/` = abstract dataset (DatasetSeries) containing Dave's bio data
@@ -73,7 +70,6 @@ These are *retrievable representations* (materialized content).
 URLs that refer to **concepts, entities, or abstract things**, including:
 
 * **Namespace node URLs** → Organizational containers
-* **Reference node URLs** → Concepts: people, places, ideas, fictional characters, etc.
 * **Data node URLs** → Concepts with associated datasets
 * **Abstract dataset URLs** → Dataset-as-persistent-concept
 * **Concrete dataset URLs** → Specific dataset snapshots

@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1755850422036
+updated: 1755898349187
 created: 1751128698638
 ---
 
@@ -10,11 +10,10 @@ created: 1751128698638
 - optionally removes extraneous files, interactively if requested
 - for changed [[concept.mesh.resource-facet.user]] datasets (i.e., need version bump)
   - if versioning is on:
-    - creates a new [[concept.mesh.resource.element.flow.snapshot.version]] 
+    - creates a new [[concept.mesh.resource.element.flow-snapshot.version]] 
     - updates version metadata
   - regardless of whether versioning is on:
     - copies _next to _current
-    - flags the unified dataset for regeneration
     - updates _meta-flow with new version information
 - regenerates affected [[concept.mesh.resource.element.documentation-resource.resource-page]]
 
@@ -50,7 +49,7 @@ created: 1751128698638
 This ensures that in published meshes and sites:
 
 - broken references are cleaned up
-- [[concept.mesh.resource.element.flow.snapshot.current]] is identical to the latest version
+- [[concept.mesh.resource.element.flow-snapshot.current]] is identical to the latest version
 
 ## Features
 

@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1755853862173
+updated: 1755911254571
 created: 1750624002110
 ---
 
@@ -27,7 +27,6 @@ There are two primary categories:
 [[Mesh nodes|concept.mesh.resource.node]] are the primary structural components of a mesh, physically represented as [[mesh folders|concept.mesh.resource-facet.folder]]. They extend namespaces and serve as containers.
 
 - **[[Namespace nodes|concept.mesh.resource.node.namespace]]**: Empty containers for organizing other mesh nodes
-- **[[Reference nodes|concept.mesh.resource.node.reference]]**: Nodes that refer to external entities (people, concepts, relationships) and contain [[reference flows|concept.mesh.resource.element.flow.reference]]
 - **[[Data nodes|concept.mesh.resource.node.data]]**: Nodes containing data distributions with optional versioning
 
 
@@ -37,10 +36,10 @@ There are two primary categories:
 
 ## Folder-based
 
-- **[[concept.mesh.resource.element.flow]]** and their [[concept.mesh.resource.element.flow.snapshot]]
+- **[[concept.mesh.resource.element.flow]]** and their [[concept.mesh.resource.element.flow-snapshot]]
   - **[[concept.mesh.resource.element.flow.metadata]]**: System-related administrative and structural metadata for mesh nodes
-  - **[[Version datasets|concept.mesh.resource.element.flow.snapshot.version]]**: Versioned snapshots of datasets
-- **[[next snapshots|concept.mesh.resource.element.flow.snapshot.next]]**: Draft workspaces for ongoing changes to versioned datasets
+  - **[[Version datasets|concept.mesh.resource.element.flow-snapshot.version]]**: Versioned snapshots of datasets
+- **[[next snapshots|concept.mesh.resource.element.flow-snapshot.next]]**: Draft workspaces for ongoing changes to versioned datasets
 - **[[Node handles|concept.mesh.resource.element.handle]]**: Elements that provide referential indirection, allowing references to nodes as mesh resources rather than their referents
 - **[[Asset trees|concept.mesh.resource.element.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
 
@@ -49,7 +48,7 @@ There are two primary categories:
 Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other resources:
 
 - **[[Resource pages|concept.mesh.resource.element.documentation-resource.resource-page]]**: index.html files present in every mesh folder after weaving
-- **[[Distribution files|concept.mesh.resource.element.flow.snapshot.distribution]]**: Data files in various RDF formats
+- **[[Distribution files|concept.mesh.resource.element.snapshot-distribution]]**: Data files in various RDF formats
 - **README.md and CHANGELOG.md**: Documentation files providing context
 
 
@@ -67,7 +66,7 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 
 ### Reserved Names
 - All reserved folder names begin with an underscore (_)
-- Examples: `_assets/`, `_meta-flow/`, `_ref-flow/`, `_current`, `_next`
+- Examples: `_assets/`, `_meta-flow/`, `_current`, `_next`
 
 ## Logical Structure
 
@@ -79,8 +78,7 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 ### Containment Rules
 - **Mesh nodes** are always containers of elements (i.e., at least [[concept.mesh.resource.element.flow.metadata]] and [[concept.mesh.resource.folder._node-handle]]) and potentially containers of other nodes 
   - **namespace nodes**: no additional containment requirements
-  - **reference nodes**: must have [[concept.mesh.resource.element.flow.reference]]
-  - **data nodes**: must have [[concept.mesh.resource.element.flow.data]] with at least one distributions; and optionally, [[concept.mesh.resource.node.reference]]
+  - **data nodes**: must have [[concept.mesh.resource.element.flow.data]] with at least one distribution
 - **Assets tree elements**: Cannot contain nodes
 - all elements can contain 
 
@@ -88,13 +86,13 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 
 ### System vs User Boundaries
 - **System elements**: Generated and managed by the weave process, not intended for user modification
-- **User elements**: Directly modifiable by users ([[concept.mesh.resource.element.flow.snapshot.current]], README.md, CHANGELOG.md)
+- **User elements**: Directly modifiable by users ([[concept.mesh.resource.element.flow-snapshot.current]], README.md, CHANGELOG.md)
 - The weave process maintains system elements and generates missing required flows
 
 ### Versioning Requirements
 - flow versioning is managed through the [[Versioning|concept.versioning]] system
   - turning versioning on and off is controlled in the [[concept.mesh.resource.element.node-config-defaults]]
-  - Version history is realized in [[concept.mesh.resource.element.flow.snapshot.version]] with numbered version snapshots
+  - Version history is realized in [[concept.mesh.resource.element.flow-snapshot.version]] with numbered version snapshots
   - Version history metadata is kept in the node's [[concept.mesh.resource.element.flow.metadata]]
 
 ### Addressing Requirements

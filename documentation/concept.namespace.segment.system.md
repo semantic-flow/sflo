@@ -2,7 +2,7 @@
 id: h3xucygpf2i6f3u3gkegvlk
 title: system segments
 desc: 'underscore-prefixed reserved folder names'
-updated: 1755852251540
+updated: 1755911611933
 created: 1750962692214
 ---
 
@@ -10,19 +10,14 @@ System segments are underscore-prefixed folder names reserved by the platform. P
 
 This page is the canonical list; see the linked docs for behavior and details.
 
-## Flow containers (abstract/series)
+## Flows (abstract/series)
 
-- [[_ref-flow/concept.mesh.resource.folder._ref-flow]]
-- [[_ref-flow/|concept.mesh.resource.folder._ref-flow]]
+- [[_meta-flow/|concept.mesh.resource.folder._meta-flow]]
 - [[_data-flow/|concept.mesh.resource.folder._data-flow]]
 - [[_config-operational-flow/|concept.mesh.resource.folder._config-operational-flow]]
-- [[_meta-flow/|concept.mesh.resource.folder._meta-flow]]
 - [[_config-inheritable-flow/|concept.mesh.resource.folder._config-inheritable-flow]]
-- [[_unified-flow|concept.mesh.resource.element.flow.unified]]  
 
-(Only abstract flows are versionable.)
-
-## Snapshot folders (concrete)
+## Snapshots (concrete)
 
 - [[_current/|concept.mesh.resource.folder._current]]
 - [[_next/|concept.mesh.resource.folder._next]]

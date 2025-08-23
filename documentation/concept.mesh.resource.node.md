@@ -2,7 +2,7 @@
 id: 8hmkiyjtsey7z8y5oi5xdxm
 title: MeshNode
 desc: ''
-updated: 1755844240969
+updated: 1755906055670
 created: 1750999795528
 ---
 
@@ -36,19 +36,12 @@ Every mesh node has these elements:
 - Node IRI refers to the namespace itself
 - Base level for all mesh nodes
 
-### 2. [[Reference Node|concept.mesh.resource.node.reference]]
-**Elements**: `_meta-flow/` + `_node-handle/` + `_ref-flow/`
-- Represents external entities (people, concepts, relationships)
-- Node IRI refers to the external entity being referenced
-- Adds reference data capabilities to the namespace foundation
-- Evolved from namespace nodes by adding the `_ref-flow/` element
-- Maintains single referent principle - the node refers to the external entity
 
-### 3. [[Data Node|concept.mesh.resource.node.data]]
-**Elements**: `_meta-flow/` + `_node-handle/` + `_data-flow/` ( + optional `_ref-flow`)
+### 2. [[Data Node|concept.mesh.resource.node.data]]
+**Elements**: `_meta-flow/` + `_node-handle/` + `_data-flow/`
 - Contains data distributions and versioning capabilities
-- Node IRI refers to the node flow
+- Node URL refers to the node’s referent (real-world entity or dataset concept) represented by the data flow
 - Adds dataset storage to the namespace foundation
 - Can be configured as [[dataset series|concept.mesh.resource.node.data.series]]
 - Evolved from namespace nodes by adding the `_data-flow/` element
-- Maintains single referent principle - the node refers to the dataset
+- Maintains single referent principle

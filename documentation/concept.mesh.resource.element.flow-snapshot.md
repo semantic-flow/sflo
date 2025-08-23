@@ -2,13 +2,13 @@
 id: 8t3swuswoi81yuzo2bnecy9
 title: flow snapshot
 desc: ''
-updated: 1755854202628
+updated: 1755910812698
 created: 1751689346769
 ---
 
-**flow snapshots** are mesh elements that are datasets and represent the evolutionary steps of [[concept.mesh.resource.element.flow]], whether [[concept.mesh.resource.element.flow.metadata]], [[concept.mesh.resource.element.flow.reference]], or [[concept.mesh.resource.element.flow.data]]. 
+**flow snapshots** are mesh elements that are datasets and represent the evolutionary steps of [[concept.mesh.resource.element.flow]], whether [[concept.mesh.resource.element.flow.metadata]] or [[concept.mesh.resource.element.flow.data]]. 
 
-flow snapshots have corresponding [[distributions|concept.mesh.resource.element.flow.snapshot.distribution]] and are the connective tissue between nodes and their RDF-based representation.
+flow snapshots have corresponding [[distributions|concept.mesh.resource.element.snapshot-distribution]] and are the connective tissue between nodes and their RDF-based representation.
 
 ## Relationship to node flows
 
@@ -26,16 +26,11 @@ node flows have at least two snapshots:
 
 ```file
 /my-ontology/               ← Data Node: Conceptual, data-oriented "thing"
-├── _meta-flow/                   ← Reference node flow (reference data about ontology)
-│   ├── _current/           ← flow snapshot (current reference data)
+├── _meta-flow/                   ← meta flow (metadata)
+│   ├── _current/           ← flow snapshot (current metadata)
 │   ├── _next/              ← flow snapshot (working draft)
-│   ├── _v1/                ← flow snapshot (version 1 reference data)
-│   └── _v2/                ← flow snapshot (version 2 reference data)
-├── _ref-flow/                   ← Reference node flow (reference data about ontology)
-│   ├── _current/           ← flow snapshot (current reference data)
-│   ├── _next/              ← flow snapshot (working draft)
-│   ├── _v1/                ← flow snapshot (version 1 reference data)
-│   └── _v2/                ← flow snapshot (version 2 reference data)
+│   ├── _v1/                ← flow snapshot (version 1 metadata)
+│   └── _v2/                ← flow snapshot (version 2 metadata)
 └── _data-flow/                  ← Data node flow (ontology definition--by-dataset)
     ├── _current/           ← flow snapshot (current definition)
     ├── _next/              ← flow snapshot (working draft)
@@ -72,11 +67,11 @@ _current/
 
 ## Immutability
 
-**[[concept.mesh.resource.element.flow.snapshot.version]]** (historical flow snapshots, i.e., versioned folders like `_v1/`, `_v2/`) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.
+**[[concept.mesh.resource.element.flow-snapshot.version]]** (historical flow snapshots, i.e., versioned folders like `_v1/`, `_v2/`) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.
 
-**[[concept.mesh.resource.element.flow.snapshot.current]]** (the latest "woven" flow snapshots, `_current`) should not be modified directly by users, but will be updated "on weave" if the [[concept.mesh.resource.element.flow.snapshot.next]] has evolved. 
+**[[concept.mesh.resource.element.flow-snapshot.current]]** (the latest "woven" flow snapshots, `_current`) should not be modified directly by users, but will be updated "on weave" if the [[concept.mesh.resource.element.flow-snapshot.next]] has evolved. 
 
-**[[concept.mesh.resource.element.flow.snapshot.next]]** (working flow snapshots, `_next/`) are mutable:
+**[[concept.mesh.resource.element.flow-snapshot.next]]** (working flow snapshots, `_next/`) are mutable:
 - Can be edited and updated during development
 - Represent evolving state of the node flow
 

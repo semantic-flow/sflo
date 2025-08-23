@@ -2,7 +2,7 @@
 id: pqjdlyd8g80x3yr9o3p82mj
 title: node config
 desc: ''
-updated: 1755850422033
+updated: 1755903872316
 created: 1752325154211
 ---
 
@@ -24,11 +24,11 @@ If config specification is missing, (i.e., config spec inheritance is turned off
 
 ### Initial Config Specification
 
-- When a node is initially created, if config-defaults-inheritance is turned on for its parent node, it will have its [[concept.mesh.resource.element.flow.config]] populated based on any parent [[concept.mesh.resource.element.node-config-defaults]] files present in the hierarchy. If there are none, its [[concept.mesh.resource.element.flow.snapshot.current]] will not be created.
+- When a node is initially created, if config-defaults-inheritance is turned on for its parent node, it will have its [[concept.mesh.resource.element.flow.config]] populated based on any parent [[concept.mesh.resource.element.node-config-defaults]] files present in the hierarchy. If there are none, its [[concept.mesh.resource.element.flow-snapshot.current]] will not be created.
 
 ### Calculating Node Config
 
-When the [[product.service]] starts, it calculates non-default config settings for every node.
+When the [[product.sflo-host]] starts, it calculates non-default config settings for every node.
 
 - determines the "default" settings for this service instance from [[product.service.config]]
 - if the node has a [[concept.mesh.resource.element.flow.config]] , the service will use any settings there that differ from its defaults
@@ -43,10 +43,10 @@ If calculated config matches the service defaults, they are ignored.
 
 ## platform node-config defaults
 
-Semantic Flow uses sensible defaults, so that neither node-level nor service-level "non-default" settings are necessary
+Semantic Flow uses sensible defaults, specified in the so that neither node-level nor service-level "non-default" settings are necessary
 
 - by default:
-  - versioning is turned on for all components
+  - versioning is turned on for all flows
   - distribution syntaxes are .trig and jsonld
   - resource pages are generated using a standard template and CSS file that get copied into a [[concept.mesh-repo]]'s root [[concept.mesh.resource.element.asset-tree]] upon initialization
   - [[concept.mesh.resource.element.aggregated-distribution]] are not generated

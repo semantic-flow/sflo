@@ -2,7 +2,7 @@
 id: s5ild34tbe4w2wt4m8ldllg
 title: Example Mesh Hierarchy
 desc: ''
-updated: 1755844240987
+updated: 1755911085634
 created: 1750640592487
 ---
 
@@ -19,15 +19,13 @@ created: 1750640592487
 │   └── index.html                               # resource page
 └── index.html                                   # resource page
 
-/test-ns/djradon/                                # reference node  
+/test-ns/djradon/                                # data node  
 ├── _node-handle/                                     # handle element
 │   └── index.html                               # mesh node handle page
-├── _ref-flow/                                        # node flow (reference data)
+├── _data-flow/                                       # node flow (data)
 │   ├── _current/                                # flow snapshot
-│   │   ├── djradon_ref.trig                      # reference data about the person djradon
 │   │   └── index.html                           # resource page
 │   ├── _next/                                   # flow snapshot (draft)
-│   │   ├── djradon_ref.trig                      # draft reference data
 │   │   └── index.html                           # resource page
 │   └── index.html                               # resource page
 ├── _meta-flow/                                       # node flow (metadata)
@@ -39,7 +37,7 @@ created: 1750640592487
 │   ├── profile-photo.jpg
 │   └── index.html                               # resource page
 ├── index.html                                   # resource page
-├── CHANGELOG.md                                   # resource page
+├── CHANGELOG.md                                 # resource changelog
 └── README.md                                    # resource documentation
 
 /test-ns/djradon/bio/                            # data node (unversioned dataset)
@@ -52,25 +50,12 @@ created: 1750640592487
 │   │   ├── djradon-bio_data.trig                      # draft biographical data
 │   │   └── index.html                           # resource page
 │   └── index.html                               # resource page
-├── _ref-flow/                                        # node flow (reference data) - OPTIONAL
-│   ├── _current/                                # flow snapshot
-│   │   ├── djradon-bio_ref.trig                  # reference data about the bio dataset concept
-│   │   └── index.html                           # resource page
-│   ├── _next/                                   # flow snapshot (draft)
-│   │   ├── djradon-bio_ref.trig                  # draft reference data
-│   │   └── index.html                           # resource page
-│   └── index.html                               # resource page
 ├── _meta-flow/                                       # node flow (metadata)
 │   ├── _current/                                # flow snapshot
 │   │   ├── djradon-bio_meta.trig                # dataset metadata, provenance
 │   │   └── index.html                           # resource page
 │   ├── _next/                                   # flow snapshot (draft)
 │   │   ├── djradon-bio_meta.trig                # draft dataset metadata
-│   │   └── index.html                           # resource page
-│   └── index.html                               # resource page
-├── _unified-flow/                                       # node flow (metadata)
-│   ├── _current/                                # flow snapshot
-│   │   ├── djradon-bio.trig                # dataset metadata, provenance
 │   │   └── index.html                           # resource page
 │   └── index.html                               # resource page
 ├── index.html                                   # resource page
@@ -92,14 +77,6 @@ created: 1750640592487
 │   │   └── index.html                           # resource page
 │   ├── _v2/                                     # flow snapshot (version 2)
 │   │   ├── djradon-picks_v2.trig                 # version 2 snapshot
-│   │   └── index.html                           # resource page
-│   └── index.html                               # resource page
-├── _ref-flow/                                        # node flow (reference data) - OPTIONAL
-│   ├── _current/                                # flow snapshot
-│   │   ├── djradon-picks_ref.trig                # reference data about the picks dataset
-│   │   └── index.html                           # resource page
-│   ├── _next/                                   # flow snapshot (draft)
-│   │   ├── djradon-picks_ref.trig                # draft reference data
 │   │   └── index.html                           # resource page
 │   └── index.html                               # resource page
 ├── _meta-flow/                                       # node flow (metadata)

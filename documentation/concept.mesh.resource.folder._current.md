@@ -6,4 +6,4 @@ updated: 1752722555795
 created: 1751671938591
 ---
 
-- an [[concept.mesh.resource.element.flow.snapshot]]
+- an [[concept.mesh.resource.element.flow-snapshot]]

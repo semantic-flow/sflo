@@ -2,16 +2,16 @@
 id: 9el7ivz22xvt8exiz7tj23f
 title: Node Config Defaults
 desc: 'inheritable default settings used when a node lacks explicit operational config'
-updated: 1755854773341
+updated: 1755898431394
 created: 1751646537672
 ---
 
 ## Overview
 
-Node config defaults are inheritable settings that provide baseline behavior for nodes. They are supplied by ancestors (and service/platform) and are resolved by the same inheritance mechanism used for config.
+Node config defaults are inheritable settings that provide baseline behavior for nodes. They are supplied by ancestors (and service/platform) and are resolved by a mechanism similar to that of service config config.
 
 - Inheritance mechanism: see [[concept.mesh.resource.element.flow.config.inheritable]]
-- Operational (final) config consumer: see [[concept.mesh.resource.element.flow.config.operational]]
+- Operational (final) config: see [[concept.mesh.resource.element.flow.config.operational]]
 - Folder overview for config flows: see [[concept.mesh.resource.element.flow.config]]
 
 ## Common default settings (examples)
@@ -19,7 +19,6 @@ Node config defaults are inheritable settings that provide baseline behavior for
 - Flow versioning: on/off (whether abstract flows create `_vN/` snapshots on weave)
 - Distribution syntaxes: preferred serializations (e.g., TriG, JSON‑LD)
 - Resource pages and fragments: enable page/fragment generation; template and stylesheet selection
-- Unified flow: on/off for generating a [[concept.mesh.resource.element.flow.unified]]
 - Aggregated distributions: on/off for generating top-level rollups
 - Rights & provenance defaults: copyright/licensing/attribution/delegation policies (applied at snapshot time)
 

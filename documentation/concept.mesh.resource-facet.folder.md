@@ -2,11 +2,11 @@
 id: p3mbdrze0qe8uvko4i16t1s
 title: folder resource facet
 desc: ''
-updated: 1755851465747
+updated: 1755911431986
 created: 1750659145476
 ---
 
-A mesh is structured with mesh folders, which correspond to RDF resources and their [[concept.relative-identifier]]
+A mesh when stored in a filesystem is physically structured with mesh folders, which correspond to RDF resources and their [[concept.relative-identifier]]
   
 When a mesh gets published, the folders also correspond to [[concept.url]]. 
 
@@ -27,11 +27,6 @@ All folder-based resources should contain a [[concept.mesh.resource.element.docu
   - correspond to [[concept.mesh.resource.element.flow.metadata]]
   - present in mesh nodes and [[concept.mesh.resource.element.asset-tree]]
 
-- **`_ref-flow/`**
-
-  - correspond to the [[concept.mesh.resource.node.reference]]
-  - Contains the **referent data** for [[reference-node|concept.mesh.resource.node.reference]] and optionally [[concept.mesh.resource.node.data]] (i.e., triples that say things about the thing the node represents).
-
 - **`_data-flow/`**
 
   - correspond to the [[concept.mesh.resource.element.flow.data]]
@@ -43,7 +38,7 @@ All folder-based resources should contain a [[concept.mesh.resource.element.docu
 
 - **`_v1/`, `_v2/`, …**
 
-  - Version snapshot folders that represent [[concept.mesh.resource.element.flow.snapshot]]
+  - Version snapshot folders that represent [[concept.mesh.resource.element.flow-snapshot]]
   - each holds one or more distribution file (named `<node_ref_vN.ext`).
   - **Fully terminal**—neither user-nodes nor system-folders may live inside.
 
