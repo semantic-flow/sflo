@@ -6,4 +6,4 @@ updated: 1755845390098
 created: 1755845377183
 ---
 
-The physical representation of the [[concept.mesh.resource.element.flow.config.inheritable]]
+The physical representation of the [[concept.mesh.resource.element.flow.node-config.inheritable]]

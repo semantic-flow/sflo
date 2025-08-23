@@ -2,7 +2,7 @@
 id: 0y6p8e594peoult03gobm94
 title: metadata flow
 desc: ''
-updated: 1755851465747
+updated: 1755926597216
 created: 1730660543063
 ---
 
@@ -10,7 +10,7 @@ A **metadata flow** contains system-related administrative and structural metada
 
 Physically, it exists as a [[concept.mesh.resource.folder._meta-flow]] in a [[concept.mesh.resource.folder.node]].
 
-Mesh-specific metadata about a node's [[concept.mesh.resource.element.flow-snapshot.version]] mostly lives here too, eliminating the need to keep separate metadata in the element. 
+Mesh-specific metadata about a node's flows' [[concept.mesh.resource.element.flow-snapshot.version]]s mostly lives here too, eliminating the need to keep separate metadata in the element. Also may contain metadata about the assets folder.
 
 ## Use of _node-handle in metadata flows
 

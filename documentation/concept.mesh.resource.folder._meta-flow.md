@@ -6,4 +6,4 @@ updated: 1752722655306
 created: 1751206968994
 ---
 
-The physical representation of the [[concept.mesh.resource.element.flow.metadata]]
+The physical representation of the [[concept.mesh.resource.element.flow.node-metadata]]

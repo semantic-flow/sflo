@@ -1,7 +1,9 @@
 ---
 id: 9el7ivz22xvt8exiz7tj23f
 title: Node Config Defaults
-desc: 'inheritable default settings used when a node lacks explicit operational config'
+desc: >-
+  inheritable default settings used when a node lacks explicit operational
+  config
 updated: 1755898431394
 created: 1751646537672
 ---
@@ -10,9 +12,9 @@ created: 1751646537672
 
 Node config defaults are inheritable settings that provide baseline behavior for nodes. They are supplied by ancestors (and service/platform) and are resolved by a mechanism similar to that of service config config.
 
-- Inheritance mechanism: see [[concept.mesh.resource.element.flow.config.inheritable]]
-- Operational (final) config: see [[concept.mesh.resource.element.flow.config.operational]]
-- Folder overview for config flows: see [[concept.mesh.resource.element.flow.config]]
+- Inheritance mechanism: see [[concept.mesh.resource.element.flow.node-config.inheritable]]
+- Operational (final) config: see [[concept.mesh.resource.element.flow.node-config.operational]]
+- Folder overview for config flows: see [[concept.mesh.resource.element.flow.node-config]]
 
 ## Common default settings (examples)
 
@@ -22,7 +24,7 @@ Node config defaults are inheritable settings that provide baseline behavior for
 - Aggregated distributions: on/off for generating top-level rollups
 - Rights & provenance defaults: copyright/licensing/attribution/delegation policies (applied at snapshot time)
 
-These defaults apply when a node does not specify the setting in its [[concept.mesh.resource.element.flow.config.operational]]; “most specific wins” from parent → service → platform (see [[concept.mesh.resource.element.flow.config.inheritable]] for precedence).
+These defaults apply when a node does not specify the setting in its [[concept.mesh.resource.element.flow.node-config.operational]]; “most specific wins” from parent → service → platform (see [[concept.mesh.resource.element.flow.node-config.inheritable]] for precedence).
 
 ## Minimal guidance
 

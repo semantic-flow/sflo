@@ -16,7 +16,7 @@ If `/temperature-data/` URL refers to an abstract dataset, `/temperature-data/_n
 
 Element identifiers don't have an obvious referent other than themselves. e.g., ns/djradon/bio-dataset/_data refers only to a specific [[concept.mesh.resource.element.flow]]. 
 
-So when they're mentioned in [[concept.mesh.resource.element.flow.metadata]] or [[concept.mesh.resource.element.flow.config]], it's clear enough that their identifiers refer to them "as mesh resources."
+So when they're mentioned in [[concept.mesh.resource.element.flow.node-metadata]] or [[concept.mesh.resource.element.flow.node-config]], it's clear enough that their identifiers refer to them "as mesh resources."
 
 But because the URL of a [[concept.mesh.resource.node]] refers to a namespace; an abstract dataset; or a thing or concept --  based on the [[principle.single-referent]] principle, you should not use the node's URL to refer to it "as a mesh resource."
 

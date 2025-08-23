@@ -37,7 +37,7 @@ User elements are primarily created and maintained by users or their software ag
 System elements are usually created or altered by the [[Weave Process|concept.weave-process]] process rather than direct user modification:
 
 **Folder-based system elements:**
-- **[[metadata flows|concept.mesh.resource.element.flow.metadata]]**: Administrative and structural metadata for mesh nodes (in `_meta-flow/` folders)
+- **[[metadata flows|concept.mesh.resource.element.flow.node-metadata]]**: Administrative and structural metadata for mesh nodes (in `_meta-flow/` folders)
 - **[[version snapshot|concept.mesh.resource.element.flow-snapshot.version]]**: Versioned snapshots of datasets (in `_vN/` folders)
 - **[[Node handles|concept.mesh.resource.element.handle]]**: Elements providing referential indirection for nodes as mesh resources (in `_node-handle/` folders)
 

@@ -24,7 +24,7 @@ Every semantic mesh has a root node, and in a repository-based mesh, the reposit
 
 Since the repository root is a mesh node, it follows the same rules as any other node and must contain:
 
-- **`_meta/`**: corresponds to the [[concept.mesh.resource.element.flow.metadata]] with administrative metadata for the root node
+- **`_meta/`**: corresponds to the [[concept.mesh.resource.element.flow.node-metadata]] with administrative metadata for the root node
 - **`_node-handle/`**: corresponds to [[node handle|concept.mesh.resource.element.handle]] for referential indirection
 
 The root node may contain **other elements**: Depending on the root node type (e.g., `_ref/` for reference nodes, `_data/` for versioned datasets)

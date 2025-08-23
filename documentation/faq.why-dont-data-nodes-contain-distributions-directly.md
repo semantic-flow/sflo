@@ -41,7 +41,7 @@ This mirrors how [[reference nodes|concept.mesh.resource.node.reference]] work:
 
 ### Metadata Separation
 
-The data node's [[metadata flow|concept.mesh.resource.element.flow.metadata]] contains system metadata about the data concept and its components, while each [[concept.mesh.resource.element.flow.data]] can also contain (concept-specific) metadata.
+The data node's [[metadata flow|concept.mesh.resource.element.flow.node-metadata]] contains system metadata about the data concept and its components, while each [[concept.mesh.resource.element.flow.data]] can also contain (concept-specific) metadata.
 
 TODO: example
 

@@ -6,4 +6,4 @@ updated: 1755845269341
 created: 1752928530694
 ---
 
-The physical representation of the [[concept.mesh.resource.element.flow.config.operational]]
+The physical representation of the [[concept.mesh.resource.element.flow.node-config.operational]]

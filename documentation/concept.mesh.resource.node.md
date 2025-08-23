@@ -1,8 +1,8 @@
 ---
 id: 8hmkiyjtsey7z8y5oi5xdxm
-title: MeshNode
+title: mesh node
 desc: ''
-updated: 1755906055670
+updated: 1755973383346
 created: 1750999795528
 ---
 
@@ -24,7 +24,7 @@ When stored on disk, all mesh nodes:
 
 Every mesh node has these elements:
 
-- **[[concept.mesh.resource.element.flow.metadata]]** (`_meta-flow/`): Centralized metadata for the node
+- **[[concept.mesh.resource.element.flow.node-metadata]]** (`_meta-flow/`): Centralized metadata for the node
 - **[[concept.mesh.resource.element.handle]]** (`_node-handle/`): Universal marker folder that refers to the parent "as a mesh node", as opposed to "as the name, dataset, or other thing" to which it normally refers; a handle resource page should explain this distinction
 
 ## Node Types

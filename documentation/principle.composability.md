@@ -2,21 +2,20 @@
 id: 4b9afsut6cakxh55iabvirt
 title: Composability
 desc: ''
-updated: 1755853661238
+updated: 1755973087689
 created: 1751233874377
 ---
 
-//TODO: re-verify this ai-generated content
-
 ## Overview
 
-Composability is the ability to combine multiple meshes or extract submeshes to create new, functional semantic structures. Semantic Flow enables flexible mesh composition through git-native operations and intelligent reference resolution.
+Composability is the ability to combine meshes. Semantic Flow enables flexible mesh composition by allowing any mesh node to contain other nodes: the mesh node 
 
 ## Key Concepts
 
 ### Mesh Boundaries
 
-Each git repository represents a complete mesh with its own root namespace. Cross-mesh references use absolute URIs, while intra-mesh references use relative URIs.
+A mesh is identified as a folder that looks like a [[concept.mesh.resource.folder.node]], i.e., has (at least) these two subfolders:
+
 
 ### Upward Reference Problem
 

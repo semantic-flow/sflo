@@ -25,7 +25,7 @@ The structure of a semantic mesh is built on a fundamental distinction between *
 **Folder-based elements:**
 
 
-- **[[metadata flows|concept.mesh.resource.element.flow.metadata]]**: Administrative metadata (in `_meta-flow/` folders)
+- **[[metadata flows|concept.mesh.resource.element.flow.node-metadata]]**: Administrative metadata (in `_meta-flow/` folders)
 - **[[Asset trees|concept.mesh.resource.element.asset-tree]]**: File collections (in `_assets/` folders)
 - **[[Version datasets|concept.mesh.resource.element.flow-snapshot.version]]**: Versioned snapshots
 - **[[next snapshots|concept.mesh.resource.element.flow-snapshot.next]]**: Draft workspaces
@@ -51,7 +51,7 @@ The structure of a semantic mesh is built on a fundamental distinction between *
 ## Asset Tree Special Case
 
 [[Asset trees|concept.mesh.resource.element.asset-tree]] represent a special category where:
-- The asset tree itself (with its [[concept.mesh.resource.element.flow.metadata]]) is part of the mesh structure
+- The asset tree itself (with its [[concept.mesh.resource.element.flow.node-metadata]]) is part of the mesh structure
 - The files and folders contained within asset trees are "attached to" but not "contained in" the mesh
 - Asset tree contents are addressable but are not considered semantic flow resources
 

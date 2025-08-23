@@ -2,7 +2,7 @@
 id: eo43ueh0viren1xkjcjregc
 title: Semantic Flow URLs
 desc: ''
-updated: 1755919830042
+updated: 1755925679939
 created: 1750368774797
 ---
 
@@ -12,25 +12,25 @@ People in the Semantic Web world typically use the term `IRI` rather than `URL`.
 
 ## Types of URLs in Semantic Flow
 
-| sflow URL type                         | referent                               | example                                                         | versionable |
-| -------------------------------------- | -------------------------------------- | --------------------------------------------------------------- | ----------- |
-| namespace node                         | -none-                                 | `https://ex.org/ns/`                                            | ❌           |
-| data node                              | concept w/ associated abstract dataset | `https://ex.org/ns/dave-bio/`                                   | ❌           |
-| abstract data dataset (flow)           | data dataset series                    | `https://ex.org/ns/dave-bio/_data-flow/`                        | ✅           |
-| concrete data dataset (snapshot)       | concrete data dataset                  | `https://ex.org/ns/dave-bio/_data-flow/_next/`                  | ❌           |
-| distribution                           | content / dataset distribution         | `https://ex.org/ns/dave-bio/_data-flow/_v1/dave-bio_v1.trig`    | ❌           |
-| abstract meta dataset (flow)           | node metadata dataset series           | `https://ex.org/ns/dave-bio/_meta-flow/`                        | ✅           |
-| concrete meta dataset (snapshot)       | node metadata dataset                  | `https://ex.org/ns/dave-bio/_meta-flow/_current/`               | ❌           |
-| abstract operational config (flow)     | operational config series              | `https://ex.org/ns/dave-bio/_config-operational-flow/`          | ✅           |
-| concrete operational config (snapshot) | operational config                     | `https://ex.org/ns/dave-bio/_config-operational-flow/_current/` | ❌           |
-| abstract inheritable config (flow)     | inheritable config series              | `https://ex.org/ns/dave-bio/_config-inheritable-flow/`          | ✅           |
-| concrete inheritable config (snapshot) | inheritable config                     | `https://ex.org/ns/dave-bio/_config-inheritable-flow/_current/` | ❌           |
-| handle                                 | mesh node                              | `https://ex.org/ns/dave/_node-handle/`                          | ❌           |
-| resource documentation                 | resource page (content)                | `https://ex.org/ns/dave/index.html`                             | ❌           |
-| resource documentation                 | README file (content)                  | `https://ex.org/ns/dave/README.md`                              | ❌           |
-| asset tree                             | collection of assets                   | `https://ex.org/ns/assets/`                                     | ❌           |
-| asset folder                           | sub-collection of assets               | `https://ex.org/ns/assets/images/`                              | ❌           |
-| asset                                  | content / image                        | `https://ex.org/ns/assets/images/logo.svg`                      | ❌           |
+| sflow URL type                         | referent                       | example                                                         | versionable |
+| -------------------------------------- | ------------------------------ | --------------------------------------------------------------- | ----------- |
+| namespace node                         | -none-                         | `https://ex.org/ns/`                                            | ❌           |
+| data node                              | concept                        | `https://ex.org/ns/dave-bio/`                                   | ❌           |
+| abstract dataset (flow)                | dataset series                 | `https://ex.org/ns/dave-bio/_data-flow/`                        | ✅           |
+| concrete node dataset (snapshot)       | concrete data dataset          | `https://ex.org/ns/dave-bio/_data-flow/_next/`                  | ❌           |
+| distribution                           | content / dataset distribution | `https://ex.org/ns/dave-bio/_data-flow/_v1/dave-bio_v1.trig`    | ❌           |
+| abstract meta dataset (flow)           | node metadata dataset series   | `https://ex.org/ns/dave-bio/_meta-flow/`                        | ✅           |
+| concrete meta dataset (snapshot)       | node metadata dataset          | `https://ex.org/ns/dave-bio/_meta-flow/_current/`               | ❌           |
+| abstract operational config (flow)     | operational config series      | `https://ex.org/ns/dave-bio/_config-operational-flow/`          | ✅           |
+| concrete operational config (snapshot) | operational config             | `https://ex.org/ns/dave-bio/_config-operational-flow/_current/` | ❌           |
+| abstract inheritable config (flow)     | inheritable config series      | `https://ex.org/ns/dave-bio/_config-inheritable-flow/`          | ✅           |
+| concrete inheritable config (snapshot) | inheritable config             | `https://ex.org/ns/dave-bio/_config-inheritable-flow/_current/` | ❌           |
+| handle                                 | mesh node                      | `https://ex.org/ns/dave/_node-handle/`                          | ❌           |
+| resource documentation                 | resource page (content)        | `https://ex.org/ns/dave/index.html`                             | ❌           |
+| resource documentation                 | README file (content)          | `https://ex.org/ns/dave/README.md`                              | ❌           |
+| asset tree                             | collection of assets           | `https://ex.org/ns/assets/`                                     | ❌           |
+| asset folder                           | sub-collection of assets       | `https://ex.org/ns/assets/images/`                              | ❌           |
+| asset                                  | content / image                | `https://ex.org/ns/assets/images/logo.svg`                      | ❌           |
 
 
 Example:

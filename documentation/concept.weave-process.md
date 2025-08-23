@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1755898349187
+updated: 1755972993936
 created: 1751128698638
 ---
 
@@ -52,6 +52,10 @@ This ensures that in published meshes and sites:
 - [[concept.mesh.resource.element.flow-snapshot.current]] is identical to the latest version
 
 ## Features
+
+### Verification
+
+- ensure that [[concept.mesh.resource.folder.node]] are only contained in other [[concept.mesh.resource.folder.node]].
 
 ### Interactive Mode
 

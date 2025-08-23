@@ -40,7 +40,7 @@ Snapshots contain **distribution files**: the actual data in various formats (e.
 
 Every data node must contain:
 
-- **[[concept.mesh.resource.element.flow.metadata]]** (`_meta-flow/`): Administrative metadata about the data concept
+- **[[concept.mesh.resource.element.flow.node-metadata]]** (`_meta-flow/`): Administrative metadata about the data concept
 - **[[concept.mesh.resource.element.flow.data]]** (`_data-flow/`): dataset data
 - **[[Node handle|concept.mesh.resource.element.handle]]** (`_node-handle/`): Referential indirection for the node
 

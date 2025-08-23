@@ -6,7 +6,7 @@ updated: 1755910812698
 created: 1751689346769
 ---
 
-**flow snapshots** are mesh elements that are datasets and represent the evolutionary steps of [[concept.mesh.resource.element.flow]], whether [[concept.mesh.resource.element.flow.metadata]] or [[concept.mesh.resource.element.flow.data]]. 
+**flow snapshots** are mesh elements that are datasets and represent the evolutionary steps of [[concept.mesh.resource.element.flow]], whether [[concept.mesh.resource.element.flow.node-metadata]] or [[concept.mesh.resource.element.flow.data]]. 
 
 flow snapshots have corresponding [[distributions|concept.mesh.resource.element.snapshot-distribution]] and are the connective tissue between nodes and their RDF-based representation.
 

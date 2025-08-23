@@ -11,8 +11,8 @@ created: 1751138751433
 
 ## Distribution Filenaming
 
-- [[concept.mesh.resource.element.flow.metadata]]s have their distributions named with "_meta" 
-- [[concept.mesh.resource.element.flow.config.operational]] and [[concept.mesh.resource.element.flow.config.inheritable]] have their distribution named with "_config" and "_inheritable-config"
+- [[concept.mesh.resource.element.flow.node-metadata]]s have their distributions named with "_meta" 
+- [[concept.mesh.resource.element.flow.node-config.operational]] and [[concept.mesh.resource.element.flow.node-config.inheritable]] have their distribution named with "_config" and "_inheritable-config"
 - [[concept.mesh.resource.element.flow.data]] distributions use the node slug as the base filename (no "_data" suffix):
 
 ### Versioned Filenaming

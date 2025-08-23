@@ -24,7 +24,7 @@ All folder-based resources should contain a [[concept.mesh.resource.element.docu
 #### Flow (Abstract Dataset) Folders
 
 - **`_meta-flow/`**
-  - correspond to [[concept.mesh.resource.element.flow.metadata]]
+  - correspond to [[concept.mesh.resource.element.flow.node-metadata]]
   - present in all mesh nodes
   
 - **`_data-flow/`**
