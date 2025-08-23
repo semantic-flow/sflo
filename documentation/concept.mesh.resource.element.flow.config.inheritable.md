@@ -2,7 +2,7 @@
 id: config-inheritance-resolution
 title: inheritable config flow
 desc: How InheritableNodeConfig inheritance works in Semantic Flow
-updated: 1755846217718
+updated: 1755916057245
 created: 1754285606247
 ---
 
@@ -30,15 +30,15 @@ Configuration inheritance works at the property level. A child's `InheritableNod
 ```jsonld
 {
   "@id": "parent:inheritableConfig",
-  "@type": "conf:InheritableNodeConfig",
-  "conf:versioningEnabled": true,
-  "conf:distributionFormats": ["application/trig", "application/ld+json"]
+  "@type": "node-conf:InheritableNodeConfig",
+  "node-conf:versioningEnabled": true,
+  "node-conf:distributionFormats": ["application/trig", "application/ld+json"]
 }
 
 {
   "@id": "child:inheritableConfig",
-  "@type": "conf:InheritableNodeConfig",
-  "conf:versioningEnabled": false
+  "@type": "node-conf:InheritableNodeConfig",
+  "node-conf:versioningEnabled": false
   // Inherits distributionFormats from parent
 }
 ```
