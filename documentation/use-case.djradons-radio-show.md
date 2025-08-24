@@ -2,7 +2,7 @@
 id: kawddwi1dx4qqbhdyip4896
 title: 'Use Case: Radio Show Websiste'
 desc: a simple user story
-updated: 1753014248843
+updated: 1755990485013
 created: 1750645191521
 ---
 
@@ -21,7 +21,7 @@ But to get started:
 #### Mesh Directory Structure
 
 ```file
-test-ns                    # namespace node
+test-ns                    # bare node
    djradon                 # ref node (refering to a human dj)
       bio                  # data node
       picks                # data node 

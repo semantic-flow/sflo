@@ -14,7 +14,7 @@ Composability is the ability to combine meshes. Semantic Flow enables flexible m
 
 ### Mesh Boundaries
 
-A mesh is identified as a folder that looks like a [[concept.mesh.resource.folder.node]], i.e., has (at least) these two subfolders:
+A mesh is identified as a folder that looks like a [[folder.node]], i.e., has (at least) these two subfolders:
 
 
 ### Upward Reference Problem

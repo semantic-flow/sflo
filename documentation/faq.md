@@ -2,7 +2,7 @@
 id: faq000
 title: FAQ
 desc: ''
-updated: 1755851465748
+updated: 1755990485013
 created: 1751351477000
 ---
 
@@ -12,7 +12,7 @@ This section addresses common questions about Semantic Flow design principles an
 
 ## Design Principles
 
-### [[Why don't namespace nodes have reference flows?|faq.why-dont-namespace-and-data-nodes-have-reference-flows]]
+### [[Why don't bare nodes have reference flows?|faq.why-dont-namespace-and-data-nodes-have-reference-flows]]
 Why should a namespace have to refer to something?
 
 ### [[Why are there elements at the top of a repo?|faq.why-are-there-elements-at-the-top-of-a-repo]]

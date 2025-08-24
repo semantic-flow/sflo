@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1755973396470
+updated: 1755990485011
 created: 1750624002110
 ---
 
@@ -11,56 +11,56 @@ created: 1750624002110
 A **semantic mesh** is a dereferenceable, possibly-versioned, [[concept.immutability]] collection of semantic data and other resources where every HTTP URL returns meaningful content. It serves as the foundational structure for organizing and publishing semantic web resources through [[semantic sites|concept.semantic-site]].
 
 Key characteristics:
-- **Addressable**: Every [[concept.mesh.resource]] has a unique [[concept.intramesh-identifier]]; when a mesh is [[published|concept.publication]], every  [[concept.mesh.resource]] then gets a globally unique URL
+- **Addressable**: Every [[resource]] has a unique [[concept.intramesh-identifier]]; when a mesh is [[published|concept.publication]], every  [[resource]] then gets a globally unique URL
 - **Dereferenceable**: All URLs return meaningful content when accessed
-- **Versioned**: Changes are managed through the [[Weave Process|concept.weave-process]] process, and [[concept.mesh.resource.element.flow]] are versioned by default
+- **Versioned**: Changes are managed through the [[Weave Process|concept.weave-process]] process, and [[resource.element.flow]] are versioned by default
 - **Publish-ready**: Can be served directly via GitHub Pages or similar static hosting; or via a local web server like live-server
 
 ## Core Concepts
 
 ### Mesh Resources
 
-There are two types of mesh resources: [[concept.mesh.resource.node]]s and [[concept.mesh.resource.element]]s.
+There are two types of mesh resources: [[resource.node]]s and [[resource.element]]s.
 
 #### Mesh Nodes
 
-[[Mesh nodes|concept.mesh.resource.node]] are the primary structural components of a mesh, physically represented as [[mesh folders|concept.mesh.resource-facet.folder]]. They extend namespaces and serve as containers.
+[[Mesh nodes|resource.node]] are the primary structural components of a mesh, physically represented as [[mesh folders|facet.filesystem.folder]]. They extend namespaces and serve as containers.
 
-- **[[Namespace nodes|concept.mesh.resource.node.namespace]]**: Empty containers for organizing other mesh nodes
-- **[[Data nodes|concept.mesh.resource.node.data]]**: Nodes containing data distributions with optional versioning
+- **[[bare nodes|resource.node.bare]]**: Empty containers for organizing other mesh nodes
+- **[[Data nodes|resource.node.data]]**: Nodes containing data distributions with optional versioning
 
 
 #### Elements
 
-[[Mesh elements|concept.mesh.resource.element]] help define, support, and systematize nodes:
+[[Mesh elements|resource.element]] help define, support, and systematize nodes:
 
 ## Folder-based
 
-- **[[concept.mesh.resource.element.flow]]** and their [[concept.mesh.resource.element.flow-snapshot]]
-  - **[[concept.mesh.resource.element.flow.node-metadata]]**: System-related administrative and structural metadata for mesh nodes
-  - **[[Version datasets|concept.mesh.resource.element.flow-snapshot.version]]**: Versioned snapshots of datasets
-- **[[next snapshots|concept.mesh.resource.element.flow-snapshot.next]]**: Draft workspaces for ongoing changes to versioned datasets
-- **[[Node handles|concept.mesh.resource.element.handle]]**: Elements that provide referential indirection, allowing references to nodes as mesh resources rather than their referents
-- **[[Asset trees|concept.mesh.resource.element.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
+- **[[resource.element.flow]]** and their [[resource.element.flow-snapshot]]
+  - **[[resource.element.flow.node-metadata]]**: System-related administrative and structural metadata for mesh nodes
+  - **[[Version datasets|resource.element.flow-snapshot.version]]**: Versioned snapshots of datasets
+- **[[next snapshots|resource.element.flow-snapshot.next]]**: Draft workspaces for ongoing changes to versioned datasets
+- **[[Node handles|resource.element.node-handle]]**: Elements that provide referential indirection, allowing references to nodes as mesh resources rather than their referents
+- **[[Asset trees|resource.element.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
 
 #### Files
 
-Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other resources:
+Terminal [[mesh resources|resource]] that cannot contain other resources:
 
-- **[[Resource pages|concept.mesh.resource.element.documentation-resource.resource-page]]**: index.html files present in every mesh folder after weaving
-- **[[Distribution files|concept.mesh.resource.element.snapshot-distribution]]**: Data files in various RDF formats
+- **[[Resource pages|resource.element.documentation-resource.resource-page]]**: index.html files present in every mesh folder after weaving
+- **[[Distribution files|resource.element.snapshot-distribution]]**: Data files in various RDF formats
 - **README.md and CHANGELOG.md**: Documentation files providing context
 
 
 ## Physical Structure
 
 ### Folder Mapping
-- Mesh nodes correspond physically to [[mesh folders|concept.mesh.resource-facet.folder]]
+- Mesh nodes correspond physically to [[mesh folders|facet.filesystem.folder]]
 - Folder names become namespace segments and URL path components
 - The local [[concept.intramesh-identifier]] for a node matches its containing folder name
 
 ### File Organization
-- [[Datasets|concept.mesh.resource-facet.dataset]] are represented by folders containing at least one distribution file
+- [[Datasets|facet.resource.dataset]] are represented by folders containing at least one distribution file
 - Distribution files must be named using the dataset's [[namespace segment|concept.namespace.segment]]
 - Resource pages (index.html) should be present in every mesh folder after [[weaving|concept.weave-process]]
 
@@ -76,9 +76,9 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 - Each resource has a unique [[Intramesh Identifier|concept.intramesh-identifier]] based on its path and local name
 
 ### Containment Rules
-- **Mesh nodes** are always containers of elements (i.e., at least [[concept.mesh.resource.element.flow.node-metadata]] and [[concept.mesh.resource.folder._node-handle]]) and potentially containers of other nodes 
-  - **namespace nodes**: no additional containment requirements
-  - **data nodes**: must have [[concept.mesh.resource.element.flow.data]] with at least one distribution
+- **Mesh nodes** are always containers of elements (i.e., at least [[resource.element.flow.node-metadata]] and [[concept.mesh.resource.folder._node-handle]]) and potentially containers of other nodes 
+  - **bare nodes**: no additional containment requirements
+  - **data nodes**: must have [[resource.element.flow.data]] with at least one distribution
 - **Assets tree elements**: Cannot contain nodes
 - all elements can contain 
 
@@ -86,21 +86,21 @@ Terminal [[mesh resources|concept.mesh.resource]] that cannot contain other reso
 
 ### System vs User Boundaries
 - **System elements**: Generated and managed by the weave process, not intended for user modification
-- **User elements**: Directly modifiable by users ([[concept.mesh.resource.element.flow-snapshot.current]], README.md, CHANGELOG.md)
+- **User elements**: Directly modifiable by users ([[resource.element.flow-snapshot.current]], README.md, CHANGELOG.md)
 - The weave process maintains system elements and generates missing required flows
 
 ### Versioning Requirements
 - flow versioning is managed through the [[Versioning|concept.versioning]] system
-  - turning versioning on and off is controlled in the [[concept.mesh.resource.element.node-config-defaults]]
-  - Version history is realized in [[concept.mesh.resource.element.flow-snapshot.version]] with numbered version snapshots
-  - Version history metadata is kept in the node's [[concept.mesh.resource.element.flow.node-metadata]]
+  - turning versioning on and off is controlled in the [[resource.element.node-config-defaults]]
+  - Version history is realized in [[resource.element.flow-snapshot.version]] with numbered version snapshots
+  - Version history metadata is kept in the node's [[resource.element.flow.node-metadata]]
 
 ### Addressing Requirements
 - Every mesh resource must be addressable via its URL path
 - URLs must return meaningful content when dereferenced
-  - [[concept.mesh.resource.element.documentation-resource.resource-page]] provide human-readable information for [[concept.mesh.resource-facet.folder]]-based resources
-    - resource pages are always index.html files generated by "on weave" from the [[concept.mesh.resource.element.documentation-resource.changelog]] and [[concept.mesh.resource.element.documentation-resource.readme]] [[concept.mesh.resource.element.documentation-resource]], templates in [[concept.mesh.resource.element.asset-tree]] and any scoped template mappings specified in [[concept.mesh.resource.element.node-config-defaults]] files 
-  - [[concept.mesh.resource-facet.file]]
+  - [[resource.element.documentation-resource.resource-page]] provide human-readable information for [[facet.filesystem.folder]]-based resources
+    - resource pages are always index.html files generated by "on weave" from the [[resource.element.documentation-resource.changelog]] and [[resource.element.documentation-resource.readme]] [[resource.element.documentation-resource]], templates in [[resource.element.asset-tree]] and any scoped template mappings specified in [[resource.element.node-config-defaults]] files 
+  - [[facet.filesystem.file]]
 
 ## Integration Points
 
@@ -118,4 +118,4 @@ The [[Weave Process|concept.weave-process]] process maintains mesh integrity by:
 - The repository structure directly maps to the published URL structure
 
 ### Dataset Integration
-Meshes support multiple RDF formats and follow [[DCAT v3|related-topics.dcat.vocabulary]] standards for dataset organization. [[Datasets|concept.mesh.resource-facet.dataset]] within meshes include both standalone datasets and those embedded as mesh elements.
+Meshes support multiple RDF formats and follow [[DCAT v3|related-topics.dcat.vocabulary]] standards for dataset organization. [[Datasets|facet.resource.dataset]] within meshes include both standalone datasets and those embedded as mesh elements.

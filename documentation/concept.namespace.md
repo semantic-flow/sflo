@@ -2,7 +2,7 @@
 id: vhywrpw2eemb0kfaxa5xhdk
 title: Namespace
 desc: hierarchical address space formed by folder paths
-updated: 1755918431850
+updated: 1755990485010
 created: 1730226356459
 ---
 
@@ -15,17 +15,17 @@ A namespace is the hierarchical address space formed by folder names (segments).
 
 ## Node Types
 
-A [[namespace node|concept.mesh.resource.node.namespace]] is a mesh node whose URL refers to the namespace itself (an organizational container). The other node type is:
+A [[bare node|resource.node.bare]] is a mesh node whose URL refers to the namespace itself (an organizational container). The other node type is:
 
-- [[data node|concept.mesh.resource.node.data]]: URL refers to the node’s referent (real-world entity or dataset concept) and has a single [[data flow|concept.mesh.resource.element.flow.data]].
+- [[data node|resource.node.data]]: URL refers to the node’s referent (real-world entity or dataset concept) and has a single [[data flow|resource.element.flow.data]].
 
-For general node anatomy (handle and metadata requirements), see [[concept.mesh.resource.node]].
+For general node anatomy (handle and metadata requirements), see [[resource.node]].
 
 ## Minimal Example
 
 ```file
-/ns/                         # namespace node → https://ex.org/ns/
-└── people/                  # namespace node → https://ex.org/ns/people/
+/ns/                         # bare node → https://ex.org/ns/
+└── people/                  # bare node → https://ex.org/ns/people/
     └── alice/              # data node → https://ex.org/ns/people/alice/
 ```
 

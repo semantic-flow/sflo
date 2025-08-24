@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1755917160632
+updated: 1755990485009
 created: 1755820864360
 ---
 
@@ -37,7 +37,7 @@ See:
 
 3.1 Mesh Resources (Nodes and Elements)
 - Node (folder; container for nodes & elements): documentation/concept.mesh.resource.node.md
-  - Namespace node: organizational URL segment container: documentation/concept.mesh.resource.node.namespace.md
+  - bare node: organizational URL segment container: documentation/concept.mesh.resource.node.namespace.md
   - Data node: URL refers to the node’s referent (real-world entity or dataset concept); has a data flow: documentation/concept.mesh.resource.node.data.md
   - Dataset-series specialization (optional): documentation/concept.mesh.resource.node.data.series.md
 

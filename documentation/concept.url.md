@@ -2,7 +2,7 @@
 id: eo43ueh0viren1xkjcjregc
 title: Semantic Flow URLs
 desc: ''
-updated: 1755925679939
+updated: 1755990485024
 created: 1750368774797
 ---
 
@@ -14,7 +14,7 @@ People in the Semantic Web world typically use the term `IRI` rather than `URL`.
 
 | sflow URL type                         | referent                       | example                                                         | versionable |
 | -------------------------------------- | ------------------------------ | --------------------------------------------------------------- | ----------- |
-| namespace node                         | -none-                         | `https://ex.org/ns/`                                            | ❌           |
+| bare node                              | -none-                         | `https://ex.org/ns/`                                            | ❌           |
 | data node                              | concept                        | `https://ex.org/ns/dave-bio/`                                   | ❌           |
 | abstract dataset (flow)                | dataset series                 | `https://ex.org/ns/dave-bio/_data-flow/`                        | ✅           |
 | concrete node dataset (snapshot)       | concrete data dataset          | `https://ex.org/ns/dave-bio/_data-flow/_next/`                  | ❌           |
@@ -34,7 +34,7 @@ People in the Semantic Web world typically use the term `IRI` rather than `URL`.
 
 
 Example:
-- `ns/` = namespace node for organizing content and minting IRIs; refers to itself as a namespace
+- `ns/` = bare node for organizing content and minting IRIs; refers to itself as a namespace
 - `ns/dave/` = refers to Dave the person (data node)
 - `ns/dave/index.html` = resource page about Dave (content)
 - `ns/dave-bio/` = refers to Dave's biographical dataset (data node)
@@ -69,7 +69,7 @@ These are *retrievable representations* (materialized content).
 
 URLs that refer to **concepts, entities, or abstract things**, including:
 
-* **Namespace node URLs** → Organizational containers
+* **bare node URLs** → Organizational containers
 * **Data node URLs** → Concepts with associated datasets
 * **Abstract dataset URLs** → Dataset-as-persistent-concept
 * **Concrete dataset URLs** → Specific dataset snapshots

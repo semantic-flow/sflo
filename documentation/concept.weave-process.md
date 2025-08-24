@@ -6,16 +6,16 @@ updated: 1755972993936
 created: 1751128698638
 ---
 
-- checks for required [[concept.mesh.resource-facet.system]] and creates them if missing
+- checks for required [[facet.system]] and creates them if missing
 - optionally removes extraneous files, interactively if requested
-- for changed [[concept.mesh.resource-facet.user]] datasets (i.e., need version bump)
+- for changed [[facet.user]] datasets (i.e., need version bump)
   - if versioning is on:
-    - creates a new [[concept.mesh.resource.element.flow-snapshot.version]] 
+    - creates a new [[resource.element.flow-snapshot.version]] 
     - updates version metadata
   - regardless of whether versioning is on:
     - copies _next to _current
     - updates _meta-flow with new version information
-- regenerates affected [[concept.mesh.resource.element.documentation-resource.resource-page]]
+- regenerates affected [[resource.element.documentation-resource.resource-page]]
 
 ```file
 /repo-root/
@@ -49,13 +49,13 @@ created: 1751128698638
 This ensures that in published meshes and sites:
 
 - broken references are cleaned up
-- [[concept.mesh.resource.element.flow-snapshot.current]] is identical to the latest version
+- [[resource.element.flow-snapshot.current]] is identical to the latest version
 
 ## Features
 
 ### Verification
 
-- ensure that [[concept.mesh.resource.folder.node]] are only contained in other [[concept.mesh.resource.folder.node]].
+- ensure that [[folder.node]] are only contained in other [[folder.node]].
 
 ### Interactive Mode
 

@@ -2,15 +2,15 @@
 id: s5ild34tbe4w2wt4m8ldllg
 title: Example Mesh Hierarchy
 desc: ''
-updated: 1755911085634
+updated: 1755990485016
 created: 1750640592487
 ---
 
 ```file
-/test-ns/                                        # namespace node
+/test-ns/                                        # bare node
 ├── _meta-flow/                                       # node flow (metadata)
 │   ├── _current/                                # flow snapshot
-│   │   ├── ns_meta.trig                         # system metadata about the namespace node
+│   │   ├── ns_meta.trig                         # system metadata about the bare node
 │   │   └── index.html                           # resource page
 │   └── index.html                               # resource page
 ├── _assets/                                     # asset tree
@@ -91,7 +91,7 @@ created: 1750640592487
 ├── index.html                                   # resource page
 └── CHANGELOG.md                                 # resource documentation
 
-/test-ns/djradon/underbrush/playlists/                              # namespace node (container for playlist series)
+/test-ns/djradon/underbrush/playlists/                              # bare node (container for playlist series)
 ├── _meta-flow/                                       # node flow (metadata)
 │   ├── _current/                                # flow snapshot
 │   │   ├── playlists_meta.trig                  # metadata about playlist namespace
