@@ -2,7 +2,7 @@
 id: ragu0uc06vmiqvmn41r070e
 title: namespace folder
 desc: a mesh node folder whose URL refers to the namespace itself
-updated: 1755990485023
+updated: 1755998363785
 created: 1751242782345
 ---
 
@@ -11,19 +11,19 @@ created: 1751242782345
 A namespace folder is a mesh node folder whose URL refers to the namespace itself (an organizational container).
 
 - What a “namespace” is: see [[concept.namespace]]
-- URL semantics (concept vs content): see [[concept.url]]
+- URL semantics (concept vs content): see [[concept.identifier]]
 
 ## Minimal requirements
 
 - Must contain:
-  - [[`_node-handle/`|folder._handle]]
+  - [[`_node-handle/`|folder._node-handle]]
   - [[`_meta-flow/`|folder._node-metadata-flow]]
 - May contain:
-  - Other node folders and elements
+  - Other node folders and components
   - Optional system/user resources like [[`_assets/`|folder._assets]]
   - Optional flows (e.g., reference), if meaningful for the bare node’s role
 - Must not:
-  - Store dataset distributions directly outside flow snapshot folders (see [[resource.element.flow]])
+  - Store dataset distributions directly outside flow snapshot folders (see [[resource.node-component.flow]])
 
 ## Example
 

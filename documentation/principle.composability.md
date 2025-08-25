@@ -1,8 +1,8 @@
 ---
-id: 4b9afsut6cakxh55iabvirt
-title: Composability
+id: principle-composability
+title: composability
 desc: ''
-updated: 1755973087689
+updated: 1756078440705
 created: 1751233874377
 ---
 

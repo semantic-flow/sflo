@@ -1,8 +1,8 @@
 ---
-id: fv43m7jgc5rrqv20pe9enb4
-title: Transposability
+id: principle-transposability
+title: transposability
 desc: ''
-updated: 1755972667237
+updated: 1756146365616
 created: 1750489919875
 ---
 
@@ -11,10 +11,12 @@ created: 1750489919875
 ## Overview
 
 Transposability is the ability to:
-- move a mesh to a different serving locations without breaking its internal structure. 
-- 
 
-A transposable mesh works correctly regardless of which namespace contains it.
+1. move a [[concept.mesh]] to a different serving locations without breaking its internal structure; i.e., A transposable mesh works correctly regardless of which namespace contains it.
+2. move a [[concept.mesh.sub]] to a different part of the mesh
+
+If you use 
+
 
 ## Key Principles
 
@@ -29,7 +31,7 @@ Semantic Flow never hardcodes BASE URIs in RDF distribution files. Instead, it r
 
 ### 2. URI Reference Strategies
 
-- see [[concept.url.reference-path-choices]]
+- see [[faq.reference-iri-choices]]
 
 ### 3. Publication History Tracking
 

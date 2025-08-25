@@ -1,8 +1,8 @@
 ---
 id: 17l23vl7sqg997hr773dh23
-title: Intramesh Identifier
+title: intramesh identifier
 desc: ''
-updated: 1755918348246
+updated: 1756146502428
 created: 1750654763700
 ---
 
@@ -12,7 +12,7 @@ If it starts with a `../` it refers to the parent, `../../` refers to the grandp
 
 ## Identifier Semantics
 
-Identifiers have the same semantics as [[concept.url]]
+Identifiers have the same semantics as [[concept.identifier]]
 
 ## Identifier Name Limitations
 
@@ -31,4 +31,4 @@ Intramesh identifiers from meta-flow distributions:
 
 Node self-reference: `"../../../my-dataset"`  
 Other flows: `"../../_config-operational-flow/_current/config.trig"`, `"../../_config-inheritable-flow/_current/config.trig"`, `"../../_data-flow/_current/data.jsonld"`  
-Elements in other flows: Same pattern, just different flow names
+Components in other flows: Same pattern, just different flow names

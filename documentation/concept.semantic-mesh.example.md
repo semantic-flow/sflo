@@ -2,7 +2,7 @@
 id: s5ild34tbe4w2wt4m8ldllg
 title: Example Mesh Hierarchy
 desc: ''
-updated: 1755990485016
+updated: 1756063907835
 created: 1750640592487
 ---
 
@@ -20,7 +20,7 @@ created: 1750640592487
 └── index.html                                   # resource page
 
 /test-ns/djradon/                                # data node  
-├── _node-handle/                                     # handle element
+├── _node-handle/                                     # handle component
 │   └── index.html                               # mesh node handle page
 ├── _data-flow/                                       # node flow (data)
 │   ├── _current/                                # flow snapshot

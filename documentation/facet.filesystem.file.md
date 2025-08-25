@@ -6,14 +6,14 @@ updated: 1751994189984
 created: 1751351679764
 ---
 
-Resource files are returned directly when accessed by their [[concept.url]].
+Resource files are returned directly when accessed by their [[concept.identifier]].
 
 ## Types
 
-- [[resource.element.documentation-resource]]
-  - [[resource.element.documentation-resource.resource-page]] (system-generated)
-  - [[resource.element.documentation-resource.changelog]]
-  - [[resource.element.documentation-resource.readme]]
-- [[resource.element.snapshot-distribution]]
-- [[resource.element.aggregated-distribution]]
+- [[resource.node-component.documentation-resource]]
+  - [[resource.node-component.documentation-resource.resource-page]] (system-generated)
+  - [[resource.node-component.documentation-resource.changelog]]
+  - [[resource.node-component.documentation-resource.readme]]
+- [[resource.node-component.snapshot-distribution]]
+- [[resource.node-component.aggregated-distribution]]
 - 

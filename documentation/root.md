@@ -2,7 +2,7 @@
 id: voy7zrf0f6bs86m02uadhaf
 title: Semantic Flow Documentation
 desc: ''
-updated: 1755716995138
+updated: 1756155165637
 created: 1755709990079
 ---
 
@@ -12,7 +12,7 @@ created: 1755709990079
 
 ## What Is Semantic Flow?
 
-**Semantic Flow** is a framework for managing and publishing resource indicators, knowledge graphs and other semantic data by leveraging GitHub, Gitlab, and other free static hosting services. It enables a **dereferenceable Semantic Web** where every HTTP IRI returns meaningful content.
+**Semantic Flow** is a framework for managing and publishing resource identifiers, knowledge graphs and other semantic data by leveraging GitHub, Gitlab, and other free static hosting services. It enables a **dereferenceable Semantic Web** where every HTTP IRI returns meaningful content.
 
 [[concept.mesh-repo]] provide storage, [[concept.mesh]] provide resource management and publishing, and [[concept.semantic-site]] support data discovery and explainability.
 

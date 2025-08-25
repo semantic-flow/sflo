@@ -2,7 +2,7 @@
 id: vhywrpw2eemb0kfaxa5xhdk
 title: Namespace
 desc: hierarchical address space formed by folder paths
-updated: 1755990485010
+updated: 1756063907797
 created: 1730226356459
 ---
 
@@ -10,14 +10,14 @@ created: 1730226356459
 
 A namespace is the hierarchical address space formed by folder names (segments). Every folder extends the namespace with its name, and the resulting path maps directly to the published URL.
 
-- Concept vs content URL semantics: see [[concept.url]]
-- How intramesh identifiers are resolved: see [[concept.intramesh-identifier]]
+- Concept vs content URL semantics: see [[concept.identifier]]
+- How intramesh identifiers are resolved: see [[concept.identifier.intramesh]]
 
 ## Node Types
 
 A [[bare node|resource.node.bare]] is a mesh node whose URL refers to the namespace itself (an organizational container). The other node type is:
 
-- [[data node|resource.node.data]]: URL refers to the node’s referent (real-world entity or dataset concept) and has a single [[data flow|resource.element.flow.data]].
+- [[data node|resource.node.reference.dataset]]: URL refers to the node’s referent (real-world entity or dataset concept) and has a single [[data flow|resource.node-component.flow.data]].
 
 For general node anatomy (handle and metadata requirements), see [[resource.node]].
 
@@ -30,7 +30,7 @@ For general node anatomy (handle and metadata requirements), see [[resource.node
 ```
 
 - Folder names become namespace segments.
-- Slash-terminated URLs identify concepts; file URLs identify content (see [[concept.url]]).
+- Slash-terminated URLs identify concepts; file URLs identify content (see [[concept.identifier]]).
 
 ## Publishing Base
 

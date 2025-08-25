@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1755972993936
+updated: 1756077935670
 created: 1751128698638
 ---
 
@@ -10,12 +10,12 @@ created: 1751128698638
 - optionally removes extraneous files, interactively if requested
 - for changed [[facet.user]] datasets (i.e., need version bump)
   - if versioning is on:
-    - creates a new [[resource.element.flow-snapshot.version]] 
+    - creates a new [[resource.node-component.flow-snapshot.version]] 
     - updates version metadata
   - regardless of whether versioning is on:
     - copies _next to _current
     - updates _meta-flow with new version information
-- regenerates affected [[resource.element.documentation-resource.resource-page]]
+- regenerates affected [[resource.node-component.documentation-resource.resource-page]]
 
 ```file
 /repo-root/
@@ -49,13 +49,14 @@ created: 1751128698638
 This ensures that in published meshes and sites:
 
 - broken references are cleaned up
-- [[resource.element.flow-snapshot.current]] is identical to the latest version
+- [[resource.node-component.flow-snapshot.current]] is identical to the latest version
 
 ## Features
 
 ### Verification
 
 - ensure that [[folder.node]] are only contained in other [[folder.node]].
+- detect [[principle.transposability]]
 
 ### Interactive Mode
 

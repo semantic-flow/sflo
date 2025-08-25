@@ -2,7 +2,7 @@
 id: 9j8lhoyb0xkhg926nafgkai
 title: data flow
 desc: ''
-updated: 1755911843309
+updated: 1755998126876
 created: 1751560483669
 ---
 
@@ -26,17 +26,17 @@ data flows serve as the primary content containers for mesh nodes, providing:
 
 ## Structure
 
-Data flows organize content through [[flow snapshots|resource.element.flow-snapshot]]:
+Data flows organize content through [[flow snapshots|resource.node-component.flow-snapshot]]:
 
 - `_current/` - Current stable version of the dataset
 - `_next/` - Draft/work-in-progress version
 - `_v1/`, `_v2/`, etc. - Versioned snapshots for historical access
 
-Like all [[facet.filesystem.folder]], they should contain an `index.html` [[resource.element.documentation-resource.resource-page]] -- a human-readable description for the flow.
+Like all [[facet.filesystem.folder]], they should contain an `index.html` [[resource.node-component.documentation-resource.resource-page]] -- a human-readable description for the flow.
 
 ## Distribution Formats
 
-Each [[flow snapshot|resource.element.flow-snapshot]] typically provides multiple format distributions:
+Each [[flow snapshot|resource.node-component.flow-snapshot]] typically provides multiple format distributions:
 
 - **Trig (.trig)**: Primary RDF serialization
 - **JSON-LD (.jsonld)**: JSON-compatible linked data
@@ -62,9 +62,8 @@ From the [[semantic mesh example|concept.semantic-mesh.example]]:
 
 ## Integration
 
-data flows integrate with other mesh elements:
+data flows integrate with other mesh components:
 
 - **metadata flows**: Provide provenance and management data
 - **Asset Trees**: Store associated files and media
 - **Resource Pages**: Provide human-readable interfaces
-

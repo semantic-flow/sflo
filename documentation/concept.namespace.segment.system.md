@@ -25,7 +25,7 @@ This page is the canonical list; see the linked docs for behavior and details.
 
 ## Other reserved
 
-- [[_node-handle/|folder._handle]]
+- [[_node-handle/|folder._node-handle]]
 - [[_assets/|folder._assets]]
 
-For URL semantics: see [[concept.url]]. For namespace background: see [[concept.namespace]] and [[concept.namespace.segment]].
+For URL semantics: see [[concept.identifier]]. For namespace background: see [[concept.namespace]] and [[concept.namespace.segment]].

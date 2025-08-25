@@ -2,7 +2,7 @@
 id: hp9ckpez0pmuv270sn005gt
 title: node folder
 desc: a folder that maps to a mesh node and extends the namespace
-updated: 1755990485017
+updated: 1756063907842
 created: 1751160854174
 ---
 
@@ -16,15 +16,15 @@ A node folder is any folder that maps to a mesh node. Each node folder extends t
 ## Minimal requirements
 
 - Every node folder must contain:
-  - [[_node-handle/|folder._handle]]
+  - [[_node-handle/|folder._node-handle]]
   - [[_meta-flow/|folder._node-metadata-flow]]
 
 ## Node-specific flows (by type)
 
 - [[bare node|resource.node.bare]]: no additional flows 
-- [[data node|resource.node.data]]: requires [[_data-flow/|folder._data-flow]]
+- [[data node|resource.node.reference.dataset]]: requires [[_data-flow/|folder._data-flow]]
 
-Distributions must live inside flow snapshot folders (e.g., `_current/`, `_vN/`). See [[resource.element.flow]] and [[resource.element.flow-snapshot]].
+Distributions must live inside flow snapshot folders (e.g., `_current/`, `_vN/`). See [[resource.node-component.flow]] and [[resource.node-component.flow-snapshot]].
 
 ## Example
 

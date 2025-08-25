@@ -2,7 +2,7 @@
 id: iorxcnsnmhl0hw3ki8w3h2z
 title: Referent
 desc: ''
-updated: 1755993153802
+updated: 1756063907804
 created: 1755990922267
 ---
 Perfect — here’s an extended wiki note that folds in that case:
@@ -23,10 +23,10 @@ The *referent* is the thing (real or imaginary) that a node’s IRI **refers to*
 
 **Where it’s described**
 
-* The **referent’s description** lives in the node’s [[resource.element.flow.reference]].
+* The **referent’s description** lives in the node’s [[resource.node-component.flow.reference]].
 * The **node’s own metadata and provenance** live in the **`_node-*` flows** (e.g. `_node-metadata-flow`, `_node-config-*`).
 
-**Special case: Data nodes**
+**Special case: data nodes**
 
 * In a **data node**, the **referent** is not an external entity but an **evolvable dataset** contained in the node.
 * The dataset evolves as versioned distributions inside the node’s `_data-flow` (e.g. `v1/`, `v2/`, …).

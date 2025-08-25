@@ -2,7 +2,7 @@
 id: e6enrj5ztz3hz84ojujef0k
 title: Aggregated Distribution
 desc: ''
-updated: 1755912516918
+updated: 1756063907855
 created: 1751631229565
 ---
 
@@ -10,7 +10,7 @@ __note: maybe we will do them, maybe we won't__
 
 A node's **aggregated distribution** is a compilation of all the child data flows of its contained data nodes (their `_data-flow/_current/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
 
-Both [[resource.node.bare]] and [[resource.node.data]] can have aggregate distributions. Data nodes include their own data in the aggregation.
+Both [[resource.node.bare]] and [[resource.node.reference.dataset]] can have aggregate distributions. data nodes include their own data in the aggregation.
 
 ## Purpose
 
@@ -36,9 +36,9 @@ During [[concept.weave-process]], aggregated distributions are created by:
 ├── my-ontology.rdf              ← Aggregated distribution  
 ├── my-ontology.jsonld           ← Aggregated distribution
 ├── components/
-│   ├── Person/                  ← Data node (class definition)
-│   ├── hasName/                 ← Data node (property definition)
-│   └── Organization/            ← Data node (class definition)
+│   ├── Person/                  ← data node (class definition)
+│   ├── hasName/                 ← data node (property definition)
+│   └── Organization/            ← data node (class definition)
 ```
 
 ### Knowledge Base
@@ -72,6 +72,6 @@ During [[concept.weave-process]], aggregated distributions are created by:
 
 ## Related Concepts
 
-- **[[resource.element.flow.data]]** - Source datasets for aggregation
+- **[[resource.node-component.flow.data]]** - Source datasets for aggregation
 - **[[concept.weave-process]]** - Process that generates aggregated distributions
-- **[[resource.element.flow-snapshot]]** - Contains the actual distributions being aggregated
+- **[[resource.node-component.flow-snapshot]]** - Contains the actual distributions being aggregated

@@ -2,17 +2,17 @@
 id: bxqmsolrgfu4fm16m5acii7
 title: reference node
 desc: ''
-updated: 1755990374670
+updated: 1756044376767
 created: 1755977777704
 ---
 
 ## Definition
 
-A **reference node** is a [[resource.node]] that represents the **referent** of the node — i.e., the thing in the world that the node stands for.
+A **reference node** is a [[resource.node]] that represents the (non-dataset) **referent** of the node — i.e., the thing in the world that the node stands for.
 
 **Purpose**
 
-* To declare what the node *refers to* (person, place, concept, dataset, etc.).
+* To describe what the node *refers to* (person, place, concept, dataset, etc.).
 * To supply human/machine labels, identifiers, and minimal provenance about the referent.
 * To differentiate between metadata about the **node itself** (`_node-metadata-flow`) and metadata about the **referent**.
 

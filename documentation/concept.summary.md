@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1755990485009
+updated: 1756063907837
 created: 1755820864360
 ---
 
@@ -22,50 +22,50 @@ A semantic mesh is a dereferenceable, folder-structured, possibly-versioned corp
 - The weave process maintains coherence and keeps the repo publish-ready.
 
 See:
-- concept.mesh (definition, requirements): documentation/concept.mesh.md
-- concept.semantic-site (site posture): documentation/concept.semantic-site.md
-- concept.mesh-repo (repo-to-site mapping): documentation/concept.mesh-repo.md
+- [[concept.mesh]]: definition, requirements
+- [[concept.semantic-site]]: site posture
+- [[concept.mesh-repo]]: repo-to-site mapping
 
 2) Design Principles
-- Dereferenceability for humans (resource pages): documentation/principle.dereferencability-for-humans.md
-- Single referent per URL (concept vs content is explicit): documentation/principle.single-referent.md
-- Pseudo-immutability (treat version snapshots/IDs as immutable): documentation/principle.pseudo-immutability.md
-- Transposability (move meshes without breaking links via relative IDs): documentation/concept.transposability.md
-- Composability (extract/compose submeshes): documentation/concept.composability.md
+- [[principle.dereferencability-for-humans]]: resource pages
+- [[principle.single-referent]]: concept vs content is explicit
+- [[principle.pseudo-immutability]]: treat version snapshots/IDs as immutable
+- [[principle.transposability]]: move meshes without breaking links via relative IDs
+- [[principle.composability]]: extract/compose submeshes
 
 3) Core Abstractions
 
-3.1 Mesh Resources (Nodes and Elements)
-- Node (folder; container for nodes & elements): documentation/concept.mesh.resource.node.md
-  - bare node: organizational URL segment container: documentation/concept.mesh.resource.node.namespace.md
-  - Data node: URL refers to the node’s referent (real-world entity or dataset concept); has a data flow: documentation/concept.mesh.resource.node.data.md
-  - Dataset-series specialization (optional): documentation/concept.mesh.resource.node.data.series.md
+3.1 Mesh Resources (Nodes and Components)
+- Node (folder; container for nodes & components): [[concept.mesh.resource.node]]
+  - bare node: organizational URL segment container: [[concept.mesh.resource.node.namespace]]
+  - data node: URL refers to the node’s referent (real-world entity or dataset concept); has a data flow: [[concept.mesh.resource.node.data]]
+  - Dataset-series specialization (optional): [[concept.mesh.resource.node.data.series]]
 
-- Element (terminal resource supporting a node): documentation/concept.mesh.resource.element.md
+- Node component (terminal resource supporting a node): [[resource.node-component]]
   - Flows (abstract datasets as DatasetSeries):
-    - Meta flow (metadata/provenance): documentation/concept.mesh.resource.element.flow.metadata.md
-    - Data flow (payload data): documentation/concept.mesh.resource.element.flow.data.md
-    - Config flows (settings; see §9): documentation/concept.mesh.resource.element.flow.config.md
+    - Meta flow (metadata/provenance): [[resource.node-component.flow.node-metadata]]
+    - Data flow (payload data): [[resource.node-component.flow.data]]
+    - Node-config flows (settings; see §9): [[resource.node-component.flow.node-config]]
   - Flow snapshots (concrete Datasets): `_current/`, `_next/`, `_vN/`
-    - Overview: documentation/concept.mesh.resource.element.flow.snapshot.md
-    - `_current/`: documentation/concept.mesh.resource.element.flow.snapshot.current.md
-    - `_next/`: documentation/concept.mesh.resource.element.flow.snapshot.next.md
-    - `_vN/`: documentation/concept.mesh.resource.element.flow.snapshot.version.md
-    - Distributions: documentation/concept.mesh.resource.element.flow.snapshot.distribution.md
-  - Handle (refer to the node “as a mesh resource”): documentation/concept.mesh.resource.element.handle.md
-    - Handle page (human-facing): documentation/concept.mesh.resource.element.handle.page.md
-  - Asset tree (static files for the node): documentation/concept.mesh.resource.element.asset-tree.md
+    - Overview: [[resource.node-component.flow-snapshot]]
+    - `_current/`: [[resource.node-component.flow-snapshot.current]]
+    - `_next/`: [[resource.node-component.flow-snapshot.next]]
+    - `_vN/`: [[resource.node-component.flow-snapshot.version]]
+    - Distributions: [[resource.node-component.flow-snapshot.distribution]]
+  - Handle (refer to the node “as a mesh resource”): [[resource.node-component.node-handle]]
+    - Handle page (human-facing): [[resource.node-component.handle.page]]
+  - Asset tree (static files for the node): [[resource.node-component.asset-tree]]
   - Documentation resources (README/CHANGELOG/resource pages/fragments):
-    - README: documentation/concept.mesh.resource.element.documentation-resource.readme.md
-    - CHANGELOG: documentation/concept.mesh.resource.element.documentation-resource.changelog.md
-    - Resource page (index.html): documentation/concept.mesh.resource.element.documentation-resource.resource-page.md
-    - Resource fragment: documentation/concept.mesh.resource.element.documentation-resource.resource-fragment.md
-  - Aggregated distribution (optional roll-up of child node data): documentation/concept.mesh.resource.element.aggregated-distribution.md
+    - README: [[resource.node-component.documentation-resource.readme]]
+    - CHANGELOG: [[resource.node-component.documentation-resource.changelog]]
+    - Resource page (index.html): [[resource.node-component.documentation-resource.resource-page]]
+    - Resource fragment: [[resource.node-component.documentation-resource.resource-fragment]]
+  - Aggregated distribution (optional roll-up of child node data): [[resource.node-component.aggregated-distribution]]
 
 3.2 Facets (Folder, File, Dataset)
-- Folder facet (namespace mapping; reserved folders): documentation/concept.mesh.resource-facet.folder.md
-- File facet (content retrieval): documentation/concept.mesh.resource-facet.file.md
-- Dataset facet (DatasetSeries vs Dataset): documentation/concept.mesh.resource-facet.dataset.md
+- Folder facet (namespace mapping; reserved folders): [[concept.mesh.resource-facet.folder]]
+- File facet (content retrieval): [[concept.mesh.resource-facet.file]]
+- Dataset facet (DatasetSeries vs Dataset): [[concept.mesh.resource-facet.dataset]]
 
 4) Addressing and Identity
 
@@ -73,26 +73,26 @@ See:
 - Folder names become namespace segments; the path is the node’s relative identifier (and URL path when published).
 - Relative identifiers are used within distributions for transposability; resolve relative to distribution location.
 See:
-- concept.namespace (overview): documentation/concept.namespace.md
-- concept.namespace.segment (segment definition): documentation/concept.namespace.segment.md
-- concept.namespace.segment.system (reserved segments): documentation/concept.namespace.segment.system.md
-- concept.relative-identifier (relative IDs): documentation/concept.relative-identifier.md
+- [[concept.namespace]]: overview
+- [[concept.namespace.segment]]: segment definition
+- [[concept.namespace.segment.system]]: reserved segments
+- [[concept.identifier.intramesh]]: relative IDs
 
 4.2 URL Semantics
 - Concept URLs (slash-terminated) identify nodes, flows (abstract), snapshots (conceptual), and handle.
 - Content URLs (with filenames) identify retrievable files: distributions, HTML pages, READMEs, assets.
 - Follow document-vs-thing hygiene to avoid ambiguity.
 See:
-- concept.url (URL types and mapping): documentation/concept.url.md
-- concept.url.reference-path-choices (trade-offs): documentation/concept.url.reference-path-choices.md
-- concept.iri (terminology; prefer “URLs” when referring to mesh-local IRIs): documentation/concept.iri.md
+- [[concept.identifier]]: URL types and mapping
+- [[faq.reference-iri-choices]]: trade-offs
+- [[concept.iri]]: terminology; prefer “URLs” when referring to mesh-local IRIs
 
 4.3 Handle Rationale
 - A node’s URL refers to its referent (namespace, real-world entity, or dataset concept).
-- The handle element provides a URL to refer to the node itself “as a mesh resource” (for config, provenance, lifecycle).
+- The handle component provides a URL to refer to the node itself “as a mesh resource” (for config, provenance, lifecycle).
 See:
-- handle: documentation/concept.mesh.resource.element.handle.md
-- handle page: documentation/concept.mesh.resource.element.handle.page.md
+- [[resource.node-component.node-handle]]
+- [[resource.node-component.handle.page]]
 
 5) Physical Structure and Reserved Folders
 
@@ -107,17 +107,17 @@ Reserved folder names (underscore-prefixed; canonical set):
   - `_assets/` (static files)
 
 Folder-note pages for these reserved names live under `concept.mesh.resource.folder.*.md` (where defined):
-- `_meta-flow/`: documentation/concept.mesh.resource.folder._meta-flow.md
-- `_data-flow/`: documentation/concept.mesh.resource.folder._data-flow.md
-- `_config-operational-flow/`: documentation/concept.mesh.resource.folder._config-operational-flow.md
-- `_config-inheritable-flow/`: documentation/concept.mesh.resource.folder._config-inheritable-flow.md
-- `_current/`: documentation/concept.mesh.resource.folder._current.md
-- `_next/`: documentation/concept.mesh.resource.folder._next.md
-- `_vN/`: documentation/concept.mesh.resource.folder._vN.md
-- `_assets/`: documentation/concept.mesh.resource.folder._assets.md
+- `_meta-flow/`: [[concept.mesh.resource.folder._meta-flow]]
+- `_data-flow/`: [[concept.mesh.resource.folder._data-flow]]
+- `_config-operational-flow/`: [[concept.mesh.resource.folder._config-operational-flow]]
+- `_config-inheritable-flow/`: [[concept.mesh.resource.folder._config-inheritable-flow]]
+- `_current/`: [[concept.mesh.resource.folder._current]]
+- `_next/`: [[concept.mesh.resource.folder._next]]
+- `_vN/`: [[concept.mesh.resource.folder._vN]]
+- `_assets/`: [[concept.mesh.resource.folder._assets]]
 - Node folder pages:
-  - Node: documentation/concept.mesh.resource.folder.node.md
-  - Namespace: documentation/concept.mesh.resource.folder.namespace.md
+  - Node: [[concept.mesh.resource.folder.node]]
+  - Namespace: [[concept.mesh.resource.folder.namespace]]
 
 6) Data and Versioning Model
 - Only flows are versioned (flows are DatasetSeries). Nodes are not versioned.
@@ -128,55 +128,54 @@ Folder-note pages for these reserved names live under `concept.mesh.resource.fol
 - Working distribution: `_next/` typically contains a single editable source; weave can fan-out serializations.
 - Sibling distribution: patterns and constraints for multi-file realizations.
 See:
-- concept.versioning: documentation/concept.versioning.md
-- concept.working-distribution: documentation/concept.working-distribution.md
-- concept.sibling-distribution: documentation/concept.sibling-distribution.md
+- [[concept.versioning]]
+- [[concept.working-distribution]]
+- [[concept.sibling-distribution]]
 
 7) Lifecycle and Weave Process
 Weave maintains structural coherence and publication readiness:
-- Ensures required system elements exist.
+- Ensures required system components exist.
 - If versioning is enabled, creates a new `_vN/` from `_next/`.
 - Promotes `_next/` contents to `_current/`.
 - Updates meta/provenance; regenerates resource pages.
 - Resolves internal links to maintain transposability.
 - Integrates with the scanner where applicable.
 See:
-- concept.weave-process: documentation/concept.weave-process.md
-- concept.flow.page-generation: documentation/concept.flow.page-generation.md
-- concept.scanner: documentation/concept.scanner.md
-- concept.metadata.provenance: documentation/concept.metadata.provenance.md
+- [[concept.weave-process]]
+- [[concept.flow.page-generation]]
+- [[concept.scanner]]
+- [[concept.metadata.provenance]]
 
 8) Publishing and Sites
 - Repos are static-site-ready; pushing to GitHub Pages or any static host publishes the mesh (folder paths → URL paths).
 - Transposition (domain/project move) is safe with relative IDs.
 See:
-- concept.mesh-repo: documentation/concept.mesh-repo.md
-- concept.semantic-site: documentation/concept.semantic-site.md
-- concept.publication: documentation/concept.publication.md
-- concept.source: documentation/concept.source.md
+- [[concept.mesh-repo]]
+- [[concept.semantic-site]]
+- [[concept.publication]]
 
-9) Configuration and Inheritance (Two Config Flows)
+1) Configuration and Inheritance (Two Config Flows)
 - Operational Config Flow: final, resolved settings for a node (consumer). Overrides apply here.
 - Inheritable Config Flow: settings a node offers to descendants (provider). Property-level merge; order: parent → … → service → platform; propagation can be firewalled.
 - Resolution: a single inheritance mechanism resolves operational config from inheritable configs plus service/platform defaults. Explicit operational entries override inherited ones.
 See:
-- flow.config overview: documentation/concept.mesh.resource.element.flow.config.md
-- operational config: documentation/concept.mesh.resource.element.flow.config.operational.md
-- inheritable config: documentation/concept.mesh.resource.element.flow.config.inheritable.md
-- node-config defaults (as inheritable defaults): documentation/concept.mesh.resource.element.node-config-defaults.md
+- [[resource.node-component.flow.node-config]]: overview
+- [[resource.node-component.flow.node-config.operational]]
+- [[resource.node-component.flow.node-config.inheritable]]
+- [[resource.node-component.node-config-defaults]]: defaults as inheritable values
 
-10) Aggregated Views
+1)  Aggregated Views
 - Aggregated distribution: optional roll-up of child data nodes’ current datasets at a parent node for convenience.
 See:
-- aggregated distribution: documentation/concept.mesh.resource.element.aggregated-distribution.md
+- [[resource.node-component.aggregated-distribution]]
 
-11) Minimal File Tree Example
+1)  Minimal File Tree Example
 
 ```
 /repo-root/
 ├── _assets/                         # optional site-wide assets
 ├── my-node/                         # a mesh node (folder)
-│   ├── _node-handle/                # handle element (concept.mesh.resource.element.handle)
+│   ├── _node-handle/                # handle component (resource.node-component.node-handle)
 │   ├── _meta-flow/                  # metadata flow (system)
 │   │   ├── _current/
 │   │   └── _v1/
@@ -210,86 +209,39 @@ graph TD
 ```
 
 13) Glossary
-- [Mesh: the set of addressable resources in a repository, published as a site](documentation/concept.mesh.md)
-- Node: an extensible folder resource containing nodes/elements: documentation/concept.mesh.resource.node.md
-- Element: terminal resource that supports node behavior/structure: documentation/concept.mesh.resource.element.md
-- Flow: DatasetSeries representing an abstract dataset (meta/data/config): documentation/concept.mesh.resource.element.flow.md
-- Snapshot: concrete Dataset realization of a flow (`_current/`, `_next/`, `_vN/`): documentation/concept.mesh.resource.element.flow.snapshot.md
-- Distribution: a concrete serialization file (TriG, JSON-LD, etc.): documentation/concept.mesh.resource.element.flow.snapshot.distribution.md
-- Handle: indirection to refer to the node “as a mesh resource”: documentation/concept.mesh.resource.element.handle.md
-- Resource Page: dereferenceable `index.html` for folders: documentation/concept.mesh.resource.element.documentation-resource.resource-page.md
-- Aggregated Distribution: parent-level roll-up of children’s current data: documentation/concept.mesh.resource.element.aggregated-distribution.md
-- Weave: lifecycle operation to version/promote/regenerate/repair: documentation/concept.weave-process.md
-
-1)  Notable Inconsistencies and Update Recommendations
-
-The following should be reconciled to present a single coherent model. Each item provides evidence and a recommended fix.
-
-A. Folder naming: `_meta/_data` vs `_meta-flow/_data-flow`
+- [[concept.mesh]]: the set of addressable resources in a repository, published as a site
+- Node: an extensible folder resource containing nodes/components: [[resource.node]]
+- Node component: terminal resource that supports node behavior/structure: [[resource.node-component]]
+- Flow: DatasetSeries representing an abstract dataset (meta/data/config): [[resource.node-component.flow]]
+- [[resource.node-component.flow-snapshot]]: concrete Dataset realization of a flow (`_current/`, `_next/`, `_vN/`)
+- [[resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.): 
+- Handle: indirection to refer to the node “as a mesh resource”: [[resource.node-component.node-handle]]
+- Resource Page: dereferenceable `index.html` for folders: [[resource.node-component.documentation-resource.resource-page]]
+- Aggregated Distribution: parent-level roll-up of children’s current data: [[resource.node-component.aggregated-distribution]]
+- Weave: lifecycle operation to version/promote/regenerate/repair: [[concept.weave-process]]
 - Evidence:
-  - Example uses `_meta-flow/_data-flow`: documentation/concept.semantic-mesh.example.md
-  - URL table uses `_meta/` (no “-flow”): documentation/concept.url.md
-  - Folder-note pages exist for “-flow” variants: documentation/concept.mesh.resource.folder._meta-flow.md, documentation/concept.mesh.resource.folder._data-flow.md
-- Recommendation: Standardize on “-flow” names across docs, examples, and URL tables:
-  - `_meta-flow/`, `_data-flow/`, `_config-operational-flow/`, `_config-inheritable-flow/`.
-
-B. Unified flow removed
-- Recommendation: Remove all references to a unified flow; do not generate or document it. If legacy folders exist, leave a static note and migrate to resource pages or aggregated distributions.
-
-C. URL semantics table alignment
-- Evidence:
-  - Table shows `_meta/` instead of `_meta-flow/`: documentation/concept.url.md
-- Recommendation: Update the table to reflect the “-flow” standard (A).
-
-E. Flow doc uses legacy `node-component.*` links and terminology
-- Evidence:
-  - documentation/concept.mesh.resource.element.flow.md lines reference `node-component.*`
-- Recommendation: Update links to `concept.mesh.resource.element.flow.*` and ensure terminology is “flow” (not “component”).
-
-
-G. Incomplete or placeholder docs
-- Evidence (examples):
-  - concept.namespace.md minimal/incomplete
-  - concept.namespace.segment.md ends mid-sentence
-  - concept.namespace.segment.system.md needs completion
-  - concept.mesh.resource.folder.node.md and .folder.namespace.md need minimal requirements/links
-- Recommendation: Fill with concise definitions and link-driven guidance consistent with this summary.
-
-H. Dataset facet phrasing
-- Evidence:
-  - dataset facet implies flows’ data lives in the parent node’s meta flow: documentation/concept.mesh.resource-facet.dataset.md
-- Recommendation: Correct: flows have no distributions; snapshots do. The node’s meta flow contains metadata about the node and its flows, not the flows’ data.
-
-I. `_current/` semantics conflict
-- Evidence:
-  - `_current/` = stable published version: documentation/concept.mesh.resource.element.flow.snapshot.current.md
-  - `_current/` described as “active working state”: documentation/concept.mesh.resource.element.flow.snapshot.md
-- Recommendation: Adopt stable definition: `_current/` mirrors latest `_vN/` after weave; `_next/` is the mutable working area.
-
-J. Distribution format support table
-- Evidence:
-  - TriG appears unsupported while docs/examples use TriG heavily: documentation/concept.mesh.resource.element.flow.snapshot.distribution.md
+  - TriG appears unsupported while docs/examples use TriG heavily: [[resource.node-component.flow-snapshot.distribution]]
 - Recommendation: Make TriG and JSON-LD first-class supported formats; document status for TTL, N-Quads, RDF/XML.
 
 K. Config defaults doc should include explicit property names/shapes
 - Evidence:
-  - documentation/concept.mesh.resource.element.node-config-defaults.md lacks concrete JSON-LD terms/examples
+  - [[resource.node-component.node-config-defaults]] lacks concrete JSON-LD terms/examples
 - Recommendation: Provide explicit terms/shapes aligned with config-flow vocabulary and the inheritance resolution doc.
 
 L. Relative identifier examples mention `_config-flow`
 - Evidence:
-  - concept.relative-identifier.md vs config docs (two config flows): documentation/concept.mesh.resource.element.flow.config.md
+  - [[concept.identifier.intramesh]] vs config docs (two config flows): [[resource.node-component.flow.node-config]]
 - Recommendation: Align examples with `_config-operational-flow/` and `_config-inheritable-flow/`.
 
 M. Confirm embedded mesh doc and folder-note coverage
 - Evidence:
-  - `documentation/concept.mesh.embedded.md` exists; ensure it’s linked where appropriate (namespace/base docs).
+  - [[concept.mesh.embedded]] exists; ensure it’s linked where appropriate (namespace/base docs).
 - Recommendation: Link embedded mesh doc from base/namespace docs.
 
 1)  Minimal “Core Context” to feed an LLM
 If context must be small, include:
 - Definition (§1) and Principles (§2).
-- Node vs Element; Flows vs Snapshots (§3).
+- Node vs Component; Flows vs Snapshots (§3).
 - URL semantics and relative identifiers (§4).
 - Reserved folders and example tree (§5, §11).
 - Lifecycle and weave (§7).

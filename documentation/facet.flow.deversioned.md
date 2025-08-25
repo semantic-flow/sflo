@@ -6,4 +6,4 @@ updated: 1755853733758
 created: 1751139382440
 ---
 
-De-versioned node flows are [[resource.element.flow]] that were once versioned, but have had their versioning turned off. So there are probably [[facet.flow.v-series]].
+De-versioned node flows are [[resource.node-component.flow]] that were once versioned, but have had their versioning turned off. So there are probably [[facet.flow.v-series]].

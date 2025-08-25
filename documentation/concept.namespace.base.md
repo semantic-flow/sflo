@@ -10,7 +10,7 @@ created: 1750486049862
 
 The namespace base is the URL prefix under which a [[concept.semantic-site]] publishes all mesh identifiers. It is outside the mesh’s folder tree and is determined by the hosting platform.
 
-- Concept vs content URL semantics: see [[concept.url]]
+- Concept vs content URL semantics: see [[concept.identifier]]
 - Transposability guidance (avoid hardcoded bases): see [[principle.transposability]]
 - Publication history patterns: see [[concept.publication]]
 
@@ -28,5 +28,5 @@ Only sites have a namespace base. Meshes (and sites) also have a [[concept.root-
 
 ## Guidance
 
-- Prefer relative or site-root-absolute paths inside the mesh; do not hardcode full base IRIs so the mesh remains portable across hosting locations (see [[concept.url.reference-path-choices]]).
+- Prefer relative or site-root-absolute paths inside the mesh; do not hardcode full base IRIs so the mesh remains portable across hosting locations (see [[faq.reference-iri-choices]]).
 - The base is a deployment concern; the mesh folder tree should be valid regardless of where it is served.
