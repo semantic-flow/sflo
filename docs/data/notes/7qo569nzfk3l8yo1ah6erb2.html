@@ -1,10 +1,32 @@
 <h1 id="namespace-segment">Namespace Segment<a aria-hidden="true" class="anchor-heading icon-link" href="#namespace-segment"></a></h1>
-<p>The folders in a <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a> or <a href="/sflo/notes/ynqxgf8uv2bgbdi81wlz29g">Semantic Site</a> have names,
-and we refer to those names as <strong>namespace segments</strong> when we are talking about
-them in the context of a<a href="/sflo/notes/vhywrpw2eemb0kfaxa5xhdk">Namespace</a>.</p>
-<h2 id="example">Example<a aria-hidden="true" class="anchor-heading icon-link" href="#example"></a></h2>
+<h2 id="definition">Definition<a aria-hidden="true" class="anchor-heading icon-link" href="#definition"></a></h2>
+<p>A namespace segment is a single folder name that extends the namespace (URL) path. The concatenation of folder names yields the full namespace path for a node.</p>
 <ul>
-<li>the</li>
+<li>Concept vs content URL semantics: see <a href="/sflo/notes/concept-identifier">identifier</a></li>
+<li>How relative identifiers are resolved: see <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a></li>
+</ul>
+<h2 id="naming-recommended">Naming (recommended)<a aria-hidden="true" class="anchor-heading icon-link" href="#naming-recommended"></a></h2>
+<ul>
+<li>Use kebab-case (lowercase letters, digits, hyphens), e.g., <code>people</code>, <code>my-projects</code></li>
+<li>Avoid spaces and uppercase to reduce churn in URLs</li>
+<li>Maybe avoid starting segment names names with an underscore (<code>_</code>); underscore-prefixed names are used for <a href="/sflo/notes/h3xucygpf2i6f3u3gkegvlk">system segments</a></li>
+</ul>
+<p>These are recommendations, not hard rules; sometimes projects have good reasons to diverge.</p>
+<h2 id="stability">Stability<a aria-hidden="true" class="anchor-heading icon-link" href="#stability"></a></h2>
+<p>Renaming a segment probably breaks the identifier (URL) of all contained resources. If you must rename:</p>
+<ul>
+<li>Consider redirect/tombstoning strategies and publication history — see <a href="/sflo/notes/rxo5ieolun175zmjncj94ft">Publication</a></li>
+<li>Review impacts on inbound references; plan a weave and re-publish cycle</li>
+<li>see also <a href="/sflo/notes/j5we7en2hdwvax2ricv2u00">Handling Renaming</a></li>
+</ul>
+<h2 id="example">Example<a aria-hidden="true" class="anchor-heading icon-link" href="#example"></a></h2>
+<pre class="language-file"><code class="language-file">/ns/                         → https://ex.org/ns/
+└── datasets/                → https://ex.org/ns/datasets/
+    └── census/              → https://ex.org/ns/datasets/census/
+</code></pre>
+<ul>
+<li>Each folder adds exactly one namespace segment</li>
+<li>Folders map directly to slash-terminated concept URLs (see <a href="/sflo/notes/concept-identifier">identifier</a>)</li>
 </ul>
 <hr>
 <strong>Children</strong>
@@ -15,6 +37,8 @@ them in the context of a<a href="/sflo/notes/vhywrpw2eemb0kfaxa5xhdk">Namespace<
 <strong>Backlinks</strong>
 <ul>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
-<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">MeshNode</a></li>
-<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a></li>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/mesh-node">mesh node</a></li>
+<li><a href="/sflo/notes/h3xucygpf2i6f3u3gkegvlk">system segments</a></li>
+<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">dataset reference nodes</a></li>
 </ul>

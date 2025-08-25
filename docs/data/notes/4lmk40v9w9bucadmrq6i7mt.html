@@ -1,0 +1,94 @@
+<h1 id="namespace-relative-basing">Namespace Relative Basing<a aria-hidden="true" class="anchor-heading icon-link" href="#namespace-relative-basing"></a></h1>
+<p>Perfect — I like <strong>intramesh identifiers</strong> as a project-specific term, since it makes clear: “these are inside the mesh, and they behave like relative IRIs but with conventions.” 👍</p>
+<p>Here’s a doc-style write-up on <strong>namespace-relative basing</strong>, phrased to integrate with your terminology and conventions:</p>
+<hr>
+<h1 id="namespace-relative-basing-1">Namespace-Relative Basing<a aria-hidden="true" class="anchor-heading icon-link" href="#namespace-relative-basing-1"></a></h1>
+<p>In Semantic Flow, distributions are often nested deeply inside a node’s flows (e.g., <code>_data-flow/_current/...</code>). If base IRIs are left implicit, relative identifiers would need multiple <code>../</code> steps to reach the node or its siblings. To simplify this, Semantic Flow recommends <strong>namespace-relative basing</strong>.</p>
+<h2 id="concept">Concept<a aria-hidden="true" class="anchor-heading icon-link" href="#concept"></a></h2>
+<ul>
+<li>Every distribution file declares an explicit <code>@base</code> (in TriG/Turtle) or <code>@context/@base</code> (in JSON-LD).</li>
+<li>Instead of using the document’s path as the base (the default in RDF), the base is set <strong>relative to the namespace root</strong> (one level above the node root).</li>
+<li>This makes the <strong>namespace root</strong> the anchor, so that nodes can be referred to by simple <code>&#x3C;name></code> identifiers.</li>
+</ul>
+<h3 id="path-layout">Path layout<a aria-hidden="true" class="anchor-heading icon-link" href="#path-layout"></a></h3>
+<pre><code>namespace-root/
+  djradon/
+    _data-flow/_current/djradon.trig
+    _meta-flow/_current/meta.trig
+  another-node/
+</code></pre>
+<h3 id="with-namespace-relative-basing">With namespace-relative basing<a aria-hidden="true" class="anchor-heading icon-link" href="#with-namespace-relative-basing"></a></h3>
+<pre class="language-turtle"><code class="language-turtle"><span class="token keyword">@base</span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../../<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+
+<span class="token url"><span class="token punctuation">&#x3C;</span>djradon<span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">Node</span></span> <span class="token punctuation">;</span>
+  <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">hasMeta</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>djradon/_meta-flow/_current/meta.trig<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+  <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">relatedTo</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>another-node<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+</code></pre>
+<ul>
+<li><code>&#x3C;></code> resolves to the namespace root (<code>namespace-root/</code>).</li>
+<li><code>&#x3C;djradon></code> resolves to the node (<code>namespace-root/djradon/</code>).</li>
+<li><code>&#x3C;another-node></code> is a sibling in the namespace.</li>
+<li>Intra-node flows are reached with <code>djradon/...</code>.</li>
+</ul>
+<hr>
+<h2 id="advantages">Advantages<a aria-hidden="true" class="anchor-heading icon-link" href="#advantages"></a></h2>
+<ul>
+<li><strong>Sibling references are short</strong>: <code>&#x3C;another-node></code> instead of climbing out with <code>../../../</code>.</li>
+<li><strong>Node references are stable</strong>: <code>&#x3C;djradon></code> always means the node root, regardless of where the distribution lives.</li>
+<li><strong>Clarity</strong>: <code>&#x3C;></code> = namespace, <code>&#x3C;name></code> = node, <code>&#x3C;name/path></code> = subresources.</li>
+</ul>
+<hr>
+<h2 id="comparison-with-node-relative-basing">Comparison with Node-Relative Basing<a aria-hidden="true" class="anchor-heading icon-link" href="#comparison-with-node-relative-basing"></a></h2>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Basing Style</th><th><code>@base</code> value</th><th><code>&#x3C;></code> =</th><th><code>&#x3C;djradon></code> =</th><th>Best For…</th></tr></thead><tbody><tr><td><strong>Node-relative</strong></td><td><code>../../</code></td><td>Node root</td><td>Child of node</td><td>Config/meta flows describing the node itself</td></tr><tr><td><strong>Namespace-relative</strong></td><td><code>../../../</code></td><td>Namespace root</td><td>Node root</td><td>Data/reference flows linking across nodes</td></tr></tbody></table></div>
+<hr>
+<h2 id="guidelines">Guidelines<a aria-hidden="true" class="anchor-heading icon-link" href="#guidelines"></a></h2>
+<ul>
+<li><strong><em>data-flow</em> and <em>ref-flow</em></strong> distributions should use <strong>namespace-relative basing</strong>, since they often refer to siblings or other nodes.</li>
+<li><strong><em>meta-flow</em> and <em>config-flow</em></strong> distributions may use <strong>node-relative basing</strong> if they mostly describe the node itself.</li>
+<li>Always set <code>@base</code> explicitly in every distribution to avoid fragile relative paths.</li>
+</ul>
+<hr>
+<h2 id="json-ld-example">JSON-LD Example<a aria-hidden="true" class="anchor-heading icon-link" href="#json-ld-example"></a></h2>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"@context"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"@base"</span><span class="token operator">:</span> <span class="token string">"../../../"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"@id"</span><span class="token operator">:</span> <span class="token string">"djradon"</span><span class="token punctuation">,</span>
+  <span class="token property">"@type"</span><span class="token operator">:</span> <span class="token string">"Node"</span><span class="token punctuation">,</span>
+  <span class="token property">"hasMeta"</span><span class="token operator">:</span> <span class="token string">"djradon/_meta-flow/_current/meta.trig"</span><span class="token punctuation">,</span>
+  <span class="token property">"relatedTo"</span><span class="token operator">:</span> <span class="token string">"another-node"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<hr>
+<p>✅ With namespace-relative basing, intramesh identifiers remain short, predictable, and consistent across all distributions, while still resolving correctly to absolute IRIs.</p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/concept-identifier">identifier</a></li>
+</ul>

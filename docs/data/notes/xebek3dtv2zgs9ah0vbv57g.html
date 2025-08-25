@@ -1,5 +1,20 @@
 <h1 id="semantic-flow-general-guidance">Semantic Flow General Guidance<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-flow-general-guidance"></a></h1>
 <p><strong>Semantic Flow</strong> is a framework for managing knowledge graphs and other Semantic Web resources in publish-ready <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic meshes</a></p>
+<h2 id="developer-workflow">Developer Workflow<a aria-hidden="true" class="anchor-heading icon-link" href="#developer-workflow"></a></h2>
+<ul>
+<li>Build/Watch:
+<ul>
+<li>The development workflow requires two terminals running concurrently:
+<ul>
+<li><strong>Terminal 1</strong>: Run <code>pnpm dev:watch</code> to start the TypeScript compiler in watch mode. This will watch all packages and rebuild them on change.</li>
+<li><strong>Terminal 2</strong>: Run <code>pnpm dev</code> to start the <code>nodemon</code> server, which will automatically restart when the built files in the <code>dist</code> directories are updated.</li>
+</ul>
+</li>
+<li>This setup ensures that changes in any package are automatically compiled and that the server restarts with the latest code.</li>
+<li>Keep inter-package imports as package specifiers; avoid deep source imports across packages.</li>
+</ul>
+</li>
+</ul>
 <h2 id="workspace-components">Workspace Components<a aria-hidden="true" class="anchor-heading icon-link" href="#workspace-components"></a></h2>
 <ul>
 <li>The sflow-platform repo/folder is organized as a monorepo, divided into a few different modules:
@@ -14,7 +29,7 @@
 <li><strong>test-ns/</strong> repo: Test mesh repo</li>
 <li><strong>ontology/</strong>: repo containing relevant ontologies:
 <ul>
-<li><code>mesh</code> - Core mesh architecture with base classes (Resource, Node, Element) and fundamental types</li>
+<li><code>mesh</code> - Core mesh architecture with base classes (Resource, Node, Component) and fundamental types</li>
 <li><code>node</code> - Node operations including Handle, Flow types, and operational relationships</li>
 <li><code>flow</code> - Temporal concepts including Snapshot types and versioning relationships</li>
 <li><code>config-flow</code> - Configuration properties that apply directly to mesh entities (nodes, flows, snapshots, etc.)</li>
@@ -32,20 +47,19 @@
 <ul>
 <li><strong>Nodes</strong>: Semantic Atoms
 <ul>
-<li><strong>Dataset Nodes</strong>: Bundles of data with optional quasi-immutable, versioned history</li>
-<li><strong>Namespace Nodes</strong>: basically empty folders for URL-based hierarchical organization</li>
-<li><strong>Reference Nodes</strong>: Refer to "things that exist" like people, or songs, or ideas</li>
+<li><strong>data nodes</strong>: Bundles of data with optional quasi-immutable, versioned history</li>
+<li><strong>bare nodes</strong>: basically empty folders for URL-based hierarchical organization</li>
 </ul>
 </li>
-<li><strong>Elements</strong>: things that help define and systematize the nodes
+<li><strong>Components</strong>: things that help define and systematize the nodes
 <ul>
-<li><strong>Flows</strong>: datasets for node metadata, reference data, and payload data
+<li><strong>Flows</strong>: datasets for node metadata and data
 <ul>
 <li><strong>Snapshots</strong>: temporal slices of a flow, containing RDF dataset distributions</li>
 </ul>
 </li>
 <li><strong>Handles</strong>: things that let you refer to a node as a node instead of as its referent</li>
-<li><strong>Asset Trees</strong>: elements that allow you to attach arbitrary collections of files and folders to a mesh; in a sense, these things are "outside" the mesh, and other than the top-level "_meta" folder, they don't contain any other mesh resources</li>
+<li><strong>Asset Trees</strong>: components that allow you to attach arbitrary collections of files and folders to a mesh; in a sense, these things are "outside" the mesh, and other than the top-level "_meta" folder, they don't contain any other mesh resources</li>
 </ul>
 </li>
 </ul>
@@ -95,7 +109,7 @@
 </ul>
 <h3 id="quadstore">Quadstore<a aria-hidden="true" class="anchor-heading icon-link" href="#quadstore"></a></h3>
 <ul>
-<li>make sure you are familiar with <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.tech-stack.quadstore.readme (Private)</a>, which documents the API</li>
+<li>make sure you are familiar with <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">tech-stack.quadstore.readme (Private)</a>, which documents the API</li>
 <li>For testability and in case we ever want to use multiple stores simultaneously, store-accessing functions take a QuadstoreBundle</li>
 <li>quadstore API calls use "undefined" instead of "null" to represent the wildcard for subjects, predicates, objects, and graphs</li>
 </ul>
@@ -191,9 +205,9 @@
 </ul>
 <h3 id="semantic-mesh-architecture">Semantic Mesh Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-mesh-architecture"></a></h3>
 <ul>
-<li><strong>Resource Types</strong>: Nodes are the foundation, Elements support Nodes, Flows are "abstract datasets", and "Snapshots" are their temporal slices as defined in <code>sflo.concept.mesh.md</code></li>
-<li><strong>Folder Structure</strong>: Validate mesh folder structures (dataset nodes, namespace nodes, etc.)</li>
-<li><strong>System Elements</strong>: Distinguish between system-generated and user-modifiable elements</li>
+<li><strong>Resource Types</strong>: Nodes are the foundation, Components support Nodes, Flows are "abstract datasets", and "Snapshots" are their temporal slices as defined in <code>sflo.concept.mesh.md</code></li>
+<li><strong>Folder Structure</strong>: Validate mesh folder structures (data nodes, bare nodes, etc.)</li>
+<li><strong>System Components</strong>: Distinguish between system-generated and user-modifiable components</li>
 <li><strong>Weave Integration</strong>: Code must support weave operations as defined in <code>sflo.concept.weave.md</code></li>
 </ul>
 <h3 id="documentation-driven-development">Documentation-Driven Development<a aria-hidden="true" class="anchor-heading icon-link" href="#documentation-driven-development"></a></h3>
@@ -224,6 +238,52 @@
 <li><strong>Constants</strong>: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. semantic-flow/flow-core/src/mesh-constants.ts</li>
 <li><strong>File size</strong>: For ease of AI-based editing, prefer lots of small files over one huge file</li>
 <li><strong>Quoting</strong>: For easier compatibility with JSON files, use double quotes everywhere</li>
+</ul>
+<h3 id="import-path-policy">Import Path Policy<a aria-hidden="true" class="anchor-heading icon-link" href="#import-path-policy"></a></h3>
+<ul>
+<li>
+<p>Inter-package imports (between workspace packages):</p>
+<ul>
+<li>Use workspace package specifiers.</li>
+<li>Examples:
+<ul>
+<li><code>import { startHost } from "@semantic-flow/host"</code></li>
+<li><code>import { loadConfig } from "@semantic-flow/config"</code></li>
+</ul>
+</li>
+<li>Rationale:
+<ul>
+<li>Keeps package boundaries clear and publish-ready</li>
+<li>pnpm resolves to local workspace packages during development, so you get your local builds—not the registry</li>
+<li>Compatible with build/watch flows and CI</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Intra-package imports (within a single package):</p>
+<ul>
+<li>Use the <code>@</code> alias mapped to that package’s <code>src/</code> root to avoid relative path chains.</li>
+<li>Example (inside a package): <code>import { something } from "@/features/something"</code></li>
+<li>Configuration (per package tsconfig):
+<ul>
+<li><code>"compilerOptions": { "baseUrl": "src", "paths": { "@/*": ["*"] } }</code></li>
+</ul>
+</li>
+<li>Tooling notes:
+<ul>
+<li>For Node/tsx/Vitest, ensure your runner resolves TS path aliases (e.g., <code>tsconfig-paths/register</code> or vite-tsconfig-paths).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Publishing:
+<ul>
+<li>Each package should export built entry points (e.g., <code>dist/</code>) via <code>exports</code>/<code>main</code>/<code>types</code>. The same import paths work identically in dev and prod.</li>
+</ul>
+</li>
 </ul>
 <h3 id="code-style">Code Style<a aria-hidden="true" class="anchor-heading icon-link" href="#code-style"></a></h3>
 <ul>

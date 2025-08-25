@@ -1,5 +1,5 @@
 
-In a filesystem-based structure like a [[sflo.concept.mesh]], you can't really prevent changes. But some things in a mesh should be treated as immutable, like [[sflo.concept.mesh.resource.element.flow.snapshot.version]] and [[sflo.concept.relative-identifier]].
+In a filesystem-based structure like a [[concept.mesh]], you can't really prevent changes. But some things in a mesh should be treated as immutable, like [[resource.node-component.flow-snapshot.version]] and [[concept.identifier.intramesh]].
 
 **Pseudo-immutability** acknowledges that things might be changed, for various reasons:
 

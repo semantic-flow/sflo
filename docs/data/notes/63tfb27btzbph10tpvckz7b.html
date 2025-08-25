@@ -1,0 +1,122 @@
+<h1 id="sflo-api">sflo-api<a aria-hidden="true" class="anchor-heading icon-link" href="#sflo-api"></a></h1>
+<p>TODO: </p>
+<h2 id="mesh-management">Mesh Management<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-management"></a></h2>
+<h3 id="post-apimeshes"><code>POST /api/meshes</code><a aria-hidden="true" class="anchor-heading icon-link" href="#post-apimeshes"></a></h3>
+<p><strong>Description</strong>: Registers a new mesh with the service, making it available for further operations. This endpoint does not create any files or nodes; it simply associates a logical name with a filesystem path.</p>
+<p><strong>Request Body</strong>:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"test-ns"</span><span class="token punctuation">,</span>
+  <span class="token property">"path"</span><span class="token operator">:</span> <span class="token string">"./test-ns"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Success Response (201 Created)</strong>:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"Mesh 'test-ns' registered successfully."</span><span class="token punctuation">,</span>
+  <span class="token property">"links"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span> <span class="token string">"self"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span> <span class="token string">"/api/meshes/test-ns"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span> <span class="token string">"nodes"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span> <span class="token string">"/api/meshes/test-ns/nodes"</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>HATEOAS Prompting</strong>: If there's no mesh signature (e.g., a <code>_handle</code> or <code>_meta-flow</code> folder) in the specified path, the response includes a prompt to create a root node:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"Mesh 'test-ns' registered successfully. No mesh signature detected."</span><span class="token punctuation">,</span>
+  <span class="token property">"links"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span> <span class="token string">"self"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span> <span class="token string">"/api/meshes/test-ns"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span> <span class="token string">"nodes"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span> <span class="token string">"/api/meshes/test-ns/nodes"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span> <span class="token string">"create-root-node"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span> <span class="token string">"/api/meshes/test-ns/nodes"</span><span class="token punctuation">,</span> <span class="token property">"method"</span><span class="token operator">:</span> <span class="token string">"POST"</span><span class="token punctuation">,</span> <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"Initialize this mesh by creating a root node"</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="get-apimeshes"><code>GET /api/meshes</code><a aria-hidden="true" class="anchor-heading icon-link" href="#get-apimeshes"></a></h3>
+<p><strong>Description</strong>: Lists all registered meshes.</p>
+<p><strong>Success Response (200 OK)</strong>:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"meshes"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"test-ns"</span><span class="token punctuation">,</span>
+      <span class="token property">"path"</span><span class="token operator">:</span> <span class="token string">"./test-ns"</span><span class="token punctuation">,</span>
+      <span class="token property">"links"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span> <span class="token string">"self"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span> <span class="token string">"/api/meshes/test-ns"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span> <span class="token string">"nodes"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span> <span class="token string">"/api/meshes/test-ns/nodes"</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="node-management">Node Management<a aria-hidden="true" class="anchor-heading icon-link" href="#node-management"></a></h2>
+<h3 id="post-apimeshesmeshnamenodes"><code>POST /api/meshes/{meshName}/nodes</code><a aria-hidden="true" class="anchor-heading icon-link" href="#post-apimeshesmeshnamenodes"></a></h3>
+<p><strong>Description</strong>: Creates a new node at a specified path within a registered mesh. This is used for creating all nodes, including the root node of a mesh.</p>
+<p><strong>URL Parameters</strong>:</p>
+<ul>
+<li><code>{meshName}</code>: The logical name of the mesh (e.g., "test-ns").</li>
+</ul>
+<p><strong>Request Body</strong>:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"path"</span><span class="token operator">:</span> <span class="token string">"/"</span><span class="token punctuation">,</span>
+  <span class="token property">"nodeType"</span><span class="token operator">:</span> <span class="token string">"Namespace"</span><span class="token punctuation">,</span>
+  <span class="token property">"initialData"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"djradon's primary semantic mesh"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"options"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"copyDefaultAssets"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Key Body Parameters</strong>:</p>
+<ul>
+<li><code>path</code>: The relative path for the new node. For the root node, use <code>/</code> or an empty string; the API will return <code>/{meshName}/</code> as its path.</li>
+<li><code>nodeType</code>: The type of node to create ("Namespace", "Reference", or "Dataset").</li>
+<li><code>initialData</code>: An object containing the initial metadata for the node.</li>
+<li><code>options.copyDefaultAssets</code>: A boolean to indicate if default assets (templates, CSS) should be copied into the mesh. This is typically <code>true</code> only when creating the root node.</li>
+</ul>
+<p><strong>Success Response (201 Created)</strong>:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"Node created successfully at path '/test-ns/' in mesh 'test-ns'."</span><span class="token punctuation">,</span>
+  <span class="token property">"nodePath"</span><span class="token operator">:</span> <span class="token string">"/test-ns/"</span><span class="token punctuation">,</span>
+  <span class="token property">"filesCreated"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"./test-ns/index.html"</span><span class="token punctuation">,</span>
+    <span class="token string">"./test-ns/_meta-component/v1.trig"</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"links"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span> <span class="token string">"self"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span> <span class="token string">"/api/meshes/test-ns/nodes/test-ns/"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span> <span class="token string">"mesh"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span> <span class="token string">"/api/meshes/test-ns"</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="other-node-endpoints">Other Node Endpoints<a aria-hidden="true" class="anchor-heading icon-link" href="#other-node-endpoints"></a></h3>
+<ul>
+<li><code>GET /api/meshes/{meshName}/nodes/{path}</code> - Retrieve node</li>
+<li><code>PUT /api/meshes/{meshName}/nodes/{path}</code> - Update node</li>
+<li><code>DELETE /api/meshes/{meshName}/nodes/{path}</code> - Delete node</li>
+<li><code>POST /api/meshes/{meshName}/nodes/{path}/graft</code> - Start a new node from an existing snapshot</li>
+</ul>
+<h2 id="weave-and-distribution">Weave and Distribution<a aria-hidden="true" class="anchor-heading icon-link" href="#weave-and-distribution"></a></h2>
+<ul>
+<li><code>POST /api/meshes/{meshName}/weave</code> - Trigger weave operation</li>
+<li><code>POST /api/meshes/{meshName}/dataset/upload</code> - Upload RDF dataset distribution</li>
+<li><code>GET /api/meshes/{meshName}/dataset/{path}/versions</code> - List dataset versions</li>
+<li><code>POST /api/meshes/{meshName}/assets/upload</code> - Upload binary file resources</li>
+</ul>
+<h2 id="service-management">Service Management<a aria-hidden="true" class="anchor-heading icon-link" href="#service-management"></a></h2>
+<h2 id=""><a aria-hidden="true" class="anchor-heading icon-link" href="#"></a></h2>
+<h3 id="mesh-registration">mesh registration<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-registration"></a></h3>
+<h3 id="node-initialization">node initialization<a aria-hidden="true" class="anchor-heading icon-link" href="#node-initialization"></a></h3>
+<h4 id="differences-with-mesh-init">differences with mesh init<a aria-hidden="true" class="anchor-heading icon-link" href="#differences-with-mesh-init"></a></h4>
+<ul>
+<li>same as mesh initialization, except:
+<ul>
+<li>specify an <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.concept.relative-identifier (Private)</a> and select a parent node (or specify a path which is equivalent),</li>
+<li>by default, no template/css copy</li>
+</ul>
+</li>
+</ul>
+<h3 id="weave">weave<a aria-hidden="true" class="anchor-heading icon-link" href="#weave"></a></h3>
+<ul>
+<li>copy any <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">sflo.concept.mesh.resource.folder._next (Private)</a>  to  </li>
+</ul>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/73k0himk6cuq7sqhp8rshtg">sflo-host</a></li>
+</ul>

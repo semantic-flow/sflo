@@ -1,2 +1,2 @@
 
-- an [[concept.mesh.resource.element.flow.snapshot]]
+- an [[resource.node-component.flow-snapshot]]

@@ -1,20 +1,33 @@
 <h1 id="node-config-defaults">Node Config Defaults<a aria-hidden="true" class="anchor-heading icon-link" href="#node-config-defaults"></a></h1>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>Node config defaults are inheritable settings that provide baseline behavior for nodes. They are supplied by ancestors (and service/platform) and are resolved by a mechanism similar to that of service config config.</p>
 <ul>
-<li>flow versioning on | off</li>
-<li>fragment generation </li>
-<li>distribution syntaxes</li>
-<li>unified flow on | off</li>
-<li>aggregate dataset </li>
-<li>copyright / licensing / attribution / delegation chaing defaults</li>
+<li>Inheritance mechanism: see <a href="/sflo/notes/config-inheritance-resolution">inheritable config flow</a></li>
+<li>Operational (final) config: see <a href="/sflo/notes/6hmxoiahi5lxjg1urdibvi1">operational config flow</a></li>
+<li>Folder overview for config flows: see <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a></li>
+</ul>
+<h2 id="common-default-settings-examples">Common default settings (examples)<a aria-hidden="true" class="anchor-heading icon-link" href="#common-default-settings-examples"></a></h2>
+<ul>
+<li>Flow versioning: on/off (whether abstract flows create <code>_vN/</code> snapshots on weave)</li>
+<li>Distribution syntaxes: preferred serializations (e.g., TriG, JSON‑LD)</li>
+<li>Resource pages and fragments: enable page/fragment generation; template and stylesheet selection</li>
+<li>Aggregated distributions: on/off for generating top-level rollups</li>
+<li>Rights &#x26; provenance defaults: copyright/licensing/attribution/delegation policies (applied at snapshot time)</li>
+</ul>
+<p>These defaults apply when a node does not specify the setting in its <a href="/sflo/notes/6hmxoiahi5lxjg1urdibvi1">operational config flow</a>; “most specific wins” from parent → service → platform (see <a href="/sflo/notes/config-inheritance-resolution">inheritable config flow</a> for precedence).</p>
+<h2 id="minimal-guidance">Minimal guidance<a aria-hidden="true" class="anchor-heading icon-link" href="#minimal-guidance"></a></h2>
+<ul>
+<li>Keep defaults lightweight; override at the node only when needed</li>
+<li>Prefer repository‑level templates/css in <code>_assets/</code> for consistency (see <a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a>)</li>
+<li>Review defaults when moving/embedding meshes to ensure expected publication behavior</li>
 </ul>
 <hr>
 <strong>Backlinks</strong>
 <ul>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
 <li><a href="/sflo/notes/pqjdlyd8g80x3yr9o3p82mj">node config</a></li>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
 <li><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Versioning</a></li>
 <li><a href="/sflo/notes/fd1whkyvoagggk6ubysjl50">djradon's sflo devlog</a></li>
-<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a></li>
-<li><a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">config component</a></li>
-<li><a href="/sflo/notes/config-inheritance-resolution">Config Inheritance Resolution</a></li>
+<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">dataset reference nodes</a></li>
 </ul>

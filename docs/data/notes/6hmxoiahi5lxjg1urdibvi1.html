@@ -1,0 +1,14 @@
+<h1 id="operational-config-flow">operational config flow<a aria-hidden="true" class="anchor-heading icon-link" href="#operational-config-flow"></a></h1>
+<p>An <strong>operational config flow</strong> defines a node's final, resolved settings. It is the direct consumer of the configuration inheritance chain and controls the node's actual behavior (e.g., versioning, distribution formats).</p>
+<p>If a node has an operational config flow, it can still inherit settings from the <a href="/sflo/notes/config-inheritance-resolution">inheritance chain</a>. Any settings explicitly defined in the operational config will override those that would have been inherited.</p>
+<p>If a node lacks an operational config flow, its behavior is determined by the resolved settings from the inheritance chain, with service defaults and platform defaults filling in any gaps.</p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/hfmgd0w82phfjkre3ippnk9">config flow folder</a></li>
+<li><a href="/sflo/notes/node-flow">node flow</a></li>
+<li><a href="/sflo/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a></li>
+<li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distribution</a></li>
+<li><a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a></li>
+</ul>

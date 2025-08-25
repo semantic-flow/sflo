@@ -1,0 +1,185 @@
+<h1 id="identifier">identifier<a aria-hidden="true" class="anchor-heading icon-link" href="#identifier"></a></h1>
+<h2 id="identifier-references-in-semantic-flow">Identifier references in Semantic Flow<a aria-hidden="true" class="anchor-heading icon-link" href="#identifier-references-in-semantic-flow"></a></h2>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Semantic Flow resource type</th><th>referent</th><th><a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a></th></tr></thead><tbody><tr><td>bare node</td><td>-nothing, (yet)</td><td><code>ns/</code></td></tr><tr><td>data node</td><td>abstract dataset</td><td><code>ns/djradon-bio/</code></td></tr><tr><td>abstract dataset (flow)</td><td>dataset series</td><td><code>ns/djradon-bio/_data-flow/</code></td></tr><tr><td>concrete node dataset (snapshot)</td><td>concrete data dataset</td><td><code>ns/djradon-bio/_data-flow/_next/</code></td></tr><tr><td>distribution</td><td>content / dataset distribution</td><td><code>ns/djradon-bio/_data-flow/_v1/dave-bio_v1.trig</code></td></tr><tr><td>abstract meta dataset (flow)</td><td>node metadata dataset series</td><td><code>ns/djradon-bio/_meta-flow/</code></td></tr><tr><td>concrete meta dataset (snapshot)</td><td>node metadata dataset</td><td><code>ns/djradon-bio/_meta-flow/_current/</code></td></tr><tr><td>abstract operational config (flow)</td><td>operational config series</td><td><code>ns/djradon-bio/_config-operational-flow/</code></td></tr><tr><td>concrete operational config (snapshot)</td><td>operational config</td><td><code>ns/djradon-bio/_config-operational-flow/_current/</code></td></tr><tr><td>abstract inheritable config (flow)</td><td>inheritable config series</td><td><code>ns/djradon-bio/_config-inheritable-flow/</code></td></tr><tr><td>concrete inheritable config (snapshot)</td><td>inheritable config</td><td><code>ns/djradon-bio/_config-inheritable-flow/_current/</code></td></tr><tr><td>handle</td><td>mesh node</td><td><code>ns/djradon/_node-handle/</code></td></tr><tr><td>resource documentation</td><td>resource page (content)</td><td><code>ns/djradon/index.html</code></td></tr><tr><td>resource documentation</td><td>README file (content)</td><td><code>ns/djradon/README.md</code></td></tr><tr><td>asset tree</td><td>collection of assets</td><td><code>ns/assets/</code></td></tr><tr><td>asset folder</td><td>sub-collection of assets</td><td><code>ns/assets/images/</code></td></tr><tr><td>asset</td><td>content / image</td><td><code>ns/assets/images/logo.svg</code></td></tr></tbody></table></div>
+<p>Example:</p>
+<ul>
+<li><code>ns/</code> = bare node for organizing content and minting IRIs; refers to itself as a namespace</li>
+<li><code>ns/dave/</code> = refers to Dave the person (data node)</li>
+<li><code>ns/dave/index.html</code> = resource page about Dave (content)</li>
+<li><code>ns/dave-bio/</code> = refers to Dave's biographical dataset (data node)</li>
+<li><code>ns/dave-bio/_data-flow/</code> = abstract dataset (DatasetSeries) containing Dave's bio data</li>
+<li><code>ns/dave-bio/_data-flow/_current/</code> = current concrete dataset snapshot</li>
+<li><code>ns/dave-bio/_data-flow/_v1/dave-bio_v1.trig</code> = RDF distribution from version 1</li>
+<li><code>ns/dave/_assets/images/dave-headshot.jpg</code> = an image asset; "attached" to the mesh, but not a mesh resource</li>
+</ul>
+<h3 id="terminology-note-data-dataset">Terminology note: “data dataset”<a aria-hidden="true" class="anchor-heading icon-link" href="#terminology-note-data-dataset"></a></h3>
+<ul>
+<li>“Abstract data dataset” = the DatasetSeries at <code>_data-flow/</code>.</li>
+<li>“Concrete data dataset” = a snapshot under <code>_data-flow/</code> (e.g., <code>_current/</code>, <code>_vN/</code>).</li>
+<li>Only distributions (<code>*.trig</code>, <code>*.jsonld</code>, etc.) are retrievable content files.</li>
+</ul>
+<h2 id="url-senses">URL Senses<a aria-hidden="true" class="anchor-heading icon-link" href="#url-senses"></a></h2>
+<h3 id="content-urls"><strong>Content URLs</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#content-urls"></a></h3>
+<p>URLs that point to <strong>concrete information resources</strong> (files on disk or over HTTP):</p>
+<ul>
+<li><strong>Distribution URLs</strong> → materialized datasets, e.g. <code>test.ttl</code>, <code>dave_v1.jsonld</code>, etc.</li>
+<li><strong>Resource page URLs</strong> → e.g. <code>index.html</code></li>
+<li><strong>Resource documentation URLs</strong> → e.g. <code>README.md</code>, <code>CHANGELOG.md</code></li>
+<li><strong>Asset URLs</strong> → e.g. <code>.png</code>, <code>.css</code>, <code>.js</code></li>
+</ul>
+<p>These are <em>retrievable representations</em> (materialized content).</p>
+<hr>
+<h3 id="concept-urls"><strong>Concept URLs</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#concept-urls"></a></h3>
+<p>URLs that refer to <strong>concepts, entities, or abstract things</strong>, including:</p>
+<ul>
+<li><strong>bare node URLs</strong> → Organizational containers</li>
+<li><strong>data node URLs</strong> → Concepts with associated datasets</li>
+<li><strong>Abstract dataset URLs</strong> → Dataset-as-persistent-concept</li>
+<li><strong>Concrete dataset URLs</strong> → Specific dataset snapshots</li>
+<li><strong>Handle URLs</strong> → Mesh node identities</li>
+</ul>
+<h3 id="url-pattern-semantics">URL Pattern Semantics<a aria-hidden="true" class="anchor-heading icon-link" href="#url-pattern-semantics"></a></h3>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>URL Type</th><th>Trailing Slash?</th><th>Refers to…</th><th>Example</th></tr></thead><tbody><tr><td>Content URL</td><td>No</td><td>A fetchable document or asset</td><td><code>https://example.org/ns/foo/index.html</code></td></tr><tr><td>Concept URL</td><td>Yes (<code>/</code>)</td><td>A real-world or mesh concept</td><td><code>https://example.org/ns/foo/</code></td></tr></tbody></table></div>
+<p>Even though you might be tempted to think of a datasets as concrete things, the URLs for data nodes, abstract datasets, and concrete datasets all refer to concepts, i.e., <strong>non-retrievable entities</strong>. Only Distribution URLs refer to downloadable data, i.e., dataset distributions.</p>
+<h3 id="why-referent-matters">Why referent matters<a aria-hidden="true" class="anchor-heading icon-link" href="#why-referent-matters"></a></h3>
+<p>Understanding what a URL refers to is crucial for proper semantic web implementation. In the past, people have tried to use content URLs to represent the things they refer to. A classic example is using <code>http://example.org/person.html</code> to identify a person, when it actually identifies an HTML document about the person. This conflation creates semantic ambiguity and breaks linked data principles.</p>
+<p>Semantic Flow enforces clear referent distinctions through URL patterns: slash-terminated URLs always refer to concepts or entities, while extension-terminated URLs always refer to retrievable content. This prevents the classic "document vs thing" confusion that has plagued semantic web implementations.</p>
+<h2 id="namespace-relative-basing">Namespace-relative basing<a aria-hidden="true" class="anchor-heading icon-link" href="#namespace-relative-basing"></a></h2>
+<p>see <a href="/sflo/notes/4lmk40v9w9bucadmrq6i7mt">Namespace Relative Basing</a></p>
+<hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a></li>
+</ol>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/vhywrpw2eemb0kfaxa5xhdk">Namespace</a></li>
+<li><a href="/sflo/notes/ynqxgf8uv2bgbdi81wlz29g">Semantic Site</a></li>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/ragu0uc06vmiqvmn41r070e">namespace folder</a></li>
+<li><a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a></li>
+<li><a href="/sflo/notes/f2dk7cwbol4o1jsnd0cun1g">namespace base</a></li>
+<li><a href="/sflo/notes/7qo569nzfk3l8yo1ah6erb2">Namespace Segment</a></li>
+<li><a href="/sflo/notes/b666mbhgg9k0jsrk46ui4zs">file resource facet</a></li>
+<li><a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+<li><a href="/sflo/notes/h3xucygpf2i6f3u3gkegvlk">system segments</a></li>
+</ul>

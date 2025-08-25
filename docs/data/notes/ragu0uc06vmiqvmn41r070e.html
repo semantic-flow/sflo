@@ -1,6 +1,40 @@
 <h1 id="namespace-folder">namespace folder<a aria-hidden="true" class="anchor-heading icon-link" href="#namespace-folder"></a></h1>
+<h2 id="definition">Definition<a aria-hidden="true" class="anchor-heading icon-link" href="#definition"></a></h2>
+<p>A namespace folder is a mesh node folder whose URL refers to the namespace itself (an organizational container).</p>
+<ul>
+<li>What a “namespace” is: see <a href="/sflo/notes/vhywrpw2eemb0kfaxa5xhdk">Namespace</a></li>
+<li>URL semantics (concept vs content): see <a href="/sflo/notes/concept-identifier">identifier</a></li>
+</ul>
+<h2 id="minimal-requirements">Minimal requirements<a aria-hidden="true" class="anchor-heading icon-link" href="#minimal-requirements"></a></h2>
+<ul>
+<li>Must contain:
+<ul>
+<li><a href="/sflo/notes/node-handle-folder">`_node-handle/`</a></li>
+<li><a href="/sflo/notes/node-metadata-flow-folder">`_meta-flow/`</a></li>
+</ul>
+</li>
+<li>May contain:
+<ul>
+<li>Other node folders and components</li>
+<li>Optional system/user resources like <a href="/sflo/notes/0qtlo26phu45trajyzki5od">`_assets/`</a></li>
+<li>Optional flows (e.g., reference), if meaningful for the bare node’s role</li>
+</ul>
+</li>
+<li>Must not:
+<ul>
+<li>Store dataset distributions directly outside flow snapshot folders (see <a href="/sflo/notes/node-flow">node flow</a>)</li>
+</ul>
+</li>
+</ul>
+<h2 id="example">Example<a aria-hidden="true" class="anchor-heading icon-link" href="#example"></a></h2>
+<pre class="language-file"><code class="language-file">/ns/                          # namespace folder → https://ex.org/ns/
+├── _node-handle/             # handle (required)
+├── _meta-flow/               # metadata flow (required)
+└── people/                   # child namespace folder → https://ex.org/ns/people/
+</code></pre>
+<p>For general node anatomy and types, see <a href="/sflo/notes/mesh-node">mesh node</a> and <a href="/sflo/notes/bare-node">bare node</a>.</p>
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/sflo/notes/lvbmfa3hjpzxjv1iaaugsnb">namespace node</a></li>
+<li><a href="/sflo/notes/bare-node">bare node</a></li>
 </ul>

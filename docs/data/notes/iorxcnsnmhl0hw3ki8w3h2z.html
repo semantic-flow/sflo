@@ -1,0 +1,51 @@
+<h1 id="referent">Referent<a aria-hidden="true" class="anchor-heading icon-link" href="#referent"></a></h1>
+<p>Perfect — here’s an extended wiki note that folds in that case:</p>
+<hr>
+<h2 id="referent-1">Referent<a aria-hidden="true" class="anchor-heading icon-link" href="#referent-1"></a></h2>
+<p><strong>Definition</strong>
+The <em>referent</em> is the thing (real or imaginary) that a node’s IRI <strong>refers to</strong>. Every node IRI is an identifier for its referent.</p>
+<p><strong>Node vs. referent</strong></p>
+<ul>
+<li>
+<p><strong>Referent</strong>: the subject that the node’s IRI names (a person, concept, event, dataset, etc.).</p>
+</li>
+<li>
+<p><strong>Node</strong>: the mesh construct that manages flows about that referent.</p>
+<ul>
+<li>To talk about the node itself, you use its <strong>node handle</strong> (e.g. published IRI <code>https://ns.example.org/persons/djradon/_node-handle</code> or mesh identifier <code>&#x3C;djradon/_node-handle></code>).</li>
+</ul>
+</li>
+</ul>
+<p><strong>Where it’s described</strong></p>
+<ul>
+<li>The <strong>referent’s description</strong> lives in the node’s <a href="/sflo/notes/np4wrgk86b44hnlsjo964nz">reference flow</a>.</li>
+<li>The <strong>node’s own metadata and provenance</strong> live in the <strong><code>_node-*</code> flows</strong> (e.g. <code>_node-metadata-flow</code>, <code>_node-config-*</code>).</li>
+</ul>
+<p><strong>Special case: data nodes</strong></p>
+<ul>
+<li>
+<p>In a <strong>data node</strong>, the <strong>referent</strong> is not an external entity but an <strong>evolvable dataset</strong> contained in the node.</p>
+</li>
+<li>
+<p>The dataset evolves as versioned distributions inside the node’s <code>_data-flow</code> (e.g. <code>v1/</code>, <code>v2/</code>, …).</p>
+</li>
+<li>
+<p>The <code>_ref-flow</code> may describe the dataset, e.g. its <strong>name, type, and provenance</strong>.</p>
+</li>
+<li>
+<p>Example:</p>
+<ul>
+<li>Node IRI: <code>https://ns.example.org/projects/atlas/</code></li>
+<li>Referent: <em>the Atlas dataset</em> (identified by the node IRI, evolving over time).</li>
+<li><code>_ref-flow</code>: declares it as a dataset, supplies label and attribution.</li>
+<li><code>_data-flow</code>: provides concrete versions (<code>v1</code>, <code>v2</code>, …).</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>👉 Would you like me to also draft the <strong>paired wiki note for “Node handle”</strong>, so your docs have “Referent” and “Node handle” defined side-by-side?</p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/bare-node">bare node</a></li>
+</ul>

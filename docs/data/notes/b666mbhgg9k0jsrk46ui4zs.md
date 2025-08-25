@@ -1,12 +1,12 @@
 
-Resource files are returned directly when accessed by their [[concept.url]].
+Resource files are returned directly when accessed by their [[concept.identifier]].
 
 ## Types
 
-- [[concept.mesh.resource.element.documentation-resource]]
-  - [[concept.mesh.resource.element.documentation-resource.resource-page]] (system-generated)
-  - [[concept.mesh.resource.element.documentation-resource.changelog]]
-  - [[concept.mesh.resource.element.documentation-resource.readme]]
-- [[concept.mesh.resource.element.flow.snapshot.distribution]]
-- [[concept.mesh.resource.element.aggregated-distribution]]
+- [[resource.node-component.documentation-resource]]
+  - [[resource.node-component.documentation-resource.resource-page]] (system-generated)
+  - [[resource.node-component.documentation-resource.changelog]]
+  - [[resource.node-component.documentation-resource.readme]]
+- [[resource.node-component.snapshot-distribution]]
+- [[resource.node-component.aggregated-distribution]]
 - 

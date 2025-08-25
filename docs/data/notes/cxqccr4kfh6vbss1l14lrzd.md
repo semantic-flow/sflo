@@ -1,2 +1,2 @@
 
-- the name of [[sflo.concept.mesh.dataset-version]] folders
+- the name of [[concept.mesh.dataset-version]] folders

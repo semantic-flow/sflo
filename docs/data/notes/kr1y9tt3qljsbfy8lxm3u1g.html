@@ -1,144 +1,24 @@
-<h1 id="config-component">config component<a aria-hidden="true" class="anchor-heading icon-link" href="#config-component"></a></h1>
-<p>Node configuration can be inherited from any parent nodes, and overrides are accomplished with an optional node <code>_config-component</code> that travels with the node and is distinct from the <code>_meta-component</code>.</p>
-<p>Default configuration can be determined recursing up  <a href="/sflo/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a>, which can also be inherited from parent nodes. </p>
-<p>Inheritance of configuration and defaults can be turned off. </p>
-<p>In case of missing configuration and absence of user defaults, the system will use sensible defaults which can be specified in the <a href="/sflo/notes/pqjdlyd8g80x3yr9o3p82mj">node config</a></p>
-<h2 id="core-principles">Core Principles<a aria-hidden="true" class="anchor-heading icon-link" href="#core-principles"></a></h2>
-<h3 id="node-config-as-node-flow">Node-Config as node flow<a aria-hidden="true" class="anchor-heading icon-link" href="#node-config-as-node-flow"></a></h3>
-<ul>
-<li><strong>Optional</strong>: </li>
-<li><strong>Transposable</strong>: Node config travels with nodes during import/graft operations</li>
-<li><strong>Composable</strong>: Each node may have its own self-contained configuration, but i</li>
-</ul>
-<h3 id="defaults-vs-config">Defaults vs Config<a aria-hidden="true" class="anchor-heading icon-link" href="#defaults-vs-config"></a></h3>
-<ul>
-<li><strong>Config</strong>: Actual operational settings for a specific node</li>
-<li><strong>Defaults</strong>: Fallback values when config is missing or incomplete</li>
-<li><strong>Defaults inheritance</strong>: Only occurs when needed, walks up mesh hierarchy</li>
-<li><strong>Most specific wins</strong>: Closer defaults override higher-level ones</li>
-</ul>
-<h2 id="component-structure">Component Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#component-structure"></a></h2>
-<h3 id="separate-components">Separate Components<a aria-hidden="true" class="anchor-heading icon-link" href="#separate-components"></a></h3>
-<ul>
-<li><code>_config-component</code>: Operational behavior settings</li>
-<li><code>_meta-component</code>: Structural/system metadata</li>
-<li><strong>Rationale</strong>: Different update cadences, concerns, and responsibilities</li>
-</ul>
-<h3 id="file-structure">File Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#file-structure"></a></h3>
-<pre><code>/node-path/
-  _config-component/
-    _current/
-      config.jsonld
-    _next/           # optional, for pending changes
-      config.jsonld
-</code></pre>
-<h2 id="config-resolution-logic">Config Resolution Logic<a aria-hidden="true" class="anchor-heading icon-link" href="#config-resolution-logic"></a></h2>
-<h3 id="when-config-is-retrieved">When Config is Retrieved<a aria-hidden="true" class="anchor-heading icon-link" href="#when-config-is-retrieved"></a></h3>
+<h1 id="meshnode-config-flows">meshnode config flows<a aria-hidden="true" class="anchor-heading icon-link" href="#meshnode-config-flows"></a></h1>
+<p>Node configuration is managed through two distinct flows that provide settings for a node's behavior.</p>
 <ol>
-<li><strong>Has valid config</strong>: Use node's <code>_config-component</code> directly</li>
-<li><strong>No config exists</strong>: Walk up tree for defaults, create new config</li>
-<li><strong>Missing required fields</strong>: Fill gaps from defaults hierarchy</li>
+<li>
+<p><strong><a href="/sflo/notes/6hmxoiahi5lxjg1urdibvi1">Operational Config Flow</a></strong>: This flow contains the final, resolved configuration that dictates how a specific node operates.</p>
+</li>
+<li>
+<p><strong><a href="/sflo/notes/config-inheritance-resolution">Inheritable Config Flow</a></strong>: This flow contains settings that a node makes available to its descendants in the mesh hierarchy.</p>
+</li>
 </ol>
-<h3 id="defaults-resolution">Defaults Resolution<a aria-hidden="true" class="anchor-heading icon-link" href="#defaults-resolution"></a></h3>
-<ul>
-<li>Walk up mesh hierarchy from node to root</li>
-<li>Collect defaults at each level that has <code>flow-config-defaults</code></li>
-<li>Most specific (closest to node) takes precedence</li>
-<li>Create complete config from merged defaults</li>
-</ul>
-<h2 id="schema-management">Schema Management<a aria-hidden="true" class="anchor-heading icon-link" href="#schema-management"></a></h2>
-<h3 id="schema-versioning">Schema Versioning<a aria-hidden="true" class="anchor-heading icon-link" href="#schema-versioning"></a></h3>
-<ul>
-<li>Each config includes <code>schemaVersion</code> field</li>
-<li>Schema updates trigger config validation</li>
-<li>Backward compatibility maintained where possible</li>
-</ul>
-<h3 id="update-operations">Update Operations<a aria-hidden="true" class="anchor-heading icon-link" href="#update-operations"></a></h3>
-<ul>
-<li><code>flow update</code> command handles schema migrations</li>
-<li>Can target specific subtrees or entire mesh</li>
-<li>Triggers defaults walk for outdated/missing configs</li>
-</ul>
-<h2 id="importexport-behavior">Import/Export Behavior<a aria-hidden="true" class="anchor-heading icon-link" href="#importexport-behavior"></a></h2>
-<h3 id="import-decisions">Import Decisions<a aria-hidden="true" class="anchor-heading icon-link" href="#import-decisions"></a></h3>
-<ul>
-<li><strong>Interactive mode</strong>: User chooses keep/replace/merge</li>
-<li><strong>Automated mode</strong>: Policy-driven decisions</li>
-<li><strong>Per-node basis</strong>: Each node's config handled independently</li>
-<li><strong>No merging required</strong>: One config per node eliminates conflicts</li>
-</ul>
-<h3 id="transposability">Transposability<a aria-hidden="true" class="anchor-heading icon-link" href="#transposability"></a></h3>
-<ul>
-<li>Config components travel with nodes during operations</li>
-<li>Option to reset config during import (use target mesh defaults)</li>
-<li>Maintains semantic consistency across mesh boundaries</li>
-</ul>
-<h2 id="implementation-considerations">Implementation Considerations<a aria-hidden="true" class="anchor-heading icon-link" href="#implementation-considerations"></a></h2>
-<h3 id="config-manager-interface">Config Manager Interface<a aria-hidden="true" class="anchor-heading icon-link" href="#config-manager-interface"></a></h3>
-<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">ConfigManager</span></span> <span class="token punctuation">{</span>
-  <span class="token function">loadNodeConfig</span><span class="token punctuation">(</span>nodePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">NodeConfig</span> <span class="token operator">|</span> <span class="token keyword null nil">null</span>
-  <span class="token function">resolveConfig</span><span class="token punctuation">(</span>nodePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">NodeConfig</span>
-  <span class="token function">createFromDefaults</span><span class="token punctuation">(</span>nodePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">NodeConfig</span>
-  <span class="token function">updateConfigSchema</span><span class="token punctuation">(</span>nodePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> newSchema<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span>
-  <span class="token function">validateConfig</span><span class="token punctuation">(</span>config<span class="token operator">:</span> <span class="token maybe-class-name">NodeConfig</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">ValidationResult</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<h3 id="service-vs-node-config">Service vs Node Config<a aria-hidden="true" class="anchor-heading icon-link" href="#service-vs-node-config"></a></h3>
-<ul>
-<li><strong>Service config</strong>: API endpoints, auth, global policies</li>
-<li><strong>Node config</strong>: Weave behavior, validation rules, local settings</li>
-<li><strong>Clear separation</strong>: Different storage, lifecycle, and scope</li>
-</ul>
-<h2 id="key-benefits">Key Benefits<a aria-hidden="true" class="anchor-heading icon-link" href="#key-benefits"></a></h2>
-<h3 id="predictability">Predictability<a aria-hidden="true" class="anchor-heading icon-link" href="#predictability"></a></h3>
-<ul>
-<li>No complex inheritance chains</li>
-<li>Clear resolution rules</li>
-<li>System-guaranteed validity</li>
-</ul>
-<h3 id="flexibility">Flexibility<a aria-hidden="true" class="anchor-heading icon-link" href="#flexibility"></a></h3>
-<ul>
-<li>Granular per-node control</li>
-<li>Interactive import decisions</li>
-<li>Targeted update operations</li>
-</ul>
-<h3 id="maintainability">Maintainability<a aria-hidden="true" class="anchor-heading icon-link" href="#maintainability"></a></h3>
-<ul>
-<li>Separate concerns (config vs metadata)</li>
-<li>Schema evolution support</li>
-<li>Backward compatibility</li>
-</ul>
-<h2 id="operational-workflows">Operational Workflows<a aria-hidden="true" class="anchor-heading icon-link" href="#operational-workflows"></a></h2>
-<h3 id="new-node-creation">New Node Creation<a aria-hidden="true" class="anchor-heading icon-link" href="#new-node-creation"></a></h3>
-<ol>
-<li>System generates default config from hierarchy</li>
-<li>Creates <code>_config-component</code> with resolved settings</li>
-<li>Config immediately available and valid</li>
-</ol>
-<h3 id="config-updates">Config Updates<a aria-hidden="true" class="anchor-heading icon-link" href="#config-updates"></a></h3>
-<ol>
-<li>Modify <code>_next</code> layer in <code>_config-component</code></li>
-<li>Validate against current schema</li>
-<li>Weave operation promotes to <code>_current</code></li>
-</ol>
-<h3 id="schema-migration">Schema Migration<a aria-hidden="true" class="anchor-heading icon-link" href="#schema-migration"></a></h3>
-<ol>
-<li><code>flow update</code> identifies outdated configs</li>
-<li>Walks defaults for missing/new required fields</li>
-<li>Updates <code>schemaVersion</code> and validates</li>
-<li>Preserves existing valid settings</li>
-</ol>
+<p>While there are two separate flows, there is a single inheritance mechanism that resolves the final operational configuration for a node. This mechanism draws from the <code>inheritable</code> configs of parent nodes, as well as service and platform-level defaults.</p>
 <hr>
 <strong>Children</strong>
 <ol>
-<li><a href="/sflo/notes/config-inheritance-resolution">Config Inheritance Resolution</a></li>
+<li><a href="/sflo/notes/config-inheritance-resolution">inheritable config flow</a></li>
+<li><a href="/sflo/notes/6hmxoiahi5lxjg1urdibvi1">operational config flow</a></li>
 </ol>
 <hr>
 <strong>Backlinks</strong>
 <ul>
 <li><a href="/sflo/notes/pqjdlyd8g80x3yr9o3p82mj">node config</a></li>
-<li><a href="/sflo/notes/rc1wsoryoff9ffxb8wwbf9p">user resource facet</a></li>
-<li><a href="/sflo/notes/o2926clbf63vi9kln79kapg">handle</a></li>
-<li><a href="/sflo/notes/hfmgd0w82phfjkre3ippnk9">config flow folder</a></li>
-<li><a href="/sflo/notes/config-inheritance-resolution">Config Inheritance Resolution</a></li>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a></li>
 </ul>

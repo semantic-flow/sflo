@@ -1,6 +1,16 @@
 
 **Semantic Flow** is a framework for managing knowledge graphs and other Semantic Web resources in publish-ready [[semantic meshes|concept.mesh]]
 
+## Developer Workflow
+
+- Build/Watch:
+  - The development workflow requires two terminals running concurrently:
+    - **Terminal 1**: Run `pnpm dev:watch` to start the TypeScript compiler in watch mode. This will watch all packages and rebuild them on change.
+    - **Terminal 2**: Run `pnpm dev` to start the `nodemon` server, which will automatically restart when the built files in the `dist` directories are updated.
+  - This setup ensures that changes in any package are automatically compiled and that the server restarts with the latest code.
+  - Keep inter-package imports as package specifiers; avoid deep source imports across packages.
+
+
 ## Workspace Components
 
 - The sflow-platform repo/folder is organized as a monorepo, divided into a few different modules:
@@ -11,7 +21,7 @@
   - **shared/**: cross-cutting code like type schemas (core), logging, and config
 - **test-ns/** repo: Test mesh repo
 - **ontology/**: repo containing relevant ontologies:
-  - `mesh` - Core mesh architecture with base classes (Resource, Node, Element) and fundamental types
+  - `mesh` - Core mesh architecture with base classes (Resource, Node, Component) and fundamental types
   - `node` - Node operations including Handle, Flow types, and operational relationships
   - `flow` - Temporal concepts including Snapshot types and versioning relationships
   - `config-flow` - Configuration properties that apply directly to mesh entities (nodes, flows, snapshots, etc.)
@@ -28,14 +38,13 @@ A dereferenceable, versioned collection of semantic data and supporting resource
 
 - **Mesh Resources**:
   - **Nodes**: Semantic Atoms
-    - **Dataset Nodes**: Bundles of data with optional quasi-immutable, versioned history
-    - **Namespace Nodes**: basically empty folders for URL-based hierarchical organization
-    - **Reference Nodes**: Refer to "things that exist" like people, or songs, or ideas
-  - **Elements**: things that help define and systematize the nodes
-    - **Flows**: datasets for node metadata, reference data, and payload data
+    - **data nodes**: Bundles of data with optional quasi-immutable, versioned history
+    - **bare nodes**: basically empty folders for URL-based hierarchical organization
+  - **Components**: things that help define and systematize the nodes
+    - **Flows**: datasets for node metadata and data
       - **Snapshots**: temporal slices of a flow, containing RDF dataset distributions
     - **Handles**: things that let you refer to a node as a node instead of as its referent
-    - **Asset Trees**: elements that allow you to attach arbitrary collections of files and folders to a mesh; in a sense, these things are "outside" the mesh, and other than the top-level "_meta" folder, they don't contain any other mesh resources
+    - **Asset Trees**: components that allow you to attach arbitrary collections of files and folders to a mesh; in a sense, these things are "outside" the mesh, and other than the top-level "_meta" folder, they don't contain any other mesh resources
 
 ### Semantic Flow Workflow:
 
@@ -66,7 +75,7 @@ A dereferenceable, versioned collection of semantic data and supporting resource
 
 ### Quadstore
 
-- make sure you are familiar with [[sflo.tech-stack.quadstore.readme]], which documents the API
+- make sure you are familiar with [[tech-stack.quadstore.readme]], which documents the API
 - For testability and in case we ever want to use multiple stores simultaneously, store-accessing functions take a QuadstoreBundle
 - quadstore API calls use "undefined" instead of "null" to represent the wildcard for subjects, predicates, objects, and graphs
 
@@ -159,9 +168,9 @@ Project documentation, specifications, and design choices are stored in `documen
 
 ### Semantic Mesh Architecture
 
-- **Resource Types**: Nodes are the foundation, Elements support Nodes, Flows are "abstract datasets", and "Snapshots" are their temporal slices as defined in `sflo.concept.mesh.md`
-- **Folder Structure**: Validate mesh folder structures (dataset nodes, namespace nodes, etc.)
-- **System Elements**: Distinguish between system-generated and user-modifiable elements
+- **Resource Types**: Nodes are the foundation, Components support Nodes, Flows are "abstract datasets", and "Snapshots" are their temporal slices as defined in `sflo.concept.mesh.md`
+- **Folder Structure**: Validate mesh folder structures (data nodes, bare nodes, etc.)
+- **System Components**: Distinguish between system-generated and user-modifiable components
 - **Weave Integration**: Code must support weave operations as defined in `sflo.concept.weave.md`
 
 ### Documentation-Driven Development
@@ -189,6 +198,30 @@ Project documentation, specifications, and design choices are stored in `documen
 - **Constants**: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. semantic-flow/flow-core/src/mesh-constants.ts
 - **File size**: For ease of AI-based editing, prefer lots of small files over one huge file
 - **Quoting**: For easier compatibility with JSON files, use double quotes everywhere
+
+### Import Path Policy
+
+- Inter-package imports (between workspace packages):
+  - Use workspace package specifiers.
+  - Examples:
+    - `import { startHost } from "@semantic-flow/host"`
+    - `import { loadConfig } from "@semantic-flow/config"`
+  - Rationale:
+    - Keeps package boundaries clear and publish-ready
+    - pnpm resolves to local workspace packages during development, so you get your local builds—not the registry
+    - Compatible with build/watch flows and CI
+
+- Intra-package imports (within a single package):
+  - Use the `@` alias mapped to that package’s `src/` root to avoid relative path chains.
+  - Example (inside a package): `import { something } from "@/features/something"`
+  - Configuration (per package tsconfig):
+    - `"compilerOptions": { "baseUrl": "src", "paths": { "@/*": ["*"] } }`
+  - Tooling notes:
+    - For Node/tsx/Vitest, ensure your runner resolves TS path aliases (e.g., `tsconfig-paths/register` or vite-tsconfig-paths).
+
+
+- Publishing:
+  - Each package should export built entry points (e.g., `dist/`) via `exports`/`main`/`types`. The same import paths work identically in dev and prod.
 
 ### Code Style
 

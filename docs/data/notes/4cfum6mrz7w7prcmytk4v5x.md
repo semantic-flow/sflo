@@ -1,2 +1,2 @@
 
-The physical representation of a [[concept.mesh.resource.element.flow.data]] dataset
+The filesystem folder of a [[resource.node-component.flow.data]] dataset

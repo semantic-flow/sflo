@@ -1,39 +1,38 @@
 
 ## Overview
 
-A **mesh resource** is any addressable component within a [[semantic mesh|concept.mesh]]. Every mesh resource has a unique [[Relative Identifier|concept.relative-identifier]] based on its path and locally unique name, making it dereferenceable via URL.
+A **mesh resource** is any addressable component within a [[semantic mesh|concept.mesh]]. Every mesh resource has a unique [[Intramesh|concept.identifier.intramesh]] based on its path and locally unique name, making it dereferenceable via URL.
 
-In RDF terms, a resource is any node in an RDF graph that can be represented with an IRI (the other kinds of RDF graph nodes are literals and blank nodes). So theoretically, files and folders in [[concept.mesh.resource.element.asset-tree]] could be considered RDF resources. But they are not considered **mesh** resources
+In RDF terms, a resource is any node in an RDF graph that can be represented with an IRI (the other kinds of RDF graph nodes are literals and blank nodes). So theoretically, files and folders in [[resource.node-component.asset-tree]] could be considered RDF resources. But they are not considered **mesh** resources
 
 ## Types of Mesh Resources
 
 The structure of a semantic mesh is built on a fundamental distinction between **extensible** and **terminal** resources:
 
-- **[[Mesh nodes|concept.mesh.resource.node]]** are extensible namespace containers:
-- **[[Mesh elements|concept.mesh.resource.element]]** are terminal mesh resources:
+- **[[Mesh nodes|resource.node]]** are extensible namespace containers:
+- **[[Mesh node components|resource.node-component]]** are terminal mesh resources:
   - Can be physically represented as folders or files
-    - Folder [[concept.relative-identifier]] are part of the namespace but cannot be extended beyond their own internal structure
-  - All files and folders within an element folder are considerd to be part of the parent node
+    - Folder [[concept.identifier.intramesh]] are part of the namespace but cannot be extended beyond their own internal structure
+  - All files and folders within a component folder are considered to be part of the parent node
 
-**Folder-based elements:**
+**Folder-based components:**
 
 
-- **[[metadata flows|concept.mesh.resource.element.flow.metadata]]**: Administrative metadata (in `_meta-component/` folders)
-- **[[reference flows|concept.mesh.resource.element.flow.reference]]**: Referent data (in `_ref-component/` folders)
-- **[[Asset trees|concept.mesh.resource.element.asset-tree]]**: File collections (in `_assets/` folders)
-- **[[Version datasets|concept.mesh.resource.element.flow.snapshot.version]]**: Versioned snapshots
-- **[[next snapshots|concept.mesh.resource.element.flow.snapshot.next]]**: Draft workspaces
+- **[[metadata flows|resource.node-component.flow.node-metadata]]**: Administrative metadata (in `_meta-flow/` folders)
+- **[[Asset trees|resource.node-component.asset-tree]]**: File collections (in `_assets/` folders)
+- **[[Version datasets|resource.node-component.flow-snapshot.version]]**: Versioned snapshots
+- **[[next snapshots|resource.node-component.flow-snapshot.next]]**: Draft workspaces
 
-**File-based elements:**
+**File-based components:**
 - **Documentation files**: 
-  - [[Resource pages|concept.mesh.resource.element.documentation-resource.resource-page]] are index.html files that provide de-referencability for their containing [[concept.relative-identifier]] [[concept.mesh.resource-facet.folder]]
+  - [[Resource pages|resource.node-component.documentation-resource.resource-page]] are index.html files that provide de-referencability for their containing [[concept.identifier.intramesh]] [[facet.filesystem.folder]]
   - **README.md and CHANGELOG.md**: unstructured documentation
-- **[[Layer distribution files|concept.mesh.resource.element.flow.snapshot.distribution]]**: Data files in RDF formats
+- **[[snapshot distribution files|resource.node-component.snapshot-distribution]]**: Data files in RDF formats
 
 ## Physical vs Logical Structure
 
 **Physical Representation:**
-- Mesh nodes and elements are represented as folders in the filesystem
+- Mesh nodes and components are represented as folders in the filesystem
 - File resources are represented as individual files
 - Folder names become namespace segments and URL path components
 
@@ -44,8 +43,8 @@ The structure of a semantic mesh is built on a fundamental distinction between *
 
 ## Asset Tree Special Case
 
-[[Asset trees|concept.mesh.resource.element.asset-tree]] represent a special category where:
-- The asset tree itself (with its [[concept.mesh.resource.element.flow.metadata]]) is part of the mesh structure
+[[Asset trees|resource.node-component.asset-tree]] represent a special category where:
+- The asset tree itself (with its [[resource.node-component.flow.node-metadata]]) is part of the mesh structure
 - The files and folders contained within asset trees are "attached to" but not "contained in" the mesh
 - Asset tree contents are addressable but are not considered semantic flow resources
 

@@ -1,12 +1,25 @@
 
+## Overview
 
-The "[[namespace base|concept.namespace.base]]" is first part of the URL under which all of a [[concept.semantic-site]]'s identifiers live. It is determined by the publishing platform.
+The namespace base is the URL prefix under which a [[concept.semantic-site]] publishes all mesh identifiers. It is outside the mesh’s folder tree and is determined by the hosting platform.
 
-Only sites have [[concept.namespace.base]]. Meshes (and sites) have [[concept.root-node]], which corresponds to the top level of othe mesh.
+- Concept vs content URL semantics: see [[concept.identifier]]
+- Transposability guidance (avoid hardcoded bases): see [[principle.transposability]]
+- Publication history patterns: see [[concept.publication]]
 
-## Platform Options
+Only sites have a namespace base. Meshes (and sites) also have a [[concept.root-node]], which corresponds to the top-level folder of the mesh.
 
-Github pages presents two options:
+## Platform mappings (GitHub Pages examples)
 
-- a root namespace that corresponds to an org/user, e.g. https://semantic-flow.github.io/
-- a root namespace that corresponds to a repository of an org/usr, e.g. https://semantic-flow.github.io/weave/
+- User/Org site base:
+  - `https://org.github.io/`
+  - Mesh path `/ns/people/alice/` publishes at `https://org.github.io/ns/people/alice/`
+- Project site base with a [[concept.mesh-repo]]:
+  - `https://org.github.io/repo/`
+  - Mesh path `/ns/people/alice/` publishes at `https://org.github.io/repo/ns/people/alice/`
+- Project site base with an [[concept.mesh.embedded]]
+
+## Guidance
+
+- Prefer relative or site-root-absolute paths inside the mesh; do not hardcode full base IRIs so the mesh remains portable across hosting locations (see [[faq.reference-iri-choices]]).
+- The base is a deployment concern; the mesh folder tree should be valid regardless of where it is served.

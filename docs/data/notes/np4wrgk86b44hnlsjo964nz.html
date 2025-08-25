@@ -1,0 +1,31 @@
+<h1 id="reference-flow">reference flow<a aria-hidden="true" class="anchor-heading icon-link" href="#reference-flow"></a></h1>
+<h2 id="definition">Definition<a aria-hidden="true" class="anchor-heading icon-link" href="#definition"></a></h2>
+<p>A <strong>reference flow</strong> is a dataset series within a mesh node that provides information about the <strong>referent</strong> of the node — i.e., the thing in the world that the node stands for.</p>
+<p><strong>Purpose</strong></p>
+<ul>
+<li>To describe what the node <em>refers to</em>, i.e., its referent (person, place, concept, event, dataset, etc.).</li>
+<li>To supply labels and alternative identifiers for the referent.</li>
+<li>To refer to other descriptive data about the referent.</li>
+</ul>
+<h2 id="typical-contents">Typical Contents<a aria-hidden="true" class="anchor-heading icon-link" href="#typical-contents"></a></h2>
+<ul>
+<li><code>rdfs:label</code> (human-readable name of the referent).</li>
+<li><code>rdf:type</code> (classifying what kind of thing the referent is).</li>
+<li>Optional identifiers (sameAs links, external URIs).</li>
+</ul>
+<h2 id="example-snapshot-distribution">Example Snapshot Distribution<a aria-hidden="true" class="anchor-heading icon-link" href="#example-snapshot-distribution"></a></h2>
+<pre class="language-trig"><code class="language-trig"><span class="token comment"># The referent of the node (the actual person)</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span>djradon<span class="token punctuation">></span></span>
+    <span class="token function"><span class="token prefix">rdf<span class="token punctuation">:</span></span><span class="token local-name">type</span></span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">Person</span></span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span><span class="token local-name">label</span></span> <span class="token string">"dj radon"</span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">mbox</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>mailto:djradon@example.org<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+</code></pre>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/iorxcnsnmhl0hw3ki8w3h2z">Referent</a></li>
+<li><a href="/sflo/notes/obufq0awwxl3d913va37i3a">_ref-flow folder</a></li>
+<li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset facet</a></li>
+<li><a href="/sflo/notes/node-flow">node flow</a></li>
+<li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distribution</a></li>
+</ul>

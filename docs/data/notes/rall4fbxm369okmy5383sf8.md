@@ -1,15 +1,14 @@
 
-- checks for required [[concept.mesh.resource-facet.system]] and creates them if missing
+- checks for required [[facet.system]] and creates them if missing
 - optionally removes extraneous files, interactively if requested
-- for changed [[concept.mesh.resource-facet.user]] datasets (i.e., need version bump)
+- for changed [[facet.user]] datasets (i.e., need version bump)
   - if versioning is on:
-    - creates a new [[concept.mesh.resource.element.flow.snapshot.version]] 
+    - creates a new [[resource.node-component.flow-snapshot.version]] 
     - updates version metadata
   - regardless of whether versioning is on:
     - copies _next to _current
-    - flags the unified dataset for regeneration
     - updates _meta-flow with new version information
-- regenerates affected [[concept.mesh.resource.element.documentation-resource.resource-page]]
+- regenerates affected [[resource.node-component.documentation-resource.resource-page]]
 
 ```file
 /repo-root/
@@ -43,9 +42,14 @@
 This ensures that in published meshes and sites:
 
 - broken references are cleaned up
-- [[concept.mesh.resource.element.flow.snapshot.current]] is identical to the latest version
+- [[resource.node-component.flow-snapshot.current]] is identical to the latest version
 
 ## Features
+
+### Verification
+
+- ensure that [[folder.node]] are only contained in other [[folder.node]].
+- detect [[principle.transposability]]
 
 ### Interactive Mode
 
@@ -57,7 +61,7 @@ If you know a sub-mesh is permanently moving to a new location (or even if a bra
 
 ### Resource Page Generation
 
-- uses the [[sflo.product.service.design.in-memory]] to calculate template usage
+- uses the [[product.service.design.in-memory]] to calculate template usage
 - if no templates specified, and no "default template" exists in the root, it can generate its own
   - perhaps there's a default template and css distributed with the service in case its missing from the mesh root
 

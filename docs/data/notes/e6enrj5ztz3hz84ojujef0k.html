@@ -1,21 +1,20 @@
 <h1 id="aggregated-distribution">Aggregated Distribution<a aria-hidden="true" class="anchor-heading icon-link" href="#aggregated-distribution"></a></h1>
-<p>A node's <strong>aggregated distribution</strong> is a compilation of all the data flows of all its contained nodes, situated directly under the node for easy access with an intuitive filename of "nodename.ext".</p>
+<p><strong>note: maybe we will do them, maybe we won't</strong></p>
+<p>A node's <strong>aggregated distribution</strong> is a compilation of all the child data flows of its contained data nodes (their <code>_data-flow/_current/</code> snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".</p>
+<p>Both <a href="/sflo/notes/bare-node">bare node</a> and <a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">dataset reference nodes</a> can have aggregate distributions. data nodes include their own data in the aggregation.</p>
 <h2 id="purpose">Purpose<a aria-hidden="true" class="anchor-heading icon-link" href="#purpose"></a></h2>
 <p>Aggregated distributions enable <strong>composable semantic data</strong> by:</p>
 <ul>
-<li>Combining component data nodes into unified resources</li>
-<li>Providing complete datasets for external consumption</li>
+<li>Combining contained nodes data into a single resource</li>
 <li>Supporting modular ontology and knowledge base construction</li>
-<li>Maintaining component independence while enabling composition</li>
 </ul>
-<p>This is especially useful for ontologies, when their parts are spread out</p>
 <h2 id="generation-process">Generation Process<a aria-hidden="true" class="anchor-heading icon-link" href="#generation-process"></a></h2>
 <p>During <a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a>, aggregated distributions are created by:</p>
 <ol>
 <li><strong>Scanning contained data nodes</strong> recursively within the mesh structure</li>
-<li><strong>Collecting <code>_data/_current/</code> distributions</strong> from each component</li>
+<li><strong>Collecting <code>_data-flow/_current/</code> distributions</strong> from each flow</li>
 <li><strong>Merging content</strong> with proper URI resolution and prefix handling</li>
-<li><strong>Excluding <code>_ref</code>, <code>_config</code> and <code>_meta</code> datasets</strong> (data content only)</li>
+<li><strong>Excluding <code>_config</code> and <code>_meta</code> datasets</strong> (data content only)</li>
 <li><strong>Generating multiple distributions</strong> (.ttl, .rdf, .jsonld) as configured</li>
 </ol>
 <h2 id="examples">Examples<a aria-hidden="true" class="anchor-heading icon-link" href="#examples"></a></h2>
@@ -25,9 +24,9 @@
 ├── my-ontology.rdf              ← Aggregated distribution  
 ├── my-ontology.jsonld           ← Aggregated distribution
 ├── components/
-│   ├── Person/                  ← Data node (class definition)
-│   ├── hasName/                 ← Data node (property definition)
-│   └── Organization/            ← Data node (class definition)
+│   ├── Person/                  ← data node (class definition)
+│   ├── hasName/                 ← data node (property definition)
+│   └── Organization/            ← data node (class definition)
 </code></pre>
 <h3 id="knowledge-base">Knowledge Base<a aria-hidden="true" class="anchor-heading icon-link" href="#knowledge-base"></a></h3>
 <pre><code>/biotech-kb/
@@ -43,14 +42,14 @@
 <h2 id="technical-considerations">Technical Considerations<a aria-hidden="true" class="anchor-heading icon-link" href="#technical-considerations"></a></h2>
 <p><strong>Merging logic handles:</strong></p>
 <ul>
-<li><strong>Relative path resolution</strong> - Converting component-relative URIs to absolute</li>
+<li><strong>Relative path resolution</strong> - Converting relative URIs to absolute</li>
 <li><strong>Prefix consolidation</strong> - Deduplicating namespace declarations</li>
-<li><strong>Graph merging</strong> - Combining RDF graphs from multiple sources; de-dupingz</li>
+<li><strong>Graph merging</strong> - Combining RDF graphs from multiple sources; de-duplicating</li>
 <li><strong>Base URI handling</strong> - Ensuring consistent URI resolution</li>
 </ul>
 <h2 id="use-cases">Use Cases<a aria-hidden="true" class="anchor-heading icon-link" href="#use-cases"></a></h2>
 <ul>
-<li><strong>Ontologies</strong> - Classes and properties from component nodes</li>
+<li><strong>Ontologies</strong> - Classes and properties from contained nodes</li>
 <li><strong>Vocabularies</strong> - Terms and definitions from specialized nodes  </li>
 <li><strong>Catalogs</strong> - Dataset metadata from multiple sources</li>
 <li><strong>Knowledge bases</strong> - Facts distributed across domain-specific nodes</li>
@@ -66,5 +65,6 @@
 <strong>Backlinks</strong>
 <ul>
 <li><a href="/sflo/notes/pqjdlyd8g80x3yr9o3p82mj">node config</a></li>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
 <li><a href="/sflo/notes/b666mbhgg9k0jsrk46ui4zs">file resource facet</a></li>
 </ul>

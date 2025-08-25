@@ -1,11 +1,6 @@
 
-A snapshot or checkpoint dataset generated "on [[weave|concept.weave-process]]" for [[concept.mesh.flow-facet.versioned]]
-
-## Containment Rules
-
-- can-be-contained-in: [[concept.mesh.flow-facet.v-series]]
-- cannot-be-contained-in: anything else
+A snapshot or checkpoint dataset generated "on [[weave|concept.weave-process]]"
 
 ## Disambiguation
 
-- a version snapshot  is an addressable resource; it is differentiated from the concept of a [[concept.mesh.flow-facet.versioned]]
+- a version snapshot is an addressable resource; it is differentiated from the concept of a [[facet.flow.versioned]] in that a versioned flow is a flow that has ever had a version.

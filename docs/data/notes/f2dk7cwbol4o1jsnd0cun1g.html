@@ -1,16 +1,37 @@
 <h1 id="namespace-base">namespace base<a aria-hidden="true" class="anchor-heading icon-link" href="#namespace-base"></a></h1>
-<p>The "<a href="/sflo/notes/f2dk7cwbol4o1jsnd0cun1g">namespace base</a>" is first part of the URL under which all of a <a href="/sflo/notes/ynqxgf8uv2bgbdi81wlz29g">Semantic Site</a>'s identifiers live. It is determined by the publishing platform.</p>
-<p>Only sites have <a href="/sflo/notes/f2dk7cwbol4o1jsnd0cun1g">namespace base</a>. Meshes (and sites) have <a href="/sflo/notes/llzh1jdoieldfpff4v3ealw">root node</a>, which corresponds to the top level of othe mesh.</p>
-<h2 id="platform-options">Platform Options<a aria-hidden="true" class="anchor-heading icon-link" href="#platform-options"></a></h2>
-<p>Github pages presents two options:</p>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>The namespace base is the URL prefix under which a <a href="/sflo/notes/ynqxgf8uv2bgbdi81wlz29g">Semantic Site</a> publishes all mesh identifiers. It is outside the mesh’s folder tree and is determined by the hosting platform.</p>
 <ul>
-<li>a root namespace that corresponds to an org/user, e.g. <a href="https://semantic-flow.github.io/">https://semantic-flow.github.io/</a></li>
-<li>a root namespace that corresponds to a repository of an org/usr, e.g. <a href="https://semantic-flow.github.io/weave/">https://semantic-flow.github.io/weave/</a></li>
+<li>Concept vs content URL semantics: see <a href="/sflo/notes/concept-identifier">identifier</a></li>
+<li>Transposability guidance (avoid hardcoded bases): see <a href="/sflo/notes/principle-transposability">transposability</a></li>
+<li>Publication history patterns: see <a href="/sflo/notes/rxo5ieolun175zmjncj94ft">Publication</a></li>
+</ul>
+<p>Only sites have a namespace base. Meshes (and sites) also have a <a href="/sflo/notes/llzh1jdoieldfpff4v3ealw">root node</a>, which corresponds to the top-level folder of the mesh.</p>
+<h2 id="platform-mappings-github-pages-examples">Platform mappings (GitHub Pages examples)<a aria-hidden="true" class="anchor-heading icon-link" href="#platform-mappings-github-pages-examples"></a></h2>
+<ul>
+<li>User/Org site base:
+<ul>
+<li><code>https://org.github.io/</code></li>
+<li>Mesh path <code>/ns/people/alice/</code> publishes at <code>https://org.github.io/ns/people/alice/</code></li>
+</ul>
+</li>
+<li>Project site base with a <a href="/sflo/notes/c4wo7mdjzcit2bmvqr5sx4u">mesh repo</a>:
+<ul>
+<li><code>https://org.github.io/repo/</code></li>
+<li>Mesh path <code>/ns/people/alice/</code> publishes at <code>https://org.github.io/repo/ns/people/alice/</code></li>
+</ul>
+</li>
+<li>Project site base with an <a href="/sflo/notes/afxbxgyyzpzfb98a66fhuhw">Embedded Mesh</a></li>
+</ul>
+<h2 id="guidance">Guidance<a aria-hidden="true" class="anchor-heading icon-link" href="#guidance"></a></h2>
+<ul>
+<li>Prefer relative or site-root-absolute paths inside the mesh; do not hardcode full base IRIs so the mesh remains portable across hosting locations (see <a href="/sflo/notes/s1yduc399adt3ihvnwievrd">Reference Iri Choices</a>).</li>
+<li>The base is a deployment concern; the mesh folder tree should be valid regardless of where it is served.</li>
 </ul>
 <hr>
 <strong>Backlinks</strong>
 <ul>
+<li><a href="/sflo/notes/vhywrpw2eemb0kfaxa5xhdk">Namespace</a></li>
 <li><a href="/sflo/notes/llzh1jdoieldfpff4v3ealw">root node</a></li>
 <li><a href="/sflo/notes/gg6sytx57oq77ugqk7x3tvn">Assets</a></li>
-<li><a href="/sflo/notes/f2dk7cwbol4o1jsnd0cun1g">namespace base</a></li>
 </ul>

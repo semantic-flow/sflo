@@ -1,2 +1,2 @@
 
-- correspond to [[concept.mesh.resource.element.asset-tree]]s 
+- correspond to [[resource.node-component.asset-tree]]s 

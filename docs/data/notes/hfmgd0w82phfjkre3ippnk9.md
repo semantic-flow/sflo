@@ -1,2 +1,2 @@
 
-The physical representation of the [[concept.mesh.resource.element.flow.config]]
+The physical representation of the [[resource.node-component.flow.node-config.operational]]

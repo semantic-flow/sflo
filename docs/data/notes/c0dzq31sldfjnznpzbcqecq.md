@@ -4,4 +4,4 @@
 
 ## References
 
-- [[sflo.issue.github-bare-namespace-can-overlap-with-repo-namespaces]]
+- [[issue.github-bare-namespace-can-overlap-with-repo-namespaces]]

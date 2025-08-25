@@ -14,7 +14,7 @@ But to get started:
 #### Mesh Directory Structure
 
 ```file
-test-ns                    # namespace node
+test-ns                    # bare node
    djradon                 # ref node (refering to a human dj)
       bio                  # data node
       picks                # data node 

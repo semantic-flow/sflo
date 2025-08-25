@@ -1,61 +1,49 @@
 
-A mesh is structured with mesh folders, which correspond to RDF resources and their [[concept.relative-identifier]]
+A mesh when stored in a filesystem is physically structured with mesh folders, which correspond to RDF resources and their [[concept.identifier.intramesh]]
   
-When a mesh gets published, the folders also correspond to [[concept.url]]. 
+When a mesh gets published, the folders also correspond to [[concept.identifier]]. 
 
-All folder-based resources should contain a [[concept.mesh.resource.element.documentation-resource.resource-page]]
+All folder-based resources should contain a [[resource.node-component.documentation-resource.resource-page]]
 
 
 ## Types
 
 ### System Folders
 
-#### Handle Folders
+#### Node Handle Folders
 
-- [[concept.mesh.resource.folder._handle]] correspond to the [[concept.mesh.resource.element.handle]]
+- [[concept.mesh.resource.folder._node-handle]] correspond to the [[resource.node-component.node-handle]]
 
-#### Abstract Dataset Folders
+#### Flow (Abstract Dataset) Folders
 
-- **`_meta-component/`**
-  - correspond to [[concept.mesh.resource.element.flow.metadata]]
-  - present in mesh nodes and [[concept.mesh.resource.element.asset-tree]]
+- **`_meta-flow/`**
+  - correspond to [[resource.node-component.flow.node-metadata]]
+  - present in all mesh nodes
+  
+- **`_data-flow/`**
 
-- **`_ref-component/`**
+  - correspond to the [[resource.node-component.flow.data]]
+  - contain the dataset associated with the [[resource.node.reference.dataset]]
 
-  - correspond to the [[concept.mesh.resource.node.reference]]
-  - Contains the **referent data** for [[reference-node|concept.mesh.resource.node.reference]] and optionally [[concept.mesh.resource.node.data]] (i.e., triples that say things about the thing the node represents).
+#### Snapshot (Concrete Dataset) System Folders
 
-- **`_data-component/`**
-
-  - correspond to the [[concept.mesh.resource.element.flow.data]]
-  - contain the dataset associated with the [[concept.mesh.resource.node.data]]
-
-#### Concrete Dataset Folders
-
-- **`current/`**
+- **`_current/`**
 
 - **`_v1/`, `_v2/`, …**
 
-  - Version snapshot folders that represent [[concept.mesh.resource.element.flow.snapshot]]
+  - Version snapshot folders that represent [[resource.node-component.flow-snapshot]]
   - each holds one or more distribution file (named `<node_ref_vN.ext`).
   - **Fully terminal**—neither user-nodes nor system-folders may live inside.
 
-### User Mesh Folders
+#### Snapshot User Folders
 
-- **`_next`**
-  - Where edits get made to [[concept.mesh.flow-facet.versioned]]
+- **`_next/`**
+  - Where edits get made to [[facet.flow.versioned]]
 
+
+#### Other User Folders
 
 - **`_assets/`**
   - Holds static user assets (images, CSS, binaries).
   - **Always terminal** - never contains nodes
-  - Except for its `_meta` folder, is ignored by the mesh scanner.
-
-## Rejected options
-
-- directories: longer to type and most people just say folders
-- URLs/IRIs: a mesh is local-first, and we don't use the "file:// schema" so it
-  doesn't make sense to call these things URLs
-- folder names are used for identifiers, but identifiers are contextualized with
-  their containing path. if you're not talking about the whole path, it's really
-  just a folder.
+  - Ignored by the mesh scanner; asset trees carry no flows; any metadata about assets should live in the parent node’s meta flow.

@@ -3,33 +3,32 @@
 <p>A <strong>semantic mesh</strong> is a dereferenceable, possibly-versioned, <a href="/sflo/notes/q4jqx5qr6hbp6fo3pfvh042">Immutability</a> collection of semantic data and other resources where every HTTP URL returns meaningful content. It serves as the foundational structure for organizing and publishing semantic web resources through <a href="/sflo/notes/ynqxgf8uv2bgbdi81wlz29g">semantic sites</a>.</p>
 <p>Key characteristics:</p>
 <ul>
-<li><strong>Addressable</strong>: Every resource has a unique URL-based identifier</li>
+<li><strong>Addressable</strong>: Every <a href="/sflo/notes/xmdevh3s6gvp93m3nyc6683">mesh resource</a> has a unique <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a>; when a mesh is <a href="/sflo/notes/rxo5ieolun175zmjncj94ft">published</a>, every  <a href="/sflo/notes/xmdevh3s6gvp93m3nyc6683">mesh resource</a> then gets a globally unique URL</li>
 <li><strong>Dereferenceable</strong>: All URLs return meaningful content when accessed</li>
-<li><strong>Versioned</strong>: Changes are managed through the <a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a> process, and <a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a> are versioned by default</li>
+<li><strong>Versioned</strong>: Changes are managed through the <a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a> process, and <a href="/sflo/notes/node-flow">node flow</a> are versioned by default</li>
 <li><strong>Publish-ready</strong>: Can be served directly via GitHub Pages or similar static hosting; or via a local web server like live-server</li>
 </ul>
 <h2 id="core-concepts">Core Concepts<a aria-hidden="true" class="anchor-heading icon-link" href="#core-concepts"></a></h2>
 <h3 id="mesh-resources">Mesh Resources<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-resources"></a></h3>
-<p>There are two primary categories:</p>
+<p>There are two types of mesh resources: <a href="/sflo/notes/mesh-node">mesh node</a>s and <a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a>s.</p>
 <h4 id="mesh-nodes">Mesh Nodes<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-nodes"></a></h4>
-<p><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxm">Mesh nodes</a> are the primary structural components, physically represented as <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">mesh folders</a>. They extend namespaces and serve as containers.</p>
+<p><a href="/sflo/notes/mesh-node">Mesh nodes</a> are the primary structural components of a mesh, physically represented as <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">mesh folders</a>. They extend namespaces and serve as containers.</p>
 <ul>
-<li><strong><a href="/sflo/notes/lvbmfa3hjpzxjv1iaaugsnb">Namespace nodes</a></strong>: Empty containers for organizing other mesh nodes</li>
-<li><strong><a href="/sflo/notes/3y8yampfa5x8eo6ul5ged11">Reference nodes</a></strong>: Nodes that refer to external entities (people, concepts, relationships) and contain <a href="/sflo/notes/9bu4sgma5c54bmwyl6ofg4c">reference flows</a></li>
-<li><strong><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">Data nodes</a></strong>: Nodes containing data distributions with optional versioning</li>
+<li><strong><a href="/sflo/notes/bare-node">bare nodes</a></strong>: Empty containers for organizing other mesh nodes</li>
+<li><strong><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data nodes</a></strong>: Nodes containing data distributions with optional versioning</li>
 </ul>
-<h4 id="elements">Elements<a aria-hidden="true" class="anchor-heading icon-link" href="#elements"></a></h4>
-<p><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">Mesh elements</a> help define, support, and systematize nodes:</p>
+<h4 id="node-components">Node components<a aria-hidden="true" class="anchor-heading icon-link" href="#node-components"></a></h4>
+<p><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">Node components</a> help define, support, and systematize nodes:</p>
 <h2 id="folder-based">Folder-based<a aria-hidden="true" class="anchor-heading icon-link" href="#folder-based"></a></h2>
 <ul>
-<li><strong><a href="/sflo/notes/rregmt56znauz71qgypet6a">node flow</a></strong> and their <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a>
+<li><strong><a href="/sflo/notes/node-flow">node flow</a></strong> and their <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a>
 <ul>
 <li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></strong>: System-related administrative and structural metadata for mesh nodes</li>
 <li><strong><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">Version datasets</a></strong>: Versioned snapshots of datasets</li>
 </ul>
 </li>
 <li><strong><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshots</a></strong>: Draft workspaces for ongoing changes to versioned datasets</li>
-<li><strong><a href="/sflo/notes/o2926clbf63vi9kln79kapg">Node handles</a></strong>: Elements that provide referential indirection, allowing references to nodes as mesh resources rather than their referents</li>
+<li><strong><a href="/sflo/notes/wie8wazi0eoq81zke09czxk">Node handles</a></strong>: Components that provide referential indirection, allowing references to nodes as mesh resources rather than their referents</li>
 <li><strong><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">Asset trees</a></strong>: Collections of arbitrary files and folders attached to the mesh</li>
 </ul>
 <h4 id="files">Files<a aria-hidden="true" class="anchor-heading icon-link" href="#files"></a></h4>
@@ -44,7 +43,7 @@
 <ul>
 <li>Mesh nodes correspond physically to <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">mesh folders</a></li>
 <li>Folder names become namespace segments and URL path components</li>
-<li>The local <a href="/sflo/notes/17l23vl7sqg997hr773dh23">Relative Identifier</a> for a node matches its containing folder name</li>
+<li>The local <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a> for a node matches its containing folder name</li>
 </ul>
 <h3 id="file-organization">File Organization<a aria-hidden="true" class="anchor-heading icon-link" href="#file-organization"></a></h3>
 <ul>
@@ -55,33 +54,32 @@
 <h3 id="reserved-names">Reserved Names<a aria-hidden="true" class="anchor-heading icon-link" href="#reserved-names"></a></h3>
 <ul>
 <li>All reserved folder names begin with an underscore (_)</li>
-<li>Examples: <code>_assets/</code>, <code>_meta-component/</code>, <code>_ref-component/</code>, <code>_current</code>, <code>_next</code></li>
+<li>Examples: <code>_assets/</code>, <code>_meta-flow/</code>, <code>_current</code>, <code>_next</code></li>
 </ul>
 <h2 id="logical-structure">Logical Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#logical-structure"></a></h2>
 <h3 id="namespace-extension">Namespace Extension<a aria-hidden="true" class="anchor-heading icon-link" href="#namespace-extension"></a></h3>
 <ul>
 <li>Mesh folders always extend the namespace with a segment corresponding to the folder name</li>
 <li>This creates a hierarchical URL structure for addressing resources</li>
-<li>Each resource has a unique <a href="/sflo/notes/17l23vl7sqg997hr773dh23">Relative Identifier</a> based on its path and local name</li>
+<li>Each resource has a unique <a href="/sflo/notes/17l23vl7sqg997hr773dh23">Intramesh</a> based on its path and local name</li>
 </ul>
 <h3 id="containment-rules">Containment Rules<a aria-hidden="true" class="anchor-heading icon-link" href="#containment-rules"></a></h3>
 <ul>
-<li><strong>Mesh nodes</strong> are always containers of elements (i.e., at least <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> and <a href="/sflo/notes/4n7pbx1g9o80d6omk8hcj56">handle folder</a>) and potentially containers of other nodes 
+<li><strong>Mesh nodes</strong> are always containers of components (i.e., at least <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> and <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder._node-handle (Private)</a>) and potentially containers of other nodes 
 <ul>
-<li><strong>namespace nodes</strong>: no additional containment requirements</li>
-<li><strong>reference nodes</strong>: must have <a href="/sflo/notes/9bu4sgma5c54bmwyl6ofg4c">reference flow</a></li>
-<li><strong>data nodes</strong>: must have <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> with at least one distributions; and optionally, <a href="/sflo/notes/3y8yampfa5x8eo6ul5ged11">reference node</a></li>
+<li><strong>bare nodes</strong>: no additional containment requirements</li>
+<li><strong>data nodes</strong>: must have <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> with at least one distribution</li>
 </ul>
 </li>
-<li><strong>Assets tree elements</strong>: Cannot contain nodes</li>
-<li>all elements can contain </li>
+<li><strong>Asset tree components</strong>: Cannot contain nodes</li>
+<li>all components can contain </li>
 </ul>
 <h2 id="rules--constraints">Rules &#x26; Constraints<a aria-hidden="true" class="anchor-heading icon-link" href="#rules--constraints"></a></h2>
 <h3 id="system-vs-user-boundaries">System vs User Boundaries<a aria-hidden="true" class="anchor-heading icon-link" href="#system-vs-user-boundaries"></a></h3>
 <ul>
-<li><strong>System elements</strong>: Generated and managed by the weave process, not intended for user modification</li>
-<li><strong>User elements</strong>: Directly modifiable by users (<a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a>, README.md, CHANGELOG.md)</li>
-<li>The weave process maintains system elements and generates missing required components</li>
+<li><strong>System components</strong>: Generated and managed by the weave process, not intended for user modification</li>
+<li><strong>User components</strong>: Directly modifiable by users (<a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a>, README.md, CHANGELOG.md)</li>
+<li>The weave process maintains system components and generates missing required flows</li>
 </ul>
 <h3 id="versioning-requirements">Versioning Requirements<a aria-hidden="true" class="anchor-heading icon-link" href="#versioning-requirements"></a></h3>
 <ul>
@@ -112,7 +110,7 @@
 <p>The <a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a> process maintains mesh integrity by:</p>
 <ul>
 <li>Checking for required system resources and creating them if missing</li>
-<li>Generating resource pages for changed components</li>
+<li>Generating resource pages for changed resources</li>
 <li>Managing dataset versioning and metadata</li>
 <li>Ensuring all resources remain addressable and dereferenceable</li>
 </ul>
@@ -124,21 +122,22 @@
 <li>The repository structure directly maps to the published URL structure</li>
 </ul>
 <h3 id="dataset-integration">Dataset Integration<a aria-hidden="true" class="anchor-heading icon-link" href="#dataset-integration"></a></h3>
-<p>Meshes support multiple RDF formats and follow <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">DCAT v3 (Private)</a> standards for dataset organization. <a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">Datasets</a> within meshes include both standalone datasets and those embedded as mesh elements.</p>
+<p>Meshes support multiple RDF formats and follow <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">DCAT v3 (Private)</a> standards for dataset organization. <a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">Datasets</a> within meshes include both standalone datasets and those embedded as node components.</p>
 <hr>
 <strong>Children</strong>
 <ol>
 <li><a href="/sflo/notes/gg6sytx57oq77ugqk7x3tvn">Assets</a></li>
-<li><a href="/sflo/notes/xmdevh3s6gvp93m3nyc6683">mesh resource</a></li>
-<li><a href="/sflo/notes/jyxdcjrv3npwwki06sfspqg">mesh resource type</a></li>
+<li><a href="/sflo/notes/afxbxgyyzpzfb98a66fhuhw">Embedded Mesh</a></li>
+<li><a href="/sflo/notes/855vlw6c8io3y5h355tqo3y">submesh</a></li>
 </ol>
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/">Semantic Flow Documentation</a></li>
-<li><a href="/sflo/notes/xebek3dtv2zgs9ah0vbv57g">Semantic Flow General Guidance</a></li>
 <li><a href="/sflo/notes/xmdevh3s6gvp93m3nyc6683">mesh resource</a></li>
-<li><a href="/sflo/notes/7qo569nzfk3l8yo1ah6erb2">Namespace Segment</a></li>
-<li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset</a></li>
-<li><a href="/sflo/notes/3y8yampfa5x8eo6ul5ged11">reference node</a></li>
+<li><a href="/">Semantic Flow Documentation</a></li>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/xebek3dtv2zgs9ah0vbv57g">Semantic Flow General Guidance</a></li>
+<li><a href="/sflo/notes/ngw89xo9m9jop5b3o32dwwd">pseudo-immutability</a></li>
+<li><a href="/sflo/notes/principle-transposability">transposability</a></li>
+<li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset facet</a></li>
 </ul>

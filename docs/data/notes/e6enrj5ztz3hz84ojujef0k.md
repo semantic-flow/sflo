@@ -1,23 +1,23 @@
 
-A node's **aggregated distribution** is a compilation of all the data flows of all its contained nodes, situated directly under the node for easy access with an intuitive filename of "nodename.ext".
+__note: maybe we will do them, maybe we won't__
+
+A node's **aggregated distribution** is a compilation of all the child data flows of its contained data nodes (their `_data-flow/_current/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
+
+Both [[resource.node.bare]] and [[resource.node.reference.dataset]] can have aggregate distributions. data nodes include their own data in the aggregation.
 
 ## Purpose
 
 Aggregated distributions enable **composable semantic data** by:
-- Combining component data nodes into unified resources
-- Providing complete datasets for external consumption
+- Combining contained nodes data into a single resource
 - Supporting modular ontology and knowledge base construction
-- Maintaining component independence while enabling composition
-
-This is especially useful for ontologies, when their parts are spread out
 
 ## Generation Process
 
 During [[concept.weave-process]], aggregated distributions are created by:
 1. **Scanning contained data nodes** recursively within the mesh structure
-2. **Collecting `_data/_current/` distributions** from each component
+2. **Collecting `_data-flow/_current/` distributions** from each flow
 3. **Merging content** with proper URI resolution and prefix handling
-4. **Excluding `_ref`, `_config` and `_meta` datasets** (data content only)
+4. **Excluding `_config` and `_meta` datasets** (data content only)
 5. **Generating multiple distributions** (.ttl, .rdf, .jsonld) as configured
 
 ## Examples
@@ -29,9 +29,9 @@ During [[concept.weave-process]], aggregated distributions are created by:
 ├── my-ontology.rdf              ← Aggregated distribution  
 ├── my-ontology.jsonld           ← Aggregated distribution
 ├── components/
-│   ├── Person/                  ← Data node (class definition)
-│   ├── hasName/                 ← Data node (property definition)
-│   └── Organization/            ← Data node (class definition)
+│   ├── Person/                  ← data node (class definition)
+│   ├── hasName/                 ← data node (property definition)
+│   └── Organization/            ← data node (class definition)
 ```
 
 ### Knowledge Base
@@ -50,14 +50,14 @@ During [[concept.weave-process]], aggregated distributions are created by:
 ## Technical Considerations
 
 **Merging logic handles:**
-- **Relative path resolution** - Converting component-relative URIs to absolute
+- **Relative path resolution** - Converting relative URIs to absolute
 - **Prefix consolidation** - Deduplicating namespace declarations
-- **Graph merging** - Combining RDF graphs from multiple sources; de-dupingz
+- **Graph merging** - Combining RDF graphs from multiple sources; de-duplicating
 - **Base URI handling** - Ensuring consistent URI resolution
 
 ## Use Cases
 
-- **Ontologies** - Classes and properties from component nodes
+- **Ontologies** - Classes and properties from contained nodes
 - **Vocabularies** - Terms and definitions from specialized nodes  
 - **Catalogs** - Dataset metadata from multiple sources
 - **Knowledge bases** - Facts distributed across domain-specific nodes
@@ -65,6 +65,6 @@ During [[concept.weave-process]], aggregated distributions are created by:
 
 ## Related Concepts
 
-- **[[concept.mesh.resource.element.flow.data]]** - Source datasets for aggregation
+- **[[resource.node-component.flow.data]]** - Source datasets for aggregation
 - **[[concept.weave-process]]** - Process that generates aggregated distributions
-- **[[concept.mesh.resource.element.flow.snapshot]]** - Contains the actual distributions being aggregated
+- **[[resource.node-component.flow-snapshot]]** - Contains the actual distributions being aggregated

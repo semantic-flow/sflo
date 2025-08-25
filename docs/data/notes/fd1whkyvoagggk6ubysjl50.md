@@ -11,8 +11,8 @@
 
 ## t.2025.07.12.06
 
-- node config is a component, so it can travel around ([[concept.transposability]] and [[concept.composability]])
-- the [[concept.mesh.resource.element.node-config-defaults]] is actually a "defaults" file that only gets used when nodes don't have a config yet (or their config is reset)
+- node config is a component, so it can travel around ([[principle.transposability]] and [[principle.composability]])
+- the [[resource.node-component.node-config-defaults]] is actually a "defaults" file that only gets used when nodes don't have a config yet (or their config is reset)
   - when importing, grafting, you have the option to reset (parts of) config.
   - the tree walk for config-defaults only needs to happen when:
     - a node's config is empty

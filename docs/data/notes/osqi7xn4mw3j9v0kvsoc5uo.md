@@ -1,16 +1,16 @@
 
 ## Question
 
-Why don't [[data nodes|concept.mesh.resource.node.data]] contain distribution files directly? Why do I need to go to `_current/` to find the actual data?
+Why don't [[data nodes|resource.node.reference.dataset]] contain distribution files directly? Why do I need to go to `_current/` to find the actual data?
 
 ## Answer
 
-Data nodes represent **abstract data concepts**, not concrete data instances. This separation provides several important benefits:
+data nodes represent **abstract data concepts**, not concrete data instances. This separation provides several important benefits:
 
 ### Clear Semantic Distinction
 
-- **Data node** (`/ns/monsters/`): "The concept of monster data"
-- **Data compound** (`/ns/monsters/_data-component/`): "The abstract dataset associated with the monster data concept" 
+- **data node** (`/ns/monsters/`): "The concept of monster data"
+- **Data compound** (`/ns/monsters/_data-flow/`): "The abstract dataset associated with the monster data concept" 
 - **Data compound layers**: the current, next and historical versions of the dataset
 
 This allows you to reference the concept separately from the associated abstract or concrete dataset.
@@ -29,12 +29,12 @@ By separating the concept from concrete instances, data nodes can cleanly organi
 ### Consistent Architecture
 
 This mirrors how [[reference nodes|concept.mesh.resource.node.reference]] work:
-- **Reference nodes**: Abstract entity concept + `_ref/` element with concrete data
-- **Data nodes**: Abstract data concept + `_current/` element with concrete data
+- **Reference nodes**: Abstract entity concept + `_ref/` node component with concrete data
+- **data nodes**: Abstract data concept + `_current/` component with concrete data
 
 ### Metadata Separation
 
-The data node's [[metadata flow|concept.mesh.resource.element.flow.metadata]] contains system metadata about the data concept and its components, while each [[concept.mesh.resource.element.flow.data]] can also contain (concept-specific) metadata.
+The data node's [[metadata flow|resource.node-component.flow.node-metadata]] contains system metadata about the data concept and its components, while each [[resource.node-component.flow.data]] can also contain (concept-specific) metadata.
 
 TODO: example
 
@@ -42,8 +42,8 @@ TODO: example
 ## Analogy
 
 Think of it like a library:
-- **Data node** = "The concept of the Encyclopedia Britannica"
+- **data node** = "The concept of the Encyclopedia Britannica"
 - **data flow** = The Encyclopedia Britannica as an ongoing series of editions
-- **[[concept.mesh.resource.element.flow.snapshot]]** = Specific editions (1990 edition, 2020 edition, current edition)
+- **[[resource.node-component.flow-snapshot]]** = Specific editions (1990 edition, 2020 edition, current edition)
 
 You can refer to "Encyclopedia Britannica" as a general concept or as a series without specifying which edition, or you can reference a specific edition when you need concrete data.

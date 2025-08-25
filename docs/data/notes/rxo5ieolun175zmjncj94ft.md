@@ -6,7 +6,7 @@ The inferred publication locations can be used to maintain a history of where a 
 
 ```turtle
 # In _flow/ metadata
-<_handle> sf:publishedAt <https://myorganization.github.io/data-mesh/ns/djradon/> ;
+<_node-handle> sf:publishedAt <https://myorganization.github.io/data-mesh/ns/djradon/> ;
           sf:previousPublications ( 
             <https://djradon.github.io/mesh/ns/djradon/>
             <https://oldsite.com/research/ns/djradon/>
