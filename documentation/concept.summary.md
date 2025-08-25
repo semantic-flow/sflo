@@ -41,26 +41,26 @@ See:
   - data node: URL refers to the node’s referent (real-world entity or dataset concept); has a data flow: [[concept.mesh.resource.node.data]]
   - Dataset-series specialization (optional): [[concept.mesh.resource.node.data.series]]
 
-- Node component (terminal resource supporting a node): [[resource.node-component]]
+- Node component (terminal resource supporting a node): [[mesh-resource.node-component]]
   - Flows (abstract datasets as DatasetSeries):
-    - Meta flow (metadata/provenance): [[resource.node-component.flow.node-metadata]]
-    - Data flow (payload data): [[resource.node-component.flow.data]]
-    - Node-config flows (settings; see §9): [[resource.node-component.flow.node-config]]
+    - Meta flow (metadata/provenance): [[mesh-resource.node-component.flow.node-metadata]]
+    - Data flow (payload data): [[mesh-resource.node-component.flow.data]]
+    - Node-config flows (settings; see §9): [[mesh-resource.node-component.flow.node-config]]
   - Flow snapshots (concrete Datasets): `_current/`, `_next/`, `_vN/`
-    - Overview: [[resource.node-component.flow-snapshot]]
-    - `_current/`: [[resource.node-component.flow-snapshot.current]]
-    - `_next/`: [[resource.node-component.flow-snapshot.next]]
-    - `_vN/`: [[resource.node-component.flow-snapshot.version]]
+    - Overview: [[mesh-resource.node-component.flow-snapshot]]
+    - `_current/`: [[mesh-resource.node-component.flow-snapshot.current]]
+    - `_next/`: [[mesh-resource.node-component.flow-snapshot.next]]
+    - `_vN/`: [[mesh-resource.node-component.flow-snapshot.version]]
     - Distributions: [[resource.node-component.flow-snapshot.distribution]]
-  - Handle (refer to the node “as a mesh resource”): [[resource.node-component.node-handle]]
-    - Handle page (human-facing): [[resource.node-component.handle.page]]
-  - Asset tree (static files for the node): [[resource.node-component.asset-tree]]
+  - Handle (refer to the node “as a mesh resource”): [[mesh-resource.node-component.node-handle]]
+    - Handle page (human-facing): [[mesh-resource.node-component.handle.page]]
+  - Asset tree (static files for the node): [[mesh-resource.node-component.asset-tree]]
   - Documentation resources (README/CHANGELOG/resource pages/fragments):
-    - README: [[resource.node-component.documentation-resource.readme]]
-    - CHANGELOG: [[resource.node-component.documentation-resource.changelog]]
-    - Resource page (index.html): [[resource.node-component.documentation-resource.resource-page]]
-    - Resource fragment: [[resource.node-component.documentation-resource.resource-fragment]]
-  - Aggregated distribution (optional roll-up of child node data): [[resource.node-component.aggregated-distribution]]
+    - README: [[mesh-resource.node-component.documentation-resource.readme]]
+    - CHANGELOG: [[mesh-resource.node-component.documentation-resource.changelog]]
+    - Resource page (index.html): [[mesh-resource.node-component.documentation-resource.resource-page]]
+    - Resource fragment: [[mesh-resource.node-component.documentation-resource.resource-fragment]]
+  - Aggregated distribution (optional roll-up of child node data): [[mesh-resource.node-component.aggregated-distribution]]
 
 3.2 Facets (Folder, File, Dataset)
 - Folder facet (namespace mapping; reserved folders): [[concept.mesh.resource-facet.folder]]
@@ -91,8 +91,8 @@ See:
 - A node’s URL refers to its referent (namespace, real-world entity, or dataset concept).
 - The handle component provides a URL to refer to the node itself “as a mesh resource” (for config, provenance, lifecycle).
 See:
-- [[resource.node-component.node-handle]]
-- [[resource.node-component.handle.page]]
+- [[mesh-resource.node-component.node-handle]]
+- [[mesh-resource.node-component.handle.page]]
 
 5) Physical Structure and Reserved Folders
 
@@ -142,7 +142,7 @@ Weave maintains structural coherence and publication readiness:
 - Integrates with the scanner where applicable.
 See:
 - [[concept.weave-process]]
-- [[concept.flow.page-generation]]
+- [[concept.weave-process.resource-page-generation]]
 - [[concept.scanner]]
 - [[concept.metadata.provenance]]
 
@@ -159,15 +159,15 @@ See:
 - Inheritable Config Flow: settings a node offers to descendants (provider). Property-level merge; order: parent → … → service → platform; propagation can be firewalled.
 - Resolution: a single inheritance mechanism resolves operational config from inheritable configs plus service/platform defaults. Explicit operational entries override inherited ones.
 See:
-- [[resource.node-component.flow.node-config]]: overview
-- [[resource.node-component.flow.node-config.operational]]
-- [[resource.node-component.flow.node-config.inheritable]]
-- [[resource.node-component.node-config-defaults]]: defaults as inheritable values
+- [[mesh-resource.node-component.flow.node-config]]: overview
+- [[mesh-resource.node-component.flow.node-config.operational]]
+- [[mesh-resource.node-component.flow.node-config.inheritable]]
+- [[mesh-resource.node-component.node-config-defaults]]: defaults as inheritable values
 
 1)  Aggregated Views
 - Aggregated distribution: optional roll-up of child data nodes’ current datasets at a parent node for convenience.
 See:
-- [[resource.node-component.aggregated-distribution]]
+- [[mesh-resource.node-component.aggregated-distribution]]
 
 1)  Minimal File Tree Example
 
@@ -210,14 +210,14 @@ graph TD
 
 13) Glossary
 - [[concept.mesh]]: the set of addressable resources in a repository, published as a site
-- Node: an extensible folder resource containing nodes/components: [[resource.node]]
-- Node component: terminal resource that supports node behavior/structure: [[resource.node-component]]
-- Flow: DatasetSeries representing an abstract dataset (meta/data/config): [[resource.node-component.flow]]
-- [[resource.node-component.flow-snapshot]]: concrete Dataset realization of a flow (`_current/`, `_next/`, `_vN/`)
-- [[resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.): 
-- Handle: indirection to refer to the node “as a mesh resource”: [[resource.node-component.node-handle]]
-- Resource Page: dereferenceable `index.html` for folders: [[resource.node-component.documentation-resource.resource-page]]
-- Aggregated Distribution: parent-level roll-up of children’s current data: [[resource.node-component.aggregated-distribution]]
+- Node: an extensible folder resource containing nodes/components: [[mesh-resource.node]]
+- Node component: terminal resource that supports node behavior/structure: [[mesh-resource.node-component]]
+- Flow: DatasetSeries representing an abstract dataset (meta/data/config): [[mesh-resource.node-component.flow]]
+- [[mesh-resource.node-component.flow-snapshot]]: concrete Dataset realization of a flow (`_current/`, `_next/`, `_vN/`)
+- [[mesh-resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.): 
+- Handle: indirection to refer to the node “as a mesh resource”: [[mesh-resource.node-component.node-handle]]
+- Resource Page: dereferenceable `index.html` for folders: [[mesh-resource.node-component.documentation-resource.resource-page]]
+- Aggregated Distribution: parent-level roll-up of children’s current data: [[mesh-resource.node-component.aggregated-distribution]]
 - Weave: lifecycle operation to version/promote/regenerate/repair: [[concept.weave-process]]
 - Evidence:
   - TriG appears unsupported while docs/examples use TriG heavily: [[resource.node-component.flow-snapshot.distribution]]
@@ -225,12 +225,12 @@ graph TD
 
 K. Config defaults doc should include explicit property names/shapes
 - Evidence:
-  - [[resource.node-component.node-config-defaults]] lacks concrete JSON-LD terms/examples
+  - [[mesh-resource.node-component.node-config-defaults]] lacks concrete JSON-LD terms/examples
 - Recommendation: Provide explicit terms/shapes aligned with config-flow vocabulary and the inheritance resolution doc.
 
 L. Relative identifier examples mention `_config-flow`
 - Evidence:
-  - [[concept.identifier.intramesh]] vs config docs (two config flows): [[resource.node-component.flow.node-config]]
+  - [[concept.identifier.intramesh]] vs config docs (two config flows): [[mesh-resource.node-component.flow.node-config]]
 - Recommendation: Align examples with `_config-operational-flow/` and `_config-inheritable-flow/`.
 
 M. Confirm embedded mesh doc and folder-note coverage

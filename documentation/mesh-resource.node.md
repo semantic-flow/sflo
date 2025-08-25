@@ -10,7 +10,7 @@ created: 1750999795528
 
 The primary constituents of a semantic mesh are **mesh nodes**. They are physically represented as [[mesh folders|facet.filesystem.folder]] and establish a [[namespace segments|concept.namespace.segment]].
 
-Mesh nodes are holonic containers that can contain other mesh nodes [[node components|resource.node-component]], distinguishing them from components which are terminal within their own scope.
+Mesh nodes are holonic containers that can contain other mesh nodes [[node components|mesh-resource.node-component]], distinguishing them from components which are terminal within their own scope.
 
 ## Physical Structure
 
@@ -23,8 +23,8 @@ When stored on disk, all mesh nodes:
 
 Every mesh node has these components:
 
-- **[[resource.node-component.flow.node-metadata]]** ([[folder._node-metadata-flow]]): Centralized metadata for the node
-- **[[resource.node-component.node-handle]]** (`_node-handle/`): Universal marker folder that refers to the parent "as a mesh node", as opposed to "as the name, dataset, or other thing" to which it normally refers; a handle resource page should explain this distinction
+- **[[mesh-resource.node-component.flow.node-metadata]]** ([[folder._node-metadata-flow]]): Centralized metadata for the node
+- **[[mesh-resource.node-component.node-handle]]** (`_node-handle/`): Universal marker folder that refers to the parent "as a mesh node", as opposed to "as the name, dataset, or other thing" to which it normally refers; a handle resource page should explain this distinction
 
 ## Optional Components
 
@@ -32,7 +32,7 @@ Every mesh node has these components:
 
 ## Node Types
 
-### 1. [[bare node|resource.node.bare]]
+### 1. [[bare node|mesh-resource.node.bare]]
 **Components**: `_meta-flow/` + `_node-handle/`
 - Functions as organizational containers
 - Contains essential identity, metadata, and handle information
@@ -40,7 +40,7 @@ Every mesh node has these components:
 - Base level for all mesh nodes
 
 
-### 2. [[data node|resource.node.reference.dataset]]
+### 2. [[data node|mesh-resource.node.reference.dataset]]
 **Components**: `_meta-flow/` + `_node-handle/` + `_data-flow/`
 - Contains data distributions and versioning capabilities
 - Node URL refers to the node’s referent (real-world entity or dataset concept) represented by the data flow

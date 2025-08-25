@@ -8,15 +8,15 @@ created: 1750999795528
 
 ## Overview
 
-**Dataset reference nodes** (or “data nodes” for short) are [[resource.node.reference]]s that represent and contain an evolvable "payload" dataset in the form of a [[resource.node-component.flow.data]]. 
+**Dataset reference nodes** (or “data nodes” for short) are [[mesh-resource.node.reference]]s that represent and contain an evolvable "payload" dataset in the form of a [[mesh-resource.node-component.flow.data]]. 
 
 Because it is evolvable, it gets typed as a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series)it [[concept.identifier.intramesh]]
 
-Its actual data is kept in a [[resource.node-component.flow]]
+Its actual data is kept in a [[mesh-resource.node-component.flow]]
 
 Its versions are [[datasets|https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset]].
 
-Unlike [[flow snapshots|resource.node-component.flow-snapshot]] which contain concrete data distributions, data nodes serve as conceptual containers that organize and provide identity for data without containing the data directly. I.e., data nodes only contain concrete datasets by virtue of containing [[resource.node-component.flow.data]] (also abstract) and its snapshots, which have concrete distributions.
+Unlike [[flow snapshots|mesh-resource.node-component.flow-snapshot]] which contain concrete data distributions, data nodes serve as conceptual containers that organize and provide identity for data without containing the data directly. I.e., data nodes only contain concrete datasets by virtue of containing [[mesh-resource.node-component.flow.data]] (also abstract) and its snapshots, which have concrete distributions.
 
 data nodes are physically represented as [[mesh folders|facet.filesystem.folder]] and correspond to [[namespace segments|concept.namespace.segment]].
 
@@ -35,7 +35,7 @@ The data node provides:
 
 ### Data flow (DatasetSeries)
 
-[[resource.node-component.flow.data]] is the single user data flow for a node, realized by snapshots:
+[[mesh-resource.node-component.flow.data]] is the single user data flow for a node, realized by snapshots:
 
 - `/ns/monsters/_data-flow/_current/` = the current dataset snapshot
 - `/ns/weather-stations/_data-flow/_v3/` = version 3 dataset snapshot
@@ -46,15 +46,15 @@ Snapshots contain **distribution files**: the actual data in various formats (e.
 
 Every data node must contain:
 
-- **[[resource.node-component.flow.node-metadata]]** (`_meta-flow/`): Administrative metadata about the data concept
-- **[[resource.node-component.flow.data]]** (`_data-flow/`): dataset data
-- **[[Node handle|resource.node-component.node-handle]]** (`_node-handle/`): Referential indirection for the node
+- **[[mesh-resource.node-component.flow.node-metadata]]** (`_meta-flow/`): Administrative metadata about the data concept
+- **[[mesh-resource.node-component.flow.data]]** (`_data-flow/`): dataset data
+- **[[Node handle|mesh-resource.node-component.node-handle]]** (`_node-handle/`): Referential indirection for the node
 
 ## Optional Structure
 
-- **[[Asset trees|resource.node-component.asset-tree]]** (`_assets/`): Attached file collections
-- [[resource.node-component.documentation-resource.changelog]] and [[resource.node-component.documentation-resource.readme]]
-- [[resource.node-component.node-config-defaults]]
+- **[[Asset trees|mesh-resource.node-component.asset-tree]]** (`_assets/`): Attached file collections
+- [[mesh-resource.node-component.documentation-resource.changelog]] and [[mesh-resource.node-component.documentation-resource.readme]]
+- [[mesh-resource.node-component.node-config-defaults]]
 
 ## Key Characteristics
 

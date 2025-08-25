@@ -8,7 +8,7 @@ created: 1751000577920
 
 ## Definition
 
-**Bare nodes** are [[resource.node]]s that function primarily as containers for other mesh nodes. They are physically represented by [[folder.namespace]].
+**Bare nodes** are [[mesh-resource.node]]s that function primarily as containers for other mesh nodes. They are physically represented by [[folder.namespace]].
 
 ## Purpose
 

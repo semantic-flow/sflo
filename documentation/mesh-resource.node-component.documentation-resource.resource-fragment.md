@@ -6,7 +6,7 @@ updated: 1755850422032
 created: 1752244988548
 ---
 
-Resource fragments are [[product.service.design.htmx]] fragments, support dynamic behaviour in [[resource.node-component.documentation-resource.resource-page]] or external web apps without a "live" backend.
+Resource fragments are [[product.service.design.htmx]] fragments, support dynamic behaviour in [[mesh-resource.node-component.documentation-resource.resource-page]] or external web apps without a "live" backend.
 
 For resource pages, they're most useful for "saving bandwidth": data that might not be needed can be loaded later.
 

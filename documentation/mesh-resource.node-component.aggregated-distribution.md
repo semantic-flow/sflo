@@ -10,7 +10,7 @@ __note: maybe we will do them, maybe we won't__
 
 A node's **aggregated distribution** is a compilation of all the child data flows of its contained data nodes (their `_data-flow/_current/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
 
-Both [[resource.node.bare]] and [[resource.node.reference.dataset]] can have aggregate distributions. data nodes include their own data in the aggregation.
+Both [[mesh-resource.node.bare]] and [[mesh-resource.node.reference.dataset]] can have aggregate distributions. data nodes include their own data in the aggregation.
 
 ## Purpose
 
@@ -72,6 +72,6 @@ During [[concept.weave-process]], aggregated distributions are created by:
 
 ## Related Concepts
 
-- **[[resource.node-component.flow.data]]** - Source datasets for aggregation
+- **[[mesh-resource.node-component.flow.data]]** - Source datasets for aggregation
 - **[[concept.weave-process]]** - Process that generates aggregated distributions
-- **[[resource.node-component.flow-snapshot]]** - Contains the actual distributions being aggregated
+- **[[mesh-resource.node-component.flow-snapshot]]** - Contains the actual distributions being aggregated

@@ -8,7 +8,7 @@ created: 1750706813437
 
 ## Overview
 
-**Node components** are mesh resources that support and define the mesh structure. Unlike [[mesh nodes|resource.node]] which can contain other mesh nodes, components cannot be extended beyond their own internal structure.
+**Node components** are mesh resources that support and define the mesh structure. Unlike [[mesh nodes|mesh-resource.node]] which can contain other mesh nodes, components cannot be extended beyond their own internal structure.
 
 Components can be physically represented as folders or files, and all files and folders within a component folder are considered to be part of that component.
 
@@ -18,15 +18,15 @@ Components are categorized by their facets, including:
   - typical creation and maintenance patterns (user vs system)
   - versioning status
   - folder vs. file
-  - node role (meta and data [[resource.node-component.flow]])
+  - node role (meta and data [[mesh-resource.node-component.flow]])
 
 ### User Components
 
 User components are primarily created and maintained by users or their software agents and services, and represent domain knowledge:
 
 **Folder-based user components:**
-- **[[Asset trees|resource.node-component.asset-tree]]**: Collections of arbitrary files attached to the mesh (in `_assets/` folders)
-- **[[Next datasets|resource.node-component.flow-snapshot.next]]**: Draft workspaces for ongoing changes to [[resource.node-component.flow]] (in `_next/` folders)
+- **[[Asset trees|mesh-resource.node-component.asset-tree]]**: Collections of arbitrary files attached to the mesh (in `_assets/` folders)
+- **[[Next datasets|mesh-resource.node-component.flow-snapshot.next]]**: Draft workspaces for ongoing changes to [[mesh-resource.node-component.flow]] (in `_next/` folders)
 
 **File-based user components:**
 - **README.md files**: User documentation providing context
@@ -37,13 +37,13 @@ User components are primarily created and maintained by users or their software 
 System components are usually created or altered by the [[Weave Process|concept.weave-process]] process rather than direct user modification:
 
 **Folder-based system components:**
-- **[[metadata flows|resource.node-component.flow.node-metadata]]**: Administrative and structural metadata for mesh nodes (in `_meta-flow/` folders)
-- **[[version snapshot|resource.node-component.flow-snapshot.version]]**: Versioned snapshots of datasets (in `_vN/` folders)
-- **[[Node handles|resource.node-component.node-handle]]**: Components providing referential indirection for nodes as mesh resources (in `_node-handle/` folders)
+- **[[metadata flows|mesh-resource.node-component.flow.node-metadata]]**: Administrative and structural metadata for mesh nodes (in `_meta-flow/` folders)
+- **[[version snapshot|mesh-resource.node-component.flow-snapshot.version]]**: Versioned snapshots of datasets (in `_vN/` folders)
+- **[[Node handles|mesh-resource.node-component.node-handle]]**: Components providing referential indirection for nodes as mesh resources (in `_node-handle/` folders)
 
 **File-based system components:**
-- **[[Resource pages|resource.node-component.documentation-resource.resource-page]]**: Generated index.html files for human-readable access
-- **[[Distribution files|resource.node-component.snapshot-distribution]]**: Data files in various RDF formats
+- **[[Resource pages|mesh-resource.node-component.documentation-resource.resource-page]]**: Generated index.html files for human-readable access
+- **[[Distribution files|mesh-resource.node-component.snapshot-distribution]]**: Data files in various RDF formats
 
 ## Physical vs Logical Structure
 
@@ -61,5 +61,5 @@ System components are usually created or altered by the [[Weave Process|concept.
 
 Components work in conjunction with mesh nodes to create the complete mesh structure:
 - Every mesh node contains at least two components: metadata flows and node handles
-- data nodes contain a single [[resource.node-component.flow.data]] 
+- data nodes contain a single [[mesh-resource.node-component.flow.data]] 
 - Any node may contain asset trees (user components) for file attachments

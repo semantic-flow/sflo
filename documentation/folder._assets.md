@@ -6,4 +6,4 @@ updated: 1752722614126
 created: 1751130015874
 ---
 
-- correspond to [[resource.node-component.asset-tree]]s 
+- correspond to [[mesh-resource.node-component.asset-tree]]s 

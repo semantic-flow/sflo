@@ -8,11 +8,11 @@ created: 1751351383000
 
 ## Question
 
-Why are there [[mesh node components|resource.node-component]] like `_meta/`, `_node-handle/`, and `_assets/` at the top level of a repository? Shouldn't components only be inside nodes?
+Why are there [[mesh node components|mesh-resource.node-component]] like `_meta/`, `_node-handle/`, and `_assets/` at the top level of a repository? Shouldn't components only be inside nodes?
 
 ## Answer
 
-Components at the repository root exist because **the repository root itself is a [[mesh node|resource.node]]** - specifically, it's the [[root node|concept.root-node]] of the mesh.
+Components at the repository root exist because **the repository root itself is a [[mesh node|mesh-resource.node]]** - specifically, it's the [[root node|concept.root-node]] of the mesh.
 
 ### Repository Root = Mesh Root Node
 
@@ -24,7 +24,7 @@ Every semantic mesh has a root node, and in a repository-based mesh, the reposit
 
 Since the repository root is a mesh node, it follows the same rules as any other node and must contain:
 
-- **`_meta/`**: corresponds to the [[resource.node-component.flow.node-metadata]] with administrative metadata for the root node
+- **`_meta/`**: corresponds to the [[mesh-resource.node-component.flow.node-metadata]] with administrative metadata for the root node
 - **`_node-handle/`**: corresponds to [[node handle|resource.node-component.node-handle]] for referential indirection
 
 The root node may contain **other components**: Depending on the root node type (e.g., `_ref/` for reference nodes, `_data/` for versioned datasets)

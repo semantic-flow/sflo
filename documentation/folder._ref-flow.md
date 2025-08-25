@@ -6,4 +6,4 @@ updated: 1756062973341
 created: 1756062905606
 ---
 
-The filesystem folder of a [[resource.node-component.flow.reference]] dataset.
+The filesystem folder of a [[mesh-resource.node-component.flow.reference]] dataset.

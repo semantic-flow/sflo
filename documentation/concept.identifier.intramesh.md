@@ -2,9 +2,14 @@
 id: 17l23vl7sqg997hr773dh23
 title: intramesh identifier
 desc: ''
-updated: 1756146502428
+updated: 1756161664431
 created: 1750654763700
 ---
+
+## Purpose
+
+- locate [[mesh-resource]]s (when used in a filesystem or web site context)
+- denote [[concept.referent]]
 
 Intramesh identifiers are like base-relative URIs (i.e., without the scheme, e.g., https:// or file://) except may not include fragments (#) or query separators (?). They correspond to the filesystem location of their corresponding resources. Intramesh identifiers are recorded within distributions and, where configuration is needed, under the node’s operational config flow. Paths are always resolved relative to the distribution file that declares them.
 

@@ -15,11 +15,11 @@ A namespace is the hierarchical address space formed by folder names (segments).
 
 ## Node Types
 
-A [[bare node|resource.node.bare]] is a mesh node whose URL refers to the namespace itself (an organizational container). The other node type is:
+A [[bare node|mesh-resource.node.bare]] is a mesh node whose URL refers to the namespace itself (an organizational container). The other node type is:
 
-- [[data node|resource.node.reference.dataset]]: URL refers to the node’s referent (real-world entity or dataset concept) and has a single [[data flow|resource.node-component.flow.data]].
+- [[data node|mesh-resource.node.reference.dataset]]: URL refers to the node’s referent (real-world entity or dataset concept) and has a single [[data flow|mesh-resource.node-component.flow.data]].
 
-For general node anatomy (handle and metadata requirements), see [[resource.node]].
+For general node anatomy (handle and metadata requirements), see [[mesh-resource.node]].
 
 ## Minimal Example
 

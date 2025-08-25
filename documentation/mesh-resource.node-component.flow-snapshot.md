@@ -6,13 +6,13 @@ updated: 1756080125666
 created: 1751689346769
 ---
 
-**flow snapshots** are components that are datasets and represent the evolutionary steps of the [[resource.node-component.flow]].  
+**flow snapshots** are components that are datasets and represent the evolutionary steps of the [[mesh-resource.node-component.flow]].  
 
-flow snapshots have corresponding [[distributions|resource.node-component.snapshot-distribution]] and are the connective tissue between nodes and their RDF-based representation.
+flow snapshots have corresponding [[distributions|mesh-resource.node-component.snapshot-distribution]] and are the connective tissue between nodes and their RDF-based representation.
 
 ## Relationship to node flows
 
-flow snapshots are the successive realizations of [[resource.node-component.flow]].
+flow snapshots are the successive realizations of [[mesh-resource.node-component.flow]].
 
 ### Relationship pattern:
 
@@ -67,11 +67,11 @@ _current/
 
 ## Immutability
 
-**[[resource.node-component.flow-snapshot.version]]** (historical flow snapshots, i.e., versioned folders like `_v1/`, `_v2/`) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.
+**[[mesh-resource.node-component.flow-snapshot.version]]** (historical flow snapshots, i.e., versioned folders like `_v1/`, `_v2/`) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.
 
-**[[resource.node-component.flow-snapshot.current]]** (the latest "woven" flow snapshots, `_current`) should not be modified directly by users, but will be updated "on weave" if the [[resource.node-component.flow-snapshot.next]] has evolved. 
+**[[mesh-resource.node-component.flow-snapshot.current]]** (the latest "woven" flow snapshots, `_current`) should not be modified directly by users, but will be updated "on weave" if the [[mesh-resource.node-component.flow-snapshot.next]] has evolved. 
 
-**[[resource.node-component.flow-snapshot.next]]** (working flow snapshots, `_next/`) are mutable:
+**[[mesh-resource.node-component.flow-snapshot.next]]** (working flow snapshots, `_next/`) are mutable:
 - Can be edited and updated during development
 - Represent evolving state of the node flow
 
@@ -84,6 +84,6 @@ flow snapshots are created through:
 
 ## Related Concepts
 
-- **[[resource.node-component.flow]]** - Parent conceptual entities
+- **[[mesh-resource.node-component.flow]]** - Parent conceptual entities
 - **[[concept.versioning]]** - Process of creating versioned flow snapshots
 - **[[concept.weave-process]]** - Operation that manages flow snapshot lifecycle

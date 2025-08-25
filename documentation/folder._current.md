@@ -6,4 +6,4 @@ updated: 1752722555795
 created: 1751671938591
 ---
 
-- an [[resource.node-component.flow-snapshot]]
+- an [[mesh-resource.node-component.flow-snapshot]]

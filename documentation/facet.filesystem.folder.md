@@ -10,7 +10,7 @@ A mesh when stored in a filesystem is physically structured with mesh folders, w
   
 When a mesh gets published, the folders also correspond to [[concept.identifier]]. 
 
-All folder-based resources should contain a [[resource.node-component.documentation-resource.resource-page]]
+All folder-based resources should contain a [[mesh-resource.node-component.documentation-resource.resource-page]]
 
 
 ## Types
@@ -19,18 +19,18 @@ All folder-based resources should contain a [[resource.node-component.documentat
 
 #### Node Handle Folders
 
-- [[concept.mesh.resource.folder._node-handle]] correspond to the [[resource.node-component.node-handle]]
+- [[concept.mesh.resource.folder._node-handle]] correspond to the [[mesh-resource.node-component.node-handle]]
 
 #### Flow (Abstract Dataset) Folders
 
 - **`_meta-flow/`**
-  - correspond to [[resource.node-component.flow.node-metadata]]
+  - correspond to [[mesh-resource.node-component.flow.node-metadata]]
   - present in all mesh nodes
   
 - **`_data-flow/`**
 
-  - correspond to the [[resource.node-component.flow.data]]
-  - contain the dataset associated with the [[resource.node.reference.dataset]]
+  - correspond to the [[mesh-resource.node-component.flow.data]]
+  - contain the dataset associated with the [[mesh-resource.node.reference.dataset]]
 
 #### Snapshot (Concrete Dataset) System Folders
 
@@ -38,7 +38,7 @@ All folder-based resources should contain a [[resource.node-component.documentat
 
 - **`_v1/`, `_v2/`, …**
 
-  - Version snapshot folders that represent [[resource.node-component.flow-snapshot]]
+  - Version snapshot folders that represent [[mesh-resource.node-component.flow-snapshot]]
   - each holds one or more distribution file (named `<node_ref_vN.ext`).
   - **Fully terminal**—neither user-nodes nor system-folders may live inside.
 

@@ -23,7 +23,7 @@ A namespace folder is a mesh node folder whose URL refers to the namespace itsel
   - Optional system/user resources like [[`_assets/`|folder._assets]]
   - Optional flows (e.g., reference), if meaningful for the bare node’s role
 - Must not:
-  - Store dataset distributions directly outside flow snapshot folders (see [[resource.node-component.flow]])
+  - Store dataset distributions directly outside flow snapshot folders (see [[mesh-resource.node-component.flow]])
 
 ## Example
 
@@ -34,4 +34,4 @@ A namespace folder is a mesh node folder whose URL refers to the namespace itsel
 └── people/                   # child namespace folder → https://ex.org/ns/people/
 ```
 
-For general node anatomy and types, see [[resource.node]] and [[resource.node.bare]].
+For general node anatomy and types, see [[mesh-resource.node]] and [[mesh-resource.node.bare]].

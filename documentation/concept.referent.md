@@ -1,18 +1,14 @@
 ---
-id: iorxcnsnmhl0hw3ki8w3h2z
+id: referent
 title: Referent
 desc: ''
-updated: 1756063907804
+updated: 1756162540821
 created: 1755990922267
 ---
-Perfect — here’s an extended wiki note that folds in that case:
 
----
+## Definition
 
-## Referent
-
-**Definition**
-The *referent* is the thing (real or imaginary) that a node’s IRI **refers to**. Every node IRI is an identifier for its referent.
+The *referent* is the thing (real or imaginary) to which a [[resource|mesh-resource]]’s [[concept.identifier]] **refers**. Every identifier [[denotes|concept.denotation]] its referent, 
 
 **Node vs. referent**
 
@@ -23,7 +19,7 @@ The *referent* is the thing (real or imaginary) that a node’s IRI **refers to*
 
 **Where it’s described**
 
-* The **referent’s description** lives in the node’s [[resource.node-component.flow.reference]].
+* The **referent’s description** lives in the node’s [[mesh-resource.node-component.flow.reference]].
 * The **node’s own metadata and provenance** live in the **`_node-*` flows** (e.g. `_node-metadata-flow`, `_node-config-*`).
 
 **Special case: data nodes**
@@ -38,6 +34,3 @@ The *referent* is the thing (real or imaginary) that a node’s IRI **refers to*
   * `_ref-flow`: declares it as a dataset, supplies label and attribution.
   * `_data-flow`: provides concrete versions (`v1`, `v2`, …).
 
----
-
-👉 Would you like me to also draft the **paired wiki note for “Node handle”**, so your docs have “Referent” and “Node handle” defined side-by-side?
