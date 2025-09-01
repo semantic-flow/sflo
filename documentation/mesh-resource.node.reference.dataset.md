@@ -10,7 +10,7 @@ created: 1750999795528
 
 **Dataset reference nodes** (or “data nodes” for short) are [[mesh-resource.node.reference]]s that represent and contain an evolvable "payload" dataset in the form of a [[mesh-resource.node-component.flow.data]]. 
 
-Because it is evolvable, it gets typed as a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series)it [[concept.identifier.intramesh]]
+Because it is evolvable, it gets typed as a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series)it [[concept.intramesh-identifier]]
 
 Its actual data is kept in a [[mesh-resource.node-component.flow]]
 

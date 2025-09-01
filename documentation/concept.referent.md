@@ -2,7 +2,7 @@
 id: referent
 title: Referent
 desc: ''
-updated: 1756162540821
+updated: 1756224755422
 created: 1755990922267
 ---
 
@@ -34,3 +34,4 @@ The *referent* is the thing (real or imaginary) to which a [[resource|mesh-resou
   * `_ref-flow`: declares it as a dataset, supplies label and attribution.
   * `_data-flow`: provides concrete versions (`v1`, `v2`, …).
 
+  

@@ -2,17 +2,15 @@
 id: principle-transposability
 title: transposability
 desc: ''
-updated: 1756146365616
+updated: 1756307846547
 created: 1750489919875
 ---
-
-//TODO: re-verify this ai-generated content
 
 ## Overview
 
 Transposability is the ability to:
 
-1. move a [[concept.mesh]] to a different serving locations without breaking its internal structure; i.e., A transposable mesh works correctly regardless of which namespace contains it.
+1. move a [[concept.mesh]] to different serving locations without breaking its internal structure; i.e., A transposable mesh works correctly regardless of which namespace contains it.
 2. move a [[concept.mesh.sub]] to a different part of the mesh
 
 If you use 

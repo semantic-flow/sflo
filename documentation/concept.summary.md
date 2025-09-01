@@ -53,7 +53,7 @@ See:
     - `_vN/`: [[mesh-resource.node-component.flow-snapshot.version]]
     - Distributions: [[resource.node-component.flow-snapshot.distribution]]
   - Handle (refer to the node “as a mesh resource”): [[mesh-resource.node-component.node-handle]]
-    - Handle page (human-facing): [[mesh-resource.node-component.handle.page]]
+    - Handle page (human-facing): [[mesh-resource.node-component.node-handle.page]]
   - Asset tree (static files for the node): [[mesh-resource.node-component.asset-tree]]
   - Documentation resources (README/CHANGELOG/resource pages/fragments):
     - README: [[mesh-resource.node-component.documentation-resource.readme]]
@@ -76,7 +76,7 @@ See:
 - [[concept.namespace]]: overview
 - [[concept.namespace.segment]]: segment definition
 - [[concept.namespace.segment.system]]: reserved segments
-- [[concept.identifier.intramesh]]: relative IDs
+- [[concept.intramesh-identifier]]: relative IDs
 
 4.2 URL Semantics
 - Concept URLs (slash-terminated) identify nodes, flows (abstract), snapshots (conceptual), and handle.
@@ -92,7 +92,7 @@ See:
 - The handle component provides a URL to refer to the node itself “as a mesh resource” (for config, provenance, lifecycle).
 See:
 - [[mesh-resource.node-component.node-handle]]
-- [[mesh-resource.node-component.handle.page]]
+- [[mesh-resource.node-component.node-handle.page]]
 
 5) Physical Structure and Reserved Folders
 
@@ -230,7 +230,7 @@ K. Config defaults doc should include explicit property names/shapes
 
 L. Relative identifier examples mention `_config-flow`
 - Evidence:
-  - [[concept.identifier.intramesh]] vs config docs (two config flows): [[mesh-resource.node-component.flow.node-config]]
+  - [[concept.intramesh-identifier]] vs config docs (two config flows): [[mesh-resource.node-component.flow.node-config]]
 - Recommendation: Align examples with `_config-operational-flow/` and `_config-inheritable-flow/`.
 
 M. Confirm embedded mesh doc and folder-note coverage

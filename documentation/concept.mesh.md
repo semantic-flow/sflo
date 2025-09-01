@@ -11,7 +11,7 @@ created: 1750624002110
 A **semantic mesh** is a dereferenceable, possibly-versioned, [[concept.immutability]] collection of semantic data and other resources where every HTTP URL returns meaningful content. It serves as the foundational structure for organizing and publishing semantic web resources through [[semantic sites|concept.semantic-site]].
 
 Key characteristics:
-- **Addressable**: Every [[mesh-resource]] has a unique [[concept.identifier.intramesh]]; when a mesh is [[published|concept.publication]], every  [[mesh-resource]] then gets a globally unique URL
+- **Addressable**: Every [[mesh-resource]] has a unique [[concept.intramesh-identifier]]; when a mesh is [[published|concept.publication]], every  [[mesh-resource]] then gets a globally unique URL
 - **Dereferenceable**: All URLs return meaningful content when accessed
 - **Versioned**: Changes are managed through the [[Weave Process|concept.weave-process]] process, and [[mesh-resource.node-component.flow]] are versioned by default
 - **Publish-ready**: Can be served directly via GitHub Pages or similar static hosting; or via a local web server like live-server
@@ -57,7 +57,7 @@ Terminal [[mesh resources|mesh-resource]] that cannot contain other resources:
 ### Folder Mapping
 - Mesh nodes correspond physically to [[mesh folders|facet.filesystem.folder]]
 - Folder names become namespace segments and URL path components
-- The local [[concept.identifier.intramesh]] for a node matches its containing folder name
+- The local [[concept.intramesh-identifier]] for a node matches its containing folder name
 
 ### File Organization
 - [[Datasets|facet.resource.dataset]] are represented by folders containing at least one distribution file
@@ -73,7 +73,7 @@ Terminal [[mesh resources|mesh-resource]] that cannot contain other resources:
 ### Namespace Extension
 - Mesh folders always extend the namespace with a segment corresponding to the folder name
 - This creates a hierarchical URL structure for addressing resources
-- Each resource has a unique [[Intramesh|concept.identifier.intramesh]] based on its path and local name
+- Each resource has a unique [[Intramesh|concept.intramesh-identifier]] based on its path and local name
 
 ### Containment Rules
 - **Mesh nodes** are always containers of components (i.e., at least [[mesh-resource.node-component.flow.node-metadata]] and [[concept.mesh.resource.folder._node-handle]]) and potentially containers of other nodes 

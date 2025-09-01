@@ -11,7 +11,7 @@ created: 1750960024104
 A namespace segment is a single folder name that extends the namespace (URL) path. The concatenation of folder names yields the full namespace path for a node.
 
 - Concept vs content URL semantics: see [[concept.identifier]]
-- How relative identifiers are resolved: see [[concept.identifier.intramesh]]
+- How relative identifiers are resolved: see [[concept.intramesh-identifier]]
 
 ## Naming (recommended)
 

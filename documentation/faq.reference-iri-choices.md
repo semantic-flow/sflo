@@ -2,7 +2,7 @@
 id: s1yduc399adt3ihvnwievrd
 title: Reference Iri Choices
 desc: ''
-updated: 1756145950729
+updated: 1756307597446
 created: 1751240276585
 ---
 
@@ -10,6 +10,7 @@ RDF supports different, confusingly-named approaches to resource referencing, ea
 
 
 ## TLDR: **Choosing between approaches:**
+
 - Use **relative-path relative IRIs** for maximum composability when embedding or importing meshes and submeshes
 - Use **absolute-path relative IRIs** for clearer namespace context and better support for moving submeshes within the same mesh hierarchy
 - Use **absolute IRIs** only for cross-mesh references
@@ -21,17 +22,23 @@ RDF supports different, confusingly-named approaches to resource referencing, ea
 
 Any IRI that has a scheme (e.g., http:) is an **Absolute IRI** 
 
-This example uses two absolute IRIs, each using the example.com authority:
+### Example
 
-```turtle
+This example uses two absolute IRIs, one using the "ex:" prefix for the example.com authority:
+
+```ttl
+@prefix ex: <https://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
 # In ns/djradon/_ref-flow/_current/djradon_ref.trig
-<https://example.com/mesh/ns/djradon> a foaf:Person ;
-   rdfs:seeAlso <https://example.com/mesh/ns/djradon/index.html> .
+<https://djradon.github.io/ns/djradon/> a foaf:Person ;
+   rdfs:seeAlso ex:djradon/index.html .
 ```
 
 ### Pros
 
-- explicit 
+- explicit
   
 ### Cons
   
@@ -58,14 +65,18 @@ Any IRI that lacks a scheme (e.g., http:) is resolved against a base IRI followi
 If no base is specified, an inferred base of the requested scheme and authority is used. **This behaviour is essential to Semantic Flow [[Best Practices|guide.best-practices]].**
 
 
-### Absolute-Path Relative IRIs
+### Relative-Path Relative IRIs
 
 - maximum composability
+
 ```turtle
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
 # In ns/djradon/_ref/djradon_ref.trig
-<> a foaf:Person ;                    # The document itself
-   foaf:knows <../alice/> ;           # Another node in the mesh
-   rdfs:seeAlso <bio/bio.html> .   # A resource page
+<../../djradon/> a foaf:Person ;          # The document itself
+   foaf:knows <../../alice/> ;           # A sibling node in the mesh
+   rdfs:seeAlso <../bio/bio.html> .      # A resource page contained in a "bio" node under ../../djradon/
 ```
 
 #### Pros
@@ -83,8 +94,11 @@ If no base is specified, an inferred base of the requested scheme and authority 
 - good intra-mesh transposability
   
 ```turtle
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
 # In ns/djradon/_ref/djradon_ref.trig
-<> a foaf:Person ;
+</ns/djradon/> a foaf:Person ;
    foaf:knows </ns/alice/> ;          # Clear namespace context
    rdfs:seeAlso </ns/djradon/bio/bio.html> .
 ```

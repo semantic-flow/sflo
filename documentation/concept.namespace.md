@@ -11,7 +11,7 @@ created: 1730226356459
 A namespace is the hierarchical address space formed by folder names (segments). Every folder extends the namespace with its name, and the resulting path maps directly to the published URL.
 
 - Concept vs content URL semantics: see [[concept.identifier]]
-- How intramesh identifiers are resolved: see [[concept.identifier.intramesh]]
+- How intramesh identifiers are resolved: see [[concept.intramesh-identifier]]
 
 ## Node Types
 

@@ -2,16 +2,15 @@
 id: identifier
 title: identifier
 desc: ''
-updated: 1756155687379
+updated: 1756308706654
 created: 1750368774797
 ---
 
+## Intramesh references in Semantic Flow
 
+note: these examples use 
 
-
-## Identifier references in Semantic Flow
-
-| Semantic Flow resource type            | referent                       | [[concept.identifier.intramesh]]                    |
+| Semantic Flow resource type            | referent                       | [[concept.intramesh-identifier]]                    |
 | -------------------------------------- | ------------------------------ | --------------------------------------------------- |
 | bare node                              | -nothing, (yet)                | `ns/`                                               |
 | data node                              | abstract dataset               | `ns/djradon-bio/`                                   |

@@ -1,8 +1,8 @@
 ---
-id: faq002
+id: why-are-there-components-at-the-top-of-a-repo
 title: Why are there components at the top of a repo?
 desc: ''
-updated: 1756063907833
+updated: 1756305654955
 created: 1751351383000
 ---
 
