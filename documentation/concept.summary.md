@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1756063907837
+updated: 1756767742303
 created: 1755820864360
 ---
 
@@ -11,19 +11,19 @@ created: 1755820864360
 This document is the canonical, compact context for AIs/LLMs. It summarizes all `documentation/concepts.*` notes and cross-links to authoritative pages.
 
 0) Twin Purposes
-- Mint URLs (IRIs) for referring to things on the Semantic Web.
-- Hold semantic datasets and supporting resources that use those URLs.
+- Mint IRIs (IRIs) for referring to things on the Semantic Web.
+- Hold semantic datasets and supporting resources that use those IRIs.
 
 1) Definition
-A semantic mesh is a dereferenceable, folder-structured, possibly-versioned corpus of semantic resources where every URL resolves to meaningful content. A mesh maps directly from a Git repository’s folder hierarchy to a published static site so that:
-- Every resource is addressable by a stable URL.
+A semantic mesh is a dereferenceable, folder-structured, possibly-versioned corpus of semantic resources where every IRI resolves to meaningful content. A mesh maps directly from a Git repository’s folder hierarchy to a published static site so that:
+- Every resource is addressable by a stable IRI.
 - Folder resources are dereferenceable via generated `index.html` resource pages.
 - RDF datasets live as distributions on versioned flow snapshots.
 - The weave process maintains coherence and keeps the repo publish-ready.
 
 See:
 - [[concept.mesh]]: definition, requirements
-- [[concept.semantic-site]]: site posture
+- [[concept.semantic-flow-site]]: site posture
 - [[concept.mesh-repo]]: repo-to-site mapping
 
 2) Design Principles
@@ -37,8 +37,8 @@ See:
 
 3.1 Mesh Resources (Nodes and Components)
 - Node (folder; container for nodes & components): [[concept.mesh.resource.node]]
-  - bare node: organizational URL segment container: [[concept.mesh.resource.node.namespace]]
-  - data node: URL refers to the node’s referent (real-world entity or dataset concept); has a data flow: [[concept.mesh.resource.node.data]]
+  - bare node: organizational IRI segment container: [[concept.mesh.resource.node.namespace]]
+  - data node: IRI refers to the node’s referent (real-world entity or dataset concept); has a data flow: [[concept.mesh.resource.node.data]]
   - Dataset-series specialization (optional): [[concept.mesh.resource.node.data.series]]
 
 - Node component (terminal resource supporting a node): [[mesh-resource.node-component]]
@@ -70,26 +70,26 @@ See:
 4) Addressing and Identity
 
 4.1 Namespace and Relative Identifiers
-- Folder names become namespace segments; the path is the node’s relative identifier (and URL path when published).
+- Folder names become namespace segments; the path is the node’s relative identifier (and IRI path when published).
 - Relative identifiers are used within distributions for transposability; resolve relative to distribution location.
 See:
 - [[concept.namespace]]: overview
 - [[concept.namespace.segment]]: segment definition
 - [[concept.namespace.segment.system]]: reserved segments
-- [[concept.intramesh-identifier]]: relative IDs
+- [[concept.identifier.intramesh]]: relative IDs
 
-4.2 URL Semantics
-- Concept URLs (slash-terminated) identify nodes, flows (abstract), snapshots (conceptual), and handle.
-- Content URLs (with filenames) identify retrievable files: distributions, HTML pages, READMEs, assets.
+4.2 IRI Semantics
+- Concept IRIs (slash-terminated) identify nodes, flows (abstract), snapshots (conceptual), and handle.
+- Content IRIs (with filenames) identify retrievable files: distributions, HTML pages, READMEs, assets.
 - Follow document-vs-thing hygiene to avoid ambiguity.
 See:
-- [[concept.identifier]]: URL types and mapping
+- [[concept.identifier]]: IRI types and mapping
 - [[faq.reference-iri-choices]]: trade-offs
-- [[concept.iri]]: terminology; prefer “URLs” when referring to mesh-local IRIs
+- [[concept.iri]]: terminology; prefer “IRIs” when referring to mesh-local IRIs
 
 4.3 Handle Rationale
-- A node’s URL refers to its referent (namespace, real-world entity, or dataset concept).
-- The handle component provides a URL to refer to the node itself “as a mesh resource” (for config, provenance, lifecycle).
+- A node’s IRI refers to its referent (namespace, real-world entity, or dataset concept).
+- The handle component provides a IRI to refer to the node itself “as a mesh resource” (for config, provenance, lifecycle).
 See:
 - [[mesh-resource.node-component.node-handle]]
 - [[mesh-resource.node-component.node-handle.page]]
@@ -147,11 +147,11 @@ See:
 - [[concept.metadata.provenance]]
 
 8) Publishing and Sites
-- Repos are static-site-ready; pushing to GitHub Pages or any static host publishes the mesh (folder paths → URL paths).
+- Repos are static-site-ready; pushing to GitHub Pages or any static host publishes the mesh (folder paths → IRI paths).
 - Transposition (domain/project move) is safe with relative IDs.
 See:
 - [[concept.mesh-repo]]
-- [[concept.semantic-site]]
+- [[concept.semantic-flow-site]]
 - [[concept.publication]]
 
 1) Configuration and Inheritance (Two Config Flows)
@@ -230,7 +230,7 @@ K. Config defaults doc should include explicit property names/shapes
 
 L. Relative identifier examples mention `_config-flow`
 - Evidence:
-  - [[concept.intramesh-identifier]] vs config docs (two config flows): [[mesh-resource.node-component.flow.node-config]]
+  - [[concept.identifier.intramesh]] vs config docs (two config flows): [[mesh-resource.node-component.flow.node-config]]
 - Recommendation: Align examples with `_config-operational-flow/` and `_config-inheritable-flow/`.
 
 M. Confirm embedded mesh doc and folder-note coverage
@@ -242,14 +242,14 @@ M. Confirm embedded mesh doc and folder-note coverage
 If context must be small, include:
 - Definition (§1) and Principles (§2).
 - Node vs Component; Flows vs Snapshots (§3).
-- URL semantics and relative identifiers (§4).
+- IRI semantics and relative identifiers (§4).
 - Reserved folders and example tree (§5, §11).
 - Lifecycle and weave (§7).
 - Config flows model (§9).
 - Aggregated views (§10).
 
 1)  LLM Usage Notes
-- Use the folder names and URL semantics exactly as standardized here.
+- Use the folder names and IRI semantics exactly as standardized here.
 - When encountering contradictions, prefer the standards in §14 recommendations.
 - When linking within the mesh, prefer relative identifiers to maintain transposability.
-- Avoid “IRI/URI” unless drawing a distinction; for mesh-local identifiers, use “URLs”.
+- Avoid “IRI/URI” unless drawing a distinction; for mesh-local identifiers, use “IRIs”.

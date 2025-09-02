@@ -2,13 +2,13 @@
 id: hp9ckpez0pmuv270sn005gt
 title: node folder
 desc: a folder that maps to a mesh node and extends the namespace
-updated: 1756063907842
+updated: 1756767742298
 created: 1751160854174
 ---
 
 ## Definition
 
-A node folder is any folder that maps to a mesh node. Each node folder extends the namespace with its name and has a concept URL that refers to something. 
+A node folder is any folder that maps to a mesh node. Each node folder extends the namespace with its name and has a concept IRI that refers to something. 
 
 - What a “namespace” is: see [[concept.namespace]]
 - General node types and anatomy: see [[resource.node]]

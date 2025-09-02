@@ -6,7 +6,7 @@ updated: 1755918030620
 created: 1750659145476
 ---
 
-A mesh when stored in a filesystem is physically structured with mesh folders, which correspond to RDF resources and their [[concept.intramesh-identifier]]
+A mesh when stored in a filesystem is physically structured with mesh folders, which correspond to RDF resources and their [[concept.identifier.intramesh]]
   
 When a mesh gets published, the folders also correspond to [[concept.identifier]]. 
 

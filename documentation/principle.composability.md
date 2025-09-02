@@ -2,7 +2,7 @@
 id: principle-composability
 title: composability
 desc: ''
-updated: 1756078440705
+updated: 1756767742299
 created: 1751233874377
 ---
 
@@ -24,8 +24,8 @@ When extracting submeshes, upward references can break. For example, if somethin
 ### Weaving Process Solution
 
 During weaving, tools:
-1. **Scan for broken relatives**: Check all relative URLs in the mesh
-2. **Convert broken ones**: Replace with absolute URLs using canonical publication data
+1. **Scan for broken relatives**: Check all relative IRIs in the mesh
+2. **Convert broken ones**: Replace with absolute IRIs using canonical publication data
 3. **Leave working relatives alone**: Preserve transposability where possible
 
 After weaving, submeshes are semantically complete and can be composed using standard file operations.
@@ -43,7 +43,7 @@ git add collaborators/djradon/
 git commit -m "Import djradon's mesh"
 
 # Method 2: Download and copy
-curl -L https://github.com/djradon/mesh/archive/main.zip -o mesh.zip
+cIRI -L https://github.com/djradon/mesh/archive/main.zip -o mesh.zip
 unzip mesh.zip
 cp -r mesh-main/ns/djradon/ collaborators/djradon/
 git add collaborators/djradon/
@@ -103,7 +103,7 @@ rsync -av collaborators/alice/ backup/alice/
 Before weaving, analyze upward dependencies:
 - Identify references that point outside the intended extraction boundary
 - Determine if the extracted submesh will be semantically complete
-- Consider whether broken references should become absolute URLs
+- Consider whether broken references should become absolute IRIs
 
 ## Cross-Mesh References
 
@@ -173,7 +173,7 @@ git subtree add --prefix=snapshots/2024/djradon/ https://github.com/djradon/mesh
 ### For Cross-Mesh References
 
 1. **Use absolute URIs** for references to external meshes
-2. **Prefer stable, canonical URIs** over temporary or redirect-based URLs
+2. **Prefer stable, canonical URIs** over temporary or redirect-based IRIs
 3. **Document external dependencies** for mesh consumers
 4. **Consider fallback strategies** for unavailable external resources
 

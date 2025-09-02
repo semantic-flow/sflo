@@ -1,17 +1,17 @@
 ---
 id: ragu0uc06vmiqvmn41r070e
 title: namespace folder
-desc: a mesh node folder whose URL refers to the namespace itself
-updated: 1755998363785
+desc: a mesh node folder whose IRI refers to the namespace itself
+updated: 1756767742319
 created: 1751242782345
 ---
 
 ## Definition
 
-A namespace folder is a mesh node folder whose URL refers to the namespace itself (an organizational container).
+A namespace folder is a mesh node folder whose IRI refers to the namespace itself (an organizational container).
 
 - What a “namespace” is: see [[concept.namespace]]
-- URL semantics (concept vs content): see [[concept.identifier]]
+- IRI semantics (concept vs content): see [[concept.identifier]]
 
 ## Minimal requirements
 

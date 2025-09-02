@@ -2,28 +2,28 @@
 id: 7qo569nzfk3l8yo1ah6erb2
 title: Namespace Segment
 desc: a single folder name that extends the namespace path
-updated: 1755851172247
+updated: 1756767742316
 created: 1750960024104
 ---
 
 ## Definition
 
-A namespace segment is a single folder name that extends the namespace (URL) path. The concatenation of folder names yields the full namespace path for a node.
+A namespace segment is a single folder name that extends the namespace (IRI) path. The concatenation of folder names yields the full namespace path for a node.
 
-- Concept vs content URL semantics: see [[concept.identifier]]
-- How relative identifiers are resolved: see [[concept.intramesh-identifier]]
+- Concept vs content IRI semantics: see [[concept.identifier]]
+- How relative identifiers are resolved: see [[concept.identifier.intramesh]]
 
 ## Naming (recommended)
 
 - Use kebab-case (lowercase letters, digits, hyphens), e.g., `people`, `my-projects`
-- Avoid spaces and uppercase to reduce churn in URLs
+- Avoid spaces and uppercase to reduce churn in IRIs
 - Maybe avoid starting segment names names with an underscore (`_`); underscore-prefixed names are used for [[concept.namespace.segment.system]]
 
 These are recommendations, not hard rules; sometimes projects have good reasons to diverge.
 
 ## Stability
 
-Renaming a segment probably breaks the identifier (URL) of all contained resources. If you must rename:
+Renaming a segment probably breaks the identifier (IRI) of all contained resources. If you must rename:
 
 - Consider redirect/tombstoning strategies and publication history — see [[concept.publication]]
 - Review impacts on inbound references; plan a weave and re-publish cycle
@@ -38,4 +38,4 @@ Renaming a segment probably breaks the identifier (URL) of all contained resourc
 ```
 
 - Each folder adds exactly one namespace segment
-- Folders map directly to slash-terminated concept URLs (see [[concept.identifier]])
+- Folders map directly to slash-terminated concept IRIs (see [[concept.identifier]])

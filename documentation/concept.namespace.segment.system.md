@@ -2,7 +2,7 @@
 id: h3xucygpf2i6f3u3gkegvlk
 title: system segments
 desc: underscore-prefixed reserved folder names
-updated: 1755911611933
+updated: 1756767742309
 created: 1750962692214
 ---
 
@@ -28,4 +28,4 @@ This page is the canonical list; see the linked docs for behavior and details.
 - [[_node-handle/|folder._node-handle]]
 - [[_assets/|folder._assets]]
 
-For URL semantics: see [[concept.identifier]]. For namespace background: see [[concept.namespace]] and [[concept.namespace.segment]].
+For IRI semantics: see [[concept.identifier]]. For namespace background: see [[concept.namespace]] and [[concept.namespace.segment]].

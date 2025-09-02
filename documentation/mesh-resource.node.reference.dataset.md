@@ -2,19 +2,19 @@
 id: 8hmkiyjtsey7z8y5oi5xdxx
 title: dataset reference nodes
 desc: ''
-updated: 1756065117595
+updated: 1756767742280
 created: 1750999795528
 ---
+
+**Dataset reference nodes** (aka data nodes) are nodes with datasets attached to them.
 
 ## Overview
 
 **Dataset reference nodes** (or “data nodes” for short) are [[mesh-resource.node.reference]]s that represent and contain an evolvable "payload" dataset in the form of a [[mesh-resource.node-component.flow.data]]. 
 
-Because it is evolvable, it gets typed as a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series)it [[concept.intramesh-identifier]]
+The payload data is kept in the data node's [[mesh-resource.node-component.flow.data]].
 
-Its actual data is kept in a [[mesh-resource.node-component.flow]]
-
-Its versions are [[datasets|https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset]].
+Like all [[mesh-resource.node-component.flow]]s, because it is evolvable it gets typed as a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series). Its snapshots are [[datasets|https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset]].
 
 Unlike [[flow snapshots|mesh-resource.node-component.flow-snapshot]] which contain concrete data distributions, data nodes serve as conceptual containers that organize and provide identity for data without containing the data directly. I.e., data nodes only contain concrete datasets by virtue of containing [[mesh-resource.node-component.flow.data]] (also abstract) and its snapshots, which have concrete distributions.
 
@@ -27,7 +27,7 @@ A data node represents the **idea** or **concept** represented by a dataset:
 - `/ns/djradon/bio/` = a biographical dataset about the person djradon
 - `/ns/census/` =  the results of a census
 - `/ns/weather-stations/` = "the concept of weather station data"
-This idea or concept is the referent of the data node's URL. 
+This idea or concept is the referent of the data node's IRI. 
 
 The data node provides:
 - **Stable identity**: The concept persists even as concrete data changes

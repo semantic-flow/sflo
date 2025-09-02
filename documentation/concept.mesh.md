@@ -2,17 +2,17 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1756063907809
+updated: 1756826832373
 created: 1750624002110
 ---
 
 ## Overview
 
-A **semantic mesh** is a dereferenceable, possibly-versioned, [[concept.immutability]] collection of semantic data and other resources where every HTTP URL returns meaningful content. It serves as the foundational structure for organizing and publishing semantic web resources through [[semantic sites|concept.semantic-site]].
+A **semantic mesh** is a [[concept.immutability]] collection of (possibly-versioned) linked-data resources. It organizes these resources in a  [[publishable|concept.publication]] way, such that a mesh can be used as a [[semantic sites|concept.semantic-flow-site]] where every HTTP IRI returns meaningful content.
 
-Key characteristics:
-- **Addressable**: Every [[mesh-resource]] has a unique [[concept.intramesh-identifier]]; when a mesh is [[published|concept.publication]], every  [[mesh-resource]] then gets a globally unique URL
-- **Dereferenceable**: All URLs return meaningful content when accessed
+### Key characteristics
+
+- **Addressable**: Every [[mesh-resource]] has an [[concept.identifier]]; when a mesh is [[published|concept.publication]], every [[mesh-resource]] then gets a globally unique, human-readable IRI
 - **Versioned**: Changes are managed through the [[Weave Process|concept.weave-process]] process, and [[mesh-resource.node-component.flow]] are versioned by default
 - **Publish-ready**: Can be served directly via GitHub Pages or similar static hosting; or via a local web server like live-server
 
@@ -33,6 +33,47 @@ There are two types of mesh resources: [[mesh-resource.node]]s and [[mesh-resour
 #### Node components
 
 [[Node components|mesh-resource.node-component]] help define, support, and systematize nodes:
+
+
+## Intramesh references in Semantic Flow
+
+[[Mesh resources|mesh-resource]] have at least one [[concept.identifier]] and (usually) a [[concept.referent]].
+
+| Semantic Flow resource type            | referent                       | [[concept.identifier.intramesh]]                    |
+| -------------------------------------- | ------------------------------ | --------------------------------------------------- |
+| bare node                              | - nothing - (yet!)             | `ns/`                                               |
+| reference node                         | a person                       | `ns/djradon/`                                       |
+| handle                                 | mesh node                      | `ns/djradon/_node-handle/`                          |
+| resource documentation                 | resource page (content)        | `ns/djradon/index.html`                             |
+| resource documentation                 | README file (content)          | `ns/djradon/README.md`                              |
+| data node                              | abstract dataset               | `ns/djradon/  bio/`                                 |
+| abstract payload dataset (flow)        | mesh dataset series            | `ns/djradon/bio/_data-flow/`                        |
+| concrete payload dataset (snapshot)    | concrete "payload" dataset     | `ns/djradon/bio/_data-flow/_next/`                  |
+| distribution                           | content / dataset distribution | `ns/djradon/bio/_data-flow/_v1/dave-bio_v1.trig`    |
+| abstract meta dataset (flow)           | node metadata dataset series   | `ns/djradon/bio/_meta-flow/`                        |
+| concrete meta dataset (snapshot)       | node metadata dataset          | `ns/djradon/bio/_meta-flow/_current/`               |
+| abstract operational config (flow)     | operational config series      | `ns/djradon/bio/_config-operational-flow/`          |
+| concrete operational config (snapshot) | operational config             | `ns/djradon/bio/_config-operational-flow/_current/` |
+| abstract inheritable config (flow)     | inheritable config series      | `ns/djradon/bio/_config-inheritable-flow/`          |
+| concrete inheritable config (snapshot) | inheritable config             | `ns/djradon/bio/_config-inheritable-flow/_current/` |
+| asset tree                             | collection of assets           | `ns/assets/`                                        |
+| asset folder                           | - not a sf resource -          | `ns/assets/images/`                                 |
+| asset                                  | - not a sf resource -          | `ns/assets/images/logo.svg`                         |
+
+
+Example:
+- `ns/` = bare node for organizing content and minting IRIs; refers to itself as a namespace
+- `ns/dave/` = refers to Dave the person (data node)
+- `ns/dave/index.html` = resource page about Dave (content)
+- `ns/dave-bio/` = refers to Dave's biographical dataset (data node)
+- `ns/dave-bio/_data-flow/` = abstract dataset (DatasetSeries) containing Dave's bio data
+- `ns/dave-bio/_data-flow/_current/` = current concrete dataset snapshot
+- `ns/dave-bio/_data-flow/_v1/dave-bio_v1.trig` = RDF distribution from version 1
+- `ns/dave/_assets/images/dave-headshot.jpg` = an image asset; "attached" to the mesh, but not a mesh resource
+
+
+
+
 
 ## Folder-based
 
@@ -56,8 +97,8 @@ Terminal [[mesh resources|mesh-resource]] that cannot contain other resources:
 
 ### Folder Mapping
 - Mesh nodes correspond physically to [[mesh folders|facet.filesystem.folder]]
-- Folder names become namespace segments and URL path components
-- The local [[concept.intramesh-identifier]] for a node matches its containing folder name
+- Folder names become namespace segments and IRI path components
+- The local [[concept.identifier.intramesh]] for a node matches its containing folder name
 
 ### File Organization
 - [[Datasets|facet.resource.dataset]] are represented by folders containing at least one distribution file
@@ -72,8 +113,8 @@ Terminal [[mesh resources|mesh-resource]] that cannot contain other resources:
 
 ### Namespace Extension
 - Mesh folders always extend the namespace with a segment corresponding to the folder name
-- This creates a hierarchical URL structure for addressing resources
-- Each resource has a unique [[Intramesh|concept.intramesh-identifier]] based on its path and local name
+- This creates a hierarchical IRI structure for addressing resources
+- Each resource has a unique [[Intramesh|concept.identifier.intramesh]] based on its path and local name
 
 ### Containment Rules
 - **Mesh nodes** are always containers of components (i.e., at least [[mesh-resource.node-component.flow.node-metadata]] and [[concept.mesh.resource.folder._node-handle]]) and potentially containers of other nodes 
@@ -96,8 +137,8 @@ Terminal [[mesh resources|mesh-resource]] that cannot contain other resources:
   - Version history metadata is kept in the node's [[mesh-resource.node-component.flow.node-metadata]]
 
 ### Addressing Requirements
-- Every mesh resource must be addressable via its URL path
-- URLs must return meaningful content when dereferenced
+- Every mesh resource must be addressable via its IRI path
+- IRIs must return meaningful content when dereferenced
   - [[mesh-resource.node-component.documentation-resource.resource-page]] provide human-readable information for [[facet.filesystem.folder]]-based resources
     - resource pages are always index.html files generated by "on weave" from the [[mesh-resource.node-component.documentation-resource.changelog]] and [[mesh-resource.node-component.documentation-resource.readme]] [[mesh-resource.node-component.documentation-resource]], templates in [[mesh-resource.node-component.asset-tree]] and any scoped template mappings specified in [[mesh-resource.node-component.node-config-defaults]] files 
   - [[facet.filesystem.file]]
@@ -115,7 +156,7 @@ The [[Weave Process|concept.weave-process]] process maintains mesh integrity by:
 - Meshes are designed to be served directly as static sites
 - GitHub Pages integration allows immediate publishing after repository updates
 - No static site generator required, though resource page generation occurs during weaving
-- The repository structure directly maps to the published URL structure
+- The repository structure directly maps to the published IRI structure
 
 ### Dataset Integration
 Meshes support multiple RDF formats and follow [[DCAT v3|related-topics.dcat.vocabulary]] standards for dataset organization. [[Datasets|facet.resource.dataset]] within meshes include both standalone datasets and those embedded as node components.

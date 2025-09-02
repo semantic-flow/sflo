@@ -8,7 +8,7 @@ created: 1750654763700
 
 An **intramesh identifier** is a esentially a relative [[concept.iri]] (i.e., without the scheme, e.g., https:// or file://) except that they should correspond to an existing [[mesh-resource]], i.e. [[principle.dereferencability-for-humans]]
 
-There are two types of intramesh identifiers: [[concept.intramesh-identifier.relative]] and [[concept.intramesh-identifier.absolute]]
+There are two types of intramesh identifiers: [[concept.identifier.intramesh.relative]] and [[concept.identifier.intramesh.absolute]]
 
 ## Syntax
 

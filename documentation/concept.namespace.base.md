@@ -1,16 +1,16 @@
 ---
 id: f2dk7cwbol4o1jsnd0cun1g
 title: namespace base
-desc: publishing platform URL prefix for a site
-updated: 1755850940233
+desc: publishing platform IRI prefix for a site
+updated: 1756767742301
 created: 1750486049862
 ---
 
 ## Overview
 
-The namespace base is the URL prefix under which a [[concept.semantic-site]] publishes all mesh identifiers. It is outside the mesh’s folder tree and is determined by the hosting platform.
+The namespace base is the IRI prefix under which a [[concept.semantic-flow-site]] publishes all mesh identifiers. It is outside the mesh’s folder tree and is determined by the hosting platform.
 
-- Concept vs content URL semantics: see [[concept.identifier]]
+- Concept vs content IRI semantics: see [[concept.identifier]]
 - Transposability guidance (avoid hardcoded bases): see [[principle.transposability]]
 - Publication history patterns: see [[concept.publication]]
 

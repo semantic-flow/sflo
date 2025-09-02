@@ -2,7 +2,7 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Semantic Flow General Guidance
 desc: ''
-updated: 1756063907820
+updated: 1756767742329
 created: 1751259888479
 ---
 
@@ -46,7 +46,7 @@ A dereferenceable, versioned collection of semantic data and supporting resource
 - **Mesh Resources**:
   - **Nodes**: Semantic Atoms
     - **data nodes**: Bundles of data with optional quasi-immutable, versioned history
-    - **bare nodes**: basically empty folders for URL-based hierarchical organization
+    - **bare nodes**: basically empty folders for IRI-based hierarchical organization
   - **Components**: things that help define and systematize the nodes
     - **Flows**: datasets for node metadata and data
       - **Snapshots**: temporal slices of a flow, containing RDF dataset distributions
@@ -64,7 +64,7 @@ A dereferenceable, versioned collection of semantic data and supporting resource
   - can be served locally
   - no separate SSG (Static Site Generator) necessary
     - but static resource page generation should happen on every weave as necessary
-  - after push, you should be able to see the changed mesh at the corresponding github pages URL
+  - after push, you should be able to see the changed mesh at the corresponding github pages IRI
 
 ## RDF and Semantic Web
 
@@ -76,7 +76,7 @@ A dereferenceable, versioned collection of semantic data and supporting resource
 - be mindful of RDF terminology and concepts
   - extends DCAT for dataset catalogs
   - extends PROV for provenance, with relator-based contexts
-- When referring to IRIs or URIs that are part of a semantic mesh, prefer the term URLs instead of IRI or URI
+- When referring to IRIs or URIs that are part of a semantic mesh, prefer the term IRIs instead of IRI or URI
   - if you see a reference to IRI or URI, it might need updating, or it might mean a distinction should be drawn
 - RDF comments should be extremely concise and clear.
 
@@ -169,7 +169,7 @@ Project documentation, specifications, and design choices are stored in `documen
 - **Primary Format**: .trig files for RDF data storage and processing
 - **Secondary Format**: Full JSON-LD support required
 - **RDF Libraries**: Use RDF.js ecosystem libraries consistently across components
-- **Namespace Management**: Follow URL-based identifier patterns as defined in `sflo.concept.identifier.md`
+- **Namespace Management**: Follow IRI-based identifier patterns as defined in `sflo.concept.identifier.md`
 - **Reserved Names**: Validate against underscore-prefixed reserved identifiers per `sflo.concept.identifier.md`
 - The most effective validation strategy combines TypeScript structural validation with RDF semantic validation:
 
@@ -222,7 +222,7 @@ Project documentation, specifications, and design choices are stored in `documen
   - Use the `@` alias mapped to that package’s `src/` root to avoid relative path chains.
   - Example (inside a package): `import { something } from "@/features/something"`
   - Configuration (per package tsconfig):
-    - `"compilerOptions": { "baseUrl": "src", "paths": { "@/*": ["*"] } }`
+    - `"compilerOptions": { "baseIRI": "src", "paths": { "@/*": ["*"] } }`
   - Tooling notes:
     - For Node/tsx/Vitest, ensure your runner resolves TS path aliases (e.g., `tsconfig-paths/register` or vite-tsconfig-paths).
 

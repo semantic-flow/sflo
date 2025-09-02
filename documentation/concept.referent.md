@@ -2,7 +2,7 @@
 id: referent
 title: Referent
 desc: ''
-updated: 1756224755422
+updated: 1756829510081
 created: 1755990922267
 ---
 
@@ -10,12 +10,12 @@ created: 1755990922267
 
 The *referent* is the thing (real or imaginary) to which a [[resource|mesh-resource]]’s [[concept.identifier]] **refers**. Every identifier [[denotes|concept.denotation]] its referent, 
 
-**Node vs. referent**
+## Node vs. referent
 
-* **Referent**: the subject that the node’s IRI names (a person, concept, event, dataset, etc.).
-* **Node**: the mesh construct that manages flows about that referent.
+- **Referent**: the subject that the node’s IRI names (a person, concept, event, dataset, etc.).
+- **Node**: the mesh construct that contains linked data about the referent and itself (as a node); and may contain other resources used for supporting [[concept.semantic-flow-site]]s.
 
-  * To talk about the node itself, you use its **node handle** (e.g. published IRI `https://ns.example.org/persons/djradon/_node-handle` or mesh identifier `<djradon/_node-handle>`).
+To talk about the node itself, you use its **node handle** (e.g. published IRI `https://ns.example.org/persons/djradon/_node-handle` or mesh identifier `<djradon/_node-handle>`).
 
 **Where it’s described**
 
@@ -34,4 +34,9 @@ The *referent* is the thing (real or imaginary) to which a [[resource|mesh-resou
   * `_ref-flow`: declares it as a dataset, supplies label and attribution.
   * `_data-flow`: provides concrete versions (`v1`, `v2`, …).
 
-  
+
+## Why referent matters
+
+Understanding what a IRI refers to is crucial for proper semantic web implementation. In the past, people have tried to use content IRIs to represent the things they refer to. A classic example is using `http://example.org/person.html` to identify a person, when it actually identifies an HTML document about the person. This conflation creates semantic ambiguity and breaks linked data principles.
+
+Semantic Flow enforces clear referent distinctions through IRI patterns: slash-terminated IRIs always refer to concepts or entities, while extension-terminated IRIs always refer to retrievable content. This prevents the classic "document vs thing" confusion that has plagued semantic web implementations.

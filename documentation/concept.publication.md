@@ -1,25 +1,25 @@
 ---
-id: rxo5ieolun175zmjncj94ft
-title: Publication
+id: publication
+title: publication
 desc: ''
-updated: 1755851465746
+updated: 1756769521286
 created: 1751240385918
 ---
+
+- A mesh is "published" when it becomes accessible by using an absolute URL, (e.g., via a web browser). 
 
 
 ## Publication History Tracking
 
-The inferred publication locations can be used to maintain a history of where a mesh has been published, which aids in citation consistency and discovery:
+The inferred publication locations can be tracked to maintain a history of where a node has been published, which aids in citation consistency and discovery:
 
 ```turtle
 # In _flow/ metadata
-<_node-handle> sf:publishedAt <https://myorganization.github.io/data-mesh/ns/djradon/> ;
-          sf:previousPublications ( 
+<_node-handle> mesh:publishedAt <https://myorganization.github.io/data-mesh/ns/djradon/> ;
+          mesh:previousPublications ( 
             <https://djradon.github.io/mesh/ns/djradon/>
             <https://oldsite.com/research/ns/djradon/>
           ) ;
-          sf:gitRemote <https://github.com/myorganization/data-mesh.git> ;
-          sf:movedFrom <https://github.com/djradon/mesh.git> .
 ```
 
 This allows external citations to find resources even after they've been moved, and provides a clear provenance trail.

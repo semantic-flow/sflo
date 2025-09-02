@@ -2,7 +2,7 @@
 id: s1yduc399adt3ihvnwievrd
 title: Reference Iri Choices
 desc: ''
-updated: 1756307597446
+updated: 1756827924009
 created: 1751240276585
 ---
 
@@ -32,7 +32,7 @@ This example uses two absolute IRIs, one using the "ex:" prefix for the example.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 # In ns/djradon/_ref-flow/_current/djradon_ref.trig
-<https://djradon.github.io/ns/djradon/> a foaf:Person ;
+ex:djradon a foaf:Person ;
    rdfs:seeAlso ex:djradon/index.html .
 ```
 
@@ -67,37 +67,32 @@ If no base is specified, an inferred base of the requested scheme and authority 
 
 ### Relative-Path Relative IRIs
 
-- maximum composability
 
 ```turtle
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-# In ns/djradon/_ref/djradon_ref.trig
-<../../djradon/> a foaf:Person ;          # The document itself
+# In ns/djradon/_ref-flow/_current/djradon_ref.trig
+<../../../djradon/> a foaf:Person ;          # The document itself
    foaf:knows <../../alice/> ;           # A sibling node in the mesh
    rdfs:seeAlso <../bio/bio.html> .      # A resource page contained in a "bio" node under ../../djradon/
 ```
 
 #### Pros
 
-
+- maximum composability
 
 #### Cons
 
-
+- `../../../` makes eyes swim
 
 ### Absolute-Path Relative IRIs
-
-- clearer context
-  - `../../../` makes eyes swim
-- good intra-mesh transposability
   
 ```turtle
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-# In ns/djradon/_ref/djradon_ref.trig
+# In ns/djradon/_ref-flow/_current/djradon_ref.trig
 </ns/djradon/> a foaf:Person ;
    foaf:knows </ns/alice/> ;          # Clear namespace context
    rdfs:seeAlso </ns/djradon/bio/bio.html> .
@@ -106,7 +101,10 @@ If no base is specified, an inferred base of the requested scheme and authority 
 
 #### Pros
 
+- clearer context
+- good intra-mesh transposability
 
 
 #### Cons
 
+- composability requires re-computing paths

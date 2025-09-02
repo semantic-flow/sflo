@@ -6,7 +6,7 @@ updated: 1755850422047
 created: 1751817577224
 ---
 
-In a filesystem-based structure like a [[concept.mesh]], you can't really prevent changes. But some things in a mesh should be treated as immutable, like [[mesh-resource.node-component.flow-snapshot.version]] and [[concept.intramesh-identifier]].
+In a filesystem-based structure like a [[concept.mesh]], you can't really prevent changes. But some things in a mesh should be treated as immutable, like [[mesh-resource.node-component.flow-snapshot.version]] and [[concept.identifier.intramesh]].
 
 **Pseudo-immutability** acknowledges that things might be changed, for various reasons:
 

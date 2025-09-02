@@ -2,11 +2,11 @@
 id: x5zwfsdfzap0c5843n5a1fh
 title: Dereferencability for Humans
 desc: ''
-updated: 1755850422035
+updated: 1756767742331
 created: 1751300673030
 ---
 
-If you put any [[mesh-resource]]'s URL in a browser, it should return some useful context. 
+If you put any [[mesh-resource]]'s IRI in a browser, it should return some useful context. 
 
  
 

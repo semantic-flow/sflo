@@ -2,7 +2,7 @@
 id: 63tfb27btzbph10tpvckz7b
 title: sflo-api
 desc: ''
-updated: 1755903837599
+updated: 1756767742320
 created: 1755903460930
 ---
 
@@ -73,7 +73,7 @@ TODO:
 
 **Description**: Creates a new node at a specified path within a registered mesh. This is used for creating all nodes, including the root node of a mesh.
 
-**URL Parameters**:
+**IRI Parameters**:
 - `{meshName}`: The logical name of the mesh (e.g., "test-ns").
 
 **Request Body**:
