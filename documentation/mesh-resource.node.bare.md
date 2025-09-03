@@ -2,7 +2,7 @@
 id: bare-node
 title: bare node
 desc: ''
-updated: 1756770336538
+updated: 1756869020405
 created: 1751000577920
 ---
 
@@ -12,7 +12,7 @@ created: 1751000577920
 
 - namespace extenders and perhaps organizational containers
 
-**Mandatory Components**: `_meta-flow/` + `_node-handle/`
+**Mandatory Components**: `_node-metadata-flow/` + `_node-handle/`
 **Optional Components**: [[mesh-resource.node-component.flow.node-config]], [[mesh-resource.node-component.documentation-resource]]
 
 

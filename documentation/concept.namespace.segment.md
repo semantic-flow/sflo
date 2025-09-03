@@ -1,25 +1,24 @@
 ---
-id: 7qo569nzfk3l8yo1ah6erb2
-title: Namespace Segment
-desc: a single folder name that extends the namespace path
-updated: 1756767742316
+id: namespace-segment
+title: namespace segment
+desc: a single identifier that extends a mesh namespace
+updated: 1756849384921
 created: 1750960024104
 ---
 
 ## Definition
 
-A namespace segment is a single folder name that extends the namespace (IRI) path. The concatenation of folder names yields the full namespace path for a node.
+A namespace segment is a single "folder resource" identifier that extends the a mesh's namespace. The concatenation of parent identifiers yields the namespace for a node.
 
 - Concept vs content IRI semantics: see [[concept.identifier]]
 - How relative identifiers are resolved: see [[concept.identifier.intramesh]]
 
 ## Naming (recommended)
 
-- Use kebab-case (lowercase letters, digits, hyphens), e.g., `people`, `my-projects`
-- Avoid spaces and uppercase to reduce churn in IRIs
+- Use camel-case (initial lowercase letter), e.g., `people`, `myProjects`
 - Maybe avoid starting segment names names with an underscore (`_`); underscore-prefixed names are used for [[concept.namespace.segment.system]]
 
-These are recommendations, not hard rules; sometimes projects have good reasons to diverge.
+These are recommendations based on RDF conventions, not hard rules; sometimes projects have good reasons to diverge.
 
 ## Stability
 

@@ -2,7 +2,7 @@
 id: 63tfb27btzbph10tpvckz7b
 title: sflo-api
 desc: ''
-updated: 1756767742320
+updated: 1756869020434
 created: 1755903460930
 ---
 
@@ -34,7 +34,7 @@ TODO:
 }
 ```
 
-**HATEOAS Prompting**: If there's no mesh signature (e.g., a `_handle` or `_meta-flow` folder) in the specified path, the response includes a prompt to create a root node:
+**HATEOAS Prompting**: If there's no mesh signature (e.g., a `_handle` or `_node-metadata-flow` folder) in the specified path, the response includes a prompt to create a root node:
 
 ```json
 {

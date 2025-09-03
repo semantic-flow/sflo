@@ -2,7 +2,7 @@
 id: 17l23vl7sqg997hr773dh23
 title: intramesh identifier
 desc: ''
-updated: 1756751981977
+updated: 1756869552825
 created: 1750654763700
 ---
 
@@ -44,5 +44,5 @@ Unlike IRIs:
 ### Examples
 
 Node self-reference: `"../../../my-dataset"`  
-Other flows: `"../../_config-operational-flow/_current/config.trig"`, `"../../_config-inheritable-flow/_current/config.trig"`, `"../../_data-flow/_current/data.jsonld"`  
+Other flows: `"../../_config-operational-flow/_current/config.trig"`, `"../../_config-inheritable-flow/_current/config.trig"`, `"../../_dataset-flow/_current/data.jsonld"`  
 Components in other flows: Same pattern, just different flow names

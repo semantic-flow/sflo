@@ -2,7 +2,7 @@
 id: 9c27yly4ed3ju7msf8luhge
 title: node component
 desc: ''
-updated: 1756063907812
+updated: 1756869582382
 created: 1750706813437
 ---
 
@@ -37,7 +37,7 @@ User components are primarily created and maintained by users or their software 
 System components are usually created or altered by the [[Weave Process|concept.weave-process]] process rather than direct user modification:
 
 **Folder-based system components:**
-- **[[metadata flows|mesh-resource.node-component.flow.node-metadata]]**: Administrative and structural metadata for mesh nodes (in `_meta-flow/` folders)
+- **[[metadataset flows|mesh-resource.node-component.flow.node-metadata]]**: Administrative and structural metadata for mesh nodes (in `_node-metadata-flow/` folders)
 - **[[version snapshot|mesh-resource.node-component.flow-snapshot.version]]**: Versioned snapshots of datasets (in `_vN/` folders)
 - **[[Node handles|mesh-resource.node-component.node-handle]]**: Components providing referential indirection for nodes as mesh resources (in `_node-handle/` folders)
 
@@ -48,7 +48,7 @@ System components are usually created or altered by the [[Weave Process|concept.
 ## Physical vs Logical Structure
 
 **Physical Representation:**
-- Folder-based components are represented as folders with underscore prefixes (like `_meta-flow/`, `_assets/`)
+- Folder-based components are represented as folders with underscore prefixes (like `_node-metadata-flow/`, `_assets/`)
 - File-based components are individual files within mesh nodes or other components
 - Component folders contain all files and folders that belong to that component
 
@@ -60,6 +60,6 @@ System components are usually created or altered by the [[Weave Process|concept.
 ## Integration with Nodes
 
 Components work in conjunction with mesh nodes to create the complete mesh structure:
-- Every mesh node contains at least two components: metadata flows and node handles
-- data nodes contain a single [[mesh-resource.node-component.flow.data]] 
+- Every mesh node contains at least two components: metadataset flows and node handles
+- dataset nodes contain a single [[mesh-resource.node-component.flow.dataset]] 
 - Any node may contain asset trees (user components) for file attachments

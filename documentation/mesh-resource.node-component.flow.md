@@ -2,7 +2,7 @@
 id: node-flow
 title: node flow
 desc: ''
-updated: 1756063907825
+updated: 1756869568793
 created: 1751688486456
 ---
 
@@ -14,7 +14,7 @@ There are five types of node flows.
 - [[mesh-resource.node-component.flow.node-config.operational]] (optional)
 - [[mesh-resource.node-component.flow.node-config.inheritable]] (optional)
 - [[mesh-resource.node-component.flow.reference]] (optional)
-- [[mesh-resource.node-component.flow.data]] (for data nodes)
+- [[mesh-resource.node-component.flow.dataset]] (for dataset nodes)
 
 
 ## Relationship to snapshots
@@ -36,7 +36,7 @@ The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dat
 
 ```file
 /my-ontology/
-└── _data-flow/                  ← node flow (ontology definitions)
+└── _dataset-flow/                  ← node flow (ontology definitions)
     ├── _current/           ← flow snapshot (in this case, probably )
     ├── _next/           ← flow snapshot
     ├── _v1/           ← flow snapshot

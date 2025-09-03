@@ -1,8 +1,8 @@
 ---
 id: 2qp8vfjygd43lmwcmj6362r
-title: Working Distribution
+title: working distribution
 desc: ''
-updated: 1756309968717
+updated: 1756835923055
 created: 1752241619019
 ---
 

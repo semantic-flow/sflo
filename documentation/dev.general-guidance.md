@@ -2,7 +2,7 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Semantic Flow General Guidance
 desc: ''
-updated: 1756767742329
+updated: 1756869568792
 created: 1751259888479
 ---
 
@@ -45,7 +45,7 @@ A dereferenceable, versioned collection of semantic data and supporting resource
 
 - **Mesh Resources**:
   - **Nodes**: Semantic Atoms
-    - **data nodes**: Bundles of data with optional quasi-immutable, versioned history
+    - **dataset nodes**: Bundles of data with optional quasi-immutable, versioned history
     - **bare nodes**: basically empty folders for IRI-based hierarchical organization
   - **Components**: things that help define and systematize the nodes
     - **Flows**: datasets for node metadata and data
@@ -176,7 +176,7 @@ Project documentation, specifications, and design choices are stored in `documen
 ### Semantic Mesh Architecture
 
 - **Resource Types**: Nodes are the foundation, Components support Nodes, Flows are "abstract datasets", and "Snapshots" are their temporal slices as defined in `sflo.concept.mesh.md`
-- **Folder Structure**: Validate mesh folder structures (data nodes, bare nodes, etc.)
+- **Folder Structure**: Validate mesh folder structures (dataset nodes, bare nodes, etc.)
 - **System Components**: Distinguish between system-generated and user-modifiable components
 - **Weave Integration**: Code must support weave operations as defined in `sflo.concept.weave.md`
 

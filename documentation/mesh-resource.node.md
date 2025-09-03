@@ -2,7 +2,7 @@
 id: mesh-node
 title: mesh node
 desc: ''
-updated: 1756769831212
+updated: 1756869582377
 created: 1750999795528
 ---
 
@@ -30,11 +30,11 @@ Every mesh node has these components:
 ## Node Types
 
 - [[bare node|mesh-resource.node.bare]]
-- [[data node|mesh-resource.node.reference.dataset]]
-**Components**: `_meta-flow/` + `_node-handle/` + `_data-flow/`
+- [[dataset node|mesh-resource.node.dataset]]
+**Components**: `_node-metadata-flow/` + `_node-handle/` + `_dataset-flow/`
 - Contains data distributions and versioning capabilities
-- Node IRI refers to the node’s referent (real-world entity or dataset concept) represented by the data flow
+- Node IRI refers to the node’s referent (real-world entity or dataset concept) represented by the dataset flow
 - Adds dataset storage to the namespace foundation
 - Can be configured as [[dataset series|faq.do-data-nodes-support-datasetseries]]
-- Evolved from bare nodes by adding the `_data-flow/` component
+- Evolved from bare nodes by adding the `_dataset-flow/` component
 - Maintains single referent principle

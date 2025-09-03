@@ -2,7 +2,7 @@
 id: 8t3swuswoi81yuzo2bnecy9
 title: flow snapshot
 desc: ''
-updated: 1756080125666
+updated: 1756869568794
 created: 1751689346769
 ---
 
@@ -22,16 +22,16 @@ node flows have at least two snapshots:
 - working draft (`_next`)
 - versioned snapshots
 
-### Ontology data node Example
+### Ontology dataset node Example
 
 ```file
-/my-ontology/               ← data node: Conceptual, data-oriented "thing"
-├── _meta-flow/                   ← meta flow (metadata)
+/my-ontology/               ← dataset node: Conceptual, data-oriented "thing"
+├── _node-metadata-flow/                   ← meta flow (metadata)
 │   ├── _current/           ← flow snapshot (current metadata)
 │   ├── _next/              ← flow snapshot (working draft)
 │   ├── _v1/                ← flow snapshot (version 1 metadata)
 │   └── _v2/                ← flow snapshot (version 2 metadata)
-└── _data-flow/                  ← data node flow (ontology definition--by-dataset)
+└── _dataset-flow/                  ← dataset node flow (ontology definition--by-dataset)
     ├── _current/           ← flow snapshot (current definition)
     ├── _next/              ← flow snapshot (working draft)
     └── _v1/                ← flow snapshot (version 1 definition)

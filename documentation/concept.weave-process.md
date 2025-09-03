@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1756159970522
+updated: 1756869552822
 created: 1751128698638
 ---
 
@@ -16,7 +16,7 @@ created: 1751128698638
     - updates version metadata
   - regardless of whether versioning is on:
     - copies _next to _current
-    - updates _meta-flow with new version information
+    - updates _node-metadata-flow with new version information
 - regenerates affected [[mesh-resource.node-component.documentation-resource.resource-page]]
 - ensure that [[folder.node]] are only contained in other [[folder.node]].
 - detect [[transpositions|principle.transposability]] and fix any 
@@ -35,11 +35,11 @@ created: 1751128698638
 │   │   ├── ontology.css
 │   │   └── person.css
 └── my-ontology/
-    ├── _config-flow              ← Node config (just syntax, etc.)
+    ├── _config-operational-flow  ← Node config
     ├── _assets/                  ← Optional node-specific assets
     │   ├── _templates/           ← Optional templates
     │   └── _css                  ← Optional css
-    └── _data-flow
+    └── _dataset-flow
 ```
 
 ## Quirks

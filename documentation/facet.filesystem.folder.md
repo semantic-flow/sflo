@@ -2,7 +2,7 @@
 id: p3mbdrze0qe8uvko4i16t1s
 title: folder resource facet
 desc: ''
-updated: 1755918030620
+updated: 1756869552826
 created: 1750659145476
 ---
 
@@ -23,14 +23,14 @@ All folder-based resources should contain a [[mesh-resource.node-component.docum
 
 #### Flow (Abstract Dataset) Folders
 
-- **`_meta-flow/`**
+- **`_node-metadata-flow/`**
   - correspond to [[mesh-resource.node-component.flow.node-metadata]]
   - present in all mesh nodes
   
-- **`_data-flow/`**
+- **`_dataset-flow/`**
 
-  - correspond to the [[mesh-resource.node-component.flow.data]]
-  - contain the dataset associated with the [[mesh-resource.node.reference.dataset]]
+  - correspond to the [[mesh-resource.node-component.flow.dataset]]
+  - contain the dataset associated with the [[mesh-resource.node.dataset]]
 
 #### Snapshot (Concrete Dataset) System Folders
 

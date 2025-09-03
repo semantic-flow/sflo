@@ -2,7 +2,7 @@
 id: identifier
 title: identifier
 desc: ''
-updated: 1756829272521
+updated: 1756869568819
 created: 1750368774797
 ---
 
@@ -19,26 +19,28 @@ Semantic Flow resources can be identified via two types of identifiers:
 
 ## Identifier Senses
 
-### **Content Identifiers**
+### Content Identifiers
 
-Identifiers that point to **concrete information resources** (files on disk or over HTTP):
+Identifiers that [[denote|concept.denotation]] **concrete information resources** (files on disk or over HTTP):
 
-* **Distribution IRIs** → materialized datasets, e.g. `test.ttl`, `dave_v1.jsonld`, etc.
-* **Resource page IRIs** → e.g. `index.html`
-* **Resource documentation IRIs** → e.g. `README.md`, `CHANGELOG.md`
+* **Distributions** → materialized datasets, e.g. `test.ttl`, `dave_v1.jsonld`, etc.
+* **Resource pages** → e.g. `index.html`
+* **Other documentation resources** → e.g. `README.md`, `CHANGELOG.md`
 
-These are *retrievable representations* (materialized content). 
+These are *retrievable representations* (materialized content), i.e. when dereferenced with a request to a [[concept.semantic-flow-site]], the content itself is returned.
 
-### **Concept Identifiers**
+### Concept Identifiers
 
 Identifiers that refer to **concepts, entities, or abstract things**, including:
 
 * **bare node identifiers** → Organizational containers
 * **reference node identifiers** → denotational 
-* **data node identifiers** → Concepts that are datasets
+* **dataset node identifiers** → Concepts that are datasets
 * **Abstract flow identifiers** → Dataset-as-persistent-concept
 * **Concrete dataset identifiers** → Specific dataset snapshots
 * **Handle identifiers** → Mesh node themselves
+
+When dereferenced with a request to a [[concept.semantic-flow-site]], concept identifiers return content, but they still [[concept.denotation]] a concept.
 
 
 ## Identifier Pattern Semantics
@@ -48,9 +50,6 @@ Identifiers that refer to **concepts, entities, or abstract things**, including:
 | Content identifier | No              | A fetchable document or asset | `https://example.org/ns/foo/index.html` |
 | Concept IRI        | Yes (`/`)       | A real-world or mesh concept  | `https://example.org/ns/foo/`           |
 
-Even though you might be tempted to think of a datasets as concrete things, the IRIs for data nodes, abstract datasets, and concrete datasets all refer to concepts, i.e., **non-retrievable entities**. Only Distribution IRIs refer to downloadable data, i.e., dataset distributions.
+Even though you might be tempted to think of a datasets as concrete things, the IRIs for dataset nodes, abstract datasets, and concrete datasets all refer to concepts, i.e., **non-retrievable entities**. Only Distribution IRIs refer to downloadable data, i.e., dataset distributions.
 
 
-## Namespace-relative basing
-
-see [[concept.namespace-relative-basing]]

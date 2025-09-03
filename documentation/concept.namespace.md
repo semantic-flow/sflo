@@ -27,4 +27,4 @@ A namespace is the hierarchical address space formed by nesting nodes. Every nod
 
 ## Publishing Base
 
-The site’s base IRI is determined by the publishing platform (e.g., GitHub Pages or self-hosting with [[product.sflo-host]]). See [[concept.namespace.base]] for user/org vs project page mappings and guidance on avoiding hardcoded bases.
+The site’s base IRI is determined by the publishing platform (e.g., GitHub Pages or self-hosting with [[product.sflo-host]]). See [[concept.implied-rdf-base]] for user/org vs project page mappings and guidance on avoiding hardcoded bases.

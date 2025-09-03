@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1756767742303
+updated: 1756869582375
 created: 1755820864360
 ---
 
@@ -38,13 +38,13 @@ See:
 3.1 Mesh Resources (Nodes and Components)
 - Node (folder; container for nodes & components): [[concept.mesh.resource.node]]
   - bare node: organizational IRI segment container: [[concept.mesh.resource.node.namespace]]
-  - data node: IRI refers to the node’s referent (real-world entity or dataset concept); has a data flow: [[concept.mesh.resource.node.data]]
+  - dataset node: IRI refers to the node’s referent (real-world entity or dataset concept); has a dataset flow: [[concept.mesh.resource.node.data]]
   - Dataset-series specialization (optional): [[concept.mesh.resource.node.data.series]]
 
 - Node component (terminal resource supporting a node): [[mesh-resource.node-component]]
   - Flows (abstract datasets as DatasetSeries):
     - Meta flow (metadata/provenance): [[mesh-resource.node-component.flow.node-metadata]]
-    - Data flow (payload data): [[mesh-resource.node-component.flow.data]]
+    - dataset flow (payload data): [[mesh-resource.node-component.flow.dataset]]
     - Node-config flows (settings; see §9): [[mesh-resource.node-component.flow.node-config]]
   - Flow snapshots (concrete Datasets): `_current/`, `_next/`, `_vN/`
     - Overview: [[mesh-resource.node-component.flow-snapshot]]
@@ -99,7 +99,7 @@ See:
 Reserved folder names (underscore-prefixed; canonical set):
 - `_node-handle/`
 - Flow containers (abstract datasets):
-  - `_meta-flow/`, `_data-flow/`
+  - `_node-metadata-flow/`, `_dataset-flow/`
   - `_config-operational-flow/`, `_config-inheritable-flow/` (see §9)
 - Snapshots inside a flow:
   - `_current/`, `_next/`, `_vN/` (e.g., `_v1/`, `_v2/`, …)
@@ -107,8 +107,8 @@ Reserved folder names (underscore-prefixed; canonical set):
   - `_assets/` (static files)
 
 Folder-note pages for these reserved names live under `concept.mesh.resource.folder.*.md` (where defined):
-- `_meta-flow/`: [[concept.mesh.resource.folder._meta-flow]]
-- `_data-flow/`: [[concept.mesh.resource.folder._data-flow]]
+- `_node-metadata-flow/`: [[concept.mesh.resource.folder._node-metadata-flow]]
+- `_dataset-flow/`: [[concept.mesh.resource.folder._dataset-flow]]
 - `_config-operational-flow/`: [[concept.mesh.resource.folder._config-operational-flow]]
 - `_config-inheritable-flow/`: [[concept.mesh.resource.folder._config-inheritable-flow]]
 - `_current/`: [[concept.mesh.resource.folder._current]]
@@ -129,7 +129,7 @@ Folder-note pages for these reserved names live under `concept.mesh.resource.fol
 - Sibling distribution: patterns and constraints for multi-file realizations.
 See:
 - [[concept.versioning]]
-- [[concept.working-distribution]]
+- [[mesh-resource.node-component.snapshot-distribution.working]]
 - [[concept.sibling-distribution]]
 
 7) Lifecycle and Weave Process
@@ -165,7 +165,7 @@ See:
 - [[mesh-resource.node-component.node-config-defaults]]: defaults as inheritable values
 
 1)  Aggregated Views
-- Aggregated distribution: optional roll-up of child data nodes’ current datasets at a parent node for convenience.
+- Aggregated distribution: optional roll-up of child dataset nodes’ current datasets at a parent node for convenience.
 See:
 - [[mesh-resource.node-component.aggregated-distribution]]
 
@@ -176,10 +176,10 @@ See:
 ├── _assets/                         # optional site-wide assets
 ├── my-node/                         # a mesh node (folder)
 │   ├── _node-handle/                # handle component (resource.node-component.node-handle)
-│   ├── _meta-flow/                  # metadata flow (system)
+│   ├── _node-metadata-flow/                  # metadataset flow (system)
 │   │   ├── _current/
 │   │   └── _v1/
-│   ├── _data-flow/                  # data flow (for data nodes)
+│   ├── _dataset-flow/                  # dataset flow (for dataset nodes)
 │   │   ├── _current/
 │   │   ├── _next/
 │   │   └── _v1/
@@ -197,7 +197,7 @@ See:
 graph TD
   A[Mesh Node] --> B[Handle]
   A --> C[Meta flow]
-  A --> E[Data flow]
+  A --> E[dataset flow]
   A --> G[Asset tree]
   A --> H[Resource pages]
 
@@ -210,46 +210,12 @@ graph TD
 
 13) Glossary
 - [[concept.mesh]]: the set of addressable resources in a repository, published as a site
-- Node: an extensible folder resource containing nodes/components: [[mesh-resource.node]]
-- Node component: terminal resource that supports node behavior/structure: [[mesh-resource.node-component]]
-- Flow: DatasetSeries representing an abstract dataset (meta/data/config): [[mesh-resource.node-component.flow]]
+- [[mesh-resource.node]]: an extensible  resource containing other nodes and its own components
+- [[mesh-resource.node-component]]: terminal resource that supports node behavior/structure
+- [[mesh-resource.node-component.flow]]: DatasetSeries representing an abstract dataset (meta/data/config)
 - [[mesh-resource.node-component.flow-snapshot]]: concrete Dataset realization of a flow (`_current/`, `_next/`, `_vN/`)
 - [[mesh-resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.): 
 - Handle: indirection to refer to the node “as a mesh resource”: [[mesh-resource.node-component.node-handle]]
 - Resource Page: dereferenceable `index.html` for folders: [[mesh-resource.node-component.documentation-resource.resource-page]]
 - Aggregated Distribution: parent-level roll-up of children’s current data: [[mesh-resource.node-component.aggregated-distribution]]
 - Weave: lifecycle operation to version/promote/regenerate/repair: [[concept.weave-process]]
-- Evidence:
-  - TriG appears unsupported while docs/examples use TriG heavily: [[resource.node-component.flow-snapshot.distribution]]
-- Recommendation: Make TriG and JSON-LD first-class supported formats; document status for TTL, N-Quads, RDF/XML.
-
-K. Config defaults doc should include explicit property names/shapes
-- Evidence:
-  - [[mesh-resource.node-component.node-config-defaults]] lacks concrete JSON-LD terms/examples
-- Recommendation: Provide explicit terms/shapes aligned with config-flow vocabulary and the inheritance resolution doc.
-
-L. Relative identifier examples mention `_config-flow`
-- Evidence:
-  - [[concept.identifier.intramesh]] vs config docs (two config flows): [[mesh-resource.node-component.flow.node-config]]
-- Recommendation: Align examples with `_config-operational-flow/` and `_config-inheritable-flow/`.
-
-M. Confirm embedded mesh doc and folder-note coverage
-- Evidence:
-  - [[concept.mesh.embedded]] exists; ensure it’s linked where appropriate (namespace/base docs).
-- Recommendation: Link embedded mesh doc from base/namespace docs.
-
-1)  Minimal “Core Context” to feed an LLM
-If context must be small, include:
-- Definition (§1) and Principles (§2).
-- Node vs Component; Flows vs Snapshots (§3).
-- IRI semantics and relative identifiers (§4).
-- Reserved folders and example tree (§5, §11).
-- Lifecycle and weave (§7).
-- Config flows model (§9).
-- Aggregated views (§10).
-
-1)  LLM Usage Notes
-- Use the folder names and IRI semantics exactly as standardized here.
-- When encountering contradictions, prefer the standards in §14 recommendations.
-- When linking within the mesh, prefer relative identifiers to maintain transposability.
-- Avoid “IRI/URI” unless drawing a distinction; for mesh-local identifiers, use “IRIs”.

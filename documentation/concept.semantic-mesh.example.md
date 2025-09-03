@@ -2,13 +2,13 @@
 id: s5ild34tbe4w2wt4m8ldllg
 title: Example Mesh Hierarchy
 desc: ''
-updated: 1756063907835
+updated: 1756869568790
 created: 1750640592487
 ---
 
 ```file
 /test-ns/                                        # bare node
-├── _meta-flow/                                       # node flow (metadata)
+├── _node-metadata-flow/                                       # node flow (metadata)
 │   ├── _current/                                # flow snapshot
 │   │   ├── ns_meta.trig                         # system metadata about the bare node
 │   │   └── index.html                           # resource page
@@ -19,16 +19,16 @@ created: 1750640592487
 │   └── index.html                               # resource page
 └── index.html                                   # resource page
 
-/test-ns/djradon/                                # data node  
+/test-ns/djradon/                                # dataset node  
 ├── _node-handle/                                     # handle component
 │   └── index.html                               # mesh node handle page
-├── _data-flow/                                       # node flow (data)
+├── _dataset-flow/                                       # node flow (data)
 │   ├── _current/                                # flow snapshot
 │   │   └── index.html                           # resource page
 │   ├── _next/                                   # flow snapshot (draft)
 │   │   └── index.html                           # resource page
 │   └── index.html                               # resource page
-├── _meta-flow/                                       # node flow (metadata)
+├── _node-metadata-flow/                                       # node flow (metadata)
 │   ├── _current/                                # flow snapshot
 │   │   ├── djradon_meta.trig                    # system metadata, verification status
 │   │   └── index.html                           # resource page
@@ -40,8 +40,8 @@ created: 1750640592487
 ├── CHANGELOG.md                                 # resource changelog
 └── README.md                                    # resource documentation
 
-/test-ns/djradon/bio/                            # data node (unversioned dataset)
-├── _data-flow/                                       # node flow (data)
+/test-ns/djradon/bio/                            # dataset node (unversioned dataset)
+├── _dataset-flow/                                       # node flow (data)
 │   ├── _current/                                # flow snapshot
 │   │   ├── djradon-bio_data.trig                      # biographical data distribution
 │   │   ├── djradon-bio_data.jsonld                   # alternative distribution
@@ -50,7 +50,7 @@ created: 1750640592487
 │   │   ├── djradon-bio_data.trig                      # draft biographical data
 │   │   └── index.html                           # resource page
 │   └── index.html                               # resource page
-├── _meta-flow/                                       # node flow (metadata)
+├── _node-metadata-flow/                                       # node flow (metadata)
 │   ├── _current/                                # flow snapshot
 │   │   ├── djradon-bio_meta.trig                # dataset metadata, provenance
 │   │   └── index.html                           # resource page
@@ -62,8 +62,8 @@ created: 1750640592487
 ├── CHANGELOG.md                                   # resource page
 └── README.md                                    # resource documentation
 
-/test-ns/djradon/picks/                          # data node (versioned dataset)
-├── _data-flow/                                       # node flow (data)
+/test-ns/djradon/picks/                          # dataset node (versioned dataset)
+├── _dataset-flow/                                       # node flow (data)
 │   ├── _current/                                # flow snapshot
 │   │   ├── djradon-picks.trig                    # current picks data
 │   │   ├── djradon-picks.jsonld
@@ -79,7 +79,7 @@ created: 1750640592487
 │   │   ├── djradon-picks_v2.trig                 # version 2 snapshot
 │   │   └── index.html                           # resource page
 │   └── index.html                               # resource page
-├── _meta-flow/                                       # node flow (metadata)
+├── _node-metadata-flow/                                       # node flow (metadata)
 │   ├── _current/                                # flow snapshot
 │   │   ├── djradon-picks_meta.trig              # versioning metadata, series info
 │   │   └── index.html                           # resource page
@@ -92,7 +92,7 @@ created: 1750640592487
 └── CHANGELOG.md                                 # resource documentation
 
 /test-ns/djradon/underbrush/playlists/                              # bare node (container for playlist series)
-├── _meta-flow/                                       # node flow (metadata)
+├── _node-metadata-flow/                                       # node flow (metadata)
 │   ├── _current/                                # flow snapshot
 │   │   ├── playlists_meta.trig                  # metadata about playlist namespace
 │   │   └── index.html                           # resource page
@@ -101,8 +101,8 @@ created: 1750640592487
 │   │   └── index.html                           # resource page
 │   └── index.html                               # resource page
 ├── index.html                                   # resource page
-├── 1996-11-10/                                  # data node (individual playlist)
-│   ├── _data-flow/                                   # node flow (data)
+├── 1996-11-10/                                  # dataset node (individual playlist)
+│   ├── _dataset-flow/                                   # node flow (data)
 │   │   ├── _current/                            # flow snapshot
 │   │   │   ├── 1996-11-10.trig                   # playlist data
 │   │   │   └── index.html                       # resource page
@@ -110,7 +110,7 @@ created: 1750640592487
 │   │   │   ├── 1996-11-10.trig                   # draft playlist data
 │   │   │   └── index.html                       # resource page
 │   │   └── index.html                           # resource page
-│   ├── _meta-flow/                                   # node flow (metadata)
+│   ├── _node-metadata-flow/                                   # node flow (metadata)
 │   │   ├── _current/                            # flow snapshot
 │   │   │   ├── 1996-11-10_meta.trig             # playlist metadata
 │   │   │   └── index.html                       # resource page
@@ -119,7 +119,7 @@ created: 1750640592487
 │   │   │   └── index.html                       # resource page
 │   │   └── index.html                           # resource page
 │   ├── _assets/                                 # asset tree
-│   │   ├── _meta-flow/                               # node flow (metadata)
+│   │   ├── _node-metadata-flow/                               # node flow (metadata)
 │   │   │   ├── _current/                        # flow snapshot
 │   │   │   │   ├── 1996-11-10_assets.trig       # asset metadata
 │   │   │   │   └── index.html                   # resource page
@@ -131,8 +131,8 @@ created: 1750640592487
 │   │   └── index.html                           # resource page
 │   ├── 1996-11-10.trig                           # aggregated distribution
 │   └── index.html                               # resource page
-└── 1996-11-17/                                  # data node (another playlist)
-    ├── _data-flow/                                   # node flow (data)
+└── 1996-11-17/                                  # dataset node (another playlist)
+    ├── _dataset-flow/                                   # node flow (data)
     │   ├── _current/                            # flow snapshot
     │   │   ├── 1996-11-17.trig
     │   │   └── index.html                       # resource page
@@ -140,7 +140,7 @@ created: 1750640592487
     │   │   ├── 1996-11-17.trig
     │   │   └── index.html                       # resource page
     │   └── index.html                           # resource page
-    ├── _meta-flow/                                   # node flow (metadata)
+    ├── _node-metadata-flow/                                   # node flow (metadata)
     │   ├── _current/                            # flow snapshot
     │   │   ├── 1996-11-17_meta.trig
     │   │   └── index.html                       # resource page

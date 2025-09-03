@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1756826832373
+updated: 1756869568818
 created: 1750624002110
 ---
 
@@ -20,62 +20,64 @@ A **semantic mesh** is a [[concept.immutability]] collection of (possibly-versio
 
 ### Mesh Resources
 
-There are two types of mesh resources: [[mesh-resource.node]]s and [[mesh-resource.node-component]]s.
+The primary constituents of a mesh are [[mesh-resource.node]]s. Nodes contain their own [[mesh-resource.node-component]]s, and may also contain other nodes. 
 
 #### Mesh Nodes
 
-[[Mesh nodes|mesh-resource.node]] are the primary structural components of a mesh, physically represented as [[mesh folders|facet.filesystem.folder]]. They extend namespaces and serve as containers.
+[[Mesh nodes|mesh-resource.node]] extend [[concept.namespace]]s and serve as containers.
 
 - **[[bare nodes|mesh-resource.node.bare]]**: Empty containers for organizing other mesh nodes
-- **[[data nodes|mesh-resource.node.reference.dataset]]**: Nodes containing data distributions with optional versioning
+- **[[dataset nodes|mesh-resource.node.dataset]]**: Nodes containing data distributions with optional versioning
 
 
 #### Node components
 
-[[Node components|mesh-resource.node-component]] help define, support, and systematize nodes:
+[[Node components|mesh-resource.node-component]] help define, support, and systematize nodes.
 
 
-## Intramesh references in Semantic Flow
+#### Example Mesh
 
 [[Mesh resources|mesh-resource]] have at least one [[concept.identifier]] and (usually) a [[concept.referent]].
 
-| Semantic Flow resource type            | referent                       | [[concept.identifier.intramesh]]                    |
-| -------------------------------------- | ------------------------------ | --------------------------------------------------- |
-| bare node                              | - nothing - (yet!)             | `ns/`                                               |
-| reference node                         | a person                       | `ns/djradon/`                                       |
-| handle                                 | mesh node                      | `ns/djradon/_node-handle/`                          |
-| resource documentation                 | resource page (content)        | `ns/djradon/index.html`                             |
-| resource documentation                 | README file (content)          | `ns/djradon/README.md`                              |
-| data node                              | abstract dataset               | `ns/djradon/  bio/`                                 |
-| abstract payload dataset (flow)        | mesh dataset series            | `ns/djradon/bio/_data-flow/`                        |
-| concrete payload dataset (snapshot)    | concrete "payload" dataset     | `ns/djradon/bio/_data-flow/_next/`                  |
-| distribution                           | content / dataset distribution | `ns/djradon/bio/_data-flow/_v1/dave-bio_v1.trig`    |
-| abstract meta dataset (flow)           | node metadata dataset series   | `ns/djradon/bio/_meta-flow/`                        |
-| concrete meta dataset (snapshot)       | node metadata dataset          | `ns/djradon/bio/_meta-flow/_current/`               |
-| abstract operational config (flow)     | operational config series      | `ns/djradon/bio/_config-operational-flow/`          |
-| concrete operational config (snapshot) | operational config             | `ns/djradon/bio/_config-operational-flow/_current/` |
-| abstract inheritable config (flow)     | inheritable config series      | `ns/djradon/bio/_config-inheritable-flow/`          |
-| concrete inheritable config (snapshot) | inheritable config             | `ns/djradon/bio/_config-inheritable-flow/_current/` |
-| asset tree                             | collection of assets           | `ns/assets/`                                        |
-| asset folder                           | - not a sf resource -          | `ns/assets/images/`                                 |
-| asset                                  | - not a sf resource -          | `ns/assets/images/logo.svg`                         |
+| [[concept.identifier.intramesh]]                      | Semantic Flow resource type                                           | referent                     |
+| ----------------------------------------------------- | --------------------------------------------------------------------- | ---------------------------- |
+| `ns/`                                                 | [[mesh-resource.node.bare]]                                           | - nothing - (yet!)           |
+| `ns/djradon/`                                         | [[mesh-resource.node.reference]]                                      | a person                     |
+| `ns/djradon/_node-handle/`                            | [[mesh-resource.node-component.node-handle]]                          | mesh node                    |
+| `ns/djradon/_ref-flow/`                               | [[mesh-resource.node-component.flow.reference]]                       | reference flow               |
+| `ns/djradon/_ref-flow/_current/`                      | [[mesh-resource.node-component.snapshot-distribution.current]]        | reference flow snapshot      |
+| `ns/djradon/index.html`                               | [[mesh-resource.node-component.documentation-resource.resource-page]] | resource page (content)      |
+| `ns/djradon/README.md`                                | [[mesh-resource.node-component.documentation-resource.readme]]        | README file (content)        |
+| `ns/djradon/picks/`                                   | [[mesh-resource.node.dataset]]                                        | abstract dataset             |
+| `ns/djradon/picks/_dataset-flow/`                     | [[mesh-resource.node-component.flow.dataset]]                         | payload dataset series       |
+| `ns/djradon/picks/_dataset-flow/_next/`               | [[mesh-resource.node-component.flow-snapshot.next]]                   | concrete payload dataset     |
+| `ns/djradon/picks/_dataset-flow/_v1/picks_v1.trig`    | [[mesh-resource.node-component.snapshot-distribution]]                | paylod dataset distribution  |
+| `ns/djradon/picks/_node-metadata-flow/`               | abstract meta dataset (flow)                                          | node metadata dataset series |
+| `ns/djradon/picks/_node-metadata-flow/_current/`      | concrete meta dataset (snapshot)                                      | node metadata dataset        |
+| `ns/djradon/picks/_config-operational-flow/`          | abstract operational config (flow)                                    | operational config series    |
+| `ns/djradon/picks/_config-operational-flow/_current/` | concrete operational config (snapshot)                                | operational config           |
+| `ns/djradon/picks/_config-inheritable-flow/`          | abstract inheritable config (flow)                                    | inheritable config series    |
+| `ns/djradon/picks/_config-inheritable-flow/_current/` | concrete inheritable config (snapshot)                                | inheritable config           |
+| `ns/assets/`                                          | asset tree                                                            | collection of assets         |
+| `ns/assets/images/`                                   | asset folder                                                          | - not a sf resource -        |
+| `ns/assets/images/logo.svg`                           | asset                                                                 | - not a sf resource -        |
 
 
 Example:
 - `ns/` = bare node for organizing content and minting IRIs; refers to itself as a namespace
-- `ns/dave/` = refers to Dave the person (data node)
-- `ns/dave/index.html` = resource page about Dave (content)
-- `ns/dave-bio/` = refers to Dave's biographical dataset (data node)
-- `ns/dave-bio/_data-flow/` = abstract dataset (DatasetSeries) containing Dave's bio data
-- `ns/dave-bio/_data-flow/_current/` = current concrete dataset snapshot
-- `ns/dave-bio/_data-flow/_v1/dave-bio_v1.trig` = RDF distribution from version 1
-- `ns/dave/_assets/images/dave-headshot.jpg` = an image asset; "attached" to the mesh, but not a mesh resource
+- `ns/djradon/` = refers to Dave the person (dataset node)
+- `ns/djradon/index.html` = resource page about Dave (content)
+- `ns/djradon/pics/` = refers to Dave's biographical dataset (dataset node)
+- `ns/djradon/pics/_dataset-flow/` = abstract dataset (DatasetSeries) containing Dave's "music picks" data
+- `ns/djradon/pics/_dataset-flow/_current/` = current concrete dataset snapshot
+- `ns/djradon/pics/_dataset-flow/_v1/picks_v1.trig` = RDF distribution from version 1
+- `ns/djradon/_assets/images/headshot.jpg` = an image asset; "attached" to the mesh, but not a mesh resource
 
 
 
 
 
-## Folder-based
+#### Folder-based
 
 - **[[mesh-resource.node-component.flow]]** and their [[mesh-resource.node-component.flow-snapshot]]
   - **[[mesh-resource.node-component.flow.node-metadata]]**: System-related administrative and structural metadata for mesh nodes
@@ -93,33 +95,40 @@ Terminal [[mesh resources|mesh-resource]] that cannot contain other resources:
 - **README.md and CHANGELOG.md**: Documentation files providing context
 
 
-## Physical Structure
+## Filesystem Structure
+
+Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
 
 ### Folder Mapping
+
 - Mesh nodes correspond physically to [[mesh folders|facet.filesystem.folder]]
 - Folder names become namespace segments and IRI path components
 - The local [[concept.identifier.intramesh]] for a node matches its containing folder name
 
 ### File Organization
+
 - [[Datasets|facet.resource.dataset]] are represented by folders containing at least one distribution file
 - Distribution files must be named using the dataset's [[namespace segment|concept.namespace.segment]]
 - Resource pages (index.html) should be present in every mesh folder after [[weaving|concept.weave-process]]
 
 ### Reserved Names
-- All reserved folder names begin with an underscore (_)
-- Examples: `_assets/`, `_meta-flow/`, `_current`, `_next`
+- All system identifiers begin with an underscore (_)
+- Examples: `_assets/`, `_node-metadata-flow/`, `_current`, `_next`
 
 ## Logical Structure
 
 ### Namespace Extension
+
 - Mesh folders always extend the namespace with a segment corresponding to the folder name
 - This creates a hierarchical IRI structure for addressing resources
 - Each resource has a unique [[Intramesh|concept.identifier.intramesh]] based on its path and local name
 
 ### Containment Rules
-- **Mesh nodes** are always containers of components (i.e., at least [[mesh-resource.node-component.flow.node-metadata]] and [[concept.mesh.resource.folder._node-handle]]) and potentially containers of other nodes 
-  - **bare nodes**: no additional containment requirements
-  - **data nodes**: must have [[mesh-resource.node-component.flow.data]] with at least one distribution
+
+- **Mesh nodes** are always containers of components (i.e., at least [[mesh-resource.node-component.flow.node-metadata]] and [[mesh-resource.node-component.node-handle]]) and potentially containers of other nodes 
+  - **[[bare nodes|mesh-resource.node.bare]]**: no additional containment requirements
+  - 
+  - **[[dataset nodes|mesh-resource.node.dataset]]**: must have [[mesh-resource.node-component.flow.dataset]] with at least one distribution
 - **Asset tree components**: Cannot contain nodes
 - all components can contain 
 

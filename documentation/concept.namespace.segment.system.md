@@ -2,7 +2,7 @@
 id: h3xucygpf2i6f3u3gkegvlk
 title: system segments
 desc: underscore-prefixed reserved folder names
-updated: 1756767742309
+updated: 1756869552826
 created: 1750962692214
 ---
 
@@ -12,8 +12,8 @@ This page is the canonical list; see the linked docs for behavior and details.
 
 ## Flows (abstract/series)
 
-- [[_meta-flow/|folder._node-metadata-flow]]
-- [[_data-flow/|folder._data-flow]]
+- [[_node-metadata-flow/|folder._node-metadata-flow]]
+- [[_dataset-flow/|folder._dataset-flow]]
 - [[_config-operational-flow/|folder._config-operational-flow]]
 - [[_config-inheritable-flow/|folder._config-inheritable-flow]]
 

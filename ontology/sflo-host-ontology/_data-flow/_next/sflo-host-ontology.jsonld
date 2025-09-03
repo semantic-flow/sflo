@@ -29,38 +29,38 @@
     },
     {
       "@id": "sflo-host:ServiceConfig",
-      "@type": "owl:Class",
+      "@type": "rdfs:Class",
       "rdfs:label": "Service Configuration",
       "rdfs:comment": "Root configuration class for flow-service instance"
     },
     {
       "@id": "sflo-host:PlatformServiceConfig",
-      "@type": "owl:Class",
+      "@type": "rdfs:Class",
       "rdfs:label": "Platform Service Configuration",
       "rdfs:comment": "Platform-wide default configuration including both service defaults and inheritable node configuration defaults. Extends ServiceConfig to inherit all service properties.",
       "rdfs:subClassOf": { "@id": "sflo-host:ServiceConfig" }
     },
     {
       "@id": "sflo-host:LoggingConfig",
-      "@type": "owl:Class",
+      "@type": "rdfs:Class",
       "rdfs:label": "Logging Configuration",
       "rdfs:comment": "Configuration for service logging behavior"
     },
     {
       "@id": "sflo-host:LogChannelConfig",
-      "@type": "owl:Class",
+      "@type": "rdfs:Class",
       "rdfs:label": "Log Channel Configuration",
       "rdfs:comment": "Abstract superclass for individual logging channels (console, file, sentry)"
     },
     {
       "@id": "sflo-host:ContainedServicesConfig",
-      "@type": "owl:Class",
+      "@type": "rdfs:Class",
       "rdfs:label": "Contained Services Configuration",
       "rdfs:comment": "Configuration for services contained within flow-service"
     },
     {
       "@id": "sflo-host:MeshPath",
-      "@type": "owl:Class",
+      "@type": "rdfs:Class",
       "rdfs:label": "Mesh Path",
       "rdfs:comment": "Represents a local file system path to a mesh directory"
     },

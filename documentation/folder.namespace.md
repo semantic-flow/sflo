@@ -2,7 +2,7 @@
 id: ragu0uc06vmiqvmn41r070e
 title: namespace folder
 desc: a mesh node folder whose IRI refers to the namespace itself
-updated: 1756767742319
+updated: 1756869582383
 created: 1751242782345
 ---
 
@@ -17,7 +17,7 @@ A namespace folder is a mesh node folder whose IRI refers to the namespace itsel
 
 - Must contain:
   - [[`_node-handle/`|folder._node-handle]]
-  - [[`_meta-flow/`|folder._node-metadata-flow]]
+  - [[`_node-metadata-flow/`|folder._node-metadata-flow]]
 - May contain:
   - Other node folders and components
   - Optional system/user resources like [[`_assets/`|folder._assets]]
@@ -30,7 +30,7 @@ A namespace folder is a mesh node folder whose IRI refers to the namespace itsel
 ```file
 /ns/                          # namespace folder → https://ex.org/ns/
 ├── _node-handle/             # handle (required)
-├── _meta-flow/               # metadata flow (required)
+├── _node-metadata-flow/               # metadataset flow (required)
 └── people/                   # child namespace folder → https://ex.org/ns/people/
 ```
 

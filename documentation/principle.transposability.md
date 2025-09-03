@@ -2,17 +2,18 @@
 id: transposability
 title: transposability
 desc: ''
-updated: 1756767742294
+updated: 1756840654828
 created: 1750489919875
 ---
 
 ## Overview
 
-There are two types of transposability:
+There are two types of mesh transposability:
 
 - **[[Host transposability|principle.transposability.host]]** is the ability to move a [[concept.mesh]] to different serving locations without breaking its internal structure; i.e., A transposable mesh works correctly regardless of which [[concept.namespace.root]] contains it.
 - **[[Intramesh transposability|principle.transposability.intramesh]]** is the ability to move a [[concept.mesh.sub]] to a different part of the mesh
 
+Both of these types rely on the use of an [[concept.implied-rdf-base]] and the use of [[relative identifier|concept.identifier.intramesh.relative]]s for intramesh references.
 
 ## Key Principles
 
@@ -20,18 +21,11 @@ There are two types of transposability:
 
 Semantic Flow never hardcodes BASE URIs in RDF distribution files. Instead, it relies on the RDF specification's default behavior where parsers use the document's retrieval IRI as the base URI.
 
-**Why this works:**
-- When a mesh is served from `github.io/mesh/`, relative URIs resolve relative to that location
-- When the same mesh is served from `mysite.com/data/`, relative URIs resolve relative to that location
-- The mesh's internal structure remains consistent in both cases
-
 ### 2. URI Reference Strategies
 
-- see [[faq.reference-iri-choices]]
+- use [[concept.identifier.intramesh]] identifiers for internal references, see [[faq.reference-iri-choices]]
 
-### 3. Publication History Tracking
 
-- see [[concept.publication]]
 
 ## Transposition Scenarios
 
@@ -54,7 +48,7 @@ All internal relationships continue to work because they resolve relative to the
 
 ### Moving Submeshes Within Hierarchy
 
-While technically possible, moving parts of a mesh to different parent namespaces should be **discouraged** as it breaks the permanence principle of semantic identifiers. URIs should remain stable over time.
+While technically possible, moving parts of a mesh to different [[concept.namespace]]s is **discouraged** as it breaks the permanence principle of semantic identifiers. IRIs should remain stable over time.
 
 Example of what to avoid:
 ```bash
@@ -81,9 +75,7 @@ Transposability leverages standard RDF parsing behavior rather than custom mecha
 ## Best Practices
 
 1. **Use relative URIs** for all intra-mesh references
-2. **Move complete meshes** rather than reorganizing internal structure
-3. **Maintain stable namespaces** to preserve identifier permanence
-4. **Test transposition** by serving from different locations
-5. **Validate RDF** after moving to ensure parser compatibility
+2. **Avoid reorganizing internal structure**: because mesh structure determines namespaces, to maintain stable namespaces and preserve identifier permanence, nodes should not be moved around once published
+3. **Test transposition** by serving from different locations
+4. **Validate RDF** after moving to ensure parser compatibility
 
-Transposability ensures that Semantic Flow meshes remain portable and can be deployed flexibly across different hosting environments while maintaining their semantic integrity.

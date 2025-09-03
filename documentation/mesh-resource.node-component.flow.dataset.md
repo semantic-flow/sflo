@@ -1,32 +1,32 @@
 ---
-id: 9j8lhoyb0xkhg926nafgkai
-title: data flow
+id: dataset-flow
+title: dataset flow
 desc: ''
-updated: 1755998126876
+updated: 1756869950164
 created: 1751560483669
 ---
 
-Data flows provide versionable data storage functionality within the semantic mesh architecture. 
+**Dataset flows** provide versionable data storage functionality within the semantic mesh architecture. 
 
 ## Overview
 
-A data flow (sometimes called a __payload__ flow) is a series of RDF graphs that carry the actual statements about a node’s referent. Whether the node represents a dataset, a person, a character, or any other entity, its data flow is where those facts live. Each data flow has snapshots (_current/, _next/, _vN/) that track its evolution over time. 
+A dataset flow (sometimes called a __payload__ flow) is a series of RDF datasets. Like all flows, each dataset flow has snapshots (_current/, _next/, _vN/) that track its evolution over time. 
 
-Data flows are distinct from metadata flows, which are managed by the platform and describe the mesh resource itself; and configuration flows, which govern behavior.
+Dataset flows are distinct from [[mesh-resource.node-component.flow.node-metadata]]s, which are usually managed by the platform and describe the mesh node itself and its components.
 
 
 ## Purpose
 
-data flows serve as the primary content containers for mesh nodes, providing:
+Dataset flows serve as the primary content containers for [[mesh-resource.node.dataset]], providing:
 
-- **Content Storage**: Hold the actual data payload that defines the node's content
+- **Content Storage**: Hold the actual dataset payload that defines the node's content
 - **History**: Support multiple versions (snapshots) of the same conceptual dataset
 - **Format Diversity**: Provide multiple format distributions (TTL, JSON-LD, etc.)
 - **State Management**: Track current, draft, and versioned states of data
 
 ## Structure
 
-Data flows organize content through [[flow snapshots|mesh-resource.node-component.flow-snapshot]]:
+dataset flows organize content through [[flow snapshots|mesh-resource.node-component.flow-snapshot]]:
 
 - `_current/` - Current stable version of the dataset
 - `_next/` - Draft/work-in-progress version
@@ -48,7 +48,7 @@ Each [[flow snapshot|mesh-resource.node-component.flow-snapshot]] typically prov
 From the [[semantic mesh example|concept.semantic-mesh.example]]:
 
 ```
-/test-ns/djradon-bio/_data-flow          # data flow
+/test-ns/djradon-bio/_dataset-flow          # dataset flow
 ├── _current/                        # current snapshot
 │   ├── djradon-bio.ttl             # turtle distribution
 │   ├── djradon-bio.jsonld          # json-ld distribution
@@ -62,8 +62,8 @@ From the [[semantic mesh example|concept.semantic-mesh.example]]:
 
 ## Integration
 
-data flows integrate with other mesh components:
+dataset flows integrate with other mesh components:
 
-- **metadata flows**: Provide provenance and management data
+- **metadataset flows**: Provide provenance and management data
 - **Asset Trees**: Store associated files and media
 - **Resource Pages**: Provide human-readable interfaces

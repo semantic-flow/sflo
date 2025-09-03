@@ -2,7 +2,7 @@
 id: mf6mhj0ihmdxtftnxfatghj
 title: Mesh CRUD
 desc: 'CReate, Update, or Delete mesh data'
-updated: 1756063907827
+updated: 1756869568796
 created: 1753014706077
 ---
 
@@ -23,7 +23,7 @@ created: 1753014706077
 **C. Dataset Distribution Upload + Extraction**
 - Upload mechanisms for RDF dataset distributions (.trig, .jsonld, etc.)
 - Automatic named entity extraction from semantic data
-- System-generated reference and data nodes
+- System-generated reference and dataset nodes
 - Batch processing of semantic data
 - **Limitation**: Cannot handle binary file resources (audio, images, etc.) - only RDF data
 - File resources must be handled via Direct Manual Construction or API-Driven modalities

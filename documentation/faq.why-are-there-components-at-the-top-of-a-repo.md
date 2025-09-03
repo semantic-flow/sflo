@@ -2,7 +2,7 @@
 id: why-are-there-components-at-the-top-of-a-repo
 title: Why are there components at the top of a repo?
 desc: ''
-updated: 1756305654955
+updated: 1756869568791
 created: 1751351383000
 ---
 
@@ -19,7 +19,7 @@ Components at the repository root exist because **the repository root itself is 
 Every semantic mesh has a root node, and in a repository-based mesh, the repository root **is** that root node. It's a "nameless" node locally (represented as "/") that can be any type of mesh node:
 
 - **bare node**: If the repo organizes other nodes
-- **data node**: If the repo represents a single dataset  
+- **dataset node**: If the repo represents a single dataset  
 - **Reference node**: If the repo represents an external entity
 
 Since the repository root is a mesh node, it follows the same rules as any other node and must contain:
