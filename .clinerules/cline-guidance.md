@@ -5,5 +5,4 @@ On every new task, first read:
 - `documentation/dev.contributor.djradon.ai-guidance.md`
 - All ontologies under the `ontology/` folder
 
-Ensure the content of these resources is loaded into your context before you
-begin work.
+Ensure the content of these resources is loaded into your context before you begin work.

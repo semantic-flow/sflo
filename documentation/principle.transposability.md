@@ -2,7 +2,7 @@
 id: transposability
 title: transposability
 desc: ''
-updated: 1756840654828
+updated: 1757997420203
 created: 1750489919875
 ---
 
@@ -10,21 +10,20 @@ created: 1750489919875
 
 There are two types of mesh transposability:
 
-- **[[Host transposability|principle.transposability.host]]** is the ability to move a [[concept.mesh]] to different serving locations without breaking its internal structure; i.e., A transposable mesh works correctly regardless of which [[concept.namespace.root]] contains it.
+- **[[Host transposability|principle.transposability.host]]** is the ability to move a [[concept.mesh]] to different serving locations without breaking its internal structure; i.e., A transposable mesh works correctly regardless of which [[concept.namespace.context]] contains it.
 - **[[Intramesh transposability|principle.transposability.intramesh]]** is the ability to move a [[concept.mesh.sub]] to a different part of the mesh
 
-Both of these types rely on the use of an [[concept.implied-rdf-base]] and the use of [[relative identifier|concept.identifier.intramesh.relative]]s for intramesh references.
+Both types of transposability rely on the use of an [[concept.implied-rdf-base]] and the use of [[relative identifier|concept.identifier.intramesh.relative]]s for intramesh references.
 
 ## Key Principles
 
 ### 1. No Hardcoded BASE URIs
 
-Semantic Flow never hardcodes BASE URIs in RDF distribution files. Instead, it relies on the RDF specification's default behavior where parsers use the document's retrieval IRI as the base URI.
+Semantic Flow never specifies BASE URIs in RDF distribution files. Instead, it relies on the RDF specification's defined behavior for situations where "no base URI is embedded and the representation is not encapsulated within some other entity": parsers use the document's retrieval IRI as the base URI. 
 
 ### 2. URI Reference Strategies
 
 - use [[concept.identifier.intramesh]] identifiers for internal references, see [[faq.reference-iri-choices]]
-
 
 
 ## Transposition Scenarios

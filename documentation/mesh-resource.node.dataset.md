@@ -2,7 +2,7 @@
 id: dataset-node
 title: dataset node
 desc: ''
-updated: 1756896062883
+updated: 1756898216202
 created: 1750999795528
 ---
 
@@ -20,7 +20,7 @@ Unlike [[flow snapshots|mesh-resource.node-component.flow-snapshot]] which conta
 
 ## Abstract vs Concrete Datasets
 
-### Abstract Dataset Concept (dataset node)
+### Dataset Node (highly abstract)
 
 A dataset node represents a dataset as a concept, e.g.:
 
@@ -30,7 +30,7 @@ A dataset node represents a dataset as a concept, e.g.:
 
 The dataset node provides **stable identity**: The dataset persists conceptually even as concrete data changes.
   
-### dataset flow (DatasetSeries)
+### Dataset Flow (abstract)
 
 [[mesh-resource.node-component.flow.dataset]] is the single user dataset flow for a node, realized by snapshots:
 
@@ -39,7 +39,16 @@ The dataset node provides **stable identity**: The dataset persists conceptually
 
 Snapshots contain **distribution files**: the actual data in various formats (e.g., .trig, .jsonld)
 
-## Required Structure
+### Dataset Flow Snapshot (slightly concrete)
+
+Flow snapshots are still not actual data, but they denote a specific version of an evolving dataset
+
+### Dataset Flow Snapshot Distributions (concrete)
+
+These are "concrete information resources", i.e. files.
+
+
+## Required Components
 
 Every dataset node must contain:
 
@@ -47,10 +56,10 @@ Every dataset node must contain:
 - **[[mesh-resource.node-component.flow.dataset]]** (`_dataset-flow/`): dataset data
 - **[[Node handle|mesh-resource.node-component.node-handle]]** (`_node-handle/`): Referential indirection for the node
 
-## Optional Structure
+## Optional Components
 
-- **[[mesh-resource.node-component.flow.reference]]**: metadata about the dataset
-- **[[Asset trees|mesh-resource.node-component.asset-tree]]** (`_assets/`): Attached file collections
+- [[mesh-resource.node-component.flow.reference]]: metadata about the dataset
+- [[Asset trees|mesh-resource.node-component.asset-tree]] (`_assets/`): Attached file collections
 - [[mesh-resource.node-component.documentation-resource.changelog]] and [[mesh-resource.node-component.documentation-resource.readme]]
 - [[mesh-resource.node-component.node-config-defaults]]
 
@@ -58,13 +67,12 @@ Every dataset node must contain:
 
 ### Not a Dataset
 
-**Important**: A dataset node does not refer to a specifc RDF graph; it is **not itself a (concrete) dataset**. It represents the abstract concept of a dataset that may evolve over time:
-- dataset nodes are never versioned (only their components are)
+**Important**: A dataset node is **not itself a (concrete) dataset**. It represents the abstract concept of a dataset that may evolve over time:
+- dataset nodes are never versioned (only their component flows are)
 - dataset nodes serve as stable conceptual anchors
 
-
-
 ### Extensible Container
+
 Like all mesh nodes, dataset nodes can contain other mesh nodes and components, making them extensible namespace containers.
 
 ## Examples

@@ -2,21 +2,27 @@
 id: e6enrj5ztz3hz84ojujef0k
 title: Aggregated Distribution
 desc: ''
-updated: 1756869582381
+updated: 1759000017701
 created: 1751631229565
 ---
 
 __note: maybe we will do them, maybe we won't__
 
-A node's **aggregated distribution** is a compilation of all the child dataset flows of its contained dataset nodes (their `_dataset-flow/_current/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
+A node's **aggregated distribution** is a compilation of all the child flows of itself and its contained nodes (their `_dataset-flow/_current/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
 
-Both [[mesh-resource.node.bare]] and [[mesh-resource.node.dataset]] can have aggregate distributions. dataset nodes include their own data in the aggregation.
+Essentially, it's a "mesh in a single file." 
 
 ## Purpose
 
-Aggregated distributions enable **composable semantic data** by:
-- Combining contained nodes data into a single resource
+Aggregated distributions support [[principle.composability]] and [[principle.transposability]] by:
+- Combining contained nodes' data into a single resource
 - Supporting modular ontology and knowledge base construction
+
+## Issues
+
+config options
+- zipping/compression?
+- user data only, or include metadata/config
 
 ## Generation Process
 

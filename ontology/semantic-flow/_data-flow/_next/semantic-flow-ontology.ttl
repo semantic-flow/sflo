@@ -1,0 +1,12 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<> a owl:Ontology ;
+    dcterms:title "Semantic Flow Ontology" ;
+    dcterms:description "The Semantic Flow ontology defines the classes and properties used for defining and describing semantic meshes" ;
+    dcterms:creator "Semantic Flow Project" ;
+    owl:versionInfo "0.1.0" ;
+    vann:preferredNamespacePrefix "sflo" .
+

@@ -1,12 +1,12 @@
 ---
 id: xebek3dtv2zgs9ah0vbv57g
-title: Semantic Flow General Guidance
+title: Developer General Guidance
 desc: ''
-updated: 1756869568792
+updated: 1756899786712
 created: 1751259888479
 ---
 
-**Semantic Flow** is a framework for managing knowledge graphs and other Semantic Web resources in publish-ready [[semantic meshes|concept.mesh]]
+See [[concept.summary]] for a conceptual overview.
 
 ## Developer Workflow
 
@@ -28,10 +28,10 @@ created: 1751259888479
   - **shared/**: cross-cutting code like type schemas (core), logging, and config
 - **test-ns/** repo: Test mesh repo
 - **ontology/**: repo containing relevant ontologies:
-  - `mesh` - Core mesh architecture with base classes (Resource, Node, Component) and fundamental types
+  - [mesh](../ontology/mesh/_data-flow/_next/mesh-ontology.trig) - Core mesh architecture with base classes (Resource, Node, Component) and fundamental types
   - `node` - Node operations including Handle, Flow types, and operational relationships
   - `flow` - Temporal concepts including Snapshot types and versioning relationships
-  - `config-flow` - Configuration properties that apply directly to mesh entities (nodes, flows, snapshots, etc.)
+  - `node-config` - Configuration properties that apply directly to mesh entities (nodes, flows, snapshots, etc.)
   - `meta-flow` - provenance and licensing vocabulary
   - `flow-service` - Service layer configuration vocabulary for the flow-service application
 
@@ -126,7 +126,7 @@ Project documentation, specifications, and design choices are stored in `documen
 
 - The project uses a sophisticated JSON-LD based configuration system with multiple layers
 - **Service Configuration resolution order**: CLI arguments → Environment variables → Config file → Defaults
-- The [`defaults.ts`](semantic-flow/flow-service/src/config/defaults.ts) file is the source for "platform default" configuration
+- The [`defaults.ts`](../semantic-flow/flow-service/src/config/defaults.ts) file is the source for "platform default" configuration
 
 ### Logging System Architecture
 

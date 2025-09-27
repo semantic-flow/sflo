@@ -1,9 +1,9 @@
 ---
-id: 33hi315wuis0ghnuy09bp2z
-title: Facet
+id: facets
+title: facets
 desc: ''
-updated: 1755995326929
+updated: 1756899195620
 created: 1755993727401
 ---
 
-A way of categorizing  is by their facets
+A way of categorizing a [[concept.platform-element]]

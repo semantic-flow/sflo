@@ -2,22 +2,24 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1756869582375
+updated: 1758999968908
 created: 1755820864360
 ---
 
 # Semantic Mesh — LLM-Oriented Concept Summary
 
-This document is the canonical, compact context for AIs/LLMs. It summarizes all `documentation/concepts.*` notes and cross-links to authoritative pages.
+This document is the canonical, compact context for LLMs. It summarizes all `documentation/concepts.*` notes and cross-links to authoritative pages.
 
-0) Twin Purposes
-- Mint IRIs (IRIs) for referring to things on the Semantic Web.
-- Hold semantic datasets and supporting resources that use those IRIs.
+0) Semantic Flow Twin Purposes
+- Mint dereferenceable IRIs for referring to things on the Semantic Web
+- Hold versionable semantic data that uses those IRIs
 
 1) Definition
-A semantic mesh is a dereferenceable, folder-structured, possibly-versioned corpus of semantic resources where every IRI resolves to meaningful content. A mesh maps directly from a Git repository’s folder hierarchy to a published static site so that:
+A semantic mesh is a dereferenceable, possibly-versioned corpus of semantic resources where every IRI resolves to meaningful content. 
+
+A filesystem-based mesh maps directly from a Git repository’s folder hierarchy to a published static site so that:
 - Every resource is addressable by a stable IRI.
-- Folder resources are dereferenceable via generated `index.html` resource pages.
+- "[[Concept resources|facet.resource.concept]]" are dereferenceable via generated `index.html` resource pages.
 - RDF datasets live as distributions on versioned flow snapshots.
 - The weave process maintains coherence and keeps the repo publish-ready.
 
@@ -215,7 +217,6 @@ graph TD
 - [[mesh-resource.node-component.flow]]: DatasetSeries representing an abstract dataset (meta/data/config)
 - [[mesh-resource.node-component.flow-snapshot]]: concrete Dataset realization of a flow (`_current/`, `_next/`, `_vN/`)
 - [[mesh-resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.): 
-- Handle: indirection to refer to the node “as a mesh resource”: [[mesh-resource.node-component.node-handle]]
-- Resource Page: dereferenceable `index.html` for folders: [[mesh-resource.node-component.documentation-resource.resource-page]]
-- Aggregated Distribution: parent-level roll-up of children’s current data: [[mesh-resource.node-component.aggregated-distribution]]
-- Weave: lifecycle operation to version/promote/regenerate/repair: [[concept.weave-process]]
+- [[mesh-resource.node-component.node-handle]]: indirection to refer to the node “as a mesh resource”
+- [[mesh-resource.node-component.documentation-resource.resource-page]]: dereferenceable `index.html` for folders
+- [[concept.weave-process]]: lifecycle operation to version/promote/regenerate/repair:
