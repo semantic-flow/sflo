@@ -2,7 +2,7 @@
 id: publication
 title: publication
 desc: ''
-updated: 1756769521286
+updated: 1760160253844
 created: 1751240385918
 ---
 
@@ -17,7 +17,7 @@ The inferred publication locations can be tracked to maintain a history of where
 # In _flow/ metadata
 <_node-handle> mesh:publishedAt <https://myorganization.github.io/data-mesh/ns/djradon/> ;
           mesh:previousPublications ( 
-            <https://djradon.github.io/mesh/ns/djradon/>
+            <https://djradon.github.io/ns/djradon/>
             <https://oldsite.com/research/ns/djradon/>
           ) ;
 ```

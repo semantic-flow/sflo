@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1758999968908
+updated: 1760155889658
 created: 1755820864360
 ---
 
@@ -19,7 +19,8 @@ A semantic mesh is a dereferenceable, possibly-versioned corpus of semantic reso
 
 A filesystem-based mesh maps directly from a Git repository’s folder hierarchy to a published static site so that:
 - Every resource is addressable by a stable IRI.
-- "[[Concept resources|facet.resource.concept]]" are dereferenceable via generated `index.html` resource pages.
+- "[[Naming resources|facet.resource.naming]]" are dereferenceable via generated `index.html` resource pages.
+- "[[Content resources|facet.resource.content]]" are directly dereferenceable: they should return a file
 - RDF datasets live as distributions on versioned flow snapshots.
 - The weave process maintains coherence and keeps the repo publish-ready.
 

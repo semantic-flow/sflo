@@ -2,19 +2,20 @@
 id: principle-composability
 title: composability
 desc: ''
-updated: 1756767742299
+updated: 1760158748835
 created: 1751233874377
 ---
 
 ## Overview
 
-Composability is the ability to combine meshes. Semantic Flow enables flexible mesh composition by allowing any mesh node to contain other nodes: the mesh node 
+Composability is the ability to combine meshes. Semantic Flow enables flexible mesh composition by allowing any mesh node to contain other nodes, and by not specifying an absolute path anywhere. 
 
 ## Key Concepts
 
 ### Mesh Boundaries
 
 A mesh is identified as a folder that looks like a [[folder.node]], i.e., has (at least) these two subfolders:
+
 
 
 ### Upward Reference Problem

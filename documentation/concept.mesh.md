@@ -2,13 +2,13 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1756869568818
+updated: 1760157315202
 created: 1750624002110
 ---
 
 ## Overview
 
-A **semantic mesh** is a [[concept.immutability]] collection of (possibly-versioned) linked-data resources. It organizes these resources in a  [[publishable|concept.publication]] way, such that a mesh can be used as a [[semantic sites|concept.semantic-flow-site]] where every HTTP IRI returns meaningful content.
+A **semantic mesh** is a [[pseudo-immutable|principle.pseudo-immutability]] collection of (possibly-versioned) linked-data resources. It organizes these resources in a  [[publishable|concept.publication]] way, such that a mesh can be used as a [[semantic site|concept.semantic-flow-site]] where every HTTP IRI returns meaningful content.
 
 ### Key characteristics
 
@@ -52,13 +52,13 @@ The primary constituents of a mesh are [[mesh-resource.node]]s. Nodes contain th
 | `ns/djradon/picks/_dataset-flow/`                     | [[mesh-resource.node-component.flow.dataset]]                         | payload dataset series       |
 | `ns/djradon/picks/_dataset-flow/_next/`               | [[mesh-resource.node-component.flow-snapshot.next]]                   | concrete payload dataset     |
 | `ns/djradon/picks/_dataset-flow/_v1/picks_v1.trig`    | [[mesh-resource.node-component.snapshot-distribution]]                | paylod dataset distribution  |
-| `ns/djradon/picks/_node-metadata-flow/`               | abstract meta dataset (flow)                                          | node metadata dataset series |
-| `ns/djradon/picks/_node-metadata-flow/_current/`      | concrete meta dataset (snapshot)                                      | node metadata dataset        |
-| `ns/djradon/picks/_config-operational-flow/`          | abstract operational config (flow)                                    | operational config series    |
-| `ns/djradon/picks/_config-operational-flow/_current/` | concrete operational config (snapshot)                                | operational config           |
-| `ns/djradon/picks/_config-inheritable-flow/`          | abstract inheritable config (flow)                                    | inheritable config series    |
-| `ns/djradon/picks/_config-inheritable-flow/_current/` | concrete inheritable config (snapshot)                                | inheritable config           |
-| `ns/assets/`                                          | asset tree                                                            | collection of assets         |
+| `ns/djradon/picks/_node-metadata-flow/`               | [[mesh-resource.node-component.flow.node-metadata]]                   | node metadata dataset series |
+| `ns/djradon/picks/_node-metadata-flow/_current/`      | [[mesh-resource.node-component.flow-snapshot.current]]                | node metadata dataset        |
+| `ns/djradon/picks/_config-operational-flow/`          | [[mesh-resource.node-component.flow.node-config.operational]]         | operational config series    |
+| `ns/djradon/picks/_config-operational-flow/_current/` | [[mesh-resource.node-component.flow-snapshot.current]]                | operational config           |
+| `ns/djradon/picks/_config-inheritable-flow/`          | [[mesh-resource.node-component.flow.node-config.inheritable]]         | inheritable config series    |
+| `ns/djradon/picks/_config-inheritable-flow/_current/` | [[mesh-resource.node-component.flow-snapshot.current]]                | inheritable config           |
+| `ns/assets/`                                          | [[mesh-resource.node-component.asset-tree]]                           | collection of assets         |
 | `ns/assets/images/`                                   | asset folder                                                          | - not a sf resource -        |
 | `ns/assets/images/logo.svg`                           | asset                                                                 | - not a sf resource -        |
 
@@ -77,7 +77,7 @@ Example:
 
 
 
-#### Folder-based
+#### Naming Resources
 
 - **[[mesh-resource.node-component.flow]]** and their [[mesh-resource.node-component.flow-snapshot]]
   - **[[mesh-resource.node-component.flow.node-metadata]]**: System-related administrative and structural metadata for mesh nodes
@@ -86,7 +86,7 @@ Example:
 - **[[Node handles|resource.node-component.node-handle]]**: Components that provide referential indirection, allowing references to nodes as mesh resources rather than their referents
 - **[[Asset trees|mesh-resource.node-component.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
 
-#### Files
+#### File Resources
 
 Terminal [[mesh resources|mesh-resource]] that cannot contain other resources:
 
