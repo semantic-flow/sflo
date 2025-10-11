@@ -1,4 +1,4 @@
-@base <https://semantic-flow.github.io/ontology/sflo/> .
+@base <https://semantic-flow.github.io/ontology/semantic-flow/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
@@ -8,19 +8,19 @@
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix schema: <https://schema.org/> .
 @prefix vann: <http://purl.org/vocab/vann/> .
-@prefix sflo: <https://semantic-flow.github.io/ontology/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/ontology/semantic-flow/> .
 
 <> a owl:Ontology ;
     dcterms:title "Semantic Flow Ontology" ;
     dcterms:description "The Semantic Flow ontology defines the classes and properties used for defining and describing semantic meshes." ;
     dcterms:creator <https://djradon.github.io/ns/djradon> ;
     owl:versionInfo "1" ;
-    owl:versionIRI <https://semantic-flow.github.io/ontology/sflo/_dataset-flow/v1/sflo_v1.ttl> ;
+    owl:versionIRI <https://semantic-flow.github.io/ontology/semantic-flow/_dataset-flow/v1/sflo_v1.ttl> ;
     vann:preferredNamespacePrefix "sflo" ;
-    vann:preferredNamespaceUri "https://semantic-flow.github.io/ontology/sflo/" .
+    vann:preferredNamespaceUri "https://semantic-flow.github.io/ontology/semantic-flow/" .
 
 #################################################################
-#    Classes (Core Resource Model)
+#    Resource Classes 
 #################################################################
 
 # Base resource for all terms in this ontology
@@ -40,17 +40,20 @@ sflo:NamingResource a rdfs:Class ;
     rdfs:label "Naming Resource" ;
     rdfs:comment "A resource that establishes a name, optionally denoting a non-file thing. Naming resources' IRIs end with a slash and may or may not have a referent." .
 
-# Mesh Node (naming resource)
-sflo:MeshNode a rdfs:Class ;
-    rdfs:subClassOf sflo:NamingResource ;
-    rdfs:label "Mesh Node" ;
-    rdfs:comment "Structural units that organize and contain other resources. Nodes form the structure of the mesh." .
+#################################################################
+#    DocumentationResource Classes and Properties
+#################################################################
 
-# Documentation resources (file-based)
+# Classes 
 sflo:DocumentationResource a rdfs:Class ;
     rdfs:subClassOf sflo:FileResource ;
     rdfs:label "Documentation Resource" ;
     rdfs:comment "Documentation files that provide human-readable information about resources. Abstract." .
+
+sflo:ResourcePage a rdfs:Class ;
+    rdfs:subClassOf sflo:DocumentationResource ;
+    rdfs:label "Resource Page" ;
+    rdfs:comment "Human-readable index.html pages that provide dereferenceability for NamingResources." .
 
 sflo:Changelog a rdfs:Class ;
     rdfs:subClassOf sflo:DocumentationResource ;
@@ -62,21 +65,8 @@ sflo:Readme a rdfs:Class ;
     rdfs:label "Readme" ;
     rdfs:comment "Readme files that provide introductory documentation and usage information." .
 
-sflo:ResourcePage a rdfs:Class ;
-    rdfs:subClassOf sflo:DocumentationResource ;
-    rdfs:label "Resource Page" ;
-    rdfs:comment "Human-readable index.html pages that provide dereferenceability for NamingResources." .
 
-#################################################################
-#    Object Properties (Core Resource Model)
-#################################################################
-
-sflo:hasResourcePage a owl:ObjectProperty ;
-    schema:domainIncludes sflo:NamingResource ;
-    schema:rangeIncludes sflo:ResourcePage ;
-    rdfs:label "has resource page" ;
-    rdfs:comment "Associates a namespace resource with its resource page (index.html)." .
-
+# Properties
 sflo:hasReadme a owl:ObjectProperty ;
     schema:domainIncludes sflo:NamingResource ;
     schema:rangeIncludes sflo:Readme ;
@@ -89,13 +79,34 @@ sflo:hasChangelog a owl:ObjectProperty ;
     rdfs:label "has changelog" ;
     rdfs:comment "Associates a namespace resource with its changelog documentation file." .
 
+
+
 #################################################################
-#    Data Properties (Core Resource Model)
+#    Mesh Structure Classes
+#################################################################
+
+# Mesh Node (naming resource)
+sflo:MeshNode a rdfs:Class ;
+    rdfs:subClassOf sflo:NamingResource ;
+    rdfs:label "Mesh Node" ;
+    rdfs:comment "Structural units that organize and contain other resources. Nodes form the structure of the mesh." .
+
+
+
+
+
+#################################################################
+#    Object Properties 
 #################################################################
 
 
 #################################################################
-#    Disjointness Axioms (Core Resource Model)
+#    Data Properties 
+#################################################################
+
+
+#################################################################
+#    Disjointness Axioms 
 #################################################################
 
 # File vs Naming resources are disjoint
@@ -103,13 +114,9 @@ sflo:hasChangelog a owl:ObjectProperty ;
   owl:members ( sflo:FileResource sflo:NamingResource )
 ] .
 
-# Documentation subtypes are disjoint
-[ a owl:AllDisjointClasses ;
-  owl:members ( sflo:Changelog sflo:Readme sflo:ResourcePage )
-] .
 
 #################################################################
-#    SHACL Constraints (Core Resource Model)
+#    SHACL Constraints 
 #################################################################
 
 
