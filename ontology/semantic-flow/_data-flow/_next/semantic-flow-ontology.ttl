@@ -91,19 +91,89 @@ sflo:MeshNode a rdfs:Class ;
     rdfs:label "Mesh Node" ;
     rdfs:comment "Structural units that organize and contain other resources. Nodes form the structure of the mesh." .
 
+#################################################################
+#    Node Component Classes
+#################################################################
 
+sflo:Component a rdfs:Class ;
+    rdfs:subClassOf sflo:Resource ;
+    rdfs:label "Component" ;
+    rdfs:comment "Terminal resources that provide specific mesh functionality and support nodes." .
 
+sflo:Handle a rdfs:Class ;
+    rdfs:label "Handle" ;
+    rdfs:comment "Conceptual handle that refers to a node 'as a node' (as opposed to the thing/concept referred to by the parent node). This is the abstract handle concept." .
 
+sflo:HandleAsComponent a rdfs:Class ;
+    rdfs:subClassOf sflo:Component, sflo:NamingResource ;
+    rdfs:label "Handle As Component" ;
+    rdfs:comment "A handle considered as a mesh component in its own right, addressable via IRI and subject to mesh operations." .
+
+#################################################################
+#    Node Type Classes
+#################################################################
+
+sflo:BareNode a rdfs:Class ;
+    rdfs:subClassOf sflo:MeshNode ;
+    rdfs:label "Namespace" ;
+    rdfs:comment "Bare nodes - containers for organizing other mesh nodes. Node identifiers refer to the nodes themselves as organizational units." .
+
+sflo:ReferenceNode a rdfs:Class ;
+    rdfs:subClassOf sflo:MeshNode ;
+    rdfs:label "Reference" ;
+    rdfs:comment "Nodes that refer to some external 'thing' or concept other than themselves." .
+
+sflo:DataNode a rdfs:Class ;
+    rdfs:subClassOf sflo:MeshNode ;
+    rdfs:label "Data" ;
+    rdfs:comment "Nodes that contain and refer to 'payload data' via dataset flows." .
+
+#################################################################
+#    Flow Class
+#################################################################
+
+sflo:Flow a rdfs:Class ;
+    rdfs:subClassOf dcat:DatasetSeries, sflo:Resource ;
+    rdfs:label "Flow" ;
+    rdfs:comment "Abstract evolvable datasets for node metadata, reference data, payload data, and configuration. Flows are DatasetSeries that are realized through flow snapshots representing specific states or versions." .
 
 #################################################################
 #    Object Properties 
 #################################################################
 
+sflo:hasElement a owl:ObjectProperty ;
+    schema:domainIncludes sflo:MeshNode ;
+    schema:rangeIncludes sflo:Component ;
+    rdfs:label "has element" ;
+    rdfs:comment "Associates nodes with their supporting components." .
+
+sflo:isHandleFor a owl:ObjectProperty ;
+    schema:domainIncludes sflo:HandleAsComponent ;
+    schema:rangeIncludes sflo:MeshNode ;
+    rdfs:label "is handle for" ;
+    rdfs:comment "Indicates that this handle component provides identification and routing for a specific node." .
+
+sflo:hasHandle a owl:ObjectProperty ;
+    schema:domainIncludes sflo:MeshNode ;
+    schema:rangeIncludes sflo:HandleAsComponent ;
+    rdfs:label "has handle" ;
+    rdfs:comment "Associates a mesh node with its persistent handle component." .
+
+sflo:hasFlow a owl:ObjectProperty ;
+    schema:domainIncludes sflo:MeshNode ;
+    schema:rangeIncludes sflo:Flow ;
+    rdfs:label "has flow" ;
+    rdfs:comment "Links mesh nodes to their flows (metadata, reference, data, config)." .
 
 #################################################################
 #    Data Properties 
 #################################################################
 
+sflo:hasSlug a owl:DatatypeProperty ;
+    schema:domainIncludes sflo:MeshNode ;
+    schema:rangeIncludes xsd:string ;
+    rdfs:label "has slug" ;
+    rdfs:comment "A concise, human-readable, kebab-case identifier for a node, suitable for use in filenames and URLs." .
 
 #################################################################
 #    Disjointness Axioms 
@@ -114,6 +184,15 @@ sflo:MeshNode a rdfs:Class ;
   owl:members ( sflo:FileResource sflo:NamingResource )
 ] .
 
+# Node types are disjoint
+[ a owl:AllDisjointClasses ;
+  owl:members ( sflo:BareNode sflo:ReferenceNode sflo:DataNode )
+] .
+
+# Component types are disjoint  
+[ a owl:AllDisjointClasses ;
+  owl:members ( sflo:HandleAsComponent sflo:DocumentationResource )
+] .
 
 #################################################################
 #    SHACL Constraints 
@@ -147,15 +226,39 @@ sflo:FileResourceShape a sh:NodeShape ;
     ] .
     
 
+### Every MeshNode must have exactly one HandleAsComponent
+sflo:MeshNodeShape a sh:NodeShape ;
+    sh:targetClass sflo:MeshNode ;
+    sh:property [
+        sh:path sflo:hasHandle ;
+        sh:class sflo:HandleAsComponent ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Every MeshNode must have exactly one HandleAsComponent"
+    ] ;
+    sh:property [
+        sh:path sflo:hasSlug ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:pattern "^[a-z0-9]+(-[a-z0-9]+)*$" ;
+        sh:message "Every MeshNode must have exactly one slug matching kebab-case pattern (lowercase letters, numbers, hyphens)"
+    ] .
+
+### HandleAsComponent must be handle for exactly one node
+sflo:HandleAsComponentShape a sh:NodeShape ;
+    sh:targetClass sflo:HandleAsComponent ;
+    sh:property [
+        sh:path sflo:isHandleFor ;
+        sh:class sflo:MeshNode ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "Every HandleAsComponent must be handle for exactly one MeshNode"
+    ] .
+
 #################################################################
 #    TODO (Next Slices)
 #################################################################
-# Slice 3 (Node Model):
-# - Classes: sflo:NodeComponent, sflo:Handle, sflo:HandleAsComponent,
-#            sflo:Namespace, sflo:Reference, sflo:Data, sflo:NodeFlow
-# - Properties: sflo:hasElement, sflo:isHandleFor, sflo:hasHandle, sflo:hasFlow, sflo:hasSlug
-# - SHACL: Node gets exactly one HandleAsComponent; slug kebab-case pattern
-#
 # Slice 4 (Flow / Temporal Model):
 # - Classes: sflo:Snapshot, sflo:VersionSnapshot, sflo:ConfigFlow, sflo:MetadataFlow,
 #            sflo:ReferenceFlow, sflo:DatasetFlow

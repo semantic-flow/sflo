@@ -2,7 +2,7 @@
 id: bare-node
 title: bare node
 desc: ''
-updated: 1756869020405
+updated: 1760212640468
 created: 1751000577920
 ---
 
@@ -16,7 +16,7 @@ created: 1751000577920
 **Optional Components**: [[mesh-resource.node-component.flow.node-config]], [[mesh-resource.node-component.documentation-resource]]
 
 
-They are physically represented by [[folder.namespace]].
+They are physically represented by [[folder.node]].
 
 ## Purpose
 
