@@ -40,3 +40,6 @@ export { ConsoleChannel } from './channels/console.js';
 
 // Utilities (Formatters)
 export { safeStringify, stripAnsi, formatJsonLine, formatCritical } from './core/formatters.js';
+
+// Utilities (Stack Trace)
+export { captureFunctionName, extractStackTrace } from './utils/stack-trace.js';

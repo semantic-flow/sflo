@@ -2,7 +2,7 @@
 id: 3hejrrsh4j7i5p2l7rk38n6
 title: 2025 11 04 Shared Logging and Errorhandling
 desc: ''
-updated: 1762363447931
+updated: 1762365235576
 created: 1762325430077
 ---
 
@@ -1541,6 +1541,7 @@ if (typeof require !== 'undefined') {
 
 ## TODO
 
+### Phase 1: Core Infrastructure ✅ COMPLETE
 [x] Create the `@semantic-flow/logging` package structure (directories, `package.json`, `tsconfig.json`).
 [x] Implement type definitions and interfaces in `shared/logging/src/core/types.ts`.
 [x] Implement error types and factory in `shared/logging/src/errors/types.ts` and `shared/logging/src/errors/factory.ts`.
@@ -1549,6 +1550,35 @@ if (typeof require !== 'undefined') {
 [x] Implement the configuration system.
 [x] Implement main exports and factory functions.
 [x] Implement unit tests for core functionality.
+[x] Developer documentation created in `documentation/dev.logging-and-error-handling.md`.
+
+### Phase 1 Enhancement: Function Name Capture ✅ COMPLETE
+[x] Implement automatic function/method name capture in log context.
+[x] Add configuration option to enable/disable function name capture.
+[x] Update developer documentation with function name capture feature.
+[x] Add unit tests for function name capture.
+
+**Implementation Details:**
+- Added `function?: string` field to [`LogContext`](shared/logging/src/core/types.ts:22) interface
+- Added `captureFunctionName: boolean` to `autoContext` configuration (default: `NODE_ENV !== 'production'`)
+- Implemented stack trace parsing in [`shared/logging/src/utils/stack-trace.ts`](shared/logging/src/utils/stack-trace.ts:1)
+- Integrated capture into [`LoggerImpl.log()`](shared/logging/src/core/logger.ts:137) method
+- Updated [`documentation/dev.logging-and-error-handling.md`](documentation/dev.logging-and-error-handling.md:1) with comprehensive documentation
+- Added environment variable `SF_LOG_AUTO_CONTEXT_CAPTURE_FUNCTION_NAME`
+- All 11 unit tests passing in [`shared/logging/src/__tests__/core.test.ts`](shared/logging/src/__tests__/core.test.ts:1)
+
+**Performance Considerations:**
+- Function name capture is environment-aware (disabled in production by default)
+- Uses stack trace parsing which has a measurable performance cost
+- Can be explicitly enabled/disabled via configuration
+- Skips correct number of stack frames to capture the actual calling function
+
+### Phase 2: Advanced Features (Planned)
+[ ] File channel with rotation
+[ ] Monitoring channel (Sentry)
+[ ] Unified error handling (capture + recovery)
+[ ] Performance tracking enhancements
+[ ] Integration tests
 
 
 ## Decision

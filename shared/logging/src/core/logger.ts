@@ -12,6 +12,7 @@ import { ConsoleChannel } from '../channels/console.js';
 import { ConfigLoader } from '../config/loader.js';
 import { DEFAULT_LOGGER_CONFIG } from '../config/defaults.js';
 import { ContextManager } from './context.js';
+import { captureFunctionName } from '../utils/stack-trace.js';
 import os from 'node:os';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
@@ -134,10 +135,20 @@ export class LoggerImpl implements Logger {
 
   // Core logging logic
   private log(level: LogLevel, message: string, error?: Error, context: LogContext = {}): void {
-    // 1. Merge context (base context + call context)
-    const mergedContext = { ...this.baseContext, ...context };
+    // 1. Capture function name if enabled (before any other processing)
+    let functionName: string | undefined;
+    if (this.config.autoContext.captureFunctionName && !context.function) {
+      functionName = captureFunctionName(2); // Skip 2 frames: log() and the public method (info/debug/etc)
+    }
 
-    // 2. Build LogEntry
+    // 2. Merge context (base context + call context + captured function name)
+    const mergedContext = {
+      ...this.baseContext,
+      ...context,
+      ...(functionName && { function: functionName }),
+    };
+
+    // 3. Build LogEntry
     const entry: LogEntry = {
       timestamp: Date.now(),
       level,

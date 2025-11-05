@@ -20,6 +20,7 @@ export interface LogContext {
   operation?: string;
   operationId?: string;
   component?: string;
+  function?: string;  // Calling function/method name (auto-captured if enabled)
 
   // Semantic Flow specific context
   meshId?: string;
@@ -151,5 +152,6 @@ export interface LoggerConfig {
     includeTimestamp: boolean;
     includeHostname: boolean;
     includeProcessInfo: boolean;
+    captureFunctionName: boolean;  // Captures calling function name (performance cost)
   };
 }

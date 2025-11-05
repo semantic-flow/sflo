@@ -6,7 +6,7 @@ import { LogLevel } from '../core/types.js';
 export const DEFAULT_LOGGER_CONFIG: LoggerConfig = {
   serviceName: 'unknown-service',
   serviceVersion: '0.0.0',
-  environment: 'development',
+  environment: (process.env.NODE_ENV as any) || 'development',
 
   console: {
     enabled: true,
@@ -46,5 +46,7 @@ export const DEFAULT_LOGGER_CONFIG: LoggerConfig = {
     includeTimestamp: true,
     includeHostname: true,
     includeProcessInfo: true,
+    // Enable function capture only in development (performance cost in production)
+    captureFunctionName: (process.env.NODE_ENV !== 'production'),
   }
 };

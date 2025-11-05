@@ -34,6 +34,7 @@ describe('Logger Core Functionality', () => {
         includeTimestamp: true,
         includeHostname: false,
         includeProcessInfo: true,
+        captureFunctionName: false,
       }
     });
     // Replace the global logger with the mock for singleton tests
@@ -91,12 +92,12 @@ describe('Logger Core Functionality', () => {
     const opEntry = mockLogger.mockChannel.entries[1];
     expect(opEntry.context?.operation).toBe('test-op');
     expect(opEntry.context?.operationId).toBe('op-123');
-    
+
     // Verify child() and withContext() methods exist and return logger instances
     const childLogger = mockLogger.child({ component: 'child' });
     expect(childLogger).toBeDefined();
     expect(typeof childLogger.info).toBe('function');
-    
+
     const contextLogger = mockLogger.withContext({ meshId: 'mesh-123' });
     expect(contextLogger).toBeDefined();
     expect(typeof contextLogger.info).toBe('function');
@@ -192,5 +193,47 @@ describe('Configuration and Merging', () => {
     expect(logger1.config.file.enabled).toBe(false); // Default preserved
     expect(logger2.config.serviceVersion).toBe('1.0');
     expect(logger2.config.console.format).toBe('json');
+  });
+
+  it('should capture function names when enabled', () => {
+    // Create a logger with function name capture enabled
+    const testLogger = LoggerTestUtils.createMockLogger({
+      serviceName: 'test-service',
+      autoContext: {
+        includeTimestamp: true,
+        includeHostname: false,
+        includeProcessInfo: true,
+        captureFunctionName: true,
+      }
+    });
+
+    // Call from a named function to test capture
+    function testFunction() {
+      testLogger.info('Test message from named function');
+    }
+
+    testFunction();
+
+    const entry = testLogger.mockChannel.entries[0];
+    expect(entry.context?.function).toBeDefined();
+    // Function name should be captured (either 'testFunction' or 'Object.testFunction')
+    expect(entry.context?.function).toMatch(/testFunction/);
+  });
+
+  it('should not capture function names when disabled', () => {
+    const testLogger = LoggerTestUtils.createMockLogger({
+      serviceName: 'test-service',
+      autoContext: {
+        includeTimestamp: true,
+        includeHostname: false,
+        includeProcessInfo: true,
+        captureFunctionName: false,
+      }
+    });
+
+    testLogger.info('Test message without function capture');
+
+    const entry = testLogger.mockChannel.entries[0];
+    expect(entry.context?.function).toBeUndefined();
   });
 });
