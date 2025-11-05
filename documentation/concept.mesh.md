@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1760157315202
+updated: 1762323308671
 created: 1750624002110
 ---
 
@@ -27,6 +27,7 @@ The primary constituents of a mesh are [[mesh-resource.node]]s. Nodes contain th
 [[Mesh nodes|mesh-resource.node]] extend [[concept.namespace]]s and serve as containers.
 
 - **[[bare nodes|mesh-resource.node.bare]]**: Empty containers for organizing other mesh nodes
+- **[[reference nodes|mesh-resource.node.reference]]**: Nodes that refer to entities (people, places, concepts, etc.)
 - **[[dataset nodes|mesh-resource.node.dataset]]**: Nodes containing data distributions with optional versioning
 
 
@@ -125,9 +126,9 @@ Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
 
 ### Containment Rules
 
-- **Mesh nodes** are always containers of components (i.e., at least [[mesh-resource.node-component.flow.node-metadata]] and [[mesh-resource.node-component.node-handle]]) and potentially containers of other nodes 
+- **Mesh nodes** are always containers of components (i.e., at least [[mesh-resource.node-component.flow.node-metadata]] and [[mesh-resource.node-component.node-handle]]) and potentially containers of other nodes
   - **[[bare nodes|mesh-resource.node.bare]]**: no additional containment requirements
-  - 
+  - **[[reference nodes|mesh-resource.node.reference]]**: must have [[mesh-resource.node-component.flow.reference]]  where the referenced entity can be described
   - **[[dataset nodes|mesh-resource.node.dataset]]**: must have [[mesh-resource.node-component.flow.dataset]] with at least one distribution
 - **Asset tree components**: Cannot contain nodes
 - all components can contain 

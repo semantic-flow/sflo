@@ -1,0 +1,1 @@
+You MUST keep the externalized "to do" list (found under the ## TODO heading in documentation/task.YYYY-MM-DD-task-name) synced after every update to your internal task list (i.e., the update_todo_list tool).

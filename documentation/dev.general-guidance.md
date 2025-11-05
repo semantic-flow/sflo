@@ -2,11 +2,11 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Developer General Guidance
 desc: ''
-updated: 1762310964279
+updated: 1762313362251
 created: 1751259888479
 ---
 
-See [[concept.summary]] for a conceptual overview.
+See [[concept.summary]] for a conceptual overview. See [[dev.memory-bank]] for CRITICAL information for AI agents.
 
 ## Workspace layout
 
@@ -46,7 +46,6 @@ sflo/
 
 ## Developer Workflow
 
-
 ### Build/Watch
 
 - The development workflow requires two terminals running concurrently:
@@ -73,7 +72,7 @@ npx dendron publish export --target github --yes
 
 ## RDF and Semantic Web
 
-- prefer JSON-LD for RDF data
+- prefer JSON-LD for all RDF instance data and ontologies, as Turtle doesn't support slash-terminated CURIEs, and we use a trailing slash to delineate between files and resource names.
 - terminate non-file IRIs with a slash (solves the httprange-14 problem)
 - avoid use of blank nodes
 - prefer relative/local URIs for transposability/composability
@@ -82,44 +81,15 @@ npx dendron publish export --target github --yes
   - extends PROV for provenance, with relator-based contexts
 - RDF comments should be extremely concise and clear.
 
-### Quadstore
+### Denormalization
 
-- For testability and in case we ever want to use multiple stores simultaneously, store-accessing functions take a QuadstoreBundle
-- quadstore API calls use "undefined" instead of "null" to represent the wildcard for subjects, predicates, objects, and graphs
+- when speed matters and the query is complicated, use a derived, join-free representation of a portion of the data, optimized for lookup speed.
 
+### Ontology patterns
 
-## System Architecture
-
-### Configuration Architecture
-
-- The project uses a sophisticated JSON-LD based configuration system with multiple layers
-- **Service Configuration resolution order**: CLI arguments → Environment variables → Config file → Defaults
-- The [`defaults.ts`](../semantic-flow/flow-service/src/config/defaults.ts) file is the source for "platform default" configuration
-
-### Logging System Architecture
-
-- **Structured logging** with rich `LogContext` interface is the preferred approach
-- **Three-channel logging architecture**:
-  - Console logging (pretty format for development)
-  - File logging (pretty format for human readability)
-  - Sentry logging (structured JSON for error tracking)
-- **Graceful degradation principle**: Logging failures should never crash the application
-
-#### Logging System Patterns
-
-- `let logger = getComponentLogger(import.meta);` at the start of every file
-
-### Error Handling Patterns
-
-- Use the [`handleCaughtError`](semantic-flow/flow-service/src/utils/logger.ts) utility for consistent error handling
-- **Documentation**: See [error-handling-usage.md](semantic-flow/flow-service/documentation/error-handling-usage.md) for comprehensive usage examples
-- The error handling system integrates with all logging tiers (console, file, Sentry)
-
-### File Organization
-
-- **Import paths** require careful attention when reorganizing files to avoid breaking dependencies
-
-
+- use **SHACL constraints** for JSON-LD validation when working with semantic data; 
+- avoid rdfs:domain and rdfs:range; prefer schema:domainIncludes and schema:rangeIncludes  for maximum re-use flexibility
+- specify preferred 3rd-party property vocabulary with sh:property, even if sh:minCount is 0
 
 ## Coding Standards
 
@@ -127,6 +97,8 @@ npx dendron publish export --target github --yes
 
 - **TypeScript**: Use strict TypeScript configuration with modern ES2022+ features
 - Use NodeJS v24 and the latest best practices
+- If using any is actually clearer than not using it, it's okay
+- Use `satisfies` whenever you're writing a literal config object that should be checked against a TypeScript shape, but you want to retain the full type of the literal for use in your program.
 
 ### RDF Data Handling
 
@@ -137,12 +109,6 @@ npx dendron publish export --target github --yes
 - **Reserved Names**: Validate against underscore-prefixed reserved identifiers per `sflo.concept.identifier.md`
 - The most effective validation strategy combines TypeScript structural validation with RDF semantic validation:
 
-## Semantic Mesh Architecture
-
-- **Resource Types**: Nodes are the foundation, Components support Nodes, Flows are "abstract datasets" components, and "Snapshots" are flows' temporal slices
-- **Folder Structure**: Validate mesh folder structures (dataset nodes, bare nodes, etc.)
-- **System Components**: Distinguish between system-generated and user-modifiable components
-- **Weave Integration**: Code must support weave operations as defined in `sflo.concept.weave.md`
 
 ## Documentation-Driven Development
 
@@ -165,19 +131,19 @@ Project documentation, specifications, and design choices are stored in `documen
   - don't rewrite IDs in the frontmatter
   - agents should ask a human to create new documentation files
 
-#### Code Comments
+### Code Comments
 
 - **Reference docs from code**: reference corresponding documentation by filename (e.g., `// See sflo.concept.mesh.resource.node.md`)
-- **Interface Definitions**: Link to concept documentation in TSDoc comments
+- **Interface Definitions**: Link to concept documentation
 - **Cross-Reference Validation**: Ensure consistency between code and documentation; if docs need updating, call it out
 
-### File Organization & Naming
+## File Organization & Naming
 
 - **TypeScript Modules**: Use `.ts` extension, organize by feature/component
 - **Test Files**:
-  - unit test files go in tests/unit/ using `.test.ts` suffix
+  - unit test files go in application-name/tests/unit/ using `.test.ts` suffix
   - integration tests go in tests/integration
-- **Mesh Resources**: Follow mesh resource naming conventions from @/ontology/alpha/_node-data/_next/flow-ontology-alpha.trig
+- **Mesh Resources**: Follow mesh resource naming conventions from [[Filenaming Per Snapshot|mesh-resource.node-component.snapshot-distribution#filenaming-per-snapshot]]
 - **Constants**: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. semantic-flow/shared/src/mesh-constants.ts
 - **File size**: For ease of AI-based editing, prefer lots of small files over one huge file
 - **Quoting**: For easier compatibility with JSON files, use double quotes everywhere
@@ -204,17 +170,36 @@ Project documentation, specifications, and design choices are stored in `documen
 
 
 - Publishing:
-  - Each package should export built entry points (e.g., `dist/`) via `exports`/`main`/`types`. The same import paths work identically in dev and prod.
+  - Each package should export built entry points (e.g., `dist/`) via `exports`/`module`/`types`. The same import paths work identically in dev and prod.
 
-### Code Style
+## System Architecture
 
-- If using any is actually clearer than not using it, it's okay, just add the // deno-lint-ignore comment
-- Use `satisfies` whenever you're writing a literal config object that should be checked against a TypeScript shape, but you want to retain the full type of the literal for use in your program.
+### Quadstore
 
-### Error Handling
+- For testability and in case we ever want to use multiple stores simultaneously, store-accessing functions take a QuadstoreBundle
+- quadstore API calls use "undefined" instead of "null" to represent the wildcard for subjects, predicates, objects, and graphs
+
+
+
+### Configuration Architecture
+
+- The project uses a sophisticated JSON-LD based configuration system with multiple layers
+- **Service Configuration resolution order**: CLI arguments → Environment variables → Config file → Defaults
+- The [`defaults.ts`](../semantic-flow/flow-service/src/config/defaults.ts) file is the source for "platform default" configuration
+
+### Logging and Error System Architecture
+
+- **Structured logging** with rich `LogContext` interface is the preferred approach
+- **Three-channel logging architecture**:
+  - Console logging (pretty format for development)
+  - File logging (pretty format for human readability)
+  - Sentry logging (structured JSON for error tracking)
+- **Graceful degradation principle**: Logging failures should never crash the application
+
+
+#### Error Handling
 
 - **Custom Errors**: Create semantic mesh-specific error types
-- **Validation**: Validate mesh resource structures before processing
 - **Logging**: Use structured logging for debugging weave operations
 - **Async Error Propagation**: Properly handle async/await error chains
 
@@ -234,7 +219,7 @@ The platform uses **LogContext-enhanced error handling** from `shared/src/utils/
 **Startup Error Handling:**
 
 
-This pattern ensures **uniform error reporting** with rich contextual information, **easier debugging** through structured logging, and **consistent integration** with console, file, and Sentry logging tiers.
+This pattern ensures **uniform error reporting** with rich contextual information, **easier debugging** through structured logging, and **consistent integration** with console, file, and network logging tiers.
 
 
 ### Testing

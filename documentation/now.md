@@ -1,6 +1,6 @@
 ---
 id: yxn5rsqsv2gq4s6wbnxsjsj
-title: " Now"
+title: ' Now'
 desc: ''
 updated: 1762283096209
 created: 1755715411842
@@ -12,7 +12,7 @@ This document captures the high-level, current focus of development. It should b
 
 ## Current Priority
 
-Implementing the [[Agent Memory Bank|tasks.2025-11-03-optimizing-for-agents]] system and refining the core documentation to support AI-assisted development.
+Implementing the [[Agent Memory Bank|task.2025-11-03-optimizing-for-agents]] system and refining the core documentation to support AI-assisted development.
 
 ## Active Tasks
 

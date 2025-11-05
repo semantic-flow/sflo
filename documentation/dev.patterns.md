@@ -2,7 +2,7 @@
 id: i9v5cbqq2zqfhrjcolq48df
 title: Patterns
 desc: ''
-updated: 1762309147992
+updated: 1762313419061
 created: 1762221503576
 ---
 
@@ -12,7 +12,7 @@ This document captures recurring architectural and code patterns used throughout
 
 ## Architectural Patterns
 
-### Comunica SPARQL vs Quadstore Primitives
+### Comunica SPARQL vs Quadstore Primitives for data access
 
 Both can win. Pick by query shape.
 
@@ -56,14 +56,6 @@ Rule of thumb:
 
 * Simple, key-oriented, latency-sensitive ⇒ primitives.
 * Anything with joins/options/ordering/aggregation ⇒ SPARQL.
-
-
-
-
-## Code Patterns
-
-- **Proper TypeScript interfaces** for configuration validation and type safety
-- **Modular design**: Keep utilities focused and avoid circular dependencies between core modules
 
 ### Stream Patterns
 
@@ -125,18 +117,14 @@ Use async/await for boundaries (start/finish), and use async iteration for the s
 Rule of thumb to include:
 Use `await` for Promises and stream completion. Use `for await...of` to consume streaming RDF. Avoid `await` inside `'data'` listeners and avoid buffering everything unless you explicitly need it.
 
+### Error Handling Patterns
 
-## RDF Patterns
+- Use the [`handleCaughtError`](semantic-flow/flow-service/src/utils/logger.ts) utility for consistent error handling
+- **Documentation**: See [error-handling-usage.md](semantic-flow/flow-service/documentation/error-handling-usage.md) for comprehensive usage examples
+- The error handling system integrates with all logging tiers (console, file, Sentry)
 
-- use trailing slashes for all resource-naming IRIs (this solves httprange-14)
-- prefer JSON-LD for all RDF instance data and ontologies, as Turtle doesn't support slash-terminated CURIEs, and we use a trailing slash to delineate between files and resource names.
-- use **SHACL constraints** for JSON-LD validation when working with semantic data; 
+### Logging System Patterns
 
-### Denormalization
+- `let logger = getComponentLogger(import.meta);` at the start of every file
 
-- use a derived, join-free representation of a portion of the data, optimized for lookup speed.
 
-### Ontology patterns
-
-- avoid rdfs:domain and rdfs:range; prefer schema:domainIncludes and schema:rangeIncludes  for maximum re-use flexibility
-- specify preferred 3rd-party property vocabulary with sh:property, even if sh:minCount is 0

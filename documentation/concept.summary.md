@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1760155889658
+updated: 1762323466970
 created: 1755820864360
 ---
 
@@ -39,10 +39,9 @@ See:
 3) Core Abstractions
 
 3.1 Mesh Resources (Nodes and Components)
-- Node (folder; container for nodes & components): [[concept.mesh.resource.node]]
-  - bare node: organizational IRI segment container: [[concept.mesh.resource.node.namespace]]
-  - dataset node: IRI refers to the node’s referent (real-world entity or dataset concept); has a dataset flow: [[concept.mesh.resource.node.data]]
-  - Dataset-series specialization (optional): [[concept.mesh.resource.node.data.series]]
+- Node (folder; container for nodes & components): [[mesh-resource.node]]
+  - bare node: organizational IRI segment container: [[mesh-resource.node.bare]]
+  - dataset node: IRI refers to the node's referent (real-world entity or dataset concept); has a dataset flow: [[mesh-resource.node.dataset]]
 
 - Node component (terminal resource supporting a node): [[mesh-resource.node-component]]
   - Flows (abstract datasets as DatasetSeries):
@@ -54,7 +53,7 @@ See:
     - `_current/`: [[mesh-resource.node-component.flow-snapshot.current]]
     - `_next/`: [[mesh-resource.node-component.flow-snapshot.next]]
     - `_vN/`: [[mesh-resource.node-component.flow-snapshot.version]]
-    - Distributions: [[resource.node-component.flow-snapshot.distribution]]
+    - Distributions: [[mesh-resource.node-component.snapshot-distribution]]
   - Handle (refer to the node “as a mesh resource”): [[mesh-resource.node-component.node-handle]]
     - Handle page (human-facing): [[mesh-resource.node-component.node-handle.page]]
   - Asset tree (static files for the node): [[mesh-resource.node-component.asset-tree]]
@@ -66,9 +65,9 @@ See:
   - Aggregated distribution (optional roll-up of child node data): [[mesh-resource.node-component.aggregated-distribution]]
 
 3.2 Facets (Folder, File, Dataset)
-- Folder facet (namespace mapping; reserved folders): [[concept.mesh.resource-facet.folder]]
-- File facet (content retrieval): [[concept.mesh.resource-facet.file]]
-- Dataset facet (DatasetSeries vs Dataset): [[concept.mesh.resource-facet.dataset]]
+- Folder facet (namespace mapping; reserved folders): [[facet.filesystem.folder]]
+- File facet (content retrieval): [[facet.filesystem.file]]
+- Dataset facet (DatasetSeries vs Dataset): [[facet.resource.dataset]]
 
 4) Addressing and Identity
 
@@ -79,7 +78,7 @@ See:
 - [[concept.namespace]]: overview
 - [[concept.namespace.segment]]: segment definition
 - [[concept.namespace.segment.system]]: reserved segments
-- [[concept.identifier.intramesh]]: relative IDs
+- [[concept.identifier.intramesh.relative]]: relative IDs
 
 4.2 IRI Semantics
 - Concept IRIs (slash-terminated) identify nodes, flows (abstract), snapshots (conceptual), and handle.
@@ -109,18 +108,17 @@ Reserved folder names (underscore-prefixed; canonical set):
 - Assets:
   - `_assets/` (static files)
 
-Folder-note pages for these reserved names live under `concept.mesh.resource.folder.*.md` (where defined):
-- `_node-metadata-flow/`: [[concept.mesh.resource.folder._node-metadata-flow]]
-- `_dataset-flow/`: [[concept.mesh.resource.folder._dataset-flow]]
-- `_config-operational-flow/`: [[concept.mesh.resource.folder._config-operational-flow]]
-- `_config-inheritable-flow/`: [[concept.mesh.resource.folder._config-inheritable-flow]]
-- `_current/`: [[concept.mesh.resource.folder._current]]
-- `_next/`: [[concept.mesh.resource.folder._next]]
-- `_vN/`: [[concept.mesh.resource.folder._vN]]
-- `_assets/`: [[concept.mesh.resource.folder._assets]]
+Folder-note pages for these reserved names live under `folder.*.md` (where defined):
+- `_node-metadata-flow/`: [[folder._node-metadata-flow]]
+- `_dataset-flow/`: [[folder._data-flow]]
+- `_config-operational-flow/`: [[folder._config-operational-flow]]
+- `_config-inheritable-flow/`: [[folder._config-inheritable-flow]]
+- `_current/`: [[folder._current]]
+- `_next/`: [[folder._next]]
+- `_vN/`: [[folder._vN]]
+- `_assets/`: [[folder._assets]]
 - Node folder pages:
-  - Node: [[concept.mesh.resource.folder.node]]
-  - Namespace: [[concept.mesh.resource.folder.namespace]]
+  - Node: [[folder.node]]
 
 6) Data and Versioning Model
 - Only flows are versioned (flows are DatasetSeries). Nodes are not versioned.

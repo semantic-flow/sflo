@@ -2,7 +2,7 @@
 id: f0g7d31ivgn6rgllncdwep8
 title: Memory Bank
 desc: ''
-updated: 1762305533727
+updated: 1762316148777
 created: 1762222195753
 ---
 
@@ -32,15 +32,15 @@ These files MUST be read at the start of every new task:
 - [[guide.project-brief]] - Foundation document explaining the memory bank approach and pointing to other files
 - [[guide.product-brief]] - Project vision, problems solved, components/applications, user experience goals
 - [[guide.status]] - Current project status, what's working, high-level summary
-- [[dev.general-guidance]] - Extended developer/agent information
 - [[dev.memory-bank]] - This file; ground rules for the memory bank system
 
 #### Frequently Referenced Memory Bank Files
 
-These should be consulted as needed for most tasks:
+These should be consulted as appropriate to the task:
 
-- [[dev.patterns]] - Architectural and code patterns
-- [[dev.dependencies]] - Key project dependencies
+- [[dev.general-guidance]] - for any development-related tasks
+- [[dev.dependencies]] - for technical architecture questions or any development-related tasks
+- [[guide.ontologies]] - for any RDF-related tasks
 - [[dev.debugging]] - Debugging workflows and tips
 
 

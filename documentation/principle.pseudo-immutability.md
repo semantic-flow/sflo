@@ -2,7 +2,7 @@
 id: ngw89xo9m9jop5b3o32dwwd
 title: pseudo-immutability
 desc: ''
-updated: 1755850422047
+updated: 1762324742784
 created: 1751817577224
 ---
 
@@ -15,13 +15,16 @@ In a filesystem-based structure like a [[concept.mesh]], you can't really preven
 - fixing of typos or other errors
 - re-organizing namespaces
 
-If you're updating a dataset, the principle of pseudo-immutability is preserved in that the old data can still exist and be discoverable from the metadata 
+Applications should deal gracefully, and optionally alert users to improperly mutated data. 
 
 
-**Psuedo-immutability** also acknowledges that for non-atomic data especially, "the next version" is going to keep changing until a checkout or "weave". And that sometime you want the "latest" data for a given resource, and without sophisticated database management (e.g., )
+**Psuedo-immutability** also acknowledges that:
+
+- for "draft data" especially, "the next version" is going to keep changing until a "weave" happens (i.e., a new version is minted). 
+- sometimes you want the "latest" data for a given resource. Typically, "current" would be a pointer, redirect, or symlink. But given our goal of static hosting, we've decided just to have duplicate files for the "current" flow and the "most recent version" flow. 
 
 
 ## Mitigations
 
-- metadata can track changes and supply reasons
-- tooling can be used to make changes in ways that don't break the API
+- metadata can track changes and supply reasons for mutation
+- hashes can be used to detect mutations
