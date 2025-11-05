@@ -2,125 +2,93 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Developer General Guidance
 desc: ''
-updated: 1756899786712
+updated: 1762310964279
 created: 1751259888479
 ---
 
 See [[concept.summary]] for a conceptual overview.
 
-## Developer Workflow
+## Workspace layout
 
-- Build/Watch:
-  - The development workflow requires two terminals running concurrently:
-    - **Terminal 1**: Run `pnpm dev:watch` to start the TypeScript compiler in watch mode. This will watch all packages and rebuild them on change.
-    - **Terminal 2**: Run `pnpm dev` to start the `nodemon` server, which will automatically restart when the built files in the `dist` directories are updated.
-  - This setup ensures that changes in any package are automatically compiled and that the server restarts with the latest code.
-  - Keep inter-package imports as package specifiers; avoid deep source imports across packages.
+### sflo monorepo
+
+```
+sflo/
+  cli/                        # the sflo command-line application; consumes the sflo-api
+  plugins/
+    api-docs/                 # api documentation/playground (probably stoplight Elements)
+    mesh-server/              # static mesh server(s)
+    sflo-web/                 # your web UI, if you want it as a plugin
+    sflo-api/                 # OpenAPI REST endpoint, used by CLI and sflo-web
+    sparql-ro/                # SPARQL read-only endpoint 
+    sparql-update/            # SPARQL write-capable endpoint
+    sparql-editor/            # SIB Swiss editor at /play
+  sflo-host/                  # the big service that loads plugins
+  shared/
+    core/                     # RDFine/LDKit, SHACL, types
+    auth/                     # JWT + GitHub device flow
+    config/                   # runtime/config loaders (RDF/JSON)
+    sparql/                   # used by sparql-ro and sparql-update  (provided by Comunica)
+    utils/                    # misc helpers
+```
+
+### Other Workspace Components
 
 
-## Workspace Components
-
-- The sflow-platform repo/folder is organized as a monorepo, divided into a few different modules:
-  - **sflo-host/**: host service with plugin architecture
-  - **sflo-api/**: plugin providing Semantic Flow functionality via REST
-  - **cli/**: Command-line application that consumes the sflo-api
-  - **sflo-web/**: Web frontend, can connect to any sflo-api instance
-  - **shared/**: cross-cutting code like type schemas (core), logging, and config
-- **test-ns/** repo: Test mesh repo
 - **ontology/**: repo containing relevant ontologies:
-  - [mesh](../ontology/mesh/_data-flow/_next/mesh-ontology.trig) - Core mesh architecture with base classes (Resource, Node, Component) and fundamental types
-  - `node` - Node operations including Handle, Flow types, and operational relationships
-  - `flow` - Temporal concepts including Snapshot types and versioning relationships
+  - `semantic-flow` - main ontology (sflo/ontology/semantic-flow/_data-flow/_next/semantic-flow-ontology.ttl) defines meshes and their nodes and components; 
   - `node-config` - Configuration properties that apply directly to mesh entities (nodes, flows, snapshots, etc.)
   - `meta-flow` - provenance and licensing vocabulary
-  - `flow-service` - Service layer configuration vocabulary for the flow-service application
+  - `sflo-service` - Service layer configuration vocabulary for the flow-service application
+  - Ontologies are kept in a separate repository, but for development purposes are nested into the monorepo under ontology/ directory for ease of access. 
+-  **test-ns/**: repo containing a test namespace
+  
 
-## Key Concepts
+## Developer Workflow
 
-### Semantic Mesh
 
-A dereferenceable, versioned collection of semantic data and supporting resources, where every HTTP URI returns meaningful content. See [[concept.mesh]]
+### Build/Watch
 
-#### Core Components
+- The development workflow requires two terminals running concurrently:
+ - **Terminal 1**: Run `pnpm dev:watch` to start the TypeScript compiler in watch mode. This will watch all packages and rebuild them on change.
+ - **Terminal 2**: Run `pnpm dev` to start the `nodemon` server, which will automatically restart when the built files in the `dist` directories are updated.
+- This setup ensures that changes in any package are automatically compiled and that the server restarts with the latest code.
+- Keep inter-package imports as package specifiers; avoid deep source imports across packages.
 
-- **Mesh Resources**:
-  - **Nodes**: Semantic Atoms
-    - **dataset nodes**: Bundles of data with optional quasi-immutable, versioned history
-    - **bare nodes**: basically empty folders for IRI-based hierarchical organization
-  - **Components**: things that help define and systematize the nodes
-    - **Flows**: datasets for node metadata and data
-      - **Snapshots**: temporal slices of a flow, containing RDF dataset distributions
-    - **Handles**: things that let you refer to a node as a node instead of as its referent
-    - **Asset Trees**: components that allow you to attach arbitrary collections of files and folders to a mesh; in a sense, these things are "outside" the mesh, and other than the top-level "_meta" folder, they don't contain any other mesh resources
 
-### Semantic Flow Workflow:
+### Hot Reload
 
-- In General: Mesh resource addition & editing → Weaving
-- a mesh is servable "as-is", so if the git provider is configure to serve it as a website, no additional publishing step is required (beyond commit)
+The development setup includes automatic hot reload using nodemon:
 
-### Semantic Site
+- **Watches**: `sflo-host/src`, `plugins/*/src`, `shared/*/src`
+- **Auto-restarts** when any watched file changes
+- **Loads plugins from source** in development mode (not built `dist` files)
+- **Preserves debugger connection** after restart
 
-- The repo IS the site:
-  - can be served locally
-  - no separate SSG (Static Site Generator) necessary
-    - but static resource page generation should happen on every weave as necessary
-  - after push, you should be able to see the changed mesh at the corresponding github pages IRI
+### Building the docs
+
+```shell
+npx dendron publish export --target github --yes
+```
 
 ## RDF and Semantic Web
 
+- prefer JSON-LD for RDF data
+- terminate non-file IRIs with a slash (solves the httprange-14 problem)
 - avoid use of blank nodes
 - prefer relative/local URIs for transposability/composability
-- meshes support multiple RDF formats (.trig, .jsonld, etc.)
-  - .trig might be better for user-facing content
-  - .jsonld might be better for system content
 - be mindful of RDF terminology and concepts
   - extends DCAT for dataset catalogs
   - extends PROV for provenance, with relator-based contexts
-- When referring to IRIs or URIs that are part of a semantic mesh, prefer the term IRIs instead of IRI or URI
-  - if you see a reference to IRI or URI, it might need updating, or it might mean a distinction should be drawn
 - RDF comments should be extremely concise and clear.
 
 ### Quadstore
 
-- make sure you are familiar with [[tech-stack.quadstore.readme]], which documents the API
 - For testability and in case we ever want to use multiple stores simultaneously, store-accessing functions take a QuadstoreBundle
 - quadstore API calls use "undefined" instead of "null" to represent the wildcard for subjects, predicates, objects, and graphs
 
-## Documentation
 
-- Avoid numbering of code comments, headings and list items, as it makes re-ordering a pain
-- All specifications and design docs are in `sflo-dendron-notes/`
-- Check conversation logs in `sflo.conv.*` for context on design decisions if necessary, but beware of superceded and dangerously-outdated info
-
-### Documentation First
-
-- unclear or anemic documentation should be called out
-- documentation should be wiki-style: focused on the topic at hand, don't repeat yourself, keep things simple and clear
-- when assisting with writing documentation, it should be kept concise and specific to the topic at hand
-- whenever documentation is updated, any corresponding LLM conversation context should be updated too
-- to encourage documentation-driven software engineering, code comments should refer to corresponding documentation by filename, and the documentation and code should be cross-checked for consistency whenever possible
-
-### Documentation Architecture
-
-- `sflo-dendron-notes` repo has wiki-style notes about the mesh architecture
-  -  Dendron handles the frontmatter... don't rewrite IDs or anything else in the frontmatter
-- official project documentation should be generated in `documentation` directory in markdown
-
-### Project notes
-
-Project documentation, specifications, and design choices are stored in `documentation/` using Dendron's hierarchical note system. Key documentation hierarchies include:
-
-- **Concepts**: `concept.*` files talk about general Semantic Flow concepts
-- **Mesh docs**: `concept.mesh.*` files define the semantic mesh architecture
-- **Product specifications**: `product.*` files detail each component
-- **Use cases**: `use-cases.*` for feature planning and testing
-
-### Component Development with Docs
-
-- Each module (flow-cli, flow-service, flow-web) should follow the architecture defined in the documentation
-- Refer to `sflo.product.*` files for component-specifc descriptions, requirements, etc
-
-## Project Architecture
+## System Architecture
 
 ### Configuration Architecture
 
@@ -137,7 +105,7 @@ Project documentation, specifications, and design choices are stored in `documen
   - Sentry logging (structured JSON for error tracking)
 - **Graceful degradation principle**: Logging failures should never crash the application
 
-### Logging System Patterns
+#### Logging System Patterns
 
 - `let logger = getComponentLogger(import.meta);` at the start of every file
 
@@ -151,11 +119,7 @@ Project documentation, specifications, and design choices are stored in `documen
 
 - **Import paths** require careful attention when reorganizing files to avoid breaking dependencies
 
-### Implementation Patterns
 
-- **Proper TypeScript interfaces** for configuration validation and type safety
-- **SHACL constraints** for JSON-LD validation when working with semantic data
-- **Modular design**: Keep utilities focused and avoid circular dependencies between core modules
 
 ## Coding Standards
 
@@ -166,34 +130,46 @@ Project documentation, specifications, and design choices are stored in `documen
 
 ### RDF Data Handling
 
-- **Primary Format**: .trig files for RDF data storage and processing
+- **Primary Format**: .jsonld files for RDF data storage and processing
 - **Secondary Format**: Full JSON-LD support required
 - **RDF Libraries**: Use RDF.js ecosystem libraries consistently across components
 - **Namespace Management**: Follow IRI-based identifier patterns as defined in `sflo.concept.identifier.md`
 - **Reserved Names**: Validate against underscore-prefixed reserved identifiers per `sflo.concept.identifier.md`
 - The most effective validation strategy combines TypeScript structural validation with RDF semantic validation:
 
-### Semantic Mesh Architecture
+## Semantic Mesh Architecture
 
-- **Resource Types**: Nodes are the foundation, Components support Nodes, Flows are "abstract datasets", and "Snapshots" are their temporal slices as defined in `sflo.concept.mesh.md`
+- **Resource Types**: Nodes are the foundation, Components support Nodes, Flows are "abstract datasets" components, and "Snapshots" are flows' temporal slices
 - **Folder Structure**: Validate mesh folder structures (dataset nodes, bare nodes, etc.)
 - **System Components**: Distinguish between system-generated and user-modifiable components
 - **Weave Integration**: Code must support weave operations as defined in `sflo.concept.weave.md`
 
-### Documentation-Driven Development
+## Documentation-Driven Development
 
-- **Code Comments**: reference corresponding documentation by filename (e.g., `// See sflo.concept.mesh.resource.node.md`)
+- unclear, missing, or overly-verbose documentation must be called out
+- documentation should be wiki-style: focused on the topic at hand, don't repeat yourself, keep it as simple as possible 
+- to encourage documentation-driven software engineering, code comments should refer to corresponding documentation by filename, and the documentation and code should be cross-checked for consistency whenever possible
+
+### Documentation Architecture
+
+Project documentation, specifications, and design choices are stored in `documentation/` using Dendron's hierarchical note system. Key documentation hierarchies include:
+
+- **Concepts**: `concept.*` files talk about general Semantic Flow concepts
+- **Mesh resource docs**: `mesh-resource.*` files define the semantic mesh architecture
+- **Product specifications**: `product.*` files detail each component
+- **Use cases**: `use-cases.*` for feature planning and testing
+
+- docs are in markdown, with wiki-flavored links
+  - link names can be specified with `[[link name|file]]`
+- Dendron handles the frontmatter
+  - don't rewrite IDs in the frontmatter
+  - agents should ask a human to create new documentation files
+
+#### Code Comments
+
+- **Reference docs from code**: reference corresponding documentation by filename (e.g., `// See sflo.concept.mesh.resource.node.md`)
 - **Interface Definitions**: Link to concept documentation in TSDoc comments
-- **Cross-Reference Validation**: Ensure consistency between code and documentation; if docs need updating, let me know
-- **API Documentation**: Generate from TSDoc comments?
-
-### Component Architecture
-
-- **Shared code**: should go in flow-core/
-- **Separation**: Maintain clear boundaries between flow-cli, flow-service, and flow-web
-- **Error Handling**: Use consistent error patterns across all components
-- **Async Patterns**: Use async/await for RDF operations and file I/O
-- **Type Safety**: Leverage TypeScript's type system for mesh resource validation
+- **Cross-Reference Validation**: Ensure consistency between code and documentation; if docs need updating, call it out
 
 ### File Organization & Naming
 
@@ -202,7 +178,7 @@ Project documentation, specifications, and design choices are stored in `documen
   - unit test files go in tests/unit/ using `.test.ts` suffix
   - integration tests go in tests/integration
 - **Mesh Resources**: Follow mesh resource naming conventions from @/ontology/alpha/_node-data/_next/flow-ontology-alpha.trig
-- **Constants**: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. semantic-flow/flow-core/src/mesh-constants.ts
+- **Constants**: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. semantic-flow/shared/src/mesh-constants.ts
 - **File size**: For ease of AI-based editing, prefer lots of small files over one huge file
 - **Quoting**: For easier compatibility with JSON files, use double quotes everywhere
 
@@ -244,7 +220,7 @@ Project documentation, specifications, and design choices are stored in `documen
 
 #### Enhanced Error Handling with LogContext
 
-The platform uses **LogContext-enhanced error handling** from `flow-core/src/utils/logger/error-handlers.ts` for consistent error logging across all components. Both error handling functions now accept optional `LogContext` parameters for rich contextual information.
+The platform uses **LogContext-enhanced error handling** from `shared/src/utils/logger/error-handlers.ts` for consistent error logging across all components. Both error handling functions now accept optional `LogContext` parameters for rich contextual information.
 
 **Core Functions:**
 - `handleCaughtError()` - For caught exceptions with comprehensive error type handling
