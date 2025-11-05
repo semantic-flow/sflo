@@ -2,7 +2,7 @@
 id: ngw89xo9m9jop5b3o32dwwd
 title: pseudo-immutability
 desc: ''
-updated: 1762324742784
+updated: 1762355431036
 created: 1751817577224
 ---
 
@@ -18,7 +18,7 @@ In a filesystem-based structure like a [[concept.mesh]], you can't really preven
 Applications should deal gracefully, and optionally alert users to improperly mutated data. 
 
 
-**Psuedo-immutability** also acknowledges that:
+**Pseudo-immutability** also acknowledges that:
 
 - for "draft data" especially, "the next version" is going to keep changing until a "weave" happens (i.e., a new version is minted). 
 - sometimes you want the "latest" data for a given resource. Typically, "current" would be a pointer, redirect, or symlink. But given our goal of static hosting, we've decided just to have duplicate files for the "current" flow and the "most recent version" flow. 

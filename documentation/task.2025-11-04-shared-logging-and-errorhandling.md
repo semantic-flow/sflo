@@ -2,12 +2,11 @@
 id: 3hejrrsh4j7i5p2l7rk38n6
 title: 2025 11 04 Shared Logging and Errorhandling
 desc: ''
-updated: 1762354463288
+updated: 1762358171331
 created: 1762325430077
 ---
 
 ## Prompt
-
 # Semantic Flow Logging & Error Handling System Specification
 ## Node.js Platform Rewrite
 
@@ -77,6 +76,31 @@ export enum LogLevel {
   WARN = 30,
   ERROR = 40,
   FATAL = 50
+}
+
+// String literals for configuration mapping
+export const LogLevelStrings = ['trace', 'debug', 'info', 'warn', 'error', 'fatal'] as const;
+export type LogLevelString = typeof LogLevelStrings[number];
+
+// Core log entry structure used throughout the system
+export interface LogEntry {
+  timestamp: number;                 // Date.now()
+  level: LogLevel;
+  message: string;
+  context?: LogContext;
+  error?: {
+    name: string;
+    message: string;
+    stack?: string[];
+    code?: string;
+  };
+  service: { 
+    name: string; 
+    version?: string; 
+    instanceId?: string 
+  };
+  pid: number;
+  hostname?: string;
 }
 
 // Comprehensive but streamlined log context
@@ -177,7 +201,8 @@ export interface LoggerConfig {
   monitoring: ChannelConfig;
   
   // Performance settings
-  async: boolean;
+  async: boolean;        // true: buffered writes + sync stderr for ERROR/FATAL
+                        // false: synchronous writes where possible
   bufferSize: number;
   flushInterval: number;
   
@@ -277,6 +302,11 @@ export interface Logger {
   close(): Promise<void>;
 }
 
+// Child logger semantics documentation:
+// - child() returns a thin wrapper sharing transports and buffer with parent
+// - context is frozen and shallow-merged per call
+// - no mutation or context bleed between child instances
+
 export interface Timer {
   end(context?: LogContext): void;
   checkpoint(label: string, context?: LogContext): void;
@@ -304,8 +334,13 @@ export function createServiceLogger(serviceName: string, options?: {
   environment?: string;
 }): Logger;
 
-// Component-scoped logger (uses singleton + child context)
-export function getComponentLogger(module: NodeModule): Logger;
+// Component-scoped logger (pure ESM)
+export function getComponentLogger(sourceUrl: string /* import.meta.url */): Logger {
+  const file = new URL(sourceUrl);
+  const base = file.pathname.split("/").pop() ?? "unknown";
+  const component = base.replace(/\.(m|c)?js|ts$/, "");
+  return getLogger().child({ component });
+}
 ```
 
 ---
@@ -387,25 +422,50 @@ export class ErrorClassifier {
 
 ```typescript
 export class ConsoleChannel implements LogChannel {
-  constructor(private config: ChannelConfig['console']) {}
+  public readonly minLevel: LogLevel;
+  
+  constructor(private config: ChannelConfig['console']) {
+    this.minLevel = config.level;
+  }
   
   write(entry: LogEntry): void {
-    // Synchronous write for ERROR/FATAL levels
+    // Guard against entries below minimum level
+    if (entry.level < this.minLevel) return;
+    
+    // Always synchronous for console - push async work to buffer
     if (entry.level >= LogLevel.ERROR) {
       this.writeSynchronous(entry);
     } else {
-      this.writeAsync(entry);
+      this.writeStandard(entry);
     }
   }
   
-  flush(): Promise<void>;
-  close(): Promise<void>;
+  flush(): Promise<void> {
+    // Console doesn't buffer, so flush is a no-op
+    return Promise.resolve();
+  }
+  
+  close(): Promise<void> {
+    return Promise.resolve();
+  }
   
   // Synchronous critical path for errors
   private writeSynchronous(entry: LogEntry): void {
     const line = this.formatCritical(entry);
     try {
       process.stderr.write(line);
+    } catch {
+      // Best effort - never throw from logging
+    }
+  }
+  
+  // Standard output for non-critical levels
+  private writeStandard(entry: LogEntry): void {
+    const line = process.stdout.isTTY 
+      ? this.formatForTTY(entry) 
+      : this.formatForPipe(entry);
+    try {
+      process.stdout.write(line);
     } catch {
       // Best effort - never throw from logging
     }
@@ -422,19 +482,46 @@ export class ConsoleChannel implements LogChannel {
 
 ```typescript
 export class FileChannel implements LogChannel {
-  constructor(private config: ChannelConfig['file']) {}
+  public readonly minLevel: LogLevel;
+  private buffer: LogEntry[] = [];
+  private flushTimer: NodeJS.Timer | null = null;
   
-  write(entry: LogEntry): Promise<void>;
-  flush(): Promise<void>;
-  close(): Promise<void>;
+  constructor(private config: ChannelConfig['file']) {
+    this.minLevel = config.level;
+  }
   
-  // Enhanced rotation with compression
-  private rotateIfNeeded(): Promise<void>;
+  write(entry: LogEntry): void {
+    // Guard against entries below minimum level
+    if (entry.level < this.minLevel) return;
+    
+    // Always async for file channel - add to buffer
+    this.buffer.push(entry);
+    this.scheduleFlush();
+  }
+  
+  // Single-flight flush to prevent concurrent flushes
+  private inflight?: Promise<void>;
+  
+  flush(): Promise<void> {
+    return this.inflight ?? (this.inflight = this.flushImpl().finally(() => this.inflight = undefined));
+  }
+  
+  close(): Promise<void> {
+    if (this.flushTimer) {
+      clearTimeout(this.flushTimer);
+      this.flushTimer = null;
+    }
+    return this.flushBuffer();
+  }
+  
+  // Enhanced rotation with compression and atomic operations
+  private rotateIfNeeded(): Promise<void>; // Uses fs.rename for atomicity
   private compressOldLogs(): Promise<void>;
+  private scheduleFlush(): void;
+  private flushImpl(): Promise<void>; // Uses fs.writev for batched writes
   
-  // Performance optimizations
-  private buffer: LogEntry[];
-  private flushTimer: NodeJS.Timer | null;
+  // File opened with O_APPEND for safe concurrent writes
+  // Reopen file descriptor after rotation
 }
 ```
 
@@ -442,25 +529,77 @@ export class FileChannel implements LogChannel {
 
 ```typescript
 export class MonitoringChannel implements LogChannel {
-  constructor(private config: ChannelConfig['monitoring']) {}
+  public readonly minLevel: LogLevel;
+  private buffer: LogEntry[] = [];
+  private rateLimiter: RateLimiter;
   
-  write(entry: LogEntry): Promise<void>;
-  flush(): Promise<void>;
-  close(): Promise<void>;
+  constructor(private config: ChannelConfig['monitoring']) {
+    this.minLevel = config.level;
+    this.rateLimiter = new RateLimiter(config.sampleRate || 1.0);
+  }
+  
+  write(entry: LogEntry): void {
+    // Guard against entries below minimum level
+    if (entry.level < this.minLevel) return;
+    
+    // Apply sampling and rate limiting
+    if (!this.shouldSample(entry)) return;
+    
+    // Always async for monitoring - add to buffer with timeout protection
+    this.buffer.push(entry);
+    this.scheduleFlush();
+  }
+  
+  // Single-flight flush to prevent concurrent monitoring flushes
+  private inflight?: Promise<void>;
+  
+  flush(): Promise<void> {
+    return this.inflight ?? (this.inflight = this.flushImpl().finally(() => this.inflight = undefined));
+  }
+  
+  close(): Promise<void> {
+    return this.flushWithTimeout();
+  }
   
   // Provider-specific implementations
   private sentryAdapter: SentryAdapter;
   private datadogAdapter?: DatadogAdapter;
   
-  // Smart sampling and rate limiting
+  // Smart sampling and rate limiting with timeout protection
   private shouldSample(entry: LogEntry): boolean;
-  private rateLimiter: RateLimiter;
+  private scheduleFlush(): void;
+  private flushImpl(): Promise<void>; // Bounds batch size and applies per-entry deadlines
+  
+  // Drop counter for monitoring timeouts/failures
+  private droppedCount = 0;
+  public getDroppedCount(): number { return this.droppedCount; }
+}
+
+// Missing primitive definitions
+class RateLimiter {
+  constructor(private rate: number) {}
+  allow(): boolean { return Math.random() < this.rate; }
+}
+
+interface SentryAdapter {
+  send(entry: LogEntry): Promise<void>;
+}
+
+interface DatadogAdapter {
+  send(entry: LogEntry): Promise<void>;
 }
 ```
 
 ---
 
 ## Configuration System
+
+### Async Flag Semantics
+
+The `async` configuration flag controls write behavior:
+
+- **`async: true`** (default): Non-blocking buffered writes for all channels. ERROR/FATAL levels also emit synchronously to `process.stderr` for immediate visibility.
+- **`async: false`**: Console and file channels use `writeSync` on ERROR/FATAL and best-effort synchronous writes for other levels. Monitoring channel remains buffered with best-effort flush. **Warning**: Synchronous I/O can impact performance significantly under load.
 
 ### Schema-Based Configuration
 
@@ -479,11 +618,33 @@ export const LoggerConfigSchema = {
       type: 'object',
       properties: {
         enabled: { type: 'boolean', default: true },
-        level: { type: 'string', enum: Object.keys(LogLevel) },
+        level: { type: 'string', enum: ['trace', 'debug', 'info', 'warn', 'error', 'fatal'] },
         format: { type: 'string', enum: ['json', 'pretty', 'compact'] }
       }
     },
-    // ... additional channel configurations
+    file: {
+      type: 'object',
+      properties: {
+        enabled: { type: 'boolean', default: false },
+        level: { type: 'string', enum: ['trace', 'debug', 'info', 'warn', 'error', 'fatal'] },
+        format: { type: 'string', enum: ['json', 'pretty', 'compact'] },
+        path: { type: 'string' },
+        maxSize: { type: 'number', minimum: 1024 },
+        maxFiles: { type: 'number', minimum: 1 },
+        rotationStrategy: { type: 'string', enum: ['time', 'size'] }
+      }
+    },
+    monitoring: {
+      type: 'object',
+      properties: {
+        enabled: { type: 'boolean', default: false },
+        level: { type: 'string', enum: ['trace', 'debug', 'info', 'warn', 'error', 'fatal'] },
+        provider: { type: 'string', enum: ['sentry', 'datadog', 'newrelic'] },
+        dsn: { type: 'string' },
+        environment: { type: 'string' },
+        sampleRate: { type: 'number', minimum: 0, maximum: 1 }
+      }
+    }
   },
   required: ['serviceName']
 };
@@ -499,6 +660,12 @@ export class ConfigLoader {
   
   static validate(config: unknown): LoggerConfig;
   static merge(...configs: Partial<LoggerConfig>[]): LoggerConfig;
+  
+  // Map string level names to enum values
+  static parseLogLevel(level: string): LogLevel {
+    const index = LogLevelStrings.indexOf(level as LogLevelString);
+    return index >= 0 ? (index * 10) as LogLevel : LogLevel.INFO;
+  }
 }
 ```
 
@@ -558,11 +725,17 @@ export class ContextManager {
   }
 }
 
-// HTTP middleware integration
-export function createRequestLogger(req: Request, res: Response, next: Function) {
+// HTTP middleware integration (framework-agnostic example)
+import { randomUUID } from 'node:crypto';
+
+export function createRequestLogger(
+  req: { id?: string; method: string; path: string; get(header: string): string | undefined },
+  res: unknown,
+  next: () => void
+) {
   const requestContext: LogContext = {
     operation: 'http-request',
-    requestId: req.id || crypto.randomUUID(),
+    requestId: req.id || randomUUID(),
     metadata: {
       method: req.method,
       path: req.path,
@@ -571,7 +744,7 @@ export function createRequestLogger(req: Request, res: Response, next: Function)
   };
   
   ContextManager.run(requestContext, () => {
-    req.logger = getLogger().child({ component: 'http-handler' });
+    (req as any).logger = getLogger().child({ component: 'http-handler' });
     next();
   });
 }
@@ -633,16 +806,45 @@ export class PerformanceTracker {
 ```typescript
 export class MockLogger implements Logger {
   public logs: LogEntry[] = [];
-  public errors: Array<{ error: unknown; options?: ErrorOptions }> = [];
+  public capturedErrors: Array<{ error: unknown; options?: ErrorCaptureOptions }> = [];
   
   // Implement all Logger methods with recording
+  trace(message: string, context?: LogContext): void;
+  debug(message: string, context?: LogContext): void;
+  info(message: string, context?: LogContext): void;
+  warn(message: string, context?: LogContext): void;
+  error(message: string, error?: Error, context?: LogContext): void;
+  fatal(message: string, error?: Error, context?: LogContext): void;
+  
+  captureError(error: unknown, options?: ErrorCaptureOptions): void {
+    this.capturedErrors.push({ error, options });
+    // Also create a log entry for the error
+    const entry: LogEntry = {
+      timestamp: Date.now(),
+      level: options?.logLevel || LogLevel.ERROR,
+      message: options?.message || (error instanceof Error ? error.message : String(error)),
+      context: options?.context,
+      error: error instanceof Error ? {
+        name: error.name,
+        message: error.message,
+        stack: error.stack?.split('\n'),
+        code: (error as any).code
+      } : undefined,
+      service: { name: 'test-service' },
+      pid: process.pid
+    };
+    this.logs.push(entry);
+  }
   
   // Test utilities
   findLogsByLevel(level: LogLevel): LogEntry[];
   findLogsByComponent(component: string): LogEntry[];
   findLogsByOperation(operation: string): LogEntry[];
   hasErrorWithCode(code: string): boolean;
-  clearLogs(): void;
+  clearLogs(): void {
+    this.logs.length = 0;
+    this.capturedErrors.length = 0;
+  }
 }
 
 export class LoggerTestUtils {
@@ -670,21 +872,24 @@ export class LoggerIntegrationTests {
 ### CLI Tool Usage
 
 ```typescript
-import { createCliLogger } from '@semantic-flow/logging';
+import { createCliLogger, getComponentLogger } from '@semantic-flow/logging';
 
 const logger = createCliLogger({ 
   verbose: process.argv.includes('--verbose'),
   format: 'pretty' 
 });
 
+// Component-scoped logger using import.meta.url
+const componentLogger = getComponentLogger(import.meta.url);
+
 async function processFiles(files: string[]) {
-  const timer = logger.startTimer('process-files');
+  const timer = componentLogger.startTimer('process-files');
   
   try {
-    logger.info(`Processing ${files.length} files`);
+    componentLogger.info(`Processing ${files.length} files`);
     
     for (const file of files) {
-      const fileLogger = logger.withContext({ 
+      const fileLogger = componentLogger.withContext({ 
         operation: 'process-file',
         metadata: { filename: file }
       });
@@ -694,11 +899,12 @@ async function processFiles(files: string[]) {
     
     timer.end({ metadata: { filesProcessed: files.length } });
   } catch (error) {
-    await logger.handleError(error, {
+    captureError(error, {
       message: 'Failed to process files',
       context: { metadata: { files } },
-      rethrow: true
+      reportToMonitoring: true
     });
+    throw error;
   }
 }
 ```
@@ -706,7 +912,7 @@ async function processFiles(files: string[]) {
 ### Service Usage
 
 ```typescript
-import { createServiceLogger } from '@semantic-flow/logging';
+import { createServiceLogger, getComponentLogger, ContextManager } from '@semantic-flow/logging';
 
 const logger = createServiceLogger('semantic-flow-api', {
   enableFileLogging: true,
@@ -714,8 +920,11 @@ const logger = createServiceLogger('semantic-flow-api', {
   environment: process.env.NODE_ENV
 });
 
-app.use(async (req, res, next) => {
-  const requestLogger = logger.withContext({
+// Component-specific logger for this module
+const componentLogger = getComponentLogger(import.meta.url);
+
+app.use((req, res, next) => {
+  const requestContext = {
     operation: 'api-request',
     requestId: req.id,
     metadata: {
@@ -723,10 +932,12 @@ app.use(async (req, res, next) => {
       path: req.path,
       userAgent: req.get('User-Agent')
     }
-  });
+  };
   
-  req.logger = requestLogger;
-  next();
+  ContextManager.run(requestContext, () => {
+    req.logger = componentLogger.child({ component: 'http-handler' });
+    next();
+  });
 });
 ```
 
@@ -766,19 +977,34 @@ const result = await withErrorHandling(
   }
 );
 
-// AsyncLocalStorage context propagation
+// AsyncLocalStorage context propagation with ESM
+const componentLogger = getComponentLogger(import.meta.url);
+
 ContextManager.runAsync(
   { operation: 'batch-process', userId: 'user123' },
   async () => {
     // All logging within this scope automatically includes the context
-    const logger = getLogger();
-    logger.info('Starting batch process'); // Automatically includes operation + userId
+    componentLogger.info('Starting batch process'); // Automatically includes operation + userId + component
     
     await processItems();
     
-    logger.info('Batch process completed');
+    componentLogger.info('Batch process completed');
   }
 );
+
+// Dynamic import example for configuration loading
+async function loadConfig() {
+  try {
+    const configModule = await import('./config.js');
+    return configModule.default;
+  } catch (error) {
+    captureError(error, {
+      message: 'Failed to load configuration module',
+      context: { operation: 'config-load' }
+    });
+    throw error;
+  }
+}
 ```
 
 ---
@@ -787,7 +1013,7 @@ ContextManager.runAsync(
 
 ### From Deno Implementation
 
-1. **Logger Initialization**: Use `initLogger()` at startup, then `getLogger()` or `getComponentLogger(module)` anywhere
+1. **Logger Initialization**: Use `initLogger()` at startup, then `getLogger()` or `getComponentLogger(import.meta.url)` anywhere
 2. **Error Handling**: Replace both `handleError` and `handleCaughtError` with `captureError()` + optional recovery
 3. **Configuration**: Use schema-based config with singleton pattern
 4. **Context Management**: Use `AsyncLocalStorage` for automatic context propagation
@@ -831,6 +1057,22 @@ ContextManager.runAsync(
 - [ ] Migration documentation
 - [ ] API documentation
 
+#### Detailed Test Plan
+
+**Core Functionality Tests:**
+- **Deterministic clocks**: Inject `now()` function into logger; use Vitest fake timers for predictable timestamps
+- **Rotation tests**: Force size-based rotation with tiny `maxSize`; assert new file created and file descriptor reopened
+- **Signal tests**: Simulate SIGINT/SIGTERM with child process; assert `flush()` called before exit
+- **No-throw contract**: Intentionally throw inside a channel's `write` method; ensure logger falls back to console and does not crash caller
+- **ESM component detection**: Test `getComponentLogger(import.meta.url)` with various file paths and extensions
+
+**Advanced Feature Tests:**
+- **Monitoring timeouts**: Stub adapter with delayed promise; assert drop counters increment when deadlines exceeded
+- **ALS propagation**: Assert `ContextManager.current()` context merged into log entries across `await` points
+- **Recursive logging protection**: Trigger error within logging code; verify fallback to console.error without infinite loops
+- **Back-pressure handling**: Fill buffers beyond capacity; verify graceful degradation and dropped message counts
+- **Pure ESM integrity**: Verify no `require()` calls in bundled output; test dynamic import usage
+
 ---
 
 ## Success Criteria
@@ -845,6 +1087,24 @@ ContextManager.runAsync(
 ---
 
 ## Production Considerations
+
+### JSON Lines Output Format
+
+All structured log output follows the JSON Lines format (newline-delimited JSON) for ingestion by log processors like FluentBit, Loki, or Elasticsearch:
+
+```typescript
+// Each log entry is a single JSON object terminated by \n
+{"timestamp":1699027200000,"level":20,"message":"Server started","service":{"name":"api","version":"1.0.0"},"pid":12345}
+{"timestamp":1699027201000,"level":40,"message":"Database connection failed","error":{"name":"Error","message":"Connection timeout"},"service":{"name":"api","version":"1.0.0"},"pid":12345}
+```
+
+### Flush Guarantees
+
+The `flush()` method provides the following guarantees:
+- Drains buffers of all enabled channels within a bounded time (default 5s timeout)
+- Never throws - errors are logged to console as fallback
+- Returns when all pending entries are written or timeout is reached
+- Safe to call multiple times concurrently
 
 ### Critical Path Reliability
 
@@ -867,41 +1127,172 @@ function logSyncCritical(entry: LogEntry): void {
   // Optional: Synchronous file write for critical errors
   // if (criticalFd) fs.writeSync(criticalFd, line);
 }
+
+// Safe JSON serialization with limits and circular protection
+const MAX_CTX = 20_000, MAX_MSG = 2_000, MAX_STACK = 50;
+
+function safeStringify(value: any, maxLength = MAX_CTX): string {
+  try {
+    const seen = new WeakSet();
+    const result = JSON.stringify(value, (key, val) => {
+      if (typeof val === 'object' && val !== null) {
+        if (seen.has(val)) return '[Circular]';
+        seen.add(val);
+      }
+      if (typeof val === 'string' && val.length > MAX_MSG) {
+        return val.slice(0, MAX_MSG) + '...[truncated]';
+      }
+      return val;
+    });
+    return result.length > maxLength ? result.slice(0, maxLength) + '...[truncated]' : result;
+  } catch {
+    return '[Unserializable]';
+  }
+}
+
+// Strip ANSI escape codes for non-TTY output
+function stripAnsi(text: string): string {
+  return text.replace(/\x1b\[[0-9;]*m/g, '');
+}
+
+// PII redaction hook (optional per channel)
+type RedactFn = (key: string, value: any) => any;
+type RedactConfig = string[] | RedactFn;
+
+function applyRedaction(entry: LogEntry, redact?: RedactConfig): LogEntry {
+  if (!redact) return entry;
+  
+  if (Array.isArray(redact)) {
+    // Field-based redaction
+    const redactFields = new Set(redact);
+    return JSON.parse(JSON.stringify(entry, (key, value) => 
+      redactFields.has(key) ? '[REDACTED]' : value
+    ));
+  } else {
+    // Custom redaction function
+    return JSON.parse(JSON.stringify(entry, redact));
+  }
+}
+
+// Ensure JSON lines contain no ANSI codes
+function formatJsonLine(entry: LogEntry, redact?: RedactConfig): string {
+  const redacted = applyRedaction(entry, redact);
+  const serialized = safeStringify(redacted);
+  return stripAnsi(serialized) + '\n';
+}
 ```
 
 ### Graceful Shutdown
 
 ```typescript
-// Process termination hooks
+const SAFE_CLOSE_MS = 2000;
+
+// Comprehensive process termination hooks
 process.on('beforeExit', async () => {
   await getLogger().flush();
 });
 
-process.on('SIGTERM', async () => {
-  await getLogger().close();
-  process.exit(0);
+process.on('SIGTERM', () => void gracefulExit(0));
+process.on('SIGINT', () => void gracefulExit(130));
+
+process.on('uncaughtException', (error) => {
+  // Sync-log minimal line to stderr first
+  const line = JSON.stringify({
+    t: Date.now(),
+    lvl: LogLevel.FATAL,
+    msg: 'Uncaught exception - process terminating',
+    err: error.message
+  }) + '\n';
+  try { process.stderr.write(line); } catch {}
+  
+  // Then capture full error context
+  captureError(error, { 
+    logLevel: LogLevel.FATAL,
+    message: 'Uncaught exception - process terminating',
+    includeStackTrace: true 
+  });
+  void gracefulExit(1);
 });
+
+process.on('unhandledRejection', (reason) => {
+  captureError(reason as unknown, { 
+    logLevel: LogLevel.ERROR,
+    message: 'Unhandled promise rejection',
+    includeStackTrace: true 
+  });
+});
+
+function safeGetLogger(): Logger | undefined {
+  try {
+    return getLogger();
+  } catch {
+    return undefined;
+  }
+}
+
+async function gracefulExit(code: number) {
+  try {
+    const logger = safeGetLogger();
+    if (logger) {
+      // Race between proper close and timeout
+      await Promise.race([
+        logger.close(),
+        new Promise(resolve => setTimeout(resolve, SAFE_CLOSE_MS))
+      ]);
+    }
+  } catch {
+    // Best effort - don't block exit
+  } finally {
+    process.exit(code);
+  }
+}
 ```
 
 ### Guard Against Recursive Logging
 
 ```typescript
+// Use AsyncLocalStorage to prevent recursive logging per async context
+const recursionGuard = new AsyncLocalStorage<boolean>();
+
 class LoggerImpl implements Logger {
-  private isLogging = false;
-  
-  error(message: string, error?: Error, context?: LogContext): void {
-    if (this.isLogging) {
-      // Prevent infinite loops in error handling
+  private log(level: LogLevel, message: string, error?: Error, context?: LogContext): void {
+    if (recursionGuard.getStore()) {
+      // Prevent infinite loops in error handling - use direct console
       console.error('Recursive logging detected:', message);
       return;
     }
     
-    this.isLogging = true;
-    try {
-      // ... logging implementation
-    } finally {
-      this.isLogging = false;
-    }
+    recursionGuard.run(true, () => {
+      this.writeToChannels(level, message, error, context);
+    });
+  }
+  
+  trace(message: string, context?: LogContext): void {
+    this.log(LogLevel.TRACE, message, undefined, context);
+  }
+  
+  debug(message: string, context?: LogContext): void {
+    this.log(LogLevel.DEBUG, message, undefined, context);
+  }
+  
+  info(message: string, context?: LogContext): void {
+    this.log(LogLevel.INFO, message, undefined, context);
+  }
+  
+  warn(message: string, context?: LogContext): void {
+    this.log(LogLevel.WARN, message, undefined, context);
+  }
+  
+  error(message: string, error?: Error, context?: LogContext): void {
+    this.log(LogLevel.ERROR, message, error, context);
+  }
+  
+  fatal(message: string, error?: Error, context?: LogContext): void {
+    this.log(LogLevel.FATAL, message, error, context);
+  }
+  
+  private writeToChannels(level: LogLevel, message: string, error?: Error, context?: LogContext): void {
+    // Implementation that might trigger errors and recursive logging
   }
 }
 ```
@@ -968,11 +1359,7 @@ const userPreferences = await withErrorHandling(
 
 ## Questions for Review
 
-1. Should we support additional monitoring providers beyond Sentry (DataDog, New Relic)?
-2. Do we need custom log formats beyond json/pretty/compact?
-3. Should error recovery strategies be pluggable?
-4. Is the LogContext interface comprehensive enough for all use cases?
-5. Should we include built-in log parsing/analysis utilities?
+1. Should error recovery strategies be pluggable?
 
 ---
 
@@ -988,8 +1375,16 @@ Items suggested in review but deferred for initial implementation:
 6. **Pluggable Formatters**: Custom format registration system
 7. **Advanced Context Features**: Structured event fields, correlation IDs
 8. **Log Compression**: Automatic compression of rotated log files
+9. **Source Location Capture**: Optional `file`, `line`, `col` fields from stack traces in debug builds
+10. **Custom Formatters**: `registerFormatter(name, fn)` for pluggable output formats beyond json/pretty/compact
 
 These features can be added incrementally based on usage patterns and requirements.
+
+### Nice-to-Have Before v1
+
+- **Monitoring Timeouts**: Per-entry deadlines and token-bucket rate limiting for monitoring channels
+- **Enhanced Error Context**: Automatic source location capture in development mode
+- **Advanced Sampling**: Intelligent sampling based on error patterns and frequency
 
 ---
 
@@ -1013,4 +1408,141 @@ The specification now provides a solid foundation that can be extended increment
 
 ---
 
-**Next Steps**: Review this specification and proceed with Phase 1 implementation once approved. The configuration system specification should build upon this logging foundation.
+---
+
+## Packaging and Runtime Requirements
+
+### Node.js Support
+- **Minimum version**: Node.js >=24 (requires `AsyncLocalStorage` and `fs.writev`)
+- **Module format**: **Pure ESM** only. All published JS is ES Modules. No CommonJS build.
+- **Package metadata**:
+  ```json
+  {
+    "name": "@semantic-flow/logging",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      },
+      "./package.json": "./package.json"
+    },
+    "engines": { "node": ">=18.17" }
+  }
+  ```
+
+### TypeScript Configuration
+- **Compile ESM-only types**:
+  ```json
+  // tsconfig.build.json
+  {
+    "compilerOptions": {
+      "module": "ES2022",
+      "target": "ES2022",
+      "moduleResolution": "bundler",
+      "declaration": true,
+      "declarationMap": true,
+      "emitDeclarationOnly": false,
+      "outDir": "dist",
+      "sourceMap": true,
+      "inlineSources": true,
+      "verbatimModuleSyntax": true,
+      "exactOptionalPropertyTypes": true,
+      "lib": ["ES2022"]
+    },
+    "include": ["src"]
+  }
+  ```
+
+### Runtime ESM Hygiene
+- **No `require()`**: Use `import`/`import()` everywhere
+- **Replace `__dirname/__filename`**:
+  ```typescript
+  import { fileURLToPath } from "node:url";
+  import { dirname } from "node:path";
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  ```
+- **JSON imports**:
+  ```typescript
+  import schema from "./schema.json" with { type: "json" };
+  ```
+- **CLI entry point**:
+  ```javascript
+  #!/usr/bin/env node
+  import { run } from '../dist/cli.js';
+  run();
+  ```
+
+### Consumer Requirements
+- **Pure ESM consumers**: Standard `import` statements
+- **CommonJS consumers**: Must use dynamic `import('@semantic-flow/logging')`
+- **Tree-shaking**: Channels kept in separate files for optimal bundling
+
+### Testing (Vitest)
+```typescript
+// vitest.config.ts
+import { defineConfig } from 'vitest/config';
+export default defineConfig({
+  test: {
+    environment: 'node',
+    isolate: true
+  }
+});
+```
+
+### CI/CD Requirements
+- **JSON Lines validation**: Lint commit examples to ensure valid JSONL with newline at end
+- **Console hygiene**: Enforce no `console.log` in src except inside `ConsoleChannel` or emergency fallback
+- **ESM purity check**: Block accidental CJS fields in package.json or `*.cjs` files in dist/
+- **Type checking**: Ensure all examples compile without errors
+- **Performance benchmarks**: Automated benchmarks comparing against previous versions
+
+### Build Tool Configuration
+
+**TypeScript Compiler (tsc)**:
+```bash
+tsc --project tsconfig.build.json
+```
+
+**tsup**:
+```bash
+tsup src/index.ts --format esm --dts --sourcemap
+```
+
+**Rollup**:
+```javascript
+export default {
+  input: 'src/index.ts',
+  output: {
+    file: 'dist/index.js',
+    format: 'esm',
+    sourcemap: true
+  }
+};
+```
+
+**esbuild**:
+```javascript
+esbuild --bundle src/index.ts --format=esm --outfile=dist/index.js --sourcemap
+```
+
+### Optional Runtime Guardrails
+```typescript
+// Add once at package init to catch CJS usage
+if (typeof require !== 'undefined') {
+  throw new Error('This package is ESM-only. Use import().');
+}
+```
+
+## TODO
+
+
+
+## Decision
+
+- modern ESM only, targeting NodeJS >=24

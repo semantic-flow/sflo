@@ -2,7 +2,7 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Developer General Guidance
 desc: ''
-updated: 1762313362251
+updated: 1762357114351
 created: 1751259888479
 ---
 
@@ -30,6 +30,12 @@ sflo/
     config/                   # runtime/config loaders (RDF/JSON)
     sparql/                   # used by sparql-ro and sparql-update  (provided by Comunica)
     utils/                    # misc helpers
+  tests/                      # cross-application tests
+    e2e/                     # cross-app: start real service, hit via CLI/web
+    contracts/               # Pact or OpenAPI contract tests
+    perf/                    # k6/Artillery scenarios (optional)
+    fixtures/                # shared data sets and seed scripts
+
 ```
 
 ### Other Workspace Components
@@ -95,7 +101,7 @@ npx dendron publish export --target github --yes
 
 ### Language & Runtime
 
-- **TypeScript**: Use strict TypeScript configuration with modern ES2022+ features
+- **TypeScript**: Use strict TypeScript configuration with "Pure ESM" modern ES2022+ features; NO CJS 
 - Use NodeJS v24 and the latest best practices
 - If using any is actually clearer than not using it, it's okay
 - Use `satisfies` whenever you're writing a literal config object that should be checked against a TypeScript shape, but you want to retain the full type of the literal for use in your program.
@@ -141,10 +147,11 @@ Project documentation, specifications, and design choices are stored in `documen
 
 - **TypeScript Modules**: Use `.ts` extension, organize by feature/component
 - **Test Files**:
-  - unit test files go in application-name/tests/unit/ using `.test.ts` suffix
-  - integration tests go in tests/integration
+  - unit test files go in application-name/src/tests/unit/ using `.test.ts` suffix
+  - intra-package integration tests go in application-name/src/tests/integration/ using `.test.ts` suffix
+  - inter-package e2e tests go in tests/e2e/
 - **Mesh Resources**: Follow mesh resource naming conventions from [[Filenaming Per Snapshot|mesh-resource.node-component.snapshot-distribution#filenaming-per-snapshot]]
-- **Constants**: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. semantic-flow/shared/src/mesh-constants.ts
+- **Constants**: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. shared/src/mesh-constants.ts
 - **File size**: For ease of AI-based editing, prefer lots of small files over one huge file
 - **Quoting**: For easier compatibility with JSON files, use double quotes everywhere
 
@@ -224,11 +231,19 @@ This pattern ensures **uniform error reporting** with rich contextual informatio
 
 ### Testing
 
-- **Unit Tests**: place unit tests in `src/__tests__` folder; with `.test.ts` suffix; target ≥80% critical-path coverage and include both success and failure cases.
-- **Integration Tests**: Test mesh operations end-to-end; tests are located in test/integration/ dir
+- **Unit Tests**: target ≥80% critical-path coverage and include both success and failure cases.
+- **Integration Tests**: Test mesh operations end-to-end; tests are located in tests/integration/ dir
 - **RDF Validation**: Test both .trig and JSON-LD parsing/serialization
 - **Mock Data**: Create test mesh structures following documentation patterns
 - after you think you've completed a task, check for any "problems", i.e., deno-lint
+
+#### What to Place Where
+
+- Package integration if it targets that package’s boundaries only.
+  - Examples: service repo + DB, CLI command against a mock server, web page with MSW.
+
+- Top-level e2e if it requires two or more apps running together or real infra.
+  - Examples: CLI → API → DB, web → API auth, migration rollout checks.
 
 ### Performance
 
