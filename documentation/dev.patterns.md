@@ -2,7 +2,7 @@
 id: i9v5cbqq2zqfhrjcolq48df
 title: Patterns
 desc: ''
-updated: 1762313419061
+updated: 1762362594560
 created: 1762221503576
 ---
 
@@ -117,14 +117,8 @@ Use async/await for boundaries (start/finish), and use async iteration for the s
 Rule of thumb to include:
 Use `await` for Promises and stream completion. Use `for await...of` to consume streaming RDF. Avoid `await` inside `'data'` listeners and avoid buffering everything unless you explicitly need it.
 
-### Error Handling Patterns
+### Error Handling and Logging System Patterns
 
-- Use the [`handleCaughtError`](semantic-flow/flow-service/src/utils/logger.ts) utility for consistent error handling
-- **Documentation**: See [error-handling-usage.md](semantic-flow/flow-service/documentation/error-handling-usage.md) for comprehensive usage examples
-- The error handling system integrates with all logging tiers (console, file, Sentry)
-
-### Logging System Patterns
-
-- `let logger = getComponentLogger(import.meta);` at the start of every file
+see [[dev.logging-and-error-handling]]
 
 

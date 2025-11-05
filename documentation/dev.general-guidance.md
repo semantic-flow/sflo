@@ -2,7 +2,7 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Developer General Guidance
 desc: ''
-updated: 1762357114351
+updated: 1762362656604
 created: 1751259888479
 ---
 
@@ -105,6 +105,7 @@ npx dendron publish export --target github --yes
 - Use NodeJS v24 and the latest best practices
 - If using any is actually clearer than not using it, it's okay
 - Use `satisfies` whenever you're writing a literal config object that should be checked against a TypeScript shape, but you want to retain the full type of the literal for use in your program.
+- use type-only imports for types, since verbatimModuleSyntax is enabled:
 
 ### RDF Data Handling
 
