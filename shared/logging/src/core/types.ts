@@ -64,7 +64,7 @@ export interface LogEntry {
   service: {
     name: string;
     version?: string;
-    instanceId?: string
+    instanceId?: string;
   };
   pid: number;
   hostname?: string;

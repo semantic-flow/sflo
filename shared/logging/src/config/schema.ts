@@ -47,14 +47,15 @@ export const LoggerConfigSchema = {
       }
     },
     async: { type: 'boolean' },
-    bufferSize: { type: 'number' },
-    flushInterval: { type: 'number' },
+    bufferSize: { type: 'number', minimum: 1 },
+    flushInterval: { type: 'number', minimum: 1 },
     autoContext: {
       type: 'object',
       properties: {
         includeTimestamp: { type: 'boolean' },
         includeHostname: { type: 'boolean' },
-        includeProcessInfo: { type: 'boolean' }
+        includeProcessInfo: { type: 'boolean' },
+        captureFunctionName: { type: 'boolean' }
       }
     }
   },

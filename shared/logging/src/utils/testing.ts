@@ -11,6 +11,7 @@ import { LogLevel } from '../core/types.js';
 import type { Logger, Timer } from '../core/logger.js';
 import { LoggerImpl } from '../core/logger.js';
 import { DEFAULT_LOGGER_CONFIG } from '../config/defaults.js';
+import { ConfigLoader } from '../config/loader.js';
 
 /**
  * A mock implementation of LogChannel that captures entries in an array.
@@ -43,7 +44,6 @@ export class MockChannel implements LogChannel {
  * It uses a MockChannel internally.
  */
 export class MockLogger extends LoggerImpl implements Logger {
-  public logs: LogEntry[] = [];
   public capturedErrors: Array<{ error: unknown; options?: ErrorCaptureOptions }> = [];
   public mockChannel: MockChannel;
 
@@ -106,20 +106,31 @@ export class LoggerTestUtils {
   }
 
   static createTestConfig(): LoggerConfig {
-    return DEFAULT_LOGGER_CONFIG;
+    // Return a deep copy to prevent test pollution
+    return ConfigLoader.merge(DEFAULT_LOGGER_CONFIG, {});
   }
 
-  // Placeholder for waitForLogs (requires async testing framework integration)
+  // Utility to wait for a specific number of log entries (with proper cleanup)
   static async waitForLogs(logger: MockLogger, count: number, timeout: number = 100): Promise<void> {
     return new Promise((resolve, reject) => {
+      let timeoutId: NodeJS.Timeout | null = null;
+      let checkIntervalId: NodeJS.Timeout | null = null;
+      
       const check = () => {
         if (logger.mockChannel.entries.length >= count) {
+          if (timeoutId) clearTimeout(timeoutId);
+          if (checkIntervalId) clearTimeout(checkIntervalId);
           resolve();
         } else {
-          setTimeout(check, 10);
+          checkIntervalId = setTimeout(check, 10);
         }
       };
-      setTimeout(() => reject(new Error(`Timeout waiting for ${count} logs`)), timeout);
+      
+      timeoutId = setTimeout(() => {
+        if (checkIntervalId) clearTimeout(checkIntervalId);
+        reject(new Error(`Timeout waiting for ${count} logs`));
+      }, timeout);
+      
       check();
     });
   }

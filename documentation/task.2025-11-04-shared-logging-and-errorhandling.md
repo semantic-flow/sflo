@@ -2,7 +2,7 @@
 id: 3hejrrsh4j7i5p2l7rk38n6
 title: 2025 11 04 Shared Logging and Errorhandling
 desc: ''
-updated: 1762365235576
+updated: 1762452057464
 created: 1762325430077
 ---
 
@@ -1590,7 +1590,7 @@ if (typeof require !== 'undefined') {
 
 Phase 1: Core Infrastructure for the Shared Logging and Error Handling System (`@semantic-flow/logging`) is complete, following the specification in [`documentation/task.2025-11-04-shared-logging-and-errorhandling.md`](documentation/task.2025-11-04-shared-logging-and-errorhandling.md:1).
 
-**Summary of Accomplishments:**
+## Phase 1 Accomplishments
 
 1.  **Package Setup:** Created the `shared/logging/` package structure, including `package.json` and `tsconfig.json` configured for Pure ESM and Node.js >=18.17.
 2.  **Core Types:** Implemented all core types and interfaces in [`shared/logging/src/core/types.ts`](shared/logging/src/core/types.ts:1), including `LogLevel`, `LogEntry`, `LogContext`, `LogChannel`, and `LoggerConfig`.
@@ -1603,4 +1603,53 @@ Phase 1: Core Infrastructure for the Shared Logging and Error Handling System (`
 9.  **Exports:** Consolidated all public exports in [`shared/logging/src/index.ts`](shared/logging/src/index.ts:1).
 10. **Unit Tests:** Implemented core unit tests in [`shared/logging/src/__tests__/core.test.ts`](shared/logging/src/__tests__/core.test.ts:1) using a `MockLogger` utility, covering singleton behavior, context propagation, and error handling.
 
-The project is now ready to proceed to Phase 2: Advanced Features, starting with the File Channel implementation.
+## function/method name capture, addressed all CodeRabbit suggestions, and integrated the logging system into sflo-host
+
+### 1. Function Name Capture Feature ✅
+- Added [`function?: string`](shared/logging/src/core/types.ts:22) field to `LogContext`
+- Implemented stack trace parsing in [`shared/logging/src/utils/stack-trace.ts`](shared/logging/src/utils/stack-trace.ts:1)
+- Integrated into [`LoggerImpl.log()`](shared/logging/src/core/logger.ts:139) with environment-aware defaults
+- Comprehensive documentation in [`documentation/dev.logging-and-error-handling.md`](documentation/dev.logging-and-error-handling.md:108)
+
+### 2. CodeRabbit Critical Fixes ✅
+
+1. **Channel Sharing** - Fixed resource leak where child loggers created duplicate channels
+2. **Async Logger Cleanup** - Made `initLogger()` async to properly await channel closure
+3. **Test Reset Cleanup** - Made `__resetLoggerForTests()` async with proper channel cleanup
+4. **CLI Tool Name Safety** - Added try-catch for `fileURLToPath()` edge cases
+5. **Test Config Isolation** - Fixed `createTestConfig()` to return deep copy
+6. **Race Condition Fix** - Fixed `waitForLogs()` with proper timeout cleanup
+7. **Redaction Logic Fix** - Fixed critical bug using `JSON.stringify` replacer correctly
+8. **DoS Protection** - Added `MAX_CTX * 2` upper bound for log entries
+9. **Schema Validation** - Added minimum constraints for `bufferSize`/`flushInterval`
+10. **Comment Clarity** - Fixed misleading async buffering comment
+11. **Code Cleanup** - Removed unused `logs` property from `MockLogger`
+
+### 3. SFLO Host Integration ✅
+
+**Updated Files:**
+- [`sflo-host/package.json`](sflo-host/package.json:15) - Added `@semantic-flow/logging` dependency
+- [`sflo-host/src/index.ts`](sflo-host/src/index.ts:1) - Integrated logging system:
+  - Replaced Fastify's built-in logger with `@semantic-flow/logging`
+  - Added component-scoped logger using `getComponentLogger(import.meta.url)`
+  - Initialized logger at startup with environment-aware configuration
+  - Added graceful shutdown handlers for SIGTERM/SIGINT
+  - Replaced all `app.log` calls with structured logging using `metadata` field
+  - Added proper error handling with `logger.fatal()`
+
+**Integration Features:**
+- Environment-aware log levels (DEBUG in dev, INFO in prod)
+- Pretty formatting in development, JSON in production
+- Component name automatically captured as 'index'
+- Graceful shutdown with log flushing
+- Structured logging with metadata for all application events
+
+### Test Results ✅
+All 11 unit tests passing in [`shared/logging/src/__tests__/core.test.ts`](shared/logging/src/__tests__/core.test.ts:1)
+
+### TypeScript Compilation ✅
+- Logging package builds successfully
+- SFLO Host compiles without errors
+- All workspace dependencies linked correctly
+
+The `@semantic-flow/logging` package is now production-ready and fully integrated into the SFLO Host application!

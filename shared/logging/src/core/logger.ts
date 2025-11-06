@@ -97,9 +97,10 @@ export class LoggerImpl implements Logger {
   private serviceInfo: { name: string; version?: string; instanceId?: string };
   private pid: number;
 
-  constructor(config: LoggerConfig, baseContext: LogContext = {}) {
+  constructor(config: LoggerConfig, baseContext: LogContext = {}, channels?: LogChannel[]) {
     this.config = config;
-    this.channels = this.initializeChannels(config);
+    // Use provided channels if available (for child loggers), otherwise initialize new ones
+    this.channels = channels ?? this.initializeChannels(config);
     this.hostname = config.autoContext.includeHostname ? os.hostname() : undefined;
     this.pid = process.pid;
 
@@ -205,10 +206,11 @@ export class LoggerImpl implements Logger {
   }
 
   // Context management (returns a new LoggerImpl instance with merged context)
+  // IMPORTANT: Child loggers share the parent's channel instances to avoid resource leaks
   withContext(context: LogContext): Logger {
     const newContext = { ...this.baseContext, ...context };
-    // Create a new LoggerImpl instance sharing channels and config, but with new baseContext
-    return new LoggerImpl(this.config, newContext);
+    // Share channels with the parent to avoid creating duplicate channel instances
+    return new LoggerImpl(this.config, newContext, this.channels);
   }
 
   withOperation(operation: string, operationId?: string): Logger {
@@ -260,11 +262,11 @@ export class LoggerImpl implements Logger {
 
 /**
  * Initializes the global logger singleton. Must be called once at startup.
- * If called multiple times, it merges the new config with the existing one.
+ * If called multiple times, it merges the new config with the existing one and properly closes old channels.
  * @param config Optional partial configuration.
  * @returns The initialized Logger instance.
  */
-export function initLogger(config?: Partial<LoggerConfig>): Logger {
+export async function initLogger(config?: Partial<LoggerConfig>): Promise<Logger> {
   const initialConfig = _logger
     ? (_logger as LoggerImpl).config // Use existing config if present
     : DEFAULT_LOGGER_CONFIG;
@@ -273,9 +275,7 @@ export function initLogger(config?: Partial<LoggerConfig>): Logger {
 
   // If logger exists, close old channels gracefully before replacing
   if (_logger) {
-    // Note: In a production system, we might want a more complex shutdown/re-init sequence.
-    // For now, we just replace the instance.
-    _logger.close().catch(e => console.error("Error closing old logger channels:", e));
+    await _logger.close().catch(e => console.error("Error closing old logger channels:", e));
   }
 
   _logger = new LoggerImpl(finalConfig);
@@ -284,12 +284,16 @@ export function initLogger(config?: Partial<LoggerConfig>): Logger {
 
 /**
  * Retrieves the global logger singleton. Initializes with defaults if not yet called.
+ * Note: If the logger hasn't been initialized yet, this creates a synchronous default instance.
+ * For proper async initialization with channel cleanup, use initLogger() at startup.
  * @returns The global Logger instance.
  */
 export function getLogger(): Logger {
   if (!_logger) {
-    // Initialize with defaults if accessed before explicit init
-    _logger = initLogger({});
+    // Initialize synchronously with defaults if accessed before explicit init
+    // This is safe because there are no old channels to close
+    const finalConfig = ConfigLoader.merge(DEFAULT_LOGGER_CONFIG, {});
+    _logger = new LoggerImpl(finalConfig);
   }
   // If running within an AsyncLocalStorage context, return a child logger
   const currentContext = ContextManager.current();
@@ -301,8 +305,12 @@ export function getLogger(): Logger {
 
 /**
  * Resets the global logger instance for testing purposes.
+ * Properly closes any existing logger channels before resetting.
  */
-export function __resetLoggerForTests(): void {
+export async function __resetLoggerForTests(): Promise<void> {
+  if (_logger) {
+    await _logger.close().catch(e => console.error("Error closing logger in test reset:", e));
+  }
   _logger = undefined;
 }
 
@@ -329,9 +337,15 @@ export function createCliLogger(options?: {
   const level = options?.verbose ? 'debug' : options?.quiet ? 'warn' : 'info';
   const format = options?.format || 'pretty';
 
-  const serviceName = process.argv[1]
-    ? (fileURLToPath(process.argv[1]).split('/').pop() || 'cli-tool')
-    : 'cli-tool';
+  let serviceName = 'cli-tool';
+  if (process.argv[1]) {
+    try {
+      serviceName = fileURLToPath(process.argv[1]).split('/').pop() || 'cli-tool';
+    } catch {
+      // If process.argv[1] is not a valid file URL, use default
+      serviceName = 'cli-tool';
+    }
+  }
 
   const config: Partial<LoggerConfig> = {
     console: {

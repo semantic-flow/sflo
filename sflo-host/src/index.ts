@@ -1,10 +1,14 @@
 import Fastify from "fastify";
 import { loadConfig } from "@semantic-flow/config";
+import { initLogger, getLogger, getComponentLogger } from "@semantic-flow/logging";
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Component-scoped logger for this module
+const logger = getComponentLogger(import.meta.url);
 
 // Dynamic plugin loading - use source files in development
 async function loadPlugins() {
@@ -39,11 +43,29 @@ async function loadPlugins() {
 }
 
 export async function startHost(configPath?: string) {
-  const app = Fastify({ "logger": true });
+  // Initialize logging system first
+  await initLogger({
+    serviceName: 'sflo-host',
+    serviceVersion: '0.0.0',
+    environment: (process.env.NODE_ENV as any) || 'development',
+    console: {
+      enabled: true,
+      level: process.env.NODE_ENV === 'production' ? 20 : 10, // INFO in prod, DEBUG in dev
+      format: process.env.NODE_ENV === 'production' ? 'json' : 'pretty',
+    }
+  });
+
+  logger.info('Starting SFLO Host');
+
+  // Create Fastify instance without built-in logger (we'll use our own)
+  const app = Fastify({ logger: false });
+
   const conf = await loadConfig(configPath);
+  logger.debug('Configuration loaded', { metadata: { configPath } });
 
   // Load plugins dynamically based on environment
   const registry = await loadPlugins();
+  logger.debug('Plugins loaded', { metadata: { pluginCount: registry.size } });
 
   // An example OpenAPI stub so Elements has something to render
   // in sflo-host/src/index.ts
@@ -69,17 +91,37 @@ export async function startHost(configPath?: string) {
     if (p.enabled === false) continue;
     const plugin = registry.get(p.name);
     if (!plugin) {
-      app.log.warn({ "plugin": p.name }, "plugin not found");
+      logger.warn('Plugin not found', { metadata: { plugin: p.name } });
       continue;
     }
-    app.log.info({ "plugin": p.name }, "registering plugin");
+    logger.info('Registering plugin', { metadata: { plugin: p.name } });
     await app.register(plugin, p.options ?? {});
   }
 
   await app.listen({ "host": "127.0.0.1", "port": conf.port });
+  logger.info('SFLO Host listening', { metadata: { host: '127.0.0.1', port: conf.port } });
+
   return app;
 }
 
+// Graceful shutdown handling
+process.on('SIGTERM', async () => {
+  logger.info('SIGTERM received, shutting down gracefully');
+  await getLogger().flush();
+  process.exit(0);
+});
+
+process.on('SIGINT', async () => {
+  logger.info('SIGINT received, shutting down gracefully');
+  await getLogger().flush();
+  process.exit(130);
+});
+
 if (import.meta.url === `file://${process.argv[1]}`) {
-  startHost().catch((err) => { console.error(err); process.exit(1); });
+  startHost().catch((err) => {
+    logger.fatal('Failed to start SFLO Host', err instanceof Error ? err : undefined, {
+      metadata: { errorValue: err instanceof Error ? undefined : err }
+    });
+    process.exit(1);
+  });
 }

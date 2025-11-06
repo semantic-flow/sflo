@@ -57,26 +57,28 @@ type RedactConfig = string[] | RedactFn;
 export function applyRedaction(entry: LogEntry, redact?: RedactConfig): LogEntry {
   if (!redact) return entry;
 
-  // Use safeStringify's logic for deep cloning and redaction
+  // Prepare the replacer function for JSON.stringify
+  const redactFields = Array.isArray(redact) ? new Set(redact) : null;
+  const redactFn = typeof redact === 'function' ? redact : null;
+  
   const replacer = (key: string, value: any) => {
-    if (Array.isArray(redact)) {
+    if (redactFields) {
       // Field-based redaction
-      const redactFields = new Set(redact);
       return redactFields.has(key) ? '[REDACTED]' : value;
-    } else if (typeof redact === 'function') {
+    } else if (redactFn) {
       // Custom redaction function
-      return redact(key, value);
+      return redactFn(key, value);
     }
     return value;
   };
 
-  // Perform deep clone and redaction using JSON.parse(JSON.stringify)
+  // Perform deep clone and redaction using JSON.stringify with replacer, then parse
   // Note: This loses non-JSON-serializable properties (like functions/symbols) but is safe for LogEntry structure.
   try {
-    return JSON.parse(safeStringify(entry, Infinity), replacer);
-  } catch (e) {
+    const stringified = JSON.stringify(entry, replacer);
+    return JSON.parse(stringified);
+  } catch {
     // Fallback if redaction logic fails unexpectedly
-    console.error("Redaction failed:", e);
     return entry;
   }
 }
@@ -89,7 +91,8 @@ export function applyRedaction(entry: LogEntry, redact?: RedactConfig): LogEntry
  */
 export function formatJsonLine(entry: LogEntry, redact?: RedactConfig): string {
   const redacted = applyRedaction(entry, redact);
-  const serialized = safeStringify(redacted, Infinity); // Use Infinity for full serialization before stripping
+  // Use reasonable upper bound to prevent DoS from unbounded log entries
+  const serialized = safeStringify(redacted, MAX_CTX * 2);
   return stripAnsi(serialized) + '\n';
 }
 

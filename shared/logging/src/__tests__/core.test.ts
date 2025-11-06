@@ -22,8 +22,8 @@ const mockStdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => tr
 describe('Logger Core Functionality', () => {
   let mockLogger: MockLogger;
 
-  beforeEach(() => {
-    __resetLoggerForTests();
+  beforeEach(async () => {
+    await __resetLoggerForTests();
     mockStderr.mockClear();
     mockStdout.mockClear();
 
@@ -39,15 +39,15 @@ describe('Logger Core Functionality', () => {
     });
     // Replace the global logger with the mock for singleton tests
     (mockLogger as any).config.console.enabled = false;
-    initLogger(mockLogger.config);
+    await initLogger(mockLogger.config);
   });
 
-  it('should correctly implement the singleton pattern', () => {
+  it('should correctly implement the singleton pattern', async () => {
     const logger1 = getLogger();
     const logger2 = getLogger();
     expect(logger1).toBe(logger2);
 
-    __resetLoggerForTests();
+    await __resetLoggerForTests();
     const logger3 = getLogger();
     expect(logger1).not.toBe(logger3);
   });

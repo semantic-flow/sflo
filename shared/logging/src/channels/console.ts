@@ -18,7 +18,7 @@ export class ConsoleChannel implements LogChannel {
     // Guard against entries below minimum level
     if (entry.level < this.minLevel) return;
 
-    // Always synchronous for console - push async work to buffer
+    // Route to stderr for errors, stdout for other levels
     if (entry.level >= LogLevel.ERROR) {
       this.writeSynchronous(entry, process.stderr);
     } else {
