@@ -76,3 +76,6 @@ logs/
 dist/
 build/
 coverage/
+
+# vscodecounter
+.VSCodeCounter/

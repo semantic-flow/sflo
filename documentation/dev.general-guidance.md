@@ -2,11 +2,14 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Developer General Guidance
 desc: ''
-updated: 1762451172568
+updated: 1762545890061
 created: 1751259888479
 ---
 
-See [[concept.summary]] for a conceptual overview. See [[dev.memory-bank]] for CRITICAL information for AI agents.
+## Agent-specific Instructions
+
+- See [[concept.summary]] for a conceptual overview. See [[dev.memory-bank]] for CRITICAL information for AI agents.
+- agents should re-use terminals instead of starting a new one for each command
 
 ## Workspace layout
 
@@ -250,3 +253,5 @@ This pattern ensures **uniform error reporting** with rich contextual informatio
 
 - **RDF Processing**: Stream large RDF files where possible
 - **File I/O**: Use async file operations consistently
+
+

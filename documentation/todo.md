@@ -2,7 +2,7 @@
 id: xqjr13fyons9goxv8rjrskj
 title: Todo
 desc: ''
-updated: 1762283706097
+updated: 1762536863625
 created: 1755715425146
 ---
 
@@ -16,9 +16,9 @@ This list captures general tasks, ideas, and items that have not yet been broken
 - [ ] Implement the core Weave Process logic (versioning, promotion, link resolution).
 - [ ] Define and implement the two-flow configuration inheritance model.
 - [ ] Create initial unit and integration tests for `sflo-host`.
-- [ ] Embed Quadstore, Comunica, and possible LDKit/RDFine for core, in-memory RDF storage
+- [ ] 
 - [ ] Config
-- [ ] Logging
+- [ ] Logging Phase 2
 
 ## Grooming / Future Tasks
 
