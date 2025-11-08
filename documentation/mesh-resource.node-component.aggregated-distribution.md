@@ -2,15 +2,19 @@
 id: e6enrj5ztz3hz84ojujef0k
 title: Aggregated Distribution
 desc: ''
-updated: 1759000017701
+updated: 1762624123225
 created: 1751631229565
 ---
 
 __note: maybe we will do them, maybe we won't__
+ - t.2025.11.08.09 probably not. Better to go the other way: from a payload dataset, create all its named nodes and link back to the original; keeps things flow-y
+- probably won't do unified distributions except via API. 
 
 A node's **aggregated distribution** is a compilation of all the child flows of itself and its contained nodes (their `_dataset-flow/_current/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
 
-Essentially, it's a "mesh in a single file." 
+Essentially, it's a "(sub-)mesh in a single file." 
+
+Perhaps its only available via API. 
 
 ## Purpose
 
@@ -41,10 +45,9 @@ During [[concept.weave-process]], aggregated distributions are created by:
 ├── my-ontology.ttl              ← Aggregated distribution
 ├── my-ontology.rdf              ← Aggregated distribution  
 ├── my-ontology.jsonld           ← Aggregated distribution
-├── components/
-│   ├── Person/                  ← dataset node (class definition)
-│   ├── hasName/                 ← dataset node (property definition)
-│   └── Organization/            ← dataset node (class definition)
+├── Person/                  ← dataset node (class definition)
+├── hasName/                 ← dataset node (property definition)
+└── Organization/            ← dataset node (class definition)
 ```
 
 ### Knowledge Base

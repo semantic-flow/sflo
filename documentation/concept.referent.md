@@ -2,7 +2,7 @@
 id: referent
 title: Referent
 desc: ''
-updated: 1756869568786
+updated: 1762620125930
 created: 1755990922267
 ---
 
@@ -26,12 +26,12 @@ To talk about the node itself, you use its **node handle** (e.g. published IRI `
 
 * In a **dataset node**, the **referent** is not an external entity but an **evolvable dataset** contained in the node.
 * The dataset evolves as versioned distributions inside the node’s `_dataset-flow` (e.g. `v1/`, `v2/`, …).
-* The `_ref-flow` may describe the dataset, e.g. its **name, type, and provenance**.
+* The `_reference-flow` may describe the dataset, e.g. its **name, type, and provenance**.
 * Example:
 
   * Node IRI: `https://ns.example.org/projects/atlas/`
   * Referent: *the Atlas dataset* (identified by the node IRI, evolving over time).
-  * `_ref-flow`: declares it as a dataset, supplies label and attribution.
+  * `_reference-flow`: declares it as a dataset, supplies label and attribution.
   * `_dataset-flow`: provides concrete versions (`v1`, `v2`, …).
 
 

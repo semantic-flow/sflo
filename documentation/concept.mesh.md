@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1762355528578
+updated: 1762620125937
 created: 1750624002110
 ---
 
@@ -45,8 +45,8 @@ The primary constituents of a mesh are [[mesh-resource.node]]s. Nodes contain th
 | `ns/`                                                 | [[mesh-resource.node.bare]]                                           | - nothing - (yet!)           |
 | `ns/djradon/`                                         | [[mesh-resource.node.reference]]                                      | a person                     |
 | `ns/djradon/_node-handle/`                            | [[mesh-resource.node-component.node-handle]]                          | mesh node                    |
-| `ns/djradon/_ref-flow/`                               | [[mesh-resource.node-component.flow.reference]]                       | reference flow               |
-| `ns/djradon/_ref-flow/_current/`                      | [[mesh-resource.node-component.snapshot-distribution.current]]        | reference flow snapshot      |
+| `ns/djradon/_reference-flow/`                         | [[mesh-resource.node-component.flow.reference]]                       | reference flow               |
+| `ns/djradon/_reference-flow/_current/`                | [[mesh-resource.node-component.snapshot-distribution.current]]        | reference flow snapshot      |
 | `ns/djradon/index.html`                               | [[mesh-resource.node-component.documentation-resource.resource-page]] | resource page (content)      |
 | `ns/djradon/README.md`                                | [[mesh-resource.node-component.documentation-resource.readme]]        | README file (content)        |
 | `ns/djradon/picks/`                                   | [[mesh-resource.node.dataset]]                                        | abstract dataset             |

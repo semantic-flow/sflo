@@ -39,7 +39,7 @@ The main host application that supports semantic mesh use and development. Built
 
 - [[product.plugins.api-docs]] - API documentation/playground (Stoplight Elements)
 - [[product.plugins.mesh-server]] - Static mesh server(s)
-- [[product.plugins.sflo-web]] - Web UI
+- [[product.sflo-web]] - Web UI
 - [[product.plugins.sflo-api]] - OpenAPI REST endpoint
 - [[product.plugins.sparql-ro]] - SPARQL read-only endpoint
 - [[product.plugins.sparql-update]] - SPARQL write-capable endpoint (provided by Comunica)

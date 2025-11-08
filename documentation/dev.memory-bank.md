@@ -2,7 +2,7 @@
 id: f0g7d31ivgn6rgllncdwep8
 title: Memory Bank
 desc: ''
-updated: 1762316148777
+updated: 1762552863614
 created: 1762222195753
 ---
 
@@ -58,6 +58,7 @@ For each task, use a task file in documentation/: `tasks.YYYY-MM-DD-task-name.md
 Required sections:
 - **Prompt** - Original task request
 - **TODO** - Agent's todo list (mirrored from Roo's internal list); must be updated after every update_todo_list tool invocation
+  - TODO items should have the "- [ ] " form, so we can x them off as we go.
 - **Decisions** - Task-specific decisions made during execution
 
 ## Maintenance Guidelines

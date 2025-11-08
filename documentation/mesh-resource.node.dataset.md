@@ -2,11 +2,11 @@
 id: dataset-node
 title: dataset node
 desc: ''
-updated: 1756898216202
+updated: 1762624520798
 created: 1750999795528
 ---
 
-**Dataset nodes** are nodes with datasets conained in them via [[mesh-resource.node-component.flow.dataset]]. They [[concept.denotation]] their contained dataset, and may have a [[mesh-resource.node-component.flow.reference]] to describe that dataset.
+**Dataset nodes** are nodes with datasets conained in them via [[mesh-resource.node-component.flow.dataset]]. They [[denote|concept.denotation]] their contained payload dataset, and must have a [[mesh-resource.node-component.flow.reference]] to describe that dataset.
 
 ## Overview
 
