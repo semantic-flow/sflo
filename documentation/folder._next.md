@@ -1,11 +1,11 @@
 ---
 id: btt731d4bsjpwoyszlnn6i2
-title: next snapshot folder
+title: _next
 desc: ''
-updated: 1752722539576
+updated: 1762635260451
 created: 1751238539745
 ---
 
-Physical manifestation of [[mesh-resource.node-component.flow-snapshot.next]]
+Physical manifestation of (and slug for)  [[mesh-resource.node-component.flow-snapshot.next]]
 
-These folders should only contain a single "[[Working|mesh-resource.node-component.snapshot-distribution.working]]", i.e., a single syntax
+These folders should only contain a single "[[mesh-resource.node-component.snapshot-distribution.working]]", i.e., a single RDF syntax

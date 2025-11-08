@@ -2,7 +2,7 @@
 id: 9c27yly4ed3ju7msf8luhge
 title: node component
 desc: ''
-updated: 1756869582382
+updated: 1762631652876
 created: 1750706813437
 ---
 
@@ -60,6 +60,6 @@ System components are usually created or altered by the [[Weave Process|concept.
 ## Integration with Nodes
 
 Components work in conjunction with mesh nodes to create the complete mesh structure:
-- Every mesh node contains at least two components: metadataset flows and node handles
-- dataset nodes contain a single [[mesh-resource.node-component.flow.payload]] 
-- Any node may contain asset trees (user components) for file attachments
+- Every mesh node contains at least two components: [[mesh-resource.node-component.flow.node-metadata]] and [[mesh-resource.node-component.node-handle]]
+- [[mesh-resource.node.payload]] contain a single [[mesh-resource.node-component.flow.payload]] 
+- Any node may contain asset trees (user files) for bundling or [[concept.weave-process.resource-page-generation]]

@@ -1,28 +1,22 @@
 ---
 id: uwtv6cmipn1vnbn8ewkiikp
-title: Sflo Web
+title: sflo-web
 desc: ''
-updated: 1762574909879
+updated: 1762631536057
 created: 1762260934208
 ---
 
 
 ## Unexamined Technical Architecture
 
-index.html - main HTML entry point
-  - vite.config.ts - Vite configuration file for build and dev server
-  - package.json - SPA dependencies and scripts
+- server-rendered + HTMX approach
 
 - Development workflow:
-  - Use `pnpm` to install dependencies in `/sflo-web`
+  - Use `pnpm` to install dependencies
   - Run `vite` dev server for local development with hot module replacement
   - Build production assets with `vite build`
-  - Output static assets to `/sflo-web/dist` for deployment or serving by shim plugin
-
+  - Output static assets to `/sflo-web/dist` for deployment or serving 
 - Recommended dependencies:
-  - `vue@3`
-  - `vue-router@4` for SPA routing
-  - `pinia` for state management
   - `fetch` for API calls to `sflo-api`
 
 - Testing:

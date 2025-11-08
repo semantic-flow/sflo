@@ -1,9 +1,9 @@
 ---
 id: cxqccr4kfh6vbss1l14lrzd
-title: version snapshot folder
+title: _vN
 desc: ''
-updated: 1755850422037
+updated: 1762635155218
 created: 1751129966884
 ---
 
-- the name of [[concept.mesh.dataset-version]] folders
+- the name of [[mesh-resource.node-component.flow-snapshot.version]] folders

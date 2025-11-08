@@ -2,7 +2,7 @@
 id: yxn5rsqsv2gq4s6wbnxsjsj
 title: ' Now'
 desc: ''
-updated: 1762283096209
+updated: 1762639278810
 created: 1755715411842
 ---
 
@@ -12,17 +12,15 @@ This document captures the high-level, current focus of development. It should b
 
 ## Current Priority
 
-Implementing the [[Agent Memory Bank|task.2025-11-03-optimizing-for-agents]] system and refining the core documentation to support AI-assisted development.
+- ontology update and conversion to jsonld
 
 ## Active Tasks
 
-- Establishing project-level memory bank files (this task).
-- Defining custom mode rules for agents to enforce memory bank usage.
-- Refining the core concepts in [[concept.summary]].
+- [[task.2025-11-06-embed-quadstore-comunica]]
+- figure out provenance - separate flow?
 
 ## Blockers / Risks
 
-- Ensuring all agents (human and AI) consistently use and maintain the memory bank files to prevent context drift.
 - Full implementation of the Weave Process remains a large, pending task.
 
 ## Related Status

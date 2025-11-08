@@ -2,17 +2,42 @@
 id: 4v2b7t8nbzkmtyvnayye3vj
 title: Provenance
 desc: ''
-updated: 1762626428418
+updated: 1762635059895
 created: 1753117923066
 ---
 
 ## Core Principles
 
-**Version-only provenance** - Provenance is recorded only for immutable version snapshots (like `_v47`), not for moving targets like `_current` or `_next`.
+**Version-only provenance** - Provenance reference in [[mesh-resource.node-component.flow-snapshot.current]] should reference its corresponding stable version; 
 
 **Meta-flow storage** - Semantic Flow-specific provenance lives in meta-flows, referencing version snapshots in other flows. Domain-specific provenance can live in datasets themselves.
 
 **Current snapshot duplication** - `_current` meta snapshots contain identical copies of the latest version's provenance with base URI pointing to the version snapshot for stable fragment resolution.
+
+## Fragment Identifier Naming Scheme
+
+To ensure that every RDF node used in a `[[mesh-resource.node-component.flow.node-metadata]] distribution` has a unique and dereferenceable URI, the following naming scheme for [[fragment identifiers|concept.fragment-identifiers]] MUST be used. This allows the metadata snapshot's [[mesh-resource.node-component.documentation-resource.resource-page]] to correctly provide anchors for all provenance entities.
+
+The structure is as follows:
+
+`<{flow-slug}-{version}-{entity-type}[-{unique-part}]>`
+
+-   **`{flow-slug}`**: The slug of the flow this provenance describes (e.g., `[[folder._config-inheritable-flow]]`, `data-flow`). This provides the primary namespace for the identifier.
+-   **`{version}`**: The version of the target flow's snapshot (e.g., `v47`). This scopes the provenance to a specific point in time.
+-   **`{entity-type}`**: The class of the entity, using a consistent UpperCamelCase (e.g., `Activity`, `Context`, `DelegationChain`, `DelegationStep`).
+-   **`{unique-part}`**: (Optional) A unique suffix, such as a step number or a timestamp, used when multiple entities of the same type exist for the same flow and version.
+
+### Provenance Fragment Identifier Examples
+
+For a `config-flow` at version `v47`, the identifiers would be:
+
+-   **Activity**: `<#config-flow-v47-Activity>`
+-   **Provenance Context**: `<#config-flow-v47-Context>`
+-   **Delegation Chain**: `<#config-flow-v47-DelegationChain>`
+-   **Delegation Steps**:
+    -   `<#config-flow-v47-DelegationStep-1>`
+    -   `<#config-flow-v47-DelegationStep-2>`
+
 
 ## Architecture
 
@@ -23,7 +48,7 @@ created: 1753117923066
 @base <../_v47/> .
 
 # Weave activity with PROV standard properties
-:configUpdateActivity a meta:ConfigWeave ;
+:#configUpdateActivity a meta:ConfigWeave ;
     prov:startedAtTime "2025-07-20T14:30:00Z" ;
     prov:endedAtTime "2025-07-20T14:30:15Z" ;
     prov:used <../../_config-flow/_v46/config.jsonld> ;
@@ -121,26 +146,3 @@ For flows without versioning, activities accumulate in `_next` with unique times
 - **Rights inheritance**: Capture previous version rights holders in provenance contexts when content is derived
 - **Static site friendly**: Documentation approach for external references since no server-side redirects available
 
-## Fragment Identifier Naming Scheme
-
-To ensure that every RDF node within a `_meta` distribution has a unique and dereferenceable URI, the following naming scheme for fragment identifiers MUST be used. This allows the `index.html` file for a given snapshot version to correctly link to all provenance entities.
-
-The structure is as follows:
-
-`<{flow-slug}-{version}-{entity-type}[-{unique-part}]>`
-
--   **`{flow-slug}`**: The slug of the flow this provenance describes (e.g., `config-flow`, `data-flow`). This provides the primary namespace for the identifier.
--   **`{version}`**: The version of the snapshot (e.g., `v47`). This scopes the provenance to a specific point in time.
--   **`{entity-type}`**: The class of the entity, using a consistent UpperCamelCase (e.g., `Activity`, `Context`, `DelegationChain`, `DelegationStep`).
--   **`{unique-part}`**: (Optional) A unique suffix, such as a step number or a timestamp, used when multiple entities of the same type exist for the same flow and version.
-
-### Example
-
-For a `config-flow` at version `v47`, the identifiers would be:
-
--   **Activity**: `<#config-flow-v47-Activity>`
--   **Provenance Context**: `<#config-flow-v47-Context>`
--   **Delegation Chain**: `<#config-flow-v47-DelegationChain>`
--   **Delegation Steps**:
-    -   `<#config-flow-v47-DelegationStep-1>`
-    -   `<#config-flow-v47-DelegationStep-2>`

@@ -1,8 +1,8 @@
 ---
 id: nokx5o047yld6voaxnx8tmw
-title: _config Inheritable Flow
+title: _config-inheritable-flow
 desc: ''
-updated: 1755845390098
+updated: 1762635070943
 created: 1755845377183
 ---
 

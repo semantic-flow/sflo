@@ -1,9 +1,9 @@
 ---
 id: xz41kd5hzao6yjybm05uw4l
-title: current snapshot folder
+title: _current
 desc: ''
-updated: 1752722555795
+updated: 1762635346366
 created: 1751671938591
 ---
 
-- an [[mesh-resource.node-component.flow-snapshot]]
+- filesystem representation and slug for  [[mesh-resource.node-component.flow-snapshot.current]]
