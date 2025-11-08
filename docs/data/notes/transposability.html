@@ -1,0 +1,69 @@
+<h1 id="transposability">transposability<a aria-hidden="true" class="anchor-heading icon-link" href="#transposability"></a></h1>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>There are two types of mesh transposability:</p>
+<ul>
+<li><strong><a href="/sflo/notes/host-transposability">Host transposability</a></strong> is the ability to move a <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a> to different serving locations without breaking its internal structure; i.e., A transposable mesh works correctly regardless of which <a href="/sflo/notes/namespace-context">namespace context</a> contains it.</li>
+<li><strong><a href="/sflo/notes/intramesh-transposability">Intramesh transposability</a></strong> is the ability to move a <a href="/sflo/notes/submesh">submesh</a> to a different part of the mesh</li>
+</ul>
+<p>Both types of transposability rely on the use of an <a href="/sflo/notes/implied-rdf-base">implied rdf base</a> and the use of <a href="/sflo/notes/relative-identifier">relative identifier</a>s for intramesh references.</p>
+<h2 id="key-principles">Key Principles<a aria-hidden="true" class="anchor-heading icon-link" href="#key-principles"></a></h2>
+<h3 id="1-no-hardcoded-base-uris">1. No Hardcoded BASE URIs<a aria-hidden="true" class="anchor-heading icon-link" href="#1-no-hardcoded-base-uris"></a></h3>
+<p>Semantic Flow never specifies BASE URIs in RDF distribution files. Instead, it relies on the RDF specification's defined behavior for situations where "no base URI is embedded and the representation is not encapsulated within some other entity": parsers use the document's retrieval IRI as the base URI. </p>
+<h3 id="2-uri-reference-strategies">2. URI Reference Strategies<a aria-hidden="true" class="anchor-heading icon-link" href="#2-uri-reference-strategies"></a></h3>
+<ul>
+<li>use <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a> identifiers for internal references, see <a href="/sflo/notes/s1yduc399adt3ihvnwievrd">Reference Iri Choices</a></li>
+</ul>
+<h2 id="transposition-scenarios">Transposition Scenarios<a aria-hidden="true" class="anchor-heading icon-link" href="#transposition-scenarios"></a></h2>
+<h3 id="moving-complete-meshes">Moving Complete Meshes<a aria-hidden="true" class="anchor-heading icon-link" href="#moving-complete-meshes"></a></h3>
+<p>A complete mesh can be moved between repos, accounts, or hosting providers:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Original location</span>
+https://djradon.github.io/mesh/
+
+<span class="token comment"># New location after moving repo</span>
+https://myorganization.github.io/data-mesh/
+
+<span class="token comment"># Or new hosting provider</span>
+https://mysite.com/semantic-data/
+</code></pre>
+<p>All internal relationships continue to work because they resolve relative to the new serving location.</p>
+<h3 id="moving-submeshes-within-hierarchy">Moving Submeshes Within Hierarchy<a aria-hidden="true" class="anchor-heading icon-link" href="#moving-submeshes-within-hierarchy"></a></h3>
+<p>While technically possible, moving parts of a mesh to different <a href="/sflo/notes/namespace">Namespace</a>s is <strong>discouraged</strong> as it breaks the permanence principle of semantic identifiers. IRIs should remain stable over time.</p>
+<p>Example of what to avoid:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Discouraged: moving bio from one parent to another</span>
+ns/djradon/projects/bio/ → ns/djradon/bio/
+</code></pre>
+<p>This changes the permanent identifier for the bio resource and may break external references.</p>
+<h2 id="implementation-benefits">Implementation Benefits<a aria-hidden="true" class="anchor-heading icon-link" href="#implementation-benefits"></a></h2>
+<h3 id="no-build-step-required">No Build Step Required<a aria-hidden="true" class="anchor-heading icon-link" href="#no-build-step-required"></a></h3>
+<p>Meshes work directly when served from any static file server:</p>
+<ul>
+<li>GitHub Pages</li>
+<li>Netlify  </li>
+<li>Apache/Nginx</li>
+<li>Local file system</li>
+</ul>
+<h3 id="standards-compliance">Standards Compliance<a aria-hidden="true" class="anchor-heading icon-link" href="#standards-compliance"></a></h3>
+<p>Transposability leverages standard RDF parsing behavior rather than custom mechanisms, ensuring compatibility with existing RDF tools and libraries.</p>
+<h2 id="best-practices">Best Practices<a aria-hidden="true" class="anchor-heading icon-link" href="#best-practices"></a></h2>
+<ol>
+<li><strong>Use relative URIs</strong> for all intra-mesh references</li>
+<li><strong>Avoid reorganizing internal structure</strong>: because mesh structure determines namespaces, to maintain stable namespaces and preserve identifier permanence, nodes should not be moved around once published</li>
+<li><strong>Test transposition</strong> by serving from different locations</li>
+<li><strong>Validate RDF</strong> after moving to ensure parser compatibility</li>
+</ol>
+<hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/intramesh-transposability">Intramesh Transposability</a></li>
+<li><a href="/sflo/notes/host-transposability">host transposability</a></li>
+</ol>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a></li>
+<li><a href="/sflo/notes/s1yduc399adt3ihvnwievrd">Reference Iri Choices</a></li>
+<li><a href="/sflo/notes/tudefgmmf2pdx28zb9xs84j">Product Brief</a></li>
+<li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
+<li><a href="/sflo/notes/fd1whkyvoagggk6ubysjl50">djradon's sflo devlog</a></li>
+</ul>

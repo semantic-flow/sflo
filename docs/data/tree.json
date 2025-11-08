@@ -16,42 +16,74 @@
           "children": []
         },
         {
-          "key": "83yzgsz8hm57sdmea1idbj6",
-          "title": "Flow",
-          "icon": "plusOutlined",
+          "key": "denotation",
+          "title": "denotation",
+          "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
-          "children": [
-            {
-              "key": "t6d0klsie3jgwlndtwcqhob",
-              "title": "static site generation",
-              "icon": null,
-              "hasTitleNumberOutlined": false,
-              "vaultName": "sflo",
-              "children": []
-            }
-          ]
+          "children": []
         },
         {
-          "key": "concept-identifier",
+          "key": "t63w4fy7t5yinb4ahht4x35",
+          "title": "Hosting",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "identifier",
           "title": "identifier",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
           "children": [
             {
+              "key": "external-identifier",
+              "title": "external identifier",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
               "key": "17l23vl7sqg997hr773dh23",
               "title": "intramesh identifier",
               "icon": null,
               "hasTitleNumberOutlined": false,
               "vaultName": "sflo",
-              "children": []
+              "children": [
+                {
+                  "key": "odx9stmmni6ux1bopun884d",
+                  "title": "absolute",
+                  "icon": null,
+                  "hasTitleNumberOutlined": false,
+                  "vaultName": "sflo",
+                  "children": []
+                },
+                {
+                  "key": "relative-identifier",
+                  "title": "relative identifier",
+                  "icon": null,
+                  "hasTitleNumberOutlined": false,
+                  "vaultName": "sflo",
+                  "children": []
+                }
+              ]
             }
           ]
         },
         {
           "key": "q4jqx5qr6hbp6fo3pfvh042",
           "title": "Immutability",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "implied-rdf-base",
+          "title": "implied rdf base",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
@@ -81,15 +113,23 @@
               "children": []
             },
             {
-              "key": "afxbxgyyzpzfb98a66fhuhw",
-              "title": "Embedded Mesh",
+              "key": "embedded-mesh",
+              "title": "embedded mesh",
               "icon": null,
               "hasTitleNumberOutlined": false,
               "vaultName": "sflo",
               "children": []
             },
             {
-              "key": "855vlw6c8io3y5h355tqo3y",
+              "key": "loose-mesh",
+              "title": "loose mesh",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
+              "key": "submesh",
               "title": "submesh",
               "icon": null,
               "hasTitleNumberOutlined": false,
@@ -97,6 +137,14 @@
               "children": []
             }
           ]
+        },
+        {
+          "key": "mesh-location",
+          "title": "mesh location",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
         },
         {
           "key": "c4wo7mdjzcit2bmvqr5sx4u",
@@ -124,23 +172,31 @@
           ]
         },
         {
-          "key": "vhywrpw2eemb0kfaxa5xhdk",
+          "key": "namespace",
           "title": "Namespace",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
           "children": [
             {
-              "key": "f2dk7cwbol4o1jsnd0cun1g",
-              "title": "namespace base",
+              "key": "namespace-context",
+              "title": "namespace context",
               "icon": null,
               "hasTitleNumberOutlined": false,
               "vaultName": "sflo",
               "children": []
             },
             {
-              "key": "7qo569nzfk3l8yo1ah6erb2",
-              "title": "Namespace Segment",
+              "key": "h399p5bkq2p6736uh9s7jn0",
+              "title": "namespace root",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
+              "key": "namespace-segment",
+              "title": "namespace segment",
               "icon": null,
               "hasTitleNumberOutlined": false,
               "vaultName": "sflo",
@@ -156,14 +212,6 @@
               ]
             }
           ]
-        },
-        {
-          "key": "4lmk40v9w9bucadmrq6i7mt",
-          "title": "Namespace Relative Basing",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
         },
         {
           "key": "pqjdlyd8g80x3yr9o3p82mj",
@@ -182,15 +230,15 @@
           "children": []
         },
         {
-          "key": "rxo5ieolun175zmjncj94ft",
-          "title": "Publication",
+          "key": "publication",
+          "title": "publication",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
           "children": []
         },
         {
-          "key": "iorxcnsnmhl0hw3ki8w3h2z",
+          "key": "referent",
           "title": "Referent",
           "icon": null,
           "hasTitleNumberOutlined": false,
@@ -214,7 +262,15 @@
           "children": []
         },
         {
-          "key": "q0tc7heygete4chh1mhue4b",
+          "key": "semantic-flow-site",
+          "title": "Semantic Flow site",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "mntgn72ujewkdhb9ww2dsi6",
           "title": "Semantic Mesh",
           "icon": "plusOutlined",
           "hasTitleNumberOutlined": false,
@@ -229,14 +285,6 @@
               "children": []
             }
           ]
-        },
-        {
-          "key": "ynqxgf8uv2bgbdi81wlz29g",
-          "title": "Semantic Site",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
         },
         {
           "key": "qprjez1ghjok1zqenb9fpxl",
@@ -268,22 +316,31 @@
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
-          "children": []
-        },
-        {
-          "key": "2qp8vfjygd43lmwcmj6362r",
-          "title": "Working Distribution",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
+          "children": [
+            {
+              "key": "resource-page-generation",
+              "title": "static site generation",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            }
+          ]
         }
       ]
     },
     {
-      "key": "19a9e7c270ebne02zeg3fje",
-      "title": "Development",
+      "key": "qa6hqxy4tknnmutvq13onaq",
+      "title": "Decision Log",
       "icon": null,
+      "hasTitleNumberOutlined": false,
+      "vaultName": "sflo",
+      "children": []
+    },
+    {
+      "key": "8lbblgh43pkx93frnrb48qq",
+      "title": "Dev",
+      "icon": "plusOutlined",
       "hasTitleNumberOutlined": false,
       "vaultName": "sflo",
       "children": [
@@ -330,8 +387,40 @@
           "children": []
         },
         {
+          "key": "1ieo7152nf46x4wiip1vwx5",
+          "title": "Dependencies",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
           "key": "xebek3dtv2zgs9ah0vbv57g",
-          "title": "Semantic Flow General Guidance",
+          "title": "Developer General Guidance",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "ewpjwhqsry5j49gdfj9xd0b",
+          "title": "Logging and Error Handling",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "f0g7d31ivgn6rgllncdwep8",
+          "title": "Memory Bank",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "i9v5cbqq2zqfhrjcolq48df",
+          "title": "Patterns",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
@@ -348,16 +437,24 @@
       ]
     },
     {
-      "key": "33hi315wuis0ghnuy09bp2z",
-      "title": "Facet",
+      "key": "facets",
+      "title": "facets",
       "icon": null,
       "hasTitleNumberOutlined": false,
       "vaultName": "sflo",
       "children": [
         {
-          "key": "n6ftbuwjqieungxbg7n2g2j",
-          "title": "Filesystem",
-          "icon": "plusOutlined",
+          "key": "external-facet",
+          "title": "external facet",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "xobqf2q0753lso7nhtbe0v8",
+          "title": "filesystem facets",
+          "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
           "children": [
@@ -380,31 +477,15 @@
           ]
         },
         {
-          "key": "qepi24uxfnvyds0nsdgkxhd",
-          "title": "Flow",
-          "icon": "plusOutlined",
+          "key": "3zt4vtoetamv60m1klc6ahk",
+          "title": "flow facets",
+          "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
           "children": [
             {
               "key": "20dz80zbx82nrym7e88ozy7",
               "title": "de-versioned flow facet",
-              "icon": null,
-              "hasTitleNumberOutlined": false,
-              "vaultName": "sflo",
-              "children": []
-            },
-            {
-              "key": "m7err0vqbttxv3o65ayclyk",
-              "title": "handle flow facet",
-              "icon": null,
-              "hasTitleNumberOutlined": false,
-              "vaultName": "sflo",
-              "children": []
-            },
-            {
-              "key": "4tjoosyylf6dpu1ylx565aw",
-              "title": "node flow facet",
               "icon": null,
               "hasTitleNumberOutlined": false,
               "vaultName": "sflo",
@@ -437,6 +518,14 @@
           ]
         },
         {
+          "key": "internal-facet",
+          "title": "internal facet",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
           "key": "jyxdcjrv3npwwki06sfspqg",
           "title": "mesh resource facets",
           "icon": null,
@@ -444,8 +533,24 @@
           "vaultName": "sflo",
           "children": [
             {
+              "key": "bl6zrmitungtaimgnl19d0q",
+              "title": "Content",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
               "key": "6ki4upsdymjb9vy82oec2cf",
               "title": "dataset facet",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
+              "key": "naming resource",
+              "title": "naming resource",
               "icon": null,
               "hasTitleNumberOutlined": false,
               "vaultName": "sflo",
@@ -480,7 +585,7 @@
       "children": [
         {
           "key": "tn4fb1v558dd7sh1r5ubh7n",
-          "title": "Do data nodes support DatasetSeries?",
+          "title": "Do dataset nodes support DatasetSeries?",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
@@ -503,7 +608,23 @@
           "children": []
         },
         {
-          "key": "faq002",
+          "key": "sc3en943aneihaipiop81dk",
+          "title": "Should Data about a Referent Go in Its Reference Flow or a Contained Payload Flow",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "mz73fb9tuhefiycyddi2xw3",
+          "title": "What Is the referential difference between a payload node's IRI and its payload flow's IRI",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "why-are-there-components-at-the-top-of-a-repo",
           "title": "Why are there components at the top of a repo?",
           "icon": null,
           "hasTitleNumberOutlined": false,
@@ -512,7 +633,7 @@
         },
         {
           "key": "osqi7xn4mw3j9v0kvsoc5uo",
-          "title": "Why Dont data nodes Contain Distributions Directly",
+          "title": "Why Dont payload nodes Contain Distributions Directly",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
@@ -562,8 +683,16 @@
       ]
     },
     {
-      "key": "ooq9uh0sqm7ka2a54bp0zm6",
-      "title": "mesh folders",
+      "key": "mesh-file",
+      "title": "mesh file",
+      "icon": null,
+      "hasTitleNumberOutlined": false,
+      "vaultName": "sflo",
+      "children": []
+    },
+    {
+      "key": "mesh-folder",
+      "title": "mesh folder",
       "icon": null,
       "hasTitleNumberOutlined": false,
       "vaultName": "sflo",
@@ -601,14 +730,6 @@
           "children": []
         },
         {
-          "key": "4cfum6mrz7w7prcmytk4v5x",
-          "title": "data flow folder",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
-        },
-        {
           "key": "btt731d4bsjpwoyszlnn6i2",
           "title": "next snapshot folder",
           "icon": null,
@@ -633,8 +754,16 @@
           "children": []
         },
         {
+          "key": "4cfum6mrz7w7prcmytk4v5x",
+          "title": "payload flow folder",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
           "key": "obufq0awwxl3d913va37i3a",
-          "title": "_ref-flow folder",
+          "title": "_reference-flow folder",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
@@ -643,14 +772,6 @@
         {
           "key": "cxqccr4kfh6vbss1l14lrzd",
           "title": "version snapshot folder",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
-        },
-        {
-          "key": "ragu0uc06vmiqvmn41r070e",
-          "title": "namespace folder",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
@@ -667,9 +788,9 @@
       ]
     },
     {
-      "key": "42o8iwwkuygy3w63bn94e6q",
-      "title": "Guide",
-      "icon": "plusOutlined",
+      "key": "guides",
+      "title": "guides",
+      "icon": null,
       "hasTitleNumberOutlined": false,
       "vaultName": "sflo",
       "children": [
@@ -680,59 +801,34 @@
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
           "children": []
-        }
-      ]
-    },
-    {
-      "key": "yxn5rsqsv2gq4s6wbnxsjsj",
-      "title": " Now",
-      "icon": null,
-      "hasTitleNumberOutlined": false,
-      "vaultName": "sflo",
-      "children": []
-    },
-    {
-      "key": "l9g8eki3dtir51o4jagac5a",
-      "title": "Principles",
-      "icon": null,
-      "hasTitleNumberOutlined": false,
-      "vaultName": "sflo",
-      "children": [
+        },
         {
-          "key": "principle-composability",
-          "title": "composability",
+          "key": "60dxsve6jz4jm9j3o31bmf2",
+          "title": "Ontologies",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
           "children": []
         },
         {
-          "key": "x5zwfsdfzap0c5843n5a1fh",
-          "title": "Dereferencability for Humans",
+          "key": "tudefgmmf2pdx28zb9xs84j",
+          "title": "Product Brief",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
           "children": []
         },
         {
-          "key": "ngw89xo9m9jop5b3o32dwwd",
-          "title": "pseudo-immutability",
+          "key": "p1h6n78assy929ogf6e97uy",
+          "title": "Project Brief",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
           "children": []
         },
         {
-          "key": "4ado7w6mwrrcphy9p1kpfa3",
-          "title": "Single Referent Principle",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
-        },
-        {
-          "key": "principle-transposability",
-          "title": "transposability",
+          "key": "4unsyhyp8tmhqsdxwndy315",
+          "title": "Status",
           "icon": null,
           "hasTitleNumberOutlined": false,
           "vaultName": "sflo",
@@ -741,82 +837,8 @@
       ]
     },
     {
-      "key": "ft4rt581qo1s7w3aitc02i8",
-      "title": "Product",
-      "icon": "plusOutlined",
-      "hasTitleNumberOutlined": false,
-      "vaultName": "sflo",
-      "children": [
-        {
-          "key": "dbaynabroewbewplp3pt6sk",
-          "title": "CLI",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
-        },
-        {
-          "key": "63tfb27btzbph10tpvckz7b",
-          "title": "sflo-api",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
-        },
-        {
-          "key": "73k0himk6cuq7sqhp8rshtg",
-          "title": "sflo-host",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
-        },
-        {
-          "key": "msmbj37nrwamcx7d1xq4wbh",
-          "title": "sflo-web",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
-        }
-      ]
-    },
-    {
-      "key": "28q7fh05bs691llgv7htxnw",
-      "title": "Product Ideas",
-      "icon": null,
-      "hasTitleNumberOutlined": false,
-      "vaultName": "sflo",
-      "children": [
-        {
-          "key": "h4qk30cdxajlrs47toszogm",
-          "title": "Fluree Connector",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
-        },
-        {
-          "key": "4j2enes6uw5mgysfqaucuty",
-          "title": "Hateoas Driven API Recipe",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
-        },
-        {
-          "key": "eglidj3vsec43l15d01e4i3",
-          "title": "Sparql Sync",
-          "icon": null,
-          "hasTitleNumberOutlined": false,
-          "vaultName": "sflo",
-          "children": []
-        }
-      ]
-    },
-    {
-      "key": "xmdevh3s6gvp93m3nyc6683",
-      "title": "mesh resource",
+      "key": "mesh-resource",
+      "title": "mesh resources",
       "icon": null,
       "hasTitleNumberOutlined": false,
       "vaultName": "sflo",
@@ -837,21 +859,20 @@
               "children": []
             },
             {
+              "key": "payload-node",
+              "title": "paylod node",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
               "key": "bxqmsolrgfu4fm16m5acii7",
               "title": "reference node",
               "icon": null,
               "hasTitleNumberOutlined": false,
               "vaultName": "sflo",
-              "children": [
-                {
-                  "key": "8hmkiyjtsey7z8y5oi5xdxx",
-                  "title": "dataset reference nodes",
-                  "icon": null,
-                  "hasTitleNumberOutlined": false,
-                  "vaultName": "sflo",
-                  "children": []
-                }
-              ]
+              "children": []
             }
           ]
         },
@@ -927,14 +948,6 @@
               "vaultName": "sflo",
               "children": [
                 {
-                  "key": "9j8lhoyb0xkhg926nafgkai",
-                  "title": "data flow",
-                  "icon": null,
-                  "hasTitleNumberOutlined": false,
-                  "vaultName": "sflo",
-                  "children": []
-                },
-                {
                   "key": "kr1y9tt3qljsbfy8lxm3u1g",
                   "title": "meshnode config flows",
                   "icon": null,
@@ -961,7 +974,15 @@
                 },
                 {
                   "key": "0y6p8e594peoult03gobm94",
-                  "title": "metadata flow",
+                  "title": "metapayload flow",
+                  "icon": null,
+                  "hasTitleNumberOutlined": false,
+                  "vaultName": "sflo",
+                  "children": []
+                },
+                {
+                  "key": "payload-flow",
+                  "title": "payload flow",
                   "icon": null,
                   "hasTitleNumberOutlined": false,
                   "vaultName": "sflo",
@@ -1011,23 +1032,6 @@
               ]
             },
             {
-              "key": "8m0tzd902ghdsaitlrjb3dz",
-              "title": "Handle",
-              "icon": "plusOutlined",
-              "hasTitleNumberOutlined": false,
-              "vaultName": "sflo",
-              "children": [
-                {
-                  "key": "8uslab6gy073jcq6kz9nhyn",
-                  "title": "handle resource page",
-                  "icon": null,
-                  "hasTitleNumberOutlined": false,
-                  "vaultName": "sflo",
-                  "children": []
-                }
-              ]
-            },
-            {
               "key": "9el7ivz22xvt8exiz7tj23f",
               "title": "Node Config Defaults",
               "icon": null,
@@ -1041,7 +1045,16 @@
               "icon": null,
               "hasTitleNumberOutlined": false,
               "vaultName": "sflo",
-              "children": []
+              "children": [
+                {
+                  "key": "handle-resource-page",
+                  "title": "handle resource page",
+                  "icon": null,
+                  "hasTitleNumberOutlined": false,
+                  "vaultName": "sflo",
+                  "children": []
+                }
+              ]
             },
             {
               "key": "0n1lq6aq1gskj46bpcx9h4h",
@@ -1049,9 +1062,297 @@
               "icon": null,
               "hasTitleNumberOutlined": false,
               "vaultName": "sflo",
+              "children": [
+                {
+                  "key": "03zz91vesv8pz6sj8jhuy29",
+                  "title": "current distribution",
+                  "icon": null,
+                  "hasTitleNumberOutlined": false,
+                  "vaultName": "sflo",
+                  "children": []
+                },
+                {
+                  "key": "rs5d7fcphmre7h1ltz4t9ut",
+                  "title": "version distribution",
+                  "icon": null,
+                  "hasTitleNumberOutlined": false,
+                  "vaultName": "sflo",
+                  "children": []
+                },
+                {
+                  "key": "2qp8vfjygd43lmwcmj6362r",
+                  "title": "working distribution",
+                  "icon": null,
+                  "hasTitleNumberOutlined": false,
+                  "vaultName": "sflo",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "yxn5rsqsv2gq4s6wbnxsjsj",
+      "title": " Now",
+      "icon": null,
+      "hasTitleNumberOutlined": false,
+      "vaultName": "sflo",
+      "children": []
+    },
+    {
+      "key": "l9g8eki3dtir51o4jagac5a",
+      "title": "Principles",
+      "icon": null,
+      "hasTitleNumberOutlined": false,
+      "vaultName": "sflo",
+      "children": [
+        {
+          "key": "principle-composability",
+          "title": "composability",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "x5zwfsdfzap0c5843n5a1fh",
+          "title": "Dereferencability for Humans",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "ngw89xo9m9jop5b3o32dwwd",
+          "title": "pseudo-immutability",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "4ado7w6mwrrcphy9p1kpfa3",
+          "title": "Single Referent Principle",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "transposability",
+          "title": "transposability",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": [
+            {
+              "key": "host-transposability",
+              "title": "host transposability",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
+              "key": "intramesh-transposability",
+              "title": "Intramesh Transposability",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
               "children": []
             }
           ]
+        }
+      ]
+    },
+    {
+      "key": "products",
+      "title": "products",
+      "icon": null,
+      "hasTitleNumberOutlined": false,
+      "vaultName": "sflo",
+      "children": [
+        {
+          "key": "dbaynabroewbewplp3pt6sk",
+          "title": "sflo CLI",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "6e414sorsnkjy66cws0ev9b",
+          "title": "Plugins",
+          "icon": "plusOutlined",
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": [
+            {
+              "key": "sny3p0risg0h1nmx4zdkq6p",
+              "title": "API Docs plugin",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
+              "key": "bn5jhz9sr2lvqq02s1b4j2x",
+              "title": "Mesh Server",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
+              "key": "63tfb27btzbph10tpvckz7b",
+              "title": "sflo-api plugin",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
+              "key": "2ldpw5fu0v9qq19r0wf9a3j",
+              "title": "Sparql Editor",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
+              "key": "dy7pxuck9namnxlmz8gl80t",
+              "title": "Sparql Ro",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            },
+            {
+              "key": "kvsgy8qci2uxgcnve7e424f",
+              "title": "Sparql Upd",
+              "icon": null,
+              "hasTitleNumberOutlined": false,
+              "vaultName": "sflo",
+              "children": []
+            }
+          ]
+        },
+        {
+          "key": "73k0himk6cuq7sqhp8rshtg",
+          "title": "sflo-host",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "uwtv6cmipn1vnbn8ewkiikp",
+          "title": "Sflo Web",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        }
+      ]
+    },
+    {
+      "key": "28q7fh05bs691llgv7htxnw",
+      "title": "Product Ideas",
+      "icon": null,
+      "hasTitleNumberOutlined": false,
+      "vaultName": "sflo",
+      "children": [
+        {
+          "key": "h4qk30cdxajlrs47toszogm",
+          "title": "Fluree Connector",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "4j2enes6uw5mgysfqaucuty",
+          "title": "Hateoas Driven API Recipe",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "eglidj3vsec43l15d01e4i3",
+          "title": "Sparql Sync",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        }
+      ]
+    },
+    {
+      "key": "tkw34hrqxficesa0y2r62s0",
+      "title": "Progress",
+      "icon": null,
+      "hasTitleNumberOutlined": false,
+      "vaultName": "sflo",
+      "children": []
+    },
+    {
+      "key": "5w9g6pav1kogbqzp8618jxv",
+      "title": "Task",
+      "icon": "plusOutlined",
+      "hasTitleNumberOutlined": false,
+      "vaultName": "sflo",
+      "children": [
+        {
+          "key": "g97elh6q5bszy2c74gsmuqk",
+          "title": "2025 11 03 Optimizing for Agents",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "3hejrrsh4j7i5p2l7rk38n6",
+          "title": "2025 11 04 Shared Logging and Errorhandling",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "yasopcpwfbmltdtgphya86n",
+          "title": "2025 11 06 Embed Quadstore Comunica",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        },
+        {
+          "key": "v438f0fzw03t4cqcsis3asp",
+          "title": "2025 11 07 Web App Not a Plugin",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
+        }
+      ]
+    },
+    {
+      "key": "dypxioqhqlvodpkdk1ce0kx",
+      "title": "Template",
+      "icon": "plusOutlined",
+      "hasTitleNumberOutlined": false,
+      "vaultName": "sflo",
+      "children": [
+        {
+          "key": "9g01pxzehgsv1f2zkptbap4",
+          "title": "Task",
+          "icon": null,
+          "hasTitleNumberOutlined": false,
+          "vaultName": "sflo",
+          "children": []
         }
       ]
     },
@@ -1064,9 +1365,9 @@
       "children": []
     },
     {
-      "key": "04da48tdciqmtx35rkmw2e0",
-      "title": "Use Case",
-      "icon": "plusOutlined",
+      "key": "use-cases",
+      "title": "use cases",
+      "icon": null,
       "hasTitleNumberOutlined": false,
       "vaultName": "sflo",
       "children": [
@@ -1084,109 +1385,112 @@
   "child2parent": {
     "p0vd6xnshcxw14ztkglxyxn": null,
     "mf6mhj0ihmdxtftnxfatghj": "p0vd6xnshcxw14ztkglxyxn",
-    "83yzgsz8hm57sdmea1idbj6": "p0vd6xnshcxw14ztkglxyxn",
-    "t6d0klsie3jgwlndtwcqhob": "83yzgsz8hm57sdmea1idbj6",
-    "concept-identifier": "p0vd6xnshcxw14ztkglxyxn",
-    "17l23vl7sqg997hr773dh23": "concept-identifier",
+    "denotation": "p0vd6xnshcxw14ztkglxyxn",
+    "t63w4fy7t5yinb4ahht4x35": "p0vd6xnshcxw14ztkglxyxn",
+    "identifier": "p0vd6xnshcxw14ztkglxyxn",
+    "external-identifier": "identifier",
+    "17l23vl7sqg997hr773dh23": "identifier",
+    "odx9stmmni6ux1bopun884d": "17l23vl7sqg997hr773dh23",
+    "relative-identifier": "17l23vl7sqg997hr773dh23",
     "q4jqx5qr6hbp6fo3pfvh042": "p0vd6xnshcxw14ztkglxyxn",
+    "implied-rdf-base": "p0vd6xnshcxw14ztkglxyxn",
     "onheps7i79fvmzgfnm11phw": "p0vd6xnshcxw14ztkglxyxn",
     "h6ssv16gdyf56gg235dxv85": "p0vd6xnshcxw14ztkglxyxn",
     "gg6sytx57oq77ugqk7x3tvn": "h6ssv16gdyf56gg235dxv85",
-    "afxbxgyyzpzfb98a66fhuhw": "h6ssv16gdyf56gg235dxv85",
-    "855vlw6c8io3y5h355tqo3y": "h6ssv16gdyf56gg235dxv85",
+    "embedded-mesh": "h6ssv16gdyf56gg235dxv85",
+    "loose-mesh": "h6ssv16gdyf56gg235dxv85",
+    "submesh": "h6ssv16gdyf56gg235dxv85",
+    "mesh-location": "p0vd6xnshcxw14ztkglxyxn",
     "c4wo7mdjzcit2bmvqr5sx4u": "p0vd6xnshcxw14ztkglxyxn",
     "vqah4oe61zin07t2ztfx4v4": "p0vd6xnshcxw14ztkglxyxn",
     "4v2b7t8nbzkmtyvnayye3vj": "vqah4oe61zin07t2ztfx4v4",
-    "vhywrpw2eemb0kfaxa5xhdk": "p0vd6xnshcxw14ztkglxyxn",
-    "f2dk7cwbol4o1jsnd0cun1g": "vhywrpw2eemb0kfaxa5xhdk",
-    "7qo569nzfk3l8yo1ah6erb2": "vhywrpw2eemb0kfaxa5xhdk",
-    "h3xucygpf2i6f3u3gkegvlk": "7qo569nzfk3l8yo1ah6erb2",
-    "4lmk40v9w9bucadmrq6i7mt": "p0vd6xnshcxw14ztkglxyxn",
+    "namespace": "p0vd6xnshcxw14ztkglxyxn",
+    "namespace-context": "namespace",
+    "h399p5bkq2p6736uh9s7jn0": "namespace",
+    "namespace-segment": "namespace",
+    "h3xucygpf2i6f3u3gkegvlk": "namespace-segment",
     "pqjdlyd8g80x3yr9o3p82mj": "p0vd6xnshcxw14ztkglxyxn",
     "platform-element": "p0vd6xnshcxw14ztkglxyxn",
-    "rxo5ieolun175zmjncj94ft": "p0vd6xnshcxw14ztkglxyxn",
-    "iorxcnsnmhl0hw3ki8w3h2z": "p0vd6xnshcxw14ztkglxyxn",
+    "publication": "p0vd6xnshcxw14ztkglxyxn",
+    "referent": "p0vd6xnshcxw14ztkglxyxn",
     "llzh1jdoieldfpff4v3ealw": "p0vd6xnshcxw14ztkglxyxn",
     "ftgxb98eadjykrlmm9dpnfo": "p0vd6xnshcxw14ztkglxyxn",
-    "q0tc7heygete4chh1mhue4b": "p0vd6xnshcxw14ztkglxyxn",
-    "s5ild34tbe4w2wt4m8ldllg": "q0tc7heygete4chh1mhue4b",
-    "ynqxgf8uv2bgbdi81wlz29g": "p0vd6xnshcxw14ztkglxyxn",
+    "semantic-flow-site": "p0vd6xnshcxw14ztkglxyxn",
+    "mntgn72ujewkdhb9ww2dsi6": "p0vd6xnshcxw14ztkglxyxn",
+    "s5ild34tbe4w2wt4m8ldllg": "mntgn72ujewkdhb9ww2dsi6",
     "qprjez1ghjok1zqenb9fpxl": "p0vd6xnshcxw14ztkglxyxn",
     "concept-summary": "p0vd6xnshcxw14ztkglxyxn",
     "m24m2p2s7iom3rwzvp28kvy": "p0vd6xnshcxw14ztkglxyxn",
     "rall4fbxm369okmy5383sf8": "p0vd6xnshcxw14ztkglxyxn",
-    "2qp8vfjygd43lmwcmj6362r": "p0vd6xnshcxw14ztkglxyxn",
-    "19a9e7c270ebne02zeg3fje": null,
-    "sg6tqgoz8cwwmpt0a0r8783": "19a9e7c270ebne02zeg3fje",
+    "resource-page-generation": "rall4fbxm369okmy5383sf8",
+    "qa6hqxy4tknnmutvq13onaq": null,
+    "8lbblgh43pkx93frnrb48qq": null,
+    "sg6tqgoz8cwwmpt0a0r8783": "8lbblgh43pkx93frnrb48qq",
     "o8uaso0kt7yebk4v87k7dz9": "sg6tqgoz8cwwmpt0a0r8783",
     "2zb4o6y7kbklo6lw0nvoulq": "o8uaso0kt7yebk4v87k7dz9",
     "fd1whkyvoagggk6ubysjl50": "o8uaso0kt7yebk4v87k7dz9",
-    "fwcrpbvxl7cm5xqd4e0qdep": "19a9e7c270ebne02zeg3fje",
-    "xebek3dtv2zgs9ah0vbv57g": "19a9e7c270ebne02zeg3fje",
-    "62h18teul646oikncjxli02": "19a9e7c270ebne02zeg3fje",
-    "33hi315wuis0ghnuy09bp2z": null,
-    "n6ftbuwjqieungxbg7n2g2j": "33hi315wuis0ghnuy09bp2z",
-    "b666mbhgg9k0jsrk46ui4zs": "n6ftbuwjqieungxbg7n2g2j",
-    "p3mbdrze0qe8uvko4i16t1s": "n6ftbuwjqieungxbg7n2g2j",
-    "qepi24uxfnvyds0nsdgkxhd": "33hi315wuis0ghnuy09bp2z",
-    "20dz80zbx82nrym7e88ozy7": "qepi24uxfnvyds0nsdgkxhd",
-    "m7err0vqbttxv3o65ayclyk": "qepi24uxfnvyds0nsdgkxhd",
-    "4tjoosyylf6dpu1ylx565aw": "qepi24uxfnvyds0nsdgkxhd",
-    "mjrp94i4d65x6ypgdd2ki0v": "qepi24uxfnvyds0nsdgkxhd",
-    "j15tveot7ja8tmxy7vvmpjz": "qepi24uxfnvyds0nsdgkxhd",
-    "elncscz2versnfcbtvqsg46": "qepi24uxfnvyds0nsdgkxhd",
-    "jyxdcjrv3npwwki06sfspqg": "33hi315wuis0ghnuy09bp2z",
+    "fwcrpbvxl7cm5xqd4e0qdep": "8lbblgh43pkx93frnrb48qq",
+    "1ieo7152nf46x4wiip1vwx5": "8lbblgh43pkx93frnrb48qq",
+    "xebek3dtv2zgs9ah0vbv57g": "8lbblgh43pkx93frnrb48qq",
+    "ewpjwhqsry5j49gdfj9xd0b": "8lbblgh43pkx93frnrb48qq",
+    "f0g7d31ivgn6rgllncdwep8": "8lbblgh43pkx93frnrb48qq",
+    "i9v5cbqq2zqfhrjcolq48df": "8lbblgh43pkx93frnrb48qq",
+    "62h18teul646oikncjxli02": "8lbblgh43pkx93frnrb48qq",
+    "facets": null,
+    "external-facet": "facets",
+    "xobqf2q0753lso7nhtbe0v8": "facets",
+    "b666mbhgg9k0jsrk46ui4zs": "xobqf2q0753lso7nhtbe0v8",
+    "p3mbdrze0qe8uvko4i16t1s": "xobqf2q0753lso7nhtbe0v8",
+    "3zt4vtoetamv60m1klc6ahk": "facets",
+    "20dz80zbx82nrym7e88ozy7": "3zt4vtoetamv60m1klc6ahk",
+    "mjrp94i4d65x6ypgdd2ki0v": "3zt4vtoetamv60m1klc6ahk",
+    "j15tveot7ja8tmxy7vvmpjz": "3zt4vtoetamv60m1klc6ahk",
+    "elncscz2versnfcbtvqsg46": "3zt4vtoetamv60m1klc6ahk",
+    "internal-facet": "facets",
+    "jyxdcjrv3npwwki06sfspqg": "facets",
+    "bl6zrmitungtaimgnl19d0q": "jyxdcjrv3npwwki06sfspqg",
     "6ki4upsdymjb9vy82oec2cf": "jyxdcjrv3npwwki06sfspqg",
-    "system-facet": "33hi315wuis0ghnuy09bp2z",
-    "user-facet": "33hi315wuis0ghnuy09bp2z",
+    "naming resource": "jyxdcjrv3npwwki06sfspqg",
+    "system-facet": "facets",
+    "user-facet": "facets",
     "faq000": null,
     "tn4fb1v558dd7sh1r5ubh7n": "faq000",
     "umdmedpk9br3elwxntbamaw": "faq000",
     "s1yduc399adt3ihvnwievrd": "faq000",
-    "faq002": "faq000",
+    "sc3en943aneihaipiop81dk": "faq000",
+    "mz73fb9tuhefiycyddi2xw3": "faq000",
+    "why-are-there-components-at-the-top-of-a-repo": "faq000",
     "osqi7xn4mw3j9v0kvsoc5uo": "faq000",
     "yp787tcq6sll5uxq4pn7h6l": "faq000",
     "ggle3sz2jv3vf53t9qplrzo": null,
     "alz6y5jl2depyyql7usk68x": "ggle3sz2jv3vf53t9qplrzo",
     "c0dzq31sldfjnznpzbcqecq": "ggle3sz2jv3vf53t9qplrzo",
     "j5we7en2hdwvax2ricv2u00": "ggle3sz2jv3vf53t9qplrzo",
-    "ooq9uh0sqm7ka2a54bp0zm6": null,
-    "0qtlo26phu45trajyzki5od": "ooq9uh0sqm7ka2a54bp0zm6",
-    "nokx5o047yld6voaxnx8tmw": "ooq9uh0sqm7ka2a54bp0zm6",
-    "hfmgd0w82phfjkre3ippnk9": "ooq9uh0sqm7ka2a54bp0zm6",
-    "xz41kd5hzao6yjybm05uw4l": "ooq9uh0sqm7ka2a54bp0zm6",
-    "4cfum6mrz7w7prcmytk4v5x": "ooq9uh0sqm7ka2a54bp0zm6",
-    "btt731d4bsjpwoyszlnn6i2": "ooq9uh0sqm7ka2a54bp0zm6",
-    "node-handle-folder": "ooq9uh0sqm7ka2a54bp0zm6",
-    "node-metadata-flow-folder": "ooq9uh0sqm7ka2a54bp0zm6",
-    "obufq0awwxl3d913va37i3a": "ooq9uh0sqm7ka2a54bp0zm6",
-    "cxqccr4kfh6vbss1l14lrzd": "ooq9uh0sqm7ka2a54bp0zm6",
-    "ragu0uc06vmiqvmn41r070e": "ooq9uh0sqm7ka2a54bp0zm6",
-    "hp9ckpez0pmuv270sn005gt": "ooq9uh0sqm7ka2a54bp0zm6",
-    "42o8iwwkuygy3w63bn94e6q": null,
-    "r2wo0r1jbsk3qdxaff6b53x": "42o8iwwkuygy3w63bn94e6q",
-    "yxn5rsqsv2gq4s6wbnxsjsj": null,
-    "l9g8eki3dtir51o4jagac5a": null,
-    "principle-composability": "l9g8eki3dtir51o4jagac5a",
-    "x5zwfsdfzap0c5843n5a1fh": "l9g8eki3dtir51o4jagac5a",
-    "ngw89xo9m9jop5b3o32dwwd": "l9g8eki3dtir51o4jagac5a",
-    "4ado7w6mwrrcphy9p1kpfa3": "l9g8eki3dtir51o4jagac5a",
-    "principle-transposability": "l9g8eki3dtir51o4jagac5a",
-    "ft4rt581qo1s7w3aitc02i8": null,
-    "dbaynabroewbewplp3pt6sk": "ft4rt581qo1s7w3aitc02i8",
-    "63tfb27btzbph10tpvckz7b": "ft4rt581qo1s7w3aitc02i8",
-    "73k0himk6cuq7sqhp8rshtg": "ft4rt581qo1s7w3aitc02i8",
-    "msmbj37nrwamcx7d1xq4wbh": "ft4rt581qo1s7w3aitc02i8",
-    "28q7fh05bs691llgv7htxnw": null,
-    "h4qk30cdxajlrs47toszogm": "28q7fh05bs691llgv7htxnw",
-    "4j2enes6uw5mgysfqaucuty": "28q7fh05bs691llgv7htxnw",
-    "eglidj3vsec43l15d01e4i3": "28q7fh05bs691llgv7htxnw",
-    "xmdevh3s6gvp93m3nyc6683": null,
-    "mesh-node": "xmdevh3s6gvp93m3nyc6683",
+    "mesh-file": null,
+    "mesh-folder": null,
+    "0qtlo26phu45trajyzki5od": "mesh-folder",
+    "nokx5o047yld6voaxnx8tmw": "mesh-folder",
+    "hfmgd0w82phfjkre3ippnk9": "mesh-folder",
+    "xz41kd5hzao6yjybm05uw4l": "mesh-folder",
+    "btt731d4bsjpwoyszlnn6i2": "mesh-folder",
+    "node-handle-folder": "mesh-folder",
+    "node-metadata-flow-folder": "mesh-folder",
+    "4cfum6mrz7w7prcmytk4v5x": "mesh-folder",
+    "obufq0awwxl3d913va37i3a": "mesh-folder",
+    "cxqccr4kfh6vbss1l14lrzd": "mesh-folder",
+    "hp9ckpez0pmuv270sn005gt": "mesh-folder",
+    "guides": null,
+    "r2wo0r1jbsk3qdxaff6b53x": "guides",
+    "60dxsve6jz4jm9j3o31bmf2": "guides",
+    "tudefgmmf2pdx28zb9xs84j": "guides",
+    "p1h6n78assy929ogf6e97uy": "guides",
+    "4unsyhyp8tmhqsdxwndy315": "guides",
+    "mesh-resource": null,
+    "mesh-node": "mesh-resource",
     "bare-node": "mesh-node",
+    "payload-node": "mesh-node",
     "bxqmsolrgfu4fm16m5acii7": "mesh-node",
-    "8hmkiyjtsey7z8y5oi5xdxx": "bxqmsolrgfu4fm16m5acii7",
-    "9c27yly4ed3ju7msf8luhge": "xmdevh3s6gvp93m3nyc6683",
+    "9c27yly4ed3ju7msf8luhge": "mesh-resource",
     "e6enrj5ztz3hz84ojujef0k": "9c27yly4ed3ju7msf8luhge",
     "3lqeacm90xhf0b8jrrerfop": "9c27yly4ed3ju7msf8luhge",
     "kjv2s38gz9xxk94szui293p": "9c27yly4ed3ju7msf8luhge",
@@ -1195,130 +1499,167 @@
     "loygbgsnn26c4shdayxaofe": "kjv2s38gz9xxk94szui293p",
     "wvzsqsdcvkd1d2adyeqw996": "kjv2s38gz9xxk94szui293p",
     "node-flow": "9c27yly4ed3ju7msf8luhge",
-    "9j8lhoyb0xkhg926nafgkai": "node-flow",
     "kr1y9tt3qljsbfy8lxm3u1g": "node-flow",
     "config-inheritance-resolution": "kr1y9tt3qljsbfy8lxm3u1g",
     "6hmxoiahi5lxjg1urdibvi1": "kr1y9tt3qljsbfy8lxm3u1g",
     "0y6p8e594peoult03gobm94": "node-flow",
+    "payload-flow": "node-flow",
     "np4wrgk86b44hnlsjo964nz": "node-flow",
     "8t3swuswoi81yuzo2bnecy9": "9c27yly4ed3ju7msf8luhge",
     "074yxm151l47n1aak58ggni": "8t3swuswoi81yuzo2bnecy9",
     "yci31i07s3bwpl9jd2hptod": "8t3swuswoi81yuzo2bnecy9",
     "r6akf3zjimf3ubkxpqmeubc": "8t3swuswoi81yuzo2bnecy9",
-    "8m0tzd902ghdsaitlrjb3dz": "9c27yly4ed3ju7msf8luhge",
-    "8uslab6gy073jcq6kz9nhyn": "8m0tzd902ghdsaitlrjb3dz",
     "9el7ivz22xvt8exiz7tj23f": "9c27yly4ed3ju7msf8luhge",
     "wie8wazi0eoq81zke09czxk": "9c27yly4ed3ju7msf8luhge",
+    "handle-resource-page": "wie8wazi0eoq81zke09czxk",
     "0n1lq6aq1gskj46bpcx9h4h": "9c27yly4ed3ju7msf8luhge",
+    "03zz91vesv8pz6sj8jhuy29": "0n1lq6aq1gskj46bpcx9h4h",
+    "rs5d7fcphmre7h1ltz4t9ut": "0n1lq6aq1gskj46bpcx9h4h",
+    "2qp8vfjygd43lmwcmj6362r": "0n1lq6aq1gskj46bpcx9h4h",
+    "yxn5rsqsv2gq4s6wbnxsjsj": null,
+    "l9g8eki3dtir51o4jagac5a": null,
+    "principle-composability": "l9g8eki3dtir51o4jagac5a",
+    "x5zwfsdfzap0c5843n5a1fh": "l9g8eki3dtir51o4jagac5a",
+    "ngw89xo9m9jop5b3o32dwwd": "l9g8eki3dtir51o4jagac5a",
+    "4ado7w6mwrrcphy9p1kpfa3": "l9g8eki3dtir51o4jagac5a",
+    "transposability": "l9g8eki3dtir51o4jagac5a",
+    "host-transposability": "transposability",
+    "intramesh-transposability": "transposability",
+    "products": null,
+    "dbaynabroewbewplp3pt6sk": "products",
+    "6e414sorsnkjy66cws0ev9b": "products",
+    "sny3p0risg0h1nmx4zdkq6p": "6e414sorsnkjy66cws0ev9b",
+    "bn5jhz9sr2lvqq02s1b4j2x": "6e414sorsnkjy66cws0ev9b",
+    "63tfb27btzbph10tpvckz7b": "6e414sorsnkjy66cws0ev9b",
+    "2ldpw5fu0v9qq19r0wf9a3j": "6e414sorsnkjy66cws0ev9b",
+    "dy7pxuck9namnxlmz8gl80t": "6e414sorsnkjy66cws0ev9b",
+    "kvsgy8qci2uxgcnve7e424f": "6e414sorsnkjy66cws0ev9b",
+    "73k0himk6cuq7sqhp8rshtg": "products",
+    "uwtv6cmipn1vnbn8ewkiikp": "products",
+    "28q7fh05bs691llgv7htxnw": null,
+    "h4qk30cdxajlrs47toszogm": "28q7fh05bs691llgv7htxnw",
+    "4j2enes6uw5mgysfqaucuty": "28q7fh05bs691llgv7htxnw",
+    "eglidj3vsec43l15d01e4i3": "28q7fh05bs691llgv7htxnw",
+    "tkw34hrqxficesa0y2r62s0": null,
+    "5w9g6pav1kogbqzp8618jxv": null,
+    "g97elh6q5bszy2c74gsmuqk": "5w9g6pav1kogbqzp8618jxv",
+    "3hejrrsh4j7i5p2l7rk38n6": "5w9g6pav1kogbqzp8618jxv",
+    "yasopcpwfbmltdtgphya86n": "5w9g6pav1kogbqzp8618jxv",
+    "v438f0fzw03t4cqcsis3asp": "5w9g6pav1kogbqzp8618jxv",
+    "dypxioqhqlvodpkdk1ce0kx": null,
+    "9g01pxzehgsv1f2zkptbap4": "dypxioqhqlvodpkdk1ce0kx",
     "xqjr13fyons9goxv8rjrskj": null,
-    "04da48tdciqmtx35rkmw2e0": null,
-    "kawddwi1dx4qqbhdyip4896": "04da48tdciqmtx35rkmw2e0"
+    "use-cases": null,
+    "kawddwi1dx4qqbhdyip4896": "use-cases"
   },
   "notesLabelById": {
     "p0vd6xnshcxw14ztkglxyxn": "Concepts",
     "mf6mhj0ihmdxtftnxfatghj": "Mesh CRUD",
-    "83yzgsz8hm57sdmea1idbj6": "Flow",
-    "t6d0klsie3jgwlndtwcqhob": "static site generation",
-    "concept-identifier": "identifier",
+    "denotation": "denotation",
+    "t63w4fy7t5yinb4ahht4x35": "Hosting",
+    "identifier": "identifier",
+    "external-identifier": "external identifier",
     "17l23vl7sqg997hr773dh23": "intramesh identifier",
+    "odx9stmmni6ux1bopun884d": "absolute",
+    "relative-identifier": "relative identifier",
     "q4jqx5qr6hbp6fo3pfvh042": "Immutability",
+    "implied-rdf-base": "implied rdf base",
     "onheps7i79fvmzgfnm11phw": "IRI",
     "h6ssv16gdyf56gg235dxv85": "semantic mesh",
     "gg6sytx57oq77ugqk7x3tvn": "Assets",
-    "afxbxgyyzpzfb98a66fhuhw": "Embedded Mesh",
-    "855vlw6c8io3y5h355tqo3y": "submesh",
+    "embedded-mesh": "embedded mesh",
+    "loose-mesh": "loose mesh",
+    "submesh": "submesh",
+    "mesh-location": "mesh location",
     "c4wo7mdjzcit2bmvqr5sx4u": "mesh repo",
     "vqah4oe61zin07t2ztfx4v4": "Metadata",
     "4v2b7t8nbzkmtyvnayye3vj": "Provenance",
-    "vhywrpw2eemb0kfaxa5xhdk": "Namespace",
-    "f2dk7cwbol4o1jsnd0cun1g": "namespace base",
-    "7qo569nzfk3l8yo1ah6erb2": "Namespace Segment",
+    "namespace": "Namespace",
+    "namespace-context": "namespace context",
+    "h399p5bkq2p6736uh9s7jn0": "namespace root",
+    "namespace-segment": "namespace segment",
     "h3xucygpf2i6f3u3gkegvlk": "system segments",
-    "4lmk40v9w9bucadmrq6i7mt": "Namespace Relative Basing",
     "pqjdlyd8g80x3yr9o3p82mj": "node config",
     "platform-element": "platform element",
-    "rxo5ieolun175zmjncj94ft": "Publication",
-    "iorxcnsnmhl0hw3ki8w3h2z": "Referent",
+    "publication": "publication",
+    "referent": "Referent",
     "llzh1jdoieldfpff4v3ealw": "root node",
     "ftgxb98eadjykrlmm9dpnfo": "Scanner",
-    "q0tc7heygete4chh1mhue4b": "Semantic Mesh",
+    "semantic-flow-site": "Semantic Flow site",
+    "mntgn72ujewkdhb9ww2dsi6": "Semantic Mesh",
     "s5ild34tbe4w2wt4m8ldllg": "Example Mesh Hierarchy",
-    "ynqxgf8uv2bgbdi81wlz29g": "Semantic Site",
     "qprjez1ghjok1zqenb9fpxl": "Sibling Distribution",
     "concept-summary": "Concept Summary",
     "m24m2p2s7iom3rwzvp28kvy": "Versioning",
     "rall4fbxm369okmy5383sf8": "Weave Process",
-    "2qp8vfjygd43lmwcmj6362r": "Working Distribution",
-    "19a9e7c270ebne02zeg3fje": "Development",
+    "resource-page-generation": "static site generation",
+    "qa6hqxy4tknnmutvq13onaq": "Decision Log",
+    "8lbblgh43pkx93frnrb48qq": "Dev",
     "sg6tqgoz8cwwmpt0a0r8783": "Contributors",
     "o8uaso0kt7yebk4v87k7dz9": "djradon",
     "2zb4o6y7kbklo6lw0nvoulq": "Ai Guidance from djradon",
     "fd1whkyvoagggk6ubysjl50": "djradon's sflo devlog",
     "fwcrpbvxl7cm5xqd4e0qdep": "Debugging",
-    "xebek3dtv2zgs9ah0vbv57g": "Semantic Flow General Guidance",
+    "1ieo7152nf46x4wiip1vwx5": "Dependencies",
+    "xebek3dtv2zgs9ah0vbv57g": "Developer General Guidance",
+    "ewpjwhqsry5j49gdfj9xd0b": "Logging and Error Handling",
+    "f0g7d31ivgn6rgllncdwep8": "Memory Bank",
+    "i9v5cbqq2zqfhrjcolq48df": "Patterns",
     "62h18teul646oikncjxli02": "Testing",
-    "33hi315wuis0ghnuy09bp2z": "Facet",
-    "n6ftbuwjqieungxbg7n2g2j": "Filesystem",
+    "facets": "facets",
+    "external-facet": "external facet",
+    "xobqf2q0753lso7nhtbe0v8": "filesystem facets",
     "b666mbhgg9k0jsrk46ui4zs": "file resource facet",
     "p3mbdrze0qe8uvko4i16t1s": "folder resource facet",
-    "qepi24uxfnvyds0nsdgkxhd": "Flow",
+    "3zt4vtoetamv60m1klc6ahk": "flow facets",
     "20dz80zbx82nrym7e88ozy7": "de-versioned flow facet",
-    "m7err0vqbttxv3o65ayclyk": "handle flow facet",
-    "4tjoosyylf6dpu1ylx565aw": "node flow facet",
     "mjrp94i4d65x6ypgdd2ki0v": "unversioned flow facet",
     "j15tveot7ja8tmxy7vvmpjz": "v-series flow facet",
     "elncscz2versnfcbtvqsg46": "versioned flow facet",
+    "internal-facet": "internal facet",
     "jyxdcjrv3npwwki06sfspqg": "mesh resource facets",
+    "bl6zrmitungtaimgnl19d0q": "Content",
     "6ki4upsdymjb9vy82oec2cf": "dataset facet",
+    "naming resource": "naming resource",
     "system-facet": "system facet",
     "user-facet": "user facet",
     "faq000": "FAQ",
-    "tn4fb1v558dd7sh1r5ubh7n": "Do data nodes support DatasetSeries?",
+    "tn4fb1v558dd7sh1r5ubh7n": "Do dataset nodes support DatasetSeries?",
     "umdmedpk9br3elwxntbamaw": "How Is a Flow Different from a Dataset Series",
     "s1yduc399adt3ihvnwievrd": "Reference Iri Choices",
-    "faq002": "Why are there components at the top of a repo?",
-    "osqi7xn4mw3j9v0kvsoc5uo": "Why Dont data nodes Contain Distributions Directly",
+    "sc3en943aneihaipiop81dk": "Should Data about a Referent Go in Its Reference Flow or a Contained Payload Flow",
+    "mz73fb9tuhefiycyddi2xw3": "What Is the referential difference between a payload node's IRI and its payload flow's IRI",
+    "why-are-there-components-at-the-top-of-a-repo": "Why are there components at the top of a repo?",
+    "osqi7xn4mw3j9v0kvsoc5uo": "Why Dont payload nodes Contain Distributions Directly",
     "yp787tcq6sll5uxq4pn7h6l": "Why Not Use Git Semantics for Versioning",
     "ggle3sz2jv3vf53t9qplrzo": "Features",
     "alz6y5jl2depyyql7usk68x": "Changing Historical Datasets",
     "c0dzq31sldfjnznpzbcqecq": "Check Namespace before Creating",
     "j5we7en2hdwvax2ricv2u00": "Handling Renaming",
-    "ooq9uh0sqm7ka2a54bp0zm6": "mesh folders",
+    "mesh-file": "mesh file",
+    "mesh-folder": "mesh folder",
     "0qtlo26phu45trajyzki5od": "assets tree folder",
     "nokx5o047yld6voaxnx8tmw": "_config Inheritable Flow",
     "hfmgd0w82phfjkre3ippnk9": "config flow folder",
     "xz41kd5hzao6yjybm05uw4l": "current snapshot folder",
-    "4cfum6mrz7w7prcmytk4v5x": "data flow folder",
     "btt731d4bsjpwoyszlnn6i2": "next snapshot folder",
     "node-handle-folder": "_node-handle folder",
     "node-metadata-flow-folder": "_node-metadata-flow folder",
-    "obufq0awwxl3d913va37i3a": "_ref-flow folder",
+    "4cfum6mrz7w7prcmytk4v5x": "payload flow folder",
+    "obufq0awwxl3d913va37i3a": "_reference-flow folder",
     "cxqccr4kfh6vbss1l14lrzd": "version snapshot folder",
-    "ragu0uc06vmiqvmn41r070e": "namespace folder",
     "hp9ckpez0pmuv270sn005gt": "node folder",
-    "42o8iwwkuygy3w63bn94e6q": "Guide",
+    "guides": "guides",
     "r2wo0r1jbsk3qdxaff6b53x": "Best Practices",
-    "yxn5rsqsv2gq4s6wbnxsjsj": " Now",
-    "l9g8eki3dtir51o4jagac5a": "Principles",
-    "principle-composability": "composability",
-    "x5zwfsdfzap0c5843n5a1fh": "Dereferencability for Humans",
-    "ngw89xo9m9jop5b3o32dwwd": "pseudo-immutability",
-    "4ado7w6mwrrcphy9p1kpfa3": "Single Referent Principle",
-    "principle-transposability": "transposability",
-    "ft4rt581qo1s7w3aitc02i8": "Product",
-    "dbaynabroewbewplp3pt6sk": "CLI",
-    "63tfb27btzbph10tpvckz7b": "sflo-api",
-    "73k0himk6cuq7sqhp8rshtg": "sflo-host",
-    "msmbj37nrwamcx7d1xq4wbh": "sflo-web",
-    "28q7fh05bs691llgv7htxnw": "Product Ideas",
-    "h4qk30cdxajlrs47toszogm": "Fluree Connector",
-    "4j2enes6uw5mgysfqaucuty": "Hateoas Driven API Recipe",
-    "eglidj3vsec43l15d01e4i3": "Sparql Sync",
-    "xmdevh3s6gvp93m3nyc6683": "mesh resource",
+    "60dxsve6jz4jm9j3o31bmf2": "Ontologies",
+    "tudefgmmf2pdx28zb9xs84j": "Product Brief",
+    "p1h6n78assy929ogf6e97uy": "Project Brief",
+    "4unsyhyp8tmhqsdxwndy315": "Status",
+    "mesh-resource": "mesh resources",
     "mesh-node": "mesh node",
     "bare-node": "bare node",
+    "payload-node": "paylod node",
     "bxqmsolrgfu4fm16m5acii7": "reference node",
-    "8hmkiyjtsey7z8y5oi5xdxx": "dataset reference nodes",
     "9c27yly4ed3ju7msf8luhge": "node component",
     "e6enrj5ztz3hz84ojujef0k": "Aggregated Distribution",
     "3lqeacm90xhf0b8jrrerfop": "assets tree",
@@ -1328,23 +1669,57 @@
     "loygbgsnn26c4shdayxaofe": "Resource Fragment",
     "wvzsqsdcvkd1d2adyeqw996": "mesh resource page",
     "node-flow": "node flow",
-    "9j8lhoyb0xkhg926nafgkai": "data flow",
     "kr1y9tt3qljsbfy8lxm3u1g": "meshnode config flows",
     "config-inheritance-resolution": "inheritable config flow",
     "6hmxoiahi5lxjg1urdibvi1": "operational config flow",
-    "0y6p8e594peoult03gobm94": "metadata flow",
+    "0y6p8e594peoult03gobm94": "metapayload flow",
+    "payload-flow": "payload flow",
     "np4wrgk86b44hnlsjo964nz": "reference flow",
     "8t3swuswoi81yuzo2bnecy9": "flow snapshot",
     "074yxm151l47n1aak58ggni": "current snapshot",
     "yci31i07s3bwpl9jd2hptod": "next snapshot",
     "r6akf3zjimf3ubkxpqmeubc": "version snapshot",
-    "8m0tzd902ghdsaitlrjb3dz": "Handle",
-    "8uslab6gy073jcq6kz9nhyn": "handle resource page",
     "9el7ivz22xvt8exiz7tj23f": "Node Config Defaults",
     "wie8wazi0eoq81zke09czxk": "node handle",
+    "handle-resource-page": "handle resource page",
     "0n1lq6aq1gskj46bpcx9h4h": "snapshot distribution",
+    "03zz91vesv8pz6sj8jhuy29": "current distribution",
+    "rs5d7fcphmre7h1ltz4t9ut": "version distribution",
+    "2qp8vfjygd43lmwcmj6362r": "working distribution",
+    "yxn5rsqsv2gq4s6wbnxsjsj": " Now",
+    "l9g8eki3dtir51o4jagac5a": "Principles",
+    "principle-composability": "composability",
+    "x5zwfsdfzap0c5843n5a1fh": "Dereferencability for Humans",
+    "ngw89xo9m9jop5b3o32dwwd": "pseudo-immutability",
+    "4ado7w6mwrrcphy9p1kpfa3": "Single Referent Principle",
+    "transposability": "transposability",
+    "host-transposability": "host transposability",
+    "intramesh-transposability": "Intramesh Transposability",
+    "products": "products",
+    "dbaynabroewbewplp3pt6sk": "sflo CLI",
+    "6e414sorsnkjy66cws0ev9b": "Plugins",
+    "sny3p0risg0h1nmx4zdkq6p": "API Docs plugin",
+    "bn5jhz9sr2lvqq02s1b4j2x": "Mesh Server",
+    "63tfb27btzbph10tpvckz7b": "sflo-api plugin",
+    "2ldpw5fu0v9qq19r0wf9a3j": "Sparql Editor",
+    "dy7pxuck9namnxlmz8gl80t": "Sparql Ro",
+    "kvsgy8qci2uxgcnve7e424f": "Sparql Upd",
+    "73k0himk6cuq7sqhp8rshtg": "sflo-host",
+    "uwtv6cmipn1vnbn8ewkiikp": "Sflo Web",
+    "28q7fh05bs691llgv7htxnw": "Product Ideas",
+    "h4qk30cdxajlrs47toszogm": "Fluree Connector",
+    "4j2enes6uw5mgysfqaucuty": "Hateoas Driven API Recipe",
+    "eglidj3vsec43l15d01e4i3": "Sparql Sync",
+    "tkw34hrqxficesa0y2r62s0": "Progress",
+    "5w9g6pav1kogbqzp8618jxv": "Task",
+    "g97elh6q5bszy2c74gsmuqk": "2025 11 03 Optimizing for Agents",
+    "3hejrrsh4j7i5p2l7rk38n6": "2025 11 04 Shared Logging and Errorhandling",
+    "yasopcpwfbmltdtgphya86n": "2025 11 06 Embed Quadstore Comunica",
+    "v438f0fzw03t4cqcsis3asp": "2025 11 07 Web App Not a Plugin",
+    "dypxioqhqlvodpkdk1ce0kx": "Template",
+    "9g01pxzehgsv1f2zkptbap4": "Task",
     "xqjr13fyons9goxv8rjrskj": "Todo",
-    "04da48tdciqmtx35rkmw2e0": "Use Case",
+    "use-cases": "use cases",
     "kawddwi1dx4qqbhdyip4896": "Use Case: Radio Show Websiste"
   }
 }

@@ -1,18 +1,29 @@
 <h1 id="aggregated-distribution">Aggregated Distribution<a aria-hidden="true" class="anchor-heading icon-link" href="#aggregated-distribution"></a></h1>
 <p><strong>note: maybe we will do them, maybe we won't</strong></p>
-<p>A node's <strong>aggregated distribution</strong> is a compilation of all the child data flows of its contained data nodes (their <code>_data-flow/_current/</code> snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".</p>
-<p>Both <a href="/sflo/notes/bare-node">bare node</a> and <a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">dataset reference nodes</a> can have aggregate distributions. data nodes include their own data in the aggregation.</p>
-<h2 id="purpose">Purpose<a aria-hidden="true" class="anchor-heading icon-link" href="#purpose"></a></h2>
-<p>Aggregated distributions enable <strong>composable semantic data</strong> by:</p>
 <ul>
-<li>Combining contained nodes data into a single resource</li>
+<li>t.2025.11.08.09 probably not. Better to go the other way: from a payload dataset, create all its named nodes and link back to the original; keeps things flow-y</li>
+<li>probably won't do unified distributions except via API. </li>
+</ul>
+<p>A node's <strong>aggregated distribution</strong> is a compilation of all the child flows of itself and its contained nodes (their <code>_payload-flow/_current/</code> snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".</p>
+<p>Essentially, it's a "(sub-)mesh in a single file." </p>
+<p>Perhaps its only available via API. </p>
+<h2 id="purpose">Purpose<a aria-hidden="true" class="anchor-heading icon-link" href="#purpose"></a></h2>
+<p>Aggregated distributions support <a href="/sflo/notes/principle-composability">composability</a> and <a href="/sflo/notes/transposability">transposability</a> by:</p>
+<ul>
+<li>Combining contained nodes' data into a single resource</li>
 <li>Supporting modular ontology and knowledge base construction</li>
+</ul>
+<h2 id="issues">Issues<a aria-hidden="true" class="anchor-heading icon-link" href="#issues"></a></h2>
+<p>config options</p>
+<ul>
+<li>zipping/compression?</li>
+<li>user data only, or include metadata/config</li>
 </ul>
 <h2 id="generation-process">Generation Process<a aria-hidden="true" class="anchor-heading icon-link" href="#generation-process"></a></h2>
 <p>During <a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a>, aggregated distributions are created by:</p>
 <ol>
-<li><strong>Scanning contained data nodes</strong> recursively within the mesh structure</li>
-<li><strong>Collecting <code>_data-flow/_current/</code> distributions</strong> from each flow</li>
+<li><strong>Scanning contained payload nodes</strong> recursively within the mesh structure</li>
+<li><strong>Collecting <code>_payload-flow/_current/</code> distributions</strong> from each flow</li>
 <li><strong>Merging content</strong> with proper URI resolution and prefix handling</li>
 <li><strong>Excluding <code>_config</code> and <code>_meta</code> datasets</strong> (data content only)</li>
 <li><strong>Generating multiple distributions</strong> (.ttl, .rdf, .jsonld) as configured</li>
@@ -23,21 +34,20 @@
 ├── my-ontology.ttl              ← Aggregated distribution
 ├── my-ontology.rdf              ← Aggregated distribution  
 ├── my-ontology.jsonld           ← Aggregated distribution
-├── components/
-│   ├── Person/                  ← data node (class definition)
-│   ├── hasName/                 ← data node (property definition)
-│   └── Organization/            ← data node (class definition)
+├── Person/                  ← payload node (class definition)
+├── hasName/                 ← payload node (property definition)
+└── Organization/            ← payload node (class definition)
 </code></pre>
 <h3 id="knowledge-base">Knowledge Base<a aria-hidden="true" class="anchor-heading icon-link" href="#knowledge-base"></a></h3>
 <pre><code>/biotech-kb/
 ├── biotech-kb.ttl               ← Aggregated distribution
 ├── biotech-kb.jsonld            ← Aggregated distribution
 ├── companies/
-│   ├── genentech/               ← Company data node
-│   └── moderna/                 ← Company data node
+│   ├── genentech/               ← Company payload node
+│   └── moderna/                 ← Company payload node
 └── products/
-    ├── drug-x/                  ← Product data node
-    └── vaccine-y/               ← Product data node
+    ├── drug-x/                  ← Product payload node
+    └── vaccine-y/               ← Product payload node
 </code></pre>
 <h2 id="technical-considerations">Technical Considerations<a aria-hidden="true" class="anchor-heading icon-link" href="#technical-considerations"></a></h2>
 <p><strong>Merging logic handles:</strong></p>
@@ -57,7 +67,7 @@
 </ul>
 <h2 id="related-concepts">Related Concepts<a aria-hidden="true" class="anchor-heading icon-link" href="#related-concepts"></a></h2>
 <ul>
-<li><strong><a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a></strong> - Source datasets for aggregation</li>
+<li><strong><a href="/sflo/notes/payload-flow">payload flow</a></strong> - Source datasets for aggregation</li>
 <li><strong><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a></strong> - Process that generates aggregated distributions</li>
 <li><strong><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></strong> - Contains the actual distributions being aggregated</li>
 </ul>

@@ -2,10 +2,10 @@
 <p>A Semantic Flow mesh repository (or mesh repo for short) is a git repository that contains a <a href="/sflo/notes/llzh1jdoieldfpff4v3ealw">root node</a> at the top of the repo, and any number of additional, contained <a href="/sflo/notes/mesh-node">mesh node</a></p>
 <h2 id="github-repos">Github Repos<a aria-hidden="true" class="anchor-heading icon-link" href="#github-repos"></a></h2>
 <ul>
-<li>can either be "username/org pages repository"" (which automatically hosts content at the namesake url, so maybe call it a namesake repository, e.g. djradon.github.io) or 2nd-level (corresponding to an owned repo)</li>
-<li>a 'docs' folder that contains the generated sf site
+<li>can either be "username/org pages repository"" (which automatically hosts content at the namesake IRI, so maybe call it a namesake repository, e.g. djradon.github.io) or 2nd-level (corresponding to an owned repo)</li>
+<li>under "classic" github pages (i.e., "deploy from a branch"), you can either use the whole repo, or just the docs folder as the source; Semantic Flow works seamlessly using the entire folder for mesh repos.
 <ul>
-<li>within 'docs' there's a folder for each namespace</li>
+<li>for <a href="/sflo/notes/embedded-mesh">embedded mesh</a> repos, a build step will be needed to copy the mesh folders and files into "docs"</li>
 </ul>
 </li>
 </ul>
@@ -13,8 +13,8 @@
 <ul>
 <li>can you include a mesh in an existing repo?
 <ul>
-<li>Sure!</li>
-<li>but for composability (i.e., linking a repo into an existing mesh) you need an unbroken chain, so embedding a root mesh below the top of a repo might make it harder for people to re-use. </li>
+<li>Sure! That's an <a href="/sflo/notes/embedded-mesh">embedded mesh</a>.</li>
+<li>but when composing a mesh from existing meshes, (i.e., linking a repo into an existing mesh) you need an unbroken chain, so embedding a root mesh below the top of a repo might make it harder for people to re-use. </li>
 </ul>
 </li>
 </ul>
@@ -24,9 +24,10 @@
 <li><a href="/">Semantic Flow Documentation</a></li>
 <li><a href="/sflo/notes/pqjdlyd8g80x3yr9o3p82mj">node config</a></li>
 <li><a href="/sflo/notes/llzh1jdoieldfpff4v3ealw">root node</a></li>
-<li><a href="/sflo/notes/ynqxgf8uv2bgbdi81wlz29g">Semantic Site</a></li>
+<li><a href="/sflo/notes/semantic-flow-site">Semantic Flow site</a></li>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
 <li><a href="/sflo/notes/h4qk30cdxajlrs47toszogm">Fluree Connector</a></li>
-<li><a href="/sflo/notes/f2dk7cwbol4o1jsnd0cun1g">namespace base</a></li>
+<li><a href="/sflo/notes/namespace-context">namespace context</a></li>
+<li><a href="/sflo/notes/h399p5bkq2p6736uh9s7jn0">namespace root</a></li>
 <li><a href="/sflo/notes/fd1whkyvoagggk6ubysjl50">djradon's sflo devlog</a></li>
 </ul>

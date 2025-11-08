@@ -1,0 +1,30 @@
+<h1 id="decision-log">Decision Log<a aria-hidden="true" class="anchor-heading icon-link" href="#decision-log"></a></h1>
+<h1 id="project-decision-log">Project Decision Log<a aria-hidden="true" class="anchor-heading icon-link" href="#project-decision-log"></a></h1>
+<p>This document records important project-level decisions, organized by date.</p>
+<h2 id="yyyy-mm-dd">YYYY-MM-DD<a aria-hidden="true" class="anchor-heading icon-link" href="#yyyy-mm-dd"></a></h2>
+<h3 id="decision-brief-title-of-the-decision">Decision: [Brief title of the decision]<a aria-hidden="true" class="anchor-heading icon-link" href="#decision-brief-title-of-the-decision"></a></h3>
+<p><strong>Context:</strong> [Why the decision was necessary.]</p>
+<p><strong>Outcome:</strong> [The chosen path and rationale.]</p>
+<p><strong>Impact:</strong> [How this decision affects the project.]</p>
+<hr>
+<h2 id="2025-11-04">2025-11-04<a aria-hidden="true" class="anchor-heading icon-link" href="#2025-11-04"></a></h2>
+<h3 id="decision-implementation-of-agent-memory-bank-system">Decision: Implementation of Agent Memory Bank System<a aria-hidden="true" class="anchor-heading icon-link" href="#decision-implementation-of-agent-memory-bank-system"></a></h3>
+<p><strong>Context:</strong> To improve AI agent performance and maintain context across tasks, a structured, git-based memory bank system was required.</p>
+<p><strong>Outcome:</strong> The memory bank system was implemented using a set of dedicated Markdown files in the <code>documentation/</code> directory, categorized into "Every Task Context" and "Frequently Referenced" files.</p>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Agents are now required to read core context files at the start of every task.</li>
+<li>Task-specific context is maintained in dedicated <code>tasks.YYYY-MM-DD-task-name.md</code> files.</li>
+<li>Documentation structure is standardized to avoid repetition and improve navigability (e.g., <a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a> acts as a directory, not a content duplicator).</li>
+</ul>
+<h3 id="decision-rdf-serialization-format">Decision: RDF Serialization Format<a aria-hidden="true" class="anchor-heading icon-link" href="#decision-rdf-serialization-format"></a></h3>
+<p><strong>Context:</strong> Choosing a primary RDF serialization format for instance data and ontologies.</p>
+<p><strong>Outcome:</strong> JSON-LD was chosen over Turtle/TriG due to its native support for slash-terminated CURIEs, which aligns with the project's IRI naming conventions for distinguishing between files and resource names.</p>
+<p><strong>Impact:</strong> All RDF instance data and ontologies should primarily use JSON-LD.</p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/f0g7d31ivgn6rgllncdwep8">Memory Bank</a></li>
+<li><a href="/sflo/notes/4unsyhyp8tmhqsdxwndy315">Status</a></li>
+<li><a href="/sflo/notes/g97elh6q5bszy2c74gsmuqk">2025 11 03 Optimizing for Agents</a></li>
+</ul>

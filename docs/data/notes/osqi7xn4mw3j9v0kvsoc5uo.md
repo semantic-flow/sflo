@@ -1,27 +1,27 @@
 
 ## Question
 
-Why don't [[data nodes|resource.node.reference.dataset]] contain distribution files directly? Why do I need to go to `_current/` to find the actual data?
+Why don't [[payload nodes|mesh-resource.node.payload]] contain distribution files directly? Why do I need to go to `_current/` to find the actual data?
 
 ## Answer
 
-data nodes represent **abstract data concepts**, not concrete data instances. This separation provides several important benefits:
+payload nodes represent **abstract data concepts**, not concrete data instances. This separation provides several important benefits:
 
 ### Clear Semantic Distinction
 
-- **data node** (`/ns/monsters/`): "The concept of monster data"
-- **Data compound** (`/ns/monsters/_data-flow/`): "The abstract dataset associated with the monster data concept" 
+- **payload node** (`/ns/monsters/`): "The concept of monster data"
+- **Data compound** (`/ns/monsters/_payload-flow/`): "The abstract dataset associated with the monster data concept" 
 - **Data compound layers**: the current, next and historical versions of the dataset
 
 This allows you to reference the concept separately from the associated abstract or concrete dataset.
 
 ### Stable Identity
 
-The data node and data compound provide permanent, stable identifier for the concept and its data payload that persist even as the concrete data changes over time. You can always refer to "monster data as a concept" using `/ns/monsters/` regardless of how many versions exist.
+The payload node and data compound provide permanent, stable identifier for the concept and its payload dataset that persist even as the concrete data changes over time. You can always refer to "monster data as a concept" using `/ns/monsters/` regardless of how many versions exist.
 
 ### Temporal Organization
 
-By separating the concept from concrete instances, data nodes can cleanly organize different temporal states:
+By separating the concept from concrete instances, payload nodes can cleanly organize different temporal states:
 - `_current/` - current data
 - `_next/` - draft changes  
 - `_v1/`, `_v2/` - historical versions
@@ -30,11 +30,11 @@ By separating the concept from concrete instances, data nodes can cleanly organi
 
 This mirrors how [[reference nodes|concept.mesh.resource.node.reference]] work:
 - **Reference nodes**: Abstract entity concept + `_ref/` node component with concrete data
-- **data nodes**: Abstract data concept + `_current/` component with concrete data
+- **payload nodes**: Abstract data concept + `_current/` component with concrete data
 
 ### Metadata Separation
 
-The data node's [[metadata flow|resource.node-component.flow.node-metadata]] contains system metadata about the data concept and its components, while each [[resource.node-component.flow.data]] can also contain (concept-specific) metadata.
+The payload node's [[metapayload flow|mesh-resource.node-component.flow.node-metadata]] contains system metadata about the data concept and its components, while each [[mesh-resource.node-component.flow.payload]] can also contain (concept-specific) metadata.
 
 TODO: example
 
@@ -42,8 +42,8 @@ TODO: example
 ## Analogy
 
 Think of it like a library:
-- **data node** = "The concept of the Encyclopedia Britannica"
-- **data flow** = The Encyclopedia Britannica as an ongoing series of editions
-- **[[resource.node-component.flow-snapshot]]** = Specific editions (1990 edition, 2020 edition, current edition)
+- **payload node** = "The concept of the Encyclopedia Britannica"
+- **payload flow** = The Encyclopedia Britannica as an ongoing series of editions
+- **[[mesh-resource.node-component.flow-snapshot]]** = Specific editions (1990 edition, 2020 edition, current edition)
 
 You can refer to "Encyclopedia Britannica" as a general concept or as a series without specifying which edition, or you can reference a specific edition when you need concrete data.

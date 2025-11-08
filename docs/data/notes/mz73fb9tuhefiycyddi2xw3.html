@@ -1,0 +1,50 @@
+<h1 id="what-is-the-referential-difference-between-a-payload-nodes-iri-and-its-payload-flows-iri">What Is the referential difference between a payload node's IRI and its payload flow's IRI<a aria-hidden="true" class="anchor-heading icon-link" href="#what-is-the-referential-difference-between-a-payload-nodes-iri-and-its-payload-flows-iri"></a></h1>
+<p>A <strong>payload node IRI</strong> (e.g. <code>ns/djradon/bio/</code>) identifies the <strong>abstract dataset itself</strong> — it's a dereferenceable identifier for an RDF dataset
+A <strong>payload flow IRI</strong> (e.g. <code>ns/djradon/bio/_payload-flow</code>) identifies the <strong>semantic flow that captures the evolution of that dataset</strong> — metadata about <em>how</em> the payload is produced, validated, versioned, or transformed.</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Aspect</th><th>Payload Node (<code>ns/djradon/bio/</code>)</th><th>Payload Flow (<code>ns/djradon/bio/_payload-flow</code>)</th></tr></thead><tbody><tr><td><strong>Referential role</strong></td><td>Refers to the dataset <em>as content</em></td><td>Refers to the dataset’s <em>production process</em></td></tr><tr><td><strong>Ontological category</strong></td><td><code>sflo:PayloadNode</code> (or equivalent)</td><td><code>sflo:PayloadFlow</code> (a subclass of <code>sflo:Flow</code>)</td></tr><tr><td><strong>Nature</strong></td><td>Public, stable identifier for consumers</td><td>Internal, operational metadata for publishers</td></tr><tr><td><strong>Dereferencing expectation</strong></td><td>Returns the current dataset or its default distribution (<code>index.trig</code>, etc.)</td><td>Returns RDF describing the flow’s inputs, transformations, outputs</td></tr><tr><td><strong>Persistence</strong></td><td>Semi-permanent, versioned through dataset series (<code>_series/_main/v1/...</code>)</td><td>May change across builds, describing how payload evolves</td></tr><tr><td><strong>Relations</strong></td><td><code>sflo:hasPayloadFlow &#x3C;_payload-flow></code></td><td><code>sflo:producesPayload &#x3C;bio/></code> (inverse)</td></tr></tbody></table></div>
+<p>In short:</p>
+<ul>
+<li><strong><code>/bio/</code></strong> = “the data about Bio.”</li>
+<li><strong><code>/bio/_payload-flow</code></strong> = “the process that emits <code>/bio/</code>.”</li>
+</ul>
+<p>The node is the <em>what</em>; the flow is the <em>how</em>.</p>

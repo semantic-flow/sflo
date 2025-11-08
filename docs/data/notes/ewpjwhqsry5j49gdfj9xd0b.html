@@ -1,0 +1,657 @@
+<h1 id="logging-and-error-handling">Logging and Error Handling<a aria-hidden="true" class="anchor-heading icon-link" href="#logging-and-error-handling"></a></h1>
+<h1 id="logging-and-error-handling-1">Logging and Error Handling<a aria-hidden="true" class="anchor-heading icon-link" href="#logging-and-error-handling-1"></a></h1>
+<p>Developer guide for the <code>@semantic-flow/logging</code> package - a production-ready logging and error handling system for the Semantic Flow Node.js platform.</p>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>The logging system provides:</p>
+<ul>
+<li><strong>Unified API</strong> for both CLI tools and long-running services</li>
+<li><strong>Structured logging</strong> with JSON Lines output format</li>
+<li><strong>Context propagation</strong> using AsyncLocalStorage</li>
+<li><strong>Type-safe error handling</strong> with custom error types</li>
+<li><strong>Multiple output channels</strong> (console, file, monitoring)</li>
+<li><strong>Performance tracking</strong> with built-in timers</li>
+<li><strong>Pure ESM</strong> with full TypeScript support</li>
+</ul>
+<h2 id="quick-start">Quick Start<a aria-hidden="true" class="anchor-heading icon-link" href="#quick-start"></a></h2>
+<h3 id="basic-usage">Basic Usage<a aria-hidden="true" class="anchor-heading icon-link" href="#basic-usage"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> getLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+logger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Application started'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+logger<span class="token punctuation">.</span><span class="token method function property-access">debug</span><span class="token punctuation">(</span><span class="token string">'Debug information'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> userId<span class="token operator">:</span> <span class="token string">'123'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+logger<span class="token punctuation">.</span><span class="token method function property-access">error</span><span class="token punctuation">(</span><span class="token string">'Something went wrong'</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token known-class-name class-name">Error</span></span><span class="token punctuation">(</span><span class="token string">'Failed'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> operation<span class="token operator">:</span> <span class="token string">'db-query'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="cli-tool-usage">CLI Tool Usage<a aria-hidden="true" class="anchor-heading icon-link" href="#cli-tool-usage"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> createCliLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">createCliLogger</span><span class="token punctuation">(</span><span class="token punctuation">{</span> 
+  verbose<span class="token operator">:</span> process<span class="token punctuation">.</span><span class="token property-access">argv</span><span class="token punctuation">.</span><span class="token method function property-access">includes</span><span class="token punctuation">(</span><span class="token string">'--verbose'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  format<span class="token operator">:</span> <span class="token string">'pretty'</span> 
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+logger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Processing files...'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="service-usage">Service Usage<a aria-hidden="true" class="anchor-heading icon-link" href="#service-usage"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> createServiceLogger<span class="token punctuation">,</span> <span class="token maybe-class-name">ContextManager</span> <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">createServiceLogger</span><span class="token punctuation">(</span><span class="token string">'semantic-flow-api'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  enableFileLogging<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  enableMonitoring<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  environment<span class="token operator">:</span> process<span class="token punctuation">.</span><span class="token property-access">env</span><span class="token punctuation">.</span><span class="token constant">NODE_ENV</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// HTTP middleware with automatic context propagation</span>
+app<span class="token punctuation">.</span><span class="token method function property-access">use</span><span class="token punctuation">(</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> context <span class="token operator">=</span> <span class="token punctuation">{</span>
+    operation<span class="token operator">:</span> <span class="token string">'http-request'</span><span class="token punctuation">,</span>
+    requestId<span class="token operator">:</span> req<span class="token punctuation">.</span><span class="token property-access">id</span><span class="token punctuation">,</span>
+    metadata<span class="token operator">:</span> <span class="token punctuation">{</span> method<span class="token operator">:</span> req<span class="token punctuation">.</span><span class="token property-access">method</span><span class="token punctuation">,</span> path<span class="token operator">:</span> req<span class="token punctuation">.</span><span class="token property-access">path</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  
+  <span class="token maybe-class-name">ContextManager</span><span class="token punctuation">.</span><span class="token method function property-access">run</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+    req<span class="token punctuation">.</span><span class="token property-access">logger</span> <span class="token operator">=</span> logger<span class="token punctuation">.</span><span class="token method function property-access">child</span><span class="token punctuation">(</span><span class="token punctuation">{</span> component<span class="token operator">:</span> <span class="token string">'http-handler'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="component-scoped-logger">Component-Scoped Logger<a aria-hidden="true" class="anchor-heading icon-link" href="#component-scoped-logger"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> getComponentLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Automatically includes component name from file path</span>
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">getComponentLogger</span><span class="token punctuation">(</span><span class="token keyword module">import</span><span class="token punctuation">.</span><span class="token property-access">meta</span><span class="token punctuation">.</span><span class="token property-access">url</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+logger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Component initialized'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Logs with component: 'my-module'</span>
+</code></pre>
+<h2 id="core-concepts">Core Concepts<a aria-hidden="true" class="anchor-heading icon-link" href="#core-concepts"></a></h2>
+<h3 id="log-levels">Log Levels<a aria-hidden="true" class="anchor-heading icon-link" href="#log-levels"></a></h3>
+<p>The system uses numeric log levels for easy comparison and filtering:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">enum</span> <span class="token maybe-class-name">LogLevel</span> <span class="token punctuation">{</span>
+  <span class="token constant">TRACE</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span>   <span class="token comment">// Detailed trace information</span>
+  <span class="token constant">DEBUG</span> <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">,</span>  <span class="token comment">// Debug information</span>
+  <span class="token constant">INFO</span> <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">,</span>   <span class="token comment">// Informational messages</span>
+  <span class="token constant">WARN</span> <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">,</span>   <span class="token comment">// Warning messages</span>
+  <span class="token constant">ERROR</span> <span class="token operator">=</span> <span class="token number">40</span><span class="token punctuation">,</span>  <span class="token comment">// Error messages</span>
+  <span class="token constant">FATAL</span> <span class="token operator">=</span> <span class="token number">50</span>   <span class="token comment">// Fatal errors that require attention</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="log-context">Log Context<a aria-hidden="true" class="anchor-heading icon-link" href="#log-context"></a></h3>
+<p>Context is automatically merged and propagated:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">LogContext</span></span> <span class="token punctuation">{</span>
+  <span class="token comment">// Core identification</span>
+  operation<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  operationId<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  component<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  <span class="token keyword">function</span><span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>      <span class="token comment">// Automatically captured calling function name</span>
+  
+  <span class="token comment">// Semantic Flow specific</span>
+  meshId<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  nodeId<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  meshName<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  nodeName<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">// Performance tracking</span>
+  startTime<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  duration<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  memoryUsage<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">// Request context</span>
+  requestId<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  userId<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  sessionId<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">// Flexible metadata</span>
+  tags<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">Record</span><span class="token operator">&#x3C;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">string</span><span class="token operator">></span><span class="token punctuation">;</span>
+  metadata<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">Record</span><span class="token operator">&#x3C;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">unknown</span><span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="function-name-capture">Function Name Capture<a aria-hidden="true" class="anchor-heading icon-link" href="#function-name-capture"></a></h4>
+<p>The logger can automatically capture the calling function or method name and include it in the log context. This feature is useful for debugging and tracing but has a performance cost.</p>
+<p><strong>Automatic Capture:</strong></p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">processUserData</span><span class="token punctuation">(</span>userId<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// Function name 'processUserData' automatically captured</span>
+  logger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Starting user data processing'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> userId <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// Logs: { function: 'processUserData', userId: '123', ... }</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Configuration:</strong></p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token function">initLogger</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  serviceName<span class="token operator">:</span> <span class="token string">'my-service'</span><span class="token punctuation">,</span>
+  autoContext<span class="token operator">:</span> <span class="token punctuation">{</span>
+    captureFunctionName<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  <span class="token comment">// Enable function name capture</span>
+    includeTimestamp<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    includeHostname<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    includeProcessInfo<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>Environment-Aware Defaults:</strong></p>
+<ul>
+<li><strong>Development</strong>: Function capture is enabled by default (<code>NODE_ENV !== 'production'</code>)</li>
+<li><strong>Production</strong>: Function capture is disabled by default for performance</li>
+<li><strong>Override</strong>: Can be explicitly enabled/disabled in configuration</li>
+</ul>
+<p><strong>Performance Considerations:</strong></p>
+<ul>
+<li>Function name capture uses stack trace parsing, which has a measurable performance cost</li>
+<li>In production environments with high-throughput logging, consider disabling this feature</li>
+<li>Enable selectively for debugging or development environments</li>
+<li>Manual context provides better control: <code>logger.info('msg', { function: 'myFunc' })</code></li>
+</ul>
+<p><strong>Examples:</strong></p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token comment">// Development mode - automatic capture</span>
+process<span class="token punctuation">.</span><span class="token property-access">env</span><span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">=</span> <span class="token string">'development'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name"><span class="token maybe-class-name">AuthService</span></span> <span class="token punctuation">{</span>
+  <span class="token keyword">async</span> <span class="token function">login</span><span class="token punctuation">(</span>credentials<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// Captures 'AuthService.login' automatically</span>
+    logger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Login attempt'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> email<span class="token operator">:</span> credentials<span class="token punctuation">.</span><span class="token property-access">email</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Production mode - disabled by default</span>
+process<span class="token punctuation">.</span><span class="token property-access">env</span><span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">=</span> <span class="token string">'production'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> prodLogger <span class="token operator">=</span> <span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">processPayment</span><span class="token punctuation">(</span>orderId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// No automatic function capture in production</span>
+  logger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Processing payment'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> orderId <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Explicit override - enabled in production</span>
+<span class="token keyword">const</span> debugLogger <span class="token operator">=</span> <span class="token function">createLogger</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  serviceName<span class="token operator">:</span> <span class="token string">'payment-service'</span><span class="token punctuation">,</span>
+  environment<span class="token operator">:</span> <span class="token string">'production'</span><span class="token punctuation">,</span>
+  autoContext<span class="token operator">:</span> <span class="token punctuation">{</span>
+    captureFunctionName<span class="token operator">:</span> <span class="token boolean">true</span>  <span class="token comment">// Force enable for debugging</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="child-loggers">Child Loggers<a aria-hidden="true" class="anchor-heading icon-link" href="#child-loggers"></a></h3>
+<p>Child loggers inherit and merge context immutably:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">const</span> parentLogger <span class="token operator">=</span> <span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> childLogger <span class="token operator">=</span> parentLogger<span class="token punctuation">.</span><span class="token method function property-access">child</span><span class="token punctuation">(</span><span class="token punctuation">{</span> component<span class="token operator">:</span> <span class="token string">'auth'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> grandchildLogger <span class="token operator">=</span> childLogger<span class="token punctuation">.</span><span class="token method function property-access">withOperation</span><span class="token punctuation">(</span><span class="token string">'login'</span><span class="token punctuation">,</span> <span class="token string">'op-123'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Each logger has its own context without affecting parents</span>
+childLogger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Auth module loaded'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+grandchildLogger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Login attempt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="api-reference">API Reference<a aria-hidden="true" class="anchor-heading icon-link" href="#api-reference"></a></h2>
+<h3 id="logger-interface">Logger Interface<a aria-hidden="true" class="anchor-heading icon-link" href="#logger-interface"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">Logger</span></span> <span class="token punctuation">{</span>
+  <span class="token comment">// Core logging methods</span>
+  <span class="token function">trace</span><span class="token punctuation">(</span>message<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> context<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">LogContext</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+  <span class="token function">debug</span><span class="token punctuation">(</span>message<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> context<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">LogContext</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+  <span class="token function">info</span><span class="token punctuation">(</span>message<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> context<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">LogContext</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+  <span class="token function">warn</span><span class="token punctuation">(</span>message<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> context<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">LogContext</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+  <span class="token function">error</span><span class="token punctuation">(</span>message<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> error<span class="token operator">?</span><span class="token operator">:</span> <span class="token known-class-name class-name">Error</span><span class="token punctuation">,</span> context<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">LogContext</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+  <span class="token function">fatal</span><span class="token punctuation">(</span>message<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> error<span class="token operator">?</span><span class="token operator">:</span> <span class="token known-class-name class-name">Error</span><span class="token punctuation">,</span> context<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">LogContext</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">// Context management</span>
+  <span class="token function">withContext</span><span class="token punctuation">(</span>context<span class="token operator">:</span> <span class="token maybe-class-name">LogContext</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">Logger</span><span class="token punctuation">;</span>
+  <span class="token function">withOperation</span><span class="token punctuation">(</span>operation<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> operationId<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">Logger</span><span class="token punctuation">;</span>
+  <span class="token function">withComponent</span><span class="token punctuation">(</span>component<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">Logger</span><span class="token punctuation">;</span>
+  <span class="token function">child</span><span class="token punctuation">(</span>context<span class="token operator">:</span> <span class="token maybe-class-name">LogContext</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">Logger</span><span class="token punctuation">;</span> <span class="token comment">// Alias for withContext</span>
+  
+  <span class="token comment">// Performance tracking</span>
+  <span class="token function">startTimer</span><span class="token punctuation">(</span>operation<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">Timer</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">// Error capture</span>
+  <span class="token function">captureError</span><span class="token punctuation">(</span>error<span class="token operator">:</span> <span class="token builtin">unknown</span><span class="token punctuation">,</span> options<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">ErrorCaptureOptions</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">// Lifecycle</span>
+  <span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token known-class-name class-name">Promise</span><span class="token operator">&#x3C;</span><span class="token keyword">void</span><span class="token operator">></span><span class="token punctuation">;</span>
+  <span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token known-class-name class-name">Promise</span><span class="token operator">&#x3C;</span><span class="token keyword">void</span><span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="factory-functions">Factory Functions<a aria-hidden="true" class="anchor-heading icon-link" href="#factory-functions"></a></h3>
+<h4 id="initloggerconfig"><code>initLogger(config?)</code><a aria-hidden="true" class="anchor-heading icon-link" href="#initloggerconfig"></a></h4>
+<p>Initializes the global logger singleton. Call once at application startup.</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> initLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token function">initLogger</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  serviceName<span class="token operator">:</span> <span class="token string">'my-service'</span><span class="token punctuation">,</span>
+  environment<span class="token operator">:</span> <span class="token string">'production'</span><span class="token punctuation">,</span>
+  <span class="token builtin">console</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    enabled<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    level<span class="token operator">:</span> <span class="token maybe-class-name">LogLevel</span><span class="token punctuation">.</span><span class="token constant">INFO</span><span class="token punctuation">,</span>
+    format<span class="token operator">:</span> <span class="token string">'json'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="getlogger"><code>getLogger()</code><a aria-hidden="true" class="anchor-heading icon-link" href="#getlogger"></a></h4>
+<p>Returns the global logger singleton. Automatically picks up AsyncLocalStorage context.</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> getLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="createloggerconfig"><code>createLogger(config?)</code><a aria-hidden="true" class="anchor-heading icon-link" href="#createloggerconfig"></a></h4>
+<p>Creates a new, independent logger instance (non-singleton).</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> createLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> customLogger <span class="token operator">=</span> <span class="token function">createLogger</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  serviceName<span class="token operator">:</span> <span class="token string">'custom-service'</span><span class="token punctuation">,</span>
+  async<span class="token operator">:</span> <span class="token boolean">false</span> <span class="token comment">// Synchronous logging</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="createcliloggeroptions"><code>createCliLogger(options?)</code><a aria-hidden="true" class="anchor-heading icon-link" href="#createcliloggeroptions"></a></h4>
+<p>Creates a logger optimized for CLI tools with pretty output.</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> createCliLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">createCliLogger</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  verbose<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  <span class="token comment">// Enable debug logging</span>
+  quiet<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>   <span class="token comment">// Disable info logging</span>
+  format<span class="token operator">:</span> <span class="token string">'pretty'</span> <span class="token comment">// Use colored output</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="createserviceloggerservicename-options"><code>createServiceLogger(serviceName, options?)</code><a aria-hidden="true" class="anchor-heading icon-link" href="#createserviceloggerservicename-options"></a></h4>
+<p>Creates a logger optimized for long-running services with JSON output.</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> createServiceLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">createServiceLogger</span><span class="token punctuation">(</span><span class="token string">'api-server'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  enableFileLogging<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  enableMonitoring<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  environment<span class="token operator">:</span> <span class="token string">'production'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="getcomponentloggersourceurl"><code>getComponentLogger(sourceUrl)</code><a aria-hidden="true" class="anchor-heading icon-link" href="#getcomponentloggersourceurl"></a></h4>
+<p>Creates a component-scoped logger using <code>import.meta.url</code>.</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> getComponentLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">getComponentLogger</span><span class="token punctuation">(</span><span class="token keyword module">import</span><span class="token punctuation">.</span><span class="token property-access">meta</span><span class="token punctuation">.</span><span class="token property-access">url</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Automatically includes component: 'mesh-processor' from file path</span>
+</code></pre>
+<h3 id="performance-tracking">Performance Tracking<a aria-hidden="true" class="anchor-heading icon-link" href="#performance-tracking"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">const</span> timer <span class="token operator">=</span> logger<span class="token punctuation">.</span><span class="token method function property-access">startTimer</span><span class="token punctuation">(</span><span class="token string">'data-processing'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Do work...</span>
+
+timer<span class="token punctuation">.</span><span class="token method function property-access">checkpoint</span><span class="token punctuation">(</span><span class="token string">'validation-complete'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> recordCount<span class="token operator">:</span> <span class="token number">100</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// More work...</span>
+
+timer<span class="token punctuation">.</span><span class="token method function property-access">end</span><span class="token punctuation">(</span><span class="token punctuation">{</span> totalRecords<span class="token operator">:</span> <span class="token number">500</span><span class="token punctuation">,</span> duration<span class="token operator">:</span> <span class="token number">1234</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="configuration">Configuration<a aria-hidden="true" class="anchor-heading icon-link" href="#configuration"></a></h2>
+<h3 id="logger-configuration">Logger Configuration<a aria-hidden="true" class="anchor-heading icon-link" href="#logger-configuration"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">LoggerConfig</span></span> <span class="token punctuation">{</span>
+  serviceName<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  serviceVersion<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  environment<span class="token operator">:</span> <span class="token string">'development'</span> <span class="token operator">|</span> <span class="token string">'staging'</span> <span class="token operator">|</span> <span class="token string">'production'</span><span class="token punctuation">;</span>
+  instanceId<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">// Channel configurations</span>
+  <span class="token builtin">console</span><span class="token operator">:</span> <span class="token maybe-class-name">ChannelConfig</span><span class="token punctuation">;</span>
+  file<span class="token operator">:</span> <span class="token maybe-class-name">ChannelConfig</span><span class="token punctuation">;</span>
+  monitoring<span class="token operator">:</span> <span class="token maybe-class-name">ChannelConfig</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">// Performance settings</span>
+  async<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>        <span class="token comment">// Buffered writes vs synchronous</span>
+  bufferSize<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>    <span class="token comment">// Buffer size for async writes</span>
+  flushInterval<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span> <span class="token comment">// Auto-flush interval (ms)</span>
+  
+  <span class="token comment">// Auto-context settings</span>
+  autoContext<span class="token operator">:</span> <span class="token punctuation">{</span>
+    includeTimestamp<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+    includeHostname<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+    includeProcessInfo<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+    captureFunctionName<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>  <span class="token comment">// Enable automatic function name capture</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Auto-Context Configuration Details:</strong></p>
+<ul>
+<li><code>includeTimestamp</code>: Adds timestamp to every log entry (default: <code>true</code>)</li>
+<li><code>includeHostname</code>: Includes hostname in log entries (default: <code>true</code>)</li>
+<li><code>includeProcessInfo</code>: Includes process ID in log entries (default: <code>true</code>)</li>
+<li><code>captureFunctionName</code>: Automatically captures calling function/method name (default: <code>NODE_ENV !== 'production'</code>)
+<ul>
+<li><strong>Enabled by default in development</strong> for better debugging</li>
+<li><strong>Disabled by default in production</strong> for performance</li>
+<li>Can be explicitly overridden in configuration</li>
+</ul>
+</li>
+</ul>
+<h3 id="channel-configuration">Channel Configuration<a aria-hidden="true" class="anchor-heading icon-link" href="#channel-configuration"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">ChannelConfig</span></span> <span class="token punctuation">{</span>
+  enabled<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+  level<span class="token operator">:</span> <span class="token maybe-class-name">LogLevel</span><span class="token punctuation">;</span>
+  format<span class="token operator">:</span> <span class="token string">'json'</span> <span class="token operator">|</span> <span class="token string">'pretty'</span> <span class="token operator">|</span> <span class="token string">'compact'</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">// Channel-specific options</span>
+  <span class="token builtin">console</span><span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    colors<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+    timestamps<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  file<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    path<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    maxSize<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+    maxFiles<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+    rotationStrategy<span class="token operator">?</span><span class="token operator">:</span> <span class="token string">'time'</span> <span class="token operator">|</span> <span class="token string">'size'</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  monitoring<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    provider<span class="token operator">:</span> <span class="token string">'sentry'</span> <span class="token operator">|</span> <span class="token string">'datadog'</span> <span class="token operator">|</span> <span class="token string">'newrelic'</span><span class="token punctuation">;</span>
+    dsn<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    environment<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    sampleRate<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="environment-variables">Environment Variables<a aria-hidden="true" class="anchor-heading icon-link" href="#environment-variables"></a></h3>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Service identification</span>
+<span class="token assign-left variable">SF_SERVICE_NAME</span><span class="token operator">=</span>semantic-flow-service
+<span class="token assign-left variable">SF_SERVICE_VERSION</span><span class="token operator">=</span><span class="token number">2.0</span>.0
+<span class="token assign-left variable">SF_ENVIRONMENT</span><span class="token operator">=</span>production
+
+<span class="token comment"># Console logging</span>
+<span class="token assign-left variable">SF_LOG_CONSOLE_ENABLED</span><span class="token operator">=</span>true
+<span class="token assign-left variable">SF_LOG_CONSOLE_LEVEL</span><span class="token operator">=</span>info
+<span class="token assign-left variable">SF_LOG_CONSOLE_FORMAT</span><span class="token operator">=</span>pretty
+
+<span class="token comment"># File logging</span>
+<span class="token assign-left variable">SF_LOG_FILE_ENABLED</span><span class="token operator">=</span>true
+<span class="token assign-left variable">SF_LOG_FILE_PATH</span><span class="token operator">=</span>./logs/sf-service.log
+<span class="token assign-left variable">SF_LOG_FILE_LEVEL</span><span class="token operator">=</span>debug
+
+<span class="token comment"># Monitoring</span>
+<span class="token assign-left variable">SF_LOG_MONITORING_ENABLED</span><span class="token operator">=</span>true
+<span class="token assign-left variable">SF_LOG_MONITORING_PROVIDER</span><span class="token operator">=</span>sentry
+<span class="token assign-left variable">SF_LOG_MONITORING_DSN</span><span class="token operator">=</span>https://<span class="token punctuation">..</span>.
+
+<span class="token comment"># Auto-context settings</span>
+<span class="token assign-left variable">SF_LOG_AUTO_CONTEXT_CAPTURE_FUNCTION_NAME</span><span class="token operator">=</span>true  <span class="token comment"># Enable function name capture</span>
+</code></pre>
+<h2 id="error-handling">Error Handling<a aria-hidden="true" class="anchor-heading icon-link" href="#error-handling"></a></h2>
+<h3 id="error-types">Error Types<a aria-hidden="true" class="anchor-heading icon-link" href="#error-types"></a></h3>
+<p>The system provides typed error classes with automatic context capture:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token punctuation">{</span> 
+  <span class="token known-class-name class-name">SemanticFlowError</span><span class="token punctuation">,</span>
+  <span class="token known-class-name class-name">ValidationError</span><span class="token punctuation">,</span>
+  <span class="token known-class-name class-name">ConfigurationError</span><span class="token punctuation">,</span>
+  <span class="token known-class-name class-name">MeshProcessingError</span><span class="token punctuation">,</span>
+  <span class="token known-class-name class-name">ApiError</span>
+<span class="token punctuation">}</span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Throw typed errors</span>
+<span class="token keyword control-flow">throw</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token known-class-name class-name">ValidationError</span></span><span class="token punctuation">(</span><span class="token string">'Invalid input'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> field<span class="token operator">:</span> <span class="token string">'email'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword control-flow">throw</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token known-class-name class-name">ApiError</span></span><span class="token punctuation">(</span><span class="token string">'Not found'</span><span class="token punctuation">,</span> <span class="token number">404</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> resource<span class="token operator">:</span> <span class="token string">'user'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Custom error types</span>
+<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> createErrorType <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token known-class-name class-name">DatabaseError</span> <span class="token operator">=</span> <span class="token function">createErrorType</span><span class="token punctuation">(</span><span class="token string">'DatabaseError'</span><span class="token punctuation">,</span> <span class="token string">'DB_ERROR'</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword control-flow">throw</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token known-class-name class-name">DatabaseError</span></span><span class="token punctuation">(</span><span class="token string">'Connection failed'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> host<span class="token operator">:</span> <span class="token string">'localhost'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="error-capture">Error Capture<a aria-hidden="true" class="anchor-heading icon-link" href="#error-capture"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> captureError <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword control-flow">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow">await</span> <span class="token function">riskyOperation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword control-flow">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">captureError</span><span class="token punctuation">(</span>error<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    message<span class="token operator">:</span> <span class="token string">'Operation failed'</span><span class="token punctuation">,</span>
+    context<span class="token operator">:</span> <span class="token punctuation">{</span> operation<span class="token operator">:</span> <span class="token string">'risky-op'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    includeStackTrace<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    reportToMonitoring<span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// Continue with fallback logic</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="error-properties">Error Properties<a aria-hidden="true" class="anchor-heading icon-link" href="#error-properties"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">class</span> <span class="token class-name"><span class="token known-class-name class-name">SemanticFlowError</span></span> <span class="token keyword">extends</span> <span class="token class-name"><span class="token known-class-name class-name">Error</span></span> <span class="token punctuation">{</span>
+  <span class="token keyword">readonly</span> code<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>           <span class="token comment">// Error code (e.g., 'VALIDATION_ERROR')</span>
+  <span class="token keyword">readonly</span> context<span class="token operator">:</span> <span class="token maybe-class-name">Record</span><span class="token operator">&#x3C;</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token builtin">unknown</span><span class="token operator">></span><span class="token punctuation">;</span> <span class="token comment">// Additional context</span>
+  <span class="token keyword">readonly</span> timestamp<span class="token operator">:</span> <span class="token known-class-name class-name">Date</span><span class="token punctuation">;</span>        <span class="token comment">// When the error occurred</span>
+  <span class="token keyword">readonly</span> recoverable<span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>   <span class="token comment">// Whether recovery is possible</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="context-management">Context Management<a aria-hidden="true" class="anchor-heading icon-link" href="#context-management"></a></h2>
+<h3 id="asynclocalstorage">AsyncLocalStorage<a aria-hidden="true" class="anchor-heading icon-link" href="#asynclocalstorage"></a></h3>
+<p>The system uses AsyncLocalStorage for automatic context propagation across async operations:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> <span class="token maybe-class-name">ContextManager</span> <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> requestContext <span class="token operator">=</span> <span class="token punctuation">{</span> 
+  requestId<span class="token operator">:</span> <span class="token string">'req-123'</span><span class="token punctuation">,</span> 
+  userId<span class="token operator">:</span> <span class="token string">'user-456'</span> 
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token maybe-class-name">ContextManager</span><span class="token punctuation">.</span><span class="token method function property-access">run</span><span class="token punctuation">(</span>requestContext<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// All logging within this scope automatically includes the context</span>
+  logger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Processing request'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token comment">// Logs: { requestId: 'req-123', userId: 'user-456', ... }</span>
+  
+  <span class="token keyword control-flow">await</span> <span class="token function">processRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="context-merging">Context Merging<a aria-hidden="true" class="anchor-heading icon-link" href="#context-merging"></a></h3>
+<p>Context is merged hierarchically:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token comment">// Global context</span>
+<span class="token keyword">const</span> globalLogger <span class="token operator">=</span> <span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Component context</span>
+<span class="token keyword">const</span> componentLogger <span class="token operator">=</span> globalLogger<span class="token punctuation">.</span><span class="token method function property-access">child</span><span class="token punctuation">(</span><span class="token punctuation">{</span> component<span class="token operator">:</span> <span class="token string">'auth'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Operation context</span>
+<span class="token keyword">const</span> operationLogger <span class="token operator">=</span> componentLogger<span class="token punctuation">.</span><span class="token method function property-access">withOperation</span><span class="token punctuation">(</span><span class="token string">'login'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Call context</span>
+operationLogger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Login successful'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> userId<span class="token operator">:</span> <span class="token string">'123'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Final context includes all levels:</span>
+<span class="token comment">// { component: 'auth', operation: 'login', userId: '123', ... }</span>
+</code></pre>
+<h2 id="testing">Testing<a aria-hidden="true" class="anchor-heading icon-link" href="#testing"></a></h2>
+<h3 id="mock-logger">Mock Logger<a aria-hidden="true" class="anchor-heading icon-link" href="#mock-logger"></a></h3>
+<p>Use the <code>MockLogger</code> for testing:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> <span class="token maybe-class-name">LoggerTestUtils</span><span class="token punctuation">,</span> <span class="token maybe-class-name">MockLogger</span> <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> describe<span class="token punctuation">,</span> it<span class="token punctuation">,</span> expect<span class="token punctuation">,</span> beforeEach <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'vitest'</span><span class="token punctuation">;</span>
+
+<span class="token function">describe</span><span class="token punctuation">(</span><span class="token string">'My Module'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> mockLogger<span class="token operator">:</span> <span class="token maybe-class-name">MockLogger</span><span class="token punctuation">;</span>
+
+  <span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+    mockLogger <span class="token operator">=</span> <span class="token maybe-class-name">LoggerTestUtils</span><span class="token punctuation">.</span><span class="token method function property-access">createMockLogger</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      serviceName<span class="token operator">:</span> <span class="token string">'test-service'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">'should log messages correctly'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+    mockLogger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Test message'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> userId<span class="token operator">:</span> <span class="token string">'123'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">const</span> entry <span class="token operator">=</span> mockLogger<span class="token punctuation">.</span><span class="token property-access">mockChannel</span><span class="token punctuation">.</span><span class="token property-access">entries</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token function">expect</span><span class="token punctuation">(</span>entry<span class="token punctuation">.</span><span class="token property-access">level</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">toBe</span><span class="token punctuation">(</span><span class="token maybe-class-name">LogLevel</span><span class="token punctuation">.</span><span class="token constant">INFO</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">expect</span><span class="token punctuation">(</span>entry<span class="token punctuation">.</span><span class="token property-access">message</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">toBe</span><span class="token punctuation">(</span><span class="token string">'Test message'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">expect</span><span class="token punctuation">(</span>entry<span class="token punctuation">.</span><span class="token property-access">context</span><span class="token operator">?.</span>userId<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">toBe</span><span class="token punctuation">(</span><span class="token string">'123'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">it</span><span class="token punctuation">(</span><span class="token string">'should capture errors'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> error <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token known-class-name class-name">Error</span></span><span class="token punctuation">(</span><span class="token string">'Test error'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    mockLogger<span class="token punctuation">.</span><span class="token method function property-access">captureError</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token function">expect</span><span class="token punctuation">(</span>mockLogger<span class="token punctuation">.</span><span class="token property-access">capturedErrors</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">toHaveLength</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">expect</span><span class="token punctuation">(</span>mockLogger<span class="token punctuation">.</span><span class="token property-access">capturedErrors</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token property-access">error</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">toBe</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="test-utilities">Test Utilities<a aria-hidden="true" class="anchor-heading icon-link" href="#test-utilities"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token comment">// Find logs by level</span>
+<span class="token keyword">const</span> errors <span class="token operator">=</span> mockLogger<span class="token punctuation">.</span><span class="token method function property-access">findLogsByLevel</span><span class="token punctuation">(</span><span class="token maybe-class-name">LogLevel</span><span class="token punctuation">.</span><span class="token constant">ERROR</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Find logs by component</span>
+<span class="token keyword">const</span> authLogs <span class="token operator">=</span> mockLogger<span class="token punctuation">.</span><span class="token method function property-access">findLogsByComponent</span><span class="token punctuation">(</span><span class="token string">'auth'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Find logs by operation</span>
+<span class="token keyword">const</span> loginLogs <span class="token operator">=</span> mockLogger<span class="token punctuation">.</span><span class="token method function property-access">findLogsByOperation</span><span class="token punctuation">(</span><span class="token string">'login'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Check for specific error codes</span>
+<span class="token keyword">const</span> hasValidationError <span class="token operator">=</span> mockLogger<span class="token punctuation">.</span><span class="token method function property-access">hasErrorWithCode</span><span class="token punctuation">(</span><span class="token string">'VALIDATION_ERROR'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Clear logs between tests</span>
+mockLogger<span class="token punctuation">.</span><span class="token method function property-access">clearLogs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="reset-singleton-for-tests">Reset Singleton for Tests<a aria-hidden="true" class="anchor-heading icon-link" href="#reset-singleton-for-tests"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> __resetLoggerForTests <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function">__resetLoggerForTests</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="best-practices">Best Practices<a aria-hidden="true" class="anchor-heading icon-link" href="#best-practices"></a></h2>
+<h3 id="1-initialize-early">1. Initialize Early<a aria-hidden="true" class="anchor-heading icon-link" href="#1-initialize-early"></a></h3>
+<p>Initialize the logger at application startup:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token comment">// index.ts</span>
+<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> initLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token function">initLogger</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  serviceName<span class="token operator">:</span> process<span class="token punctuation">.</span><span class="token property-access">env</span><span class="token punctuation">.</span><span class="token constant">SERVICE_NAME</span> <span class="token operator">||</span> <span class="token string">'my-service'</span><span class="token punctuation">,</span>
+  environment<span class="token operator">:</span> process<span class="token punctuation">.</span><span class="token property-access">env</span><span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token keyword module">as</span> <span class="token builtin">any</span> <span class="token operator">||</span> <span class="token string">'development'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Rest of application...</span>
+</code></pre>
+<h3 id="2-use-component-loggers">2. Use Component Loggers<a aria-hidden="true" class="anchor-heading icon-link" href="#2-use-component-loggers"></a></h3>
+<p>Create component-scoped loggers for better traceability:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token comment">// auth-service.ts</span>
+<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> getComponentLogger <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'@semantic-flow/logging'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> logger <span class="token operator">=</span> <span class="token function">getComponentLogger</span><span class="token punctuation">(</span><span class="token keyword module">import</span><span class="token punctuation">.</span><span class="token property-access">meta</span><span class="token punctuation">.</span><span class="token property-access">url</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword">class</span> <span class="token class-name"><span class="token maybe-class-name">AuthService</span></span> <span class="token punctuation">{</span>
+  <span class="token function">login</span><span class="token punctuation">(</span>credentials<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    logger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'Login attempt'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> email<span class="token operator">:</span> credentials<span class="token punctuation">.</span><span class="token property-access">email</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="3-structure-your-context">3. Structure Your Context<a aria-hidden="true" class="anchor-heading icon-link" href="#3-structure-your-context"></a></h3>
+<p>Use consistent context keys across your application:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token comment">// Good: Consistent structure</span>
+logger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'User created'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  operation<span class="token operator">:</span> <span class="token string">'user-creation'</span><span class="token punctuation">,</span>
+  metadata<span class="token operator">:</span> <span class="token punctuation">{</span> userId<span class="token operator">:</span> <span class="token string">'123'</span><span class="token punctuation">,</span> email<span class="token operator">:</span> <span class="token string">'user@example.com'</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Avoid: Flat, inconsistent structure</span>
+logger<span class="token punctuation">.</span><span class="token method function property-access">info</span><span class="token punctuation">(</span><span class="token string">'User created'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  userId<span class="token operator">:</span> <span class="token string">'123'</span><span class="token punctuation">,</span>
+  email<span class="token operator">:</span> <span class="token string">'user@example.com'</span><span class="token punctuation">,</span>
+  op<span class="token operator">:</span> <span class="token string">'create-user'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="4-log-at-appropriate-levels">4. Log at Appropriate Levels<a aria-hidden="true" class="anchor-heading icon-link" href="#4-log-at-appropriate-levels"></a></h3>
+<ul>
+<li><strong>TRACE</strong>: Very detailed debugging (rarely used in production)</li>
+<li><strong>DEBUG</strong>: Detailed debugging for development</li>
+<li><strong>INFO</strong>: Normal application flow</li>
+<li><strong>WARN</strong>: Potentially harmful situations</li>
+<li><strong>ERROR</strong>: Error events that might still allow the app to continue</li>
+<li><strong>FATAL</strong>: Severe errors that will likely abort the application</li>
+</ul>
+<h3 id="5-include-error-objects">5. Include Error Objects<a aria-hidden="true" class="anchor-heading icon-link" href="#5-include-error-objects"></a></h3>
+<p>Always include the error object when logging errors:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token comment">// Good: Includes error object and context</span>
+<span class="token keyword control-flow">try</span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow">await</span> <span class="token function">operation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword control-flow">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  logger<span class="token punctuation">.</span><span class="token method function property-access">error</span><span class="token punctuation">(</span><span class="token string">'Operation failed'</span><span class="token punctuation">,</span> error<span class="token punctuation">,</span> <span class="token punctuation">{</span> operation<span class="token operator">:</span> <span class="token string">'data-sync'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Bad: Only logs message</span>
+<span class="token keyword control-flow">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  logger<span class="token punctuation">.</span><span class="token method function property-access">error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Operation failed: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>error<span class="token punctuation">.</span><span class="token property-access">message</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="6-use-timers-for-performance-tracking">6. Use Timers for Performance Tracking<a aria-hidden="true" class="anchor-heading icon-link" href="#6-use-timers-for-performance-tracking"></a></h3>
+<p>Track operation performance consistently:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">processData</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> timer <span class="token operator">=</span> logger<span class="token punctuation">.</span><span class="token method function property-access">startTimer</span><span class="token punctuation">(</span><span class="token string">'data-processing'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  
+  <span class="token keyword control-flow">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">await</span> <span class="token function">validateData</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    timer<span class="token punctuation">.</span><span class="token method function property-access">checkpoint</span><span class="token punctuation">(</span><span class="token string">'validation-complete'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword control-flow">await</span> <span class="token function">transformData</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    timer<span class="token punctuation">.</span><span class="token method function property-access">checkpoint</span><span class="token punctuation">(</span><span class="token string">'transformation-complete'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword control-flow">await</span> <span class="token function">saveData</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    timer<span class="token punctuation">.</span><span class="token method function property-access">end</span><span class="token punctuation">(</span><span class="token punctuation">{</span> recordCount<span class="token operator">:</span> data<span class="token punctuation">.</span><span class="token property-access">length</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword control-flow">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    timer<span class="token punctuation">.</span><span class="token method function property-access">end</span><span class="token punctuation">(</span><span class="token punctuation">{</span> error<span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword control-flow">throw</span> error<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="7-graceful-shutdown">7. Graceful Shutdown<a aria-hidden="true" class="anchor-heading icon-link" href="#7-graceful-shutdown"></a></h3>
+<p>Ensure logs are flushed on shutdown:</p>
+<pre class="language-typescript"><code class="language-typescript">process<span class="token punctuation">.</span><span class="token method function property-access">on</span><span class="token punctuation">(</span><span class="token string">'SIGTERM'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow">await</span> <span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  process<span class="token punctuation">.</span><span class="token method function property-access">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+process<span class="token punctuation">.</span><span class="token method function property-access">on</span><span class="token punctuation">(</span><span class="token string">'SIGINT'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow">await</span> <span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  process<span class="token punctuation">.</span><span class="token method function property-access">exit</span><span class="token punctuation">(</span><span class="token number">130</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="8-avoid-logging-sensitive-data">8. Avoid Logging Sensitive Data<a aria-hidden="true" class="anchor-heading icon-link" href="#8-avoid-logging-sensitive-data"></a></h3>
+<p>Redact sensitive information:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token comment">// Bad: Logs password</span>
+logger<span class="token punctuation">.</span><span class="token method function property-access">debug</span><span class="token punctuation">(</span><span class="token string">'Login attempt'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> username<span class="token punctuation">,</span> password <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Good: Redacts password</span>
+logger<span class="token punctuation">.</span><span class="token method function property-access">debug</span><span class="token punctuation">(</span><span class="token string">'Login attempt'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> 
+  username<span class="token punctuation">,</span> 
+  passwordLength<span class="token operator">:</span> password<span class="token punctuation">.</span><span class="token property-access">length</span> 
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="json-lines-output">JSON Lines Output<a aria-hidden="true" class="anchor-heading icon-link" href="#json-lines-output"></a></h2>
+<p>All structured logs use JSON Lines format (newline-delimited JSON):</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span><span class="token property">"timestamp"</span><span class="token operator">:</span><span class="token number">1699027200000</span><span class="token punctuation">,</span><span class="token property">"level"</span><span class="token operator">:</span><span class="token number">20</span><span class="token punctuation">,</span><span class="token property">"message"</span><span class="token operator">:</span><span class="token string">"Server started"</span><span class="token punctuation">,</span><span class="token property">"service"</span><span class="token operator">:</span><span class="token punctuation">{</span><span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"api"</span><span class="token punctuation">,</span><span class="token property">"version"</span><span class="token operator">:</span><span class="token string">"1.0.0"</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token property">"pid"</span><span class="token operator">:</span><span class="token number">12345</span><span class="token punctuation">}</span>
+<span class="token punctuation">{</span><span class="token property">"timestamp"</span><span class="token operator">:</span><span class="token number">1699027201000</span><span class="token punctuation">,</span><span class="token property">"level"</span><span class="token operator">:</span><span class="token number">40</span><span class="token punctuation">,</span><span class="token property">"message"</span><span class="token operator">:</span><span class="token string">"Database connection failed"</span><span class="token punctuation">,</span><span class="token property">"error"</span><span class="token operator">:</span><span class="token punctuation">{</span><span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"Error"</span><span class="token punctuation">,</span><span class="token property">"message"</span><span class="token operator">:</span><span class="token string">"Connection timeout"</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token property">"service"</span><span class="token operator">:</span><span class="token punctuation">{</span><span class="token property">"name"</span><span class="token operator">:</span><span class="token string">"api"</span><span class="token punctuation">,</span><span class="token property">"version"</span><span class="token operator">:</span><span class="token string">"1.0.0"</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token property">"pid"</span><span class="token operator">:</span><span class="token number">12345</span><span class="token punctuation">}</span>
+</code></pre>
+<p>This format is ideal for log processors like FluentBit, Loki, or Elasticsearch.</p>
+<h2 id="implementation-files">Implementation Files<a aria-hidden="true" class="anchor-heading icon-link" href="#implementation-files"></a></h2>
+<h3 id="core-implementation">Core Implementation<a aria-hidden="true" class="anchor-heading icon-link" href="#core-implementation"></a></h3>
+<ul>
+<li><a href="/sflo/../shared/logging/src/core/types.ts"><code>shared/logging/src/core/types.ts</code></a> - Type definitions</li>
+<li><a href="/sflo/../shared/logging/src/core/logger.ts"><code>shared/logging/src/core/logger.ts</code></a> - Logger implementation</li>
+<li><a href="/sflo/../shared/logging/src/core/context.ts"><code>shared/logging/src/core/context.ts</code></a> - Context management</li>
+<li><a href="/sflo/../shared/logging/src/core/formatters.ts"><code>shared/logging/src/core/formatters.ts</code></a> - Formatting utilities</li>
+</ul>
+<h3 id="error-handling-1">Error Handling<a aria-hidden="true" class="anchor-heading icon-link" href="#error-handling-1"></a></h3>
+<ul>
+<li><a href="/sflo/../shared/logging/src/errors/types.ts"><code>shared/logging/src/errors/types.ts</code></a> - Error types and factory</li>
+</ul>
+<h3 id="configuration-1">Configuration<a aria-hidden="true" class="anchor-heading icon-link" href="#configuration-1"></a></h3>
+<ul>
+<li><a href="/sflo/../shared/logging/src/config/loader.ts"><code>shared/logging/src/config/loader.ts</code></a> - Config loader</li>
+<li><a href="/sflo/../shared/logging/src/config/defaults.ts"><code>shared/logging/src/config/defaults.ts</code></a> - Default config</li>
+<li><a href="/sflo/../shared/logging/src/config/schema.ts"><code>shared/logging/src/config/schema.ts</code></a> - Config schema</li>
+</ul>
+<h3 id="channels">Channels<a aria-hidden="true" class="anchor-heading icon-link" href="#channels"></a></h3>
+<ul>
+<li><a href="/sflo/../shared/logging/src/channels/console.ts"><code>shared/logging/src/channels/console.ts</code></a> - Console output</li>
+</ul>
+<h3 id="utilities">Utilities<a aria-hidden="true" class="anchor-heading icon-link" href="#utilities"></a></h3>
+<ul>
+<li><a href="/sflo/../shared/logging/src/utils/stack-trace.ts"><code>shared/logging/src/utils/stack-trace.ts</code></a> - Stack trace parsing and function name capture</li>
+</ul>
+<h3 id="testing-1">Testing<a aria-hidden="true" class="anchor-heading icon-link" href="#testing-1"></a></h3>
+<ul>
+<li><a href="/sflo/../shared/logging/src/utils/testing.ts"><code>shared/logging/src/utils/testing.ts</code></a> - Test utilities</li>
+<li><a href="/sflo/../shared/logging/src/__tests__/core.test.ts"><code>shared/logging/src/__tests__/core.test.ts</code></a> - Core tests</li>
+</ul>
+<h2 id="see-also">See Also<a aria-hidden="true" class="anchor-heading icon-link" href="#see-also"></a></h2>
+<ul>
+<li><a href="/sflo/task.2025-11-04-shared-logging-and-errorhandling.md">Task Specification</a> - Full system specification</li>
+<li><a href="/sflo/dev.general-guidance.md">Developer General Guidance</a> - General development guidelines</li>
+<li><a href="/sflo/dev.patterns.md">Developer Patterns</a> - Common development patterns</li>
+</ul>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/i9v5cbqq2zqfhrjcolq48df">Patterns</a></li>
+</ul>

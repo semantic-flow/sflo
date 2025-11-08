@@ -9,18 +9,23 @@
 </ul>
 <h2 id="absolute-iri-references">Absolute IRI References<a aria-hidden="true" class="anchor-heading icon-link" href="#absolute-iri-references"></a></h2>
 <p>Any IRI that has a scheme (e.g., http:) is an <strong>Absolute IRI</strong> </p>
-<p>This example uses two absolute IRIs, each using the example.com authority:</p>
-<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In ns/djradon/_ref-flow/_current/djradon_ref.trig</span>
-<span class="token url"><span class="token punctuation">&#x3C;</span>https://example.com/mesh/ns/djradon<span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">Person</span></span> <span class="token punctuation">;</span>
-   <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span><span class="token local-name">seeAlso</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://example.com/mesh/ns/djradon/index.html<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+<h3 id="example">Example<a aria-hidden="true" class="anchor-heading icon-link" href="#example"></a></h3>
+<p>This example uses two absolute IRIs, one using the "ex:" prefix for the example.com authority:</p>
+<pre class="language-ttl"><code class="language-ttl">@prefix ex: &#x3C;https://example.com/> .
+@prefix foaf: &#x3C;http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: &#x3C;http://www.w3.org/2000/01/rdf-schema#> .
+
+# In ns/djradon/_reference-flow/_current/djradon_ref.trig
+ex:djradon a foaf:Person ;
+   rdfs:seeAlso ex:djradon/index.html .
 </code></pre>
 <h3 id="pros">Pros<a aria-hidden="true" class="anchor-heading icon-link" href="#pros"></a></h3>
 <ul>
-<li>explicit </li>
+<li>explicit</li>
 </ul>
 <h3 id="cons">Cons<a aria-hidden="true" class="anchor-heading icon-link" href="#cons"></a></h3>
 <ul>
-<li>limits <a href="/sflo/notes/principle-transposability">transposability</a> and <a href="/sflo/notes/principle-composability">composability</a></li>
+<li>limits <a href="/sflo/notes/transposability">transposability</a> and <a href="/sflo/notes/principle-composability">composability</a></li>
 <li>e.g., if you moved mesh hosting away from <code>https://example.com</code>, the <code>foaf:Person</code> and <code>rdfs:seeAlso</code> assertions would still refer to the original references</li>
 <li>not ideal if you're:
 <ul>
@@ -52,38 +57,47 @@
 </li>
 </ul>
 <p>If no base is specified, an inferred base of the requested scheme and authority is used. <strong>This behaviour is essential to Semantic Flow <a href="/sflo/notes/r2wo0r1jbsk3qdxaff6b53x">Best Practices</a>.</strong></p>
-<h3 id="absolute-path-relative-iris">Absolute-Path Relative IRIs<a aria-hidden="true" class="anchor-heading icon-link" href="#absolute-path-relative-iris"></a></h3>
+<h3 id="relative-path-relative-iris">Relative-Path Relative IRIs<a aria-hidden="true" class="anchor-heading icon-link" href="#relative-path-relative-iris"></a></h3>
+<pre class="language-turtle"><code class="language-turtle"><span class="token keyword">@prefix</span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>http://xmlns.com/foaf/0.1/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+<span class="token keyword">@prefix</span> <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>http://www.w3.org/2000/01/rdf-schema#<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+
+<span class="token comment"># In ns/djradon/_reference-flow/_current/djradon_ref.trig</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span>../../../djradon/<span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">Person</span></span> <span class="token punctuation">;</span>          <span class="token comment"># The document itself</span>
+   <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">knows</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../alice/<span class="token punctuation">></span></span> <span class="token punctuation">;</span>           <span class="token comment"># A sibling node in the mesh</span>
+   <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span><span class="token local-name">seeAlso</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../bio/bio.html<span class="token punctuation">></span></span> <span class="token punctuation">.</span>      <span class="token comment"># A resource page contained in a "bio" node under ../../djradon/</span>
+</code></pre>
+<h4 id="pros-1">Pros<a aria-hidden="true" class="anchor-heading icon-link" href="#pros-1"></a></h4>
 <ul>
 <li>maximum composability</li>
 </ul>
-<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In ns/djradon/_ref/djradon_ref.trig</span>
-<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">Person</span></span> <span class="token punctuation">;</span>                    <span class="token comment"># The document itself</span>
-   <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">knows</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../alice/<span class="token punctuation">></span></span> <span class="token punctuation">;</span>           <span class="token comment"># Another node in the mesh</span>
-   <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span><span class="token local-name">seeAlso</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>bio/bio.html<span class="token punctuation">></span></span> <span class="token punctuation">.</span>   <span class="token comment"># A resource page</span>
-</code></pre>
-<h4 id="pros-1">Pros<a aria-hidden="true" class="anchor-heading icon-link" href="#pros-1"></a></h4>
 <h4 id="cons-1">Cons<a aria-hidden="true" class="anchor-heading icon-link" href="#cons-1"></a></h4>
-<h3 id="absolute-path-relative-iris-1">Absolute-Path Relative IRIs<a aria-hidden="true" class="anchor-heading icon-link" href="#absolute-path-relative-iris-1"></a></h3>
-<ul>
-<li>clearer context
 <ul>
 <li><code>../../../</code> makes eyes swim</li>
 </ul>
-</li>
-<li>good intra-mesh transposability</li>
-</ul>
-<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In ns/djradon/_ref/djradon_ref.trig</span>
-<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">Person</span></span> <span class="token punctuation">;</span>
+<h3 id="absolute-path-relative-iris">Absolute-Path Relative IRIs<a aria-hidden="true" class="anchor-heading icon-link" href="#absolute-path-relative-iris"></a></h3>
+<pre class="language-turtle"><code class="language-turtle"><span class="token keyword">@prefix</span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>http://xmlns.com/foaf/0.1/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+<span class="token keyword">@prefix</span> <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>http://www.w3.org/2000/01/rdf-schema#<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+
+<span class="token comment"># In ns/djradon/_reference-flow/_current/djradon_ref.trig</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span>/ns/djradon/<span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">Person</span></span> <span class="token punctuation">;</span>
    <span class="token function"><span class="token prefix">foaf<span class="token punctuation">:</span></span><span class="token local-name">knows</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>/ns/alice/<span class="token punctuation">></span></span> <span class="token punctuation">;</span>          <span class="token comment"># Clear namespace context</span>
    <span class="token function"><span class="token prefix">rdfs<span class="token punctuation">:</span></span><span class="token local-name">seeAlso</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>/ns/djradon/bio/bio.html<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 </code></pre>
 <h4 id="pros-2">Pros<a aria-hidden="true" class="anchor-heading icon-link" href="#pros-2"></a></h4>
+<ul>
+<li>clearer context</li>
+<li>good intra-mesh transposability</li>
+</ul>
 <h4 id="cons-2">Cons<a aria-hidden="true" class="anchor-heading icon-link" href="#cons-2"></a></h4>
+<ul>
+<li>composability requires re-computing paths</li>
+</ul>
 <hr>
 <strong>Backlinks</strong>
 <ul>
+<li><a href="/sflo/notes/identifier">identifier</a></li>
 <li><a href="/sflo/notes/onheps7i79fvmzgfnm11phw">IRI</a></li>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
-<li><a href="/sflo/notes/principle-transposability">transposability</a></li>
-<li><a href="/sflo/notes/f2dk7cwbol4o1jsnd0cun1g">namespace base</a></li>
+<li><a href="/sflo/notes/transposability">transposability</a></li>
+<li><a href="/sflo/notes/relative-identifier">relative identifier</a></li>
 </ul>

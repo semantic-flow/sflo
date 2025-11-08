@@ -1,0 +1,79 @@
+<h1 id="memory-bank">Memory Bank<a aria-hidden="true" class="anchor-heading icon-link" href="#memory-bank"></a></h1>
+<h1 id="dev-memory-bank">Dev Memory Bank<a aria-hidden="true" class="anchor-heading icon-link" href="#dev-memory-bank"></a></h1>
+<p>The memory bank is a git-based shared memory system that enables both humans and AI agents to maintain context across sessions and tasks. It consists of:</p>
+<ul>
+<li>project-level documentation files that capture essential knowledge, decisions, and current state</li>
+<li>task-based documentation that should reflect the agent's short-term "working" memory.</li>
+</ul>
+<h2 id="core-rules">Core Rules<a aria-hidden="true" class="anchor-heading icon-link" href="#core-rules"></a></h2>
+<ul>
+<li><strong>CRITICAL: Agents MUST read ALL "Every Task" memory bank files at the start of EVERY task.</strong></li>
+<li>Agents should use a "Task" memory bank file for every task</li>
+<li>Agents, in every mode, must try to keep the task file's TODO section synced with their own internal Todo List.
+<ul>
+<li>Use of the "Todo List Updated" (update_todo_list) tool should always trigger a resync of the task's TODO section</li>
+</ul>
+</li>
+<li>All memory bank files should avoid repeating information, and should be continually checked for internal consistency</li>
+</ul>
+<h2 id="memory-bank-structure">Memory Bank Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#memory-bank-structure"></a></h2>
+<h3 id="project-memory-bank-files">Project Memory Bank Files<a aria-hidden="true" class="anchor-heading icon-link" href="#project-memory-bank-files"></a></h3>
+<h4 id="every-task-context-files">"Every Task" Context Files<a aria-hidden="true" class="anchor-heading icon-link" href="#every-task-context-files"></a></h4>
+<p>These files MUST be read at the start of every new task:</p>
+<ul>
+<li><a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a> - Foundation document explaining the memory bank approach and pointing to other files</li>
+<li><a href="/sflo/notes/tudefgmmf2pdx28zb9xs84j">Product Brief</a> - Project vision, problems solved, components/applications, user experience goals</li>
+<li><a href="/sflo/notes/4unsyhyp8tmhqsdxwndy315">Status</a> - Current project status, what's working, high-level summary</li>
+<li><a href="/sflo/notes/f0g7d31ivgn6rgllncdwep8">Memory Bank</a> - This file; ground rules for the memory bank system</li>
+</ul>
+<h4 id="frequently-referenced-memory-bank-files">Frequently Referenced Memory Bank Files<a aria-hidden="true" class="anchor-heading icon-link" href="#frequently-referenced-memory-bank-files"></a></h4>
+<p>These should be consulted as appropriate to the task:</p>
+<ul>
+<li><a href="/sflo/notes/xebek3dtv2zgs9ah0vbv57g">Developer General Guidance</a> - for any development-related tasks</li>
+<li><a href="/sflo/notes/1ieo7152nf46x4wiip1vwx5">Dependencies</a> - for technical architecture questions or any development-related tasks</li>
+<li><a href="/sflo/notes/60dxsve6jz4jm9j3o31bmf2">Ontologies</a> - for any RDF-related tasks</li>
+<li><a href="/sflo/notes/fwcrpbvxl7cm5xqd4e0qdep">Debugging</a> - Debugging workflows and tips</li>
+</ul>
+<h4 id="big-picture-memory-bank-files">Big Picture Memory Bank Files<a aria-hidden="true" class="anchor-heading icon-link" href="#big-picture-memory-bank-files"></a></h4>
+<ul>
+<li><a href="/sflo/notes/yxn5rsqsv2gq4s6wbnxsjsj"> Now</a> - Current work focus (big-picture)</li>
+<li><a href="/sflo/notes/xqjr13fyons9goxv8rjrskj">Todo</a> - General task list; items not yet broken into formal tasks</li>
+<li><a href="/sflo/notes/tkw34hrqxficesa0y2r62s0">Progress</a> - Completed tasks with dated summaries</li>
+<li><a href="/sflo/notes/qa6hqxy4tknnmutvq13onaq">Decision Log</a> - Important project-level decisions with dates</li>
+</ul>
+<h3 id="task-memory-bank-files">Task Memory Bank Files<a aria-hidden="true" class="anchor-heading icon-link" href="#task-memory-bank-files"></a></h3>
+<p>For each task, use a task file in documentation/: <code>tasks.YYYY-MM-DD-task-name.md</code></p>
+<p>Required sections:</p>
+<ul>
+<li><strong>Prompt</strong> - Original task request</li>
+<li><strong>TODO</strong> - Agent's todo list (mirrored from Roo's internal list); must be updated after every update_todo_list tool invocation
+<ul>
+<li>TODO items should have the "- [ ] " form, so we can x them off as we go.</li>
+</ul>
+</li>
+<li><strong>Decisions</strong> - Task-specific decisions made during execution</li>
+</ul>
+<h2 id="maintenance-guidelines">Maintenance Guidelines<a aria-hidden="true" class="anchor-heading icon-link" href="#maintenance-guidelines"></a></h2>
+<ol>
+<li><strong>Keep it current</strong> - Update files as work progresses</li>
+<li><strong>Keep it concise</strong> - Less is more; avoid repetition</li>
+<li><strong>Use wikilinks</strong> - Link between documentation files using <code>[[filename]]</code> syntax</li>
+<li><strong>Date entries</strong> - Use <code>## YYYY-MM-DD</code> format for dated logs</li>
+<li><strong>Ask questions</strong> - If documentation is confusing or outdated, ask for clarification</li>
+</ol>
+<h2 id="agent-responsibilities">Agent Responsibilities<a aria-hidden="true" class="anchor-heading icon-link" href="#agent-responsibilities"></a></h2>
+<ul>
+<li>Read all "Every Task Context" files before starting work</li>
+<li>Update the task file's TODO section to mirror your internal todo list</li>
+<li>Document decisions in the task file's Decisions section</li>
+<li>Suggest updates to project-level memory bank files when appropriate</li>
+<li>Keep documentation pithy, consistent, and current</li>
+</ul>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/xebek3dtv2zgs9ah0vbv57g">Developer General Guidance</a></li>
+<li><a href="/sflo/notes/f0g7d31ivgn6rgllncdwep8">Memory Bank</a></li>
+<li><a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a></li>
+<li><a href="/sflo/notes/g97elh6q5bszy2c74gsmuqk">2025 11 03 Optimizing for Agents</a></li>
+</ul>

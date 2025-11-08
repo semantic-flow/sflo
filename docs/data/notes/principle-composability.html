@@ -1,6 +1,6 @@
 <h1 id="composability">composability<a aria-hidden="true" class="anchor-heading icon-link" href="#composability"></a></h1>
 <h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
-<p>Composability is the ability to combine meshes. Semantic Flow enables flexible mesh composition by allowing any mesh node to contain other nodes: the mesh node </p>
+<p>Composability is the ability to combine meshes. Semantic Flow enables flexible mesh composition by allowing any mesh node to contain other nodes, and by not specifying an absolute path anywhere. </p>
 <h2 id="key-concepts">Key Concepts<a aria-hidden="true" class="anchor-heading icon-link" href="#key-concepts"></a></h2>
 <h3 id="mesh-boundaries">Mesh Boundaries<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-boundaries"></a></h3>
 <p>A mesh is identified as a folder that looks like a <a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a>, i.e., has (at least) these two subfolders:</p>
@@ -9,8 +9,8 @@
 <h3 id="weaving-process-solution">Weaving Process Solution<a aria-hidden="true" class="anchor-heading icon-link" href="#weaving-process-solution"></a></h3>
 <p>During weaving, tools:</p>
 <ol>
-<li><strong>Scan for broken relatives</strong>: Check all relative URLs in the mesh</li>
-<li><strong>Convert broken ones</strong>: Replace with absolute URLs using canonical publication data</li>
+<li><strong>Scan for broken relatives</strong>: Check all relative IRIs in the mesh</li>
+<li><strong>Convert broken ones</strong>: Replace with absolute IRIs using canonical publication data</li>
 <li><strong>Leave working relatives alone</strong>: Preserve transposability where possible</li>
 </ol>
 <p>After weaving, submeshes are semantically complete and can be composed using standard file operations.</p>
@@ -23,7 +23,7 @@
 <span class="token function">git</span> commit -m <span class="token string">"Import djradon's mesh"</span>
 
 <span class="token comment"># Method 2: Download and copy</span>
-<span class="token function">curl</span> -L https://github.com/djradon/mesh/archive/main.zip -o mesh.zip
+cIRI -L https://github.com/djradon/mesh/archive/main.zip -o mesh.zip
 <span class="token function">unzip</span> mesh.zip
 <span class="token function">cp</span> -r mesh-main/ns/djradon/ collaborators/djradon/
 <span class="token function">git</span> <span class="token function">add</span> collaborators/djradon/
@@ -67,7 +67,7 @@
 <ul>
 <li>Identify references that point outside the intended extraction boundary</li>
 <li>Determine if the extracted submesh will be semantically complete</li>
-<li>Consider whether broken references should become absolute URLs</li>
+<li>Consider whether broken references should become absolute IRIs</li>
 </ul>
 <h2 id="cross-mesh-references">Cross-Mesh References<a aria-hidden="true" class="anchor-heading icon-link" href="#cross-mesh-references"></a></h2>
 <h3 id="between-independent-meshes">Between Independent Meshes<a aria-hidden="true" class="anchor-heading icon-link" href="#between-independent-meshes"></a></h3>
@@ -118,7 +118,7 @@
 <h3 id="for-cross-mesh-references">For Cross-Mesh References<a aria-hidden="true" class="anchor-heading icon-link" href="#for-cross-mesh-references"></a></h3>
 <ol>
 <li><strong>Use absolute URIs</strong> for references to external meshes</li>
-<li><strong>Prefer stable, canonical URIs</strong> over temporary or redirect-based URLs</li>
+<li><strong>Prefer stable, canonical URIs</strong> over temporary or redirect-based IRIs</li>
 <li><strong>Document external dependencies</strong> for mesh consumers</li>
 <li><strong>Consider fallback strategies</strong> for unavailable external resources</li>
 </ol>
@@ -152,5 +152,7 @@
 <ul>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
 <li><a href="/sflo/notes/s1yduc399adt3ihvnwievrd">Reference Iri Choices</a></li>
+<li><a href="/sflo/notes/tudefgmmf2pdx28zb9xs84j">Product Brief</a></li>
+<li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
 <li><a href="/sflo/notes/fd1whkyvoagggk6ubysjl50">djradon's sflo devlog</a></li>
 </ul>

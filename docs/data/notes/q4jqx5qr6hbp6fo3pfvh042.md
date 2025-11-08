@@ -1,9 +1,13 @@
 
-Immutable data provides fundamental guarantees that enable reliable, distributed, and concurrent systems. But immutability clashes with document-oriented data the updates slowly and in chunks.
+Immutable data provides fundamental guarantees that enable reliable, distributed, and concurrent systems. But immutability clashes with real-world needs like privacy and security. That's why Semantic Flow embraces [[principle.pseudo-immutability]].
 
-- [[resource.node-component.flow-snapshot.version]] (e.g. in [[folder._vN]]) should be treated as immutable. If you need to refer to the current dataset "as is", you should refer to its corresponding dataset version.
-- sometimes, e.g., for compliance reasons, you have to hard delete a resource (as opposed to just tombstoning it, a soft delete), or even modifying it. 
-  - [[hashes|sflo.feature.changing-historical-datasets]] can be used to detect mutations
+
+
+- [[mesh-resource.node-component.flow-snapshot.version]] (e.g. in [[folder._vN]]) should be usually be treated as immutable. 
+  - Therefore, if you need to refer to a flow "as is", you should refer to its corresponding snapshot version.
+  - TODO: examples
+- sometimes, e.g., for compliance reasons, you have to modify or hard-delete some data. 
+
 
 ## References
 

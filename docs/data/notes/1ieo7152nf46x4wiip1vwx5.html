@@ -1,0 +1,44 @@
+<h1 id="dependencies">Dependencies<a aria-hidden="true" class="anchor-heading icon-link" href="#dependencies"></a></h1>
+<h1 id="key-project-dependencies">Key Project Dependencies<a aria-hidden="true" class="anchor-heading icon-link" href="#key-project-dependencies"></a></h1>
+<p>This document lists the core technologies and dependencies that define the Semantic Flow development environment and runtime.</p>
+<h2 id="core-technologies">Core Technologies<a aria-hidden="true" class="anchor-heading icon-link" href="#core-technologies"></a></h2>
+<ul>
+<li><strong>Node.js:</strong> Runtime environment (>=24)</li>
+<li><strong>TypeScript:</strong> Primary language for type safety and maintainability.</li>
+<li><strong>pnpm:</strong> Package manager, used for monorepo management (<code>pnpm@10.15.0</code>).</li>
+<li><strong>Git:</strong> Version control system, fundamental to the mesh structure and versioning.</li>
+</ul>
+<h2 id="rdf-ecosystem">RDF Ecosystem<a aria-hidden="true" class="anchor-heading icon-link" href="#rdf-ecosystem"></a></h2>
+<p>The project relies heavily on the JavaScript RDF ecosystem:</p>
+<ul>
+<li><strong>rdfjs Data Model:</strong> Standardized interfaces for RDF data structures.</li>
+<li><strong>Quadstore:</strong> High-performance RDF quad store implementation.</li>
+<li><strong>Comunica:</strong> Modular SPARQL query engine used for read/write endpoints.</li>
+</ul>
+<h2 id="runtime-dependencies-sflo-host">Runtime Dependencies (sflo-host)<a aria-hidden="true" class="anchor-heading icon-link" href="#runtime-dependencies-sflo-host"></a></h2>
+<p>These dependencies are critical for the <code>sflo-host</code> application:</p>
+<ul>
+<li><strong>Fastify:</strong> High-performance web framework used for the host application.</li>
+<li><strong>Fastify-plugin:</strong> Utility for creating Fastify plugins.</li>
+</ul>
+<h2 id="plugin-dependencies">Plugin Dependencies<a aria-hidden="true" class="anchor-heading icon-link" href="#plugin-dependencies"></a></h2>
+<ul>
+<li><strong>Stoplight Elements:</strong> will probably be used for API documentation/playground (via the <code>plugin-elements</code> package).</li>
+<li><strong>SIB Swiss editor:</strong> flexible and powerful SPARQL client UI for </li>
+</ul>
+<h2 id="development-dependencies">Development Dependencies<a aria-hidden="true" class="anchor-heading icon-link" href="#development-dependencies"></a></h2>
+<p>These dependencies support the development, testing, and documentation workflow:</p>
+<ul>
+<li><strong>Dendron CLI (<code>@dendronhq/dendron-cli</code>):</strong> Used for managing and publishing the documentation site (the source of the memory bank files).</li>
+<li><strong>Vitest:</strong> Testing framework.</li>
+<li><strong>TypeScript ESLint:</strong> Linting tools.</li>
+<li><strong>Nodemon / tsx:</strong> Used for development server hot-reloading and execution.</li>
+<li><strong>Tsup:</strong> Bundler for building packages.</li>
+</ul>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/xqjr13fyons9goxv8rjrskj">Todo</a></li>
+<li><a href="/sflo/notes/f0g7d31ivgn6rgllncdwep8">Memory Bank</a></li>
+<li><a href="/sflo/notes/g97elh6q5bszy2c74gsmuqk">2025 11 03 Optimizing for Agents</a></li>
+</ul>

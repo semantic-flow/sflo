@@ -1,141 +1,203 @@
 
-TODO: 
+
+Use noun URLs that mirror the mesh's filesystem. Bytes go to `_next`. Versioning and "current flips" happen on weave. All flows except [[mesh-resource.node-component.flow.node-metadata]] support arbitrary PATCH. System-only fields in `_node_metadata_flow` are rejected on write.
+
+## Conventions
+
+* Base: `/api/{mesh}/{nodePath}/…` where `{resourcePath}` is greedy and slash-separated.
+* Reserved flow directories under a node:
+
+  * `_node_metadata_flow/` (required)
+  * `_config-operational-flow/`
+  * `_config-inheritable-flow/`
+  * `_reference-flow/`
+  * `_payload-flow/`  ← payload dataset for payload nodes
+* Snapshot layout under any flow:
+
+  * `_snapshots/{vN}/_dist/{files…}`
+  * `_current/` → pointer to a snapshot (folder or file)
+  * `_next/`   → working content before weave
+* Headers:
+
+  * `Idempotency-Key` on PUT/POST of bytes or creators
+  * `ETag` on reads; `If-Match` on pointer changes
+  * Optional `Content-Digest: sha-256=:…:` on bytes
+* Media types:
+
+  * JSON-LD bytes: `application/ld+json`
+  * TriG bytes: `application/trig`
+  * Merge patch: `application/merge-patch+json` (RFC 7396) over **framed JSON-LD**
+* Validation:
+
+  * PUT/PATCH: **syntactic only** (parse). SHACL runs during weave.
+* Errors: `application/problem+json` or `…+json+ld` with `type`, `detail`, `instance`.
+
+## Events (SSE)
+
+`GET /api/{mesh}/events`
+
+* `fs.change { paths:[], iris:[] }`
+* `job.progress { job, pct, msg }`
+* `job.done { job, artifacts:[…], changed:{ paths, iris } }`
+
+## Mesh registry
+
+* `POST /api/meshes`
+
+  * Body: `{ "name": "test-ns", "path": "./test-ns" }`
+  * `201 Created` + `Location: /api/test-ns/`
+* `GET /api/meshes` → list
+
+## Resources
+
+### Nodes
+
+#### `GET /api/{mesh}/{nodePath}/`
+
+Probably Returns:
+
+- A list of its components (including flows) — This is important to understand what building blocks or sub-resources the node contains.
+- A list and count of its child nodes — Useful for navigation and understanding the node hierarchy.
+- Its node type (probably computed) — Helps clients understand the nature or classification of the node.
+- HATEOAS links to related resources like flows, snapshots, jobs — Enables discoverability and navigation.
 
 
-## Mesh Management
+Maybe returns:
+- backlinks (references to this node from other places in the mesh)
+- some metadata, especially non-semantic metadata like filesystem creation/modification timestamps, filesystem permissions
+- status flags like whether _next has diverged
 
-### `POST /api/meshes`
+* **Dataset upload (bytes to `_next`)**
 
-**Description**: Registers a new mesh with the service, making it available for further operations. This endpoint does not create any files or nodes; it simply associates a logical name with a filesystem path.
+  * `PUT /api/{mesh}/{nodePath}/_payload-flow/_next/{nodeName}.jsonld`
 
-**Request Body**:
-```json
-{
-  "name": "test-ns",
-  "path": "./test-ns"
-}
-```
+    * Body: JSON-LD (or TriG variant if you standardize a filename)
+    * Effects:
 
-**Success Response (201 Created)**:
-```json
-{
-  "message": "Mesh 'test-ns' registered successfully.",
-  "links": [
-    { "rel": "self", "href": "/api/meshes/test-ns" },
-    { "rel": "nodes", "href": "/api/meshes/test-ns/nodes" }
-  ]
-}
-```
+      * Bare → becomes payload node
+      * Reference → becomes Reference+Dataset
+      * Dataset → replaces `_next`
+    * `201 Created` (new content) or `200/204` (duplicate); `Content-Location` echoes the `_next` URL
+* **List current distributions**
 
-**HATEOAS Prompting**: If there's no mesh signature (e.g., a `_handle` or `_meta-flow` folder) in the specified path, the response includes a prompt to create a root node:
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_current/` → array of files
+* **Fetch a current distribution**
 
-```json
-{
-  "message": "Mesh 'test-ns' registered successfully. No mesh signature detected.",
-  "links": [
-    { "rel": "self", "href": "/api/meshes/test-ns" },
-    { "rel": "nodes", "href": "/api/meshes/test-ns/nodes" },
-    { "rel": "create-root-node", "href": "/api/meshes/test-ns/nodes", "method": "POST", "title": "Initialize this mesh by creating a root node" }
-  ]
-}
-```
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_current/{filename}` → bytes
+* **List snapshots**
 
-### `GET /api/meshes`
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/`
+* **Snapshot metadata**
 
-**Description**: Lists all registered meshes.
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}` → JSON-LD summary
+* **Snapshot distributions**
 
-**Success Response (200 OK)**:
-```json
-{
-  "meshes": [
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}/_dist/`
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}/_dist/{filename}`
+
+## Flows (common to all five kinds)
+
+* **Flow summary**
+
+  * `GET /api/{mesh}/{nodePath}/_{flowKind}/`
+    `flowKind ∈ { metapayload-flow, op_config_flow, inheritable_config_flow, reference_flow, payload-flow }`
+* **Create snapshot from `_next` (server constructs version)**
+
+  * `POST /api/{mesh}/{nodePath}/_{flowKind}/_snapshots/`
+
+    * Body: `{ "source": "next", "note": "…" }` (optional)
+    * Fast: `201 Location: …/_snapshots/{vN}`; Long: `202 Location: /api/{mesh}/jobs/{id}`
+
+### PATCH (config flows)
+
+Goal: “make a couple changes without re-uploading a full file.” We merge **current** with patch → write result to `_next`.
+
+* `PATCH /api/{mesh}/{nodePath}/_{flowKind}/_next/`
+
+  * Allowed `flowKind`: `op_config_flow`, `inheritable_config_flow` (and optionally others with JSON-LD content)
+  * `Content-Type: application/merge-patch+json`
+  * Semantics:
+
+    1. Server reads `_current` distribution (JSON-LD framed DTO)
+    2. Applies RFC 7396 merge patch
+    3. Writes the merged document to `_next/` as JSON-LD
+  * Response:
+
+    * `201 Created` with `Content-Location: …/_{flowKind}/_next/`
+    * Emits `fs.change`
+  * **System-only fields** (especially in `_node_metadata_flow`): writes to these keys are **rejected** with `403` (or `422`), response lists offending JSON Pointers
+
+#### Optional PUT for entire JSON-LD next
+
+* `PUT /api/{mesh}/{nodePath}/_{flowKind}/_next/{filename}`
+
+  * Replace `_next` fully with a new JSON-LD file
+
+## Pointer management (promote current)
+
+* `PUT /api/{mesh}/{nodePath}/_{flowKind}/_current/`
+
+  * Body: `{ "snapshot": "vN" }`
+  * Headers: `If-Match: "<etag-of-current-pointer>"`
+  * `200/204` and `fs.change`
+
+## Jobs (noun URLs; body declares type)
+
+* `POST /api/{mesh}/jobs`
+
+  * Example weave:
+
+    ```json
     {
-      "name": "test-ns",
-      "path": "./test-ns",
-      "links": [
-        { "rel": "self", "href": "/api/meshes/test-ns" },
-        { "rel": "nodes", "href": "/api/meshes/test-ns/nodes" }
-      ]
+      "@type": "sflo:WeaveJob",
+      "targets": [ "/{nodePath}/" ],
+      "flows": ["payload-flow","metapayload-flow","reference_flow"],
+      "promote": true
     }
-  ]
-}
-```
+    ```
+  * `202 Accepted` + `Location: /api/{mesh}/jobs/{id}`
+* `GET /api/{mesh}/jobs/{id}` → status (HTML or JSON-LD)
+* SSE emits progress and completion; on success weave:
 
-## Node Management
+  * Validates (SHACL if enabled)
+  * Creates `…/_snapshots/{vN}` from `_next` for addressed flows
+  * Optionally flips `…/_current/` when `promote:true`
+  * Emits `fs.change` with `paths` and `iris`
 
-### `POST /api/meshes/{meshName}/nodes`
+## HATEOAS (every JSON-LD/HTML response)
 
-**Description**: Creates a new node at a specified path within a registered mesh. This is used for creating all nodes, including the root node of a mesh.
+Minimum links on a node:
 
-**URL Parameters**:
-- `{meshName}`: The logical name of the mesh (e.g., "test-ns").
-
-**Request Body**:
 ```json
-{
-  "path": "/",
-  "nodeType": "Namespace",
-  "initialData": {
-    "title": "djradon's primary semantic mesh"
-  },
-  "options": {
-    "copyDefaultAssets": true
-  }
-}
+"links": [
+  { "rel":"self", "href":"/api/{mesh}/{nodePath}/" },
+  { "rel":"flow", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload-flow/" },
+  { "rel":"dataset.uploadNext", "href":"/api/{mesh}/{nodePath}/_payload-flow/_next/{nodeName}.jsonld", "method":"PUT" },
+  { "rel":"flow.patchNext", "kind":"op_config_flow", "href":"/api/{mesh}/{nodePath}/_config-operational-flow/_next/", "method":"PATCH", "type":"application/merge-patch+json" },
+  { "rel":"flow.createSnapshot", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload-flow/_snapshots/", "method":"POST" },
+  { "rel":"job.start", "href":"/api/{mesh}/jobs", "method":"POST", "expects":"sflo:WeaveJob" }
+]
 ```
 
-**Key Body Parameters**:
-- `path`: The relative path for the new node. For the root node, use `/` or an empty string; the API will return `/{meshName}/` as its path.
-- `nodeType`: The type of node to create ("Namespace", "Reference", or "Dataset").
-- `initialData`: An object containing the initial metadata for the node.
-- `options.copyDefaultAssets`: A boolean to indicate if default assets (templates, CSS) should be copied into the mesh. This is typically `true` only when creating the root node.
+## Permissions
 
-**Success Response (201 Created)**:
-```json
-{
-  "message": "Node created successfully at path '/test-ns/' in mesh 'test-ns'.",
-  "nodePath": "/test-ns/",
-  "filesCreated": [
-    "./test-ns/index.html",
-    "./test-ns/_meta-component/v1.trig"
-  ],
-  "links": [
-    { "rel": "self", "href": "/api/meshes/test-ns/nodes/test-ns/" },
-    { "rel": "mesh", "href": "/api/meshes/test-ns" }
-  ]
-}
-```
+* System-only properties (esp. `_node_metadata_flow`) are enforced server-side:
 
-### Other Node Endpoints
+  * Attempted write → `403` with list of blocked JSON Pointers
+  * Server may augment or overwrite these during weave
+* Per-mesh RBAC: viewer/editor/admin; enforced on all writes
 
-- `GET /api/meshes/{meshName}/nodes/{path}` - Retrieve node
-- `PUT /api/meshes/{meshName}/nodes/{path}` - Update node
-- `DELETE /api/meshes/{meshName}/nodes/{path}` - Delete node
-- `POST /api/meshes/{meshName}/nodes/{path}/graft` - Start a new node from an existing snapshot
+## Notes and constraints
 
-## Weave and Distribution
+* No multi-file uploads: `_next` is a single JSON-LD (or TriG) file for payload-flow. 
+* PATCH is supported for flows whose `_current` is JSON-LD. Not supported for TriG distributions.
+* All URLs are nouns. No `?op=`. Jobs model compute.
+* API ↔ site symmetry: replacing `/api` with the site host yields the same resource for GETs that return files.
 
-- `POST /api/meshes/{meshName}/weave` - Trigger weave operation
-- `POST /api/meshes/{meshName}/dataset/upload` - Upload RDF dataset distribution
-- `GET /api/meshes/{meshName}/dataset/{path}/versions` - List dataset versions
-- `POST /api/meshes/{meshName}/assets/upload` - Upload binary file resources
+## Open flags to decide (defaults in parentheses)
 
-## Service Management
+* Allow PATCH for `reference_flow` and `metapayload-flow`? (default: **disallow** for `_node_metadata_flow`, **allow** for `reference_flow` JSON-LD)
+* Enforce `Idempotency-Key` as **required** or **optional** on PUT/PATCH? (recommended: **required**)
+* Return `application/problem+json` or `…+json+ld` for errors? (recommended: **…+json+ld**)
 
-
-## 
-
-### mesh registration
-
-
-### node initialization
-
-
-#### differences with mesh init
-
-- same as mesh initialization, except:
-  - specify an [[sflo.concept.relative-identifier]] and select a parent node (or specify a path which is equivalent),
-  - by default, no template/css copy
-
-### weave
-
-- copy any [[sflo.concept.mesh.resource.folder._next]]  to  
+This spec matches your rules: nouns only, `_next` for bytes, weave does validation + versioning + promotion, and PATCH merges “current → next” for the two config flows (and optionally others) while blocking system-only fields.

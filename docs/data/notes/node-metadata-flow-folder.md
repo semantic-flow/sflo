@@ -1,2 +1,2 @@
 
-The filesystem container of the [[resource.node-component.flow.node-metadata]]
+The filesystem container of the [[mesh-resource.node-component.flow.node-metadata]]

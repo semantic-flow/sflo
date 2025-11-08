@@ -1,0 +1,93 @@
+<h1 id="product-brief">Product Brief<a aria-hidden="true" class="anchor-heading icon-link" href="#product-brief"></a></h1>
+<h1 id="semantic-flow-sflo---product-brief">Semantic Flow (sflo) - Product Brief<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-flow-sflo---product-brief"></a></h1>
+<h2 id="what-is-semantic-flow">What is Semantic Flow?<a aria-hidden="true" class="anchor-heading icon-link" href="#what-is-semantic-flow"></a></h2>
+<p>Semantic Flow is a platform for creating, managing and publishing <strong>semantic meshes</strong> - dereferenceable, versioned collections of data resources where every IRI resolves to meaningful content.</p>
+<h2 id="twin-purposes">Twin Purposes<a aria-hidden="true" class="anchor-heading icon-link" href="#twin-purposes"></a></h2>
+<ul>
+<li><strong>Mint dereferenceable IRIs</strong> for referring to things on the Semantic Web</li>
+<li><strong>Hold versionable semantic data</strong> that uses those IRIs and can be referenced by other semantic data</li>
+</ul>
+<h2 id="problems-solved">Problems Solved<a aria-hidden="true" class="anchor-heading icon-link" href="#problems-solved"></a></h2>
+<ul>
+<li><strong>Free, Permanent, Self-Sovereign Data Storage</strong> - Provides individuals with free, permanent, self-describing data storage via the git provider of their choice</li>
+<li><strong>IRI Stability</strong> - Provides stable, dereferenceable IRIs for Semantic Web resources</li>
+<li><strong>Version Management</strong> - Tracks semantic data evolution with immutable version history</li>
+<li><strong>Content Dereferenceability</strong> - Every IRI resolves to meaningful HTML content</li>
+<li><strong>Transposability</strong> - Meshes can be moved between domains/projects without breaking internal links</li>
+<li><strong>Composability</strong> - Submeshes can be extracted and composed into larger structures</li>
+</ul>
+<h2 id="components--applications">Components &#x26; Applications<a aria-hidden="true" class="anchor-heading icon-link" href="#components--applications"></a></h2>
+<h3 id="sflo-host">sflo-host<a aria-hidden="true" class="anchor-heading icon-link" href="#sflo-host"></a></h3>
+<p>The main host application that supports semantic mesh use and development. Built with:</p>
+<ul>
+<li>Fastify web framework</li>
+<li>Plugin architecture for extensibility</li>
+<li>TypeScript for type safety</li>
+</ul>
+<h4 id="plugins">Plugins<a aria-hidden="true" class="anchor-heading icon-link" href="#plugins"></a></h4>
+<ul>
+<li><a href="/sflo/notes/sny3p0risg0h1nmx4zdkq6p">API Docs plugin</a> - API documentation/playground (Stoplight Elements)</li>
+<li><a href="/sflo/notes/bn5jhz9sr2lvqq02s1b4j2x">Mesh Server</a> - Static mesh server(s)</li>
+<li><a href="/sflo/notes/uwtv6cmipn1vnbn8ewkiikp">Sflo Web</a> - Web UI</li>
+<li><a href="/sflo/notes/63tfb27btzbph10tpvckz7b">sflo-api plugin</a> - OpenAPI REST endpoint</li>
+<li><a href="/sflo/notes/dy7pxuck9namnxlmz8gl80t">Sparql Ro</a> - SPARQL read-only endpoint</li>
+<li><a href="/sflo/notes/kvsgy8qci2uxgcnve7e424f">Sparql Upd</a> - SPARQL write-capable endpoint (provided by Comunica)</li>
+<li><a href="/sflo/notes/2ldpw5fu0v9qq19r0wf9a3j">Sparql Editor</a> - SIB Swiss editor at /play</li>
+</ul>
+<h3 id="shared-packages">Shared Packages<a aria-hidden="true" class="anchor-heading icon-link" href="#shared-packages"></a></h3>
+<ul>
+<li><strong><a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">@semantic-flow/config (Private)</a></strong> - Configuration management</li>
+</ul>
+<h2 id="how-it-works">How It Works<a aria-hidden="true" class="anchor-heading icon-link" href="#how-it-works"></a></h2>
+<h3 id="filesystem-based-meshes">Filesystem-Based Meshes<a aria-hidden="true" class="anchor-heading icon-link" href="#filesystem-based-meshes"></a></h3>
+<p>Meshes map directly from Git repository folder hierarchies to published static sites:</p>
+<ul>
+<li>Every folder is a <strong>node</strong> (container for resources and child nodes)</li>
+<li>Nodes contain <strong>components</strong> (flows, handles, assets, documentation)</li>
+<li><strong>Flows</strong> are versioned DatasetSeries (metadata, semantic data, arbitrary datasets, or config)</li>
+<li><strong>Snapshots</strong> are flow realizations (<code>_current/</code>, <code>_next/</code>, <code>_vN/</code>)</li>
+<li><strong>Distributions</strong> are serialization files (TriG, JSON-LD, etc.)</li>
+</ul>
+<h3 id="the-weave-process">The Weave Process<a aria-hidden="true" class="anchor-heading icon-link" href="#the-weave-process"></a></h3>
+<p>The weave process maintains mesh coherence and publication readiness:</p>
+<ul>
+<li>Ensures required system components exist</li>
+<li>Creates new version snapshots from working data</li>
+<li>Promotes working data to current</li>
+<li>Updates metadata and provenance</li>
+<li>Regenerates resource pages</li>
+<li>Resolves internal links for transposability</li>
+</ul>
+<h2 id="user-experience-goals">User Experience Goals<a aria-hidden="true" class="anchor-heading icon-link" href="#user-experience-goals"></a></h2>
+<h3 id="for-developers">For Developers<a aria-hidden="true" class="anchor-heading icon-link" href="#for-developers"></a></h3>
+<ul>
+<li><strong>Git-native workflow</strong> - Meshes are just Git repositories</li>
+<li><strong>Static site deployment</strong> - Push to GitHub Pages or any static host</li>
+<li><strong>Type-safe development</strong> - TypeScript throughout</li>
+<li><strong>Plugin extensibility</strong> - Extend functionality through plugins</li>
+</ul>
+<h3 id="for-semantic-web-users">For Semantic Web Users<a aria-hidden="true" class="anchor-heading icon-link" href="#for-semantic-web-users"></a></h3>
+<ul>
+<li><strong>Dereferenceable IRIs</strong> - Every IRI resolves to content</li>
+<li><strong>Version history</strong> - Immutable snapshots for precise citation</li>
+<li><strong>Human-friendly</strong> - Resource pages provide context and navigation</li>
+<li><strong>Machine-readable</strong> - RDF distributions for automated processing</li>
+</ul>
+<h3 id="for-ai-agents">For AI Agents<a aria-hidden="true" class="anchor-heading icon-link" href="#for-ai-agents"></a></h3>
+<ul>
+<li><strong>Clear structure</strong> - Predictable folder/file organization</li>
+</ul>
+<h2 id="related-documentation">Related Documentation<a aria-hidden="true" class="anchor-heading icon-link" href="#related-documentation"></a></h2>
+<ul>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a> - Comprehensive concept documentation</li>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a> - Mesh definition and requirements</li>
+<li><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a> - Weave process details</li>
+<li><a href="/sflo/notes/transposability">transposability</a> - Transposability principle</li>
+<li><a href="/sflo/notes/principle-composability">composability</a> - Composability principle</li>
+</ul>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/f0g7d31ivgn6rgllncdwep8">Memory Bank</a></li>
+<li><a href="/sflo/notes/g97elh6q5bszy2c74gsmuqk">2025 11 03 Optimizing for Agents</a></li>
+</ul>

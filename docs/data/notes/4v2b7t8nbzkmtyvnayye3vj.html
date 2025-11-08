@@ -5,7 +5,7 @@
 <p><strong>Current snapshot duplication</strong> - <code>_current</code> meta snapshots contain identical copies of the latest version's provenance with base URI pointing to the version snapshot for stable fragment resolution.</p>
 <h2 id="architecture">Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#architecture"></a></h2>
 <h3 id="version-snapshot-provenance">Version Snapshot Provenance<a aria-hidden="true" class="anchor-heading icon-link" href="#version-snapshot-provenance"></a></h3>
-<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_meta-flow/_v47/my-dataset_meta.trig</span>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_node-metadata-flow/_v47/my-dataset_meta.trig</span>
 <span class="token keyword">@base</span> <span class="token url"><span class="token punctuation">&#x3C;</span>../_v47/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 
 <span class="token comment"># Weave activity with PROV standard properties</span>
@@ -45,7 +45,7 @@
        <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">actedOnBehalfOf</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://orcid.org/0000-0002-1825-0097<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 </code></pre>
 <h3 id="current-snapshot-copy">Current Snapshot Copy<a aria-hidden="true" class="anchor-heading icon-link" href="#current-snapshot-copy"></a></h3>
-<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_meta-flow/_current/my-dataset_meta.trig</span>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_node-metadata-flow/_current/my-dataset_meta.trig</span>
 <span class="token keyword">@base</span> <span class="token url"><span class="token punctuation">&#x3C;</span>../_v47/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 
 <span class="token comment"># Identical content to version snapshot - all URIs resolve to stable version</span>
@@ -53,15 +53,15 @@
 </code></pre>
 <h3 id="unversioned-flow-accumulation">Unversioned Flow Accumulation<a aria-hidden="true" class="anchor-heading icon-link" href="#unversioned-flow-accumulation"></a></h3>
 <p>For flows without versioning, activities accumulate in <code>_next</code> with unique timestamps:</p>
-<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_meta-flow/_next/my-dataset_meta.trig</span>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_node-metadata-flow/_next/my-dataset_meta.trig</span>
 <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">dataActivity_2025-07-20_14-30</span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">meta<span class="token punctuation">:</span></span><span class="token local-name">DataWeave</span></span> <span class="token punctuation">;</span>
     <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">startedAtTime</span></span> <span class="token string">"2025-07-20T14:30:00Z"</span> <span class="token punctuation">;</span>
-    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generated</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_data-flow/_current/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generated</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_payload-flow/_current/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 
 <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">dataActivity_2025-07-20_16-45</span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">meta<span class="token punctuation">:</span></span><span class="token local-name">DataWeave</span></span> <span class="token punctuation">;</span>
     <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">startedAtTime</span></span> <span class="token string">"2025-07-20T16:45:00Z"</span> <span class="token punctuation">;</span>
-    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">used</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_data-flow/_current/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
-    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generated</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_data-flow/_current/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">used</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_payload-flow/_current/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generated</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_payload-flow/_current/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 </code></pre>
 <h2 id="key-components">Key Components<a aria-hidden="true" class="anchor-heading icon-link" href="#key-components"></a></h2>
 <h3 id="activity-types-subclass-provactivity">Activity Types (subclass <code>prov:Activity</code>)<a aria-hidden="true" class="anchor-heading icon-link" href="#activity-types-subclass-provactivity"></a></h3>
@@ -105,19 +105,19 @@
 <ul>
 <li><strong><code>{flow-slug}</code></strong>: The slug of the flow this provenance describes (e.g., <code>config-flow</code>, <code>data-flow</code>). This provides the primary namespace for the identifier.</li>
 <li><strong><code>{version}</code></strong>: The version of the snapshot (e.g., <code>v47</code>). This scopes the provenance to a specific point in time.</li>
-<li><strong><code>{entity-type}</code></strong>: The type of the entity, using a consistent camelCase or kebab-case convention (e.g., <code>activity</code>, <code>context</code>, <code>delegationChain</code>, <code>delegationStep</code>).</li>
+<li><strong><code>{entity-type}</code></strong>: The class of the entity, using a consistent UpperCamelCase (e.g., <code>Activity</code>, <code>Context</code>, <code>DelegationChain</code>, <code>DelegationStep</code>).</li>
 <li><strong><code>{unique-part}</code></strong>: (Optional) A unique suffix, such as a step number or a timestamp, used when multiple entities of the same type exist for the same flow and version.</li>
 </ul>
 <h3 id="example">Example<a aria-hidden="true" class="anchor-heading icon-link" href="#example"></a></h3>
 <p>For a <code>config-flow</code> at version <code>v47</code>, the identifiers would be:</p>
 <ul>
-<li><strong>Activity</strong>: <code>&#x3C;#config-flow-v47-activity></code></li>
-<li><strong>Provenance Context</strong>: <code>&#x3C;#config-flow-v47-context></code></li>
-<li><strong>Delegation Chain</strong>: <code>&#x3C;#config-flow-v47-delegationChain></code></li>
+<li><strong>Activity</strong>: <code>&#x3C;#config-flow-v47-Activity></code></li>
+<li><strong>Provenance Context</strong>: <code>&#x3C;#config-flow-v47-Context></code></li>
+<li><strong>Delegation Chain</strong>: <code>&#x3C;#config-flow-v47-DelegationChain></code></li>
 <li><strong>Delegation Steps</strong>:
 <ul>
-<li><code>&#x3C;#config-flow-v47-delegationStep-1></code></li>
-<li><code>&#x3C;#config-flow-v47-delegationStep-2></code></li>
+<li><code>&#x3C;#config-flow-v47-DelegationStep-1></code></li>
+<li><code>&#x3C;#config-flow-v47-DelegationStep-2></code></li>
 </ul>
 </li>
 </ul>

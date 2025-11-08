@@ -1,241 +1,163 @@
-<h1 id="semantic-flow-general-guidance">Semantic Flow General Guidance<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-flow-general-guidance"></a></h1>
-<p><strong>Semantic Flow</strong> is a framework for managing knowledge graphs and other Semantic Web resources in publish-ready <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic meshes</a></p>
-<h2 id="developer-workflow">Developer Workflow<a aria-hidden="true" class="anchor-heading icon-link" href="#developer-workflow"></a></h2>
+<h1 id="developer-general-guidance">Developer General Guidance<a aria-hidden="true" class="anchor-heading icon-link" href="#developer-general-guidance"></a></h1>
+<h2 id="agent-specific-instructions">Agent-specific Instructions<a aria-hidden="true" class="anchor-heading icon-link" href="#agent-specific-instructions"></a></h2>
 <ul>
-<li>Build/Watch:
+<li>See <a href="/sflo/notes/concept-summary">Concept Summary</a> for a conceptual overview. See <a href="/sflo/notes/f0g7d31ivgn6rgllncdwep8">Memory Bank</a> for CRITICAL information for AI agents.</li>
+<li>agents should re-use terminals instead of starting a new one for each command</li>
+</ul>
+<h2 id="workspace-layout">Workspace layout<a aria-hidden="true" class="anchor-heading icon-link" href="#workspace-layout"></a></h2>
+<h3 id="sflo-monorepo">sflo monorepo<a aria-hidden="true" class="anchor-heading icon-link" href="#sflo-monorepo"></a></h3>
+<pre><code>sflo/
+  cli/                        # the sflo command-line application; consumes the sflo-api
+  plugins/
+    api-docs/                 # api documentation/playground (probably stoplight Elements)
+    mesh-server/              # static mesh server(s)
+    sflo-web/                 # your web UI, if you want it as a plugin
+    sflo-api/                 # OpenAPI REST endpoint, used by CLI and sflo-web
+    sparql-ro/                # SPARQL read-only endpoint 
+    sparql-update/            # SPARQL write-capable endpoint
+    sparql-editor/            # SIB Swiss editor at /play
+  sflo-host/                  # the big service that loads plugins
+  shared/
+    core/                     # RDFine/LDKit, SHACL, types
+    auth/                     # JWT + GitHub device flow
+    config/                   # runtime/config loaders (RDF/JSON)
+    sparql/                   # used by sparql-ro and sparql-update  (provided by Comunica)
+    utils/                    # misc helpers
+  tests/                      # cross-application tests
+    e2e/                     # cross-app: start real service, hit via CLI/web
+    contracts/               # Pact or OpenAPI contract tests
+    perf/                    # k6/Artillery scenarios (optional)
+    fixtures/                # shared data sets and seed scripts
+
+</code></pre>
+<h3 id="other-workspace-components">Other Workspace Components<a aria-hidden="true" class="anchor-heading icon-link" href="#other-workspace-components"></a></h3>
 <ul>
-<li>The development workflow requires two terminals running concurrently:
+<li><strong>ontology/</strong>: repo containing relevant ontologies:
 <ul>
-<li><strong>Terminal 1</strong>: Run <code>pnpm dev:watch</code> to start the TypeScript compiler in watch mode. This will watch all packages and rebuild them on change.</li>
-<li><strong>Terminal 2</strong>: Run <code>pnpm dev</code> to start the <code>nodemon</code> server, which will automatically restart when the built files in the <code>dist</code> directories are updated.</li>
+<li><code>semantic-flow</code> - main ontology (sflo/ontology/semantic-flow/_data-flow/_next/semantic-flow-ontology.ttl) defines meshes and their nodes and components; </li>
+<li><code>node-config</code> - Configuration properties that apply directly to mesh entities (nodes, flows, snapshots, etc.)</li>
+<li><code>meta-flow</code> - provenance and licensing vocabulary</li>
+<li><code>sflo-service</code> - Service layer configuration vocabulary for the flow-service application</li>
+<li>Ontologies are kept in a separate repository, but for development purposes are nested into the monorepo under ontology/ directory for ease of access. </li>
 </ul>
 </li>
+<li><strong>test-ns/</strong>: repo containing a test namespace</li>
+</ul>
+<h2 id="developer-workflow">Developer Workflow<a aria-hidden="true" class="anchor-heading icon-link" href="#developer-workflow"></a></h2>
+<h3 id="buildwatch">Build/Watch<a aria-hidden="true" class="anchor-heading icon-link" href="#buildwatch"></a></h3>
+<ul>
+<li>The development workflow requires two terminals running concurrently:</li>
+<li><strong>Terminal 1</strong>: Run <code>pnpm dev:watch</code> to start the TypeScript compiler in watch mode. This will watch all packages and rebuild them on change.</li>
+<li><strong>Terminal 2</strong>: Run <code>pnpm dev</code> to start the <code>nodemon</code> server, which will automatically restart when the built files in the <code>dist</code> directories are updated.</li>
 <li>This setup ensures that changes in any package are automatically compiled and that the server restarts with the latest code.</li>
 <li>Keep inter-package imports as package specifiers; avoid deep source imports across packages.</li>
 </ul>
-</li>
-</ul>
-<h2 id="workspace-components">Workspace Components<a aria-hidden="true" class="anchor-heading icon-link" href="#workspace-components"></a></h2>
+<h3 id="hot-reload">Hot Reload<a aria-hidden="true" class="anchor-heading icon-link" href="#hot-reload"></a></h3>
+<p>The development setup includes automatic hot reload using nodemon:</p>
 <ul>
-<li>The sflow-platform repo/folder is organized as a monorepo, divided into a few different modules:
-<ul>
-<li><strong>sflo-host/</strong>: host service with plugin architecture</li>
-<li><strong>sflo-api/</strong>: plugin providing Semantic Flow functionality via REST</li>
-<li><strong>cli/</strong>: Command-line application that consumes the sflo-api</li>
-<li><strong>sflo-web/</strong>: Web frontend, can connect to any sflo-api instance</li>
-<li><strong>shared/</strong>: cross-cutting code like type schemas (core), logging, and config</li>
+<li><strong>Watches</strong>: <code>sflo-host/src</code>, <code>plugins/*/src</code>, <code>shared/*/src</code></li>
+<li><strong>Auto-restarts</strong> when any watched file changes</li>
+<li><strong>Loads plugins from source</strong> in development mode (not built <code>dist</code> files)</li>
+<li><strong>Preserves debugger connection</strong> after restart</li>
 </ul>
-</li>
-<li><strong>test-ns/</strong> repo: Test mesh repo</li>
-<li><strong>ontology/</strong>: repo containing relevant ontologies:
-<ul>
-<li><code>mesh</code> - Core mesh architecture with base classes (Resource, Node, Component) and fundamental types</li>
-<li><code>node</code> - Node operations including Handle, Flow types, and operational relationships</li>
-<li><code>flow</code> - Temporal concepts including Snapshot types and versioning relationships</li>
-<li><code>config-flow</code> - Configuration properties that apply directly to mesh entities (nodes, flows, snapshots, etc.)</li>
-<li><code>meta-flow</code> - provenance and licensing vocabulary</li>
-<li><code>flow-service</code> - Service layer configuration vocabulary for the flow-service application</li>
-</ul>
-</li>
-</ul>
-<h2 id="key-concepts">Key Concepts<a aria-hidden="true" class="anchor-heading icon-link" href="#key-concepts"></a></h2>
-<h3 id="semantic-mesh">Semantic Mesh<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-mesh"></a></h3>
-<p>A dereferenceable, versioned collection of semantic data and supporting resources, where every HTTP URI returns meaningful content. See <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></p>
-<h4 id="core-components">Core Components<a aria-hidden="true" class="anchor-heading icon-link" href="#core-components"></a></h4>
-<ul>
-<li><strong>Mesh Resources</strong>:
-<ul>
-<li><strong>Nodes</strong>: Semantic Atoms
-<ul>
-<li><strong>data nodes</strong>: Bundles of data with optional quasi-immutable, versioned history</li>
-<li><strong>bare nodes</strong>: basically empty folders for URL-based hierarchical organization</li>
-</ul>
-</li>
-<li><strong>Components</strong>: things that help define and systematize the nodes
-<ul>
-<li><strong>Flows</strong>: datasets for node metadata and data
-<ul>
-<li><strong>Snapshots</strong>: temporal slices of a flow, containing RDF dataset distributions</li>
-</ul>
-</li>
-<li><strong>Handles</strong>: things that let you refer to a node as a node instead of as its referent</li>
-<li><strong>Asset Trees</strong>: components that allow you to attach arbitrary collections of files and folders to a mesh; in a sense, these things are "outside" the mesh, and other than the top-level "_meta" folder, they don't contain any other mesh resources</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="semantic-flow-workflow">Semantic Flow Workflow:<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-flow-workflow"></a></h3>
-<ul>
-<li>In General: Mesh resource addition &#x26; editing → Weaving</li>
-<li>a mesh is servable "as-is", so if the git provider is configure to serve it as a website, no additional publishing step is required (beyond commit)</li>
-</ul>
-<h3 id="semantic-site">Semantic Site<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-site"></a></h3>
-<ul>
-<li>The repo IS the site:
-<ul>
-<li>can be served locally</li>
-<li>no separate SSG (Static Site Generator) necessary
-<ul>
-<li>but static resource page generation should happen on every weave as necessary</li>
-</ul>
-</li>
-<li>after push, you should be able to see the changed mesh at the corresponding github pages URL</li>
-</ul>
-</li>
-</ul>
+<h3 id="building-the-docs">Building the docs<a aria-hidden="true" class="anchor-heading icon-link" href="#building-the-docs"></a></h3>
+<pre class="language-shell"><code class="language-shell">npx dendron publish <span class="token builtin class-name">export</span> --target github --yes
+</code></pre>
 <h2 id="rdf-and-semantic-web">RDF and Semantic Web<a aria-hidden="true" class="anchor-heading icon-link" href="#rdf-and-semantic-web"></a></h2>
 <ul>
+<li>prefer JSON-LD for all RDF instance data and ontologies, as Turtle doesn't support slash-terminated CURIEs, and we use a trailing slash to delineate between files and resource names.</li>
+<li>terminate non-file IRIs with a slash (solves the httprange-14 problem)</li>
 <li>avoid use of blank nodes</li>
 <li>prefer relative/local URIs for transposability/composability</li>
-<li>meshes support multiple RDF formats (.trig, .jsonld, etc.)
-<ul>
-<li>.trig might be better for user-facing content</li>
-<li>.jsonld might be better for system content</li>
-</ul>
-</li>
 <li>be mindful of RDF terminology and concepts
 <ul>
 <li>extends DCAT for dataset catalogs</li>
 <li>extends PROV for provenance, with relator-based contexts</li>
 </ul>
 </li>
-<li>When referring to IRIs or URIs that are part of a semantic mesh, prefer the term URLs instead of IRI or URI
-<ul>
-<li>if you see a reference to IRI or URI, it might need updating, or it might mean a distinction should be drawn</li>
-</ul>
-</li>
 <li>RDF comments should be extremely concise and clear.</li>
 </ul>
-<h3 id="quadstore">Quadstore<a aria-hidden="true" class="anchor-heading icon-link" href="#quadstore"></a></h3>
+<h3 id="denormalization">Denormalization<a aria-hidden="true" class="anchor-heading icon-link" href="#denormalization"></a></h3>
 <ul>
-<li>make sure you are familiar with <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">tech-stack.quadstore.readme (Private)</a>, which documents the API</li>
-<li>For testability and in case we ever want to use multiple stores simultaneously, store-accessing functions take a QuadstoreBundle</li>
-<li>quadstore API calls use "undefined" instead of "null" to represent the wildcard for subjects, predicates, objects, and graphs</li>
+<li>when speed matters and the query is complicated, use a derived, join-free representation of a portion of the data, optimized for lookup speed.</li>
 </ul>
-<h2 id="documentation">Documentation<a aria-hidden="true" class="anchor-heading icon-link" href="#documentation"></a></h2>
+<h3 id="ontology-patterns">Ontology patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#ontology-patterns"></a></h3>
 <ul>
-<li>Avoid numbering of code comments, headings and list items, as it makes re-ordering a pain</li>
-<li>All specifications and design docs are in <code>sflo-dendron-notes/</code></li>
-<li>Check conversation logs in <code>sflo.conv.*</code> for context on design decisions if necessary, but beware of superceded and dangerously-outdated info</li>
-</ul>
-<h3 id="documentation-first">Documentation First<a aria-hidden="true" class="anchor-heading icon-link" href="#documentation-first"></a></h3>
-<ul>
-<li>unclear or anemic documentation should be called out</li>
-<li>documentation should be wiki-style: focused on the topic at hand, don't repeat yourself, keep things simple and clear</li>
-<li>when assisting with writing documentation, it should be kept concise and specific to the topic at hand</li>
-<li>whenever documentation is updated, any corresponding LLM conversation context should be updated too</li>
-<li>to encourage documentation-driven software engineering, code comments should refer to corresponding documentation by filename, and the documentation and code should be cross-checked for consistency whenever possible</li>
-</ul>
-<h3 id="documentation-architecture">Documentation Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#documentation-architecture"></a></h3>
-<ul>
-<li><code>sflo-dendron-notes</code> repo has wiki-style notes about the mesh architecture
-<ul>
-<li>Dendron handles the frontmatter... don't rewrite IDs or anything else in the frontmatter</li>
-</ul>
-</li>
-<li>official project documentation should be generated in <code>documentation</code> directory in markdown</li>
-</ul>
-<h3 id="project-notes">Project notes<a aria-hidden="true" class="anchor-heading icon-link" href="#project-notes"></a></h3>
-<p>Project documentation, specifications, and design choices are stored in <code>documentation/</code> using Dendron's hierarchical note system. Key documentation hierarchies include:</p>
-<ul>
-<li><strong>Concepts</strong>: <code>concept.*</code> files talk about general Semantic Flow concepts</li>
-<li><strong>Mesh docs</strong>: <code>concept.mesh.*</code> files define the semantic mesh architecture</li>
-<li><strong>Product specifications</strong>: <code>product.*</code> files detail each component</li>
-<li><strong>Use cases</strong>: <code>use-cases.*</code> for feature planning and testing</li>
-</ul>
-<h3 id="component-development-with-docs">Component Development with Docs<a aria-hidden="true" class="anchor-heading icon-link" href="#component-development-with-docs"></a></h3>
-<ul>
-<li>Each module (flow-cli, flow-service, flow-web) should follow the architecture defined in the documentation</li>
-<li>Refer to <code>sflo.product.*</code> files for component-specifc descriptions, requirements, etc</li>
-</ul>
-<h2 id="project-architecture">Project Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#project-architecture"></a></h2>
-<h3 id="configuration-architecture">Configuration Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#configuration-architecture"></a></h3>
-<ul>
-<li>The project uses a sophisticated JSON-LD based configuration system with multiple layers</li>
-<li><strong>Service Configuration resolution order</strong>: CLI arguments → Environment variables → Config file → Defaults</li>
-<li>The <a href="/sflo/semantic-flow/flow-service/src/config/defaults.ts"><code>defaults.ts</code></a> file is the source for "platform default" configuration</li>
-</ul>
-<h3 id="logging-system-architecture">Logging System Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#logging-system-architecture"></a></h3>
-<ul>
-<li><strong>Structured logging</strong> with rich <code>LogContext</code> interface is the preferred approach</li>
-<li><strong>Three-channel logging architecture</strong>:
-<ul>
-<li>Console logging (pretty format for development)</li>
-<li>File logging (pretty format for human readability)</li>
-<li>Sentry logging (structured JSON for error tracking)</li>
-</ul>
-</li>
-<li><strong>Graceful degradation principle</strong>: Logging failures should never crash the application</li>
-</ul>
-<h3 id="logging-system-patterns">Logging System Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#logging-system-patterns"></a></h3>
-<ul>
-<li><code>let logger = getComponentLogger(import.meta);</code> at the start of every file</li>
-</ul>
-<h3 id="error-handling-patterns">Error Handling Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#error-handling-patterns"></a></h3>
-<ul>
-<li>Use the <a href="/sflo/semantic-flow/flow-service/src/utils/logger.ts"><code>handleCaughtError</code></a> utility for consistent error handling</li>
-<li><strong>Documentation</strong>: See <a href="/sflo/semantic-flow/flow-service/documentation/error-handling-usage.md">error-handling-usage.md</a> for comprehensive usage examples</li>
-<li>The error handling system integrates with all logging tiers (console, file, Sentry)</li>
-</ul>
-<h3 id="file-organization">File Organization<a aria-hidden="true" class="anchor-heading icon-link" href="#file-organization"></a></h3>
-<ul>
-<li><strong>Import paths</strong> require careful attention when reorganizing files to avoid breaking dependencies</li>
-</ul>
-<h3 id="implementation-patterns">Implementation Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#implementation-patterns"></a></h3>
-<ul>
-<li><strong>Proper TypeScript interfaces</strong> for configuration validation and type safety</li>
-<li><strong>SHACL constraints</strong> for JSON-LD validation when working with semantic data</li>
-<li><strong>Modular design</strong>: Keep utilities focused and avoid circular dependencies between core modules</li>
+<li>use <strong>SHACL constraints</strong> for JSON-LD validation when working with semantic data; </li>
+<li>avoid rdfs:domain and rdfs:range; prefer schema:domainIncludes and schema:rangeIncludes  for maximum re-use flexibility</li>
+<li>specify preferred 3rd-party property vocabulary with sh:property, even if sh:minCount is 0</li>
 </ul>
 <h2 id="coding-standards">Coding Standards<a aria-hidden="true" class="anchor-heading icon-link" href="#coding-standards"></a></h2>
 <h3 id="language--runtime">Language &#x26; Runtime<a aria-hidden="true" class="anchor-heading icon-link" href="#language--runtime"></a></h3>
 <ul>
-<li><strong>TypeScript</strong>: Use strict TypeScript configuration with modern ES2022+ features</li>
+<li><strong>TypeScript</strong>: Use strict TypeScript configuration with "Pure ESM" modern ES2022+ features; NO CJS </li>
 <li>Use NodeJS v24 and the latest best practices</li>
+<li>If using any is actually clearer than not using it, it's okay</li>
+<li>Use <code>satisfies</code> whenever you're writing a literal config object that should be checked against a TypeScript shape, but you want to retain the full type of the literal for use in your program.</li>
+<li>use type-only imports for types, since verbatimModuleSyntax is enabled</li>
 </ul>
 <h3 id="rdf-data-handling">RDF Data Handling<a aria-hidden="true" class="anchor-heading icon-link" href="#rdf-data-handling"></a></h3>
 <ul>
-<li><strong>Primary Format</strong>: .trig files for RDF data storage and processing</li>
+<li><strong>Primary Format</strong>: .jsonld files for RDF data storage and processing</li>
 <li><strong>Secondary Format</strong>: Full JSON-LD support required</li>
 <li><strong>RDF Libraries</strong>: Use RDF.js ecosystem libraries consistently across components</li>
-<li><strong>Namespace Management</strong>: Follow URL-based identifier patterns as defined in <code>sflo.concept.identifier.md</code></li>
+<li><strong>Namespace Management</strong>: Follow IRI-based identifier patterns as defined in <code>sflo.concept.identifier.md</code></li>
 <li><strong>Reserved Names</strong>: Validate against underscore-prefixed reserved identifiers per <code>sflo.concept.identifier.md</code></li>
 <li>The most effective validation strategy combines TypeScript structural validation with RDF semantic validation:</li>
 </ul>
-<h3 id="semantic-mesh-architecture">Semantic Mesh Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-mesh-architecture"></a></h3>
+<h2 id="documentation-driven-development">Documentation-Driven Development<a aria-hidden="true" class="anchor-heading icon-link" href="#documentation-driven-development"></a></h2>
 <ul>
-<li><strong>Resource Types</strong>: Nodes are the foundation, Components support Nodes, Flows are "abstract datasets", and "Snapshots" are their temporal slices as defined in <code>sflo.concept.mesh.md</code></li>
-<li><strong>Folder Structure</strong>: Validate mesh folder structures (data nodes, bare nodes, etc.)</li>
-<li><strong>System Components</strong>: Distinguish between system-generated and user-modifiable components</li>
-<li><strong>Weave Integration</strong>: Code must support weave operations as defined in <code>sflo.concept.weave.md</code></li>
+<li>unclear, missing, or overly-verbose documentation must be called out</li>
+<li>documentation should be wiki-style: focused on the topic at hand, don't repeat yourself, keep it as simple as possible </li>
+<li>to encourage documentation-driven software engineering, code comments should refer to corresponding documentation by filename, and the documentation and code should be cross-checked for consistency whenever possible</li>
 </ul>
-<h3 id="documentation-driven-development">Documentation-Driven Development<a aria-hidden="true" class="anchor-heading icon-link" href="#documentation-driven-development"></a></h3>
+<h3 id="documentation-architecture">Documentation Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#documentation-architecture"></a></h3>
+<p>Project documentation, specifications, and design choices are stored in <code>documentation/</code> using Dendron's hierarchical note system. Key documentation hierarchies include:</p>
 <ul>
-<li><strong>Code Comments</strong>: reference corresponding documentation by filename (e.g., <code>// See sflo.concept.mesh.resource.node.md</code>)</li>
-<li><strong>Interface Definitions</strong>: Link to concept documentation in TSDoc comments</li>
-<li><strong>Cross-Reference Validation</strong>: Ensure consistency between code and documentation; if docs need updating, let me know</li>
-<li><strong>API Documentation</strong>: Generate from TSDoc comments?</li>
-</ul>
-<h3 id="component-architecture">Component Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#component-architecture"></a></h3>
+<li>
+<p><strong>Concepts</strong>: <code>concept.*</code> files talk about general Semantic Flow concepts</p>
+</li>
+<li>
+<p><strong>Mesh resource docs</strong>: <code>mesh-resource.*</code> files define the semantic mesh architecture</p>
+</li>
+<li>
+<p><strong>Product specifications</strong>: <code>product.*</code> files detail each component</p>
+</li>
+<li>
+<p><strong>Use cases</strong>: <code>use-cases.*</code> for feature planning and testing</p>
+</li>
+<li>
+<p>docs are in markdown, with wiki-flavored links</p>
 <ul>
-<li><strong>Shared code</strong>: should go in flow-core/</li>
-<li><strong>Separation</strong>: Maintain clear boundaries between flow-cli, flow-service, and flow-web</li>
-<li><strong>Error Handling</strong>: Use consistent error patterns across all components</li>
-<li><strong>Async Patterns</strong>: Use async/await for RDF operations and file I/O</li>
-<li><strong>Type Safety</strong>: Leverage TypeScript's type system for mesh resource validation</li>
+<li>link names can be specified with <code>[[link name|file]]</code></li>
 </ul>
-<h3 id="file-organization--naming">File Organization &#x26; Naming<a aria-hidden="true" class="anchor-heading icon-link" href="#file-organization--naming"></a></h3>
+</li>
+<li>
+<p>Dendron handles the frontmatter</p>
+<ul>
+<li>don't rewrite IDs in the frontmatter</li>
+<li>agents should ask a human to create new documentation files</li>
+</ul>
+</li>
+</ul>
+<h3 id="code-comments">Code Comments<a aria-hidden="true" class="anchor-heading icon-link" href="#code-comments"></a></h3>
+<ul>
+<li><strong>Reference docs from code</strong>: reference corresponding documentation by filename (e.g., <code>// See sflo.concept.mesh.resource.node.md</code>)</li>
+<li><strong>Interface Definitions</strong>: Link to concept documentation</li>
+<li><strong>Cross-Reference Validation</strong>: Ensure consistency between code and documentation; if docs need updating, call it out</li>
+</ul>
+<h2 id="file-organization--naming">File Organization &#x26; Naming<a aria-hidden="true" class="anchor-heading icon-link" href="#file-organization--naming"></a></h2>
 <ul>
 <li><strong>TypeScript Modules</strong>: Use <code>.ts</code> extension, organize by feature/component</li>
 <li><strong>Test Files</strong>:
 <ul>
-<li>unit test files go in tests/unit/ using <code>.test.ts</code> suffix</li>
-<li>integration tests go in tests/integration</li>
+<li>unit test files go in application-name/src/tests/unit/ using <code>.test.ts</code> suffix</li>
+<li>intra-package integration tests go in application-name/src/tests/integration/ using <code>.test.ts</code> suffix</li>
+<li>inter-package e2e tests go in tests/e2e/</li>
 </ul>
 </li>
-<li><strong>Mesh Resources</strong>: Follow mesh resource naming conventions from <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">@/ontology/alpha/_node-data/_next/flow-ontology-alpha.trig (Private)</a></li>
-<li><strong>Constants</strong>: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. semantic-flow/flow-core/src/mesh-constants.ts</li>
+<li><strong>Mesh Resources</strong>: Follow mesh resource naming conventions from <a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h#filenaming-per-snapshot">Filenaming Per Snapshot</a></li>
+<li><strong>Constants</strong>: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. shared/src/mesh-constants.ts</li>
 <li><strong>File size</strong>: For ease of AI-based editing, prefer lots of small files over one huge file</li>
 <li><strong>Quoting</strong>: For easier compatibility with JSON files, use double quotes everywhere</li>
 </ul>
@@ -267,7 +189,7 @@
 <li>Example (inside a package): <code>import { something } from "@/features/something"</code></li>
 <li>Configuration (per package tsconfig):
 <ul>
-<li><code>"compilerOptions": { "baseUrl": "src", "paths": { "@/*": ["*"] } }</code></li>
+<li><code>"compilerOptions": { "baseIRI": "src", "paths": { "@/*": ["*"] } }</code></li>
 </ul>
 </li>
 <li>Tooling notes:
@@ -281,24 +203,42 @@
 <ul>
 <li>Publishing:
 <ul>
-<li>Each package should export built entry points (e.g., <code>dist/</code>) via <code>exports</code>/<code>main</code>/<code>types</code>. The same import paths work identically in dev and prod.</li>
+<li>Each package should export built entry points (e.g., <code>dist/</code>) via <code>exports</code>/<code>module</code>/<code>types</code>. The same import paths work identically in dev and prod.</li>
 </ul>
 </li>
 </ul>
-<h3 id="code-style">Code Style<a aria-hidden="true" class="anchor-heading icon-link" href="#code-style"></a></h3>
+<h2 id="system-architecture">System Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#system-architecture"></a></h2>
+<h3 id="quadstore">Quadstore<a aria-hidden="true" class="anchor-heading icon-link" href="#quadstore"></a></h3>
 <ul>
-<li>If using any is actually clearer than not using it, it's okay, just add the // deno-lint-ignore comment</li>
-<li>Use <code>satisfies</code> whenever you're writing a literal config object that should be checked against a TypeScript shape, but you want to retain the full type of the literal for use in your program.</li>
+<li>For testability and in case we ever want to use multiple stores simultaneously, store-accessing functions take a QuadstoreBundle</li>
+<li>quadstore API calls use "undefined" instead of "null" to represent the wildcard for subjects, predicates, objects, and graphs</li>
 </ul>
-<h3 id="error-handling">Error Handling<a aria-hidden="true" class="anchor-heading icon-link" href="#error-handling"></a></h3>
+<h3 id="configuration-architecture">Configuration Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#configuration-architecture"></a></h3>
+<ul>
+<li>The project uses a sophisticated JSON-LD based configuration system with multiple layers</li>
+<li><strong>Service Configuration resolution order</strong>: CLI arguments → Environment variables → Config file → Defaults</li>
+<li>The <a href="/sflo/../semantic-flow/flow-service/src/config/defaults.ts"><code>defaults.ts</code></a> file is the source for "platform default" configuration</li>
+</ul>
+<h3 id="logging-and-error-system-architecture">Logging and Error System Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#logging-and-error-system-architecture"></a></h3>
+<ul>
+<li><strong>Structured logging</strong> with rich <code>LogContext</code> interface is the preferred approach</li>
+<li><strong>Three-channel logging architecture</strong>:
+<ul>
+<li>Console logging (pretty format for development)</li>
+<li>File logging (pretty format for human readability)</li>
+<li>Sentry logging (structured JSON for error tracking)</li>
+</ul>
+</li>
+<li><strong>Graceful degradation principle</strong>: Logging failures should never crash the application</li>
+</ul>
+<h4 id="error-handling">Error Handling<a aria-hidden="true" class="anchor-heading icon-link" href="#error-handling"></a></h4>
 <ul>
 <li><strong>Custom Errors</strong>: Create semantic mesh-specific error types</li>
-<li><strong>Validation</strong>: Validate mesh resource structures before processing</li>
 <li><strong>Logging</strong>: Use structured logging for debugging weave operations</li>
 <li><strong>Async Error Propagation</strong>: Properly handle async/await error chains</li>
 </ul>
 <h4 id="enhanced-error-handling-with-logcontext">Enhanced Error Handling with LogContext<a aria-hidden="true" class="anchor-heading icon-link" href="#enhanced-error-handling-with-logcontext"></a></h4>
-<p>The platform uses <strong>LogContext-enhanced error handling</strong> from <code>flow-core/src/utils/logger/error-handlers.ts</code> for consistent error logging across all components. Both error handling functions now accept optional <code>LogContext</code> parameters for rich contextual information.</p>
+<p>The platform uses <strong>LogContext-enhanced error handling</strong> from <code>shared/src/utils/logger/error-handlers.ts</code> for consistent error logging across all components. Both error handling functions now accept optional <code>LogContext</code> parameters for rich contextual information.</p>
 <p><strong>Core Functions:</strong></p>
 <ul>
 <li><code>handleCaughtError()</code> - For caught exceptions with comprehensive error type handling</li>
@@ -307,17 +247,38 @@
 <h4 id="logcontext-structure">LogContext Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#logcontext-structure"></a></h4>
 <h4 id="handlecaughterror-examples">handleCaughtError Examples<a aria-hidden="true" class="anchor-heading icon-link" href="#handlecaughterror-examples"></a></h4>
 <p><strong>Startup Error Handling:</strong></p>
-<p>This pattern ensures <strong>uniform error reporting</strong> with rich contextual information, <strong>easier debugging</strong> through structured logging, and <strong>consistent integration</strong> with console, file, and Sentry logging tiers.</p>
+<p>This pattern ensures <strong>uniform error reporting</strong> with rich contextual information, <strong>easier debugging</strong> through structured logging, and <strong>consistent integration</strong> with console, file, and network logging tiers.</p>
 <h3 id="testing">Testing<a aria-hidden="true" class="anchor-heading icon-link" href="#testing"></a></h3>
 <ul>
-<li><strong>Unit Tests</strong>: place unit tests in <code>src/__tests__</code> folder; with <code>.test.ts</code> suffix; target ≥80% critical-path coverage and include both success and failure cases.</li>
-<li><strong>Integration Tests</strong>: Test mesh operations end-to-end; tests are located in test/integration/ dir</li>
+<li><strong>Unit Tests</strong>: target ≥80% critical-path coverage and include both success and failure cases.</li>
+<li><strong>Integration Tests</strong>: Test mesh operations end-to-end; tests are located in tests/integration/ dir</li>
 <li><strong>RDF Validation</strong>: Test both .trig and JSON-LD parsing/serialization</li>
 <li><strong>Mock Data</strong>: Create test mesh structures following documentation patterns</li>
 <li>after you think you've completed a task, check for any "problems", i.e., deno-lint</li>
+</ul>
+<h4 id="what-to-place-where">What to Place Where<a aria-hidden="true" class="anchor-heading icon-link" href="#what-to-place-where"></a></h4>
+<ul>
+<li>
+<p>Package integration if it targets that package’s boundaries only.</p>
+<ul>
+<li>Examples: service repo + DB, CLI command against a mock server, web page with MSW.</li>
+</ul>
+</li>
+<li>
+<p>Top-level e2e if it requires two or more apps running together or real infra.</p>
+<ul>
+<li>Examples: CLI → API → DB, web → API auth, migration rollout checks.</li>
+</ul>
+</li>
 </ul>
 <h3 id="performance">Performance<a aria-hidden="true" class="anchor-heading icon-link" href="#performance"></a></h3>
 <ul>
 <li><strong>RDF Processing</strong>: Stream large RDF files where possible</li>
 <li><strong>File I/O</strong>: Use async file operations consistently</li>
+</ul>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/f0g7d31ivgn6rgllncdwep8">Memory Bank</a></li>
+<li><a href="/sflo/notes/g97elh6q5bszy2c74gsmuqk">2025 11 03 Optimizing for Agents</a></li>
 </ul>

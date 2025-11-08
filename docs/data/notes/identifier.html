@@ -1,0 +1,82 @@
+<h1 id="identifier">identifier<a aria-hidden="true" class="anchor-heading icon-link" href="#identifier"></a></h1>
+<p>Semantic Flow resources can be identified via two types of identifiers:</p>
+<ul>
+<li><a href="/sflo/notes/external-identifier">external identifier</a></li>
+<li><a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a></li>
+</ul>
+<h2 id="guidance">Guidance<a aria-hidden="true" class="anchor-heading icon-link" href="#guidance"></a></h2>
+<ul>
+<li>Prefer relative or site-root-absolute paths inside the mesh; do not hardcode full base IRIs so the mesh remains portable across hosting locations (see <a href="/sflo/notes/s1yduc399adt3ihvnwievrd">Reference Iri Choices</a>).</li>
+</ul>
+<h2 id="identifier-senses">Identifier Senses<a aria-hidden="true" class="anchor-heading icon-link" href="#identifier-senses"></a></h2>
+<h3 id="content-identifiers">Content Identifiers<a aria-hidden="true" class="anchor-heading icon-link" href="#content-identifiers"></a></h3>
+<p>Identifiers that <a href="/sflo/notes/denotation">denote</a> <strong>concrete information resources</strong> (files on disk or over HTTP):</p>
+<ul>
+<li><strong>Distributions</strong> → materialized datasets, e.g. <code>test.ttl</code>, <code>dave_v1.jsonld</code>, etc.</li>
+<li><strong>Resource pages</strong> → e.g. <code>index.html</code></li>
+<li><strong>Other documentation resources</strong> → e.g. <code>README.md</code>, <code>CHANGELOG.md</code></li>
+</ul>
+<p>These are <em>retrievable representations</em> (materialized content), i.e. when dereferenced with a request to a <a href="/sflo/notes/semantic-flow-site">Semantic Flow site</a>, the content itself is returned.</p>
+<h3 id="concept-identifiers">Concept Identifiers<a aria-hidden="true" class="anchor-heading icon-link" href="#concept-identifiers"></a></h3>
+<p>Identifiers that refer to <strong>concepts, entities, or abstract things</strong>, including:</p>
+<ul>
+<li><strong>bare node identifiers</strong> → Organizational containers</li>
+<li><strong>reference node identifiers</strong> → denotational </li>
+<li><strong>payload node identifiers</strong> → Concepts that are datasets</li>
+<li><strong>Abstract flow identifiers</strong> → Dataset-as-persistent-concept</li>
+<li><strong>Concrete dataset identifiers</strong> → Specific dataset snapshots</li>
+<li><strong>Handle identifiers</strong> → Mesh node themselves</li>
+</ul>
+<p>When dereferenced with a request to a <a href="/sflo/notes/semantic-flow-site">Semantic Flow site</a>, concept identifiers return content, but they still <a href="/sflo/notes/denotation">denotation</a> a concept.</p>
+<h2 id="identifier-pattern-semantics">Identifier Pattern Semantics<a aria-hidden="true" class="anchor-heading icon-link" href="#identifier-pattern-semantics"></a></h2>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Identifier Type</th><th>Trailing Slash?</th><th>Refers to…</th><th>Example</th></tr></thead><tbody><tr><td>Content identifier</td><td>No</td><td>A fetchable document or asset</td><td><code>https://example.org/ns/foo/index.html</code></td></tr><tr><td>Concept IRI</td><td>Yes (<code>/</code>)</td><td>A real-world or mesh concept</td><td><code>https://example.org/ns/foo/</code></td></tr></tbody></table></div>
+<p>Even though you might be tempted to think of a datasets as concrete things, the IRIs for payload nodes, abstract datasets, and concrete datasets all refer to concepts, i.e., <strong>non-retrievable entities</strong>. Only Distribution IRIs refer to downloadable data, i.e., dataset distributions.</p>
+<hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/external-identifier">external identifier</a></li>
+<li><a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a></li>
+</ol>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/denotation">denotation</a></li>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/namespace">Namespace</a></li>
+<li><a href="/sflo/notes/referent">Referent</a></li>
+<li><a href="/sflo/notes/semantic-flow-site">Semantic Flow site</a></li>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/external-facet">external facet</a></li>
+<li><a href="/sflo/notes/internal-facet">internal facet</a></li>
+<li><a href="/sflo/notes/loose-mesh">loose mesh</a></li>
+<li><a href="/sflo/notes/namespace-segment">namespace segment</a></li>
+<li><a href="/sflo/notes/b666mbhgg9k0jsrk46ui4zs">file resource facet</a></li>
+<li><a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+<li><a href="/sflo/notes/bl6zrmitungtaimgnl19d0q">Content</a></li>
+<li><a href="/sflo/notes/naming resource">naming resource</a></li>
+<li><a href="/sflo/notes/bare-node">bare node</a></li>
+<li><a href="/sflo/notes/h3xucygpf2i6f3u3gkegvlk">system segments</a></li>
+</ul>

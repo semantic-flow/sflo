@@ -1,0 +1,77 @@
+<h1 id="mesh-resources">mesh resources<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-resources"></a></h1>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>A <strong>mesh resource</strong> is any addressable component within a <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a>. Every mesh resource has a unique <a href="/sflo/notes/17l23vl7sqg997hr773dh23">Intramesh</a> based on its path and locally unique name, making it dereferenceable via IRI.</p>
+<p>In RDF terms, a resource is any node in an RDF graph that can be represented with an IRI (the other kinds of RDF graph nodes are literals and blank nodes). So theoretically, files and folders in <a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a> could be considered RDF resources. But they are not considered <strong>mesh</strong> resources</p>
+<h2 id="types-of-mesh-resources">Types of Mesh Resources<a aria-hidden="true" class="anchor-heading icon-link" href="#types-of-mesh-resources"></a></h2>
+<p>The structure of a semantic mesh is built on a fundamental distinction between <strong>extensible</strong> and <strong>terminal</strong> resources:</p>
+<ul>
+<li><strong><a href="/sflo/notes/mesh-node">Mesh nodes</a></strong> are extensible namespace containers:</li>
+<li><strong><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">Mesh node components</a></strong> are terminal mesh resources:
+<ul>
+<li>Can be physically represented as folders or files
+<ul>
+<li>Folder <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a> are part of the namespace but cannot be extended beyond their own internal structure</li>
+</ul>
+</li>
+<li>All files and folders within a component folder are considered to be part of the parent node</li>
+</ul>
+</li>
+</ul>
+<p><strong>Folder-based components:</strong></p>
+<ul>
+<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flows</a></strong>: Administrative metadata (in <code>_node-metadata-flow/</code> folders)</li>
+<li><strong><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">Asset trees</a></strong>: File collections (in <code>_assets/</code> folders)</li>
+<li><strong><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">Version datasets</a></strong>: Versioned snapshots</li>
+<li><strong><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshots</a></strong>: Draft workspaces</li>
+</ul>
+<p><strong>File-based components:</strong></p>
+<ul>
+<li><strong>Documentation files</strong>: 
+<ul>
+<li><a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">Resource pages</a> are index.html files that provide de-referencability for their containing <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a> <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+<li><strong>README.md and CHANGELOG.md</strong>: unstructured documentation</li>
+</ul>
+</li>
+<li><strong><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distribution files</a></strong>: Data files in RDF formats</li>
+</ul>
+<h2 id="physical-vs-logical-structure">Physical vs Logical Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#physical-vs-logical-structure"></a></h2>
+<p><strong>Physical Representation:</strong></p>
+<ul>
+<li>Mesh nodes and components are represented as folders in the filesystem</li>
+<li>File resources are represented as individual files</li>
+<li>Folder names become namespace segments and IRI path components</li>
+</ul>
+<p><strong>Logical Function:</strong></p>
+<ul>
+<li>All mesh resources are addressable via their IRI path</li>
+<li>IRIs must return meaningful content when dereferenced</li>
+<li>Resources maintain semantic relationships through containment and cross-references</li>
+</ul>
+<h2 id="asset-tree-special-case">Asset Tree Special Case<a aria-hidden="true" class="anchor-heading icon-link" href="#asset-tree-special-case"></a></h2>
+<p><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">Asset trees</a> represent a special category where:</p>
+<ul>
+<li>The asset tree itself (with its <a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a>) is part of the mesh structure</li>
+<li>The files and folders contained within asset trees are "attached to" but not "contained in" the mesh</li>
+<li>Asset tree contents are addressable but are not considered semantic flow resources</li>
+</ul>
+<p>This distinction maintains clean separation between semantic mesh structure and arbitrary file attachments while preserving addressability.</p>
+<hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/mesh-node">mesh node</a></li>
+<li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a></li>
+</ol>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/mesh-folder">mesh folder</a></li>
+<li><a href="/sflo/notes/onheps7i79fvmzgfnm11phw">IRI</a></li>
+<li><a href="/sflo/notes/mesh-location">mesh location</a></li>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/referent">Referent</a></li>
+<li><a href="/sflo/notes/llzh1jdoieldfpff4v3ealw">root node</a></li>
+<li><a href="/sflo/notes/x5zwfsdfzap0c5843n5a1fh">Dereferencability for Humans</a></li>
+<li><a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a></li>
+<li><a href="/sflo/notes/loose-mesh">loose mesh</a></li>
+<li><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a></li>
+</ul>

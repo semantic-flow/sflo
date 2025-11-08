@@ -1,0 +1,34 @@
+<h1 id="namespace">Namespace<a aria-hidden="true" class="anchor-heading icon-link" href="#namespace"></a></h1>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>A namespace is the hierarchical address space formed by nesting nodes. Every node extends the namespace with its identifier, which correspond to filesystem folders when the mesh is stored in the filesystem. The resulting path maps directly to the published IRI when appended to the <a href="/sflo/notes/namespace-context">namespace context</a></p>
+<ul>
+<li>Concept vs content IRI semantics: see <a href="/sflo/notes/identifier">identifier</a></li>
+<li>How intramesh identifiers are resolved: see <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a></li>
+</ul>
+<h2 id="minimal-example">Minimal Example<a aria-hidden="true" class="anchor-heading icon-link" href="#minimal-example"></a></h2>
+<pre class="language-file"><code class="language-file">/ns/                         # bare node → https://ex.org/ns/
+└── people/                  # bare node → https://ex.org/ns/people/
+    └── alice/               # reference node → https://ex.org/ns/people/alice/
+</code></pre>
+<ul>
+<li>Folder names correspond to <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a>s and become namespace segments when <a href="/sflo/notes/publication">published</a>.</li>
+<li>Slash-terminated IRIs identify concepts; file IRIs identify content (see <a href="/sflo/notes/identifier">identifier</a>).</li>
+</ul>
+<h2 id="publishing-base">Publishing Base<a aria-hidden="true" class="anchor-heading icon-link" href="#publishing-base"></a></h2>
+<p>The site’s base IRI is determined by the publishing platform (e.g., GitHub Pages or self-hosting with <a href="/sflo/notes/73k0himk6cuq7sqhp8rshtg">sflo-host</a>). See <a href="/sflo/notes/implied-rdf-base">implied rdf base</a> for user/org vs project page mappings and guidance on avoiding hardcoded bases.</p>
+<hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/namespace-context">namespace context</a></li>
+<li><a href="/sflo/notes/h399p5bkq2p6736uh9s7jn0">namespace root</a></li>
+<li><a href="/sflo/notes/namespace-segment">namespace segment</a></li>
+</ol>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a></li>
+<li><a href="/sflo/notes/transposability">transposability</a></li>
+<li><a href="/sflo/notes/h3xucygpf2i6f3u3gkegvlk">system segments</a></li>
+</ul>

@@ -1,23 +1,25 @@
 <h1 id="concept-summary">Concept Summary<a aria-hidden="true" class="anchor-heading icon-link" href="#concept-summary"></a></h1>
 <h1 id="semantic-mesh--llm-oriented-concept-summary">Semantic Mesh — LLM-Oriented Concept Summary<a aria-hidden="true" class="anchor-heading icon-link" href="#semantic-mesh--llm-oriented-concept-summary"></a></h1>
-<p>This document is the canonical, compact context for AIs/LLMs. It summarizes all <code>documentation/concepts.*</code> notes and cross-links to authoritative pages.</p>
-<p>0) Twin Purposes</p>
+<p>This document is the canonical, compact context for LLMs. It summarizes all <code>documentation/concepts.*</code> notes and cross-links to authoritative pages.</p>
+<p>0) Semantic Flow Twin Purposes</p>
 <ul>
-<li>Mint URLs (IRIs) for referring to things on the Semantic Web.</li>
-<li>Hold semantic datasets and supporting resources that use those URLs.</li>
+<li>Mint dereferenceable IRIs for referring to things on the Semantic Web</li>
+<li>Hold versionable semantic data that uses those IRIs</li>
 </ul>
 <p>1) Definition
-A semantic mesh is a dereferenceable, folder-structured, possibly-versioned corpus of semantic resources where every URL resolves to meaningful content. A mesh maps directly from a Git repository’s folder hierarchy to a published static site so that:</p>
+A semantic mesh is a dereferenceable, possibly-versioned corpus of semantic resources where every IRI resolves to meaningful content. </p>
+<p>A filesystem-based mesh maps directly from a Git repository’s folder hierarchy to a published static site so that:</p>
 <ul>
-<li>Every resource is addressable by a stable URL.</li>
-<li>Folder resources are dereferenceable via generated <code>index.html</code> resource pages.</li>
+<li>Every resource is addressable by a stable IRI.</li>
+<li>"<a href="/sflo/notes/naming resource">Naming resources</a>" are dereferenceable via generated <code>index.html</code> resource pages.</li>
+<li>"<a href="/sflo/notes/bl6zrmitungtaimgnl19d0q">Content resources</a>" are directly dereferenceable: they should return a file</li>
 <li>RDF datasets live as distributions on versioned flow snapshots.</li>
 <li>The weave process maintains coherence and keeps the repo publish-ready.</li>
 </ul>
 <p>See:</p>
 <ul>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a>: definition, requirements</li>
-<li><a href="/sflo/notes/ynqxgf8uv2bgbdi81wlz29g">Semantic Site</a>: site posture</li>
+<li><a href="/sflo/notes/semantic-flow-site">Semantic Flow site</a>: site posture</li>
 <li><a href="/sflo/notes/c4wo7mdjzcit2bmvqr5sx4u">mesh repo</a>: repo-to-site mapping</li>
 </ul>
 <p>2) Design Principles</p>
@@ -25,18 +27,17 @@ A semantic mesh is a dereferenceable, folder-structured, possibly-versioned corp
 <li><a href="/sflo/notes/x5zwfsdfzap0c5843n5a1fh">Dereferencability for Humans</a>: resource pages</li>
 <li><a href="/sflo/notes/4ado7w6mwrrcphy9p1kpfa3">Single Referent Principle</a>: concept vs content is explicit</li>
 <li><a href="/sflo/notes/ngw89xo9m9jop5b3o32dwwd">pseudo-immutability</a>: treat version snapshots/IDs as immutable</li>
-<li><a href="/sflo/notes/principle-transposability">transposability</a>: move meshes without breaking links via relative IDs</li>
+<li><a href="/sflo/notes/transposability">transposability</a>: move meshes without breaking links via relative IDs</li>
 <li><a href="/sflo/notes/principle-composability">composability</a>: extract/compose submeshes</li>
 </ul>
 <p>3) Core Abstractions</p>
 <p>3.1 Mesh Resources (Nodes and Components)</p>
 <ul>
 <li>
-<p>Node (folder; container for nodes &#x26; components): <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.node (Private)</a></p>
+<p>Node (folder; container for nodes &#x26; components): <a href="/sflo/notes/mesh-node">mesh node</a></p>
 <ul>
-<li>bare node: organizational URL segment container: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.node.namespace (Private)</a></li>
-<li>data node: URL refers to the node’s referent (real-world entity or dataset concept); has a data flow: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.node.data (Private)</a></li>
-<li>Dataset-series specialization (optional): <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.node.data.series (Private)</a></li>
+<li>bare node: organizational IRI segment container: <a href="/sflo/notes/bare-node">bare node</a></li>
+<li>payload node: IRI refers to the node's referent (real-world entity or dataset concept); has a payload flow: <a href="/sflo/notes/payload-node">paylod node</a></li>
 </ul>
 </li>
 <li>
@@ -44,8 +45,8 @@ A semantic mesh is a dereferenceable, folder-structured, possibly-versioned corp
 <ul>
 <li>Flows (abstract datasets as DatasetSeries):
 <ul>
-<li>Meta flow (metadata/provenance): <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></li>
-<li>Data flow (payload data): <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a></li>
+<li>Meta flow (metadata/provenance): <a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a></li>
+<li>payload flow (payload data): <a href="/sflo/notes/payload-flow">payload flow</a></li>
 <li>Node-config flows (settings; see §9): <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a></li>
 </ul>
 </li>
@@ -55,12 +56,12 @@ A semantic mesh is a dereferenceable, folder-structured, possibly-versioned corp
 <li><code>_current/</code>: <a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a></li>
 <li><code>_next/</code>: <a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></li>
 <li><code>_vN/</code>: <a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></li>
-<li>Distributions: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">resource.node-component.flow-snapshot.distribution (Private)</a></li>
+<li>Distributions: <a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distribution</a></li>
 </ul>
 </li>
 <li>Handle (refer to the node “as a mesh resource”): <a href="/sflo/notes/wie8wazi0eoq81zke09czxk">node handle</a>
 <ul>
-<li>Handle page (human-facing): <a href="/sflo/notes/8uslab6gy073jcq6kz9nhyn">handle resource page</a></li>
+<li>Handle page (human-facing): <a href="/sflo/notes/handle-resource-page">handle resource page</a></li>
 </ul>
 </li>
 <li>Asset tree (static files for the node): <a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a></li>
@@ -78,38 +79,38 @@ A semantic mesh is a dereferenceable, folder-structured, possibly-versioned corp
 </ul>
 <p>3.2 Facets (Folder, File, Dataset)</p>
 <ul>
-<li>Folder facet (namespace mapping; reserved folders): <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource-facet.folder (Private)</a></li>
-<li>File facet (content retrieval): <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource-facet.file (Private)</a></li>
-<li>Dataset facet (DatasetSeries vs Dataset): <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource-facet.dataset (Private)</a></li>
+<li>Folder facet (namespace mapping; reserved folders): <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
+<li>File facet (content retrieval): <a href="/sflo/notes/b666mbhgg9k0jsrk46ui4zs">file resource facet</a></li>
+<li>Dataset facet (DatasetSeries vs Dataset): <a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset facet</a></li>
 </ul>
 <p>4) Addressing and Identity</p>
 <p>4.1 Namespace and Relative Identifiers</p>
 <ul>
-<li>Folder names become namespace segments; the path is the node’s relative identifier (and URL path when published).</li>
+<li>Folder names become namespace segments; the path is the node’s relative identifier (and IRI path when published).</li>
 <li>Relative identifiers are used within distributions for transposability; resolve relative to distribution location.
 See:</li>
-<li><a href="/sflo/notes/vhywrpw2eemb0kfaxa5xhdk">Namespace</a>: overview</li>
-<li><a href="/sflo/notes/7qo569nzfk3l8yo1ah6erb2">Namespace Segment</a>: segment definition</li>
+<li><a href="/sflo/notes/namespace">Namespace</a>: overview</li>
+<li><a href="/sflo/notes/namespace-segment">namespace segment</a>: segment definition</li>
 <li><a href="/sflo/notes/h3xucygpf2i6f3u3gkegvlk">system segments</a>: reserved segments</li>
-<li><a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a>: relative IDs</li>
+<li><a href="/sflo/notes/relative-identifier">relative identifier</a>: relative IDs</li>
 </ul>
-<p>4.2 URL Semantics</p>
+<p>4.2 IRI Semantics</p>
 <ul>
-<li>Concept URLs (slash-terminated) identify nodes, flows (abstract), snapshots (conceptual), and handle.</li>
-<li>Content URLs (with filenames) identify retrievable files: distributions, HTML pages, READMEs, assets.</li>
+<li>Concept IRIs (slash-terminated) identify nodes, flows (abstract), snapshots (conceptual), and handle.</li>
+<li>Content IRIs (with filenames) identify retrievable files: distributions, HTML pages, READMEs, assets.</li>
 <li>Follow document-vs-thing hygiene to avoid ambiguity.
 See:</li>
-<li><a href="/sflo/notes/concept-identifier">identifier</a>: URL types and mapping</li>
+<li><a href="/sflo/notes/identifier">identifier</a>: IRI types and mapping</li>
 <li><a href="/sflo/notes/s1yduc399adt3ihvnwievrd">Reference Iri Choices</a>: trade-offs</li>
-<li><a href="/sflo/notes/onheps7i79fvmzgfnm11phw">IRI</a>: terminology; prefer “URLs” when referring to mesh-local IRIs</li>
+<li><a href="/sflo/notes/onheps7i79fvmzgfnm11phw">IRI</a>: terminology; prefer “IRIs” when referring to mesh-local IRIs</li>
 </ul>
 <p>4.3 Handle Rationale</p>
 <ul>
-<li>A node’s URL refers to its referent (namespace, real-world entity, or dataset concept).</li>
-<li>The handle component provides a URL to refer to the node itself “as a mesh resource” (for config, provenance, lifecycle).
+<li>A node’s IRI refers to its referent (namespace, real-world entity, or dataset concept).</li>
+<li>The handle component provides a IRI to refer to the node itself “as a mesh resource” (for config, provenance, lifecycle).
 See:</li>
 <li><a href="/sflo/notes/wie8wazi0eoq81zke09czxk">node handle</a></li>
-<li><a href="/sflo/notes/8uslab6gy073jcq6kz9nhyn">handle resource page</a></li>
+<li><a href="/sflo/notes/handle-resource-page">handle resource page</a></li>
 </ul>
 <p>5) Physical Structure and Reserved Folders</p>
 <p>Reserved folder names (underscore-prefixed; canonical set):</p>
@@ -117,7 +118,7 @@ See:</li>
 <li><code>_node-handle/</code></li>
 <li>Flow containers (abstract datasets):
 <ul>
-<li><code>_meta-flow/</code>, <code>_data-flow/</code></li>
+<li><code>_node-metadata-flow/</code>, <code>_payload-flow/</code></li>
 <li><code>_config-operational-flow/</code>, <code>_config-inheritable-flow/</code> (see §9)</li>
 </ul>
 </li>
@@ -132,20 +133,19 @@ See:</li>
 </ul>
 </li>
 </ul>
-<p>Folder-note pages for these reserved names live under <code>concept.mesh.resource.folder.*.md</code> (where defined):</p>
+<p>Folder-note pages for these reserved names live under <code>folder.*.md</code> (where defined):</p>
 <ul>
-<li><code>_meta-flow/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder._meta-flow (Private)</a></li>
-<li><code>_data-flow/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder._data-flow (Private)</a></li>
-<li><code>_config-operational-flow/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder._config-operational-flow (Private)</a></li>
-<li><code>_config-inheritable-flow/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder._config-inheritable-flow (Private)</a></li>
-<li><code>_current/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder._current (Private)</a></li>
-<li><code>_next/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder._next (Private)</a></li>
-<li><code>_vN/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder._vN (Private)</a></li>
-<li><code>_assets/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder._assets (Private)</a></li>
+<li><code>_node-metadata-flow/</code>: <a href="/sflo/notes/node-metadata-flow-folder">_node-metadata-flow folder</a></li>
+<li><code>_payload-flow/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">folder._data-flow (Private)</a></li>
+<li><code>_config-operational-flow/</code>: <a href="/sflo/notes/hfmgd0w82phfjkre3ippnk9">config flow folder</a></li>
+<li><code>_config-inheritable-flow/</code>: <a href="/sflo/notes/nokx5o047yld6voaxnx8tmw">_config Inheritable Flow</a></li>
+<li><code>_current/</code>: <a href="/sflo/notes/xz41kd5hzao6yjybm05uw4l">current snapshot folder</a></li>
+<li><code>_next/</code>: <a href="/sflo/notes/btt731d4bsjpwoyszlnn6i2">next snapshot folder</a></li>
+<li><code>_vN/</code>: <a href="/sflo/notes/cxqccr4kfh6vbss1l14lrzd">version snapshot folder</a></li>
+<li><code>_assets/</code>: <a href="/sflo/notes/0qtlo26phu45trajyzki5od">assets tree folder</a></li>
 <li>Node folder pages:
 <ul>
-<li>Node: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder.node (Private)</a></li>
-<li>Namespace: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.folder.namespace (Private)</a></li>
+<li>Node: <a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a></li>
 </ul>
 </li>
 </ul>
@@ -163,7 +163,7 @@ See:</li>
 <li>Sibling distribution: patterns and constraints for multi-file realizations.
 See:</li>
 <li><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Versioning</a></li>
-<li><a href="/sflo/notes/2qp8vfjygd43lmwcmj6362r">Working Distribution</a></li>
+<li><a href="/sflo/notes/2qp8vfjygd43lmwcmj6362r">working distribution</a></li>
 <li><a href="/sflo/notes/qprjez1ghjok1zqenb9fpxl">Sibling Distribution</a></li>
 </ul>
 <p>7) Lifecycle and Weave Process
@@ -177,18 +177,18 @@ Weave maintains structural coherence and publication readiness:</p>
 <li>Integrates with the scanner where applicable.
 See:</li>
 <li><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a></li>
-<li><a href="/sflo/notes/t6d0klsie3jgwlndtwcqhob">static site generation</a></li>
+<li><a href="/sflo/notes/resource-page-generation">static site generation</a></li>
 <li><a href="/sflo/notes/ftgxb98eadjykrlmm9dpnfo">Scanner</a></li>
 <li><a href="/sflo/notes/4v2b7t8nbzkmtyvnayye3vj">Provenance</a></li>
 </ul>
 <p>8) Publishing and Sites</p>
 <ul>
-<li>Repos are static-site-ready; pushing to GitHub Pages or any static host publishes the mesh (folder paths → URL paths).</li>
+<li>Repos are static-site-ready; pushing to GitHub Pages or any static host publishes the mesh (folder paths → IRI paths).</li>
 <li>Transposition (domain/project move) is safe with relative IDs.
 See:</li>
 <li><a href="/sflo/notes/c4wo7mdjzcit2bmvqr5sx4u">mesh repo</a></li>
-<li><a href="/sflo/notes/ynqxgf8uv2bgbdi81wlz29g">Semantic Site</a></li>
-<li><a href="/sflo/notes/rxo5ieolun175zmjncj94ft">Publication</a></li>
+<li><a href="/sflo/notes/semantic-flow-site">Semantic Flow site</a></li>
+<li><a href="/sflo/notes/publication">publication</a></li>
 </ul>
 <p>1) Configuration and Inheritance (Two Config Flows)</p>
 <ul>
@@ -203,7 +203,7 @@ See:</li>
 </ul>
 <p>1)  Aggregated Views</p>
 <ul>
-<li>Aggregated distribution: optional roll-up of child data nodes’ current datasets at a parent node for convenience.
+<li>Aggregated distribution: optional roll-up of child payload nodes’ current datasets at a parent node for convenience.
 See:</li>
 <li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
 </ul>
@@ -212,10 +212,10 @@ See:</li>
 ├── _assets/                         # optional site-wide assets
 ├── my-node/                         # a mesh node (folder)
 │   ├── _node-handle/                # handle component (resource.node-component.node-handle)
-│   ├── _meta-flow/                  # metadata flow (system)
+│   ├── _node-metadata-flow/                  # metapayload flow (system)
 │   │   ├── _current/
 │   │   └── _v1/
-│   ├── _data-flow/                  # data flow (for data nodes)
+│   ├── _payload-flow/                  # payload flow (for payload nodes)
 │   │   ├── _current/
 │   │   ├── _next/
 │   │   └── _v1/
@@ -231,7 +231,7 @@ See:</li>
   graph TD
   A[Mesh Node] --> B[Handle]
   A --> C[Meta flow]
-  A --> E[Data flow]
+  A --> E[payload flow]
   A --> G[Asset tree]
   A --> H[Resource pages]
 
@@ -244,64 +244,21 @@ See:</li>
 <p>13) Glossary</p>
 <ul>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a>: the set of addressable resources in a repository, published as a site</li>
-<li>Node: an extensible folder resource containing nodes/components: <a href="/sflo/notes/mesh-node">mesh node</a></li>
-<li>Node component: terminal resource that supports node behavior/structure: <a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a></li>
-<li>Flow: DatasetSeries representing an abstract dataset (meta/data/config): <a href="/sflo/notes/node-flow">node flow</a></li>
+<li><a href="/sflo/notes/mesh-node">mesh node</a>: an extensible  resource containing other nodes and its own components</li>
+<li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a>: terminal resource that supports node behavior/structure</li>
+<li><a href="/sflo/notes/node-flow">node flow</a>: DatasetSeries representing an abstract dataset (meta/data/config)</li>
 <li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a>: concrete Dataset realization of a flow (<code>_current/</code>, <code>_next/</code>, <code>_vN/</code>)</li>
 <li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distribution</a>: a concrete serialization file (TriG, JSON-LD, etc.): </li>
-<li>Handle: indirection to refer to the node “as a mesh resource”: <a href="/sflo/notes/wie8wazi0eoq81zke09czxk">node handle</a></li>
-<li>Resource Page: dereferenceable <code>index.html</code> for folders: <a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a></li>
-<li>Aggregated Distribution: parent-level roll-up of children’s current data: <a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
-<li>Weave: lifecycle operation to version/promote/regenerate/repair: <a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a></li>
-<li>Evidence:
-<ul>
-<li>TriG appears unsupported while docs/examples use TriG heavily: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">resource.node-component.flow-snapshot.distribution (Private)</a></li>
+<li><a href="/sflo/notes/wie8wazi0eoq81zke09czxk">node handle</a>: indirection to refer to the node “as a mesh resource”</li>
+<li><a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a>: dereferenceable <code>index.html</code> for folders</li>
+<li><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a>: lifecycle operation to version/promote/regenerate/repair:</li>
 </ul>
-</li>
-<li>Recommendation: Make TriG and JSON-LD first-class supported formats; document status for TTL, N-Quads, RDF/XML.</li>
-</ul>
-<p>K. Config defaults doc should include explicit property names/shapes</p>
+<hr>
+<strong>Backlinks</strong>
 <ul>
-<li>Evidence:
-<ul>
-<li><a href="/sflo/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a> lacks concrete JSON-LD terms/examples</li>
-</ul>
-</li>
-<li>Recommendation: Provide explicit terms/shapes aligned with config-flow vocabulary and the inheritance resolution doc.</li>
-</ul>
-<p>L. Relative identifier examples mention <code>_config-flow</code></p>
-<ul>
-<li>Evidence:
-<ul>
-<li><a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a> vs config docs (two config flows): <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a></li>
-</ul>
-</li>
-<li>Recommendation: Align examples with <code>_config-operational-flow/</code> and <code>_config-inheritable-flow/</code>.</li>
-</ul>
-<p>M. Confirm embedded mesh doc and folder-note coverage</p>
-<ul>
-<li>Evidence:
-<ul>
-<li><a href="/sflo/notes/afxbxgyyzpzfb98a66fhuhw">Embedded Mesh</a> exists; ensure it’s linked where appropriate (namespace/base docs).</li>
-</ul>
-</li>
-<li>Recommendation: Link embedded mesh doc from base/namespace docs.</li>
-</ul>
-<p>1)  Minimal “Core Context” to feed an LLM
-If context must be small, include:</p>
-<ul>
-<li>Definition (§1) and Principles (§2).</li>
-<li>Node vs Component; Flows vs Snapshots (§3).</li>
-<li>URL semantics and relative identifiers (§4).</li>
-<li>Reserved folders and example tree (§5, §11).</li>
-<li>Lifecycle and weave (§7).</li>
-<li>Config flows model (§9).</li>
-<li>Aggregated views (§10).</li>
-</ul>
-<p>1)  LLM Usage Notes</p>
-<ul>
-<li>Use the folder names and URL semantics exactly as standardized here.</li>
-<li>When encountering contradictions, prefer the standards in §14 recommendations.</li>
-<li>When linking within the mesh, prefer relative identifiers to maintain transposability.</li>
-<li>Avoid “IRI/URI” unless drawing a distinction; for mesh-local identifiers, use “URLs”.</li>
+<li><a href="/sflo/notes/yxn5rsqsv2gq4s6wbnxsjsj"> Now</a></li>
+<li><a href="/sflo/notes/xebek3dtv2zgs9ah0vbv57g">Developer General Guidance</a></li>
+<li><a href="/sflo/notes/tudefgmmf2pdx28zb9xs84j">Product Brief</a></li>
+<li><a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a></li>
+<li><a href="/sflo/notes/4unsyhyp8tmhqsdxwndy315">Status</a></li>
 </ul>

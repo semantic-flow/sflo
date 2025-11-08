@@ -1,24 +1,24 @@
 
-[[Nodes|resource.node]] are primarily constituted by their node flows, which are evolvable datasets about their node's metadata, configuration, referent, or payload datasets. They exist through time, independent of any specific version or realization, and can evolve semi-independently from other flows
+[[Nodes|mesh-resource.node]] are primarily constituted by their semantic flows: evolvable datasets about their node's data, metadata, configuration, or referent. They exist through time, independent of any specific version or realization, and can evolve semi-independently.
 
 There are five types of node flows.
 
-- [[resource.node-component.flow.node-metadata]] (required)
-- [[resource.node-component.flow.node-config.operational]] (optional)
-- [[resource.node-component.flow.node-config.inheritable]] (optional)
-- [[resource.node-component.flow.reference]] (optional)
-- [[resource.node-component.flow.data]] (for data nodes)
+- [[mesh-resource.node-component.flow.node-metadata]] (required)
+- [[mesh-resource.node-component.flow.node-config.operational]] (optional)
+- [[mesh-resource.node-component.flow.node-config.inheritable]] (optional)
+- [[mesh-resource.node-component.flow.reference]] (optional)
+- [[mesh-resource.node-component.flow.payload]] (for payload nodes)
 
 
 ## Relationship to snapshots
 
-As DatasetSeries, node flows are realized through [[resource.node-component.flow-snapshot]] datasets, which are temporal slices of the flow. To borrow a phrase from the PROV model, we say that a snapshot is a specialization of the node flow.
+As DatasetSeries, node flows are realized through [[mesh-resource.node-component.flow-snapshot]] datasets, which are temporal slices of the flow. To borrow a phrase from the PROV model, we say that a snapshot is a specialization of the node flow.
 
 ### Relationship pattern:
 
-Every node flow has at least two concrete snapshots: [[resource.node-component.flow-snapshot.current]] and [[resource.node-component.flow-snapshot.next]].
+Every node flow has at least two concrete snapshots: [[mesh-resource.node-component.flow-snapshot.current]] and [[mesh-resource.node-component.flow-snapshot.next]].
 
-The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series) and may have multiple [[resource.node-component.flow-snapshot.version]]s.
+The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series) and may have multiple [[mesh-resource.node-component.flow-snapshot.version]]s.
 
 
 ### Ontology Example
@@ -29,7 +29,7 @@ The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dat
 
 ```file
 /my-ontology/
-└── _data-flow/                  ← node flow (ontology definitions)
+└── _payload-flow/                  ← node flow (ontology definitions)
     ├── _current/           ← flow snapshot (in this case, probably )
     ├── _next/           ← flow snapshot
     ├── _v1/           ← flow snapshot

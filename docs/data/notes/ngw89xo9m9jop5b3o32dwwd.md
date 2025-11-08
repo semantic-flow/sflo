@@ -1,5 +1,5 @@
 
-In a filesystem-based structure like a [[concept.mesh]], you can't really prevent changes. But some things in a mesh should be treated as immutable, like [[resource.node-component.flow-snapshot.version]] and [[concept.identifier.intramesh]].
+In a filesystem-based structure like a [[concept.mesh]], you can't really prevent changes. But some things in a mesh should be treated as immutable, like [[mesh-resource.node-component.flow-snapshot.version]] and [[concept.identifier.intramesh]].
 
 **Pseudo-immutability** acknowledges that things might be changed, for various reasons:
 
@@ -8,13 +8,16 @@ In a filesystem-based structure like a [[concept.mesh]], you can't really preven
 - fixing of typos or other errors
 - re-organizing namespaces
 
-If you're updating a dataset, the principle of pseudo-immutability is preserved in that the old data can still exist and be discoverable from the metadata 
+Applications should deal gracefully, and optionally alert users to improperly mutated data. 
 
 
-**Psuedo-immutability** also acknowledges that for non-atomic data especially, "the next version" is going to keep changing until a checkout or "weave". And that sometime you want the "latest" data for a given resource, and without sophisticated database management (e.g., )
+**Pseudo-immutability** also acknowledges that:
+
+- for "draft data" especially, "the next version" is going to keep changing until a "weave" happens (i.e., a new version is minted). 
+- sometimes you want the "latest" data for a given resource. Typically, "current" would be a pointer, redirect, or symlink. But given our goal of static hosting, we've decided just to have duplicate files for the "current" flow and the "most recent version" flow. 
 
 
 ## Mitigations
 
-- metadata can track changes and supply reasons
-- tooling can be used to make changes in ways that don't break the API
+- metadata can track changes and supply reasons for mutation
+- hashes can be used to detect mutations

@@ -1,7 +1,15 @@
 
-## Definition
+**Bare nodes** are [[mesh-resource.node]]s that contain other mesh nodes. Their [[concept.identifier]]
 
-**Bare nodes** are [[resource.node]]s that function primarily as containers for other mesh nodes. They are physically represented by [[folder.namespace]].
+## Function
+
+- namespace extenders and perhaps organizational containers
+
+**Mandatory Components**: `_node-metadata-flow/` + `_node-handle/`
+**Optional Components**: [[mesh-resource.node-component.flow.node-config]], [[mesh-resource.node-component.documentation-resource]]
+
+
+They are physically represented by [[folder.node]].
 
 ## Purpose
 

@@ -1,0 +1,48 @@
+<h1 id="referent">Referent<a aria-hidden="true" class="anchor-heading icon-link" href="#referent"></a></h1>
+<h2 id="definition">Definition<a aria-hidden="true" class="anchor-heading icon-link" href="#definition"></a></h2>
+<p>The <em>referent</em> is the thing (real or imaginary) to which a <a href="/sflo/notes/mesh-resource">resource</a>’s <a href="/sflo/notes/identifier">identifier</a> <strong>refers</strong>. Every identifier <a href="/sflo/notes/denotation">denotes</a> its referent, </p>
+<h2 id="node-vs-referent">Node vs. referent<a aria-hidden="true" class="anchor-heading icon-link" href="#node-vs-referent"></a></h2>
+<ul>
+<li><strong>Referent</strong>: the subject that the node’s identifier names (a person, concept, event, dataset, etc.).</li>
+<li><strong>Node</strong>: the mesh construct that provides an identifier for and contains linked data about the referent. It also provides linked data about itself (as a node), and may contain other resources used for supporting <a href="/sflo/notes/semantic-flow-site">Semantic Flow site</a>s.</li>
+</ul>
+<p>To talk about the node itself, you use its <strong>node handle</strong> (e.g. published IRI <code>https://ns.example.org/persons/djradon/_node-handle</code> or mesh identifier <code>&#x3C;djradon/_node-handle></code>).</p>
+<p><strong>Where it’s described</strong></p>
+<ul>
+<li>The <strong>referent’s description</strong> lives in the node’s <a href="/sflo/notes/np4wrgk86b44hnlsjo964nz">reference flow</a>.</li>
+<li>The <strong>node’s own metadata and provenance</strong> live in the <strong><code>_node-*</code> flows</strong> (e.g. <code>_node-metadata-flow</code>, <code>_node-config-*</code>).</li>
+</ul>
+<p><strong>Special case: payload nodes</strong></p>
+<ul>
+<li>
+<p>In a <strong>payload node</strong>, the <strong>referent</strong> is not an external entity but an <strong>evolvable dataset</strong> contained in the node.</p>
+</li>
+<li>
+<p>The dataset evolves as versioned distributions inside the node’s <code>_payload-flow</code> (e.g. <code>v1/</code>, <code>v2/</code>, …).</p>
+</li>
+<li>
+<p>The <code>_reference-flow</code> may describe the dataset, e.g. its <strong>name, type, and provenance</strong>.</p>
+</li>
+<li>
+<p>Example:</p>
+<ul>
+<li>Node IRI: <code>https://ns.example.org/projects/atlas/</code></li>
+<li>Referent: <em>the Atlas dataset</em> (identified by the node IRI, evolving over time).</li>
+<li><code>_reference-flow</code>: declares it as a dataset, supplies label and attribution.</li>
+<li><code>_payload-flow</code>: provides concrete versions (<code>v1</code>, <code>v2</code>, …).</li>
+</ul>
+</li>
+</ul>
+<h2 id="why-referent-matters">Why referent matters<a aria-hidden="true" class="anchor-heading icon-link" href="#why-referent-matters"></a></h2>
+<p>Understanding what a IRI refers to is crucial for proper semantic web implementation. In the past, people have tried to use content IRIs to represent the things they refer to. A classic example is using <code>http://example.org/person.html</code> to identify a person, when it actually identifies an HTML document about the person. This conflation creates semantic ambiguity and breaks linked data principles.</p>
+<p>Semantic Flow enforces clear referent distinctions through IRI patterns: slash-terminated IRIs always refer to concepts or entities, while extension-terminated IRIs always refer to retrievable content. This prevents the classic "document vs thing" confusion that has plagued semantic web implementations.</p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/denotation">denotation</a></li>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/external-facet">external facet</a></li>
+<li><a href="/sflo/notes/internal-facet">internal facet</a></li>
+<li><a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a></li>
+<li><a href="/sflo/notes/bare-node">bare node</a></li>
+</ul>

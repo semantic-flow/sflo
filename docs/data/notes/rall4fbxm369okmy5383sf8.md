@@ -1,14 +1,20 @@
 
-- checks for required [[facet.system]] and creates them if missing
+## Functionality
+
+- checks for required [[facet.system]] folders and files and creates them if missing
 - optionally removes extraneous files, interactively if requested
 - for changed [[facet.user]] datasets (i.e., need version bump)
   - if versioning is on:
-    - creates a new [[resource.node-component.flow-snapshot.version]] 
+    - creates a new [[mesh-resource.node-component.flow-snapshot.version]] 
     - updates version metadata
   - regardless of whether versioning is on:
     - copies _next to _current
-    - updates _meta-flow with new version information
-- regenerates affected [[resource.node-component.documentation-resource.resource-page]]
+    - updates _node-metadata-flow with new version information
+- regenerates affected [[mesh-resource.node-component.documentation-resource.resource-page]]
+- ensure that [[folder.node]] are only contained in other [[folder.node]].
+- detect [[transpositions|principle.transposability]] and fix any 
+
+
 
 ```file
 /repo-root/
@@ -22,11 +28,11 @@
 │   │   ├── ontology.css
 │   │   └── person.css
 └── my-ontology/
-    ├── _config-flow              ← Node config (just syntax, etc.)
+    ├── _config-operational-flow  ← Node config
     ├── _assets/                  ← Optional node-specific assets
     │   ├── _templates/           ← Optional templates
     │   └── _css                  ← Optional css
-    └── _data-flow
+    └── _payload-flow
 ```
 
 ## Quirks
@@ -42,14 +48,9 @@
 This ensures that in published meshes and sites:
 
 - broken references are cleaned up
-- [[resource.node-component.flow-snapshot.current]] is identical to the latest version
+- [[mesh-resource.node-component.flow-snapshot.current]] is identical to the latest version
 
 ## Features
-
-### Verification
-
-- ensure that [[folder.node]] are only contained in other [[folder.node]].
-- detect [[principle.transposability]]
 
 ### Interactive Mode
 

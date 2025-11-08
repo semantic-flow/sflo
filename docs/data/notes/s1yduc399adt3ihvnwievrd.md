@@ -3,6 +3,7 @@ RDF supports different, confusingly-named approaches to resource referencing, ea
 
 
 ## TLDR: **Choosing between approaches:**
+
 - Use **relative-path relative IRIs** for maximum composability when embedding or importing meshes and submeshes
 - Use **absolute-path relative IRIs** for clearer namespace context and better support for moving submeshes within the same mesh hierarchy
 - Use **absolute IRIs** only for cross-mesh references
@@ -14,17 +15,23 @@ RDF supports different, confusingly-named approaches to resource referencing, ea
 
 Any IRI that has a scheme (e.g., http:) is an **Absolute IRI** 
 
-This example uses two absolute IRIs, each using the example.com authority:
+### Example
 
-```turtle
-# In ns/djradon/_ref-flow/_current/djradon_ref.trig
-<https://example.com/mesh/ns/djradon> a foaf:Person ;
-   rdfs:seeAlso <https://example.com/mesh/ns/djradon/index.html> .
+This example uses two absolute IRIs, one using the "ex:" prefix for the example.com authority:
+
+```ttl
+@prefix ex: <https://example.com/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# In ns/djradon/_reference-flow/_current/djradon_ref.trig
+ex:djradon a foaf:Person ;
+   rdfs:seeAlso ex:djradon/index.html .
 ```
 
 ### Pros
 
-- explicit 
+- explicit
   
 ### Cons
   
@@ -51,33 +58,35 @@ Any IRI that lacks a scheme (e.g., http:) is resolved against a base IRI followi
 If no base is specified, an inferred base of the requested scheme and authority is used. **This behaviour is essential to Semantic Flow [[Best Practices|guide.best-practices]].**
 
 
-### Absolute-Path Relative IRIs
+### Relative-Path Relative IRIs
 
-- maximum composability
+
 ```turtle
-# In ns/djradon/_ref/djradon_ref.trig
-<> a foaf:Person ;                    # The document itself
-   foaf:knows <../alice/> ;           # Another node in the mesh
-   rdfs:seeAlso <bio/bio.html> .   # A resource page
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# In ns/djradon/_reference-flow/_current/djradon_ref.trig
+<../../../djradon/> a foaf:Person ;          # The document itself
+   foaf:knows <../../alice/> ;           # A sibling node in the mesh
+   rdfs:seeAlso <../bio/bio.html> .      # A resource page contained in a "bio" node under ../../djradon/
 ```
 
 #### Pros
 
-
+- maximum composability
 
 #### Cons
 
-
+- `../../../` makes eyes swim
 
 ### Absolute-Path Relative IRIs
-
-- clearer context
-  - `../../../` makes eyes swim
-- good intra-mesh transposability
   
 ```turtle
-# In ns/djradon/_ref/djradon_ref.trig
-<> a foaf:Person ;
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# In ns/djradon/_reference-flow/_current/djradon_ref.trig
+</ns/djradon/> a foaf:Person ;
    foaf:knows </ns/alice/> ;          # Clear namespace context
    rdfs:seeAlso </ns/djradon/bio/bio.html> .
 ```
@@ -85,7 +94,10 @@ If no base is specified, an inferred base of the requested scheme and authority 
 
 #### Pros
 
+- clearer context
+- good intra-mesh transposability
 
 
 #### Cons
 
+- composability requires re-computing paths

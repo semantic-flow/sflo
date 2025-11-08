@@ -1,21 +1,31 @@
 
 __note: maybe we will do them, maybe we won't__
+ - t.2025.11.08.09 probably not. Better to go the other way: from a payload dataset, create all its named nodes and link back to the original; keeps things flow-y
+- probably won't do unified distributions except via API. 
 
-A node's **aggregated distribution** is a compilation of all the child data flows of its contained data nodes (their `_data-flow/_current/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
+A node's **aggregated distribution** is a compilation of all the child flows of itself and its contained nodes (their `_payload-flow/_current/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
 
-Both [[resource.node.bare]] and [[resource.node.reference.dataset]] can have aggregate distributions. data nodes include their own data in the aggregation.
+Essentially, it's a "(sub-)mesh in a single file." 
+
+Perhaps its only available via API. 
 
 ## Purpose
 
-Aggregated distributions enable **composable semantic data** by:
-- Combining contained nodes data into a single resource
+Aggregated distributions support [[principle.composability]] and [[principle.transposability]] by:
+- Combining contained nodes' data into a single resource
 - Supporting modular ontology and knowledge base construction
+
+## Issues
+
+config options
+- zipping/compression?
+- user data only, or include metadata/config
 
 ## Generation Process
 
 During [[concept.weave-process]], aggregated distributions are created by:
-1. **Scanning contained data nodes** recursively within the mesh structure
-2. **Collecting `_data-flow/_current/` distributions** from each flow
+1. **Scanning contained payload nodes** recursively within the mesh structure
+2. **Collecting `_payload-flow/_current/` distributions** from each flow
 3. **Merging content** with proper URI resolution and prefix handling
 4. **Excluding `_config` and `_meta` datasets** (data content only)
 5. **Generating multiple distributions** (.ttl, .rdf, .jsonld) as configured
@@ -28,10 +38,9 @@ During [[concept.weave-process]], aggregated distributions are created by:
 ├── my-ontology.ttl              ← Aggregated distribution
 ├── my-ontology.rdf              ← Aggregated distribution  
 ├── my-ontology.jsonld           ← Aggregated distribution
-├── components/
-│   ├── Person/                  ← data node (class definition)
-│   ├── hasName/                 ← data node (property definition)
-│   └── Organization/            ← data node (class definition)
+├── Person/                  ← payload node (class definition)
+├── hasName/                 ← payload node (property definition)
+└── Organization/            ← payload node (class definition)
 ```
 
 ### Knowledge Base
@@ -40,11 +49,11 @@ During [[concept.weave-process]], aggregated distributions are created by:
 ├── biotech-kb.ttl               ← Aggregated distribution
 ├── biotech-kb.jsonld            ← Aggregated distribution
 ├── companies/
-│   ├── genentech/               ← Company data node
-│   └── moderna/                 ← Company data node
+│   ├── genentech/               ← Company payload node
+│   └── moderna/                 ← Company payload node
 └── products/
-    ├── drug-x/                  ← Product data node
-    └── vaccine-y/               ← Product data node
+    ├── drug-x/                  ← Product payload node
+    └── vaccine-y/               ← Product payload node
 ```
 
 ## Technical Considerations
@@ -65,6 +74,6 @@ During [[concept.weave-process]], aggregated distributions are created by:
 
 ## Related Concepts
 
-- **[[resource.node-component.flow.data]]** - Source datasets for aggregation
+- **[[mesh-resource.node-component.flow.payload]]** - Source datasets for aggregation
 - **[[concept.weave-process]]** - Process that generates aggregated distributions
-- **[[resource.node-component.flow-snapshot]]** - Contains the actual distributions being aggregated
+- **[[mesh-resource.node-component.flow-snapshot]]** - Contains the actual distributions being aggregated

@@ -1,66 +1,51 @@
 <h1 id="mesh-node">mesh node<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-node"></a></h1>
 <h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
-<p>The primary constituents of a semantic mesh are <strong>mesh nodes</strong>. They are physically represented as <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">mesh folders</a> and establish a <a href="/sflo/notes/7qo569nzfk3l8yo1ah6erb2">namespace segments</a>.</p>
-<p>Mesh nodes are holonic containers that can contain other mesh nodes <a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node components</a>, distinguishing them from components which are terminal within their own scope.</p>
-<h2 id="physical-structure">Physical Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#physical-structure"></a></h2>
+<p>The primary constituents of a semantic mesh are <strong>mesh nodes</strong>. A node's IRI refers to the its referent, i.e. the real-world or imaginary "thing" which the IRI names.</p>
+<p>Nodes are represented "on disk" as <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">mesh folders</a>.</p>
+<p>Mesh nodes establish conceptual <a href="/sflo/notes/namespace-segment">namespace segments</a> and can be holonic containers of other mesh nodes. They may also contain <a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node components</a>, which are supporting files and conceptual structures.</p>
+<h2 id="node-types">Node Types<a aria-hidden="true" class="anchor-heading icon-link" href="#node-types"></a></h2>
+<ul>
+<li><a href="/sflo/notes/bare-node">bare node</a> : containers</li>
+<li><a href="/sflo/notes/bxqmsolrgfu4fm16m5acii7">reference node</a> : refering containers</li>
+<li><a href="/sflo/notes/payload-node">payload node</a> : dataset containers that refer to their datasets </li>
+</ul>
+<h2 id="filesystem-structure">Filesystem Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#filesystem-structure"></a></h2>
 <p>When stored on disk, all mesh nodes:</p>
 <ul>
-<li>Are physically represented as folders in the filesystem</li>
-<li>Extend the identifier namespace with their folder name</li>
-<li>Can be further extended by containing other mesh resources</li>
+<li>are physically represented as folders in the filesystem</li>
+<li>extend the identifier namespace with their folder name</li>
+<li>contain any of their own mesh resources</li>
+<li>may contain other nodes</li>
 </ul>
 <h2 id="mandatory-components">Mandatory Components<a aria-hidden="true" class="anchor-heading icon-link" href="#mandatory-components"></a></h2>
 <p>Every mesh node has these components:</p>
 <ul>
-<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></strong> (<a href="/sflo/notes/node-metadata-flow-folder">_node-metadata-flow folder</a>): Centralized metadata for the node</li>
+<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a></strong> (<a href="/sflo/notes/node-metadata-flow-folder">_node-metadata-flow folder</a>): Centralized metadata for the node</li>
 <li><strong><a href="/sflo/notes/wie8wazi0eoq81zke09czxk">node handle</a></strong> (<code>_node-handle/</code>): Universal marker folder that refers to the parent "as a mesh node", as opposed to "as the name, dataset, or other thing" to which it normally refers; a handle resource page should explain this distinction</li>
-</ul>
-<h2 id="optional-components">Optional Components<a aria-hidden="true" class="anchor-heading icon-link" href="#optional-components"></a></h2>
-<ul>
-<li></li>
-</ul>
-<h2 id="node-types">Node Types<a aria-hidden="true" class="anchor-heading icon-link" href="#node-types"></a></h2>
-<h3 id="1-bare-node">1. <a href="/sflo/notes/bare-node">bare node</a><a aria-hidden="true" class="anchor-heading icon-link" href="#1-bare-node"></a></h3>
-<p><strong>Components</strong>: <code>_meta-flow/</code> + <code>_node-handle/</code></p>
-<ul>
-<li>Functions as organizational containers</li>
-<li>Contains essential identity, metadata, and handle information</li>
-<li>Node IRI refers to the namespace itself</li>
-<li>Base level for all mesh nodes</li>
-</ul>
-<h3 id="2-data-node">2. <a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">data node</a><a aria-hidden="true" class="anchor-heading icon-link" href="#2-data-node"></a></h3>
-<p><strong>Components</strong>: <code>_meta-flow/</code> + <code>_node-handle/</code> + <code>_data-flow/</code></p>
-<ul>
-<li>Contains data distributions and versioning capabilities</li>
-<li>Node URL refers to the node’s referent (real-world entity or dataset concept) represented by the data flow</li>
-<li>Adds dataset storage to the namespace foundation</li>
-<li>Can be configured as <a href="/sflo/notes/tn4fb1v558dd7sh1r5ubh7n">dataset series</a></li>
-<li>Evolved from bare nodes by adding the <code>_data-flow/</code> component</li>
-<li>Maintains single referent principle</li>
 </ul>
 <hr>
 <strong>Children</strong>
 <ol>
 <li><a href="/sflo/notes/bare-node">bare node</a></li>
+<li><a href="/sflo/notes/payload-node">paylod node</a></li>
 <li><a href="/sflo/notes/bxqmsolrgfu4fm16m5acii7">reference node</a></li>
 </ol>
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/sflo/notes/xmdevh3s6gvp93m3nyc6683">mesh resource</a></li>
+<li><a href="/sflo/notes/mesh-resource">mesh resources</a></li>
 <li><a href="/sflo/notes/c4wo7mdjzcit2bmvqr5sx4u">mesh repo</a></li>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
-<li><a href="/sflo/notes/vhywrpw2eemb0kfaxa5xhdk">Namespace</a></li>
 <li><a href="/sflo/notes/llzh1jdoieldfpff4v3ealw">root node</a></li>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
-<li><a href="/sflo/notes/faq002">Why are there components at the top of a repo?</a></li>
-<li><a href="/sflo/notes/ragu0uc06vmiqvmn41r070e">namespace folder</a></li>
+<li><a href="/sflo/notes/why-are-there-components-at-the-top-of-a-repo">Why are there components at the top of a repo?</a></li>
 <li><a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a></li>
+<li><a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a></li>
 <li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a></li>
-<li><a href="/sflo/notes/4tjoosyylf6dpu1ylx565aw">node flow facet</a></li>
 <li><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a></li>
 <li><a href="/sflo/notes/node-flow">node flow</a></li>
 <li><a href="/sflo/notes/bare-node">bare node</a></li>
 <li><a href="/sflo/notes/bxqmsolrgfu4fm16m5acii7">reference node</a></li>
-<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></li>
+<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a></li>
+<li><a href="/sflo/notes/handle-resource-page">handle resource page</a></li>
 </ul>

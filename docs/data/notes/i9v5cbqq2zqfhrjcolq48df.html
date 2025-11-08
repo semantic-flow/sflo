@@ -1,0 +1,113 @@
+<h1 id="patterns">Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#patterns"></a></h1>
+<h1 id="development-patterns">Development Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#development-patterns"></a></h1>
+<p>This document captures recurring architectural and code patterns used throughout the Semantic Flow project.</p>
+<h2 id="architectural-patterns">Architectural Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#architectural-patterns"></a></h2>
+<h3 id="comunica-sparql-vs-quadstore-primitives-for-data-access">Comunica SPARQL vs Quadstore Primitives for data access<a aria-hidden="true" class="anchor-heading icon-link" href="#comunica-sparql-vs-quadstore-primitives-for-data-access"></a></h3>
+<p>Both can win. Pick by query shape.</p>
+<p>Use Quadstore primitives (<code>get</code>, <code>getStream</code>, <code>match</code>) when:</p>
+<ul>
+<li>One or two triple patterns with fixed IRIs/literals.</li>
+<li>You can drive lookups by known keys and stop early.</li>
+<li>You need strict control over streaming, batching, or a read-modify-write cycle.</li>
+<li>You want zero SPARQL parse/plan overhead.</li>
+</ul>
+<p>Use SPARQL via Comunica when:</p>
+<ul>
+<li>Three or more patterns with joins, OPTIONAL/UNION, FILTER, ORDER BY, GROUP BY, LIMIT.</li>
+<li>You’d benefit from join reordering, filter/projection pushdown, and early result streaming.</li>
+<li>You might federate later or swap sources without rewriting app code.</li>
+</ul>
+<p>Why primitives can be faster on “simple”:</p>
+<ul>
+<li>Direct index hits with no planner cost.</li>
+<li>Tight loops with <code>for await...of</code> and immediate early-exit.</li>
+<li>You can pre-narrow with exact keys or prefix scans and avoid any join at all.</li>
+</ul>
+<p>A practical split for internal data access:</p>
+<ul>
+<li>“Path to one thing” lookups (by IRI, by type, by id): primitives.</li>
+<li>Graph navigation with 3+ hops or any aggregation/sorting: SPARQL.</li>
+</ul>
+<p>Hybrid patterns that work well:</p>
+<ul>
+<li>Use primitives to fetch candidate IRIs, then pass them into a SPARQL <code>VALUES</code> clause.</li>
+<li>Pre-materialize small “views” (denormalized quads) you hit often, then query them with SPARQL.</li>
+<li>Keep SPARQL templates for common shapes; fall back to primitives for hot key-lookups.</li>
+</ul>
+<p>Implementation notes:</p>
+<ul>
+<li>Consume streams with <code>for await (const q of stream)</code>; await completion at the boundary with <code>stream/promises</code> <code>finished()</code> or <code>pipeline()</code>.</li>
+<li>Reuse a single Comunica engine instance to amortize init cost.</li>
+<li>With Quadstore, structure data so frequent lookups align with available index permutations; primitives shine when you can select by the leading fields.</li>
+</ul>
+<p>Rule of thumb:</p>
+<ul>
+<li>Simple, key-oriented, latency-sensitive ⇒ primitives.</li>
+<li>Anything with joins/options/ordering/aggregation ⇒ SPARQL.</li>
+</ul>
+<h3 id="stream-patterns">Stream Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#stream-patterns"></a></h3>
+<p>Use async/await for boundaries (start/finish), and use async iteration for the stream body.</p>
+<ul>
+<li>
+<p>Promises: use <code>await</code> for file I/O (<code>fs/promises</code>), HTTP fetches, initialization, and “collect-all” helpers that intentionally materialize results.</p>
+</li>
+<li>
+<p>Streaming RDF (RDF/JS, Comunica, rdf-parse/serialize, rdf-ext):</p>
+<ul>
+<li>
+<p>Prefer async iterators:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token comment">// quadStream implements AsyncIterable&#x3C;Quad></span>
+<span class="token keyword control-flow">for</span> <span class="token keyword control-flow">await</span> <span class="token punctuation">(</span><span class="token keyword">const</span> quad <span class="token keyword">of</span> quadStream<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// process quad</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This gives proper backpressure. Do not <code>.on('data', ...)</code> and <code>await</code> inside the handler.</p>
+</li>
+<li>
+<p>If a sink uses RDF/JS <code>Sink#import(source)</code>, await completion with Node’s stream utilities:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> finished <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'stream/promises'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> writer <span class="token operator">=</span> serializer<span class="token punctuation">.</span><span class="token keyword module">import</span><span class="token punctuation">(</span>quadStream<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// returns a Node stream</span>
+<span class="token keyword control-flow">await</span> <span class="token function">finished</span><span class="token punctuation">(</span>writer<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// resolves on 'finish' or rejects on error</span>
+</code></pre>
+</li>
+<li>
+<p>For stream pipelines, use <code>pipeline</code>:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> pipeline <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'stream/promises'</span><span class="token punctuation">;</span>
+
+<span class="token keyword control-flow">await</span> <span class="token function">pipeline</span><span class="token punctuation">(</span>sourceStream<span class="token punctuation">,</span> transformA<span class="token punctuation">,</span> transformB<span class="token punctuation">,</span> destStream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</li>
+<li>
+<p>Comunica result streams (bindings/quad streams) also support async iteration:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">const</span> <span class="token punctuation">{</span> data <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword control-flow">await</span> engine<span class="token punctuation">.</span><span class="token method function property-access">query</span><span class="token punctuation">(</span><span class="token string">'CONSTRUCT {...}'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> sources <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword control-flow">for</span> <span class="token keyword control-flow">await</span> <span class="token punctuation">(</span><span class="token keyword">const</span> quad <span class="token keyword">of</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Collecting small results only:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword module">import</span> <span class="token imports">arrayifyStream</span> <span class="token keyword module">from</span> <span class="token string">'arrayify-stream'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> quads <span class="token operator">=</span> <span class="token keyword control-flow">await</span> <span class="token function">arrayifyStream</span><span class="token punctuation">(</span>quadStream<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// OK for small datasets</span>
+</code></pre>
+<p>Avoid this for large data.</p>
+</li>
+<li>
+<p>Writing to stores:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token comment">// RDF/JS store that exposes import()</span>
+<span class="token keyword">const</span> importing <span class="token operator">=</span> store<span class="token punctuation">.</span><span class="token keyword module">import</span><span class="token punctuation">(</span>quadStream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword control-flow">await</span> <span class="token function">finished</span><span class="token punctuation">(</span>importing<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</li>
+</ul>
+<p>Rule of thumb to include:
+Use <code>await</code> for Promises and stream completion. Use <code>for await...of</code> to consume streaming RDF. Avoid <code>await</code> inside <code>'data'</code> listeners and avoid buffering everything unless you explicitly need it.</p>
+<h3 id="error-handling-and-logging-system-patterns">Error Handling and Logging System Patterns<a aria-hidden="true" class="anchor-heading icon-link" href="#error-handling-and-logging-system-patterns"></a></h3>
+<p>see <a href="/sflo/notes/ewpjwhqsry5j49gdfj9xd0b">Logging and Error Handling</a></p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/xqjr13fyons9goxv8rjrskj">Todo</a></li>
+<li><a href="/sflo/notes/g97elh6q5bszy2c74gsmuqk">2025 11 03 Optimizing for Agents</a></li>
+</ul>

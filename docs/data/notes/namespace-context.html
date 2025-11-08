@@ -1,0 +1,30 @@
+<h1 id="namespace-context">namespace context<a aria-hidden="true" class="anchor-heading icon-link" href="#namespace-context"></a></h1>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>The <strong>namespace context</strong> is the URL under which a <a href="/sflo/notes/semantic-flow-site">Semantic Flow site</a> publishes all mesh identifiers. It "contains" the mesh and so is outside the mesh’s namespace. It is determined by the hosting platform.</p>
+<p>Sites have a namespace context that starts with <code>http://</code> or <code>https://</code>.</p>
+<p>Filesystem-based meshes have a namespace context that starts with <code>file://</code>.</p>
+<p>The context is a deployment concern; a <a href="/sflo/notes/rall4fbxm369okmy5383sf8">woven</a> mesh should be valid regardless of where it is served.</p>
+<h2 id="platform-mappings">Platform mappings<a aria-hidden="true" class="anchor-heading icon-link" href="#platform-mappings"></a></h2>
+<h3 id="github-pages">GitHub Pages<a aria-hidden="true" class="anchor-heading icon-link" href="#github-pages"></a></h3>
+<ul>
+<li>User/Org site:
+<ul>
+<li>namespace context: <code>https://org.github.io/</code></li>
+<li>Mesh namespace <code>/ns/people/alice/</code> publishes at <code>https://org.github.io/ns/people/alice/</code></li>
+</ul>
+</li>
+<li>Project site context:
+<ul>
+<li><code>https://org.github.io/repo/</code></li>
+<li>Mesh path <code>/ns/people/alice/</code> publishes at <code>https://org.github.io/repo/ns/people/alice/</code></li>
+</ul>
+</li>
+</ul>
+<p>These mappings can be accomplished with both <a href="/sflo/notes/c4wo7mdjzcit2bmvqr5sx4u">mesh repo</a>s and <a href="/sflo/notes/embedded-mesh">embedded mesh</a></p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/namespace">Namespace</a></li>
+<li><a href="/sflo/notes/transposability">transposability</a></li>
+<li><a href="/sflo/notes/h399p5bkq2p6736uh9s7jn0">namespace root</a></li>
+</ul>

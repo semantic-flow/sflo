@@ -5,8 +5,8 @@ This page is the canonical list; see the linked docs for behavior and details.
 
 ## Flows (abstract/series)
 
-- [[_meta-flow/|folder._node-metadata-flow]]
-- [[_data-flow/|folder._data-flow]]
+- [[_node-metadata-flow/|folder._node-metadata-flow]]
+- [[_dataset-flow/|folder._dataset-flow]]
 - [[_config-operational-flow/|folder._config-operational-flow]]
 - [[_config-inheritable-flow/|folder._config-inheritable-flow]]
 
@@ -21,4 +21,4 @@ This page is the canonical list; see the linked docs for behavior and details.
 - [[_node-handle/|folder._node-handle]]
 - [[_assets/|folder._assets]]
 
-For URL semantics: see [[concept.identifier]]. For namespace background: see [[concept.namespace]] and [[concept.namespace.segment]].
+For IRI semantics: see [[concept.identifier]]. For namespace background: see [[concept.namespace]] and [[concept.namespace.segment]].

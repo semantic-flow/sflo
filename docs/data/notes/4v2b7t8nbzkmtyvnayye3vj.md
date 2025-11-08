@@ -12,7 +12,7 @@
 ### Version Snapshot Provenance
 
 ```turtle
-# In my-dataset/_meta-flow/_v47/my-dataset_meta.trig
+# In my-dataset/_node-metadata-flow/_v47/my-dataset_meta.trig
 @base <../_v47/> .
 
 # Weave activity with PROV standard properties
@@ -55,7 +55,7 @@
 ### Current Snapshot Copy
 
 ```turtle
-# In my-dataset/_meta-flow/_current/my-dataset_meta.trig
+# In my-dataset/_node-metadata-flow/_current/my-dataset_meta.trig
 @base <../_v47/> .
 
 # Identical content to version snapshot - all URIs resolve to stable version
@@ -67,15 +67,15 @@
 For flows without versioning, activities accumulate in `_next` with unique timestamps:
 
 ```turtle
-# In my-dataset/_meta-flow/_next/my-dataset_meta.trig
+# In my-dataset/_node-metadata-flow/_next/my-dataset_meta.trig
 :dataActivity_2025-07-20_14-30 a meta:DataWeave ;
     prov:startedAtTime "2025-07-20T14:30:00Z" ;
-    prov:generated <../../_data-flow/_current/data.trig> .
+    prov:generated <../../_payload-flow/_current/data.trig> .
 
 :dataActivity_2025-07-20_16-45 a meta:DataWeave ;
     prov:startedAtTime "2025-07-20T16:45:00Z" ;
-    prov:used <../../_data-flow/_current/data.trig> ;
-    prov:generated <../../_data-flow/_current/data.trig> .
+    prov:used <../../_payload-flow/_current/data.trig> ;
+    prov:generated <../../_payload-flow/_current/data.trig> .
 ```
 
 ## Key Components
@@ -124,16 +124,16 @@ The structure is as follows:
 
 -   **`{flow-slug}`**: The slug of the flow this provenance describes (e.g., `config-flow`, `data-flow`). This provides the primary namespace for the identifier.
 -   **`{version}`**: The version of the snapshot (e.g., `v47`). This scopes the provenance to a specific point in time.
--   **`{entity-type}`**: The type of the entity, using a consistent camelCase or kebab-case convention (e.g., `activity`, `context`, `delegationChain`, `delegationStep`).
+-   **`{entity-type}`**: The class of the entity, using a consistent UpperCamelCase (e.g., `Activity`, `Context`, `DelegationChain`, `DelegationStep`).
 -   **`{unique-part}`**: (Optional) A unique suffix, such as a step number or a timestamp, used when multiple entities of the same type exist for the same flow and version.
 
 ### Example
 
 For a `config-flow` at version `v47`, the identifiers would be:
 
--   **Activity**: `<#config-flow-v47-activity>`
--   **Provenance Context**: `<#config-flow-v47-context>`
--   **Delegation Chain**: `<#config-flow-v47-delegationChain>`
+-   **Activity**: `<#config-flow-v47-Activity>`
+-   **Provenance Context**: `<#config-flow-v47-Context>`
+-   **Delegation Chain**: `<#config-flow-v47-DelegationChain>`
 -   **Delegation Steps**:
-    -   `<#config-flow-v47-delegationStep-1>`
-    -   `<#config-flow-v47-delegationStep-2>`
+    -   `<#config-flow-v47-DelegationStep-1>`
+    -   `<#config-flow-v47-DelegationStep-2>`

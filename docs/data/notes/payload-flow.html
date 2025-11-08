@@ -1,0 +1,62 @@
+<h1 id="payload-flow">payload flow<a aria-hidden="true" class="anchor-heading icon-link" href="#payload-flow"></a></h1>
+<p><strong>payload flows</strong> provide versionable data storage functionality within the semantic mesh architecture. </p>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>A payload flow (formerly called a <strong>dataset</strong> flow) is a series of RDF datasets. Like all flows, each payload flow has snapshots (_current/, _next/, _vN/) that track its evolution over time. </p>
+<p>payload flows are distinct from <a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a>s, which are usually managed by the platform and describe the mesh node itself and its components.</p>
+<h2 id="purpose">Purpose<a aria-hidden="true" class="anchor-heading icon-link" href="#purpose"></a></h2>
+<p>payload flows serve as the primary content containers for <a href="/sflo/notes/payload-node">paylod node</a>, providing:</p>
+<ul>
+<li><strong>Content Storage</strong>: Hold the actual dataset payload that defines the node's content</li>
+<li><strong>History</strong>: Support multiple versions (snapshots) of the same conceptual dataset</li>
+<li><strong>Format Diversity</strong>: Provide multiple format distributions (TTL, JSON-LD, etc.)</li>
+<li><strong>State Management</strong>: Track current, draft, and versioned states of data</li>
+</ul>
+<h2 id="structure">Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#structure"></a></h2>
+<p>payload flows organize content through <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshots</a>:</p>
+<ul>
+<li><code>_current/</code> - Current stable version of the dataset</li>
+<li><code>_next/</code> - Draft/work-in-progress version</li>
+<li><code>_v1/</code>, <code>_v2/</code>, etc. - Versioned snapshots for historical access</li>
+</ul>
+<p>Like all <a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a>, they should contain an <code>index.html</code> <a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a> -- a human-readable description for the flow.</p>
+<h2 id="distribution-formats">Distribution Formats<a aria-hidden="true" class="anchor-heading icon-link" href="#distribution-formats"></a></h2>
+<p>Each <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a> typically provides multiple format distributions:</p>
+<ul>
+<li><strong>Trig (.trig)</strong>: Primary RDF serialization</li>
+<li><strong>JSON-LD (.jsonld)</strong>: JSON-compatible linked data</li>
+<li><strong>RDF/XML (.xml or .trix)</strong>: XML-based RDF serialization</li>
+<li><strong>N-Quads (.nq)</strong>: Line-based RDF format</li>
+</ul>
+<h2 id="example">Example<a aria-hidden="true" class="anchor-heading icon-link" href="#example"></a></h2>
+<p>From the <a href="/sflo/notes/s5ild34tbe4w2wt4m8ldllg">semantic mesh example</a>:</p>
+<pre><code>/test-ns/djradon-bio/_payload-flow          # payload flow
+├── _current/                        # current snapshot
+│   ├── djradon-bio.ttl             # turtle distribution
+│   ├── djradon-bio.jsonld          # json-ld distribution
+│   └── index.html                  # snapshot interface
+├── _next/                          # draft snapshot
+│   ├── djradon-bio.ttl             # draft turtle
+│   ├── djradon-bio.jsonld          # draft json-ld
+│   └── index.html                  # snapshot interface
+└── index.html                      # resource page
+</code></pre>
+<h2 id="integration">Integration<a aria-hidden="true" class="anchor-heading icon-link" href="#integration"></a></h2>
+<p>payload flows integrate with other mesh components:</p>
+<ul>
+<li><strong>metapayload flows</strong>: Provide provenance and management data</li>
+<li><strong>Asset Trees</strong>: Store associated files and media</li>
+<li><strong>Resource Pages</strong>: Provide human-readable interfaces</li>
+</ul>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/osqi7xn4mw3j9v0kvsoc5uo">Why Dont payload nodes Contain Distributions Directly</a></li>
+<li><a href="/sflo/notes/4cfum6mrz7w7prcmytk4v5x">payload flow folder</a></li>
+<li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a></li>
+<li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
+<li><a href="/sflo/notes/node-flow">node flow</a></li>
+<li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distribution</a></li>
+<li><a href="/sflo/notes/payload-node">paylod node</a></li>
+</ul>

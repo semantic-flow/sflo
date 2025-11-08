@@ -1,2 +1,2 @@
 
-The filesystem folder of a [[resource.node-component.flow.data]] dataset
+The filesystem folder of a [[mesh-resource.node-component.flow.payload]] dataset

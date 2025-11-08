@@ -7,15 +7,21 @@
 <li>fixing of typos or other errors</li>
 <li>re-organizing namespaces</li>
 </ul>
-<p>If you're updating a dataset, the principle of pseudo-immutability is preserved in that the old data can still exist and be discoverable from the metadata </p>
-<p><strong>Psuedo-immutability</strong> also acknowledges that for non-atomic data especially, "the next version" is going to keep changing until a checkout or "weave". And that sometime you want the "latest" data for a given resource, and without sophisticated database management (e.g., )</p>
+<p>Applications should deal gracefully, and optionally alert users to improperly mutated data. </p>
+<p><strong>Pseudo-immutability</strong> also acknowledges that:</p>
+<ul>
+<li>for "draft data" especially, "the next version" is going to keep changing until a "weave" happens (i.e., a new version is minted). </li>
+<li>sometimes you want the "latest" data for a given resource. Typically, "current" would be a pointer, redirect, or symlink. But given our goal of static hosting, we've decided just to have duplicate files for the "current" flow and the "most recent version" flow. </li>
+</ul>
 <h2 id="mitigations">Mitigations<a aria-hidden="true" class="anchor-heading icon-link" href="#mitigations"></a></h2>
 <ul>
-<li>metadata can track changes and supply reasons</li>
-<li>tooling can be used to make changes in ways that don't break the API</li>
+<li>metadata can track changes and supply reasons for mutation</li>
+<li>hashes can be used to detect mutations</li>
 </ul>
 <hr>
 <strong>Backlinks</strong>
 <ul>
+<li><a href="/sflo/notes/q4jqx5qr6hbp6fo3pfvh042">Immutability</a></li>
+<li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
 </ul>

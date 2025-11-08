@@ -1,6 +1,7 @@
 <h1 id="weave-process">Weave Process<a aria-hidden="true" class="anchor-heading icon-link" href="#weave-process"></a></h1>
+<h2 id="functionality">Functionality<a aria-hidden="true" class="anchor-heading icon-link" href="#functionality"></a></h2>
 <ul>
-<li>checks for required <a href="/sflo/notes/system-facet">system facet</a> and creates them if missing</li>
+<li>checks for required <a href="/sflo/notes/system-facet">system facet</a> folders and files and creates them if missing</li>
 <li>optionally removes extraneous files, interactively if requested</li>
 <li>for changed <a href="/sflo/notes/user-facet">user facet</a> datasets (i.e., need version bump)
 <ul>
@@ -13,12 +14,14 @@
 <li>regardless of whether versioning is on:
 <ul>
 <li>copies _next to _current</li>
-<li>updates _meta-flow with new version information</li>
+<li>updates _node-metadata-flow with new version information</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>regenerates affected <a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a></li>
+<li>ensure that <a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a> are only contained in other <a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a>.</li>
+<li>detect <a href="/sflo/notes/transposability">transpositions</a> and fix any </li>
 </ul>
 <pre class="language-file"><code class="language-file">/repo-root/
 ├── _assets/
@@ -31,11 +34,11 @@
 │   │   ├── ontology.css
 │   │   └── person.css
 └── my-ontology/
-    ├── _config-flow              ← Node config (just syntax, etc.)
+    ├── _config-operational-flow  ← Node config
     ├── _assets/                  ← Optional node-specific assets
     │   ├── _templates/           ← Optional templates
     │   └── _css                  ← Optional css
-    └── _data-flow
+    └── _payload-flow
 </code></pre>
 <h2 id="quirks">Quirks<a aria-hidden="true" class="anchor-heading icon-link" href="#quirks"></a></h2>
 <ul>
@@ -54,11 +57,6 @@
 <li><a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a> is identical to the latest version</li>
 </ul>
 <h2 id="features">Features<a aria-hidden="true" class="anchor-heading icon-link" href="#features"></a></h2>
-<h3 id="verification">Verification<a aria-hidden="true" class="anchor-heading icon-link" href="#verification"></a></h3>
-<ul>
-<li>ensure that <a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a> are only contained in other <a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a>.</li>
-<li>detect <a href="/sflo/notes/principle-transposability">transposability</a></li>
-</ul>
 <h3 id="interactive-mode">Interactive Mode<a aria-hidden="true" class="anchor-heading icon-link" href="#interactive-mode"></a></h3>
 <ul>
 <li>to encourage data quality, the weave process can include an interactive mode, or modes. Perhaps one mode is naive, like "step through every bit of metadata" or "review every inferred metadata item", but you could have an AI-driven mode that optimizes for importance, identifying possible errors based on usage, etc.</li>
@@ -91,11 +89,19 @@
 <p>For contained nodes mentioned in config flows, any references ideally point to the appropriate version snapshot. If there's inconsistency during concurrent operations, it's temporary and resolves when operations complete (.7).</p>
 <p>This seems like the right balance between consistency guarantees and implementation complexity for the mesh architecture. We can always add more sophisticated coordination later if specific use cases demand it.</p>
 <hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/resource-page-generation">static site generation</a></li>
+</ol>
+<hr>
 <strong>Backlinks</strong>
 <ul>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/tudefgmmf2pdx28zb9xs84j">Product Brief</a></li>
+<li><a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a></li>
 <li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a></li>
+<li><a href="/sflo/notes/namespace-context">namespace context</a></li>
 <li><a href="/sflo/notes/mjrp94i4d65x6ypgdd2ki0v">unversioned flow facet</a></li>
 <li><a href="/sflo/notes/j15tveot7ja8tmxy7vvmpjz">v-series flow facet</a></li>
 <li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>

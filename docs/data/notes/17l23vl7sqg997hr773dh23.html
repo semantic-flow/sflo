@@ -1,35 +1,56 @@
 <h1 id="intramesh-identifier">intramesh identifier<a aria-hidden="true" class="anchor-heading icon-link" href="#intramesh-identifier"></a></h1>
-<p>Intramesh identifiers are like base-relative URIs (i.e., without the scheme, e.g., https:// or file://) except may not include fragments (#) or query separators (?). They correspond to the filesystem location of their corresponding resources. Intramesh identifiers are recorded within distributions and, where configuration is needed, under the node’s operational config flow. Paths are always resolved relative to the distribution file that declares them.</p>
-<p>If it starts with a <code>../</code> it refers to the parent, <code>../../</code> refers to the grandparent, etc.</p>
-<h2 id="identifier-semantics">Identifier Semantics<a aria-hidden="true" class="anchor-heading icon-link" href="#identifier-semantics"></a></h2>
-<p>Identifiers have the same semantics as <a href="/sflo/notes/concept-identifier">identifier</a></p>
-<h2 id="identifier-name-limitations">Identifier Name Limitations<a aria-hidden="true" class="anchor-heading icon-link" href="#identifier-name-limitations"></a></h2>
+<p>An <strong>intramesh identifier</strong> is a esentially a relative <a href="/sflo/notes/onheps7i79fvmzgfnm11phw">IRI</a> (i.e., without the scheme, e.g., https:// or file://) except that they should correspond to an existing <a href="/sflo/notes/mesh-resource">mesh resources</a>, i.e. <a href="/sflo/notes/x5zwfsdfzap0c5843n5a1fh">Dereferencability for Humans</a></p>
+<p>There are two types of intramesh identifiers: <a href="/sflo/notes/relative-identifier">relative identifier</a> and <a href="/sflo/notes/odx9stmmni6ux1bopun884d">absolute</a></p>
+<h2 id="syntax">Syntax<a aria-hidden="true" class="anchor-heading icon-link" href="#syntax"></a></h2>
+<p>Like IRIs:</p>
 <ul>
-<li>initial underscores prefix all reserved dataset identifiers and should be avoided in general
-<blockquote>
-No note with name sflo found in cache during parsing.
-</blockquote> </li>
+<li>Written without a scheme (e.g., no <code>https://</code> or <code>file://</code>).</li>
+<li>May use path segments (<code>../</code>, <code>/foo/bar</code>) </li>
+<li>May use fragment identifiers (<code>#</code>)</li>
 </ul>
-<h2 id="examples">Examples<a aria-hidden="true" class="anchor-heading icon-link" href="#examples"></a></h2>
-<p>Directory structure: node/flow/snapshot/distribution.trig</p>
-<p>Operational config example: <code>my-dataset/_config-operational-flow/_current/config.trig</code><br>
-Inheritable config example: <code>my-dataset/_config-inheritable-flow/_current/config.trig</code><br>
-Meta-flow example: <code>my-dataset/_meta-flow/_current/meta.trig</code></p>
-<p>Intramesh identifiers from meta-flow distributions:</p>
+<p>Unlike IRIs:</p>
+<ul>
+<li><strong>Must not</strong> contain queries (<code>?</code>).</li>
+<li></li>
+</ul>
+<h2 id="semantics">Semantics<a aria-hidden="true" class="anchor-heading icon-link" href="#semantics"></a></h2>
+<ul>
+<li>Same as IRIs in RDF: they <a href="/sflo/notes/denotation">denote</a> things (aka <a href="/sflo/notes/referent">Referent</a>) which may be mesh resources or “things in the world”.
+<ul>
+<li>Fragments behave the same as in IRIs: they refine the primary denotation.</li>
+</ul>
+</li>
+</ul>
+<h2 id="purpose">Purpose<a aria-hidden="true" class="anchor-heading icon-link" href="#purpose"></a></h2>
+<ul>
+<li>locate <a href="/sflo/notes/mesh-resource">mesh resources</a>s (when used in a filesystem or web site context)</li>
+<li>denote a <a href="/sflo/notes/referent">Referent</a>, either <a href="/sflo/notes/internal-facet">internal</a> or <a href="/sflo/notes/external-facet">external</a></li>
+</ul>
+<h2 id="identifier-name-limitations-for-users">Identifier Name Limitations for Users<a aria-hidden="true" class="anchor-heading icon-link" href="#identifier-name-limitations-for-users"></a></h2>
+<ul>
+<li>initial underscores prefix all <a href="/sflo/notes/system-facet">system facet</a> identifiers and should be avoided in general for <a href="/sflo/notes/user-facet">user facet</a> identifiers</li>
+</ul>
+<h2 id="distribution-relativity">Distribution Relativity<a aria-hidden="true" class="anchor-heading icon-link" href="#distribution-relativity"></a></h2>
+<h3 id="examples">Examples<a aria-hidden="true" class="anchor-heading icon-link" href="#examples"></a></h3>
 <p>Node self-reference: <code>"../../../my-dataset"</code><br>
-Other flows: <code>"../../_config-operational-flow/_current/config.trig"</code>, <code>"../../_config-inheritable-flow/_current/config.trig"</code>, <code>"../../_data-flow/_current/data.jsonld"</code><br>
+Other flows: <code>"../../_config-operational-flow/_current/config.trig"</code>, <code>"../../_config-inheritable-flow/_current/config.trig"</code>, <code>"../../_dataset-flow/_current/data.jsonld"</code><br>
 Components in other flows: Same pattern, just different flow names</p>
+<hr>
+<strong>Children</strong>
+<ol>
+<li><a href="/sflo/notes/odx9stmmni6ux1bopun884d">absolute</a></li>
+<li><a href="/sflo/notes/relative-identifier">relative identifier</a></li>
+</ol>
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/sflo/notes/xmdevh3s6gvp93m3nyc6683">mesh resource</a></li>
-<li><a href="/sflo/notes/concept-identifier">identifier</a></li>
+<li><a href="/sflo/notes/mesh-resource">mesh resources</a></li>
+<li><a href="/sflo/notes/identifier">identifier</a></li>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
-<li><a href="/sflo/notes/vhywrpw2eemb0kfaxa5xhdk">Namespace</a></li>
-<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
+<li><a href="/sflo/notes/namespace">Namespace</a></li>
 <li><a href="/sflo/notes/ngw89xo9m9jop5b3o32dwwd">pseudo-immutability</a></li>
-<li><a href="/sflo/notes/7qo569nzfk3l8yo1ah6erb2">Namespace Segment</a></li>
+<li><a href="/sflo/notes/transposability">transposability</a></li>
+<li><a href="/sflo/notes/namespace-segment">namespace segment</a></li>
 <li><a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
 <li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset facet</a></li>
-<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">dataset reference nodes</a></li>
 </ul>

@@ -1,5 +1,5 @@
 
-If you put any [[resource]]'s URL in a browser, it should return some useful context. 
+If you put any [[mesh-resource]]'s IRI in a browser, it should return some useful context. 
 
  
 

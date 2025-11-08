@@ -1,21 +1,21 @@
 
 ## Definition
 
-A node folder is any folder that maps to a mesh node. Each node folder extends the namespace with its name and has a concept URL that refers to something. 
+A node folder is any folder that maps to a [[mesh-resource.node]]. Each node folder extends the namespace with its name and has a concept IRI that may refer to something. 
 
 - What a “namespace” is: see [[concept.namespace]]
-- General node types and anatomy: see [[resource.node]]
+- General node types and anatomy: see [[mesh-resource.node]]
 
 ## Minimal requirements
 
 - Every node folder must contain:
   - [[_node-handle/|folder._node-handle]]
-  - [[_meta-flow/|folder._node-metadata-flow]]
+  - [[_node-metadata-flow/|folder._node-metadata-flow]]
 
 ## Node-specific flows (by type)
 
-- [[bare node|resource.node.bare]]: no additional flows 
-- [[data node|resource.node.reference.dataset]]: requires [[_data-flow/|folder._data-flow]]
+- [[bare node|mesh-resource.node.bare]]: no additional flows 
+- [[dataset node|mesh-resource.node.payload]]: requires [[_dataset-flow/|folder._dataset-flow]]
 
 Distributions must live inside flow snapshot folders (e.g., `_current/`, `_vN/`). See [[resource.node-component.flow]] and [[resource.node-component.flow-snapshot]].
 
@@ -24,5 +24,5 @@ Distributions must live inside flow snapshot folders (e.g., `_current/`, `_vN/`)
 ```file
 /my-node/                     # node folder → https://ex.org/my-node/
 ├── _node-handle/             # required
-├── _meta-flow/               # required
-└── _data-flow/               # required for data nodes
+├── _node-metadata-flow/               # required
+└── _dataset-flow/               # required for dataset nodes

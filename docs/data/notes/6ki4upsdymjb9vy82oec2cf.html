@@ -1,22 +1,23 @@
 <h1 id="dataset-facet">dataset facet<a aria-hidden="true" class="anchor-heading icon-link" href="#dataset-facet"></a></h1>
 <p>In the RDF universe, a dataset is a collection of one or more RDF graphs.</p>
-<p>In a <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a>, there are three (okay, maybe 2.5) kinds of datasets:</p>
+<p>In a <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a>, there are two kinds of datasets:</p>
 <ul>
-<li>
-<p><a href="/sflo/notes/node-flow">node flow</a>s are dcat:DatasetSeries (which are also dcat:Dataset) and represent an "abstract dataset": they don't have distributions of their own. The node's <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> contains metadata about the node and its flows, not the flows' data; flow data is only materialized in <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a> distributions.</p>
-</li>
-<li>
-<p><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a>s are dcat:Dataset and represent a "concrete dataset": they have one or more <a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distributions</a>. </p>
-</li>
-<li>
-<p><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">dataset reference nodes</a> contain a payload dataset and their <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a> refer to that payload dataset in the abstract. The dataset is still contained in a particular kind of <a href="/sflo/notes/node-flow">node flow</a>, i.e., a <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a>. But the flow's identifier refers to a particular flow, whereas the node identifier will become the canonical IRI of the dataset (on <a href="/sflo/notes/rxo5ieolun175zmjncj94ft">Publication</a>).</p>
+<li><a href="/sflo/notes/node-flow">node flow</a>s are dcat:DatasetSeries (which are also dcat:Dataset) and represent an "abstract dataset": they don't have concrete distributions of their own. 
 <ul>
-<li>in the case of <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a>, they can store their Dataset metadata in the dataset itself, or in their <a href="/sflo/notes/np4wrgk86b44hnlsjo964nz">reference flow</a>, or both.</li>
+<li>Flow data is only materialized in <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a> distributions.</li>
+<li>Metadata about the various flows is consolidated in the node's <a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a> in the form of distributions.</li>
+<li><a href="/sflo/notes/payload-node">paylod node</a>s contain a "payload flow" and their <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a>s refer to that payload dataset in the abstract. The dataset is still contained in a particular kind of <a href="/sflo/notes/node-flow">node flow</a>, i.e., a <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">mesh-resource.node-component.flow.dataset (Private)</a>. But the flow's identifier refers to a particular flow, whereas the node identifier will become the canonical IRI of the dataset (on <a href="/sflo/notes/publication">publication</a>).
+<ul>
+<li>in the case of <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">mesh-resource.node-component.flow.dataset (Private)</a>, they can store their Dataset metadata in the dataset itself, or in their <a href="/sflo/notes/np4wrgk86b44hnlsjo964nz">reference flow</a>, or both.</li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a>s are dcat:Dataset and represent a specific version of their abstract datasets; they have one or more <a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distributions</a>. </li>
 </ul>
 <hr>
 <strong>Backlinks</strong>
 <ul>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
+<li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
 </ul>

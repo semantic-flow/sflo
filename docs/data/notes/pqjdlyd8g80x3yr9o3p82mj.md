@@ -11,20 +11,20 @@ Node configuration determines:
 
 Node configuration is held in memory by the [[flow service|sflo.product.service]], and is calculated when the service starts.
 
-Node configuration is at least partially determined by "config specification", which happens in [[resource.node-component.flow.node-config]] and can be inherited to contained nodes.
+Node configuration is at least partially determined by "config specification", which happens in [[mesh-resource.node-component.flow.node-config]] and can be inherited to contained nodes.
 
 If config specification is missing, (i.e., config spec inheritance is turned off or unspecified), node configuration will be determined from service-level config specification, i.e. [[product.service.config]]. In case there is none, the service will use sensible defaults at the root level which will be inherited down the mesh.
 
 ### Initial Config Specification
 
-- When a node is initially created, if config-defaults-inheritance is turned on for its parent node, it will have its [[resource.node-component.flow.node-config]] populated based on any parent [[resource.node-component.node-config-defaults]] files present in the hierarchy. If there are none, its [[resource.node-component.flow-snapshot.current]] will not be created.
+- When a node is initially created, if config-defaults-inheritance is turned on for its parent node, it will have its [[mesh-resource.node-component.flow.node-config]] populated based on any parent [[mesh-resource.node-component.node-config-defaults]] files present in the hierarchy. If there are none, its [[mesh-resource.node-component.flow-snapshot.current]] will not be created.
 
 ### Calculating Node Config
 
 When the [[product.sflo-host]] starts, it calculates non-default config settings for every node.
 
 - determines the "default" settings for this service instance from [[product.service.config]]
-- if the node has a [[resource.node-component.flow.node-config]] , the service will use any settings there that differ from its defaults
+- if the node has a [[mesh-resource.node-component.flow.node-config]] , the service will use any settings there that differ from its defaults
 - if config-inheritance is turned on for a node, the service will scan back up the hierarchy to compose any missing "non-default" settings
 -  the result is an in-memory "shadow mesh" known as the [[product.service.components.node-config-map]] containing any non-default settings for the mesh
 
@@ -41,6 +41,6 @@ Semantic Flow uses sensible defaults, specified in the so that neither node-leve
 - by default:
   - versioning is turned on for all flows
   - distribution syntaxes are .trig and jsonld
-  - resource pages are generated using a standard template and CSS file that get copied into a [[concept.mesh-repo]]'s root [[resource.node-component.asset-tree]] upon initialization
-  - [[resource.node-component.aggregated-distribution]] are not generated
+  - resource pages are generated using a standard template and CSS file that get copied into a [[concept.mesh-repo]]'s root [[mesh-resource.node-component.asset-tree]] upon initialization
+  - [[mesh-resource.node-component.aggregated-distribution]] are not generated
   - [[concept.mesh.resource.element.flow.unified]]

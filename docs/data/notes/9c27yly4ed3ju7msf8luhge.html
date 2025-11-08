@@ -26,7 +26,7 @@
 <p>System components are usually created or altered by the <a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a> process rather than direct user modification:</p>
 <p><strong>Folder-based system components:</strong></p>
 <ul>
-<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flows</a></strong>: Administrative and structural metadata for mesh nodes (in <code>_meta-flow/</code> folders)</li>
+<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadataset flows</a></strong>: Administrative and structural metadata for mesh nodes (in <code>_node-metadata-flow/</code> folders)</li>
 <li><strong><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></strong>: Versioned snapshots of datasets (in <code>_vN/</code> folders)</li>
 <li><strong><a href="/sflo/notes/wie8wazi0eoq81zke09czxk">Node handles</a></strong>: Components providing referential indirection for nodes as mesh resources (in <code>_node-handle/</code> folders)</li>
 </ul>
@@ -38,7 +38,7 @@
 <h2 id="physical-vs-logical-structure">Physical vs Logical Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#physical-vs-logical-structure"></a></h2>
 <p><strong>Physical Representation:</strong></p>
 <ul>
-<li>Folder-based components are represented as folders with underscore prefixes (like <code>_meta-flow/</code>, <code>_assets/</code>)</li>
+<li>Folder-based components are represented as folders with underscore prefixes (like <code>_node-metadata-flow/</code>, <code>_assets/</code>)</li>
 <li>File-based components are individual files within mesh nodes or other components</li>
 <li>Component folders contain all files and folders that belong to that component</li>
 </ul>
@@ -51,8 +51,8 @@
 <h2 id="integration-with-nodes">Integration with Nodes<a aria-hidden="true" class="anchor-heading icon-link" href="#integration-with-nodes"></a></h2>
 <p>Components work in conjunction with mesh nodes to create the complete mesh structure:</p>
 <ul>
-<li>Every mesh node contains at least two components: metadata flows and node handles</li>
-<li>data nodes contain a single <a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> </li>
+<li>Every mesh node contains at least two components: metadataset flows and node handles</li>
+<li>dataset nodes contain a single <a href="/sflo/notes/payload-flow">payload flow</a> </li>
 <li>Any node may contain asset trees (user components) for file attachments</li>
 </ul>
 <hr>
@@ -71,9 +71,10 @@
 <strong>Backlinks</strong>
 <ul>
 <li><a href="/sflo/notes/p0vd6xnshcxw14ztkglxyxn">Concepts</a></li>
-<li><a href="/sflo/notes/xmdevh3s6gvp93m3nyc6683">mesh resource</a></li>
+<li><a href="/sflo/notes/mesh-resource">mesh resources</a></li>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
-<li><a href="/sflo/notes/faq002">Why are there components at the top of a repo?</a></li>
+<li><a href="/sflo/notes/internal-facet">internal facet</a></li>
+<li><a href="/sflo/notes/why-are-there-components-at-the-top-of-a-repo">Why are there components at the top of a repo?</a></li>
 <li><a href="/sflo/notes/mesh-node">mesh node</a></li>
 </ul>

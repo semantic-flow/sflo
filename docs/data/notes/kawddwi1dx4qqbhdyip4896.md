@@ -7,21 +7,23 @@ Publishing them as plain-text might be adequate for this situation, but say he e
 
 But to get started:
 
-* A **namespace** `/test-ns/`
+* A **namespace** `/ns/`
 * A **thing** `/ns/djradon/`
 * A **dataset** `/ns/djradon/picks/`
+
+See [[Example Mesh|concept.mesh#example-mesh]] for a mapping of resources types
 
 #### Mesh Directory Structure
 
 ```file
 test-ns                    # bare node
    djradon                 # ref node (refering to a human dj)
-      bio                  # data node
-      picks                # data node 
+      bio                  # payload node
+      picks                # payload node 
       underbrush           # ref node
          playlists         # data (series) node
-            1996-11-10     # data node
-            1996-11-17     # data node
+            1996-11-10     # payload node
+            1996-11-17     # payload node
 ```
 
 #### Sample RDF (Turtle)

@@ -1,7 +1,7 @@
 
 ## Definition
 
-A **reference node** is a [[resource.node]] that represents the (non-dataset) **referent** of the node — i.e., the thing in the world that the node stands for.
+A **reference node** is a [[mesh-resource.node]] that represents the (non-dataset) **referent** of the node — i.e., the thing in the world that the node stands for.
 
 **Purpose**
 

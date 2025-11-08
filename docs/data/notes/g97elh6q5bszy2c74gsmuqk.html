@@ -1,0 +1,69 @@
+<h1 id="2025-11-03-optimizing-for-agents">2025 11 03 Optimizing for Agents<a aria-hidden="true" class="anchor-heading icon-link" href="#2025-11-03-optimizing-for-agents"></a></h1>
+<h2 id="prompt">Prompt<a aria-hidden="true" class="anchor-heading icon-link" href="#prompt"></a></h2>
+<p>I want to optimize Roo Code's use in this project by customizing modes and introducing the concept of a task-level memory-bank</p>
+<p>Roo Code must use and help maintain both. </p>
+<h3 id="project-level-files-all-in-documentation-and-will-be-part-of-published-site-documentation">Project-level files (all in documentation/, and will be part of published site documentation)<a aria-hidden="true" class="anchor-heading icon-link" href="#project-level-files-all-in-documentation-and-will-be-part-of-published-site-documentation"></a></h3>
+<h4 id="add-to-context-for-every-new-task">Add to context for every new task<a aria-hidden="true" class="anchor-heading icon-link" href="#add-to-context-for-every-new-task"></a></h4>
+<ul>
+<li><a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a> : Foundation document that points to other files and discusses the memory-bank approach</li>
+<li><a href="/sflo/notes/tudefgmmf2pdx28zb9xs84j">Product Brief</a> : Why this project exists, Problems it solves; what components/applications are included; how it should work, User experience goals</li>
+<li><a href="/sflo/notes/xebek3dtv2zgs9ah0vbv57g">Developer General Guidance</a> : developer/agent info</li>
+<li><a href="/sflo/notes/f0g7d31ivgn6rgllncdwep8">Memory Bank</a> : ground rules for giving agents and humans a git-based shared memory</li>
+<li><a href="/sflo/notes/4unsyhyp8tmhqsdxwndy315">Status</a> : where we're at, project wise; what's currently working; summarizes across </li>
+</ul>
+<h4 id="probably-helpful-on-most-tasks-need-to-be-rigorously-maintained-regardless">Probably helpful on most tasks, need to be rigorously maintained regardless<a aria-hidden="true" class="anchor-heading icon-link" href="#probably-helpful-on-most-tasks-need-to-be-rigorously-maintained-regardless"></a></h4>
+<ul>
+<li><a href="/sflo/notes/i9v5cbqq2zqfhrjcolq48df">Patterns</a> : helpful the Architecture Mode</li>
+<li><a href="/sflo/notes/1ieo7152nf46x4wiip1vwx5">Dependencies</a> : Key dependencies</li>
+<li><a href="/sflo/notes/fwcrpbvxl7cm5xqd4e0qdep">Debugging</a> : useful for QA</li>
+<li><a href="/sflo/notes/yxn5rsqsv2gq4s6wbnxsjsj"> Now</a> : what's currentlly going on, big-picture</li>
+<li><a href="/sflo/notes/xqjr13fyons9goxv8rjrskj">Todo</a> : general list of things that need doing; can include links to tasks being groomed but not started, but also that haven't been broken into tasks yet</li>
+<li><a href="/sflo/notes/tkw34hrqxficesa0y2r62s0">Progress</a> : completed tasks, summarized</li>
+<li><a href="/sflo/notes/qa6hqxy4tknnmutvq13onaq">Decision Log</a> : important project-level decisions</li>
+</ul>
+<h4 id="everything-else">Everything else<a aria-hidden="true" class="anchor-heading icon-link" href="#everything-else"></a></h4>
+<ul>
+<li>all the other files (and there are lots) in documentation/ should get pulled into context as needed, and should periodically be groomed for pithiness, consistency, and currency. Maybe we define a "skill" or a "Documentation Grooming" Roo Mode.</li>
+</ul>
+<h3 id="task-working-memory">Task Working Memory<a aria-hidden="true" class="anchor-heading icon-link" href="#task-working-memory"></a></h3>
+<p>This will be used to externalize Roo's short-term memory. </p>
+<p>For each new task (in Roo Code or Cline or whatever), we'll create a new markdown file "task.YYYY-MM-DD-task-name.md" that will be used to keep track of the active-context, task-specific TODOs, progress, and potential updates to the general project-level memory-bank. If the task file isn't present yet, Orchestrator Roo should suggest creating it, or give the option to proceed without it.</p>
+<p>Every task should have these second-level headings:</p>
+<ul>
+<li>Prompt</li>
+<li>TODO</li>
+<li>Decisions</li>
+</ul>
+<p>The Agent's TODO list should be mirrored into the "TODO" section and updated as work progresses.</p>
+<h2 id="todo">TODO<a aria-hidden="true" class="anchor-heading icon-link" href="#todo"></a></h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Gather context and understand requirements</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Create guide.project-brief.md - Foundation document explaining memory bank approach and pointing to other files</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Create guide.product-brief.md - Product vision, problems solved, components/applications, user experience goals</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Create guide.status.md - Current project status overview (new "every task context" file)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update dev.memory-bank.md - Core rules including "read ALL memory bank files at start of EVERY task"</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update dev.patterns.md - Document patterns as they emerge (minimal initial content)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update dev.dependencies.md - List key dependencies (Fastify, TypeScript, pnpm, Dendron, etc.)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Verify dev.debugging.md has proper structure (already has good content)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update now.md - Current work focus (not dated entries)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update todo.md - General task list structure</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update progress.md - Dated entries for completed work</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update decision-log.md - Dated entries for important decisions</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update Roo Mode custom instructions to reference memory bank files</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Review all files for inconsistencies and repetitions </li>
+</ul>
+<h2 id="decisions">Decisions<a aria-hidden="true" class="anchor-heading icon-link" href="#decisions"></a></h2>
+<h3 id="documentation-review-findings-2025-11-05">Documentation Review Findings (2025-11-05)<a aria-hidden="true" class="anchor-heading icon-link" href="#documentation-review-findings-2025-11-05"></a></h3>
+<p>A review of all 90 documentation files in <code>documentation/</code> revealed several areas for improvement:</p>
+<ol>
+<li><strong>Critical Repetition:</strong> The file <a href="/sflo/documentation/product-ideas.hateoas-driven-api-recipes.md"><code>documentation/product-ideas.hateoas-driven-api-recipes.md</code></a> contains its entire content duplicated four times, requiring immediate consolidation.</li>
+<li><strong>Inconsistencies:</strong> Several core concept files, including <a href="/sflo/documentation/concept.mesh.md"><code>documentation/concept.mesh.md</code></a> and <a href="/sflo/documentation/mesh-resource.node.md"><code>documentation/mesh-resource.node.md</code></a>, inconsistently define the full set of node types (omitting "reference nodes"). Provenance documentation also shows conflicting naming conventions for internal identifiers.</li>
+<li><strong>Clarity/Pithiness:</strong> 18 files are empty or contain minimal content (e.g., <a href="/sflo/documentation/concept.hosting.md"><code>documentation/concept.hosting.md</code></a>, <a href="/sflo/documentation/facet.filesystem.md"><code>documentation/facet.filesystem.md</code></a>, and six plugin files), suggesting opportunities for consolidation or expansion to improve clarity and reduce unnecessary file clutter.</li>
+<li><strong>Broken Links/Currency:</strong> Multiple files, including <a href="/sflo/documentation/concept.summary.md"><code>documentation/concept.summary.md</code></a> and <a href="/sflo/documentation/concept.immutability.md"><code>documentation/concept.immutability.md</code></a>, contain broken internal links or unaddressed <code>TODO</code> items, indicating outdated references or incomplete sections.</li>
+</ol>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/yxn5rsqsv2gq4s6wbnxsjsj"> Now</a></li>
+<li><a href="/sflo/notes/tkw34hrqxficesa0y2r62s0">Progress</a></li>
+</ul>

@@ -1,12 +1,12 @@
 <h1 id="node-flow">node flow<a aria-hidden="true" class="anchor-heading icon-link" href="#node-flow"></a></h1>
-<p><a href="/sflo/notes/mesh-node">Nodes</a> are primarily constituted by their node flows, which are evolvable datasets about their node's metadata, configuration, referent, or payload datasets. They exist through time, independent of any specific version or realization, and can evolve semi-independently from other flows</p>
+<p><a href="/sflo/notes/mesh-node">Nodes</a> are primarily constituted by their semantic flows: evolvable datasets about their node's data, metadata, configuration, or referent. They exist through time, independent of any specific version or realization, and can evolve semi-independently.</p>
 <p>There are five types of node flows.</p>
 <ul>
-<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> (required)</li>
+<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a> (required)</li>
 <li><a href="/sflo/notes/6hmxoiahi5lxjg1urdibvi1">operational config flow</a> (optional)</li>
 <li><a href="/sflo/notes/config-inheritance-resolution">inheritable config flow</a> (optional)</li>
 <li><a href="/sflo/notes/np4wrgk86b44hnlsjo964nz">reference flow</a> (optional)</li>
-<li><a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a> (for data nodes)</li>
+<li><a href="/sflo/notes/payload-flow">payload flow</a> (for payload nodes)</li>
 </ul>
 <h2 id="relationship-to-snapshots">Relationship to snapshots<a aria-hidden="true" class="anchor-heading icon-link" href="#relationship-to-snapshots"></a></h2>
 <p>As DatasetSeries, node flows are realized through <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a> datasets, which are temporal slices of the flow. To borrow a phrase from the PROV model, we say that a snapshot is a specialization of the node flow.</p>
@@ -19,7 +19,7 @@
 <li>flow snapshots: v1, v2, current version, working draft of next version (specific realizations)</li>
 </ul>
 <pre class="language-file"><code class="language-file">/my-ontology/
-└── _data-flow/                  ← node flow (ontology definitions)
+└── _payload-flow/                  ← node flow (ontology definitions)
     ├── _current/           ← flow snapshot (in this case, probably )
     ├── _next/           ← flow snapshot
     ├── _v1/           ← flow snapshot
@@ -38,9 +38,9 @@
 <hr>
 <strong>Children</strong>
 <ol>
-<li><a href="/sflo/notes/9j8lhoyb0xkhg926nafgkai">data flow</a></li>
 <li><a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a></li>
-<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></li>
+<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a></li>
+<li><a href="/sflo/notes/payload-flow">payload flow</a></li>
 <li><a href="/sflo/notes/np4wrgk86b44hnlsjo964nz">reference flow</a></li>
 </ol>
 <hr>
@@ -50,13 +50,13 @@
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
 <li><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Versioning</a></li>
 <li><a href="/sflo/notes/umdmedpk9br3elwxntbamaw">How Is a Flow Different from a Dataset Series</a></li>
-<li><a href="/sflo/notes/ragu0uc06vmiqvmn41r070e">namespace folder</a></li>
-<li><a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a></li>
+<li><a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a></li>
 <li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a></li>
 <li><a href="/sflo/notes/20dz80zbx82nrym7e88ozy7">de-versioned flow facet</a></li>
 <li><a href="/sflo/notes/elncscz2versnfcbtvqsg46">versioned flow facet</a></li>
 <li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset facet</a></li>
 <li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
+<li><a href="/sflo/notes/payload-node">paylod node</a></li>
 <li><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></li>
-<li><a href="/sflo/notes/8hmkiyjtsey7z8y5oi5xdxx">dataset reference nodes</a></li>
+<li><a href="/sflo/notes/rs5d7fcphmre7h1ltz4t9ut">version distribution</a></li>
 </ul>
