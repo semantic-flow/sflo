@@ -2,7 +2,7 @@
 id: 63tfb27btzbph10tpvckz7b
 title: sflo-api plugin
 desc: ''
-updated: 1762626444841
+updated: 1762640577917
 created: 1755903460930
 ---
 
@@ -66,7 +66,7 @@ Probably Returns:
 - A list of its components (including flows) — This is important to understand what building blocks or sub-resources the node contains.
 - A list and count of its child nodes — Useful for navigation and understanding the node hierarchy.
 - Its node type (probably computed) — Helps clients understand the nature or classification of the node.
-- HATEOAS links to related resources like flows, snapshots, jobs — Enables discoverability and navigation.
+- HATEOAS links to related resources like flows, snapshots, jobs, resource pages and other documentation resources, asset trees — Enables discoverability and navigation.
 
 
 Maybe returns:
