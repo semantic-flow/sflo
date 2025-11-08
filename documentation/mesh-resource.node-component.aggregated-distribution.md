@@ -2,7 +2,7 @@
 id: e6enrj5ztz3hz84ojujef0k
 title: Aggregated Distribution
 desc: ''
-updated: 1762624123225
+updated: 1762626428405
 created: 1751631229565
 ---
 
@@ -10,7 +10,7 @@ __note: maybe we will do them, maybe we won't__
  - t.2025.11.08.09 probably not. Better to go the other way: from a payload dataset, create all its named nodes and link back to the original; keeps things flow-y
 - probably won't do unified distributions except via API. 
 
-A node's **aggregated distribution** is a compilation of all the child flows of itself and its contained nodes (their `_dataset-flow/_current/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
+A node's **aggregated distribution** is a compilation of all the child flows of itself and its contained nodes (their `_payload-flow/_current/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
 
 Essentially, it's a "(sub-)mesh in a single file." 
 
@@ -31,8 +31,8 @@ config options
 ## Generation Process
 
 During [[concept.weave-process]], aggregated distributions are created by:
-1. **Scanning contained dataset nodes** recursively within the mesh structure
-2. **Collecting `_dataset-flow/_current/` distributions** from each flow
+1. **Scanning contained payload nodes** recursively within the mesh structure
+2. **Collecting `_payload-flow/_current/` distributions** from each flow
 3. **Merging content** with proper URI resolution and prefix handling
 4. **Excluding `_config` and `_meta` datasets** (data content only)
 5. **Generating multiple distributions** (.ttl, .rdf, .jsonld) as configured
@@ -45,9 +45,9 @@ During [[concept.weave-process]], aggregated distributions are created by:
 ├── my-ontology.ttl              ← Aggregated distribution
 ├── my-ontology.rdf              ← Aggregated distribution  
 ├── my-ontology.jsonld           ← Aggregated distribution
-├── Person/                  ← dataset node (class definition)
-├── hasName/                 ← dataset node (property definition)
-└── Organization/            ← dataset node (class definition)
+├── Person/                  ← payload node (class definition)
+├── hasName/                 ← payload node (property definition)
+└── Organization/            ← payload node (class definition)
 ```
 
 ### Knowledge Base
@@ -56,11 +56,11 @@ During [[concept.weave-process]], aggregated distributions are created by:
 ├── biotech-kb.ttl               ← Aggregated distribution
 ├── biotech-kb.jsonld            ← Aggregated distribution
 ├── companies/
-│   ├── genentech/               ← Company dataset node
-│   └── moderna/                 ← Company dataset node
+│   ├── genentech/               ← Company payload node
+│   └── moderna/                 ← Company payload node
 └── products/
-    ├── drug-x/                  ← Product dataset node
-    └── vaccine-y/               ← Product dataset node
+    ├── drug-x/                  ← Product payload node
+    └── vaccine-y/               ← Product payload node
 ```
 
 ## Technical Considerations
@@ -81,6 +81,6 @@ During [[concept.weave-process]], aggregated distributions are created by:
 
 ## Related Concepts
 
-- **[[mesh-resource.node-component.flow.dataset]]** - Source datasets for aggregation
+- **[[mesh-resource.node-component.flow.payload]]** - Source datasets for aggregation
 - **[[concept.weave-process]]** - Process that generates aggregated distributions
 - **[[mesh-resource.node-component.flow-snapshot]]** - Contains the actual distributions being aggregated

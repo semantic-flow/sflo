@@ -2,7 +2,7 @@
 id: 4v2b7t8nbzkmtyvnayye3vj
 title: Provenance
 desc: ''
-updated: 1756869552823
+updated: 1762626428418
 created: 1753117923066
 ---
 
@@ -77,12 +77,12 @@ For flows without versioning, activities accumulate in `_next` with unique times
 # In my-dataset/_node-metadata-flow/_next/my-dataset_meta.trig
 :dataActivity_2025-07-20_14-30 a meta:DataWeave ;
     prov:startedAtTime "2025-07-20T14:30:00Z" ;
-    prov:generated <../../_dataset-flow/_current/data.trig> .
+    prov:generated <../../_payload-flow/_current/data.trig> .
 
 :dataActivity_2025-07-20_16-45 a meta:DataWeave ;
     prov:startedAtTime "2025-07-20T16:45:00Z" ;
-    prov:used <../../_dataset-flow/_current/data.trig> ;
-    prov:generated <../../_dataset-flow/_current/data.trig> .
+    prov:used <../../_payload-flow/_current/data.trig> ;
+    prov:generated <../../_payload-flow/_current/data.trig> .
 ```
 
 ## Key Components

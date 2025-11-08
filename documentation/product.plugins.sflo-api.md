@@ -2,7 +2,7 @@
 id: 63tfb27btzbph10tpvckz7b
 title: sflo-api plugin
 desc: ''
-updated: 1762623011210
+updated: 1762626444841
 created: 1755903460930
 ---
 
@@ -17,8 +17,8 @@ Use noun URLs that mirror the mesh's filesystem. Bytes go to `_next`. Versioning
   * `_node_metadata_flow/` (required)
   * `_config-operational-flow/`
   * `_config-inheritable-flow/`
-  * `_reference_flow/`
-  * `_dataset_flow/`  ← payload dataset for dataset nodes
+  * `_reference-flow/`
+  * `_payload-flow/`  ← payload dataset for payload nodes
 * Snapshot layout under any flow:
 
   * `_snapshots/{vN}/_dist/{files…}`
@@ -76,38 +76,38 @@ Maybe returns:
 
 * **Dataset upload (bytes to `_next`)**
 
-  * `PUT /api/{mesh}/{nodePath}/_dataset_flow/_next/{nodeName}.jsonld`
+  * `PUT /api/{mesh}/{nodePath}/_payload-flow/_next/{nodeName}.jsonld`
 
     * Body: JSON-LD (or TriG variant if you standardize a filename)
     * Effects:
 
-      * Bare → becomes Dataset node
+      * Bare → becomes payload node
       * Reference → becomes Reference+Dataset
       * Dataset → replaces `_next`
     * `201 Created` (new content) or `200/204` (duplicate); `Content-Location` echoes the `_next` URL
 * **List current distributions**
 
-  * `GET /api/{mesh}/{nodePath}/_dataset_flow/_current/` → array of files
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_current/` → array of files
 * **Fetch a current distribution**
 
-  * `GET /api/{mesh}/{nodePath}/_dataset_flow/_current/{filename}` → bytes
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_current/{filename}` → bytes
 * **List snapshots**
 
-  * `GET /api/{mesh}/{nodePath}/_dataset_flow/_snapshots/`
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/`
 * **Snapshot metadata**
 
-  * `GET /api/{mesh}/{nodePath}/_dataset_flow/_snapshots/{vN}` → JSON-LD summary
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}` → JSON-LD summary
 * **Snapshot distributions**
 
-  * `GET /api/{mesh}/{nodePath}/_dataset_flow/_snapshots/{vN}/_dist/`
-  * `GET /api/{mesh}/{nodePath}/_dataset_flow/_snapshots/{vN}/_dist/{filename}`
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}/_dist/`
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}/_dist/{filename}`
 
 ## Flows (common to all five kinds)
 
 * **Flow summary**
 
   * `GET /api/{mesh}/{nodePath}/_{flowKind}/`
-    `flowKind ∈ { metadataset_flow, op_config_flow, inheritable_config_flow, reference_flow, dataset_flow }`
+    `flowKind ∈ { metapayload-flow, op_config_flow, inheritable_config_flow, reference_flow, payload-flow }`
 * **Create snapshot from `_next` (server constructs version)**
 
   * `POST /api/{mesh}/{nodePath}/_{flowKind}/_snapshots/`
@@ -158,7 +158,7 @@ Goal: “make a couple changes without re-uploading a full file.” We merge **c
     {
       "@type": "sflo:WeaveJob",
       "targets": [ "/{nodePath}/" ],
-      "flows": ["dataset_flow","metadataset_flow","reference_flow"],
+      "flows": ["payload-flow","metapayload-flow","reference_flow"],
       "promote": true
     }
     ```
@@ -178,10 +178,10 @@ Minimum links on a node:
 ```json
 "links": [
   { "rel":"self", "href":"/api/{mesh}/{nodePath}/" },
-  { "rel":"flow", "kind":"dataset_flow", "href":"/api/{mesh}/{nodePath}/_dataset_flow/" },
-  { "rel":"dataset.uploadNext", "href":"/api/{mesh}/{nodePath}/_dataset_flow/_next/{nodeName}.jsonld", "method":"PUT" },
+  { "rel":"flow", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload-flow/" },
+  { "rel":"dataset.uploadNext", "href":"/api/{mesh}/{nodePath}/_payload-flow/_next/{nodeName}.jsonld", "method":"PUT" },
   { "rel":"flow.patchNext", "kind":"op_config_flow", "href":"/api/{mesh}/{nodePath}/_config-operational-flow/_next/", "method":"PATCH", "type":"application/merge-patch+json" },
-  { "rel":"flow.createSnapshot", "kind":"dataset_flow", "href":"/api/{mesh}/{nodePath}/_dataset_flow/_snapshots/", "method":"POST" },
+  { "rel":"flow.createSnapshot", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload-flow/_snapshots/", "method":"POST" },
   { "rel":"job.start", "href":"/api/{mesh}/jobs", "method":"POST", "expects":"sflo:WeaveJob" }
 ]
 ```
@@ -196,14 +196,14 @@ Minimum links on a node:
 
 ## Notes and constraints
 
-* No multi-file uploads: `_next` is a single JSON-LD (or TriG) file for dataset_flow. 
+* No multi-file uploads: `_next` is a single JSON-LD (or TriG) file for payload-flow. 
 * PATCH is supported for flows whose `_current` is JSON-LD. Not supported for TriG distributions.
 * All URLs are nouns. No `?op=`. Jobs model compute.
 * API ↔ site symmetry: replacing `/api` with the site host yields the same resource for GETs that return files.
 
 ## Open flags to decide (defaults in parentheses)
 
-* Allow PATCH for `reference_flow` and `metadataset_flow`? (default: **disallow** for `_node_metadata_flow`, **allow** for `reference_flow` JSON-LD)
+* Allow PATCH for `reference_flow` and `metapayload-flow`? (default: **disallow** for `_node_metadata_flow`, **allow** for `reference_flow` JSON-LD)
 * Enforce `Idempotency-Key` as **required** or **optional** on PUT/PATCH? (recommended: **required**)
 * Return `application/problem+json` or `…+json+ld` for errors? (recommended: **…+json+ld**)
 

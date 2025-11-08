@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1762323466970
+updated: 1762626428416
 created: 1755820864360
 ---
 
@@ -41,12 +41,12 @@ See:
 3.1 Mesh Resources (Nodes and Components)
 - Node (folder; container for nodes & components): [[mesh-resource.node]]
   - bare node: organizational IRI segment container: [[mesh-resource.node.bare]]
-  - dataset node: IRI refers to the node's referent (real-world entity or dataset concept); has a dataset flow: [[mesh-resource.node.dataset]]
+  - payload node: IRI refers to the node's referent (real-world entity or dataset concept); has a payload flow: [[mesh-resource.node.payload]]
 
 - Node component (terminal resource supporting a node): [[mesh-resource.node-component]]
   - Flows (abstract datasets as DatasetSeries):
     - Meta flow (metadata/provenance): [[mesh-resource.node-component.flow.node-metadata]]
-    - dataset flow (payload data): [[mesh-resource.node-component.flow.dataset]]
+    - payload flow (payload data): [[mesh-resource.node-component.flow.payload]]
     - Node-config flows (settings; see §9): [[mesh-resource.node-component.flow.node-config]]
   - Flow snapshots (concrete Datasets): `_current/`, `_next/`, `_vN/`
     - Overview: [[mesh-resource.node-component.flow-snapshot]]
@@ -101,7 +101,7 @@ See:
 Reserved folder names (underscore-prefixed; canonical set):
 - `_node-handle/`
 - Flow containers (abstract datasets):
-  - `_node-metadata-flow/`, `_dataset-flow/`
+  - `_node-metadata-flow/`, `_payload-flow/`
   - `_config-operational-flow/`, `_config-inheritable-flow/` (see §9)
 - Snapshots inside a flow:
   - `_current/`, `_next/`, `_vN/` (e.g., `_v1/`, `_v2/`, …)
@@ -110,7 +110,7 @@ Reserved folder names (underscore-prefixed; canonical set):
 
 Folder-note pages for these reserved names live under `folder.*.md` (where defined):
 - `_node-metadata-flow/`: [[folder._node-metadata-flow]]
-- `_dataset-flow/`: [[folder._data-flow]]
+- `_payload-flow/`: [[folder._data-flow]]
 - `_config-operational-flow/`: [[folder._config-operational-flow]]
 - `_config-inheritable-flow/`: [[folder._config-inheritable-flow]]
 - `_current/`: [[folder._current]]
@@ -166,7 +166,7 @@ See:
 - [[mesh-resource.node-component.node-config-defaults]]: defaults as inheritable values
 
 1)  Aggregated Views
-- Aggregated distribution: optional roll-up of child dataset nodes’ current datasets at a parent node for convenience.
+- Aggregated distribution: optional roll-up of child payload nodes’ current datasets at a parent node for convenience.
 See:
 - [[mesh-resource.node-component.aggregated-distribution]]
 
@@ -177,10 +177,10 @@ See:
 ├── _assets/                         # optional site-wide assets
 ├── my-node/                         # a mesh node (folder)
 │   ├── _node-handle/                # handle component (resource.node-component.node-handle)
-│   ├── _node-metadata-flow/                  # metadataset flow (system)
+│   ├── _node-metadata-flow/                  # metapayload flow (system)
 │   │   ├── _current/
 │   │   └── _v1/
-│   ├── _dataset-flow/                  # dataset flow (for dataset nodes)
+│   ├── _payload-flow/                  # payload flow (for payload nodes)
 │   │   ├── _current/
 │   │   ├── _next/
 │   │   └── _v1/
@@ -198,7 +198,7 @@ See:
 graph TD
   A[Mesh Node] --> B[Handle]
   A --> C[Meta flow]
-  A --> E[dataset flow]
+  A --> E[payload flow]
   A --> G[Asset tree]
   A --> H[Resource pages]
 

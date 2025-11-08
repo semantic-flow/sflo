@@ -2,7 +2,7 @@
 id: referent
 title: Referent
 desc: ''
-updated: 1762620125930
+updated: 1762626428425
 created: 1755990922267
 ---
 
@@ -22,17 +22,17 @@ To talk about the node itself, you use its **node handle** (e.g. published IRI `
 * The **referent’s description** lives in the node’s [[mesh-resource.node-component.flow.reference]].
 * The **node’s own metadata and provenance** live in the **`_node-*` flows** (e.g. `_node-metadata-flow`, `_node-config-*`).
 
-**Special case: dataset nodes**
+**Special case: payload nodes**
 
-* In a **dataset node**, the **referent** is not an external entity but an **evolvable dataset** contained in the node.
-* The dataset evolves as versioned distributions inside the node’s `_dataset-flow` (e.g. `v1/`, `v2/`, …).
+* In a **payload node**, the **referent** is not an external entity but an **evolvable dataset** contained in the node.
+* The dataset evolves as versioned distributions inside the node’s `_payload-flow` (e.g. `v1/`, `v2/`, …).
 * The `_reference-flow` may describe the dataset, e.g. its **name, type, and provenance**.
 * Example:
 
   * Node IRI: `https://ns.example.org/projects/atlas/`
   * Referent: *the Atlas dataset* (identified by the node IRI, evolving over time).
   * `_reference-flow`: declares it as a dataset, supplies label and attribution.
-  * `_dataset-flow`: provides concrete versions (`v1`, `v2`, …).
+  * `_payload-flow`: provides concrete versions (`v1`, `v2`, …).
 
 
 ## Why referent matters

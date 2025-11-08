@@ -2,7 +2,7 @@
 id: mesh-resource
 title: mesh resources
 desc: ''
-updated: 1756869582374
+updated: 1762625080267
 created: 1750709094321
 ---
 
@@ -25,7 +25,7 @@ The structure of a semantic mesh is built on a fundamental distinction between *
 **Folder-based components:**
 
 
-- **[[metadataset flows|mesh-resource.node-component.flow.node-metadata]]**: Administrative metadata (in `_node-metadata-flow/` folders)
+- **[[metapayload flows|mesh-resource.node-component.flow.node-metadata]]**: Administrative metadata (in `_node-metadata-flow/` folders)
 - **[[Asset trees|mesh-resource.node-component.asset-tree]]**: File collections (in `_assets/` folders)
 - **[[Version datasets|mesh-resource.node-component.flow-snapshot.version]]**: Versioned snapshots
 - **[[next snapshots|mesh-resource.node-component.flow-snapshot.next]]**: Draft workspaces

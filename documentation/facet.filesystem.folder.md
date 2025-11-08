@@ -30,7 +30,7 @@ All folder-based resources should contain a [[mesh-resource.node-component.docum
 - **`_dataset-flow/`**
 
   - correspond to the [[mesh-resource.node-component.flow.dataset]]
-  - contain the dataset associated with the [[mesh-resource.node.dataset]]
+  - contain the dataset associated with the [[mesh-resource.node.payload]]
 
 #### Snapshot (Concrete Dataset) System Folders
 

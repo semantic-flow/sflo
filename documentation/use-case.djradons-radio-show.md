@@ -2,7 +2,7 @@
 id: kawddwi1dx4qqbhdyip4896
 title: 'Use Case: Radio Show Websiste'
 desc: a simple user story
-updated: 1756869568787
+updated: 1762624997558
 created: 1750645191521
 ---
 
@@ -25,12 +25,12 @@ See [[Example Mesh|concept.mesh#example-mesh]] for a mapping of resources types
 ```file
 test-ns                    # bare node
    djradon                 # ref node (refering to a human dj)
-      bio                  # dataset node
-      picks                # dataset node 
+      bio                  # payload node
+      picks                # payload node 
       underbrush           # ref node
          playlists         # data (series) node
-            1996-11-10     # dataset node
-            1996-11-17     # dataset node
+            1996-11-10     # payload node
+            1996-11-17     # payload node
 ```
 
 #### Sample RDF (Turtle)

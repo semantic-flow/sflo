@@ -22,7 +22,7 @@ A node folder is any folder that maps to a [[mesh-resource.node]]. Each node fol
 ## Node-specific flows (by type)
 
 - [[bare node|mesh-resource.node.bare]]: no additional flows 
-- [[dataset node|mesh-resource.node.dataset]]: requires [[_dataset-flow/|folder._dataset-flow]]
+- [[dataset node|mesh-resource.node.payload]]: requires [[_dataset-flow/|folder._dataset-flow]]
 
 Distributions must live inside flow snapshot folders (e.g., `_current/`, `_vN/`). See [[resource.node-component.flow]] and [[resource.node-component.flow-snapshot]].
 

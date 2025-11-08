@@ -6,6 +6,6 @@ updated: 1756869568798
 created: 1751003183255
 ---
 
-A [[mesh-resource.node.dataset]] can only support a single-file distribution, but DatasetSeries can be represented inline in a single graph, or in multiple graphs using named graphs.
+A [[mesh-resource.node.payload]] can only support a single-file distribution, but DatasetSeries can be represented inline in a single graph, or in multiple graphs using named graphs.
 
 Note that not all RDF serialization formats support named graphs.

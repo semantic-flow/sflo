@@ -2,7 +2,7 @@
 id: identifier
 title: identifier
 desc: ''
-updated: 1756869568819
+updated: 1762624997556
 created: 1750368774797
 ---
 
@@ -35,7 +35,7 @@ Identifiers that refer to **concepts, entities, or abstract things**, including:
 
 * **bare node identifiers** → Organizational containers
 * **reference node identifiers** → denotational 
-* **dataset node identifiers** → Concepts that are datasets
+* **payload node identifiers** → Concepts that are datasets
 * **Abstract flow identifiers** → Dataset-as-persistent-concept
 * **Concrete dataset identifiers** → Specific dataset snapshots
 * **Handle identifiers** → Mesh node themselves
@@ -50,6 +50,6 @@ When dereferenced with a request to a [[concept.semantic-flow-site]], concept id
 | Content identifier | No              | A fetchable document or asset | `https://example.org/ns/foo/index.html` |
 | Concept IRI        | Yes (`/`)       | A real-world or mesh concept  | `https://example.org/ns/foo/`           |
 
-Even though you might be tempted to think of a datasets as concrete things, the IRIs for dataset nodes, abstract datasets, and concrete datasets all refer to concepts, i.e., **non-retrievable entities**. Only Distribution IRIs refer to downloadable data, i.e., dataset distributions.
+Even though you might be tempted to think of a datasets as concrete things, the IRIs for payload nodes, abstract datasets, and concrete datasets all refer to concepts, i.e., **non-retrievable entities**. Only Distribution IRIs refer to downloadable data, i.e., dataset distributions.
 
 

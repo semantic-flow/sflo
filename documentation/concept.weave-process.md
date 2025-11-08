@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1756869552822
+updated: 1762626428414
 created: 1751128698638
 ---
 
@@ -39,7 +39,7 @@ created: 1751128698638
     ├── _assets/                  ← Optional node-specific assets
     │   ├── _templates/           ← Optional templates
     │   └── _css                  ← Optional css
-    └── _dataset-flow
+    └── _payload-flow
 ```
 
 ## Quirks

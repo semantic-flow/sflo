@@ -2,7 +2,7 @@
 id: mesh-node
 title: mesh node
 desc: ''
-updated: 1759001755018
+updated: 1762624997543
 created: 1750999795528
 ---
 
@@ -18,7 +18,7 @@ Mesh nodes establish conceptual [[namespace segments|concept.namespace.segment]]
 
 - [[bare node|mesh-resource.node.bare]] : containers
 - [[mesh-resource.node.reference]] : refering containers
-- [[dataset node|mesh-resource.node.dataset]] : dataset containers that refer to their datasets 
+- [[payload node|mesh-resource.node.payload]] : dataset containers that refer to their datasets 
 
 ## Filesystem Structure
 

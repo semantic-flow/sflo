@@ -2,11 +2,11 @@
 id: node-flow
 title: node flow
 desc: ''
-updated: 1756869568793
+updated: 1762626428404
 created: 1751688486456
 ---
 
-[[Nodes|mesh-resource.node]] are primarily constituted by their node flows, which are evolvable datasets about their node's metadata, configuration, referent, or payload datasets. They exist through time, independent of any specific version or realization, and can evolve semi-independently from other flows
+[[Nodes|mesh-resource.node]] are primarily constituted by their semantic flows: evolvable datasets about their node's data, metadata, configuration, or referent. They exist through time, independent of any specific version or realization, and can evolve semi-independently.
 
 There are five types of node flows.
 
@@ -14,7 +14,7 @@ There are five types of node flows.
 - [[mesh-resource.node-component.flow.node-config.operational]] (optional)
 - [[mesh-resource.node-component.flow.node-config.inheritable]] (optional)
 - [[mesh-resource.node-component.flow.reference]] (optional)
-- [[mesh-resource.node-component.flow.dataset]] (for dataset nodes)
+- [[mesh-resource.node-component.flow.payload]] (for payload nodes)
 
 
 ## Relationship to snapshots
@@ -36,7 +36,7 @@ The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dat
 
 ```file
 /my-ontology/
-└── _dataset-flow/                  ← node flow (ontology definitions)
+└── _payload-flow/                  ← node flow (ontology definitions)
     ├── _current/           ← flow snapshot (in this case, probably )
     ├── _next/           ← flow snapshot
     ├── _v1/           ← flow snapshot

@@ -61,5 +61,5 @@ System components are usually created or altered by the [[Weave Process|concept.
 
 Components work in conjunction with mesh nodes to create the complete mesh structure:
 - Every mesh node contains at least two components: metadataset flows and node handles
-- dataset nodes contain a single [[mesh-resource.node-component.flow.dataset]] 
+- dataset nodes contain a single [[mesh-resource.node-component.flow.payload]] 
 - Any node may contain asset trees (user components) for file attachments
