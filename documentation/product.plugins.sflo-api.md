@@ -2,12 +2,12 @@
 id: 63tfb27btzbph10tpvckz7b
 title: sflo-api plugin
 desc: ''
-updated: 1762640577917
+updated: 1762663114860
 created: 1755903460930
 ---
 
 
-Use noun URLs that mirror the mesh's filesystem. Bytes go to `_next`. Versioning and "current flips" happen on weave. All flows except [[mesh-resource.node-component.flow.node-metadata]] support arbitrary PATCH. System-only fields in `_node_metadata_flow` are rejected on write.
+Use noun URLs that mirror the mesh's filesystem. Bytes go to `_working`. Versioning and "current flips" happen on weave. All flows except [[mesh-resource.node-component.flow.node-metadata]] support arbitrary PATCH. System-only fields in `_node_metadata_flow` are rejected on write.
 
 ## Conventions
 
@@ -23,7 +23,7 @@ Use noun URLs that mirror the mesh's filesystem. Bytes go to `_next`. Versioning
 
   * `_snapshots/{vN}/_dist/{files…}`
   * `_current/` → pointer to a snapshot (folder or file)
-  * `_next/`   → working content before weave
+  * `_working/`   → working content before weave
 * Headers:
 
   * `Idempotency-Key` on PUT/POST of bytes or creators
@@ -72,19 +72,19 @@ Probably Returns:
 Maybe returns:
 - backlinks (references to this node from other places in the mesh)
 - some metadata, especially non-semantic metadata like filesystem creation/modification timestamps, filesystem permissions
-- status flags like whether _next has diverged
+- status flags like whether _working has diverged
 
-* **Dataset upload (bytes to `_next`)**
+* **Dataset upload (bytes to `_working`)**
 
-  * `PUT /api/{mesh}/{nodePath}/_payload-flow/_next/{nodeName}.jsonld`
+  * `PUT /api/{mesh}/{nodePath}/_payload-flow/_working/{nodeName}.jsonld`
 
     * Body: JSON-LD (or TriG variant if you standardize a filename)
     * Effects:
 
       * Bare → becomes payload node
       * Reference → becomes Reference+Dataset
-      * Dataset → replaces `_next`
-    * `201 Created` (new content) or `200/204` (duplicate); `Content-Location` echoes the `_next` URL
+      * Dataset → replaces `_working`
+    * `201 Created` (new content) or `200/204` (duplicate); `Content-Location` echoes the `_working` URL
 * **List current distributions**
 
   * `GET /api/{mesh}/{nodePath}/_payload-flow/_current/` → array of files
@@ -108,7 +108,7 @@ Maybe returns:
 
   * `GET /api/{mesh}/{nodePath}/_{flowKind}/`
     `flowKind ∈ { metapayload-flow, op_config_flow, inheritable_config_flow, reference_flow, payload-flow }`
-* **Create snapshot from `_next` (server constructs version)**
+* **Create snapshot from `_working` (server constructs version)**
 
   * `POST /api/{mesh}/{nodePath}/_{flowKind}/_snapshots/`
 
@@ -117,9 +117,9 @@ Maybe returns:
 
 ### PATCH (config flows)
 
-Goal: “make a couple changes without re-uploading a full file.” We merge **current** with patch → write result to `_next`.
+Goal: “make a couple changes without re-uploading a full file.” We merge **current** with patch → write result to `_working`.
 
-* `PATCH /api/{mesh}/{nodePath}/_{flowKind}/_next/`
+* `PATCH /api/{mesh}/{nodePath}/_{flowKind}/_working/`
 
   * Allowed `flowKind`: `op_config_flow`, `inheritable_config_flow` (and optionally others with JSON-LD content)
   * `Content-Type: application/merge-patch+json`
@@ -127,18 +127,18 @@ Goal: “make a couple changes without re-uploading a full file.” We merge **c
 
     1. Server reads `_current` distribution (JSON-LD framed DTO)
     2. Applies RFC 7396 merge patch
-    3. Writes the merged document to `_next/` as JSON-LD
+    3. Writes the merged document to `_working/` as JSON-LD
   * Response:
 
-    * `201 Created` with `Content-Location: …/_{flowKind}/_next/`
+    * `201 Created` with `Content-Location: …/_{flowKind}/_working/`
     * Emits `fs.change`
   * **System-only fields** (especially in `_node_metadata_flow`): writes to these keys are **rejected** with `403` (or `422`), response lists offending JSON Pointers
 
 #### Optional PUT for entire JSON-LD next
 
-* `PUT /api/{mesh}/{nodePath}/_{flowKind}/_next/{filename}`
+* `PUT /api/{mesh}/{nodePath}/_{flowKind}/_working/{filename}`
 
-  * Replace `_next` fully with a new JSON-LD file
+  * Replace `_working` fully with a new JSON-LD file
 
 ## Pointer management (promote current)
 
@@ -167,7 +167,7 @@ Goal: “make a couple changes without re-uploading a full file.” We merge **c
 * SSE emits progress and completion; on success weave:
 
   * Validates (SHACL if enabled)
-  * Creates `…/_snapshots/{vN}` from `_next` for addressed flows
+  * Creates `…/_snapshots/{vN}` from `_working` for addressed flows
   * Optionally flips `…/_current/` when `promote:true`
   * Emits `fs.change` with `paths` and `iris`
 
@@ -179,8 +179,8 @@ Minimum links on a node:
 "links": [
   { "rel":"self", "href":"/api/{mesh}/{nodePath}/" },
   { "rel":"flow", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload-flow/" },
-  { "rel":"dataset.uploadNext", "href":"/api/{mesh}/{nodePath}/_payload-flow/_next/{nodeName}.jsonld", "method":"PUT" },
-  { "rel":"flow.patchNext", "kind":"op_config_flow", "href":"/api/{mesh}/{nodePath}/_config-operational-flow/_next/", "method":"PATCH", "type":"application/merge-patch+json" },
+  { "rel":"dataset.uploadNext", "href":"/api/{mesh}/{nodePath}/_payload-flow/_working/{nodeName}.jsonld", "method":"PUT" },
+  { "rel":"flow.patchNext", "kind":"op_config_flow", "href":"/api/{mesh}/{nodePath}/_config-operational-flow/_working/", "method":"PATCH", "type":"application/merge-patch+json" },
   { "rel":"flow.createSnapshot", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload-flow/_snapshots/", "method":"POST" },
   { "rel":"job.start", "href":"/api/{mesh}/jobs", "method":"POST", "expects":"sflo:WeaveJob" }
 ]
@@ -196,7 +196,7 @@ Minimum links on a node:
 
 ## Notes and constraints
 
-* No multi-file uploads: `_next` is a single JSON-LD (or TriG) file for payload-flow. 
+* No multi-file uploads: `_working` is a single JSON-LD (or TriG) file for payload-flow. 
 * PATCH is supported for flows whose `_current` is JSON-LD. Not supported for TriG distributions.
 * All URLs are nouns. No `?op=`. Jobs model compute.
 * API ↔ site symmetry: replacing `/api` with the site host yields the same resource for GETs that return files.
@@ -207,4 +207,4 @@ Minimum links on a node:
 * Enforce `Idempotency-Key` as **required** or **optional** on PUT/PATCH? (recommended: **required**)
 * Return `application/problem+json` or `…+json+ld` for errors? (recommended: **…+json+ld**)
 
-This spec matches your rules: nouns only, `_next` for bytes, weave does validation + versioning + promotion, and PATCH merges “current → next” for the two config flows (and optionally others) while blocking system-only fields.
+This spec matches your rules: nouns only, `_working` for bytes, weave does validation + versioning + promotion, and PATCH merges “current → next” for the two config flows (and optionally others) while blocking system-only fields.

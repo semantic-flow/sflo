@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1762626428416
+updated: 1762663114891
 created: 1755820864360
 ---
 
@@ -48,10 +48,10 @@ See:
     - Meta flow (metadata/provenance): [[mesh-resource.node-component.flow.node-metadata]]
     - payload flow (payload data): [[mesh-resource.node-component.flow.payload]]
     - Node-config flows (settings; see §9): [[mesh-resource.node-component.flow.node-config]]
-  - Flow snapshots (concrete Datasets): `_current/`, `_next/`, `_vN/`
+  - Flow snapshots (concrete Datasets): `_current/`, `_working/`, `_vN/`
     - Overview: [[mesh-resource.node-component.flow-snapshot]]
     - `_current/`: [[mesh-resource.node-component.flow-snapshot.current]]
-    - `_next/`: [[mesh-resource.node-component.flow-snapshot.next]]
+    - `_working/`: [[mesh-resource.node-component.flow-snapshot.working]]
     - `_vN/`: [[mesh-resource.node-component.flow-snapshot.version]]
     - Distributions: [[mesh-resource.node-component.snapshot-distribution]]
   - Handle (refer to the node “as a mesh resource”): [[mesh-resource.node-component.node-handle]]
@@ -104,7 +104,7 @@ Reserved folder names (underscore-prefixed; canonical set):
   - `_node-metadata-flow/`, `_payload-flow/`
   - `_config-operational-flow/`, `_config-inheritable-flow/` (see §9)
 - Snapshots inside a flow:
-  - `_current/`, `_next/`, `_vN/` (e.g., `_v1/`, `_v2/`, …)
+  - `_current/`, `_working/`, `_vN/` (e.g., `_v1/`, `_v2/`, …)
 - Assets:
   - `_assets/` (static files)
 
@@ -114,7 +114,7 @@ Folder-note pages for these reserved names live under `folder.*.md` (where defin
 - `_config-operational-flow/`: [[folder._config-operational-flow]]
 - `_config-inheritable-flow/`: [[folder._config-inheritable-flow]]
 - `_current/`: [[folder._current]]
-- `_next/`: [[folder._next]]
+- `_working/`: [[folder._working]]
 - `_vN/`: [[folder._vN]]
 - `_assets/`: [[folder._assets]]
 - Node folder pages:
@@ -124,9 +124,9 @@ Folder-note pages for these reserved names live under `folder.*.md` (where defin
 - Only flows are versioned (flows are DatasetSeries). Nodes are not versioned.
 - Flow snapshots:
   - `_current/`: latest stable realization; after weave it equals the content of the latest `_vN/`.
-  - `_next/`: mutable working area.
+  - `_working/`: mutable working area.
   - `_vN/`: immutable history for precise citation and provenance.
-- Working distribution: `_next/` typically contains a single editable source; weave can fan-out serializations.
+- Working distribution: `_working/` typically contains a single editable source; weave can fan-out serializations.
 - Sibling distribution: patterns and constraints for multi-file realizations.
 See:
 - [[concept.versioning]]
@@ -136,8 +136,8 @@ See:
 7) Lifecycle and Weave Process
 Weave maintains structural coherence and publication readiness:
 - Ensures required system components exist.
-- If versioning is enabled, creates a new `_vN/` from `_next/`.
-- Promotes `_next/` contents to `_current/`.
+- If versioning is enabled, creates a new `_vN/` from `_working/`.
+- Promotes `_working/` contents to `_current/`.
 - Updates meta/provenance; regenerates resource pages.
 - Resolves internal links to maintain transposability.
 - Integrates with the scanner where applicable.
@@ -182,7 +182,7 @@ See:
 │   │   └── _v1/
 │   ├── _payload-flow/                  # payload flow (for payload nodes)
 │   │   ├── _current/
-│   │   ├── _next/
+│   │   ├── _working/
 │   │   └── _v1/
 │   ├── _config-inheritable-flow/    # provider config (optional)
 │   ├── _config-operational-flow/    # resolved config (optional; may be system-written)
@@ -205,7 +205,7 @@ graph TD
   C --> C1[_current]
   C --> C2[_vN]
   E --> E1[_current]
-  E --> E2[_next]
+  E --> E2[_working]
   E --> E3[_vN]
 ```
 
@@ -214,7 +214,7 @@ graph TD
 - [[mesh-resource.node]]: an extensible  resource containing other nodes and its own components
 - [[mesh-resource.node-component]]: terminal resource that supports node behavior/structure
 - [[mesh-resource.node-component.flow]]: DatasetSeries representing an abstract dataset (meta/data/config)
-- [[mesh-resource.node-component.flow-snapshot]]: concrete Dataset realization of a flow (`_current/`, `_next/`, `_vN/`)
+- [[mesh-resource.node-component.flow-snapshot]]: concrete Dataset realization of a flow (`_current/`, `_working/`, `_vN/`)
 - [[mesh-resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.): 
 - [[mesh-resource.node-component.node-handle]]: indirection to refer to the node “as a mesh resource”
 - [[mesh-resource.node-component.documentation-resource.resource-page]]: dereferenceable `index.html` for folders

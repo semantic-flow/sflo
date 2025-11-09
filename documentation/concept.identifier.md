@@ -2,7 +2,7 @@
 id: identifier
 title: identifier
 desc: ''
-updated: 1762632220491
+updated: 1762649293965
 created: 1750368774797
 ---
 
@@ -23,7 +23,7 @@ Semantic Flow resources can be identified via two types of identifiers:
 
 Identifiers that [[denote|concept.denotation]] **concrete information resources** (files on disk or over HTTP):
 
-* **Distributions** → materialized datasets, e.g. `test.ttl`, `dave_v1.jsonld`, etc.
+* **Distributions** → materialized datasets, e.g. `test.ttl`, `djradon.jsonld`, etc.
 * **Resource pages** → e.g. `index.html`
 * **Other documentation resources** → e.g. `README.md`, `CHANGELOG.md`
 

@@ -2,7 +2,7 @@
 id: node-flow
 title: node flow
 desc: ''
-updated: 1762626428404
+updated: 1762663175763
 created: 1751688486456
 ---
 
@@ -23,7 +23,7 @@ As DatasetSeries, node flows are realized through [[mesh-resource.node-component
 
 ### Relationship pattern:
 
-Every node flow has at least two concrete snapshots: [[mesh-resource.node-component.flow-snapshot.current]] and [[mesh-resource.node-component.flow-snapshot.next]].
+Every node flow has at least two concrete snapshots: [[mesh-resource.node-component.flow-snapshot.current]] and [[mesh-resource.node-component.flow-snapshot.working]].
 
 The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series) and may have multiple [[mesh-resource.node-component.flow-snapshot.version]]s.
 
@@ -31,14 +31,14 @@ The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dat
 ### Ontology Example
 
 - node flow: "My ontology definitions" (persistent concept)
-- flow snapshots: v1, v2, current version, working draft of next version (specific realizations)
+- flow snapshots: v1, v2, current version, working draft of working version (specific realizations)
 
 
 ```file
 /my-ontology/
 └── _payload-flow/                  ← node flow (ontology definitions)
     ├── _current/           ← flow snapshot (in this case, probably )
-    ├── _next/           ← flow snapshot
+    ├── _working/           ← flow snapshot
     ├── _v1/           ← flow snapshot
     └── _v2/                ← flow snapshot
 ```

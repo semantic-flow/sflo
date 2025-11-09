@@ -2,7 +2,7 @@
 id: tudefgmmf2pdx28zb9xs84j
 title: Product Brief
 desc: ''
-updated: 1762261565072
+updated: 1762663114888
 created: 1762216937965
 ---
 
@@ -58,7 +58,7 @@ Meshes map directly from Git repository folder hierarchies to published static s
 - Every folder is a **node** (container for resources and child nodes)
 - Nodes contain **components** (flows, handles, assets, documentation)
 - **Flows** are versioned DatasetSeries (metadata, semantic data, arbitrary datasets, or config)
-- **Snapshots** are flow realizations (`_current/`, `_next/`, `_vN/`)
+- **Snapshots** are flow realizations (`_current/`, `_working/`, `_vN/`)
 - **Distributions** are serialization files (TriG, JSON-LD, etc.)
 
 ### The Weave Process

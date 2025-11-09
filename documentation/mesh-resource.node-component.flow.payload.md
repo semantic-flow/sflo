@@ -2,7 +2,7 @@
 id: payload-flow
 title: payload flow
 desc: ''
-updated: 1762626428412
+updated: 1762663114864
 created: 1751560483669
 ---
 
@@ -10,7 +10,7 @@ created: 1751560483669
 
 ## Overview
 
-A payload flow (formerly called a __dataset__ flow) is a series of RDF datasets. Like all flows, each payload flow has snapshots (_current/, _next/, _vN/) that track its evolution over time. 
+A payload flow (formerly called a __dataset__ flow) is a series of RDF datasets. Like all flows, each payload flow has snapshots (_current/, _working/, _vN/) that track its evolution over time. 
 
 payload flows are distinct from [[mesh-resource.node-component.flow.node-metadata]]s, which are usually managed by the platform and describe the mesh node itself and its components.
 
@@ -28,7 +28,7 @@ payload flows serve as the primary content containers for [[mesh-resource.node.p
 payload flows organize content through [[flow snapshots|mesh-resource.node-component.flow-snapshot]]:
 
 - `_current/` - Current stable version of the dataset
-- `_next/` - Draft/work-in-progress version
+- `_working/` - Draft/work-in-progress version
 - `_v1/`, `_v2/`, etc. - Versioned snapshots for historical access
 
 Like all [[facet.filesystem.folder]], they should contain an `index.html` [[mesh-resource.node-component.documentation-resource.resource-page]] -- a human-readable description for the flow.
@@ -52,7 +52,7 @@ From the [[semantic mesh example|concept.semantic-mesh.example]]:
 │   ├── djradon-bio.ttl             # turtle distribution
 │   ├── djradon-bio.jsonld          # json-ld distribution
 │   └── index.html                  # snapshot interface
-├── _next/                          # draft snapshot
+├── _working/                          # draft snapshot
 │   ├── djradon-bio.ttl             # draft turtle
 │   ├── djradon-bio.jsonld          # draft json-ld
 │   └── index.html                  # snapshot interface

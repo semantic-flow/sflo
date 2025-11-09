@@ -2,7 +2,7 @@
 id: kawddwi1dx4qqbhdyip4896
 title: 'Use Case: Radio Show Websiste'
 desc: a simple user story
-updated: 1762624997558
+updated: 1762649438053
 created: 1750645191521
 ---
 
@@ -20,7 +20,7 @@ But to get started:
 
 See [[Example Mesh|concept.mesh#example-mesh]] for a mapping of resources types
 
-#### Mesh Directory Structure
+#### Mesh Node Directory Structure
 
 ```file
 test-ns                    # bare node
@@ -39,7 +39,7 @@ test-ns                    # bare node
 
    ```turtle
    # /ns/_id/ns_id.trig
-   <> a sf:Namespace ;
+   <> a sflo:BareNode ;
       dct:title "Namespace Root" ;
       sf:contains <https://example.org/ns/djradon/> .
    ```
@@ -73,7 +73,7 @@ test-ns                    # bare node
 5. **Historical version**
 
    ```turtle
-   # /ns/djradon/picks/_v-series/v1/picks_v1.trig
+   # /ns/djradon/picks/_v-series/v1/picks.jsonld
    <> dct:issued "2025-06-01"^^xsd:date .
    ```
 

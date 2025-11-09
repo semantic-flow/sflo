@@ -1,11 +1,7 @@
 .sflocache
 
 # external ontology links
-ontology/flow
-ontology/mesh
-ontology/node
-ontology/meta-flow
-ontology/config-flow
+ontology/
 
 # Denron
 .dendron.*

@@ -20,7 +20,7 @@ This page is the canonical list; see the linked docs for behavior and details.
 ## Snapshots (concrete)
 
 - [[_current/|folder._current]]
-- [[_next/|folder._next]]
+- [[_next/|folder._working]]
 - [[_vN/|folder._vN]]
 
 ## Other reserved

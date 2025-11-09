@@ -2,7 +2,7 @@
 id: 4v2b7t8nbzkmtyvnayye3vj
 title: Provenance
 desc: ''
-updated: 1762635059895
+updated: 1762663114877
 created: 1753117923066
 ---
 
@@ -96,10 +96,10 @@ For a `config-flow` at version `v47`, the identifiers would be:
 
 ### Unversioned Flow Accumulation
 
-For flows without versioning, activities accumulate in `_next` with unique timestamps:
+For flows without versioning, activities accumulate in `_working` with unique timestamps:
 
 ```turtle
-# In my-dataset/_node-metadata-flow/_next/my-dataset_meta.trig
+# In my-dataset/_node-metadata-flow/_working/my-dataset_meta.trig
 :dataActivity_2025-07-20_14-30 a meta:DataWeave ;
     prov:startedAtTime "2025-07-20T14:30:00Z" ;
     prov:generated <../../_payload-flow/_current/data.trig> .

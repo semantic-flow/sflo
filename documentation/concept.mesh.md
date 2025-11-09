@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1762626428422
+updated: 1762663243693
 created: 1750624002110
 ---
 
@@ -51,8 +51,8 @@ The primary constituents of a mesh are [[mesh-resource.node]]s. Nodes contain th
 | `ns/djradon/README.md`                                | [[mesh-resource.node-component.documentation-resource.readme]]        | README file (content)        |
 | `ns/djradon/picks/`                                   | [[mesh-resource.node.payload]]                                        | abstract dataset             |
 | `ns/djradon/picks/_payload-flow/`                     | [[mesh-resource.node-component.flow.payload]]                         | payload dataset series       |
-| `ns/djradon/picks/_payload-flow/_next/`               | [[mesh-resource.node-component.flow-snapshot.next]]                   | concrete payload dataset     |
-| `ns/djradon/picks/_payload-flow/_v1/picks_v1.trig`    | [[mesh-resource.node-component.snapshot-distribution]]                | paylod dataset distribution  |
+| `ns/djradon/picks/_payload-flow/_working/`            | [[mesh-resource.node-component.flow-snapshot.working]]                | concrete payload dataset     |
+| `ns/djradon/picks/_payload-flow/_v1/picks.jsonld `    | [[mesh-resource.node-component.snapshot-distribution]]                | paylod dataset distribution  |
 | `ns/djradon/picks/_node-metadata-flow/`               | [[mesh-resource.node-component.flow.node-metadata]]                   | node metadata dataset series |
 | `ns/djradon/picks/_node-metadata-flow/_current/`      | [[mesh-resource.node-component.flow-snapshot.current]]                | node metadata dataset        |
 | `ns/djradon/picks/_config-operational-flow/`          | [[mesh-resource.node-component.flow.node-config.operational]]         | operational config series    |
@@ -71,7 +71,7 @@ Example:
 - `ns/djradon/pics/` = refers to Dave's biographical dataset (payload node)
 - `ns/djradon/pics/_payload-flow/` = abstract dataset (DatasetSeries) containing Dave's "music picks" data
 - `ns/djradon/pics/_payload-flow/_current/` = current concrete dataset snapshot
-- `ns/djradon/pics/_payload-flow/_v1/picks_v1.trig` = RDF distribution from version 1
+- `ns/djradon/pics/_payload-flow/_v1/picks.jsonld` = RDF distribution from version 1
 - `ns/djradon/_assets/images/headshot.jpg` = an image asset; "attached" to the mesh, but not a mesh resource
 
 
@@ -83,8 +83,8 @@ Example:
 - **[[mesh-resource.node-component.flow]]** and their [[mesh-resource.node-component.flow-snapshot]]
   - **[[mesh-resource.node-component.flow.node-metadata]]**: System-related administrative and structural metadata for mesh nodes
   - **[[Version datasets|mesh-resource.node-component.flow-snapshot.version]]**: Versioned snapshots of datasets
-- **[[next snapshots|mesh-resource.node-component.flow-snapshot.next]]**: Draft workspaces for ongoing changes to versioned datasets
-- **[[Node handles|resource.node-component.node-handle]]**: Components that provide referential indirection, allowing references to nodes as mesh resources rather than their referents
+- **[[working snapshots|mesh-resource.node-component.flow-snapshot.working]]**: Draft workspaces for ongoing changes to versioned datasets
+- **[[Node handles|mesh-resource.node-component.node-handle]]**: Components that provide referential indirection, allowing references to nodes as mesh resources rather than their referents
 - **[[Asset trees|mesh-resource.node-component.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
 
 #### File Resources
@@ -114,7 +114,7 @@ Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
 
 ### Reserved Names
 - All system identifiers begin with an underscore (_)
-- Examples: `_assets/`, `_node-metadata-flow/`, `_current`, `_next`
+- Examples: `_assets/`, `_node-metadata-flow/`, `_current`, `_working`
 
 ## Logical Structure
 
