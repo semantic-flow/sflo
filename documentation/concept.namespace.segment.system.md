@@ -19,7 +19,7 @@ This page is the canonical list; see the linked docs for behavior and details.
 
 ## Snapshots (concrete)
 
-- [[_current/|folder._current]]
+- [[_current/|folder._default]]
 - [[_next/|folder._working]]
 - [[_vN/|folder._vN]]
 

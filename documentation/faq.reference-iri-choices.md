@@ -2,7 +2,7 @@
 id: s1yduc399adt3ihvnwievrd
 title: Reference Iri Choices
 desc: ''
-updated: 1762620125934
+updated: 1762707513756
 created: 1751240276585
 ---
 
@@ -31,7 +31,7 @@ This example uses two absolute IRIs, one using the "ex:" prefix for the example.
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-# In ns/djradon/_reference-flow/_current/djradon_ref.trig
+# In ns/djradon/_reference-flow/_default/djradon_ref.trig
 ex:djradon a foaf:Person ;
    rdfs:seeAlso ex:djradon/index.html .
 ```
@@ -72,7 +72,7 @@ If no base is specified, an inferred base of the requested scheme and authority 
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-# In ns/djradon/_reference-flow/_current/djradon_ref.trig
+# In ns/djradon/_reference-flow/_default/djradon_ref.trig
 <../../../djradon/> a foaf:Person ;          # The document itself
    foaf:knows <../../alice/> ;           # A sibling node in the mesh
    rdfs:seeAlso <../bio/bio.html> .      # A resource page contained in a "bio" node under ../../djradon/
@@ -92,7 +92,7 @@ If no base is specified, an inferred base of the requested scheme and authority 
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-# In ns/djradon/_reference-flow/_current/djradon_ref.trig
+# In ns/djradon/_reference-flow/_default/djradon_ref.trig
 </ns/djradon/> a foaf:Person ;
    foaf:knows </ns/alice/> ;          # Clear namespace context
    rdfs:seeAlso </ns/djradon/bio/bio.html> .

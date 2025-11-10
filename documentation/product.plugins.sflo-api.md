@@ -2,7 +2,7 @@
 id: 63tfb27btzbph10tpvckz7b
 title: sflo-api plugin
 desc: ''
-updated: 1762663114860
+updated: 1762707513735
 created: 1755903460930
 ---
 
@@ -22,7 +22,7 @@ Use noun URLs that mirror the mesh's filesystem. Bytes go to `_working`. Version
 * Snapshot layout under any flow:
 
   * `_snapshots/{vN}/_dist/{files…}`
-  * `_current/` → pointer to a snapshot (folder or file)
+  * `_default/` → pointer to a snapshot (folder or file)
   * `_working/`   → working content before weave
 * Headers:
 
@@ -87,10 +87,10 @@ Maybe returns:
     * `201 Created` (new content) or `200/204` (duplicate); `Content-Location` echoes the `_working` URL
 * **List current distributions**
 
-  * `GET /api/{mesh}/{nodePath}/_payload-flow/_current/` → array of files
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_default/` → array of files
 * **Fetch a current distribution**
 
-  * `GET /api/{mesh}/{nodePath}/_payload-flow/_current/{filename}` → bytes
+  * `GET /api/{mesh}/{nodePath}/_payload-flow/_default/{filename}` → bytes
 * **List snapshots**
 
   * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/`
@@ -125,7 +125,7 @@ Goal: “make a couple changes without re-uploading a full file.” We merge **c
   * `Content-Type: application/merge-patch+json`
   * Semantics:
 
-    1. Server reads `_current` distribution (JSON-LD framed DTO)
+    1. Server reads `_default` distribution (JSON-LD framed DTO)
     2. Applies RFC 7396 merge patch
     3. Writes the merged document to `_working/` as JSON-LD
   * Response:
@@ -142,7 +142,7 @@ Goal: “make a couple changes without re-uploading a full file.” We merge **c
 
 ## Pointer management (promote current)
 
-* `PUT /api/{mesh}/{nodePath}/_{flowKind}/_current/`
+* `PUT /api/{mesh}/{nodePath}/_{flowKind}/_default/`
 
   * Body: `{ "snapshot": "vN" }`
   * Headers: `If-Match: "<etag-of-current-pointer>"`
@@ -168,7 +168,7 @@ Goal: “make a couple changes without re-uploading a full file.” We merge **c
 
   * Validates (SHACL if enabled)
   * Creates `…/_snapshots/{vN}` from `_working` for addressed flows
-  * Optionally flips `…/_current/` when `promote:true`
+  * Optionally flips `…/_default/` when `promote:true`
   * Emits `fs.change` with `paths` and `iris`
 
 ## HATEOAS (every JSON-LD/HTML response)
@@ -197,7 +197,7 @@ Minimum links on a node:
 ## Notes and constraints
 
 * No multi-file uploads: `_working` is a single JSON-LD (or TriG) file for payload-flow. 
-* PATCH is supported for flows whose `_current` is JSON-LD. Not supported for TriG distributions.
+* PATCH is supported for flows whose `_default` is JSON-LD. Not supported for TriG distributions.
 * All URLs are nouns. No `?op=`. Jobs model compute.
 * API ↔ site symmetry: replacing `/api` with the site host yields the same resource for GETs that return files.
 

@@ -39,7 +39,7 @@ System components are usually created or altered by the [[Weave Process|concept.
 **Folder-based system components:**
 - **[[metadataset flows|mesh-resource.node-component.flow.node-metadata]]**: Administrative and structural metadata for mesh nodes (in `_node-metadata-flow/` folders)
 - **[[version snapshot|mesh-resource.node-component.flow-snapshot.version]]**: Versioned snapshots of datasets (in `_vN/` folders) are created on weave
-- **[[mesh-resource.node-component.flow-snapshot.current]]**: updated on weave
+- **[[mesh-resource.node-component.flow-snapshot.default]]**: updated on weave
 - **[[Node handles|mesh-resource.node-component.node-handle]]**: Components providing referential indirection for nodes as mesh resources (in `_node-handle/` folders)
 
 **File-based system components:**

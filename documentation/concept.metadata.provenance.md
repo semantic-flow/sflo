@@ -2,17 +2,17 @@
 id: 4v2b7t8nbzkmtyvnayye3vj
 title: Provenance
 desc: ''
-updated: 1762663114877
+updated: 1762708072882
 created: 1753117923066
 ---
 
 ## Core Principles
 
-**Version-only provenance** - Provenance reference in [[mesh-resource.node-component.flow-snapshot.current]] should reference its corresponding stable version; 
+**Version-only provenance** - Provenance reference in [[mesh-resource.node-component.flow-snapshot.default]] should reference its corresponding stable version; 
 
 **Meta-flow storage** - Semantic Flow-specific provenance lives in meta-flows, referencing version snapshots in other flows. Domain-specific provenance can live in datasets themselves.
 
-**Current snapshot duplication** - `_current` meta snapshots contain identical copies of the latest version's provenance with base URI pointing to the version snapshot for stable fragment resolution.
+**default snapshot duplication** - `_default` meta snapshots contain identical copies of the latest version's provenance with base URI pointing to the version snapshot for stable fragment resolution.
 
 ## Fragment Identifier Naming Scheme
 
@@ -84,10 +84,10 @@ For a `config-flow` at version `v47`, the identifiers would be:
        prov:actedOnBehalfOf <https://orcid.org/0000-0002-1825-0097> .
 ```
 
-### Current Snapshot Copy
+### default snapshot Copy
 
 ```turtle
-# In my-dataset/_node-metadata-flow/_current/my-dataset_meta.trig
+# In my-dataset/_node-metadata-flow/_default/my-dataset_meta.trig
 @base <../_v47/> .
 
 # Identical content to version snapshot - all URIs resolve to stable version
@@ -102,12 +102,12 @@ For flows without versioning, activities accumulate in `_working` with unique ti
 # In my-dataset/_node-metadata-flow/_working/my-dataset_meta.trig
 :dataActivity_2025-07-20_14-30 a meta:DataWeave ;
     prov:startedAtTime "2025-07-20T14:30:00Z" ;
-    prov:generated <../../_payload-flow/_current/data.trig> .
+    prov:generated <../../_payload-flow/_default/data.trig> .
 
 :dataActivity_2025-07-20_16-45 a meta:DataWeave ;
     prov:startedAtTime "2025-07-20T16:45:00Z" ;
-    prov:used <../../_payload-flow/_current/data.trig> ;
-    prov:generated <../../_payload-flow/_current/data.trig> .
+    prov:used <../../_payload-flow/_default/data.trig> ;
+    prov:generated <../../_payload-flow/_default/data.trig> .
 ```
 
 ## Key Components

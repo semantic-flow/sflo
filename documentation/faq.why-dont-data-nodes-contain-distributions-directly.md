@@ -2,13 +2,13 @@
 id: osqi7xn4mw3j9v0kvsoc5uo
 title: Why Dont payload nodes Contain Distributions Directly
 desc: ''
-updated: 1762663114889
+updated: 1762707513752
 created: 1751387201637
 ---
 
 ## Question
 
-Why don't [[payload nodes|mesh-resource.node.payload]] contain distribution files directly? Why do I need to go to `_current/` to find the actual data?
+Why don't [[payload nodes|mesh-resource.node.payload]] contain distribution files directly? Why do I need to go to `_default/` to find the actual data?
 
 ## Answer
 
@@ -29,7 +29,7 @@ The payload node and data compound provide permanent, stable identifier for the 
 ### Temporal Organization
 
 By separating the concept from concrete instances, payload nodes can cleanly organize different temporal states:
-- `_current/` - current data
+- `_default/` - current data
 - `_working/` - draft changes  
 - `_v1/`, `_v2/` - historical versions
 
@@ -37,7 +37,7 @@ By separating the concept from concrete instances, payload nodes can cleanly org
 
 This mirrors how [[reference nodes|concept.mesh.resource.node.reference]] work:
 - **Reference nodes**: Abstract entity concept + `_ref/` node component with concrete data
-- **payload nodes**: Abstract data concept + `_current/` component with concrete data
+- **payload nodes**: Abstract data concept + `_default/` component with concrete data
 
 ### Metadata Separation
 

@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1762663114880
+updated: 1762707513747
 created: 1751128698638
 ---
 
@@ -15,7 +15,7 @@ created: 1751128698638
     - creates a new [[mesh-resource.node-component.flow-snapshot.version]] 
     - updates version metadata
   - regardless of whether versioning is on:
-    - copies _working to _current
+    - copies _working to _default
     - updates _node-metadata-flow with new version information
 - regenerates affected [[mesh-resource.node-component.documentation-resource.resource-page]]
 - ensure that [[folder.node]] are only contained in other [[folder.node]].
@@ -55,7 +55,7 @@ created: 1751128698638
 This ensures that in published meshes and sites:
 
 - broken references are cleaned up
-- [[mesh-resource.node-component.flow-snapshot.current]] is identical to the latest version
+- [[mesh-resource.node-component.flow-snapshot.default]] is identical to the latest version
 
 ## Features
 

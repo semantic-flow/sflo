@@ -2,7 +2,7 @@
 id: xqjr13fyons9goxv8rjrskj
 title: Todo
 desc: ''
-updated: 1762627508016
+updated: 1762711033457
 created: 1755715425146
 ---
 
@@ -17,7 +17,7 @@ This list captures general tasks, ideas, and items that have not yet been broken
 - [ ] Define and implement the two-flow configuration inheritance model.
 - [ ] Create initial unit and integration tests for `sflo-host`.
 - [ ] Design sflo-web server-rendered architecture (Fastify view engine + HTMX partials)
-- [ ] Logging Phase 2
+- [ ] Logging Phase 2 (+ sentry mcp server?)
 
 ## Grooming / Future Tasks
 
