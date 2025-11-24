@@ -7,4 +7,4 @@ created: 1762220942514
 ---
 
 
-- [[task.2025-11-03-optimizing-for-agents]] - Initial Memory Bank Structure
+- [[completed.2025-11-03-optimizing-for-agents]] - Initial Memory Bank Structure

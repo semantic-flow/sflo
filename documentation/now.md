@@ -16,7 +16,7 @@ This document captures the high-level, current focus of development. It should b
 
 ## Active Tasks
 
-- [[task.2025-11-06-embed-quadstore-comunica]]
+- [[task.2025-11-06-embed-rdf-store]]
 - figure out provenance - separate flow?
 
 ## Blockers / Risks

@@ -1,6 +1,6 @@
 ---
 id: yasopcpwfbmltdtgphya86n
-title: 2025 11 06 Embed Quadstore Comunica
+title: 2025 11 06 Embed Rdf Store
 desc: ''
 updated: 1762551115908
 created: 1762536928297

@@ -2,13 +2,15 @@
 id: 8akbl2qj0nz38yrvet4oq3k
 title: 2025-11-09-replace-monotonic-vN-with-timestamp
 desc: ''
-updated: 1762713954316
+updated: 1763997793468
 created: 1762712674617
 ---
 
+
+
 ## Decisions
 
-- to accomodate "as-of" querying across meshes, we decided to move from monotonic (_vN) versions to "snapshotTime" versions with millisecond precision, e.g. 20251109181158123. On weave, lock CRUD (if using API; if using fs, you could consider locking files but meh), check local clock's accuracy, pick a snapshotTime, and use it for "releasing" all the "working" distributions. 
+- to facilitate "as-of" across meshes, we decided to move from monotonic (_vN) versions to "snapshotTime" versions with millisecond precision, e.g. 20251109181158123. On weave, lock CRUD (if using API; if using fs, you could consider locking files but meh), check local clock's accuracy, pick a weaveTime, and use it for "releasing" all the "working" distributions. 
 
 ## Prompt
 
@@ -39,7 +41,7 @@ REQUIREMENTS
 
 2) Identifier format and generation
    - snapshotTimestamp format: ^\d{17}$ (UTC, pad ms to 3 digits).
-   - Source of truth is server time from sflo-host.
+   - Source of truth is server time from sflo-host, although we could consider an NTP check
 
 3) Metadata
    - On each snapshot dataset (folder):
