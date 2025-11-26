@@ -2,7 +2,7 @@
 id: xqjr13fyons9goxv8rjrskj
 title: Todo
 desc: ''
-updated: 1762711033457
+updated: 1764104184708
 created: 1755715425146
 ---
 
@@ -12,12 +12,14 @@ This list captures general tasks, ideas, and items that have not yet been broken
 
 ## High Priority
 
-- [ ] Finish conversion of SFLO Ontology to JSONLD, remove other files; add to guidance
+- [ ] set up a store adapter, store implementations, query catalog, and web UI
 - [ ] Implement the core Weave Process logic (versioning, promotion, link resolution).
 - [ ] Define and implement the two-flow configuration inheritance model.
 - [ ] Create initial unit and integration tests for `sflo-host`.
 - [ ] Design sflo-web server-rendered architecture (Fastify view engine + HTMX partials)
 - [ ] Logging Phase 2 (+ sentry mcp server?)
+- It seems like, similar to how Flows can have a weaveLabel for "last woven", Flows could have a sequenceNumber for "last woven"
+
 
 ## Grooming / Future Tasks
 
@@ -29,3 +31,5 @@ This list captures general tasks, ideas, and items that have not yet been broken
 - [ ] Ensure all memory bank files are consistently updated as work progresses.
 - [ ] Review and update [[dev.patterns]] as new architectural decisions are made.
 - [ ] Review and update [[dev.dependencies]] when major dependencies are added or removed.
+
+

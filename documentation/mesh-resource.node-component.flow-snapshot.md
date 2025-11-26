@@ -85,5 +85,5 @@ flow snapshots are created through:
 ## Related Concepts
 
 - **[[mesh-resource.node-component.flow]]** - Parent conceptual entities
-- **[[concept.versioning]]** - Process of creating versioned flow snapshots
+- **[[concept.flow-version]]** - Process of creating versioned flow snapshots
 - **[[concept.weave-process]]** - Operation that manages flow snapshot lifecycle

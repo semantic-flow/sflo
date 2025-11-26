@@ -115,7 +115,7 @@ Folder-note pages for these reserved names live under `folder.*.md` (where defin
 - `_config-inheritable-flow/`: [[folder._config-inheritable-flow]]
 - `_default/`: [[folder._default]]
 - `_working/`: [[folder._working]]
-- `_vN/`: [[folder._vN]]
+- `_vN/`: [[folder.flowshot]]
 - `_assets/`: [[folder._assets]]
 - Node folder pages:
   - Node: [[folder.node]]
@@ -129,7 +129,7 @@ Folder-note pages for these reserved names live under `folder.*.md` (where defin
 - Working distribution: `_working/` typically contains a single editable source; weave can fan-out serializations.
 - Sibling distribution: patterns and constraints for multi-file realizations.
 See:
-- [[concept.versioning]]
+- [[concept.flow-version]]
 - [[mesh-resource.node-component.snapshot-distribution.working]]
 - [[concept.sibling-distribution]]
 

@@ -2,13 +2,13 @@
 id: r6akf3zjimf3ubkxpqmeubc
 title: version snapshot
 desc: ''
-updated: 1762811935333
+updated: 1764133629415
 created: 1751087645111
 ---
 
 A snapshot dataset generated "on [[weave|concept.weave-process]]"
 
-The folder is named with the [[concept.version-key]]
+The [[folder.flowshot]] is named with the [[concept.weave-label]] plus the [[concept.flow-version]]
 
 ## Disambiguation
 

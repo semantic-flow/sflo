@@ -10,7 +10,7 @@ Immutable data provides fundamental guarantees that enable reliable, distributed
 
 
 
-- [[mesh-resource.node-component.flow-snapshot.version]] (e.g. in [[folder._vN]]) should be usually be treated as immutable. 
+- [[mesh-resource.node-component.flow-snapshot.version]] (e.g. in [[folder.flowshot]]) should be usually be treated as immutable. 
   - Therefore, if you need to refer to a flow "as is", you should refer to its corresponding snapshot version.
   - TODO: examples
 - sometimes, e.g., for compliance reasons, you have to modify or hard-delete some data. 

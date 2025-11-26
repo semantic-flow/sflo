@@ -145,7 +145,7 @@ Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
 - The weave process maintains system components and generates missing required flows
 
 ### Versioning Requirements
-- flow versioning is managed through the [[Versioning|concept.versioning]] system
+- flow versioning is managed through the [[Flow Version|concept.flow-version]] system
   - turning versioning on and off is controlled in the [[mesh-resource.node-component.node-config-defaults]]
   - Version history is realized in [[mesh-resource.node-component.flow-snapshot.version]] with numbered version snapshots
   - Version history metadata is kept in the node's [[mesh-resource.node-component.flow.node-metadata]]

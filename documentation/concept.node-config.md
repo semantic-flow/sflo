@@ -2,7 +2,7 @@
 id: pqjdlyd8g80x3yr9o3p82mj
 title: node config
 desc: ''
-updated: 1755903872316
+updated: 1764102891100
 created: 1752325154211
 ---
 
@@ -10,21 +10,21 @@ created: 1752325154211
 
 Node configuration determines:
 
-- flow versioning
+- flow versioning (on/off; perhaps customweaveLabl)
 - resource page and resource fragment generation
 - distribution syntaxes
 - template usage and stylesheets
-- attribution defaults
+- attribution/provenance defaults
 
-Node configuration is held in memory by the [[flow service|sflo.product.service]], and is calculated when the service starts.
+Node configuration is held in memory by the [[product.sflo-host]], and is calculated when the application starts.
 
-Node configuration is at least partially determined by "config specification", which happens in [[mesh-resource.node-component.flow.node-config]] and can be inherited to contained nodes.
+Node configuration is at least partially determined by "config specification", which happens in the two [[mesh-resource.node-component.flow.node-config]]:  [[mesh-resource.node-component.flow.node-config.operational]] and [[mesh-resource.node-component.flow.node-config.inheritable]] (which can be inherited to contained nodes).
 
-If config specification is missing, (i.e., config spec inheritance is turned off or unspecified), node configuration will be determined from service-level config specification, i.e. [[product.service.config]]. In case there is none, the service will use sensible defaults at the root level which will be inherited down the mesh.
+If config specification is missing, (i.e., config spec inheritance is turned off or unspecified), node configuration will be determined from application-level config specification. In case there is none, the service will use sensible defaults at the platform level.
 
 ### Initial Config Specification
 
-- When a node is initially created, if config-defaults-inheritance is turned on for its parent node, it will have its [[mesh-resource.node-component.flow.node-config]] populated based on any parent [[mesh-resource.node-component.node-config-defaults]] files present in the hierarchy. If there are none, its [[mesh-resource.node-component.flow-snapshot.default]] will not be created.
+- When a node is initially created, if inheritance is turned on for its parent node, it will have its [[mesh-resource.node-component.flow.node-config]] populated based on any parent [[mesh-resource.node-component.node-config-defaults]] files present in the hierarchy. If there are none, its [[mesh-resource.node-component.flow-snapshot.default]] will not be created.
 
 ### Calculating Node Config
 

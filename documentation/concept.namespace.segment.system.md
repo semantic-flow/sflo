@@ -21,7 +21,7 @@ This page is the canonical list; see the linked docs for behavior and details.
 
 - [[_current/|folder._default]]
 - [[_next/|folder._working]]
-- [[_vN/|folder._vN]]
+- [[_vN/|folder.flowshot]]
 
 ## Other reserved
 
