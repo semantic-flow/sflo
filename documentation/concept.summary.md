@@ -27,7 +27,7 @@ A filesystem-based mesh maps directly from a Git repository’s folder hierarchy
 See:
 - [[concept.mesh]]: definition, requirements
 - [[concept.semantic-flow-site]]: site posture
-- [[concept.mesh-repo]]: repo-to-site mapping
+- [[concept.single-mesh-repo]]: repo-to-site mapping
 
 2) Design Principles
 - [[principle.dereferencability-for-humans]]: resource pages
@@ -151,7 +151,7 @@ See:
 - Repos are static-site-ready; pushing to GitHub Pages or any static host publishes the mesh (folder paths → IRI paths).
 - Transposition (domain/project move) is safe with relative IDs.
 See:
-- [[concept.mesh-repo]]
+- [[concept.single-mesh-repo]]
 - [[concept.semantic-flow-site]]
 - [[concept.publication]]
 

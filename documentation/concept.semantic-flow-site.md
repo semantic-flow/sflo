@@ -13,4 +13,4 @@ Semantic Flow sites provide:
 
 ## Publishing
 
-- For sites exposed by Github/Gitlab Pages functionality, pushing a [[concept.mesh-repo]] effectively publishes it.
+- For sites exposed by Github/Gitlab Pages functionality, pushing a [[concept.single-mesh-repo]] effectively publishes it.

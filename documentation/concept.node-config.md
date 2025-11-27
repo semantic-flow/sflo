@@ -48,6 +48,6 @@ Semantic Flow uses sensible defaults, specified in the so that neither node-leve
 - by default:
   - versioning is turned on for all flows
   - distribution syntaxes are .trig and jsonld
-  - resource pages are generated using a standard template and CSS file that get copied into a [[concept.mesh-repo]]'s root [[mesh-resource.node-component.asset-tree]] upon initialization
+  - resource pages are generated using a standard template and CSS file that get copied into a [[concept.single-mesh-repo]]'s root [[mesh-resource.node-component.asset-tree]] upon initialization
   - [[mesh-resource.node-component.aggregated-distribution]] are not generated
   - [[concept.mesh.resource.element.flow.unified]]

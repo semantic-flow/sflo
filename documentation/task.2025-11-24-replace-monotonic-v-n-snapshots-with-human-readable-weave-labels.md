@@ -1,74 +1,67 @@
 ---
 id: 8akbl2qj0nz38yrvet4oq3k
-title: 2025 11 24 Replace Monotonic V N Snapshots with Human Readable Weave Labels
+title: Replace Monotonic V N Snapshots with Human Readable Weave Labels
 desc: ''
-updated: 1763997954928
+updated: 1764143720791
 created: 1762712674617
 ---
 
+# **TASK — Replace Monotonic `_vN` Snapshots With Human-Readable Weave Labels**
 
-Here is a **rewritten, internally consistent, sharply-scoped task spec** that matches *everything you’ve now decided*, eliminates contradictions, and bakes in the clarified semantics for:
-
-* snapshot naming,
-* weave identifiers,
-* `_default`,
-* metadata flows,
-* chain-of-history,
-* compaction behavior,
-* no merging of divergent meshes,
-* dangling `previousSnapshot` allowed.
-
-It does **not** introduce anything new; it consolidates your actual decisions.
+**ID:** `2025-11-24-weave-label-redesign`
+**Title:** Document the new `_vN` folder naming with human-readable weave labels
+**Created:** 2025-11-24
+**Updated:** 2025-11-26
 
 ---
 
-# **TASK — Replace Monotonic `_vN` Snapshots With Human-Readable Weave Labels + Linear Snapshot Chain**
+## **CURRENT STATE**
 
-**ID:** `2025-11-XX-weave-label-redesign`
-**Title:** Replace `_vN` folder versions with human-readable weave labels and linear snapshot metadata
-**Created:** 2025-11-XX
-**Updated:** 2025-11-XX
+The ontology groundwork is complete:
+- `sflo:weaveLabel` property exists for human-readable labels
+- `sflo:sequenceNumber` property exists for monotonic ordering
+- `sflo:previousSnapshot` property exists for snapshot linking
+- FlowShot terminology (Snapshot/DefaultShot/WorkingShot) is established in the ontology
+
+This task focuses on **documentation consistency** and **ontology verification**.
 
 ---
 
 ## **GOAL**
 
-Replace `_vN` snapshot folder naming with a more human-readable weave label of the form:
+Document the enhanced snapshot folder naming that combines human-readable weave labels with sequence numbers:
 
 ```
 YYYY-MM-DD_HHMM[_suffix]_vN
 ```
 
 Examples:
-
 * `2025-11-24_0142_v1`
 * `2025-11-24_0142a_v2`
 * `2025-11-24_0142za_v3`
 
 While preserving:
-
-* Immutable snapshots
-* Consistent `_default` semantics
+* Immutable snapshots (FlowShots)
+* Consistent `_default` semantics (DefaultShot)
 * A linear `previousSnapshot` chain for metadata flows
-* Minimal reliance on labels for semantics (canonical identity remains the dataset IRI + metadata)
+* The folder name as part of the canonical IRI identity
 
 ---
 
 ## **MOTIVATION**
 
-1. `_vN` gives ordinality but no human context.
-2. Full millisecond timestamps (`20251109181158123`) are too visually dense for humans.
+1. `_vN` alone gives ordinality but no human context
+2. Full millisecond timestamps (`20251109181158123`) are too visually dense for humans
 3. Weaves are slow, human-mediated operations, so:
-
    * Minute-resolution labels are adequate, and
-   * Same-minute multiple runs are rare but allowed.
-4. Human-friendly labels improve UX without affecting machine identity, which is based on metadata.
+   * Same-minute multiple runs are rare but allowed
+4. Human-friendly labels improve UX without affecting machine identity
 
 ---
 
 ## **SPECIFICATION**
 
-### **1. Snapshot Label Format**
+### **1. Flowshot (Snapshot) Folder Format**
 
 Each snapshot folder uses:
 
@@ -79,7 +72,6 @@ Each snapshot folder uses:
 Where:
 
 1. **weaveLabel:** a human-oriented identifier, generated once per weave run:
-
    ```
    YYYY-MM-DD_HHMM
    YYYY-MM-DD_HHMMa
@@ -89,12 +81,10 @@ Where:
    YYYY-MM-DD_HHMMza
    ...
    ```
-
    (infinite base-26 suffix using lowercase a–z)
 
 2. **sequenceNumber:**
-   A strictly monotonic integer *per flow*, stored inside snapshot metadata:
-
+   A strictly monotonic integer *per flow*, stored inside snapshot metadata and reflected in folder name:
    ```
    sflo:sequenceNumber 17 .
    ```
@@ -107,39 +97,34 @@ Sequence number provides ordering; weave label provides readability.
 
 * **Only one process should weave a mesh/sub-mesh at a time.**
 
-* Advisory soft lock:
-
-  * At start of weave: create `.weave-lock` in the mesh root (atomic rename).
-  * Lock file contains: PID, host, timestamp.
-  * Stale locks may be broken with `--force`.
+* Advisory soft lock (see [[concept.weave-process.weave-lock]]):
+  * At start of weave: create `.weave-lock` in the mesh root
+  * Lock file contains: PID, host, timestamp
+  * Stale locks may be broken with `--force`
 
 * Within a single weave run:
-
-  * Core computes `weaveLabel` once and reuses it for all flows.
+  * Core computes `weaveLabel` once and reuses it for all flows
 
 * Suffix selection logic:
-
-  * Query existing snapshot labels for the same minute.
-  * Select lexicographically max existing label.
-  * Increment suffix.
-  * If no existing, suffix = empty string.
-
-This is **non-atomic** across clones; Git conflicts remain acceptable.
+  * Query existing snapshot labels for the same minute
+  * Select lexicographically max existing label
+  * Increment suffix
+  * If no existing, suffix = empty string
 
 ---
 
-### **3. Snapshot Creation (per flow)**
+### **3. FlowShot Structure (per flow)**
 
-Each flow snapshot directory:
+Each flow's directory structure:
 
 ```
 /<node>/<flow>/
-  YYYY-MM-DD_HHMM[_suffix]_vN/
-  _default/
-  _working/    # unchanged
+  YYYY-MM-DD_HHMM[_suffix]_vN/    # Snapshot (immutable FlowShot)
+  _default/                        # DefaultShot
+  _working/                        # WorkingShot
 ```
 
-A snapshot dataset includes at minimum:
+A Snapshot dataset includes at minimum:
 
 ```turtle
 :ThisSnapshot a sflo:Snapshot ;
@@ -150,118 +135,103 @@ A snapshot dataset includes at minimum:
     sflo:previousSnapshot :PriorSnapshot .   # optional if no prior
 ```
 
-Snapshots are **immutable**.
-
 ---
 
-### **4. `_default` Semantics**
+### **4. DefaultShot Semantics**
 
 `_default/` for any flow is:
 
-* A **byte-for-byte mirror** of the latest snapshot dataset.
-* Contains **no additional metadata** not present in the snapshot itself.
-* Updated on weave by **replacing** its contents atomically.
+* A **byte-for-byte mirror** of the latest snapshot dataset
+* Contains **no additional metadata** not present in the snapshot itself
+* Updated on weave by **replacing** its contents atomically
 
 Therefore:
-
-* `_default` = “current snapshot”
-* Snapshot = “current dataset + history pointer”
-* All historical links live **inside the snapshot**, not in `_default`.
-
-This preserves your rule:
-
-> `_default` should be identical to the latest version and not accumulate history content.”
+* DefaultShot = "current snapshot content"
+* Snapshot = "immutable dataset with history metadata"
+* All historical links live **inside the snapshot**, not in `_default`
 
 ---
 
-### **5. Metadata Flows**
+### **5. Canonical Identity**
 
-Metadata flows follow the same snapshot pattern:
-
-* Snapshot includes:
-
-  * All current metadata (provenance, validation, metrics, copyright),
-  * `sflo:previousSnapshot`,
-  * `sflo:weaveRunId`, `sflo:weaveLabel`, `prov:generatedAtTime`, etc.
-
-* **History model:**
-  A linear linked list via `sflo:previousSnapshot`.
-
-* **Compaction:**
-  If an old snapshot is deleted, leaving `sflo:previousSnapshot` dangling, this is acceptable and will not break weaves.
-
-* No merge semantics between divergent histories; next weave simply materializes the correct latest metadata.
-
----
-
-### **6. Canonical Identity**
-
-Canonical identity of a snapshot is:
+The canonical identity of a snapshot IS its IRI, which includes the folder name:
 
 ```
-IRI of the snapshot dataset
-+
-the metadata inside it
+https://example.org/my-node/_payload-flow/2025-11-24_0142_v1/
 ```
 
-NOT the folder label.
-
-Folder names are for:
-
-* Human readability,
-* Local organization,
-* Optional suffix disambiguation.
-
-Sequence numbers (`_vN`) remain canonical for ordering; weave labels do not.
+Since the folder name is part of the IRI path, it directly contributes to the identity. The weave label and sequence number in the folder name become permanent parts of the snapshot's identity.
 
 ---
 
-### **7. Required Deliverables**
+## **DELIVERABLES**
 
-1. **Core implementation**
+### **1. Ontology Verification**
 
-   * Weave label generator
-   * Suffix increment function
-   * Previous-snapshot linking
-   * Snapshot folder creation
-   * `_default` synchronization
-   * `.weave-lock` advisory lock support
+Verify these properties exist and are correctly defined:
+- ✅ `sflo:weaveLabel` (exists in semantic-flow ontology)
+- ✅ `sflo:sequenceNumber` (exists in semantic-flow ontology)
+- ✅ `sflo:previousSnapshot` (exists in semantic-flow ontology)
+- ✅ FlowShot/Snapshot/DefaultShot/WorkingShot classes (exist in semantic-flow ontology)
 
-2. **Ontology updates**
+### **2. Documentation Updates Required**
 
-   * `sflo:weaveLabel`
-   * `sflo:sequenceNumber`
-   * `sflo:previousSnapshot`
-   * Clarified comments for snapshot semantics
+Update all references from simple `_vN` to the new format in:
 
-3. **CLI updates**
+**Core Concept Documentation:**
+* [`concept.weave-label.md`](documentation/concept.weave-label.md) - Update format from YYYYMMDD.HHMMSS to YYYY-MM-DD_HHMM
+* [`concept.flow-version.md`](documentation/concept.flow-version.md) - Clarify relationship with flowshot naming
+* [`folder.flowshot.md`](documentation/folder.flowshot.md) - Update to show concatenation format
 
-   * Display weaveLabel when weaving
-   * Warn on stale `.weave-lock`
-   * `--force` lock override
+**High Priority Updates (Multiple `_vN` references):**
+* [`concept.summary.md`](documentation/concept.summary.md) - 8 occurrences
+* [`guide.product-brief.md`](documentation/guide.product-brief.md) - Snapshot descriptions
+* [`concept.weave-process.md`](documentation/concept.weave-process.md) - Weave process descriptions
 
-4. **Documentation**
+**FlowShot Terminology Alignment:**
+* [`mesh-resource.node-component.flow-snapshot.version.md`](documentation/mesh-resource.node-component.flow-snapshot.version.md)
+* [`mesh-resource.node-component.flow-snapshot.default.md`](documentation/mesh-resource.node-component.flow-snapshot.default.md)
+* [`mesh-resource.node-component.flow-snapshot.working.md`](documentation/mesh-resource.node-component.flow-snapshot.working.md)
 
-   * Replace all `_vN` references
-   * Add weave label specification
-   * Update snapshot layout diagrams
-   * Add rules for metadata flows and history
+**Other Documentation:**
+* [`facet.flow.versioned.md`](documentation/facet.flow.versioned.md)
+* [`mesh-resource.node-component.md`](documentation/mesh-resource.node-component.md)
+* [`concept.metadata.provenance.md`](documentation/concept.metadata.provenance.md)
+* [`mesh-resource.node-component.flow.payload.md`](documentation/mesh-resource.node-component.flow.payload.md)
+* [`mesh-resource.node-component.node-config-defaults.md`](documentation/mesh-resource.node-component.node-config-defaults.md)
+
+**Check for existence and update if present:**
+* `concept.namespace.segment.system.md`
+* `folder.node.md`
+* `facet.filesystem.folder.md`
 
 ---
 
-## **NOTES / RATIONALE**
+## **TODO**
 
-* Sequence number handles ordinality cleanly.
-* Weave labels provide mnemonic, clustered human context.
-* `_default` remains simple and does not accidentally become a log.
-* History is captured cleanly inside snapshot metadata (single predecessor).
-* Compaction is graceful; dangling previous pointers are allowed.
-* No merging of divergent histories reduces complexity without limiting real workflows.
+- [ ] Update `concept.weave-label.md` format description
+- [ ] Update all `_vN` references in `concept.summary.md`
+- [ ] Update flowshot terminology in all snapshot documentation
+- [ ] Verify all ontology properties are consistent
+- [ ] Update `guide.product-brief.md` snapshot descriptions
+- [ ] Review and update `concept.weave-process.md`
+- [ ] Ensure all documentation cross-references are consistent
 
 ---
 
-If you want, I can also generate:
+## **DECISIONS**
 
-* A minimal SHACL profile for snapshots,
-* A folder-layout diagram,
-* Or the corresponding JSON-LD contexts for `sflo:weaveLabel`, etc.
+* **2025-11-26**: Confirmed folder format as `YYYY-MM-DD_HHMM[suffix]_vN` keeping the `_vN` suffix
+* **2025-11-26**: Aligned with FlowShot terminology (Snapshot/DefaultShot/WorkingShot)
+* **2025-11-26**: Clarified that folder name IS part of the canonical IRI identity
+* **2025-11-26**: Focused on documentation and ontology verification only (no implementation)
+
+---
+
+## **NOTES**
+
+* The sequence number (_vN) remains in folder names for clear ordinality
+* Weave labels provide human-readable temporal context
+* The folder name becomes part of the permanent IRI identity
+* No implementation work is needed at this stage
+* Documentation consistency is the primary goal
