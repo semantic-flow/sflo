@@ -1,8 +1,8 @@
 ---
 id: 8t3swuswoi81yuzo2bnecy9
-title: flow snapshot
+title: FlowShot
 desc: ''
-updated: 1756869568794
+updated: 1764264745953
 created: 1751689346769
 ---
 
@@ -69,7 +69,7 @@ _current/
 
 **[[mesh-resource.node-component.flow-snapshot.version]]** (historical flow snapshots, i.e., versioned folders like `_v1/`, `_v2/`) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.
 
-**[[mesh-resource.node-component.flow-snapshot.default]]** (the latest "woven" flow snapshots, `_current`) should not be modified directly by users, but will be updated "on weave" if the [[mesh-resource.node-component.flow-snapshot.working]] has evolved. 
+**[[mesh-resource.node-component.flow-shot.default-shot]]** (the latest "woven" flow snapshots, `_current`) should not be modified directly by users, but will be updated "on weave" if the [[mesh-resource.node-component.flow-snapshot.working]] has evolved. 
 
 **[[mesh-resource.node-component.flow-snapshot.working]]** (working flow snapshots, `_next/`) are mutable:
 - Can be edited and updated during development

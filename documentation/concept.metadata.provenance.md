@@ -8,7 +8,7 @@ created: 1753117923066
 
 ## Core Principles
 
-**Version-only provenance** - Provenance reference in [[mesh-resource.node-component.flow-snapshot.default]] should reference its corresponding stable version; 
+**Version-only provenance** - Provenance reference in [[mesh-resource.node-component.flow-shot.default-shot]] should reference its corresponding stable version; 
 
 **Meta-flow storage** - Semantic Flow-specific provenance lives in meta-flows, referencing version snapshots in other flows. Domain-specific provenance can live in datasets themselves.
 

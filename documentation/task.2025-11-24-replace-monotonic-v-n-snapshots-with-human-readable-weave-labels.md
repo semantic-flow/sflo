@@ -2,18 +2,10 @@
 id: 8akbl2qj0nz38yrvet4oq3k
 title: Replace Monotonic V N Snapshots with Human Readable Weave Labels
 desc: ''
-updated: 1764143720791
+updated: 1764267461648
 created: 1762712674617
 ---
 
-# **TASK — Replace Monotonic `_vN` Snapshots With Human-Readable Weave Labels**
-
-**ID:** `2025-11-24-weave-label-redesign`
-**Title:** Document the new `_vN` folder naming with human-readable weave labels
-**Created:** 2025-11-24
-**Updated:** 2025-11-26
-
----
 
 ## **CURRENT STATE**
 
@@ -32,13 +24,13 @@ This task focuses on **documentation consistency** and **ontology verification**
 Document the enhanced snapshot folder naming that combines human-readable weave labels with sequence numbers:
 
 ```
-YYYY-MM-DD_HHMM[_suffix]_vN
+YYYY-MM-DD_HHMM_SS_vN
 ```
 
 Examples:
-* `2025-11-24_0142_v1`
-* `2025-11-24_0142a_v2`
-* `2025-11-24_0142za_v3`
+* `2025-11-24_0142_07_v1`
+* `2025-11-24_0142_08_v2`
+* `2025-11-24_0142_15_v3`
 
 While preserving:
 * Immutable snapshots (FlowShots)
@@ -53,8 +45,8 @@ While preserving:
 1. `_vN` alone gives ordinality but no human context
 2. Full millisecond timestamps (`20251109181158123`) are too visually dense for humans
 3. Weaves are slow, human-mediated operations, so:
-   * Minute-resolution labels are adequate, and
-   * Same-minute multiple runs are rare but allowed
+   * Second-resolution labels are adequate, and
+   * Same-second multiple runs would be extremely rare
 4. Human-friendly labels improve UX without affecting machine identity
 
 ---
@@ -73,15 +65,9 @@ Where:
 
 1. **weaveLabel:** a human-oriented identifier, generated once per weave run:
    ```
-   YYYY-MM-DD_HHMM
-   YYYY-MM-DD_HHMMa
-   YYYY-MM-DD_HHMMb
-   ...
-   YYYY-MM-DD_HHMMz
-   YYYY-MM-DD_HHMMza
-   ...
+   YYYY-MM-DD_HHMM_SS
    ```
-   (infinite base-26 suffix using lowercase a–z)
+   (timestamp with second-level precision)
 
 2. **sequenceNumber:**
    A strictly monotonic integer *per flow*, stored inside snapshot metadata and reflected in folder name:
@@ -104,12 +90,7 @@ Sequence number provides ordering; weave label provides readability.
 
 * Within a single weave run:
   * Core computes `weaveLabel` once and reuses it for all flows
-
-* Suffix selection logic:
-  * Query existing snapshot labels for the same minute
-  * Select lexicographically max existing label
-  * Increment suffix
-  * If no existing, suffix = empty string
+  * The timestamp is captured at weave start and includes seconds precision
 
 ---
 
@@ -119,9 +100,9 @@ Each flow's directory structure:
 
 ```
 /<node>/<flow>/
-  YYYY-MM-DD_HHMM[_suffix]_vN/    # Snapshot (immutable FlowShot)
-  _default/                        # DefaultShot
-  _working/                        # WorkingShot
+  YYYY-MM-DD_HHMM_SS_vN/    # Snapshot (immutable FlowShot)
+  _default/                 # DefaultShot
+  _working/                 # WorkingShot
 ```
 
 A Snapshot dataset includes at minimum:
@@ -129,7 +110,7 @@ A Snapshot dataset includes at minimum:
 ```turtle
 :ThisSnapshot a sflo:Snapshot ;
     sflo:weaveRunId "urn:uuid:…" ;
-    sflo:weaveLabel "2025-11-24_0142a" ;
+    sflo:weaveLabel "2025-11-24_0142_55" ;
     sflo:sequenceNumber 7 ;
     prov:generatedAtTime "2025-11-24T01:42:55Z"^^xsd:dateTime ;
     sflo:previousSnapshot :PriorSnapshot .   # optional if no prior
@@ -157,10 +138,54 @@ Therefore:
 The canonical identity of a snapshot IS its IRI, which includes the folder name:
 
 ```
-https://example.org/my-node/_payload-flow/2025-11-24_0142_v1/
+https://example.org/my-node/_payload-flow/2025-11-24_0142_07_v1/
 ```
 
 Since the folder name is part of the IRI path, it directly contributes to the identity. The weave label and sequence number in the folder name become permanent parts of the snapshot's identity.
+
+---
+
+
+## **TERMINOLOGY & REPLACEMENTS**
+
+### **Key Terms**
+
+To maintain consistency across documentation, use these preferred terms:
+
+**FlowShot-related:**
+- **FlowShot** - The abstract concept of a flow realization (Snapshot, DefaultShot, or WorkingShot)
+- **Snapshot** (or **Snapshot FlowShot**) - An immutable, versioned FlowShot (formerly called "version snapshot" or "flow snapshot")
+- **DefaultShot** - The current/latest FlowShot content (the `_default/` folder)
+- **WorkingShot** - The mutable staging FlowShot (the `_working/` folder)
+
+**Folder-related:**
+- **snapshot folder** - Replace references to `_vN` folders with "snapshot folder" or "Snapshot FlowShot folder"
+- **flowshot folder** - Generic term for any FlowShot folder (`_default/`, `_working/`, or snapshot folders)
+
+### **Replacement Guidelines**
+
+When updating documentation, apply these substitutions:
+
+| **Old Term**           | **New Term**                  | **Context**                             |
+| ---------------------- | ----------------------------- | --------------------------------------- |
+| `_vN` (as a concept)   | snapshot folder               | When referring to the folder itself     |
+| `_vN/` (in paths)      | `YYYY-MM-DD_HHMM_SS_vN/`      | When showing folder paths               |
+| "version snapshot"     | Snapshot or Snapshot FlowShot | When referring to the concept           |
+| "flow snapshot"        | FlowShot (usually)            | Generic references to flow realizations |
+| "snapshot" (ambiguous) | Specify: Snapshot FlowShot    | When the Snapshot type is meant         |
+| "_default snapshot"    | DefaultShot                   | The current/latest realization          |
+| "_working snapshot"    | WorkingShot                   | The mutable staging realization         |
+
+### **Common Ambiguities**
+
+**"Flow snapshots" vs "Snapshot FlowShots":**
+- **"Flow snapshots"** (legacy term) → Usually means **FlowShots** (all types: Snapshot, DefaultShot, WorkingShot)
+- **"Snapshot FlowShot"** or **"Snapshot"** → Specifically means the immutable, versioned type
+
+**When documenting:**
+- Use "FlowShot" for the general concept
+- Use "Snapshot" or "Snapshot FlowShot" when specifically referring to versioned, immutable realizations
+- Use "DefaultShot" and "WorkingShot" for their specific folder types
 
 ---
 
@@ -179,7 +204,7 @@ Verify these properties exist and are correctly defined:
 Update all references from simple `_vN` to the new format in:
 
 **Core Concept Documentation:**
-* [`concept.weave-label.md`](documentation/concept.weave-label.md) - Update format from YYYYMMDD.HHMMSS to YYYY-MM-DD_HHMM
+* [`concept.weave-label.md`](documentation/concept.weave-label.md) - Update format from YYYYMMDD.HHMMSS to YYYY-MM-DD_HHMM_SS
 * [`concept.flow-version.md`](documentation/concept.flow-version.md) - Clarify relationship with flowshot naming
 * [`folder.flowshot.md`](documentation/folder.flowshot.md) - Update to show concatenation format
 
@@ -214,14 +239,16 @@ Update all references from simple `_vN` to the new format in:
 - [ ] Update flowshot terminology in all snapshot documentation
 - [ ] Verify all ontology properties are consistent
 - [ ] Update `guide.product-brief.md` snapshot descriptions
-- [ ] Review and update `concept.weave-process.md`
+- [x] Review and update `concept.weave-process.md` - **COMPLETED** (terminology and format fixed)
 - [ ] Ensure all documentation cross-references are consistent
 
 ---
 
 ## **DECISIONS**
 
-* **2025-11-26**: Confirmed folder format as `YYYY-MM-DD_HHMM[suffix]_vN` keeping the `_vN` suffix
+* **2025-11-27**: Confirmed terminology - using `sflo:Snapshot` (not SnapshotShot) and `sflo:previousSnapshot` throughout
+* **2025-11-27**: Changed format to `YYYY-MM-DD_HHMM_SS_vN` using seconds (with underscore separator) instead of suffix approach
+* **2025-11-26**: Confirmed folder format keeping the `_vN` suffix for sequence numbers
 * **2025-11-26**: Aligned with FlowShot terminology (Snapshot/DefaultShot/WorkingShot)
 * **2025-11-26**: Clarified that folder name IS part of the canonical IRI identity
 * **2025-11-26**: Focused on documentation and ontology verification only (no implementation)
@@ -235,3 +262,5 @@ Update all references from simple `_vN` to the new format in:
 * The folder name becomes part of the permanent IRI identity
 * No implementation work is needed at this stage
 * Documentation consistency is the primary goal
+* The [`concept.weave-process.md`](documentation/concept.weave-process.md) has been reviewed and updated for consistency
+

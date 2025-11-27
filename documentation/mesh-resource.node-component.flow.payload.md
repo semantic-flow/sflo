@@ -25,7 +25,7 @@ payload flows serve as the primary content containers for [[mesh-resource.node.p
 
 ## Structure
 
-payload flows organize content through [[flow snapshots|mesh-resource.node-component.flow-snapshot]]:
+payload flows organize content through [[flow snapshots|mesh-resource.node-component.flow-shot]]:
 
 - `_default/` - Current stable version of the dataset
 - `_working/` - Draft/work-in-progress version
@@ -35,7 +35,7 @@ Like all [[facet.filesystem.folder]], they should contain an `index.html` [[mesh
 
 ## Distribution Formats
 
-Each [[flow snapshot|mesh-resource.node-component.flow-snapshot]] typically provides multiple format distributions:
+Each [[flow snapshot|mesh-resource.node-component.flow-shot]] typically provides multiple format distributions:
 
 - **Trig (.trig)**: Primary RDF serialization
 - **JSON-LD (.jsonld)**: JSON-compatible linked data

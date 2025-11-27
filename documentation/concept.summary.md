@@ -50,7 +50,7 @@ See:
     - Node-config flows (settings; see §9): [[mesh-resource.node-component.flow.node-config]]
   - Flow snapshots (concrete Datasets): `_default/`, `_working/`, `_vN/`
     - Overview: [[mesh-resource.node-component.flow-snapshot]]
-    - `_default/`: [[mesh-resource.node-component.flow-snapshot.default]]
+    - `_default/`: [[mesh-resource.node-component.flow-shot.default-shot]]
     - `_working/`: [[mesh-resource.node-component.flow-snapshot.working]]
     - `_vN/`: [[mesh-resource.node-component.flow-snapshot.version]]
     - Distributions: [[mesh-resource.node-component.snapshot-distribution]]

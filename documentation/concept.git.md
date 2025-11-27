@@ -2,7 +2,7 @@
 id: diqhimu5bv27q3bto5dv6o0
 title: Git
 desc: ''
-updated: 1764260446453
+updated: 1764265285254
 created: 1764134636086
 ---
 
@@ -59,7 +59,7 @@ Git commits are optional checkpoints, not prerequisites.
 
 ---
 
-### 1.3 Flow ordinality is filesystem-driven
+### 1.3 Flow ordinality is maintained in RDF metadata and reflected into the filesystem
 
 Each versioned Flow maintains:
 
@@ -118,6 +118,8 @@ If canonical has moved ahead while your branch diverged:
 
 If you want to keep a divergent lineage, you treat that branch (or fork) as
 a separate mesh lineage, not something that merges back into the original mesh.
+
+Possible use case: an application evolves a mesh on a branch, and the owner has a chance to approve it before merging. 
 
 ---
 

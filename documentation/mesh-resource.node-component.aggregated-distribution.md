@@ -83,4 +83,4 @@ During [[concept.weave-process]], aggregated distributions are created by:
 
 - **[[mesh-resource.node-component.flow.payload]]** - Source datasets for aggregation
 - **[[concept.weave-process]]** - Process that generates aggregated distributions
-- **[[mesh-resource.node-component.flow-snapshot]]** - Contains the actual distributions being aggregated
+- **[[mesh-resource.node-component.flow-shot]]** - Contains the actual distributions being aggregated

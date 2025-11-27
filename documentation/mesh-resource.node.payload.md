@@ -16,7 +16,7 @@ The payload dataset is kept in the payload node's [[mesh-resource.node-component
 
 Like all [[mesh-resource.node-component.flow]]s, because it is evolvable it gets typed as a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series). Its snapshots are [[datasets|https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset]].
 
-Unlike [[flow snapshots|mesh-resource.node-component.flow-snapshot]] which contain concrete data distributions, payload nodes serve as conceptual containers that organize and provide identity for datasets without containing the data directly. I.e., payload nodes only contain concrete datasets by virtue of containing a [[mesh-resource.node-component.flow.payload]] (also abstract) and its snapshots, which have concrete distributions.
+Unlike [[flow snapshots|mesh-resource.node-component.flow-shot]] which contain concrete data distributions, payload nodes serve as conceptual containers that organize and provide identity for datasets without containing the data directly. I.e., payload nodes only contain concrete datasets by virtue of containing a [[mesh-resource.node-component.flow.payload]] (also abstract) and its snapshots, which have concrete distributions.
 
 ## Abstract vs Concrete Datasets
 

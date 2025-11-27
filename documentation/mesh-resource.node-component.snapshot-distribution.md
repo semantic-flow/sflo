@@ -6,7 +6,7 @@ updated: 1762839680694
 created: 1751138751433
 ---
 
-- each [[mesh-resource.node-component.flow-snapshot]] should have one or more [[mesh-resource.node-component.snapshot-distribution]] [[file]].
+- each [[mesh-resource.node-component.flow-shot]] should have one or more [[mesh-resource.node-component.snapshot-distribution]] [[file]].
 - a snapshot's distributions should all contain the same data, just in different syntaxes 
 
 ## Distribution Filenaming Per Flow

@@ -49,19 +49,19 @@ The primary constituents of a mesh are [[mesh-resource.node]]s. Nodes contain th
 | `ns/djradon/README.md`                                  | [[mesh-resource.node-component.documentation-resource.readme]]        | README file (content)        |
 | `ns/djradon/CHANGELOG.md`                               | [[mesh-resource.node-component.documentation-resource.changelog]]     | README file (content)        |
 | `ns/djradon/_reference-flow/`                           | [[mesh-resource.node-component.flow.reference]]                       | reference flow               |
-| `ns/djradon/_reference-flow/_working/`                  | [[mesh-resource.node-component.flow-snapshot.working]]                | reference flow snapshot      |
+| `ns/djradon/_reference-flow/_working/`                  | [[mesh-resource.node-component.flow-shot.working-shot]]                | reference flow snapshot      |
 | `ns/djradon/_reference-flow/_working/djradon.jsonld`    | [[mesh-resource.node-component.snapshot-distribution.working]]        | reference flow snapshot      |
 | `ns/djradon/_node-metadata-flow/`                       | [[mesh-resource.node-component.flow.node-metadata]]                   | node metadata dataset series |
-| `ns/djradon/_node-metadata-flow/_default/`              | [[mesh-resource.node-component.flow-snapshot.default]]                | node metadata dataset        |
+| `ns/djradon/_node-metadata-flow/_default/`              | [[mesh-resource.node-component.flow-shot.default-shot]]                | node metadata dataset        |
 | `ns/djradon/picks/`                                     | [[mesh-resource.node.payload]]                                        | abstract dataset             |
 | `ns/djradon/picks/_payload-flow/`                       | [[mesh-resource.node-component.flow.payload]]                         | payload dataset series       |
-| `ns/djradon/picks/_payload-flow/_v1/`                   | [[mesh-resource.node-component.flow-snapshot.version]]                | concrete payload dataset     |
+| `ns/djradon/picks/_payload-flow/_v1/`                   | [[mesh-resource.node-component.flow-shot.snapshot]]                | concrete payload dataset     |
 | `ns/djradon/picks/_payload-flow/_v1/picks.jsonld `      | [[mesh-resource.node-component.snapshot-distribution.version]]        | paylod dataset distribution  |
 | `ns/djradon/picks/_payload-flow/_default/picks.jsonld ` | [[mesh-resource.node-component.snapshot-distribution.default]]        | paylod dataset distribution  |
 | `ns/djradon/picks/_config-operational-flow/`            | [[mesh-resource.node-component.flow.node-config.operational]]         | operational config series    |
-| `ns/djradon/picks/_config-operational-flow/_v1/`        | [[mesh-resource.node-component.flow-snapshot.version]]                | operational config           |
+| `ns/djradon/picks/_config-operational-flow/_v1/`        | [[mesh-resource.node-component.flow-shot.snapshot]]                | operational config           |
 | `ns/djradon/picks/_config-inheritable-flow/`            | [[mesh-resource.node-component.flow.node-config.inheritable]]         | inheritable config series    |
-| `ns/djradon/picks/_config-inheritable-flow/_default/`   | [[mesh-resource.node-component.flow-snapshot.default]]                | inheritable config           |
+| `ns/djradon/picks/_config-inheritable-flow/_default/`   | [[mesh-resource.node-component.flow-shot.default-shot]]                | inheritable config           |
 | `ns/assets/`                                            | [[mesh-resource.node-component.asset-tree]]                           | collection of assets         |
 | `ns/assets/images/`                                     | asset folder                                                          | - not a sf resource -        |
 | `ns/assets/images/logo.svg`                             | asset                                                                 | - not a sf resource -        |
@@ -83,10 +83,10 @@ Example:
 
 #### Naming Resources
 
-- **[[mesh-resource.node-component.flow]]** and their [[mesh-resource.node-component.flow-snapshot]]
+- **[[mesh-resource.node-component.flow]]** and their [[mesh-resource.node-component.flow-shot]]
   - **[[mesh-resource.node-component.flow.node-metadata]]**: System-related administrative and structural metadata for mesh nodes
-  - **[[Version datasets|mesh-resource.node-component.flow-snapshot.version]]**: Versioned snapshots of datasets
-- **[[working snapshots|mesh-resource.node-component.flow-snapshot.working]]**: Draft workspaces for ongoing changes to versioned datasets
+  - **[[Version datasets|mesh-resource.node-component.flow-shot.snapshot]]**: Versioned snapshots of datasets
+- **[[working snapshots|mesh-resource.node-component.flow-shot.working-shot]]**: Draft workspaces for ongoing changes to versioned datasets
 - **[[Node handles|mesh-resource.node-component.node-handle]]**: Components that provide referential indirection, allowing references to nodes as mesh resources rather than their referents
 - **[[Asset trees|mesh-resource.node-component.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
 
@@ -141,13 +141,13 @@ Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
 
 ### System vs User Boundaries
 - **System components**: Generated and managed by the weave process, not intended for user modification
-- **User components**: Directly modifiable by users ([[mesh-resource.node-component.flow-snapshot.default]], README.md, CHANGELOG.md)
+- **User components**: Directly modifiable by users ([[mesh-resource.node-component.flow-shot.default-shot]], README.md, CHANGELOG.md)
 - The weave process maintains system components and generates missing required flows
 
 ### Versioning Requirements
 - flow versioning is managed through the [[Flow Version|concept.flow-version]] system
   - turning versioning on and off is controlled in the [[mesh-resource.node-component.node-config-defaults]]
-  - Version history is realized in [[mesh-resource.node-component.flow-snapshot.version]] with numbered version snapshots
+  - Version history is realized in [[mesh-resource.node-component.flow-shot.snapshot]] with numbered version snapshots
   - Version history metadata is kept in the node's [[mesh-resource.node-component.flow.node-metadata]]
 
 ### Addressing Requirements

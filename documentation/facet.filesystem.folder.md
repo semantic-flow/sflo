@@ -38,7 +38,7 @@ All folder-based resources should contain a [[mesh-resource.node-component.docum
 
 - **`_v1/`, `_v2/`, …**
 
-  - Version snapshot folders that represent [[mesh-resource.node-component.flow-snapshot]]
+  - Version snapshot folders that represent [[mesh-resource.node-component.flow-shot]]
   - each holds one or more distribution file (named `<node_ref_vN.ext`).
   - **Fully terminal**—neither user-nodes nor system-folders may live inside.
 

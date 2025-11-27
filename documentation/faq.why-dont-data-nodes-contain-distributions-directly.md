@@ -51,6 +51,6 @@ TODO: example
 Think of it like a library:
 - **payload node** = "The concept of the Encyclopedia Britannica"
 - **payload flow** = The Encyclopedia Britannica as an ongoing series of editions
-- **[[mesh-resource.node-component.flow-snapshot]]** = Specific editions (1990 edition, 2020 edition, current edition)
+- **[[mesh-resource.node-component.flow-shot]]** = Specific editions (1990 edition, 2020 edition, current edition)
 
 You can refer to "Encyclopedia Britannica" as a general concept or as a series without specifying which edition, or you can reference a specific edition when you need concrete data.

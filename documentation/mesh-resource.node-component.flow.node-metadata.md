@@ -10,7 +10,7 @@ A **metapayload flow** contains system-related administrative and structural met
 
 In the filesystem, it exists as a [[folder._node-metadata-flow]] in a [[folder.node]].
 
-Mesh-specific metadata about a node's flows' [[mesh-resource.node-component.flow-snapshot.version]]s mostly lives here too, eliminating the need to keep separate metadata in the node component. Also may contain metadata about the assets folder.
+Mesh-specific metadata about a node's flows' [[mesh-resource.node-component.flow-shot.snapshot]]s mostly lives here too, eliminating the need to keep separate metadata in the node component. Also may contain metadata about the assets folder.
 
 ## Use of _node-handle in metapayload flows
 

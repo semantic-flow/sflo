@@ -8,7 +8,7 @@ created: 1751087645111
 
 A snapshot dataset generated "on [[weave|concept.weave-process]]"
 
-The [[folder.flowshot]] is named with the [[concept.weave-label]] plus the [[concept.flow-version]]
+The [[folder.snapshot]] is named with the [[concept.weave-label]] plus the [[concept.flow-version]]
 
 ## Disambiguation
 

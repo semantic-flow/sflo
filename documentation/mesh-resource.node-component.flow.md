@@ -23,7 +23,7 @@ As DatasetSeries, node flows are realized through [[mesh-resource.node-component
 
 ### Relationship pattern:
 
-Every node flow has at least two concrete snapshots: [[mesh-resource.node-component.flow-snapshot.default]] and [[mesh-resource.node-component.flow-snapshot.working]].
+Every node flow has at least two concrete snapshots: [[mesh-resource.node-component.flow-shot.default-shot]] and [[mesh-resource.node-component.flow-snapshot.working]].
 
 The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series) and may have multiple [[mesh-resource.node-component.flow-snapshot.version]]s.
 

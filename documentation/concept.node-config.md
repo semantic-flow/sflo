@@ -24,7 +24,7 @@ If config specification is missing, (i.e., config spec inheritance is turned off
 
 ### Initial Config Specification
 
-- When a node is initially created, if inheritance is turned on for its parent node, it will have its [[mesh-resource.node-component.flow.node-config]] populated based on any parent [[mesh-resource.node-component.node-config-defaults]] files present in the hierarchy. If there are none, its [[mesh-resource.node-component.flow-snapshot.default]] will not be created.
+- When a node is initially created, if inheritance is turned on for its parent node, it will have its [[mesh-resource.node-component.flow.node-config]] populated based on any parent [[mesh-resource.node-component.node-config-defaults]] files present in the hierarchy. If there are none, its [[mesh-resource.node-component.flow-shot.default-shot]] will not be created.
 
 ### Calculating Node Config
 
