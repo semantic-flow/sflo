@@ -2,7 +2,7 @@
 id: node-flow
 title: node flow
 desc: ''
-updated: 1762707513738
+updated: 1764268439019
 created: 1751688486456
 ---
 
@@ -37,15 +37,15 @@ The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dat
 ```file
 /my-ontology/
 └── _payload-flow/                  ← node flow (ontology definitions)
-    ├── _default/           ← flow snapshot (in this case, probably )
+    ├── _default/           ← flow snapshot
     ├── _working/           ← flow snapshot
-    ├── _v1/           ← flow snapshot
-    └── _v2/                ← flow snapshot
+    ├── 2025-11-24_0142_07_v1/           ← flow snapshot
+    └── 2025-11-24_0142_08_v2/                ← flow snapshot
 ```
 
 In this example:
 
-Each _default/, _v1/, etc. contains flow snapshot realizations
+Each _default/, _working/, and snapshot folder contains flow snapshot realizations
 
 ## Persistent Identity
 

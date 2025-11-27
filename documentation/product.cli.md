@@ -2,7 +2,7 @@
 id: dbaynabroewbewplp3pt6sk
 title: sflo CLI
 desc: ''
-updated: 1762552026634
+updated: 1764275277464
 created: 1755903432827
 ---
 
@@ -12,4 +12,3 @@ created: 1755903432827
 
 ## Commands
 
-- list

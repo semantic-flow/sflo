@@ -2,7 +2,7 @@
 id: payload-node
 title: paylod node
 desc: ''
-updated: 1762708072874
+updated: 1764268473231
 created: 1750999795528
 ---
 
@@ -35,7 +35,7 @@ The payload node provides **stable identity**: The dataset persists conceptually
 [[mesh-resource.node-component.flow.payload]] is the single user payload flow for a node, realized by snapshots:
 
 - `/ns/monsters/_payload-flow/_default/` = the default dataset snapshot
-- `/ns/weather-stations/_payload-flow/_v3/` = version 3 dataset snapshot
+- `/ns/weather-stations/_payload-flow/2025-11-24_0142_07_v3/` = version 3 dataset snapshot
 
 Snapshots contain **distribution files**: the actual data in various formats (e.g., .trig, .jsonld)
 

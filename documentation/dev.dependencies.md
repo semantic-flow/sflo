@@ -2,7 +2,7 @@
 id: 1ieo7152nf46x4wiip1vwx5
 title: Dependencies
 desc: ''
-updated: 1762282596667
+updated: 1764275413151
 created: 1762221709385
 ---
 
@@ -35,7 +35,11 @@ These dependencies are critical for the `sflo-host` application:
 ## Plugin Dependencies
 
 - **Stoplight Elements:** will probably be used for API documentation/playground (via the `plugin-elements` package).
-- **SIB Swiss editor:** flexible and powerful SPARQL client UI for 
+
+## CLI Dependencies
+
+- 
+
 
 ## Development Dependencies
 

@@ -2,7 +2,7 @@
 id: 8akbl2qj0nz38yrvet4oq3k
 title: Replace Monotonic V N Snapshots with Human Readable Weave Labels
 desc: ''
-updated: 1764267461648
+updated: 1764268567910
 created: 1762712674617
 ---
 
@@ -234,13 +234,29 @@ Update all references from simple `_vN` to the new format in:
 
 ## **TODO**
 
-- [ ] Update `concept.weave-label.md` format description
-- [ ] Update all `_vN` references in `concept.summary.md`
-- [ ] Update flowshot terminology in all snapshot documentation
-- [ ] Verify all ontology properties are consistent
-- [ ] Update `guide.product-brief.md` snapshot descriptions
+### **Completed Documentation Updates (2025-11-27)**
+
+- [x] Update `concept.weave-label.md` format description - **COMPLETED** (changed to YYYY-MM-DD_HHMM_SS)
+- [x] Update all `_vN` references in `concept.summary.md` - **COMPLETED** (8+ occurrences updated)
+- [x] Update `guide.product-brief.md` snapshot descriptions - **COMPLETED** (FlowShots reference updated)
+- [x] Update `concept.flow-version.md` - **COMPLETED** (added format details with sequence numbers)
+- [x] Update `folder.snapshot.md` - **COMPLETED** (format specification with examples)
+- [x] Update `concept.metadata.provenance.md` - **COMPLETED** (RDF turtle examples updated)
+- [x] Update `concept.git.md` - **COMPLETED** (5 sections updated with new format)
+- [x] Update `facet.filesystem.folder.md` - **COMPLETED** (snapshot folder section rewritten)
+- [x] Update `mesh-resource.node-component.flow.payload.md` - **COMPLETED** (snapshot references updated)
+- [x] Update `mesh-resource.node-component.flow-shot.default-shot.md` - **COMPLETED** (example updated)
+- [x] Update `mesh-resource.node-component.flow.md` - **COMPLETED** (code example updated)
+- [x] Update `concept.mesh.md` - **COMPLETED** (table examples updated)
+- [x] Update `folder.node.md` - **COMPLETED** (distribution folder reference updated)
+- [x] Update `mesh-resource.node.payload.md` - **COMPLETED** (version 3 example updated)
 - [x] Review and update `concept.weave-process.md` - **COMPLETED** (terminology and format fixed)
+
+### **Remaining Tasks**
+
+- [ ] Verify all ontology properties are consistent in semantic-flow-ontology.jsonld
 - [ ] Ensure all documentation cross-references are consistent
+- [ ] Perform final search for any remaining `_vN` patterns in documentation
 
 ---
 

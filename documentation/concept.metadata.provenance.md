@@ -2,7 +2,7 @@
 id: 4v2b7t8nbzkmtyvnayye3vj
 title: Provenance
 desc: ''
-updated: 1762708072882
+updated: 1764268337263
 created: 1753117923066
 ---
 
@@ -44,26 +44,26 @@ For a `config-flow` at version `v47`, the identifiers would be:
 ### Version Snapshot Provenance
 
 ```turtle
-# In my-dataset/_node-metadata-flow/_v47/my-dataset_meta.trig
-@base <../_v47/> .
+# In my-dataset/_node-metadata-flow/2025-07-20_1430_00_v47/my-dataset_meta.trig
+@base <../2025-07-20_1430_00_v47/> .
 
 # Weave activity with PROV standard properties
 :#configUpdateActivity a meta:ConfigWeave ;
     prov:startedAtTime "2025-07-20T14:30:00Z" ;
     prov:endedAtTime "2025-07-20T14:30:15Z" ;
-    prov:used <../../_config-flow/_v46/config.jsonld> ;
-    prov:generated <../../_config-flow/_v47/config.jsonld> ;
+    prov:used <../../_config-flow/2025-07-20_1429_30_v46/config.jsonld> ;
+    prov:generated <../../_config-flow/2025-07-20_1430_00_v47/config.jsonld> ;
     prov:wasAssociatedWith <https://semantic-flow.org/agents/flow-service-bot> .
 
 # Rights and licensing at snapshot level
-<../../_config-flow/_v47> dcterms:rightsHolder <https://orcid.org/0000-0002-1825-0097> ;
+<../../_config-flow/2025-07-20_1430_00_v47> dcterms:rightsHolder <https://orcid.org/0000-0002-1825-0097> ;
                           dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
                           prov:has_provenance :configProvenance .
 
 # Delegation chain (step 1 = top authority, gets copyright by default)
 :configProvenance a meta:ProvenanceContext ;
     meta:forActivity :configUpdateActivity ;
-    meta:forSnapshot <../../_config-flow/_v47> ;
+    meta:forSnapshot <../../_config-flow/2025-07-20_1430_00_v47> ;
     prov:wasAttributedTo <https://acme-corp.com/org> ; # Primary attribution
     meta:delegationChain :delegationChain_001 .
 
@@ -88,7 +88,7 @@ For a `config-flow` at version `v47`, the identifiers would be:
 
 ```turtle
 # In my-dataset/_node-metadata-flow/_default/my-dataset_meta.trig
-@base <../_v47/> .
+@base <../2025-07-20_1430_00_v47/> .
 
 # Identical content to version snapshot - all URIs resolve to stable version
 # (same provenance content as above)
@@ -142,7 +142,7 @@ For flows without versioning, activities accumulate in `_working` with unique ti
 ## Implementation Notes
 
 - **Fragment URIs**: Use `<#step1>` etc. within version snapshots for stable addressability
-- **Base URI**: All snapshots use `@base <../_vN/>` pattern for consistent resolution
+- **Base URI**: All snapshots use `@base <../YYYY-MM-DD_HHMM_SS_vN/>` pattern for consistent resolution
 - **Rights inheritance**: Capture previous version rights holders in provenance contexts when content is derived
 - **Static site friendly**: Documentation approach for external references since no server-side redirects available
 

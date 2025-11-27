@@ -2,7 +2,7 @@
 id: p3mbdrze0qe8uvko4i16t1s
 title: folder resource facet
 desc: ''
-updated: 1756869552826
+updated: 1764268373433
 created: 1750659145476
 ---
 
@@ -34,12 +34,12 @@ All folder-based resources should contain a [[mesh-resource.node-component.docum
 
 #### Snapshot (Concrete Dataset) System Folders
 
-- **`_current/`**
+- **`_default/`**
 
-- **`_v1/`, `_v2/`, …**
+- **Snapshot folders** (format: `YYYY-MM-DD_HHMM_SS_vN/`, e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`, …)
 
-  - Version snapshot folders that represent [[mesh-resource.node-component.flow-shot]]
-  - each holds one or more distribution file (named `<node_ref_vN.ext`).
+  - Version snapshot folders that represent [[mesh-resource.node-component.flow-shot.snapshot]]
+  - each holds one or more distribution file
   - **Fully terminal**—neither user-nodes nor system-folders may live inside.
 
 #### Snapshot User Folders

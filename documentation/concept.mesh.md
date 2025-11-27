@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1762710407996
+updated: 1764268455438
 created: 1750624002110
 ---
 
@@ -55,11 +55,11 @@ The primary constituents of a mesh are [[mesh-resource.node]]s. Nodes contain th
 | `ns/djradon/_node-metadata-flow/_default/`              | [[mesh-resource.node-component.flow-shot.default-shot]]                | node metadata dataset        |
 | `ns/djradon/picks/`                                     | [[mesh-resource.node.payload]]                                        | abstract dataset             |
 | `ns/djradon/picks/_payload-flow/`                       | [[mesh-resource.node-component.flow.payload]]                         | payload dataset series       |
-| `ns/djradon/picks/_payload-flow/_v1/`                   | [[mesh-resource.node-component.flow-shot.snapshot]]                | concrete payload dataset     |
-| `ns/djradon/picks/_payload-flow/_v1/picks.jsonld `      | [[mesh-resource.node-component.snapshot-distribution.version]]        | paylod dataset distribution  |
+| `ns/djradon/picks/_payload-flow/2025-11-24_0142_07_v1/`                   | [[mesh-resource.node-component.flow-shot.snapshot]]                | concrete payload dataset     |
+| `ns/djradon/picks/_payload-flow/2025-11-24_0142_07_v1/picks.jsonld `      | [[mesh-resource.node-component.snapshot-distribution.version]]        | paylod dataset distribution  |
 | `ns/djradon/picks/_payload-flow/_default/picks.jsonld ` | [[mesh-resource.node-component.snapshot-distribution.default]]        | paylod dataset distribution  |
 | `ns/djradon/picks/_config-operational-flow/`            | [[mesh-resource.node-component.flow.node-config.operational]]         | operational config series    |
-| `ns/djradon/picks/_config-operational-flow/_v1/`        | [[mesh-resource.node-component.flow-shot.snapshot]]                | operational config           |
+| `ns/djradon/picks/_config-operational-flow/2025-11-24_0142_07_v1/`        | [[mesh-resource.node-component.flow-shot.snapshot]]                | operational config           |
 | `ns/djradon/picks/_config-inheritable-flow/`            | [[mesh-resource.node-component.flow.node-config.inheritable]]         | inheritable config series    |
 | `ns/djradon/picks/_config-inheritable-flow/_default/`   | [[mesh-resource.node-component.flow-shot.default-shot]]                | inheritable config           |
 | `ns/assets/`                                            | [[mesh-resource.node-component.asset-tree]]                           | collection of assets         |
@@ -74,7 +74,7 @@ Example:
 - `ns/djradon/pics/` = refers to Dave's biographical dataset (payload node)
 - `ns/djradon/pics/_payload-flow/` = abstract dataset (DatasetSeries) containing Dave's "music picks" data
 - `ns/djradon/pics/_payload-flow/_default/` = current concrete dataset snapshot
-- `ns/djradon/pics/_payload-flow/_v1/picks.jsonld` = RDF distribution from version 1
+- `ns/djradon/pics/_payload-flow/2025-11-24_0142_07_v1/picks.jsonld` = RDF distribution from version 1
 - `ns/djradon/_assets/images/headshot.jpg` = an image asset; "attached" to the mesh, but not a mesh resource
 
 

@@ -2,7 +2,7 @@
 id: diqhimu5bv27q3bto5dv6o0
 title: Git
 desc: ''
-updated: 1764265285254
+updated: 1764268362446
 created: 1764134636086
 ---
 
@@ -64,8 +64,8 @@ Git commits are optional checkpoints, not prerequisites.
 Each versioned Flow maintains:
 
 - a `sequenceNumber` (monotonic integer per Flow),
-- a weaveLabel (e.g. `2025-11-24_0142`, `2025-11-24_0142a`),
-- snapshot directories with suffixes like `_vN`.
+- a weaveLabel (format: `YYYY-MM-DD_HHMM_SS`, e.g. `2025-11-24_0142_07`),
+- snapshot directories combining weaveLabel and sequence number (format: `YYYY-MM-DD_HHMM_SS_vN`, e.g., `2025-11-24_0142_07_v1`).
 
 These are:
 
@@ -80,8 +80,8 @@ Semantic meshes assume that each Flow evolves along **one linear timeline**.
 
 If Git introduces merges joining divergent histories, you can end up with:
 
-- multiple incompatible “next” snapshots for the same Flow,
-- ambiguous or duplicated `_vN` ordinality,
+- multiple incompatible "next" snapshots for the same Flow,
+- ambiguous or duplicated sequence numbers in snapshot folder names,
 - weaveLabels that no longer line up with a single causal sequence.
 
 So the Git constraints are solely about preventing Git from fabricating
@@ -178,7 +178,7 @@ No merges; only rebased linear histories.
 
 ### 5.1 Snapshots are immutable
 
-Once a Snapshot directory (e.g. `…_v3/`) is created:
+Once a Snapshot directory (e.g. `2025-11-24_0142_07_v3/`) is created:
 
 - its contents must not be edited by hand,
 - any change to the Flow must go through `_working/` and a new weave,
@@ -203,9 +203,9 @@ normalize them by recomputing snapshots.
 ### 5.3 No parallel “next snapshots”
 
 Two different weave runs from divergent Git histories cannot both claim to be
-the next `_vN` for the same Flow in canonical.
+the next snapshot with the same sequence number for the same Flow in canonical.
 
-- Rebasing chooses which sequence is “first.”
+- Rebasing chooses which sequence is "first."
 - The other must be re-woven atop the new canonical state.
 
 ---
@@ -222,10 +222,10 @@ the next `_vN` for the same Flow in canonical.
 
 ## 7. Explicitly Forbidden
 
-- Merge commits that combine diverged histories on canonical.  
-- Force-push to canonical.  
-- Editing Snapshot directories in-place.  
-- Any Git operation that makes Flow `sequenceNumber` or `_vN` ambiguous.  
+- Merge commits that combine diverged histories on canonical.
+- Force-push to canonical.
+- Editing Snapshot directories in-place.
+- Any Git operation that makes Flow `sequenceNumber` or snapshot folder names ambiguous.
 - Merging two different weave timelines back into a single canonical line.
 
 ---

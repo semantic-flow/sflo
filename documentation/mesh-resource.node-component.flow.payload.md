@@ -2,7 +2,7 @@
 id: payload-flow
 title: payload flow
 desc: ''
-updated: 1762708072880
+updated: 1764268408883
 created: 1751560483669
 ---
 
@@ -10,7 +10,7 @@ created: 1751560483669
 
 ## Overview
 
-A payload flow (formerly called a __dataset__ flow) is a series of RDF datasets. Like all flows, each payload flow has snapshots (_default/, _working/, _vN/) that track its evolution over time. 
+A payload flow (formerly called a __dataset__ flow) is a series of RDF datasets. Like all flows, each payload flow has snapshots (_default/, _working/, snapshot folders like `2025-11-24_0142_07_v1/`) that track its evolution over time.
 
 payload flows are distinct from [[mesh-resource.node-component.flow.node-metadata]]s, which are usually managed by the platform and describe the mesh node itself and its components.
 
@@ -29,7 +29,7 @@ payload flows organize content through [[flow snapshots|mesh-resource.node-compo
 
 - `_default/` - Current stable version of the dataset
 - `_working/` - Draft/work-in-progress version
-- `_v1/`, `_v2/`, etc. - Versioned snapshots for historical access
+- Snapshot folders (e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`) - Versioned snapshots for historical access
 
 Like all [[facet.filesystem.folder]], they should contain an `index.html` [[mesh-resource.node-component.documentation-resource.resource-page]] -- a human-readable description for the flow.
 

@@ -2,7 +2,7 @@
 id: h3xucygpf2i6f3u3gkegvlk
 title: system segments
 desc: underscore-prefixed reserved folder names
-updated: 1756869552826
+updated: 1764269230826
 created: 1750962692214
 ---
 
@@ -13,7 +13,8 @@ This page is the canonical list; see the linked docs for behavior and details.
 ## Flows (abstract/series)
 
 - [[_node-metadata-flow/|folder._node-metadata-flow]]
-- [[_dataset-flow/|folder._dataset-flow]]
+- [[mesh-resource.node-component.flow.payload]]
+- [[mesh-resource.node-component.flow.reference]]
 - [[_config-operational-flow/|folder._config-operational-flow]]
 - [[_config-inheritable-flow/|folder._config-inheritable-flow]]
 
@@ -21,7 +22,7 @@ This page is the canonical list; see the linked docs for behavior and details.
 
 - [[_current/|folder._default]]
 - [[_next/|folder._working]]
-- [[_vN/|folder.snapshot]]
+- [[folder.snapshot]]
 
 ## Other reserved
 

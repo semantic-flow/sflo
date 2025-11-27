@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1762707545573
+updated: 1764268112395
 created: 1755820864360
 ---
 
@@ -48,11 +48,11 @@ See:
     - Meta flow (metadata/provenance): [[mesh-resource.node-component.flow.node-metadata]]
     - payload flow (payload data): [[mesh-resource.node-component.flow.payload]]
     - Node-config flows (settings; see §9): [[mesh-resource.node-component.flow.node-config]]
-  - Flow snapshots (concrete Datasets): `_default/`, `_working/`, `_vN/`
-    - Overview: [[mesh-resource.node-component.flow-snapshot]]
+  - FlowShots (concrete Datasets): `_default/`, `_working/`, snapshot folders (e.g., `2025-11-24_0142_07_v1/`)
+    - Overview: [[mesh-resource.node-component.flow-shot]]
     - `_default/`: [[mesh-resource.node-component.flow-shot.default-shot]]
-    - `_working/`: [[mesh-resource.node-component.flow-snapshot.working]]
-    - `_vN/`: [[mesh-resource.node-component.flow-snapshot.version]]
+    - `_working/`: [[mesh-resource.node-component.flow-shot.working-shot]]
+    - Snapshot folders: [[mesh-resource.node-component.flow-shot.snapshot]]
     - Distributions: [[mesh-resource.node-component.snapshot-distribution]]
   - Handle (refer to the node “as a mesh resource”): [[mesh-resource.node-component.node-handle]]
     - Handle page (human-facing): [[mesh-resource.node-component.node-handle.page]]
@@ -103,8 +103,8 @@ Reserved folder names (underscore-prefixed; canonical set):
 - Flow containers (abstract datasets):
   - `_node-metadata-flow/`, `_payload-flow/`
   - `_config-operational-flow/`, `_config-inheritable-flow/` (see §9)
-- Snapshots inside a flow:
-  - `_default/`, `_working/`, `_vN/` (e.g., `_v1/`, `_v2/`, …)
+- FlowShots inside a flow:
+  - `_default/`, `_working/`, snapshot folders with format `YYYY-MM-DD_HHMM_SS_vN/` (e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`, …)
 - Assets:
   - `_assets/` (static files)
 
@@ -115,17 +115,17 @@ Folder-note pages for these reserved names live under `folder.*.md` (where defin
 - `_config-inheritable-flow/`: [[folder._config-inheritable-flow]]
 - `_default/`: [[folder._default]]
 - `_working/`: [[folder._working]]
-- `_vN/`: [[folder.flowshot]]
+- Snapshot folders (`YYYY-MM-DD_HHMM_SS_vN/`): [[folder.flowshot]]
 - `_assets/`: [[folder._assets]]
 - Node folder pages:
   - Node: [[folder.node]]
 
 6) Data and Versioning Model
 - Only flows are versioned (flows are DatasetSeries). Nodes are not versioned.
-- Flow snapshots:
-  - `_default/`: latest stable realization; after weave it equals the content of the latest `_vN/`.
+- FlowShots (flow realizations):
+  - `_default/`: latest stable realization; after weave it equals the content of the latest snapshot.
   - `_working/`: mutable working area.
-  - `_vN/`: immutable history for precise citation and provenance.
+  - Snapshot folders (format `YYYY-MM-DD_HHMM_SS_vN/`): immutable history for precise citation and provenance.
 - Working distribution: `_working/` typically contains a single editable source; weave can fan-out serializations.
 - Sibling distribution: patterns and constraints for multi-file realizations.
 See:
@@ -136,7 +136,7 @@ See:
 7) Lifecycle and Weave Process
 Weave maintains structural coherence and publication readiness:
 - Ensures required system components exist.
-- If versioning is enabled, creates a new `_vN/` from `_working/`.
+- If versioning is enabled, creates a new snapshot folder (format `YYYY-MM-DD_HHMM_SS_vN/`) from `_working/`.
 - Promotes `_working/` contents to `_default/`.
 - Updates meta/provenance; regenerates resource pages.
 - Resolves internal links to maintain transposability.
@@ -179,11 +179,11 @@ See:
 │   ├── _node-handle/                # handle component (resource.node-component.node-handle)
 │   ├── _node-metadata-flow/                  # metapayload flow (system)
 │   │   ├── _default/
-│   │   └── _v1/
+│   │   └── 2025-11-24_0142_07_v1/
 │   ├── _payload-flow/                  # payload flow (for payload nodes)
 │   │   ├── _default/
 │   │   ├── _working/
-│   │   └── _v1/
+│   │   └── 2025-11-24_0142_07_v1/
 │   ├── _config-inheritable-flow/    # provider config (optional)
 │   ├── _config-operational-flow/    # resolved config (optional; may be system-written)
 │   ├── index.html                   # resource page
@@ -203,10 +203,10 @@ graph TD
   A --> H[Resource pages]
 
   C --> C1[_default]
-  C --> C2[_vN]
+  C --> C2[Snapshots]
   E --> E1[_default]
   E --> E2[_working]
-  E --> E3[_vN]
+  E --> E3[Snapshots]
 ```
 
 13) Glossary
@@ -214,8 +214,8 @@ graph TD
 - [[mesh-resource.node]]: an extensible  resource containing other nodes and its own components
 - [[mesh-resource.node-component]]: terminal resource that supports node behavior/structure
 - [[mesh-resource.node-component.flow]]: DatasetSeries representing an abstract dataset (meta/data/config)
-- [[mesh-resource.node-component.flow-snapshot]]: concrete Dataset realization of a flow (`_default/`, `_working/`, `_vN/`)
-- [[mesh-resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.): 
-- [[mesh-resource.node-component.node-handle]]: indirection to refer to the node “as a mesh resource”
+- [[mesh-resource.node-component.flow-shot]]: concrete Dataset realization of a flow (Snapshot, DefaultShot, WorkingShot)
+- [[mesh-resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.)
+- [[mesh-resource.node-component.node-handle]]: indirection to refer to the node "as a mesh resource"
 - [[mesh-resource.node-component.documentation-resource.resource-page]]: dereferenceable `index.html` for folders
-- [[concept.weave-process]]: lifecycle operation to version/promote/regenerate/repair:
+- [[concept.weave-process]]: lifecycle operation to version/promote/regenerate/repair

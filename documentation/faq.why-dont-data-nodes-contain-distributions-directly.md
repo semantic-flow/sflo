@@ -2,7 +2,7 @@
 id: osqi7xn4mw3j9v0kvsoc5uo
 title: Why Dont payload nodes Contain Distributions Directly
 desc: ''
-updated: 1762707513752
+updated: 1764268668397
 created: 1751387201637
 ---
 
@@ -30,8 +30,8 @@ The payload node and data compound provide permanent, stable identifier for the 
 
 By separating the concept from concrete instances, payload nodes can cleanly organize different temporal states:
 - `_default/` - current data
-- `_working/` - draft changes  
-- `_v1/`, `_v2/` - historical versions
+- `_working/` - draft changes
+- Snapshot folders (e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`) - historical versions
 
 ### Consistent Architecture
 
