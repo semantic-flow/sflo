@@ -2,9 +2,27 @@
 id: ufnbtre0tn2pxq7dzjcgrz0
 title: 2025-11-27-createNode
 desc: ''
-updated: 1764327645683
+updated: 1764328684352
 created: 1764276666359
 ---
+
+## TODO
+
+- [x] Explore project structure and understand requirements
+- [x] Design RdfSource abstraction architecture
+- [x] Design createNode operation architecture
+- [ ] Document parsing semantics for SFLO spec
+- [ ] Implement RdfSource types and core abstractions
+- [ ] Implement RdfSource parsing/serialization helpers
+- [ ] Implement createNode core function
+- [ ] Implement filesystem scaffolding utilities
+- [ ] Implement metadata generation with provenance stubs
+- [ ] Create tests for RdfSource
+- [ ] Create tests for createNode
+- [ ] Create simple Node.js runner script
+- [ ] Update task files with progress
+
+See detailed architecture plan in [[task.2025-11-28-architecture-plan]].
 
 ## Prompt
 
@@ -76,9 +94,8 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
        - Copy or normalize it into `_payload/_working/` (no de-basing, no unpack).
      - Config files:
        - If provided, copy/normalize into `_cfg-op/_working/` and/or `_cfg-inh/_working/`.
-     - in all cases, the target filename in general will be "node slug" + "flow slug" + ".jsonld". 
+     - in all cases, the target filename in general will be "node name" + "flow slug" + ".jsonld". 
        - the flow slugs are defined in ../ontology/semantic-flow/
-       - the node slug can be defined in operationalConfig. If it's not, then just use the folder name as the slug.
      - 
    - **No de-basing or unpacking** in this task:
      - Imported payload/reference/config are treated as already “good enough” or mesh-native.
