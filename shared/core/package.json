@@ -6,7 +6,7 @@
     "types": "dist/index.d.ts",
     "exports": { ".": "./dist/index.js" },
     "scripts": {
-        "dev": "tsx watch src/index.ts",
+        "dev": "tsup src/index.ts --format esm --dts --watch",
         "build": "tsup src/index.ts --format esm --dts"
     },
     "dependencies": {
