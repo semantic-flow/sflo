@@ -8,5 +8,15 @@
     "scripts": {
         "dev": "tsx watch src/index.ts",
         "build": "tsup src/index.ts --format esm --dts"
+    },
+    "dependencies": {
+        "@rdfjs/types": "^1.1.0",
+        "@rdfjs/data-model": "^2.0.2",
+        "jsonld": "^8.3.2",
+        "n3": "^1.21.3"
+    },
+    "devDependencies": {
+        "@types/jsonld": "^1.5.15",
+        "@types/n3": "^1.21.0"
     }
 }
