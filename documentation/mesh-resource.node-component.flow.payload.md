@@ -2,7 +2,7 @@
 id: payload-flow
 title: payload flow
 desc: ''
-updated: 1764327384139
+updated: 1764349658935
 created: 1751560483669
 ---
 
@@ -63,6 +63,6 @@ From the [[semantic mesh example|concept.semantic-mesh.example]]:
 
 payload flows integrate with other mesh components:
 
-- **metapayload flows**: Provide provenance and management data
+- **metadata flows**: Provide provenance and management data
 - **Asset Trees**: Store associated files and media
 - **Resource Pages**: Provide human-readable interfaces

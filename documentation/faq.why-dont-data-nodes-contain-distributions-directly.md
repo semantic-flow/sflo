@@ -2,7 +2,7 @@
 id: osqi7xn4mw3j9v0kvsoc5uo
 title: Why Dont payload nodes Contain Distributions Directly
 desc: ''
-updated: 1764327384142
+updated: 1764349658941
 created: 1751387201637
 ---
 
@@ -41,7 +41,7 @@ This mirrors how [[reference nodes|concept.mesh.resource.node.reference]] work:
 
 ### Metadata Separation
 
-The payload node's [[metapayload flow|mesh-resource.node-component.flow.node-metadata]] contains system metadata about the data concept and its components, while each [[mesh-resource.node-component.flow.payload]] can also contain (concept-specific) metadata.
+The payload node's [[metadata flow|mesh-resource.node-component.flow.node-metadata]] contains system metadata about the data concept and its components, while each [[mesh-resource.node-component.flow.payload]] can also contain (concept-specific) metadata.
 
 TODO: example
 

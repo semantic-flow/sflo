@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1764327645691
+updated: 1764349658943
 created: 1755820864360
 ---
 
@@ -177,7 +177,7 @@ See:
 ├── _assets/                         # optional site-wide assets
 ├── my-node/                         # a mesh node (folder)
 │   ├── _node-handle/                # handle component (resource.node-component.node-handle)
-│   ├── _meta/                  # metapayload flow (system)
+│   ├── _meta/                  # metadata flow (system)
 │   │   ├── _default/
 │   │   └── 2025-11-24_0142_07_v1/
 │   ├── _payload/                  # payload flow (for payload nodes)

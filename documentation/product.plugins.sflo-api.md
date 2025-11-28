@@ -2,7 +2,7 @@
 id: 63tfb27btzbph10tpvckz7b
 title: sflo-api plugin
 desc: ''
-updated: 1764327645693
+updated: 1764349658931
 created: 1755903460930
 ---
 
@@ -107,7 +107,7 @@ Maybe returns:
 * **Flow summary**
 
   * `GET /api/{mesh}/{nodePath}/_{flowKind}/`
-    `flowKind ∈ { metapayload-flow, op_config_flow, inheritable_config_flow, reference_flow, payload-flow }`
+    `flowKind ∈ { metadata-flow, op_config_flow, inheritable_config_flow, reference_flow, payload-flow }`
 * **Create snapshot from `_working` (server constructs version)**
 
   * `POST /api/{mesh}/{nodePath}/_{flowKind}/_snapshots/`
@@ -158,7 +158,7 @@ Goal: “make a couple changes without re-uploading a full file.” We merge **c
     {
       "@type": "sflo:WeaveJob",
       "targets": [ "/{nodePath}/" ],
-      "flows": ["payload-flow","metapayload-flow","reference_flow"],
+      "flows": ["payload-flow","metadata-flow","reference_flow"],
       "promote": true
     }
     ```
@@ -203,7 +203,7 @@ Minimum links on a node:
 
 ## Open flags to decide (defaults in parentheses)
 
-* Allow PATCH for `reference_flow` and `metapayload-flow`? (default: **disallow** for `_node_metadata_flow`, **allow** for `reference_flow` JSON-LD)
+* Allow PATCH for `reference_flow` and `metadata-flow`? (default: **disallow** for `_node_metadata_flow`, **allow** for `reference_flow` JSON-LD)
 * Enforce `Idempotency-Key` as **required** or **optional** on PUT/PATCH? (recommended: **required**)
 * Return `application/problem+json` or `…+json+ld` for errors? (recommended: **…+json+ld**)
 
