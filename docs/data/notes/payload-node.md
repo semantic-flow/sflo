@@ -3,13 +3,15 @@
 
 ## Overview
 
-**payload nodes** (or “payload nodes” for short) are [[mesh-resource.node.reference]]s that represent and contain an evolvable "payload" dataset in the form of a [[mesh-resource.node-component.flow.payload]]. 
+**payload nodes** are [[mesh-resource.node.reference]]s that represent and contain an evolvable "payload" dataset in the form of a [[mesh-resource.node-component.flow.payload]]. 
 
 The payload dataset is kept in the payload node's [[mesh-resource.node-component.flow.payload]].
 
 Like all [[mesh-resource.node-component.flow]]s, because it is evolvable it gets typed as a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series). Its snapshots are [[datasets|https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset]].
 
-Unlike [[flow snapshots|mesh-resource.node-component.flow-snapshot]] which contain concrete data distributions, payload nodes serve as conceptual containers that organize and provide identity for datasets without containing the data directly. I.e., payload nodes only contain concrete datasets by virtue of containing a [[mesh-resource.node-component.flow.payload]] (also abstract) and its snapshots, which have concrete distributions.
+Unlike [[flow snapshots|mesh-resource.node-component.flow-shot]] which contain concrete data distributions, payload nodes serve as conceptual containers that organize and provide identity for datasets without containing the data directly. I.e., payload nodes only contain concrete datasets by virtue of containing a [[mesh-resource.node-component.flow.payload]] (also abstract) and its snapshots, which have concrete distributions.
+
+If a node has a PayloadFlow (i.e., it’s a “payload node”), then in its ReferenceFlow the node’s IRI MUST have rdf:type dcat:Dataset.
 
 ## Abstract vs Concrete Datasets
 
@@ -27,8 +29,8 @@ The payload node provides **stable identity**: The dataset persists conceptually
 
 [[mesh-resource.node-component.flow.payload]] is the single user payload flow for a node, realized by snapshots:
 
-- `/ns/monsters/_payload-flow/_current/` = the current dataset snapshot
-- `/ns/weather-stations/_payload-flow/_v3/` = version 3 dataset snapshot
+- `/ns/monsters/_payload/_default/` = the default dataset snapshot
+- `/ns/weather-stations/_payload/2025-11-24_0142_07_v3/` = version 3 dataset snapshot
 
 Snapshots contain **distribution files**: the actual data in various formats (e.g., .trig, .jsonld)
 
@@ -45,8 +47,8 @@ These are "concrete information resources", i.e. files.
 
 Every payload node must contain:
 
-- **[[mesh-resource.node-component.flow.node-metadata]]** (`_node-metadata-flow/`): Administrative metadata about the data concept
-- **[[mesh-resource.node-component.flow.payload]]** (`_payload-flow/`): dataset data
+- **[[mesh-resource.node-component.flow.node-metadata]]** (`_meta/`): Administrative metadata about the data concept
+- **[[mesh-resource.node-component.flow.payload]]** (`_payload/`): dataset data
 - **[[Node handle|mesh-resource.node-component.node-handle]]** (`_node-handle/`): Referential indirection for the node
 
 ## Optional Components
@@ -73,10 +75,10 @@ Like all mesh nodes, payload nodes can contain other mesh nodes and components, 
 ### Unversioned payload node
 ```
 ns/monsters/
-├── _node-metadata-flow/                 # metadata about the "monsters" payload node
+├── _meta/                 # metadata about the "monsters" payload node
 ├── _node-handle/               # handle for the payload node
-└── _payload-flow/                 # single payload flow
-    └── _current/               # current dataset snapshot
-        ├── monsters.jsonld     # concrete distribution of the current snapshot
+└── _payload/                 # single payload flow
+    └── _default/               # default dataset snapshot
+        ├── monsters.jsonld     # concrete distribution of the default snapshot
         └── monsters.trig
 ```

@@ -11,9 +11,9 @@
 <h4 id="flow-abstract-dataset-folders">Flow (Abstract Dataset) Folders<a aria-hidden="true" class="anchor-heading icon-link" href="#flow-abstract-dataset-folders"></a></h4>
 <ul>
 <li>
-<p><strong><code>_node-metadata-flow/</code></strong></p>
+<p><strong><code>_meta/</code></strong></p>
 <ul>
-<li>correspond to <a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a></li>
+<li>correspond to <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></li>
 <li>present in all mesh nodes</li>
 </ul>
 </li>
@@ -28,13 +28,13 @@
 <h4 id="snapshot-concrete-dataset-system-folders">Snapshot (Concrete Dataset) System Folders<a aria-hidden="true" class="anchor-heading icon-link" href="#snapshot-concrete-dataset-system-folders"></a></h4>
 <ul>
 <li>
-<p><strong><code>_current/</code></strong></p>
+<p><strong><code>_default/</code></strong></p>
 </li>
 <li>
-<p><strong><code>_v1/</code>, <code>_v2/</code>, …</strong></p>
+<p><strong>Snapshot folders</strong> (format: <code>YYYY-MM-DD_HHMM_SS_vN/</code>, e.g., <code>2025-11-24_0142_07_v1/</code>, <code>2025-11-24_0142_08_v2/</code>, …)</p>
 <ul>
-<li>Version snapshot folders that represent <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
-<li>each holds one or more distribution file (named <code>&#x3C;node_ref_vN.ext</code>).</li>
+<li>snapshot folders that represent <a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">snapshot</a></li>
+<li>each holds one or more distribution file</li>
 <li><strong>Fully terminal</strong>—neither user-nodes nor system-folders may live inside.</li>
 </ul>
 </li>

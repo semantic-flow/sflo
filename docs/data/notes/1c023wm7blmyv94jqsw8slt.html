@@ -1,0 +1,19 @@
+<h1 id="weave-label">Weave Label<a aria-hidden="true" class="anchor-heading icon-link" href="#weave-label"></a></h1>
+<p>A human-readable, sortable identifier for a given weave that is used in composing <a href="/sflo/notes/cxqccr4kfh6vbss1l14lrzd">snapshot folder names</a>.</p>
+<p>The value encodes the UTC date and time of <a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">snapshot</a> creation (weave) in the format <code>YYYY-MM-DD_HHMM_SS</code> (with underscores between date, time, and seconds), enabling simple chronological (lexical) comparison in SPARQL and across file-system hierarchies.</p>
+<p>Format: <code>YYYY-MM-DD_HHMM_SS</code></p>
+<ul>
+<li>Example: <code>2025-11-24_0142_55</code></li>
+</ul>
+<p>The weave label is combined with a sequence number to form complete snapshot folder names:</p>
+<ul>
+<li>Full format: <code>YYYY-MM-DD_HHMM_SS_vN</code></li>
+<li>Example: <code>2025-11-24_0142_55_v7</code></li>
+</ul>
+<p>Used as the human-readable component of snapshot folder names and as a lightweight temporal ordering key when full RDF provenance data is unavailable.</p>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/cxqccr4kfh6vbss1l14lrzd">Snapshot folder</a></li>
+<li><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">snapshot</a></li>
+</ul>

@@ -1,10 +1,11 @@
 <h1 id="paylod-node">paylod node<a aria-hidden="true" class="anchor-heading icon-link" href="#paylod-node"></a></h1>
 <p><strong>Payload nodes</strong> are nodes with datasets conained in them via <a href="/sflo/notes/payload-flow">payload flow</a>. They <a href="/sflo/notes/denotation">denote</a> their contained payload dataset, and must have a <a href="/sflo/notes/np4wrgk86b44hnlsjo964nz">reference flow</a> to describe that dataset.</p>
 <h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
-<p><strong>payload nodes</strong> (or “payload nodes” for short) are <a href="/sflo/notes/bxqmsolrgfu4fm16m5acii7">reference node</a>s that represent and contain an evolvable "payload" dataset in the form of a <a href="/sflo/notes/payload-flow">payload flow</a>. </p>
+<p><strong>payload nodes</strong> are <a href="/sflo/notes/bxqmsolrgfu4fm16m5acii7">reference node</a>s that represent and contain an evolvable "payload" dataset in the form of a <a href="/sflo/notes/payload-flow">payload flow</a>. </p>
 <p>The payload dataset is kept in the payload node's <a href="/sflo/notes/payload-flow">payload flow</a>.</p>
 <p>Like all <a href="/sflo/notes/node-flow">node flow</a>s, because it is evolvable it gets typed as a <a href="https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series">DatasetSeries</a>. Its snapshots are <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">datasets (Private)</a>.</p>
 <p>Unlike <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshots</a> which contain concrete data distributions, payload nodes serve as conceptual containers that organize and provide identity for datasets without containing the data directly. I.e., payload nodes only contain concrete datasets by virtue of containing a <a href="/sflo/notes/payload-flow">payload flow</a> (also abstract) and its snapshots, which have concrete distributions.</p>
+<p>If a node has a PayloadFlow (i.e., it’s a “payload node”), then in its ReferenceFlow the node’s IRI MUST have rdf:type dcat:Dataset.</p>
 <h2 id="abstract-vs-concrete-datasets">Abstract vs Concrete Datasets<a aria-hidden="true" class="anchor-heading icon-link" href="#abstract-vs-concrete-datasets"></a></h2>
 <h3 id="payload-node-highly-abstract">payload node (highly abstract)<a aria-hidden="true" class="anchor-heading icon-link" href="#payload-node-highly-abstract"></a></h3>
 <p>A payload node represents a dataset as a concept, e.g.:</p>
@@ -17,8 +18,8 @@
 <h3 id="payload-flow-abstract">payload flow (abstract)<a aria-hidden="true" class="anchor-heading icon-link" href="#payload-flow-abstract"></a></h3>
 <p><a href="/sflo/notes/payload-flow">payload flow</a> is the single user payload flow for a node, realized by snapshots:</p>
 <ul>
-<li><code>/ns/monsters/_payload-flow/_current/</code> = the current dataset snapshot</li>
-<li><code>/ns/weather-stations/_payload-flow/_v3/</code> = version 3 dataset snapshot</li>
+<li><code>/ns/monsters/_payload/_default/</code> = the default dataset snapshot</li>
+<li><code>/ns/weather-stations/_payload/2025-11-24_0142_07_v3/</code> = version 3 dataset snapshot</li>
 </ul>
 <p>Snapshots contain <strong>distribution files</strong>: the actual data in various formats (e.g., .trig, .jsonld)</p>
 <h3 id="payload-flow-snapshot-slightly-concrete">payload flow Snapshot (slightly concrete)<a aria-hidden="true" class="anchor-heading icon-link" href="#payload-flow-snapshot-slightly-concrete"></a></h3>
@@ -28,8 +29,8 @@
 <h2 id="required-components">Required Components<a aria-hidden="true" class="anchor-heading icon-link" href="#required-components"></a></h2>
 <p>Every payload node must contain:</p>
 <ul>
-<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a></strong> (<code>_node-metadata-flow/</code>): Administrative metadata about the data concept</li>
-<li><strong><a href="/sflo/notes/payload-flow">payload flow</a></strong> (<code>_payload-flow/</code>): dataset data</li>
+<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></strong> (<code>_meta/</code>): Administrative metadata about the data concept</li>
+<li><strong><a href="/sflo/notes/payload-flow">payload flow</a></strong> (<code>_payload/</code>): dataset data</li>
 <li><strong><a href="/sflo/notes/wie8wazi0eoq81zke09czxk">Node handle</a></strong> (<code>_node-handle/</code>): Referential indirection for the node</li>
 </ul>
 <h2 id="optional-components">Optional Components<a aria-hidden="true" class="anchor-heading icon-link" href="#optional-components"></a></h2>
@@ -51,11 +52,11 @@
 <h2 id="examples">Examples<a aria-hidden="true" class="anchor-heading icon-link" href="#examples"></a></h2>
 <h3 id="unversioned-payload-node">Unversioned payload node<a aria-hidden="true" class="anchor-heading icon-link" href="#unversioned-payload-node"></a></h3>
 <pre><code>ns/monsters/
-├── _node-metadata-flow/                 # metadata about the "monsters" payload node
+├── _meta/                 # metadata about the "monsters" payload node
 ├── _node-handle/               # handle for the payload node
-└── _payload-flow/                 # single payload flow
-    └── _current/               # current dataset snapshot
-        ├── monsters.jsonld     # concrete distribution of the current snapshot
+└── _payload/                 # single payload flow
+    └── _default/               # default dataset snapshot
+        ├── monsters.jsonld     # concrete distribution of the default snapshot
         └── monsters.trig
 </code></pre>
 <hr>
@@ -63,10 +64,12 @@
 <ul>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
-<li><a href="/sflo/notes/tn4fb1v558dd7sh1r5ubh7n">Do dataset nodes support DatasetSeries?</a></li>
+<li><a href="/sflo/notes/tn4fb1v558dd7sh1r5ubh7n">Do payload nodes support DatasetSeries?</a></li>
 <li><a href="/sflo/notes/osqi7xn4mw3j9v0kvsoc5uo">Why Dont payload nodes Contain Distributions Directly</a></li>
 <li><a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a></li>
+<li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a></li>
 <li><a href="/sflo/notes/mesh-node">mesh node</a></li>
+<li><a href="/sflo/notes/resource-page-generation">static site generation</a></li>
 <li><a href="/sflo/notes/p3mbdrze0qe8uvko4i16t1s">folder resource facet</a></li>
 <li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset facet</a></li>
 <li><a href="/sflo/notes/payload-flow">payload flow</a></li>

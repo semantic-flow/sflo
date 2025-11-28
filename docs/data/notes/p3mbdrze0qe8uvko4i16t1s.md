@@ -16,7 +16,7 @@ All folder-based resources should contain a [[mesh-resource.node-component.docum
 
 #### Flow (Abstract Dataset) Folders
 
-- **`_node-metadata-flow/`**
+- **`_meta/`**
   - correspond to [[mesh-resource.node-component.flow.node-metadata]]
   - present in all mesh nodes
   
@@ -27,12 +27,12 @@ All folder-based resources should contain a [[mesh-resource.node-component.docum
 
 #### Snapshot (Concrete Dataset) System Folders
 
-- **`_current/`**
+- **`_default/`**
 
-- **`_v1/`, `_v2/`, …**
+- **Snapshot folders** (format: `YYYY-MM-DD_HHMM_SS_vN/`, e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`, …)
 
-  - Version snapshot folders that represent [[mesh-resource.node-component.flow-snapshot]]
-  - each holds one or more distribution file (named `<node_ref_vN.ext`).
+  - snapshot folders that represent [[mesh-resource.node-component.flow-shot.snapshot]]
+  - each holds one or more distribution file
   - **Fully terminal**—neither user-nodes nor system-folders may live inside.
 
 #### Snapshot User Folders

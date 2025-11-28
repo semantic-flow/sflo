@@ -1,0 +1,290 @@
+<h1 id="2025-11-28_refine-createnode">2025 11 28_refine Createnode<a aria-hidden="true" class="anchor-heading icon-link" href="#2025-11-28_refine-createnode"></a></h1>
+<pre class="language-md"><code class="language-md">
+<span class="token title important"><span class="token punctuation">##</span> Prompt</span>
+
+We already have an architecture draft in <span class="token code-snippet code keyword">`architecture-plan-rdfsource-createnode.md`</span>. Use it as a <span class="token bold"><span class="token punctuation">**</span><span class="token content">structural reference</span><span class="token punctuation">**</span></span>, but treat the rules below as <span class="token bold"><span class="token punctuation">**</span><span class="token content">authoritative</span><span class="token punctuation">**</span></span> where there is any conflict.
+
+The goal of this task is to:
+
+<span class="token list punctuation">1.</span> Refine <span class="token code-snippet code keyword">`createNode`</span> so that it:
+   <span class="token list punctuation">-</span> scaffolds a mesh node’s directory structure,
+   <span class="token list punctuation">-</span> writes <span class="token bold"><span class="token punctuation">**</span><span class="token content">_working</span><span class="token punctuation">**</span></span> shots (where inputs are provided),
+   <span class="token list punctuation">-</span> does <span class="token bold"><span class="token punctuation">**</span><span class="token content">not</span><span class="token punctuation">**</span></span> write any snapshots (v1, _default) for any flow.
+<span class="token list punctuation">2.</span> Ensure <span class="token code-snippet code keyword">`_meta`</span> exists but contains <span class="token bold"><span class="token punctuation">**</span><span class="token content">no RDF</span><span class="token punctuation">**</span></span>; metadata snapshots are created only by later <span class="token bold"><span class="token punctuation">**</span><span class="token content">weave</span><span class="token punctuation">**</span></span> operations.
+<span class="token list punctuation">3.</span> Create default <span class="token code-snippet code keyword">`index.html`</span> resource pages for:
+   <span class="token list punctuation">-</span> the node itself,
+   <span class="token list punctuation">-</span> each flow directory that is created,
+   <span class="token list punctuation">-</span> and (optionally) each shot directory, using a platform default template.
+<span class="token list punctuation">4.</span> Make provenance defaults come exclusively from <span class="token code-snippet code keyword">`_cfg-op`</span> (operational config), not from a separate provenance bundle.
+<span class="token list punctuation">5.</span> Preserve the existing RdfSource / parsing semantics direction (file:/// base, mesh-native JSON-LD).
+
+This sets us up so that:
+
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`createNode`</span> establishes a <span class="token italic"><span class="token punctuation">*</span><span class="token content">reviewable, un-woven node</span><span class="token punctuation">*</span></span> with optional <span class="token code-snippet code keyword">`_working`</span> data and HTML resource pages.
+<span class="token list punctuation">-</span> The first actual weave can be a <span class="token bold"><span class="token punctuation">**</span><span class="token content">regular weave</span><span class="token punctuation">**</span></span>—no special “initialization weave” concept is needed.
+
+<span class="token hr punctuation">---</span>
+
+<span class="token title important"><span class="token punctuation">##</span> Authoritative behavior for createNode</span>
+
+<span class="token title important"><span class="token punctuation">###</span> 1. Required vs optional flows</span>
+
+For a newly created node:
+
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_meta/`</span> is <span class="token bold"><span class="token punctuation">**</span><span class="token content">mandatory</span><span class="token punctuation">**</span></span> (always created).
+<span class="token list punctuation">-</span> All other flow directories are <span class="token bold"><span class="token punctuation">**</span><span class="token content">optional</span><span class="token punctuation">**</span></span>:
+  <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_ref/`</span>
+  <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_payload/`</span>
+  <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_cfg-op/`</span>
+  <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_cfg-inh/`</span>
+
+<span class="token code-snippet code keyword">`createNode`</span>:
+
+<span class="token list punctuation">-</span> MUST always create <span class="token code-snippet code keyword">`_meta/`</span> with an empty <span class="token code-snippet code keyword">`_meta/_default/`</span> directory (no RDF content).
+<span class="token list punctuation">-</span> MUST NOT create <span class="token code-snippet code keyword">`_meta/_working`</span> at all.
+<span class="token list punctuation">-</span> MAY create other flow directories only when needed (inputs provided, or design choice to always scaffold them).
+
+<span class="token title important"><span class="token punctuation">###</span> 2. Snapshots vs working shots</span>
+
+Global rule to enforce:
+
+<span class="token list punctuation">-</span> <span class="token bold"><span class="token punctuation">**</span><span class="token content">“Weaves write snapshots.”</span><span class="token punctuation">**</span></span>
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`createNode`</span> is <span class="token bold"><span class="token punctuation">**</span><span class="token content">not</span><span class="token punctuation">**</span></span> a weave; it performs no snapshots.
+
+Concretely:
+
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`createNode`</span> MUST NOT write:
+  <span class="token list punctuation">-</span> any <span class="token code-snippet code keyword">`v1`</span> directories,
+  <span class="token list punctuation">-</span> any <span class="token code-snippet code keyword">`_default`</span> distributions for any flow,
+  <span class="token list punctuation">-</span> any provenance activities in <span class="token code-snippet code keyword">`_meta`</span>.
+
+Instead:
+
+<span class="token list punctuation">-</span> For any flow where input is provided (reference/payload/config), <span class="token code-snippet code keyword">`createNode`</span>:
+  <span class="token list punctuation">-</span> MUST create a <span class="token code-snippet code keyword">`_working/`</span> shot directory for that flow,
+  <span class="token list punctuation">-</span> MUST write a <span class="token bold"><span class="token punctuation">**</span><span class="token content">mesh-native JSON-LD distribution</span><span class="token punctuation">**</span></span> there,
+  <span class="token list punctuation">-</span> MUST use the filename conventions below.
+
+<span class="token title important"><span class="token punctuation">###</span> 3. Flow dirs, snaps, filenames (Option 1 + exact flow slugs)</span>
+
+Flow directory slugs (fixed):
+
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_meta`</span>
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_ref`</span>
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_payload`</span>
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_cfg-op`</span>
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_cfg-inh`</span>
+
+Node slug:
+
+<span class="token list punctuation">-</span> Derived from the node folder name.
+
+File naming:
+
+<span class="token list punctuation">-</span> Payload:
+  <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_payload/_working/&#x3C;nodeSlug>.jsonld`</span>
+  <span class="token list punctuation">-</span> (later, weaves will write <span class="token code-snippet code keyword">`_payload/vN/&#x3C;nodeSlug>.jsonld`</span> and <span class="token code-snippet code keyword">`_payload/_default/&#x3C;nodeSlug>.jsonld`</span>)
+<span class="token list punctuation">-</span> Other flows:
+  <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_ref/_working/&#x3C;nodeSlug>_ref.jsonld`</span>
+  <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_cfg-op/_working/&#x3C;nodeSlug>_cfg-op.jsonld`</span>
+  <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_cfg-inh/_working/&#x3C;nodeSlug>_cfg-inh.jsonld`</span>
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_meta`</span>:
+  <span class="token list punctuation">-</span> For <span class="token bold"><span class="token punctuation">**</span><span class="token content">this task</span><span class="token punctuation">**</span></span>, <span class="token code-snippet code keyword">`createNode`</span> <span class="token bold"><span class="token punctuation">**</span><span class="token content">does not</span><span class="token punctuation">**</span></span> write any JSON-LD inside <span class="token code-snippet code keyword">`_meta`</span> at all.
+  <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`_meta/_default/`</span> is created as an empty directory; snapshots will be created by weaves later.
+
+No <span class="token code-snippet code keyword">`_meta/_working`</span> directory.
+
+<span class="token title important"><span class="token punctuation">###</span> 4. RdfSource and parsing semantics (must keep)</span>
+
+Continue to implement/extend the previously agreed model:
+
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`RdfSource`</span> discriminated union:
+  <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`kind: 'file' | 'url' | 'inline'`</span> with <span class="token code-snippet code keyword">`syntax`</span> hint.
+<span class="token list punctuation">-</span> Parsing behavior:
+  <span class="token list punctuation">-</span> For <span class="token code-snippet code keyword">`kind: 'file'`</span>:
+    <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`documentIri = file:///absolute/path/to/file`</span>
+    <span class="token list punctuation">-</span> parse with <span class="token code-snippet code keyword">`baseIri = documentIri`</span>.
+  <span class="token list punctuation">-</span> For <span class="token code-snippet code keyword">`kind: 'url'`</span>:
+    <span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`documentIri = url`</span>.
+  <span class="token list punctuation">-</span> For <span class="token code-snippet code keyword">`kind: 'inline'`</span>:
+    <span class="token list punctuation">-</span> use a synthetic <span class="token code-snippet code keyword">`file:///virtual/...`</span> base (document in comments).
+<span class="token list punctuation">-</span> Mesh-native JSON-LD serialization:
+  <span class="token list punctuation">-</span> no <span class="token code-snippet code keyword">`@base`</span> in context,
+  <span class="token list punctuation">-</span> local IRIs relative to the chosen target base,
+  <span class="token list punctuation">-</span> external IRIs absolute.
+
+<span class="token code-snippet code keyword">`createNode`</span> must use <span class="token code-snippet code keyword">`RdfSource`</span> + debasing logic to populate <span class="token code-snippet code keyword">`_working`</span> distributions when inputs are provided.
+
+<span class="token title important"><span class="token punctuation">###</span> 5. Provenance defaults: only via operational config</span>
+
+Remove or ignore <span class="token code-snippet code keyword">`ProvenanceBundleInput`</span> in <span class="token code-snippet code keyword">`createNode`</span>:
+
+<span class="token list punctuation">-</span> <span class="token code-snippet code keyword">`createNode`</span> options should look like:
+
+  ```ts
+  export interface CreateNodeOptions {
+    payloadDataset?: RdfSource;
+    referenceDataset?: RdfSource;
+    operationalConfig?: RdfSource;
+    inheritableConfig?: RdfSource;
+
+<span class="token code keyword">    allowNonEmpty?: boolean;</span>
+
+<span class="token code keyword">    // Optional: node README content or path (see below)
+    readme?: string;      // inline markdown
+    readmePath?: string;  // file path for markdown</span>
+  }
+</code></pre>
+<ul>
+<li>
+<p>If <code>operationalConfig</code> is provided:</p>
+<ul>
+<li>Parse it as RDF via <code>RdfSource</code> and write <code>_cfg-op/_working/&#x3C;nodeSlug>_cfg-op.jsonld</code> in mesh-native form.</li>
+<li>This config MAY contain “provenance defaults” (rightsHolder, license, default agents, etc.), but <strong>no actual weave events</strong>.</li>
+</ul>
+</li>
+<li>
+<p>Actual weave events and PROV activities will be created later by a generic weave operation consuming <code>_cfg-op</code>, <code>_working</code> datasets, etc.</p>
+</li>
+</ul>
+<h3 id="6-readme-and-starter-kits">6. README and starter kits<a aria-hidden="true" class="anchor-heading icon-link" href="#6-readme-and-starter-kits"></a></h3>
+<p>For this task, support at least:</p>
+<ul>
+<li>
+<p>Optional README content for the node itself:</p>
+<ul>
+<li><code>readme</code> (inline markdown) or <code>readmePath</code> (file).</li>
+</ul>
+</li>
+<li>
+<p>Do <strong>not</strong> treat README as RDF; it’s normal content to be integrated into the node’s resource page (index.html).</p>
+</li>
+<li>
+<p>You do <em>not</em> need to implement zipped starter kits now; just keep the architecture flexible enough that <code>createNode</code> could later accept a “starter node bundle” and unpack it before applying additional config.</p>
+</li>
+</ul>
+<hr>
+<h2 id="resource-pages-indexhtml-behavior">Resource pages (index.html) behavior<a aria-hidden="true" class="anchor-heading icon-link" href="#resource-pages-indexhtml-behavior"></a></h2>
+<p>We want dereferenceability even before the first weave.</p>
+<h3 id="7-indexhtml-generation">7. index.html generation<a aria-hidden="true" class="anchor-heading icon-link" href="#7-indexhtml-generation"></a></h3>
+<p><code>createNode</code> should generate basic <code>index.html</code> files using a “platform default” template for:</p>
+<ul>
+<li>
+<p>The node root folder:</p>
+<ul>
+<li><code>&#x3C;nodePath>/index.html</code></li>
+</ul>
+</li>
+<li>
+<p>Each created flow directory:</p>
+<ul>
+<li><code>&#x3C;nodePath>/_meta/index.html</code></li>
+<li><code>&#x3C;nodePath>/_payload/index.html</code> (if created)</li>
+<li><code>&#x3C;nodePath>/_ref/index.html</code> (if created)</li>
+<li>etc.</li>
+</ul>
+</li>
+<li>
+<p>Optionally, each shot directory created at this stage:</p>
+<ul>
+<li><code>&#x3C;nodePath>/_payload/_working/index.html</code></li>
+<li><code>&#x3C;nodePath>/_cfg-op/_working/index.html</code></li>
+<li>etc.</li>
+</ul>
+</li>
+</ul>
+<p>Template requirements (minimal for now):</p>
+<ul>
+<li>
+<p>Node <code>index.html</code>:</p>
+<ul>
+<li>Mentions the node slug.</li>
+<li>Links to any existing flow directories as “NamingResources” / “FileResources” (no need for full ontology terms, just human-readable for now).</li>
+<li>Optionally renders README content if provided (simple markdown → HTML is enough; can be naive).</li>
+</ul>
+</li>
+<li>
+<p>Flow <code>index.html</code>:</p>
+<ul>
+<li>Identifies the flow by slug (<code>_payload</code>, <code>_ref</code>, <code>_cfg-op</code>, etc.).</li>
+<li>Links to any <code>_working</code> distributions present (plain file links).</li>
+</ul>
+</li>
+</ul>
+<p>These templates can be simple functions or static HTML skeletons with minimal logic; the goal is just to ensure:</p>
+<ul>
+<li>every directory is dereferenceable over HTTP,</li>
+<li>there’s enough structure that future weaves can build richer resource pages without breaking anything.</li>
+</ul>
+<hr>
+<h2 id="what-needs-to-be-changed-vs-the-original-architecture-plan">What needs to be changed vs the original architecture plan<a aria-hidden="true" class="anchor-heading icon-link" href="#what-needs-to-be-changed-vs-the-original-architecture-plan"></a></h2>
+<p>When you implement this task, please:</p>
+<ol>
+<li>
+<p><strong>Remove</strong> snapshot generation from <code>createNode</code>:</p>
+<ul>
+<li>No <code>_meta/v1</code>, no <code>_meta/_default</code> distributions.</li>
+<li>No <code>v1</code> snapshots for <code>_payload</code>, <code>_ref</code>, <code>_cfg-*</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Ensure <code>_meta</code> is mandatory</strong>, but only the directory and <code>_default/</code> subdir exist; no RDF.</p>
+</li>
+<li>
+<p><strong>Add <code>_working</code> shots</strong> for flows where inputs are provided, using the naming rules above.</p>
+</li>
+<li>
+<p><strong>Drop <code>ProvenanceBundleInput</code></strong> from <code>createNode</code>; provenance defaults belong in <code>_cfg-op/_working</code>.</p>
+</li>
+<li>
+<p><strong>Add support for optional Node README</strong> (inline or from file) at <code>createNode</code> time, store it as nodename/README.md</p>
+</li>
+<li>
+<p><strong>Generate default <code>index.html</code></strong> in node root (using README.md if present, and linking to created flow and FlowShot dirs).</p>
+</li>
+</ol>
+<p>You can either refactor the existing <code>createNode</code> implementation/plan or restart it with these rules; given the amount of change, a <strong>surgical refactor</strong> is probably reasonable:</p>
+<ul>
+<li>Keep file locations, error types, and basic directory scaffolding logic.</li>
+<li>Remove snapshot-writing logic and provenance bundles.</li>
+<li>Insert <code>_working</code> shot writing + <code>index.html</code> generation.</li>
+</ul>
+<hr>
+<h2 id="success-criteria">Success criteria<a aria-hidden="true" class="anchor-heading icon-link" href="#success-criteria"></a></h2>
+<p>This task is complete when:</p>
+<ol>
+<li>
+<p><code>createNode</code>:</p>
+<ul>
+<li>Creates <code>_meta/_default/</code> as an empty directory.</li>
+<li>Creates other flow dirs only as needed.</li>
+<li>Writes <code>_working</code> distributions (mesh-native JSON-LD) for any flows where <code>RdfSource</code> inputs are provided.</li>
+<li>Does not write any snapshots (<code>v1</code>, <code>_default</code> distributions) or metadata RDF.</li>
+</ul>
+</li>
+<li>
+<p>Optional <code>operationalConfig</code> is written to <code>_cfg-op/_working/&#x3C;nodeSlug>_cfg-op.jsonld</code> and not used to generate any PROV events yet.</p>
+</li>
+<li>
+<p>Optional README is accepted and integrated into the node’s <code>index.html</code> page.</p>
+</li>
+<li>
+<p><code>index.html</code> exists in:</p>
+<ul>
+<li>node root,</li>
+<li><code>_meta/</code>,</li>
+<li>each non-empty flow dir,</li>
+<li>and each <code>_working</code> shot dir created by <code>createNode</code>.</li>
+</ul>
+</li>
+<li>
+<p>All affected tests are updated or added to reflect:</p>
+<ul>
+<li><code>_meta</code> is mandatory but RDF-free after <code>createNode</code>,</li>
+<li>no snapshots exist after <code>createNode</code>,</li>
+<li><code>_working</code> distributions appear correctly when inputs are provided,</li>
+<li><code>index.html</code> gets created in the expected locations.</li>
+</ul>
+</li>
+</ol>
+<pre><code></code></pre>

@@ -1,0 +1,348 @@
+<h1 id="2025-11-27-createnode">2025-11-27-createNode<a aria-hidden="true" class="anchor-heading icon-link" href="#2025-11-27-createnode"></a></h1>
+<h2 id="todo">TODO<a aria-hidden="true" class="anchor-heading icon-link" href="#todo"></a></h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Explore project structure and understand requirements</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Design RdfSource abstraction architecture</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Design createNode operation architecture</li>
+<li class="task-list-item"><input type="checkbox" disabled> Document parsing semantics for SFLO spec</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement RdfSource types and core abstractions</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement RdfSource parsing/serialization helpers</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement createNode core function</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement filesystem scaffolding utilities</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement metadata generation with provenance stubs</li>
+<li class="task-list-item"><input type="checkbox" disabled> Create tests for RdfSource</li>
+<li class="task-list-item"><input type="checkbox" disabled> Create tests for createNode</li>
+<li class="task-list-item"><input type="checkbox" disabled> Create simple Node.js runner script</li>
+<li class="task-list-item"><input type="checkbox" disabled> Update task files with progress</li>
+</ul>
+<p>See detailed architecture plan in <a href="/sflo/notes/architecture-plan-rdfsource-createnode">Architecture Plan - RdfSource &#x26; createNode</a>.</p>
+<h2 id="prompt">Prompt<a aria-hidden="true" class="anchor-heading icon-link" href="#prompt"></a></h2>
+<p>Implement a core <code>createNode</code> operation that:</p>
+<ul>
+<li>Takes a filesystem path and options.</li>
+<li>Initializes that path as a <strong>mesh node</strong>.</li>
+<li>Creates the minimal <strong>handle</strong> and <strong>metadata</strong> folders .</li>
+<li>Optionally attaches initial payload/reference/config inputs.</li>
+<li>Enforces basic safety invariants (no double-init, non-empty dir warnings).</li>
+<li>executes the <a href="/sflo/notes/rall4fbxm369okmy5383sf8">weave process</a></li>
+</ul>
+<p>This should be a <strong>pure Node.js library function</strong> plus a minimal Node-based entry point for manual use. Do <strong>not</strong> integrate Oclif yet (future task; likely with <code>@inquirer/prompts</code> for interactivity).</p>
+<hr>
+<h2 id="decisions">Decisions<a aria-hidden="true" class="anchor-heading icon-link" href="#decisions"></a></h2>
+<ol>
+<li>
+<p><strong>Name and scope</strong></p>
+<ul>
+<li>Operation name: <code>createNode</code>.</li>
+<li>Lives in core library (e.g. <code>@semantic-flow/core</code>), not tied to any specific CLI framework.</li>
+<li>This task provides:
+<ul>
+<li><code>createNode(nodeTargetPath, options)</code> implementation.</li>
+<li>A thin, non-interactive Node entry point (e.g. <code>scripts/create-node.ts</code>) for manual testing.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Metadata flow invariants</strong></p>
+<ul>
+<li>Metadata is <strong>only</strong> written as part of weaves (including this one).</li>
+<li>The <strong>metadata flow is always versioned</strong>:
+<ul>
+<li>A <code>v1</code> FlowShot is created for <code>_meta</code>.</li>
+<li>A <code>_default</code> distribution is a copy of <code>v1</code> with <code>@base</code> implicitly equal to the file’s future URL (no in-file <code>@base</code>).</li>
+</ul>
+</li>
+<li>There is <strong>no <code>_working</code> metadata</strong> in this v1.</li>
+</ul>
+</li>
+<li>
+<p><strong>Mesh-native RDF style</strong></p>
+<ul>
+<li>For all SF-authored RDF files:
+<ul>
+<li>No <code>@base</code> in the file.</li>
+<li>Local identifiers use <strong>relative IRIs</strong> (see <code>concept.identifier.intramesh.relative</code>).</li>
+<li>Tooling must supply the base IRI when parsing/serializing (based on node path + namespace root).</li>
+</ul>
+</li>
+<li>This applies to metadata and any SF-authored reference/payload flows in this task.</li>
+</ul>
+</li>
+<li>
+<p><strong>Reference vs payload</strong></p>
+<ul>
+<li><strong>Exactly one ReferenceFlow per node</strong> (or none).</li>
+<li>PayloadFlow is optional; a node having a PayloadFlow makes it a <strong>Payload Node</strong>.</li>
+<li>Enforceable difference (to be wired into SHACL later, not enforced in this task’s runtime logic):
+<ul>
+<li>If a node has a PayloadFlow, its ReferenceFlow <strong>must</strong> type the node as a <code>dcat:Dataset</code>:
+<ul>
+<li>In reference data: <code>&#x3C;> a dcat:Dataset</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Safety and idempotence</strong></p>
+<ul>
+<li><code>createNode(nodeTargetPath, options)</code>:
+<ul>
+<li>MUST <strong>error</strong> if the path already “looks like a node” (presence of <code>_node-handle</code> or <code>_meta</code>).</li>
+<li>MUST <strong>warn</strong> if the directory exists and is non-empty.</li>
+<li>SHOULD be idempotent only in the trivial “fails-fast on already-initialized” sense; no attempt to merge with existing node structure in this task.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Parent topology</strong></p>
+<ul>
+<li>This task does <strong>not</strong> persist any parent/child relationships in metadata.</li>
+<li>Optional runtime inspection of parent directories (e.g. to warn about creating “orphan” nodes) is out of scope for v1 and should <strong>not</strong> block this task.</li>
+<li>Mesh composability/transposability is preserved by not writing parent references into RDF.</li>
+</ul>
+</li>
+<li>
+<p><strong>Payload/reference/config handling (v1 scope)</strong></p>
+<ul>
+<li><code>createNode</code> <strong>may</strong> accept:
+<ul>
+<li><code>payloadDatasetPath?: string</code></li>
+<li><code>referenceDatasetPath?: string</code></li>
+<li><code>operationalConfigPath?: string</code></li>
+<li><code>inheritableConfigPath?: string</code></li>
+<li><code>provenanceInput?: ProvenanceBundleInput</code> (see below)</li>
+</ul>
+</li>
+<li>In this task:
+<ul>
+<li>If <code>referenceDatasetPath</code> is provided:
+<ul>
+<li>Copy or normalize it into <code>_ref/_working/</code> (no unpack, no de-basing logic yet).</li>
+</ul>
+</li>
+<li>If <code>payloadDatasetPath</code> is provided:
+<ul>
+<li>Copy or normalize it into <code>_payload/_working/</code> (no de-basing, no unpack).</li>
+</ul>
+</li>
+<li>Config files:
+<ul>
+<li>If provided, copy/normalize into <code>_cfg-op/_working/</code> and/or <code>_cfg-inh/_working/</code>.</li>
+</ul>
+</li>
+<li>in all cases, the target filename in general will be "node name" + "flow slug" + ".jsonld". 
+<ul>
+<li>the flow slugs are defined in ../ontology/semantic-flow/</li>
+</ul>
+</li>
+<li></li>
+</ul>
+</li>
+<li><strong>No de-basing or unpacking</strong> in this task:
+<ul>
+<li>Imported payload/reference/config are treated as already “good enough” or mesh-native.</li>
+<li>Debasing and unpacking are separate follow-up tasks.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Provenance input (structure, not full PROV)</strong></p>
+<ul>
+<li>
+<p><code>createNode</code> should accept a <strong>structured provenance input</strong>, <em>not</em> a full <code>ProvenanceContext</code>.</p>
+</li>
+<li>
+<p>Example shape (TS, conceptual):</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">type</span> <span class="token class-name"><span class="token maybe-class-name">ProvenanceBundleInput</span></span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  primaryAgentIri<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>     <span class="token comment">// human or system</span>
+  organizationIri<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>     <span class="token comment">// rights holder org, optional</span>
+  contributorsIri<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>   <span class="token comment">// additional agents, optional</span>
+  rightsHolderIri<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>     <span class="token comment">// explicit rights holder; if absent, may default from org/primary</span>
+  licenseIri<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>          <span class="token comment">// e.g., CC BY-SA URL</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</li>
+<li>
+<p>In this task:</p>
+<ul>
+<li>You do <strong>not</strong> need to fully implement DelegationChain / ProvenanceContext, but:
+<ul>
+<li><code>createNode</code> should <strong>reserve space</strong> in the v1 metadata shot for a future PROV model (e.g., stub nodes with IRIs based on your fragment scheme).</li>
+<li>At minimum, write the node’s <code>rightsHolder</code> and <code>license</code> if provided.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>RDF format expectations</strong></p>
+<ul>
+<li>Code should be written so that metadata and reference/payload flows can be emitted as <strong>JSON-LD</strong> datasets (primary), with internal APIs abstract enough to allow future TriG distributions.</li>
+<li>Do not hard-wire a specific RDF library beyond what’s needed to:
+<ul>
+<li>create simple graphs,</li>
+<li>serialize JSON-LD with relative IRIs.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>CLI framework</strong></p>
+<ul>
+<li>This task <strong>does not</strong> integrate Oclif or any CLI framework.</li>
+<li>A minimal Node entry point (e.g. <code>node scripts/create-node.js &#x3C;nodeTargetPath></code>) is enough.</li>
+<li>Future CLI work:
+<ul>
+<li>Will likely use <code>@inquirer/prompts</code> (modern Inquirer) for interactivity instead of Enquirer.</li>
+<li>Should wrap this <code>createNode</code> core function, not replace it.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="requirements">Requirements<a aria-hidden="true" class="anchor-heading icon-link" href="#requirements"></a></h2>
+<h3 id="functional">Functional<a aria-hidden="true" class="anchor-heading icon-link" href="#functional"></a></h3>
+<ul>
+<li>
+<p>Implement:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">createNode</span><span class="token punctuation">(</span>
+  nodeTargetPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  options<span class="token operator">?</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    payloadDatasetPath<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    referenceDatasetPath<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    operationalConfigPath<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    inheritableConfigPath<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    provenanceInput<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">ProvenanceBundleInput</span><span class="token punctuation">;</span>
+    allowNonEmpty<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token known-class-name class-name">Promise</span><span class="token operator">&#x3C;</span><span class="token keyword">void</span><span class="token operator">></span><span class="token punctuation">;</span>
+</code></pre>
+</li>
+</ul>
+<pre><code>
+* Behavior:
+
+  1. **Path handling**
+
+     * If `nodeTargetPath` does not exist: create directory.
+     * If it exists and:
+
+       * contains `_node-handle` or `_meta` → throw an error (“Node already initialized”).
+       * is non-empty and `allowNonEmpty` is not set → throw an error or require explicit override.
+
+  2. **Node scaffolding**
+
+     * Create `_node-handle/` folder (stub content; minimal files per existing ontology conventions).
+
+     * Create `_meta/` with structure:
+
+       ```
+       _meta/
+         v1/
+           &#x3C;metadata>.jsonld
+         _default/
+           &#x3C;metadata>.jsonld   # content identical to v1, but treated as “current”
+       ```
+
+     * Metadata content for v1 must include at least:
+
+       * A minimal node description stub (node IRI, type placeholder).
+       * Rights/licensing if present in `provenanceInput` (at dataset or node level).
+       * A placeholder or minimal structure for the NodeCreation Activity and provenance model (no need to fully flesh out DelegationChain yet, but leave room).
+
+  3. **Optional flows**
+
+     * If `referenceDatasetPath` provided:
+
+       * Create `_ref/v1/…` and copy/normalize the file there.
+       * (No validation that `&#x3C;> a dcat:Dataset` is present yet; that’s SHACL-level, not runtime.)
+     * If `payloadDatasetPath` provided:
+
+       * Create `_payload/v1/…` and copy/normalize the file.
+     * If config paths provided:
+
+       * Create `_cfg-op/v1/…` and/or `_cfg-inh/v1/…` and copy/normalize.
+
+  4. **No advanced behaviors**
+
+     * No de-basing (no IRI rewriting).
+     * No unpacking payload into child nodes.
+     * No config inheritance from parent nodes.
+
+* Implement a simple Node-based runner:
+
+  ```bash
+  node scripts/create-node.js &#x3C;nodeTargetPath> [--allow-nonempty]
+  ```
+
+  that:
+
+  * resolves `nodeTargetPath`,
+  * calls `createNode(nodeTargetPath, { allowNonEmpty: true/false })`,
+  * logs structured success/failure.
+
+### Non-Functional
+
+* Clear, structured errors for:
+
+  * already-initialized node,
+  * non-empty directory without `allowNonEmpty`,
+  * filesystem failures.
+* Logging should integrate with your existing logging abstraction if available; otherwise, stub logging with a thin wrapper that can be replaced later.
+* Keep the core function testable without side effects beyond filesystem writes:
+
+  * All external interactions (e.g., resolving base IRIs, future namespace info) should be parameterizable or stubbed for now.
+
+---
+
+## Deliverables
+
+1. **Core implementation**
+
+   * `createNode` function in the core Node library.
+   * Supporting types (`ProvenanceBundleInput`, options interface).
+
+2. **Filesystem layout tests**
+
+   * Tests that:
+
+     * Starting from an empty directory, `createNode` produces the expected folder/file structure.
+     * Running `createNode` again fails with “already initialized.”
+     * Non-empty directory handling behaves correctly.
+
+3. **Minimal metadata content tests**
+
+   * Sanity checks that:
+
+     * `_meta/v1/*.jsonld` and `_default/*.jsonld` both exist.
+     * `rightsHolder` and `license` triples are present when `provenanceInput` provides them.
+     * Local IRIs in metadata are relative (no `@base` in the file).
+
+4. **Simple Node runner**
+
+   * `scripts/create-node.(ts|js)` or equivalent, wired to `createNode` with basic CLI arg parsing.
+
+---
+
+## Out of Scope / Follow-ups
+
+* Oclif-based CLI wrapping `createNode` (with `@inquirer/prompts`).
+* De-basing (namespace adoption) of imported datasets.
+* Payload unpacking into child nodes.
+* Config inheritance (from parent nodes).
+* Full PROV/DelegationChain/ProvenanceContext modeling in metadata (beyond minimal stubs).
+* RDF store integration or SHACL validation wiring (e.g., the `PayloadNode ⇒ dcat:Dataset` rule).
+
+</code></pre>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/qsqii47rbkfuw3ktpdhk9rv">2025 11 28 Rdfsource Debasing Parsing</a></li>
+</ul>

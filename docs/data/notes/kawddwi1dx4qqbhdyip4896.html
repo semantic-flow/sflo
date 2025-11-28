@@ -9,7 +9,7 @@
 <li>A <strong>dataset</strong> <code>/ns/djradon/picks/</code></li>
 </ul>
 <p>See <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85#example-mesh">Example Mesh</a> for a mapping of resources types</p>
-<h4 id="mesh-directory-structure">Mesh Directory Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-directory-structure"></a></h4>
+<h4 id="mesh-node-directory-structure">Mesh Node Directory Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#mesh-node-directory-structure"></a></h4>
 <pre class="language-file"><code class="language-file">test-ns                    # bare node
    djradon                 # ref node (refering to a human dj)
       bio                  # payload node
@@ -24,7 +24,7 @@
 <li>
 <p><strong>Namespace metadata</strong></p>
 <pre class="language-turtle"><code class="language-turtle"><span class="token comment"># /ns/_id/ns_id.trig</span>
-<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">Namespace</span></span> <span class="token punctuation">;</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">sflo<span class="token punctuation">:</span></span><span class="token local-name">BareNode</span></span> <span class="token punctuation">;</span>
    <span class="token function"><span class="token prefix">dct<span class="token punctuation">:</span></span><span class="token local-name">title</span></span> <span class="token string">"Namespace Root"</span> <span class="token punctuation">;</span>
    <span class="token function"><span class="token prefix">sf<span class="token punctuation">:</span></span><span class="token local-name">contains</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://example.org/ns/djradon/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 </code></pre>
@@ -54,7 +54,7 @@
 </li>
 <li>
 <p><strong>Historical version</strong></p>
-<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># /ns/djradon/picks/_v-series/v1/picks_v1.trig</span>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># /ns/djradon/picks/_v-series/v1/picks.jsonld</span>
 <span class="token url"><span class="token punctuation">&#x3C;</span><span class="token punctuation">></span></span> <span class="token function"><span class="token prefix">dct<span class="token punctuation">:</span></span><span class="token local-name">issued</span></span> <span class="token string">"2025-06-01"</span><span class="token punctuation">^^</span><span class="token function"><span class="token prefix">xsd<span class="token punctuation">:</span></span><span class="token local-name">date</span></span> <span class="token punctuation">.</span>
 </code></pre>
 </li>

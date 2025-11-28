@@ -1,19 +1,30 @@
 <h1 id="reference-node">reference node<a aria-hidden="true" class="anchor-heading icon-link" href="#reference-node"></a></h1>
 <h2 id="definition">Definition<a aria-hidden="true" class="anchor-heading icon-link" href="#definition"></a></h2>
 <p>A <strong>reference node</strong> is a <a href="/sflo/notes/mesh-node">mesh node</a> that represents the (non-dataset) <strong>referent</strong> of the node — i.e., the thing in the world that the node stands for.</p>
-<p><strong>Purpose</strong></p>
+<h2 id="purpose">Purpose<a aria-hidden="true" class="anchor-heading icon-link" href="#purpose"></a></h2>
 <ul>
 <li>To describe what the node <em>refers to</em> (person, place, concept, dataset, etc.).</li>
 <li>To supply human/machine labels, identifiers, and minimal provenance about the referent.</li>
-<li>To differentiate between metadata about the <strong>node itself</strong> (<code>_node-metadata-flow</code>) and metadata about the <strong>referent</strong>.</li>
+<li>To differentiate between metadata about the <strong>node itself</strong> (<code>_meta</code>) and metadata about the <strong>referent</strong>.</li>
 </ul>
-<p><strong>Contents (typical minimum)</strong></p>
+<h2 id="typical-contents">Typical Contents<a aria-hidden="true" class="anchor-heading icon-link" href="#typical-contents"></a></h2>
+<h3 id="core-description">Core Description<a aria-hidden="true" class="anchor-heading icon-link" href="#core-description"></a></h3>
+<p>What is the node’s referent? This is what the HTML resource page uses to say:</p>
+<p>“This is an Organization / Ontology / Rate Plan / Dataset / Whatever.”</p>
 <ul>
 <li><code>rdfs:label</code> (human-readable name of the referent).</li>
 <li><code>rdf:type</code> (classifying what kind of thing the referent is).</li>
+<li>maybe  skos:prefLabel, dcterms:description, owl:sameAs, etc.</li>
+</ul>
+<h3 id="dataset-level-description-if-the-thing-is-a-dataset">Dataset-level description (if the thing is a dataset)<a aria-hidden="true" class="anchor-heading icon-link" href="#dataset-level-description-if-the-thing-is-a-dataset"></a></h3>
+<ul>
 <li>Optional provenance (creator, source, temporal scope).</li>
 <li>Optional identifiers (sameAs links, external URIs).</li>
+<li>dcat:Dataset, dcat:distribution, dcterms:issued, dcterms:modified, dcterms:license, etc.</li>
 </ul>
+<p>This describes the dataset-as-thing.</p>
+<h3 id="context--external-perspectives">Context / External Perspectives<a aria-hidden="true" class="anchor-heading icon-link" href="#context--external-perspectives"></a></h3>
+<p>Links to registries, catalogs, external provenance, ie. alternate descriptions imported from elsewhere.</p>
 <h2 id="example-snapshot-distribution">Example Snapshot Distribution<a aria-hidden="true" class="anchor-heading icon-link" href="#example-snapshot-distribution"></a></h2>
 <pre class="language-trig"><code class="language-trig"><span class="token comment"># The referent of the node (the actual person)</span>
 <span class="token url"><span class="token punctuation">&#x3C;</span>djradon<span class="token punctuation">></span></span>

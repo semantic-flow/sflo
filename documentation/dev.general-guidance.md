@@ -76,7 +76,7 @@ The development setup includes automatic hot reload using nodemon:
 ### Building the docs
 
 ```shell
-npx dendron publish export --target github --yes
+nvm exec 24 npx dendron publish export --target github --yes
 ```
 
 ## RDF and Semantic Web

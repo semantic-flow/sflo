@@ -1,28 +1,21 @@
-<h1 id="sflo-web">Sflo Web<a aria-hidden="true" class="anchor-heading icon-link" href="#sflo-web"></a></h1>
+<h1 id="sflo-web">sflo-web<a aria-hidden="true" class="anchor-heading icon-link" href="#sflo-web"></a></h1>
 <h2 id="unexamined-technical-architecture">Unexamined Technical Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#unexamined-technical-architecture"></a></h2>
-<p>index.html - main HTML entry point</p>
 <ul>
 <li>
-<p>vite.config.ts - Vite configuration file for build and dev server</p>
-</li>
-<li>
-<p>package.json - SPA dependencies and scripts</p>
+<p>server-rendered + HTMX approach</p>
 </li>
 <li>
 <p>Development workflow:</p>
 <ul>
-<li>Use <code>pnpm</code> to install dependencies in <code>/sflo-web</code></li>
+<li>Use <code>pnpm</code> to install dependencies</li>
 <li>Run <code>vite</code> dev server for local development with hot module replacement</li>
 <li>Build production assets with <code>vite build</code></li>
-<li>Output static assets to <code>/sflo-web/dist</code> for deployment or serving by shim plugin</li>
+<li>Output static assets to <code>/sflo-web/dist</code> for deployment or serving </li>
 </ul>
 </li>
 <li>
 <p>Recommended dependencies:</p>
 <ul>
-<li><code>vue@3</code></li>
-<li><code>vue-router@4</code> for SPA routing</li>
-<li><code>pinia</code> for state management</li>
 <li><code>fetch</code> for API calls to <code>sflo-api</code></li>
 </ul>
 </li>

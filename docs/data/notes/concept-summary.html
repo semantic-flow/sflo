@@ -26,7 +26,7 @@ A semantic mesh is a dereferenceable, possibly-versioned corpus of semantic reso
 <ul>
 <li><a href="/sflo/notes/x5zwfsdfzap0c5843n5a1fh">Dereferencability for Humans</a>: resource pages</li>
 <li><a href="/sflo/notes/4ado7w6mwrrcphy9p1kpfa3">Single Referent Principle</a>: concept vs content is explicit</li>
-<li><a href="/sflo/notes/ngw89xo9m9jop5b3o32dwwd">pseudo-immutability</a>: treat version snapshots/IDs as immutable</li>
+<li><a href="/sflo/notes/ngw89xo9m9jop5b3o32dwwd">pseudo-immutability</a>: treat snapshots/IDs as immutable</li>
 <li><a href="/sflo/notes/transposability">transposability</a>: move meshes without breaking links via relative IDs</li>
 <li><a href="/sflo/notes/principle-composability">composability</a>: extract/compose submeshes</li>
 </ul>
@@ -45,17 +45,17 @@ A semantic mesh is a dereferenceable, possibly-versioned corpus of semantic reso
 <ul>
 <li>Flows (abstract datasets as DatasetSeries):
 <ul>
-<li>Meta flow (metadata/provenance): <a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a></li>
+<li>Meta flow (metadata/provenance): <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></li>
 <li>payload flow (payload data): <a href="/sflo/notes/payload-flow">payload flow</a></li>
 <li>Node-config flows (settings; see §9): <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a></li>
 </ul>
 </li>
-<li>Flow snapshots (concrete Datasets): <code>_current/</code>, <code>_next/</code>, <code>_vN/</code>
+<li>FlowShots (concrete Datasets): <code>_default/</code>, <code>_working/</code>, snapshot folders (e.g., <code>2025-11-24_0142_07_v1/</code>)
 <ul>
-<li>Overview: <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
-<li><code>_current/</code>: <a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a></li>
-<li><code>_next/</code>: <a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></li>
-<li><code>_vN/</code>: <a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></li>
+<li>Overview: <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">FlowShot</a></li>
+<li><code>_default/</code>: <a href="/sflo/notes/074yxm151l47n1aak58ggni">default snapshot</a></li>
+<li><code>_working/</code>: <a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">working snapshot</a></li>
+<li>Snapshot folders: <a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">snapshot</a></li>
 <li>Distributions: <a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distribution</a></li>
 </ul>
 </li>
@@ -118,13 +118,13 @@ See:</li>
 <li><code>_node-handle/</code></li>
 <li>Flow containers (abstract datasets):
 <ul>
-<li><code>_node-metadata-flow/</code>, <code>_payload-flow/</code></li>
-<li><code>_config-operational-flow/</code>, <code>_config-inheritable-flow/</code> (see §9)</li>
+<li><code>_meta/</code>, <code>_payload/</code></li>
+<li><code>_cfg-op/</code>, <code>_cfg-inh/</code> (see §9)</li>
 </ul>
 </li>
-<li>Snapshots inside a flow:
+<li>FlowShots inside a flow:
 <ul>
-<li><code>_current/</code>, <code>_next/</code>, <code>_vN/</code> (e.g., <code>_v1/</code>, <code>_v2/</code>, …)</li>
+<li><code>_default/</code>, <code>_working/</code>, snapshot folders with format <code>YYYY-MM-DD_HHMM_SS_vN/</code> (e.g., <code>2025-11-24_0142_07_v1/</code>, <code>2025-11-24_0142_08_v2/</code>, …)</li>
 </ul>
 </li>
 <li>Assets:
@@ -135,13 +135,13 @@ See:</li>
 </ul>
 <p>Folder-note pages for these reserved names live under <code>folder.*.md</code> (where defined):</p>
 <ul>
-<li><code>_node-metadata-flow/</code>: <a href="/sflo/notes/node-metadata-flow-folder">_node-metadata-flow folder</a></li>
-<li><code>_payload-flow/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">folder._data-flow (Private)</a></li>
-<li><code>_config-operational-flow/</code>: <a href="/sflo/notes/hfmgd0w82phfjkre3ippnk9">config flow folder</a></li>
-<li><code>_config-inheritable-flow/</code>: <a href="/sflo/notes/nokx5o047yld6voaxnx8tmw">_config Inheritable Flow</a></li>
-<li><code>_current/</code>: <a href="/sflo/notes/xz41kd5hzao6yjybm05uw4l">current snapshot folder</a></li>
-<li><code>_next/</code>: <a href="/sflo/notes/btt731d4bsjpwoyszlnn6i2">next snapshot folder</a></li>
-<li><code>_vN/</code>: <a href="/sflo/notes/cxqccr4kfh6vbss1l14lrzd">version snapshot folder</a></li>
+<li><code>_meta/</code>: <a href="/sflo/notes/node-metadata-flow-folder">_meta flow folder</a></li>
+<li><code>_payload/</code>: <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">folder._data-flow (Private)</a></li>
+<li><code>_cfg-op/</code>: <a href="/sflo/notes/hfmgd0w82phfjkre3ippnk9">_cfg-op flow folder</a></li>
+<li><code>_cfg-inh/</code>: <a href="/sflo/notes/nokx5o047yld6voaxnx8tmw">_cfg-inh flow folder</a></li>
+<li><code>_default/</code>: <a href="/sflo/notes/xz41kd5hzao6yjybm05uw4l">_default</a></li>
+<li><code>_working/</code>: <a href="/sflo/notes/btt731d4bsjpwoyszlnn6i2">_working</a></li>
+<li>Snapshot folders (<code>YYYY-MM-DD_HHMM_SS_vN/</code>): <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">folder.flowshot (Private)</a></li>
 <li><code>_assets/</code>: <a href="/sflo/notes/0qtlo26phu45trajyzki5od">assets tree folder</a></li>
 <li>Node folder pages:
 <ul>
@@ -152,17 +152,17 @@ See:</li>
 <p>6) Data and Versioning Model</p>
 <ul>
 <li>Only flows are versioned (flows are DatasetSeries). Nodes are not versioned.</li>
-<li>Flow snapshots:
+<li>FlowShots (flow realizations):
 <ul>
-<li><code>_current/</code>: latest stable realization; after weave it equals the content of the latest <code>_vN/</code>.</li>
-<li><code>_next/</code>: mutable working area.</li>
-<li><code>_vN/</code>: immutable history for precise citation and provenance.</li>
+<li><code>_default/</code>: latest stable realization; after weave it equals the content of the latest snapshot.</li>
+<li><code>_working/</code>: mutable working area.</li>
+<li>Snapshot folders (format <code>YYYY-MM-DD_HHMM_SS_vN/</code>): immutable history for precise citation and provenance.</li>
 </ul>
 </li>
-<li>Working distribution: <code>_next/</code> typically contains a single editable source; weave can fan-out serializations.</li>
+<li>Working distribution: <code>_working/</code> typically contains a single editable source; weave can fan-out serializations.</li>
 <li>Sibling distribution: patterns and constraints for multi-file realizations.
 See:</li>
-<li><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Versioning</a></li>
+<li><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Flow Version</a></li>
 <li><a href="/sflo/notes/2qp8vfjygd43lmwcmj6362r">working distribution</a></li>
 <li><a href="/sflo/notes/qprjez1ghjok1zqenb9fpxl">Sibling Distribution</a></li>
 </ul>
@@ -170,8 +170,8 @@ See:</li>
 Weave maintains structural coherence and publication readiness:</p>
 <ul>
 <li>Ensures required system components exist.</li>
-<li>If versioning is enabled, creates a new <code>_vN/</code> from <code>_next/</code>.</li>
-<li>Promotes <code>_next/</code> contents to <code>_current/</code>.</li>
+<li>If versioning is enabled, creates a new snapshot folder (format <code>YYYY-MM-DD_HHMM_SS_vN/</code>) from <code>_working/</code>.</li>
+<li>Promotes <code>_working/</code> contents to <code>_default/</code>.</li>
 <li>Updates meta/provenance; regenerates resource pages.</li>
 <li>Resolves internal links to maintain transposability.</li>
 <li>Integrates with the scanner where applicable.
@@ -203,7 +203,7 @@ See:</li>
 </ul>
 <p>1)  Aggregated Views</p>
 <ul>
-<li>Aggregated distribution: optional roll-up of child payload nodes’ current datasets at a parent node for convenience.
+<li>Aggregated distribution: optional roll-up of child payload nodes’ default datasets at a parent node for convenience.
 See:</li>
 <li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
 </ul>
@@ -212,15 +212,15 @@ See:</li>
 ├── _assets/                         # optional site-wide assets
 ├── my-node/                         # a mesh node (folder)
 │   ├── _node-handle/                # handle component (resource.node-component.node-handle)
-│   ├── _node-metadata-flow/                  # metapayload flow (system)
-│   │   ├── _current/
-│   │   └── _v1/
-│   ├── _payload-flow/                  # payload flow (for payload nodes)
-│   │   ├── _current/
-│   │   ├── _next/
-│   │   └── _v1/
-│   ├── _config-inheritable-flow/    # provider config (optional)
-│   ├── _config-operational-flow/    # resolved config (optional; may be system-written)
+│   ├── _meta/                  # metadata flow (system)
+│   │   ├── _default/
+│   │   └── 2025-11-24_0142_07_v1/
+│   ├── _payload/                  # payload flow (for payload nodes)
+│   │   ├── _default/
+│   │   ├── _working/
+│   │   └── 2025-11-24_0142_07_v1/
+│   ├── _cfg-inh/    # provider config (optional)
+│   ├── _cfg-op/    # resolved config (optional; may be system-written)
 │   ├── index.html                   # resource page
 │   ├── README.md
 │   └── CHANGELOG.md
@@ -235,11 +235,11 @@ See:</li>
   A --> G[Asset tree]
   A --> H[Resource pages]
 
-  C --> C1[_current]
-  C --> C2[_vN]
-  E --> E1[_current]
-  E --> E2[_next]
-  E --> E3[_vN]
+  C --> C1[_default]
+  C --> C2[Snapshots]
+  E --> E1[_default]
+  E --> E2[_working]
+  E --> E3[Snapshots]
 </div>
 <p>13) Glossary</p>
 <ul>
@@ -247,16 +247,15 @@ See:</li>
 <li><a href="/sflo/notes/mesh-node">mesh node</a>: an extensible  resource containing other nodes and its own components</li>
 <li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a>: terminal resource that supports node behavior/structure</li>
 <li><a href="/sflo/notes/node-flow">node flow</a>: DatasetSeries representing an abstract dataset (meta/data/config)</li>
-<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a>: concrete Dataset realization of a flow (<code>_current/</code>, <code>_next/</code>, <code>_vN/</code>)</li>
-<li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distribution</a>: a concrete serialization file (TriG, JSON-LD, etc.): </li>
-<li><a href="/sflo/notes/wie8wazi0eoq81zke09czxk">node handle</a>: indirection to refer to the node “as a mesh resource”</li>
+<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">FlowShot</a>: concrete Dataset realization of a flow (Snapshot, DefaultShot, WorkingShot)</li>
+<li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distribution</a>: a concrete serialization file (TriG, JSON-LD, etc.)</li>
+<li><a href="/sflo/notes/wie8wazi0eoq81zke09czxk">node handle</a>: indirection to refer to the node "as a mesh resource"</li>
 <li><a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a>: dereferenceable <code>index.html</code> for folders</li>
-<li><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a>: lifecycle operation to version/promote/regenerate/repair:</li>
+<li><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a>: lifecycle operation to version/promote/regenerate/repair</li>
 </ul>
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/sflo/notes/yxn5rsqsv2gq4s6wbnxsjsj"> Now</a></li>
 <li><a href="/sflo/notes/xebek3dtv2zgs9ah0vbv57g">Developer General Guidance</a></li>
 <li><a href="/sflo/notes/tudefgmmf2pdx28zb9xs84j">Product Brief</a></li>
 <li><a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a></li>

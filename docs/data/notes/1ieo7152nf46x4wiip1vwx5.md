@@ -28,7 +28,11 @@ These dependencies are critical for the `sflo-host` application:
 ## Plugin Dependencies
 
 - **Stoplight Elements:** will probably be used for API documentation/playground (via the `plugin-elements` package).
-- **SIB Swiss editor:** flexible and powerful SPARQL client UI for 
+
+## CLI Dependencies
+
+- oclif + enquirer
+
 
 ## Development Dependencies
 

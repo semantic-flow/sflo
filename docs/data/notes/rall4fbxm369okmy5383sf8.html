@@ -1,96 +1,283 @@
 <h1 id="weave-process">Weave Process<a aria-hidden="true" class="anchor-heading icon-link" href="#weave-process"></a></h1>
-<h2 id="functionality">Functionality<a aria-hidden="true" class="anchor-heading icon-link" href="#functionality"></a></h2>
+<h1 id="weave-process-1">Weave Process<a aria-hidden="true" class="anchor-heading icon-link" href="#weave-process-1"></a></h1>
+<p><em>(concept.weave-process)</em></p>
+<h2 id="purpose">Purpose<a aria-hidden="true" class="anchor-heading icon-link" href="#purpose"></a></h2>
+<p>The <strong>weave process</strong> transforms evolving Flow data (the <strong><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">WorkingShot</a></strong>) into:</p>
 <ul>
-<li>checks for required <a href="/sflo/notes/system-facet">system facet</a> folders and files and creates them if missing</li>
-<li>optionally removes extraneous files, interactively if requested</li>
-<li>for changed <a href="/sflo/notes/user-facet">user facet</a> datasets (i.e., need version bump)
+<li>a new immutable <strong><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">Snapshot</a></strong> (if versioning is enabled),</li>
+<li>an updated <strong><a href="/sflo/notes/074yxm151l47n1aak58ggni">DefaultShot</a></strong> (always),</li>
+<li>updated metadata (<a href="/sflo/notes/0y6p8e594peoult03gobm94">meta-flow</a>) and <a href="/sflo/notes/ciq7uj49ag97v8sl5sphggj">CHANGELOG</a></li>
+<li>regenerated resource pages</li>
+<li>and a stable, cross-node consistent “cut” of the mesh state(s).</li>
+</ul>
+<p>Weave provides the <strong>atomic publication boundary</strong> of a mesh: everything within the weave scope becomes internally consistent, visible to other tools, and ready for downstream consumption.</p>
+<hr>
+<h1 id="conceptual-model">Conceptual Model<a aria-hidden="true" class="anchor-heading icon-link" href="#conceptual-model"></a></h1>
+<p>A <strong>Flow</strong> is a <code>dcat:DatasetSeries</code>.
+A Flow always contains three permanent subdirectories:</p>
 <ul>
-<li>if versioning is on:
+<li><strong><code>_working/</code></strong> – mutable; edited by humans &#x26; apps</li>
+<li><strong><code>_default/</code></strong> – mutable; holds latest published FlowShot</li>
+<li><strong>Snapshot folders</strong> – immutable; each a <code>FlowShot</code> with <code>weaveLabel</code> + <code>sequenceNumber</code></li>
+</ul>
+<p>Weave operates on <strong>FlowShots</strong>:</p>
 <ul>
-<li>creates a new <a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a> </li>
-<li>updates version metadata</li>
+<li><code>sflo:WorkingShot</code></li>
+<li><code>sflo:DefaultShot</code></li>
+<li><code>sflo:Snapshot</code> (immutable)</li>
+</ul>
+<p>A weave run <strong>never deletes</strong> snapshots; it only produces a new one (if enabled) and refreshes <code>_default/</code>.</p>
+<hr>
+<h1 id="weave-outcomes">Weave Outcomes<a aria-hidden="true" class="anchor-heading icon-link" href="#weave-outcomes"></a></h1>
+<p>Every weave produces:</p>
+<ol>
+<li>
+<p><strong>A consistent cut of all <code>_working/</code> FlowShots in scope</strong>
+→ optionally and by default stored as a new immutable Snapshot</p>
+</li>
+<li>
+<p><strong>A refreshed <code>_default/</code> FlowShot</strong>
+→ always updated to match the weave result</p>
+</li>
+<li>
+<p><strong>Updated meta-flow</strong>
+→ includes:</p>
+<ul>
+<li>new <code>weaveLabel</code></li>
+<li>new <code>sequenceNumber</code></li>
+<li><code>previousSnapshot</code></li>
+<li>provenance info
+(Only includes <em>latest</em> provenance; older provenance lives in older snapshots.)</li>
 </ul>
 </li>
-<li>regardless of whether versioning is on:
+<li>
+<p><strong>Regenerated Resource Pages</strong>
+→ stable HTML index pages for nodes and flows</p>
+</li>
+<li>
+<p><strong>(Optional) Tombstone Updates</strong>
+→ for submesh relocation or branch rehoming</p>
+</li>
+</ol>
+<hr>
+<h1 id="two-phase-weave">Two-Phase Weave<a aria-hidden="true" class="anchor-heading icon-link" href="#two-phase-weave"></a></h1>
+<p>Weave is structured as:</p>
+<h2 id="phase-1--snapshot-cut-atomic-input-capture"><strong>Phase 1 — Snapshot Cut (Atomic Input Capture)</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#phase-1--snapshot-cut-atomic-input-capture"></a></h2>
+<p>Goal: capture a consistent, static copy of all FlowShots being woven.</p>
+<p>Steps:</p>
+<ol>
+<li>
+<p>Acquire weave locks for all nodes/flows in scope</p>
 <ul>
-<li>copies _next to _current</li>
-<li>updates _node-metadata-flow with new version information</li>
+<li>Subtree locking permitted</li>
+<li>Cross-mesh locking permitted</li>
+<li>Locks prevent <em>other weaves</em> and <em>sflo-host writes</em></li>
 </ul>
 </li>
+<li>
+<p>For each <code>_working/</code> FlowShot:</p>
+<ul>
+<li>Stat + hash before read</li>
+<li>Copy contents into a staging directory</li>
+<li>Stat + hash again</li>
+<li>If changed during read → <strong>Phase 1 abort (dirty during weave)</strong></li>
 </ul>
 </li>
-<li>regenerates affected <a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a></li>
-<li>ensure that <a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a> are only contained in other <a href="/sflo/notes/hp9ckpez0pmuv270sn005gt">node folder</a>.</li>
-<li>detect <a href="/sflo/notes/transposability">transpositions</a> and fix any </li>
+<li>
+<p>If all FlowShots are stable:</p>
+<ul>
+<li>Create the new <code>weaveLabel</code></li>
+<li>Increment <code>sequenceNumber</code></li>
+<li>Create new Snapshot folders (if versioning enabled)</li>
+<li>Create new DefaultShot folders (always)</li>
 </ul>
-<pre class="language-file"><code class="language-file">/repo-root/
+</li>
+</ol>
+<p>At the end of Phase 1:</p>
+<ul>
+<li>You have a complete staging area containing the cut.</li>
+<li>Nothing has been published yet.</li>
+<li>No writes into the published mesh have occurred.</li>
+</ul>
+<h3 id="if-phase-1-fails">If Phase 1 fails:<a aria-hidden="true" class="anchor-heading icon-link" href="#if-phase-1-fails"></a></h3>
+<ul>
+<li>No mesh state changes.</li>
+<li>Error appears in meta-flow logs on next successful weave.</li>
+</ul>
+<hr>
+<h2 id="phase-2--materialization-atomic-output-publish"><strong>Phase 2 — Materialization (Atomic Output Publish)</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#phase-2--materialization-atomic-output-publish"></a></h2>
+<p>Goal: publish the staged FlowShots as the official new state.</p>
+<p>Steps:</p>
+<ol>
+<li>
+<p>Atomic rename (per directory) from staging into:</p>
+<ul>
+<li><code>…/&#x3C;weaveLabel_vN>/</code> (Snapshot)</li>
+<li><code>…/_default/</code> (DefaultShot)</li>
+</ul>
+</li>
+<li>
+<p>Update meta-flow:</p>
+<ul>
+<li><code>sflo:weaveLabel</code></li>
+<li><code>sflo:sequenceNumber</code></li>
+<li><code>sflo:previousSnapshot</code></li>
+<li>provenance fields
+(Only latest provenance is stored; snapshots retain historical provenance.)</li>
+</ul>
+</li>
+<li>
+<p>Generate documentation Resource Pages</p>
+</li>
+<li>
+<p>Release weave locks</p>
+</li>
+</ol>
+<h3 id="if-phase-2-fails">If Phase 2 fails:<a aria-hidden="true" class="anchor-heading icon-link" href="#if-phase-2-fails"></a></h3>
+<ul>
+<li>Snapshots are still valid (they were already atomically written)</li>
+<li>Resource pages may be regenerated in a later weave</li>
+<li>Meta-flow will reflect incomplete status until next weave</li>
+</ul>
+<hr>
+<h1 id="locking-model">Locking Model<a aria-hidden="true" class="anchor-heading icon-link" href="#locking-model"></a></h1>
+<h3 id="weave-locks-are-at-the-node-or-submesh-level-not-per-file">Weave locks are <strong>at the node (or submesh) level</strong>, not per-file.<a aria-hidden="true" class="anchor-heading icon-link" href="#weave-locks-are-at-the-node-or-submesh-level-not-per-file"></a></h3>
+<p>This prevents:</p>
+<ul>
+<li>simultaneous weaves in the same submesh</li>
+<li>sflo-host writes colliding with weave</li>
+</ul>
+<p>Editors may still modify <code>_working</code>, which is why Phase 1 uses stat/hash detection.</p>
+<h3 id="cross-mesh-weaves-are-allowed">Cross-mesh weaves <strong>are allowed</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#cross-mesh-weaves-are-allowed"></a></h3>
+<p>sflo-host must acquire locks across all referenced meshes before Phase 1 begins.</p>
+<h3 id="lock-propagation">Lock propagation<a aria-hidden="true" class="anchor-heading icon-link" href="#lock-propagation"></a></h3>
+<p>Requesting a lock for a node implicitly requires locking all ancestors up to the mesh root.
+This prevents parallel weaves on overlapping submeshes.</p>
+<hr>
+<h1 id="stability-guarantees">Stability Guarantees<a aria-hidden="true" class="anchor-heading icon-link" href="#stability-guarantees"></a></h1>
+<p>Weave guarantees:</p>
+<ul>
+<li><strong>Atomic publication</strong>: readers see the new state only after Phase 2 completes.</li>
+<li><strong>Consistency within the weave scope</strong>: all flows included in the weave are aligned to the same cut.</li>
+<li><strong>Monotonic <code>sequenceNumber</code> per Flow</strong>: ordinality remains clean even with multiple meshes.</li>
+<li><strong>Weave labels sorted lexicographically within each minute</strong> (if using suffix model).</li>
+</ul>
+<p>Weave explicitly does <em>not</em> guarantee:</p>
+<ul>
+<li>prevention of human text editors saving during the cut
+(→ but it will detect and abort)</li>
+</ul>
+<hr>
+<h1 id="scope-levels">Scope Levels<a aria-hidden="true" class="anchor-heading icon-link" href="#scope-levels"></a></h1>
+<h3 id="flow-weave"><strong>Flow Weave</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#flow-weave"></a></h3>
+<ul>
+<li>Affects one flow + its meta-flow</li>
+</ul>
+<h3 id="node-weave"><strong>Node Weave</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#node-weave"></a></h3>
+<ul>
+<li>Weaves all flows under one node</li>
+<li>Meta-flow updates accordingly</li>
+</ul>
+<h3 id="node-tree-weave"><strong>Node Tree Weave</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#node-tree-weave"></a></h3>
+<ul>
+<li>Recursively weaves node and descendants</li>
+<li>Ideal for large cohesive units (directories)</li>
+</ul>
+<h3 id="cross-mesh-weave"><strong>Cross-Mesh Weave</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#cross-mesh-weave"></a></h3>
+<ul>
+<li>Allowed</li>
+<li>Good for Stagecraft’s multi-character simulations where updates must hit player-character mesh + GM-owned simulation mesh simultaneously</li>
+</ul>
+<p>Locking spans both meshes, forming a single weave consistency domain.</p>
+<hr>
+<h1 id="defaultshot-behavior">DefaultShot Behavior<a aria-hidden="true" class="anchor-heading icon-link" href="#defaultshot-behavior"></a></h1>
+<ul>
+<li><code>_default/</code> is a <strong>real FlowShot</strong></li>
+<li>It is <strong>not</strong> a pointer; it contains real Folder/Files</li>
+<li>It always mirrors the latest Snapshot (or staged result if versioning is off)</li>
+<li>Its IRI is stable, so tools may dereference it without knowing weave labels</li>
+</ul>
+<h3 id="unversioned-flows">Unversioned flows<a aria-hidden="true" class="anchor-heading icon-link" href="#unversioned-flows"></a></h3>
+<ul>
+<li>Still produce a DefaultShot</li>
+<li>You can treat <code>_default/</code> as the active published dataset</li>
+</ul>
+<hr>
+<h1 id="workingshot-behavior">WorkingShot Behavior<a aria-hidden="true" class="anchor-heading icon-link" href="#workingshot-behavior"></a></h1>
+<ul>
+<li>Always present</li>
+<li>Always mutable</li>
+<li>Not modeled as an RDF class (optional)</li>
+<li>Synchronized to <code>_default/</code> after each weave</li>
+<li>Errors or partial edits allowed between weaves</li>
+</ul>
+<hr>
+<h1 id="features-preserved-from-older-model">Features Preserved From Older Model<a aria-hidden="true" class="anchor-heading icon-link" href="#features-preserved-from-older-model"></a></h1>
+<h3 id="interactive-mode">Interactive Mode<a aria-hidden="true" class="anchor-heading icon-link" href="#interactive-mode"></a></h3>
+<ul>
+<li>Step-through validation</li>
+<li>AI-assisted metadata review</li>
+</ul>
+<h3 id="tombstoning">Tombstoning<a aria-hidden="true" class="anchor-heading icon-link" href="#tombstoning"></a></h3>
+<ul>
+<li>Node relocation support</li>
+</ul>
+<h3 id="resource-page-generation">Resource Page Generation<a aria-hidden="true" class="anchor-heading icon-link" href="#resource-page-generation"></a></h3>
+<ul>
+<li>Uses in-memory config cascade and templates</li>
+<li>Node-specific templates override mesh-level templates</li>
+</ul>
+<h3 id="transposition-detection">Transposition Detection<a aria-hidden="true" class="anchor-heading icon-link" href="#transposition-detection"></a></h3>
+<ul>
+<li>Ensures mesh transposability</li>
+<li>Fixes any IRI base issues or structural inconsistencies</li>
+</ul>
+<hr>
+<h1 id="best-practices">Best Practices<a aria-hidden="true" class="anchor-heading icon-link" href="#best-practices"></a></h1>
+<h3 id="weave-often">“Weave Often”<a aria-hidden="true" class="anchor-heading icon-link" href="#weave-often"></a></h3>
+<p>Produces clean snapshots and stable metadata.</p>
+<h3 id="weave-before-push">“Weave Before Push”<a aria-hidden="true" class="anchor-heading icon-link" href="#weave-before-push"></a></h3>
+<p>Ensures <code>_default/</code> is in sync with mesh state before publishing.</p>
+<h3 id="keep-_working-small">“Keep <code>_working</code> Small”<a aria-hidden="true" class="anchor-heading icon-link" href="#keep-_working-small"></a></h3>
+<p>Because direct edits are allowed, large files increase dirty-during-weave likelihood.</p>
+<hr>
+<h1 id="quirks">Quirks<a aria-hidden="true" class="anchor-heading icon-link" href="#quirks"></a></h1>
+<ul>
+<li>Respect pre-existing hand-written <code>index.html</code> under <code>_assets/</code>
+(unless explicitly allowed to regenerate)</li>
+<li>Generated pages may include an invisible marker to allow safe regeneration</li>
+</ul>
+<hr>
+<h1 id="file--directory-expectations">File &#x26; Directory Expectations<a aria-hidden="true" class="anchor-heading icon-link" href="#file--directory-expectations"></a></h1>
+<pre><code>/repo-root/
 ├── _assets/
 │   ├── _templates/
 │   │   ├── default.html
 │   │   ├── ontology.html
 │   │   └── person.html
-│   └── _css
-│   │   ├── default.css
-│   │   ├── ontology.css
-│   │   └── person.css
+│   └── _css/
+│       ├── default.css
+│       ├── ontology.css
+│       └── person.css
 └── my-ontology/
-    ├── _config-operational-flow  ← Node config
-    ├── _assets/                  ← Optional node-specific assets
-    │   ├── _templates/           ← Optional templates
-    │   └── _css                  ← Optional css
-    └── _payload-flow
+    ├── _cfg-op/
+    ├── _assets/
+    │   ├── _templates/
+    │   └── _css/
+    └── _payload/
 </code></pre>
-<h2 id="quirks">Quirks<a aria-hidden="true" class="anchor-heading icon-link" href="#quirks"></a></h2>
+<hr>
+<p>If you'd like, I can also generate:</p>
 <ul>
-<li>if there's a pre-existing index.html under _assets, don't overwrite it?
-<ul>
-<li>or maybe use AI to update it.</li>
-<li>(might need some marker html to indicate index.html was generated by weave process)</li>
+<li>A <strong>parallel document</strong> called <code>concept.weave-process.locking</code></li>
+<li>A <strong>process flow diagram</strong></li>
+<li>A <strong>SHACL model</strong> for FlowShots</li>
+<li>A <strong>step-by-step pseudo-code spec</strong> of the weave engine</li>
 </ul>
-</li>
-</ul>
-<h2 id="best-practices">Best Practices<a aria-hidden="true" class="anchor-heading icon-link" href="#best-practices"></a></h2>
-<h3 id="weave-before-push">Weave Before Push<a aria-hidden="true" class="anchor-heading icon-link" href="#weave-before-push"></a></h3>
-<p>This ensures that in published meshes and sites:</p>
-<ul>
-<li>broken references are cleaned up</li>
-<li><a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a> is identical to the latest version</li>
-</ul>
-<h2 id="features">Features<a aria-hidden="true" class="anchor-heading icon-link" href="#features"></a></h2>
-<h3 id="interactive-mode">Interactive Mode<a aria-hidden="true" class="anchor-heading icon-link" href="#interactive-mode"></a></h3>
-<ul>
-<li>to encourage data quality, the weave process can include an interactive mode, or modes. Perhaps one mode is naive, like "step through every bit of metadata" or "review every inferred metadata item", but you could have an AI-driven mode that optimizes for importance, identifying possible errors based on usage, etc.</li>
-</ul>
-<h3 id="tombstoning">Tombstoning<a aria-hidden="true" class="anchor-heading icon-link" href="#tombstoning"></a></h3>
-<p>If you know a sub-mesh is permanently moving to a new location (or even if a branch is being created somewhere else), you should be able to tell weave to insert references to the new location</p>
-<h3 id="resource-page-generation">Resource Page Generation<a aria-hidden="true" class="anchor-heading icon-link" href="#resource-page-generation"></a></h3>
-<ul>
-<li>uses the <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">product.service.design.in-memory (Private)</a> to calculate template usage</li>
-<li>if no templates specified, and no "default template" exists in the root, it can generate its own
-<ul>
-<li>perhaps there's a default template and css distributed with the service in case its missing from the mesh root</li>
-</ul>
-</li>
-</ul>
-<h2 id="scope">Scope<a aria-hidden="true" class="anchor-heading icon-link" href="#scope"></a></h2>
-<ul>
-<li><strong>Single flow weave</strong>: Update one (user) flow (data, ref, or config) + the corresponding meta-flow</li>
-<li><strong>Node weave</strong>: Update all (user) flows in a node (each flow + meta gets woven)</li>
-<li><strong>Node tree weave</strong>: Recursively weave nodes and their contained nodes</li>
-</ul>
-<p><strong>Meta-flow co-weaving</strong>: whenever any flow in a node gets woven, the meta-flow updates to reflect the new state. This ensures the meta-flow always accurately describes the current node state without requiring separate meta-weaving operations.</p>
-<p>This gives you:</p>
-<ul>
-<li><strong>Local consistency</strong>: Each node stays internally consistent</li>
-<li><strong>Flexible granularity</strong>: Can weave at flow, node, or tree level as needed</li>
-<li><strong>Automatic meta updates</strong>: No manual meta-flow management</li>
-<li><strong>Simple model</strong>: No complex cross-node locking or coordination</li>
-</ul>
-<p>For contained nodes mentioned in config flows, any references ideally point to the appropriate version snapshot. If there's inconsistency during concurrent operations, it's temporary and resolves when operations complete (.7).</p>
-<p>This seems like the right balance between consistency guarantees and implementation complexity for the mesh architecture. We can always add more sophisticated coordination later if specific use cases demand it.</p>
 <hr>
 <strong>Children</strong>
 <ol>
+<li><a href="/sflo/notes/93ortuby9xg8zp5wb1nxyl1">Weave Lock</a></li>
 <li><a href="/sflo/notes/resource-page-generation">static site generation</a></li>
 </ol>
 <hr>
@@ -101,11 +288,12 @@
 <li><a href="/sflo/notes/tudefgmmf2pdx28zb9xs84j">Product Brief</a></li>
 <li><a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a></li>
 <li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a></li>
+<li><a href="/sflo/notes/ufnbtre0tn2pxq7dzjcgrz0">2025-11-27-createNode</a></li>
 <li><a href="/sflo/notes/namespace-context">namespace context</a></li>
 <li><a href="/sflo/notes/mjrp94i4d65x6ypgdd2ki0v">unversioned flow facet</a></li>
 <li><a href="/sflo/notes/j15tveot7ja8tmxy7vvmpjz">v-series flow facet</a></li>
 <li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
-<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
+<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">FlowShot</a></li>
 <li><a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a></li>
-<li><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></li>
+<li><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">snapshot</a></li>
 </ul>

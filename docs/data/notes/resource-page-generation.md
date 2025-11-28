@@ -9,3 +9,4 @@
 - the [[mesh-resource.node-component.documentation-resource.readme]] would probably be the primary source in practice
 - you could supplement with AI-generated
 - you're limited only by what can be served statically, i.e., client-side, so you could have entire web applications hosted on a resource page
+- for [[mesh-resource.node.payload]], check to see if there are any named graphs (which are hopefully identified relative to the node with fragment identifiers, e.g. /ns/djradon/bio/#childhood)

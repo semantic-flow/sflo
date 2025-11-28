@@ -1,0 +1,177 @@
+<h1 id="merge-sflo-host-and-sflo-config-ontologies">Merge sflo-host and sflo-config Ontologies<a aria-hidden="true" class="anchor-heading icon-link" href="#merge-sflo-host-and-sflo-config-ontologies"></a></h1>
+<h1 id="merge-sflo-host-and-sflo-config-ontologies-1">Merge sflo-host and sflo-config Ontologies<a aria-hidden="true" class="anchor-heading icon-link" href="#merge-sflo-host-and-sflo-config-ontologies-1"></a></h1>
+<h2 id="prompt">Prompt<a aria-hidden="true" class="anchor-heading icon-link" href="#prompt"></a></h2>
+<p>Merge the sflo-config ontology and the sflo-host ontology, or perhaps just move some classes like ServiceConfig, PlatformServiceConfig.</p>
+<h2 id="todo">TODO<a aria-hidden="true" class="anchor-heading icon-link" href="#todo"></a></h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Analyze what needs to move from sflo-host to sflo-config</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Identify questions that need clarification before merge</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Plan the merge structure</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Document the planned changes</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Execute the merge</li>
+</ul>
+<h2 id="decisions">Decisions<a aria-hidden="true" class="anchor-heading icon-link" href="#decisions"></a></h2>
+<h3 id="configuration-hierarchy">Configuration Hierarchy<a aria-hidden="true" class="anchor-heading icon-link" href="#configuration-hierarchy"></a></h3>
+<ul>
+<li>Three levels of config: Platform, Application/Service, and Node</li>
+<li>Each level can have inheritable config that flows down to lower levels</li>
+<li>Inheritable config is primarily useful at platform and application levels, but nodes can also provide it</li>
+</ul>
+<h3 id="class-naming">Class Naming<a aria-hidden="true" class="anchor-heading icon-link" href="#class-naming"></a></h3>
+<ul>
+<li>Rename <code>PlatformServiceConfig</code> → <code>PlatformConfig</code></li>
+<li>Rename <code>ServiceConfig</code> → <code>ApplicationConfig</code></li>
+<li>Create new <code>HostServiceConfig</code> in sflo-host that extends <code>ApplicationConfig</code></li>
+</ul>
+<h2 id="merge-plan">Merge Plan<a aria-hidden="true" class="anchor-heading icon-link" href="#merge-plan"></a></h2>
+<h3 id="what-moves-to-sflo-config">What Moves to sflo-config<a aria-hidden="true" class="anchor-heading icon-link" href="#what-moves-to-sflo-config"></a></h3>
+<h4 id="classes">Classes<a aria-hidden="true" class="anchor-heading icon-link" href="#classes"></a></h4>
+<ol>
+<li><strong>PlatformConfig</strong> (formerly PlatformServiceConfig)
+<ul>
+<li>Represents platform-wide defaults</li>
+<li>Links to InheritableNodeConfig for platform-level defaults</li>
+</ul>
+</li>
+<li><strong>ApplicationConfig</strong> (formerly ServiceConfig)
+<ul>
+<li>Represents application/service-level configuration</li>
+<li>Links to InheritableNodeConfig for application-level overrides</li>
+</ul>
+</li>
+<li><strong>defaultPlatformConfig</strong> (formerly defaultPlatformServiceConfig)
+<ul>
+<li>The canonical platform defaults instance</li>
+<li>Contains embedded defaultInheritableNodeConfig</li>
+</ul>
+</li>
+</ol>
+<h4 id="properties-to-move">Properties to Move<a aria-hidden="true" class="anchor-heading icon-link" href="#properties-to-move"></a></h4>
+<p>None - keep application properties in sflo-host</p>
+<h3 id="what-stays-in-sflo-host">What Stays in sflo-host<a aria-hidden="true" class="anchor-heading icon-link" href="#what-stays-in-sflo-host"></a></h3>
+<h4 id="classes-1">Classes<a aria-hidden="true" class="anchor-heading icon-link" href="#classes-1"></a></h4>
+<ol>
+<li><strong>HostServiceConfig</strong> (new, extends ApplicationConfig)
+<ul>
+<li>Concrete implementation for sflo-host application</li>
+<li>Inherits configuration hierarchy capabilities from ApplicationConfig</li>
+</ul>
+</li>
+<li><strong>LoggingConfig</strong></li>
+<li><strong>LogChannelConfig</strong>  </li>
+<li><strong>ContainedServicesConfig</strong></li>
+<li><strong>MeshPath</strong></li>
+</ol>
+<h4 id="properties-on-hostserviceconfig">Properties (on HostServiceConfig)<a aria-hidden="true" class="anchor-heading icon-link" href="#properties-on-hostserviceconfig"></a></h4>
+<ul>
+<li><code>port</code>, <code>host</code>, <code>scheme</code></li>
+<li><code>meshPaths</code></li>
+<li><code>hasLoggingConfig</code></li>
+<li><code>hasContainedServices</code></li>
+</ul>
+<h3 id="updated-class-hierarchy">Updated Class Hierarchy<a aria-hidden="true" class="anchor-heading icon-link" href="#updated-class-hierarchy"></a></h3>
+<div class="mermaid">
+  graph TD
+    A[ConfigurationClass] --> B[PlatformConfig]
+    A --> C[ApplicationConfig]  
+    A --> D[AbstractNodeConfig]
+    
+    C --> E[HostServiceConfig]
+    D --> F[OperationalNodeConfig]
+    D --> G[InheritableNodeConfig]
+    
+    B -.->|"hasInheritableNodeConfig"| G
+    C -.->|"hasInheritableNodeConfig"| G
+    H[Node] -.->|"hasOperationalNodeConfig"| F
+    H -.->|"hasInheritableNodeConfig"| G
+    
+    style B fill:#e1f5fe
+    style C fill:#e1f5fe
+    style E fill:#fff3e0
+    style G fill:#e1f5fe
+    
+    classDef inSfloConfig fill:#e1f5fe
+    classDef inSfloHost fill:#fff3e0
+</div>
+<p>Blue = sflo-config ontology
+Orange = sflo-host ontology</p>
+<h3 id="reference-updates">Reference Updates<a aria-hidden="true" class="anchor-heading icon-link" href="#reference-updates"></a></h3>
+<h4 id="in-sflo-config">In sflo-config<a aria-hidden="true" class="anchor-heading icon-link" href="#in-sflo-config"></a></h4>
+<ul>
+<li>Update <code>hasInheritableNodeConfig</code> domain to include:
+<ul>
+<li><code>PlatformConfig</code> (instead of sflo-host:PlatformServiceConfig)</li>
+<li><code>ApplicationConfig</code> (instead of sflo-host:ServiceConfig)</li>
+<li><code>sflo:Handle</code> (unchanged)</li>
+</ul>
+</li>
+</ul>
+<h4 id="in-sflo-host">In sflo-host<a aria-hidden="true" class="anchor-heading icon-link" href="#in-sflo-host"></a></h4>
+<ul>
+<li>Change references from <code>sflo-host:ServiceConfig</code> to <code>sflo-config:ApplicationConfig</code></li>
+<li>Update HostServiceConfig to extend <code>sflo-config:ApplicationConfig</code></li>
+<li>Update namespace prefixes to import sflo-config</li>
+</ul>
+<h3 id="benefits-of-this-approach">Benefits of This Approach<a aria-hidden="true" class="anchor-heading icon-link" href="#benefits-of-this-approach"></a></h3>
+<ol>
+<li><strong>Clean Separation</strong>: Config inheritance hierarchy in one place, application specifics in another</li>
+<li><strong>No Circular Dependencies</strong>: sflo-config doesn't reference sflo-host</li>
+<li><strong>Extensibility</strong>: Other applications can extend ApplicationConfig with their own specifics</li>
+<li><strong>Clear Inheritance Chain</strong>: Platform → Application → Node hierarchy is explicit</li>
+</ol>
+<h2 id="implementation-summary">Implementation Summary<a aria-hidden="true" class="anchor-heading icon-link" href="#implementation-summary"></a></h2>
+<h3 id="changes-made-to-sflo-config">Changes Made to sflo-config<a aria-hidden="true" class="anchor-heading icon-link" href="#changes-made-to-sflo-config"></a></h3>
+<ol>
+<li><strong>Added new classes:</strong>
+<ul>
+<li><code>PlatformConfig</code> - Platform-wide configuration with inheritable defaults</li>
+<li><code>ApplicationConfig</code> - Application/service-level configuration</li>
+</ul>
+</li>
+<li><strong>Added default instance:</strong>
+<ul>
+<li><code>defaultPlatformConfig</code> - Canonical platform defaults with embedded <code>defaultInheritableNodeConfig</code></li>
+</ul>
+</li>
+<li><strong>Updated property domains:</strong>
+<ul>
+<li><code>hasInheritableNodeConfig</code> now accepts <code>PlatformConfig</code> and <code>ApplicationConfig</code> (instead of sflo-host classes)</li>
+</ul>
+</li>
+</ol>
+<h3 id="changes-made-to-sflo-host">Changes Made to sflo-host<a aria-hidden="true" class="anchor-heading icon-link" href="#changes-made-to-sflo-host"></a></h3>
+<ol>
+<li><strong>Removed classes:</strong>
+<ul>
+<li><code>ServiceConfig</code> (moved to sflo-config as <code>ApplicationConfig</code>)</li>
+<li><code>PlatformServiceConfig</code> (moved to sflo-config as <code>PlatformConfig</code>)</li>
+</ul>
+</li>
+<li><strong>Added new class:</strong>
+<ul>
+<li><code>HostServiceConfig</code> - Extends <code>sflo-config:ApplicationConfig</code> with host-specific properties</li>
+</ul>
+</li>
+<li><strong>Removed instance:</strong>
+<ul>
+<li><code>defaultPlatformServiceConfig</code> (moved to sflo-config as <code>defaultPlatformConfig</code>)</li>
+</ul>
+</li>
+<li><strong>Updated all property domains:</strong>
+<ul>
+<li>Changed from <code>ServiceConfig</code> to <code>HostServiceConfig</code></li>
+</ul>
+</li>
+<li><strong>Added ontology import:</strong>
+<ul>
+<li><code>owl:imports</code> pointing to sflo-config ontology</li>
+</ul>
+</li>
+</ol>
+<h3 id="result">Result<a aria-hidden="true" class="anchor-heading icon-link" href="#result"></a></h3>
+<p>The configuration hierarchy is now cleanly separated:</p>
+<ul>
+<li><strong>sflo-config</strong>: Contains the abstract configuration inheritance model (Platform → Application → Node)</li>
+<li><strong>sflo-host</strong>: Contains concrete application-specific implementation (HostServiceConfig extends ApplicationConfig)</li>
+</ul>
+<p>This allows other applications to extend <code>ApplicationConfig</code> with their own specific properties while reusing the core configuration inheritance mechanism.</p>

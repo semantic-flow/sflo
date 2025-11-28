@@ -1,0 +1,735 @@
+<h1 id="architecture-plan---rdfsource--createnode">Architecture Plan - RdfSource &#x26; createNode<a aria-hidden="true" class="anchor-heading icon-link" href="#architecture-plan---rdfsource--createnode"></a></h1>
+<h1 id="architecture-plan-rdfsource-abstraction--createnode-operation">Architecture Plan: RdfSource Abstraction &#x26; createNode Operation<a aria-hidden="true" class="anchor-heading icon-link" href="#architecture-plan-rdfsource-abstraction--createnode-operation"></a></h1>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p>This document provides the architectural design for implementing:</p>
+<ol>
+<li><strong>RdfSource abstraction</strong> - A coherent model for RDF loading/serialization</li>
+<li><strong>createNode operation</strong> - Core mesh node initialization using RdfSource</li>
+</ol>
+<h2 id="1-rdfsource-abstraction-design">1. RdfSource Abstraction Design<a aria-hidden="true" class="anchor-heading icon-link" href="#1-rdfsource-abstraction-design"></a></h2>
+<h3 id="11-core-principles">1.1 Core Principles<a aria-hidden="true" class="anchor-heading icon-link" href="#11-core-principles"></a></h3>
+<ul>
+<li><strong>Explicit base handling</strong>: Always require a base IRI for parsing</li>
+<li><strong>Mesh-native output</strong>: Serialize with relative IRIs, no <code>@base</code></li>
+<li><strong>Format-agnostic</strong>: Support JSON-LD (primary) and Turtle/TriG (future)</li>
+<li><strong>Testable &#x26; composable</strong>: Small, focused functions that compose well</li>
+</ul>
+<h3 id="12-type-definitions">1.2 Type Definitions<a aria-hidden="true" class="anchor-heading icon-link" href="#12-type-definitions"></a></h3>
+<p>Location: <a href="/sflo/../../shared/core/src/rdf/types.ts"><code>shared/core/src/rdf/types.ts</code></a></p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token doc-comment comment">/**
+ * Source of RDF data - file path, URL, or in-memory content
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">type</span> <span class="token class-name"><span class="token maybe-class-name">RdfSourceInput</span></span> <span class="token operator">=</span>
+  <span class="token operator">|</span> <span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">"file"</span><span class="token punctuation">;</span> path<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">}</span>
+  <span class="token operator">|</span> <span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">"url"</span><span class="token punctuation">;</span> url<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">}</span>
+  <span class="token operator">|</span> <span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">"content"</span><span class="token punctuation">;</span> content<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span> format<span class="token operator">:</span> <span class="token maybe-class-name">RdfFormat</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Supported RDF serialization formats
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">type</span> <span class="token class-name"><span class="token maybe-class-name">RdfFormat</span></span> <span class="token operator">=</span> <span class="token string">"jsonld"</span> <span class="token operator">|</span> <span class="token string">"turtle"</span> <span class="token operator">|</span> <span class="token string">"trig"</span> <span class="token operator">|</span> <span class="token string">"ntriples"</span> <span class="token operator">|</span> <span class="token string">"nquads"</span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Options for parsing RDF
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">RdfParseOptions</span></span> <span class="token punctuation">{</span>
+  <span class="token doc-comment comment">/** Base IRI for resolving relative references (REQUIRED) */</span>
+  baseIri<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  <span class="token doc-comment comment">/** Expected format (auto-detect if not specified) */</span>
+  format<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">RdfFormat</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token doc-comment comment">/**
+ * Options for serializing RDF
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">RdfSerializeOptions</span></span> <span class="token punctuation">{</span>
+  <span class="token doc-comment comment">/** Output format */</span>
+  format<span class="token operator">:</span> <span class="token maybe-class-name">RdfFormat</span><span class="token punctuation">;</span>
+  <span class="token doc-comment comment">/** Whether to include @base in output (default: false for mesh-native) */</span>
+  includeBase<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+  <span class="token doc-comment comment">/** Whether to pretty-print (default: true) */</span>
+  prettyPrint<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token doc-comment comment">/**
+ * Metadata about the RDF source
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">RdfSourceMetadata</span></span> <span class="token punctuation">{</span>
+  <span class="token doc-comment comment">/** Detected or provided base IRI */</span>
+  baseIri<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  <span class="token doc-comment comment">/** Detected format */</span>
+  format<span class="token operator">:</span> <span class="token maybe-class-name">RdfFormat</span><span class="token punctuation">;</span>
+  <span class="token doc-comment comment">/** Original source location (file path or URL) */</span>
+  sourceLocation<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token doc-comment comment">/**
+ * Loaded RDF dataset with metadata
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">RdfDataset</span></span> <span class="token punctuation">{</span>
+  <span class="token doc-comment comment">/** The RDF quads (using @rdfjs/types) */</span>
+  quads<span class="token operator">:</span> <span class="token maybe-class-name">Quad</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token doc-comment comment">/** Metadata about the source */</span>
+  metadata<span class="token operator">:</span> <span class="token maybe-class-name">RdfSourceMetadata</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="13-core-functions">1.3 Core Functions<a aria-hidden="true" class="anchor-heading icon-link" href="#13-core-functions"></a></h3>
+<p>Location: <a href="/sflo/../../shared/core/src/rdf/source.ts"><code>shared/core/src/rdf/source.ts</code></a></p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token doc-comment comment">/**
+ * Parse RDF from a source into quads
+ * 
+ * <span class="token keyword">@param</span> <span class="token parameter">source</span> - RDF source input
+ * <span class="token keyword">@param</span> <span class="token parameter">options</span> - Parse options (baseIri REQUIRED)
+ * <span class="token keyword">@returns</span> Loaded dataset with quads and metadata
+ * 
+ * See: concept.implied-rdf-base, concept.identifier.intramesh.relative
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">parseRdf</span><span class="token punctuation">(</span>
+  source<span class="token operator">:</span> <span class="token maybe-class-name">RdfSourceInput</span><span class="token punctuation">,</span>
+  options<span class="token operator">:</span> <span class="token maybe-class-name">RdfParseOptions</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token known-class-name class-name">Promise</span><span class="token operator">&#x3C;</span><span class="token maybe-class-name">RdfDataset</span><span class="token operator">></span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Serialize RDF quads to a string
+ * 
+ * Mesh-native mode (default):
+ * - No @base in output
+ * - Local IRIs become relative IRIs
+ * 
+ * <span class="token keyword">@param</span> <span class="token parameter">dataset</span> - RDF dataset to serialize
+ * <span class="token keyword">@param</span> <span class="token parameter">options</span> - Serialization options
+ * <span class="token keyword">@returns</span> Serialized RDF string
+ * 
+ * See: concept.identifier.intramesh.relative
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">serializeRdf</span><span class="token punctuation">(</span>
+  dataset<span class="token operator">:</span> <span class="token maybe-class-name">RdfDataset</span><span class="token punctuation">,</span>
+  options<span class="token operator">:</span> <span class="token maybe-class-name">RdfSerializeOptions</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token known-class-name class-name">Promise</span><span class="token operator">&#x3C;</span><span class="token builtin">string</span><span class="token operator">></span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Compute file:/// base IRI from absolute file path
+ * 
+ * <span class="token keyword">@param</span> <span class="token parameter">absolutePath</span> - Absolute filesystem path
+ * <span class="token keyword">@returns</span> file:/// URL suitable as RDF base
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">function</span> <span class="token function">filePathToBaseIri</span><span class="token punctuation">(</span>absolutePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Extract base IRI from RDF content (if present)
+ * 
+ * <span class="token keyword">@param</span> <span class="token parameter">content</span> - RDF content string
+ * <span class="token keyword">@param</span> <span class="token parameter">format</span> - RDF format
+ * <span class="token keyword">@returns</span> Detected base IRI or undefined
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">detectBaseIri</span><span class="token punctuation">(</span>
+  content<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  format<span class="token operator">:</span> <span class="token maybe-class-name">RdfFormat</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token known-class-name class-name">Promise</span><span class="token operator">&#x3C;</span><span class="token builtin">string</span> <span class="token operator">|</span> <span class="token keyword nil">undefined</span><span class="token operator">></span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="14-helper-functions">1.4 Helper Functions<a aria-hidden="true" class="anchor-heading icon-link" href="#14-helper-functions"></a></h3>
+<p>Location: <a href="/sflo/../../shared/core/src/rdf/helpers.ts"><code>shared/core/src/rdf/helpers.ts</code></a></p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token doc-comment comment">/**
+ * Make IRIs relative to a base
+ * 
+ * Used for creating mesh-native files from external datasets
+ * 
+ * <span class="token keyword">@param</span> <span class="token parameter">quads</span> - RDF quads with absolute IRIs
+ * <span class="token keyword">@param</span> <span class="token parameter">baseIri</span> - Base to make relative to
+ * <span class="token keyword">@returns</span> Quads with relative IRIs where applicable
+ * 
+ * See: concept.debasing
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">function</span> <span class="token function">makeIrisRelative</span><span class="token punctuation">(</span>
+  quads<span class="token operator">:</span> <span class="token maybe-class-name">Quad</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  baseIri<span class="token operator">:</span> <span class="token builtin">string</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">Quad</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Detect RDF format from file extension or content
+ * 
+ * <span class="token keyword">@param</span> <span class="token parameter">pathOrContent</span> - File path or content string
+ * <span class="token keyword">@returns</span> Detected format
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">function</span> <span class="token function">detectFormat</span><span class="token punctuation">(</span>pathOrContent<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">RdfFormat</span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Validate that a base IRI is suitable for mesh use
+ * 
+ * <span class="token keyword">@param</span> <span class="token parameter">baseIri</span> - IRI to validate
+ * <span class="token keyword">@throws</span> if invalid
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">function</span> <span class="token function">validateMeshBaseIri</span><span class="token punctuation">(</span>baseIri<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="15-implementation-notes">1.5 Implementation Notes<a aria-hidden="true" class="anchor-heading icon-link" href="#15-implementation-notes"></a></h3>
+<ul>
+<li>Use <code>@rdfjs/types</code> for Quad interface</li>
+<li>Use <code>jsonld</code> library for JSON-LD parsing/serialization</li>
+<li>Use <code>n3</code> library for Turtle/TriG parsing/serialization</li>
+<li>Use <code>@rdfjs/data-model</code> for creating quads</li>
+<li>Handle errors gracefully with custom error types</li>
+<li>All functions are pure and stateless</li>
+</ul>
+<h3 id="16-testing-strategy">1.6 Testing Strategy<a aria-hidden="true" class="anchor-heading icon-link" href="#16-testing-strategy"></a></h3>
+<p>Location: <a href="/sflo/../../shared/core/src/rdf/__tests__"><code>shared/core/src/rdf/__tests__/</code></a></p>
+<p>Test files:</p>
+<ul>
+<li><code>source.test.ts</code> - Core parsing/serialization</li>
+<li><code>helpers.test.ts</code> - Helper functions</li>
+<li><code>integration.test.ts</code> - End-to-end workflows</li>
+</ul>
+<p>Test cases:</p>
+<ul>
+<li>Parse JSON-LD with explicit base</li>
+<li>Parse Turtle with base declaration</li>
+<li>Serialize mesh-native JSON-LD (no <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">@base (Private)</a>, relative IRIs)</li>
+<li>Round-trip: parse → serialize → parse</li>
+<li>Error handling: missing base, invalid format</li>
+<li>File path to base IRI conversion</li>
+<li>Base IRI detection</li>
+</ul>
+<h2 id="2-createnode-operation-design">2. createNode Operation Design<a aria-hidden="true" class="anchor-heading icon-link" href="#2-createnode-operation-design"></a></h2>
+<h3 id="21-core-function-signature">2.1 Core Function Signature<a aria-hidden="true" class="anchor-heading icon-link" href="#21-core-function-signature"></a></h3>
+<p>Location: <a href="/sflo/../../shared/core/src/operations/create-node.ts"><code>shared/core/src/operations/create-node.ts</code></a></p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token doc-comment comment">/**
+ * Options for creating a new mesh node
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">CreateNodeOptions</span></span> <span class="token punctuation">{</span>
+  <span class="token doc-comment comment">/** Path to payload dataset (optional) */</span>
+  payloadDatasetPath<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Path to reference dataset (optional) */</span>
+  referenceDatasetPath<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Path to operational config dataset (optional) */</span>
+  operationalConfigPath<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Path to inheritable config dataset (optional) */</span>
+  inheritableConfigPath<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Provenance information (optional) */</span>
+  provenanceInput<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">ProvenanceBundleInput</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Allow creating in non-empty directory (default: false) */</span>
+  allowNonEmpty<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">boolean</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Namespace root path for computing base IRIs */</span>
+  namespaceRoot<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token doc-comment comment">/**
+ * Provenance information for node creation
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">ProvenanceBundleInput</span></span> <span class="token punctuation">{</span>
+  <span class="token doc-comment comment">/** Primary agent IRI (human or system) */</span>
+  primaryAgentIri<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Organization IRI (rights holder org) */</span>
+  organizationIri<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Additional contributor IRIs */</span>
+  contributorsIri<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Rights holder IRI */</span>
+  rightsHolderIri<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** License IRI (e.g., CC BY-SA URL) */</span>
+  licenseIri<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token doc-comment comment">/**
+ * Result of node creation
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">interface</span> <span class="token class-name"><span class="token maybe-class-name">CreateNodeResult</span></span> <span class="token punctuation">{</span>
+  <span class="token doc-comment comment">/** Absolute path to created node */</span>
+  nodePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Node slug (derived from folder name) */</span>
+  nodeSlug<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Base IRI for the node */</span>
+  nodeBaseIri<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  
+  <span class="token doc-comment comment">/** Created flow paths */</span>
+  flows<span class="token operator">:</span> <span class="token punctuation">{</span>
+    meta<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    ref<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    payload<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    cfgOp<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+    cfgInh<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token doc-comment comment">/**
+ * Create a new mesh node
+ * 
+ * Steps:
+ * 1. Validate path (not already a node, handle allowNonEmpty)
+ * 2. Create node directory structure
+ * 3. Create _node-handle/ stub
+ * 4. Create _meta/ v1 and _default/ with minimal metadata
+ * 5. Optionally import reference/payload/config datasets
+ * 6. Return result summary
+ * 
+ * <span class="token keyword">@param</span> <span class="token parameter">nodeTargetPath</span> - Path where node should be created
+ * <span class="token keyword">@param</span> <span class="token parameter">options</span> - Creation options
+ * <span class="token keyword">@returns</span> Creation result
+ * <span class="token keyword">@throws</span> <span class="token punctuation">{</span>NodeAlreadyExistsError<span class="token punctuation">}</span> if node already initialized
+ * <span class="token keyword">@throws</span> <span class="token punctuation">{</span>DirectoryNotEmptyError<span class="token punctuation">}</span> if directory not empty and !allowNonEmpty
+ * 
+ * See: task.2025-11-27-createNode, concept.weave-process
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">createNode</span><span class="token punctuation">(</span>
+  nodeTargetPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  options<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">CreateNodeOptions</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token known-class-name class-name">Promise</span><span class="token operator">&#x3C;</span><span class="token maybe-class-name">CreateNodeResult</span><span class="token operator">></span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="22-internal-functions">2.2 Internal Functions<a aria-hidden="true" class="anchor-heading icon-link" href="#22-internal-functions"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token doc-comment comment">/**
+ * Validate that path is suitable for node creation
+ */</span>
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">validateNodePath</span><span class="token punctuation">(</span>
+  path<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  allowNonEmpty<span class="token operator">:</span> <span class="token builtin">boolean</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token known-class-name class-name">Promise</span><span class="token operator">&#x3C;</span><span class="token keyword">void</span><span class="token operator">></span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Create directory structure for a node
+ */</span>
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">createNodeScaffolding</span><span class="token punctuation">(</span>
+  nodePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  nodeSlug<span class="token operator">:</span> <span class="token builtin">string</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token known-class-name class-name">Promise</span><span class="token operator">&#x3C;</span><span class="token keyword">void</span><span class="token operator">></span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Generate minimal v1 metadata for a new node
+ */</span>
+<span class="token keyword">function</span> <span class="token function">generateNodeMetadata</span><span class="token punctuation">(</span>
+  nodeSlug<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  nodeBaseIri<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  provenance<span class="token operator">?</span><span class="token operator">:</span> <span class="token maybe-class-name">ProvenanceBundleInput</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token maybe-class-name">RdfDataset</span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Import and normalize a dataset into a flow
+ */</span>
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">importDatasetToFlow</span><span class="token punctuation">(</span>
+  sourcePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  targetFlowPath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  nodeSlug<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  flowSlug<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  nodeBaseIri<span class="token operator">:</span> <span class="token builtin">string</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token known-class-name class-name">Promise</span><span class="token operator">&#x3C;</span><span class="token keyword">void</span><span class="token operator">></span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Derive node slug from folder name
+ */</span>
+<span class="token keyword">function</span> <span class="token function">deriveNodeSlug</span><span class="token punctuation">(</span>nodePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Compute node base IRI from path and namespace root
+ */</span>
+<span class="token keyword">function</span> <span class="token function">computeNodeBaseIri</span><span class="token punctuation">(</span>
+  nodePath<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  namespaceRoot<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="23-flow-slug-constants">2.3 Flow Slug Constants<a aria-hidden="true" class="anchor-heading icon-link" href="#23-flow-slug-constants"></a></h3>
+<p>Location: <a href="/sflo/../../shared/core/src/constants/flows.ts"><code>shared/core/src/constants/flows.ts</code></a></p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token doc-comment comment">/**
+ * Flow slug constants (from semantic-flow ontology)
+ * 
+ * See: ontology/semantic-flow/_payload-flow/_working/semantic-flow-ontology.jsonld
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">const</span> <span class="token constant">FLOW_SLUGS</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token constant">META</span><span class="token operator">:</span> <span class="token string">"_meta"</span><span class="token punctuation">,</span>
+  <span class="token constant">REF</span><span class="token operator">:</span> <span class="token string">"_ref"</span><span class="token punctuation">,</span>
+  <span class="token constant">PAYLOAD</span><span class="token operator">:</span> <span class="token string">"_payload"</span><span class="token punctuation">,</span>
+  <span class="token constant">CFG_OP</span><span class="token operator">:</span> <span class="token string">"_cfg-op"</span><span class="token punctuation">,</span>
+  <span class="token constant">CFG_INH</span><span class="token operator">:</span> <span class="token string">"_cfg-inh"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span> <span class="token keyword module">as</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * Snapshot folder names
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">const</span> <span class="token constant">SNAPSHOT_FOLDERS</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token constant">WORKING</span><span class="token operator">:</span> <span class="token string">"_working"</span><span class="token punctuation">,</span>
+  <span class="token constant">DEFAULT</span><span class="token operator">:</span> <span class="token string">"_default"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span> <span class="token keyword module">as</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+
+<span class="token doc-comment comment">/**
+ * System folder names
+ */</span>
+<span class="token keyword module">export</span> <span class="token keyword">const</span> <span class="token constant">SYSTEM_FOLDERS</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token constant">HANDLE</span><span class="token operator">:</span> <span class="token string">"_node-handle"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span> <span class="token keyword module">as</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="24-filename-generation">2.4 Filename Generation<a aria-hidden="true" class="anchor-heading icon-link" href="#24-filename-generation"></a></h3>
+<pre class="language-typescript"><code class="language-typescript"><span class="token doc-comment comment">/**
+ * Generate distribution filename for a flow
+ * 
+ * Payload: &#x3C;nodeSlug>.jsonld
+ * Others: &#x3C;nodeSlug>_&#x3C;flowSlug>.jsonld
+ * 
+ * <span class="token keyword">@param</span> <span class="token parameter">nodeSlug</span> - Node slug
+ * <span class="token keyword">@param</span> <span class="token parameter">flowSlug</span> - Flow slug (undefined for payload)
+ * <span class="token keyword">@returns</span> Filename
+ */</span>
+<span class="token keyword">function</span> <span class="token function">generateDistributionFilename</span><span class="token punctuation">(</span>
+  nodeSlug<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span>
+  flowSlug<span class="token operator">?</span><span class="token operator">:</span> <span class="token builtin">string</span>
+<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>flowSlug <span class="token operator">||</span> flowSlug <span class="token operator">===</span> <span class="token constant">FLOW_SLUGS</span><span class="token punctuation">.</span><span class="token constant">PAYLOAD</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>nodeSlug<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.jsonld</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword control-flow">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>nodeSlug<span class="token interpolation-punctuation punctuation">}</span></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>flowSlug<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.jsonld</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="25-metadata-generation-strategy">2.5 Metadata Generation Strategy<a aria-hidden="true" class="anchor-heading icon-link" href="#25-metadata-generation-strategy"></a></h3>
+<p>The v1 metadata will include:</p>
+<ol>
+<li>
+<p><strong>Node Description</strong></p>
+<ul>
+<li>Node IRI: <code>&#x3C;></code> (relative, resolves to node)</li>
+<li>Type: Placeholder or inferred from flows</li>
+<li>Label/description: Minimal stub</li>
+</ul>
+</li>
+<li>
+<p><strong>Flow Metadata</strong></p>
+<ul>
+<li>Meta flow IRI: <code>_meta/</code> (relative)</li>
+<li>Flow type: <code>sflo:NodeMetadataFlow</code></li>
+<li>Weave label: Initial (e.g., "2025-11-28_1112_00")</li>
+<li>Sequence number: 1</li>
+</ul>
+</li>
+<li>
+<p><strong>Provenance (Minimal)</strong></p>
+<ul>
+<li>NodeCreation activity stub</li>
+<li>Agent reference (if provided)</li>
+<li>Rights/license (if provided)</li>
+<li>No full DelegationChain yet</li>
+</ul>
+</li>
+<li>
+<p><strong>Relative IRIs</strong></p>
+<ul>
+<li>All local references use relative IRIs</li>
+<li>External vocabularies use absolute IRIs</li>
+<li>No <code>@base</code> in serialized output</li>
+</ul>
+</li>
+</ol>
+<p>Example metadata structure:</p>
+<pre class="language-jsonld"><code class="language-jsonld">{
+  "@context": {
+    "sflo": "https://semantic-flow.github.io/ontology/semantic-flow/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "prov": "http://www.w3.org/ns/prov#"
+  },
+  "@graph": [
+    {
+      "@id": "",
+      "@type": "sflo:BareNode",
+      "dcterms:title": "Node Title"
+    },
+    {
+      "@id": "_meta/",
+      "@type": "sflo:NodeMetadataFlow",
+      "sflo:weaveLabel": "2025-11-28_1112_00",
+      "sflo:versioningState": { "@id": "sflo:VersioningState/versioned/" }
+    },
+    {
+      "@id": "_meta/_default/",
+      "@type": "sflo:DefaultShot",
+      "sflo:sequenceNumber": 1,
+      "prov:wasGeneratedBy": {
+        "@id": "_meta/_default/#creation-activity"
+      }
+    }
+  ]
+}
+</code></pre>
+<h3 id="26-directory-structure-created">2.6 Directory Structure Created<a aria-hidden="true" class="anchor-heading icon-link" href="#26-directory-structure-created"></a></h3>
+<pre><code>&#x3C;nodeTargetPath>/
+├── _node-handle/
+│   └── README.md          # Stub explaining the handle concept
+├── _meta/
+│   ├── v1/
+│   │   └── &#x3C;slug>_meta.jsonld
+│   └── _default/
+│       └── &#x3C;slug>_meta.jsonld
+[optional flows if datasets provided:]
+├── _ref/
+│   ├── v1/
+│   │   └── &#x3C;slug>_ref.jsonld
+│   └── _default/
+│       └── &#x3C;slug>_ref.jsonld
+├── _payload/
+│   ├── v1/
+│   │   └── &#x3C;slug>.jsonld
+│   └── _default/
+│       └── &#x3C;slug>.jsonld
+├── _cfg-op/
+│   ├── v1/
+│   │   └── &#x3C;slug>_cfg-op.jsonld
+│   └── _default/
+│       └── &#x3C;slug>_cfg-op.jsonld
+└── _cfg-inh/
+    ├── v1/
+    │   └── &#x3C;slug>_cfg-inh.jsonld
+    └── _default/
+        └── &#x3C;slug>_cfg-inh.jsonld
+</code></pre>
+<h3 id="27-error-handling">2.7 Error Handling<a aria-hidden="true" class="anchor-heading icon-link" href="#27-error-handling"></a></h3>
+<p>Custom error types in <a href="/sflo/../../shared/core/src/errors/node-errors.ts"><code>shared/core/src/errors/node-errors.ts</code></a>:</p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token keyword module">export</span> <span class="token keyword">class</span> <span class="token class-name"><span class="token known-class-name class-name">NodeAlreadyExistsError</span></span> <span class="token keyword">extends</span> <span class="token class-name"><span class="token known-class-name class-name">Error</span></span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span>path<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Node already exists at: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>path<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">name</span> <span class="token operator">=</span> <span class="token string">"NodeAlreadyExistsError"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword module">export</span> <span class="token keyword">class</span> <span class="token class-name"><span class="token known-class-name class-name">DirectoryNotEmptyError</span></span> <span class="token keyword">extends</span> <span class="token class-name"><span class="token known-class-name class-name">Error</span></span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span>path<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Directory not empty: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>path<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">. Use allowNonEmpty option to override.</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">name</span> <span class="token operator">=</span> <span class="token string">"DirectoryNotEmptyError"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword module">export</span> <span class="token keyword">class</span> <span class="token class-name"><span class="token known-class-name class-name">InvalidNodePathError</span></span> <span class="token keyword">extends</span> <span class="token class-name"><span class="token known-class-name class-name">Error</span></span> <span class="token punctuation">{</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span>path<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> reason<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Invalid node path: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>path<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">. Reason: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>reason<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">name</span> <span class="token operator">=</span> <span class="token string">"InvalidNodePathError"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="3-simple-node-runner">3. Simple Node Runner<a aria-hidden="true" class="anchor-heading icon-link" href="#3-simple-node-runner"></a></h2>
+<p>Location: <a href="/sflo/../../scripts/create-node.ts"><code>scripts/create-node.ts</code></a></p>
+<pre class="language-typescript"><code class="language-typescript"><span class="token hashbang comment">#!/usr/bin/env tsx</span>
+<span class="token doc-comment comment">/**
+ * Simple CLI runner for createNode operation
+ * 
+ * Usage:
+ *   npx tsx scripts/create-node.ts &#x3C;nodePath> [--allow-non-empty]
+ */</span>
+
+<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> createNode <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">"@semantic-flow/core"</span><span class="token punctuation">;</span>
+<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> parseArgs <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">"node:util"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> values<span class="token punctuation">,</span> positionals <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">parseArgs</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    options<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">"allow-non-empty"</span><span class="token operator">:</span> <span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">"boolean"</span><span class="token punctuation">,</span> <span class="token keyword module">default</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    allowPositionals<span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>positionals<span class="token punctuation">.</span><span class="token property-access">length</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">error</span><span class="token punctuation">(</span><span class="token string">"Usage: create-node &#x3C;nodePath> [--allow-non-empty]"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    process<span class="token punctuation">.</span><span class="token method function property-access">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">const</span> nodePath <span class="token operator">=</span> positionals<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+  <span class="token keyword control-flow">try</span> <span class="token punctuation">{</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Creating node at: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>nodePath<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword control-flow">await</span> <span class="token function">createNode</span><span class="token punctuation">(</span>nodePath<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      allowNonEmpty<span class="token operator">:</span> values<span class="token punctuation">[</span><span class="token string">"allow-non-empty"</span><span class="token punctuation">]</span> <span class="token keyword module">as</span> <span class="token builtin">boolean</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token string">"\n✅ Node created successfully!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  Path: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>result<span class="token punctuation">.</span><span class="token property-access">nodePath</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  Slug: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>result<span class="token punctuation">.</span><span class="token property-access">nodeSlug</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  Base IRI: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>result<span class="token punctuation">.</span><span class="token property-access">nodeBaseIri</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">\nFlows created:</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  Metadata: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>result<span class="token punctuation">.</span><span class="token property-access">flows</span><span class="token punctuation">.</span><span class="token property-access">meta</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token property-access">flows</span><span class="token punctuation">.</span><span class="token property-access">ref</span><span class="token punctuation">)</span> <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  Reference: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>result<span class="token punctuation">.</span><span class="token property-access">flows</span><span class="token punctuation">.</span><span class="token property-access">ref</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token property-access">flows</span><span class="token punctuation">.</span><span class="token property-access">payload</span><span class="token punctuation">)</span> <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  Payload: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>result<span class="token punctuation">.</span><span class="token property-access">flows</span><span class="token punctuation">.</span><span class="token property-access">payload</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token property-access">flows</span><span class="token punctuation">.</span><span class="token property-access">cfgOp</span><span class="token punctuation">)</span> <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  Config (Op): </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>result<span class="token punctuation">.</span><span class="token property-access">flows</span><span class="token punctuation">.</span><span class="token property-access">cfgOp</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span><span class="token property-access">flows</span><span class="token punctuation">.</span><span class="token property-access">cfgInh</span><span class="token punctuation">)</span> <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">  Config (Inh): </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>result<span class="token punctuation">.</span><span class="token property-access">flows</span><span class="token punctuation">.</span><span class="token property-access">cfgInh</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+  <span class="token punctuation">}</span> <span class="token keyword control-flow">catch</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">error</span><span class="token punctuation">(</span><span class="token string">"\n❌ Error creating node:"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">error</span><span class="token punctuation">(</span>error <span class="token keyword">instanceof</span> <span class="token class-name"><span class="token known-class-name class-name">Error</span></span> <span class="token operator">?</span> error<span class="token punctuation">.</span><span class="token property-access">message</span> <span class="token operator">:</span> <span class="token known-class-name class-name">String</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    process<span class="token punctuation">.</span><span class="token method function property-access">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="4-testing-strategy">4. Testing Strategy<a aria-hidden="true" class="anchor-heading icon-link" href="#4-testing-strategy"></a></h2>
+<h3 id="41-rdfsource-tests">4.1 RdfSource Tests<a aria-hidden="true" class="anchor-heading icon-link" href="#41-rdfsource-tests"></a></h3>
+<ul>
+<li>Unit tests for each function</li>
+<li>Format detection tests</li>
+<li>Base IRI computation tests</li>
+<li>Round-trip parse/serialize tests</li>
+<li>Error handling tests</li>
+</ul>
+<h3 id="42-createnode-tests">4.2 createNode Tests<a aria-hidden="true" class="anchor-heading icon-link" href="#42-createnode-tests"></a></h3>
+<p>Location: <a href="/sflo/../../shared/core/src/operations/__tests__/create-node.test.ts"><code>shared/core/src/operations/__tests__/create-node.test.ts</code></a></p>
+<p>Test cases:</p>
+<ol>
+<li>Create node in empty directory</li>
+<li>Fail on already-initialized node</li>
+<li>Fail on non-empty directory without flag</li>
+<li>Succeed on non-empty with allowNonEmpty</li>
+<li>Create node with payload dataset</li>
+<li>Create node with reference dataset</li>
+<li>Create node with all optional datasets</li>
+<li>Validate metadata content</li>
+<li>Validate filename conventions</li>
+<li>Validate directory structure</li>
+</ol>
+<h3 id="43-integration-tests">4.3 Integration Tests<a aria-hidden="true" class="anchor-heading icon-link" href="#43-integration-tests"></a></h3>
+<p>End-to-end scenarios:</p>
+<ol>
+<li>Create node → read metadata → validate structure</li>
+<li>Create node → import dataset → verify relative IRIs</li>
+<li>Multiple nodes in hierarchy</li>
+</ol>
+<h2 id="5-documentation-updates">5. Documentation Updates<a aria-hidden="true" class="anchor-heading icon-link" href="#5-documentation-updates"></a></h2>
+<h3 id="51-parsing-semantics-spec">5.1 Parsing Semantics Spec<a aria-hidden="true" class="anchor-heading icon-link" href="#51-parsing-semantics-spec"></a></h3>
+<p>Update the following documentation files:</p>
+<ol>
+<li>
+<p><strong><a href="/sflo/../../documentation/concept.identifier.intramesh.relative.md"><code>concept.identifier.intramesh.relative.md</code></a></strong></p>
+<ul>
+<li>Add section on parsing with base IRI</li>
+<li>Add examples of relative IRI resolution</li>
+</ul>
+</li>
+<li>
+<p><strong><a href="/sflo/../../documentation/concept.iri.md"><code>concept.iri.md</code></a></strong></p>
+<ul>
+<li>Add section on base IRI computation</li>
+<li>Add file:/// URL examples</li>
+</ul>
+</li>
+<li>
+<p><strong><a href="/sflo/../../documentation/concept.implied-rdf-base.md"><code>concept.implied-rdf-base.md</code></a></strong></p>
+<ul>
+<li>Add detailed parsing rules</li>
+<li>Add serialization rules</li>
+<li>Add examples</li>
+</ul>
+</li>
+<li>
+<p><strong><a href="/sflo/../../documentation/concept.debasing.md"><code>concept.debasing.md</code></a></strong></p>
+<ul>
+<li>Formalize the algorithm</li>
+<li>Add step-by-step examples</li>
+<li>Reference RdfSource functions</li>
+</ul>
+</li>
+<li>
+<p><strong>New file: <a href="/sflo/../../documentation/concept.rdf-source.md"><code>concept.rdf-source.md</code></a></strong></p>
+<ul>
+<li>Document the RdfSource abstraction</li>
+<li>API reference</li>
+<li>Usage examples</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-dependencies-to-add">6. Dependencies to Add<a aria-hidden="true" class="anchor-heading icon-link" href="#6-dependencies-to-add"></a></h2>
+<p>Update <a href="/sflo/../../shared/core/package.json"><code>shared/core/package.json</code></a>:</p>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"@rdfjs/types"</span><span class="token operator">:</span> <span class="token string">"^1.1.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"@rdfjs/data-model"</span><span class="token operator">:</span> <span class="token string">"^2.0.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"jsonld"</span><span class="token operator">:</span> <span class="token string">"^8.3.2"</span><span class="token punctuation">,</span>
+    <span class="token property">"n3"</span><span class="token operator">:</span> <span class="token string">"^1.17.2"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"devDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"@types/jsonld"</span><span class="token operator">:</span> <span class="token string">"^1.5.13"</span><span class="token punctuation">,</span>
+    <span class="token property">"@types/n3"</span><span class="token operator">:</span> <span class="token string">"^1.16.4"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="7-implementation-order">7. Implementation Order<a aria-hidden="true" class="anchor-heading icon-link" href="#7-implementation-order"></a></h2>
+<ol>
+<li>
+<p><strong>Phase 1: RdfSource Foundation</strong> (1-2 days)</p>
+<ul>
+<li>Install dependencies</li>
+<li>Create type definitions</li>
+<li>Implement core parsing/serialization</li>
+<li>Implement helper functions</li>
+<li>Write unit tests</li>
+</ul>
+</li>
+<li>
+<p><strong>Phase 2: createNode Core</strong> (2-3 days)</p>
+<ul>
+<li>Implement path validation</li>
+<li>Implement scaffolding functions</li>
+<li>Implement metadata generation</li>
+<li>Implement optional dataset import</li>
+<li>Write unit tests</li>
+</ul>
+</li>
+<li>
+<p><strong>Phase 3: Integration</strong> (1 day)</p>
+<ul>
+<li>Create runner script</li>
+<li>Write integration tests</li>
+<li>Manual testing</li>
+</ul>
+</li>
+<li>
+<p><strong>Phase 4: Documentation</strong> (1 day)</p>
+<ul>
+<li>Update concept docs</li>
+<li>Add API documentation</li>
+<li>Update task files</li>
+</ul>
+</li>
+</ol>
+<p><strong>Total estimated time: 5-7 days</strong></p>
+<h2 id="8-future-enhancements-out-of-scope">8. Future Enhancements (Out of Scope)<a aria-hidden="true" class="anchor-heading icon-link" href="#8-future-enhancements-out-of-scope"></a></h2>
+<p>These are explicitly <strong>not</strong> part of this task:</p>
+<ul>
+<li>Full debasing algorithm with IRI rewriting</li>
+<li>Payload unpacking into child nodes</li>
+<li>Config inheritance from parent nodes</li>
+<li>Full PROV/DelegationChain modeling</li>
+<li>SHACL validation</li>
+<li>RDF store integration</li>
+<li>CLI framework (Oclif) integration</li>
+<li>Interactive mode with prompts</li>
+</ul>
+<h2 id="9-success-criteria">9. Success Criteria<a aria-hidden="true" class="anchor-heading icon-link" href="#9-success-criteria"></a></h2>
+<p>The implementation is complete when:</p>
+<ol>
+<li>✅ RdfSource can parse JSON-LD and Turtle with explicit base</li>
+<li>✅ RdfSource can serialize mesh-native JSON-LD (no <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">@base (Private)</a>, relative IRIs)</li>
+<li>✅ createNode creates correct directory structure</li>
+<li>✅ createNode generates valid v1 metadata</li>
+<li>✅ createNode can import optional datasets</li>
+<li>✅ All tests pass (unit + integration)</li>
+<li>✅ Documentation is updated</li>
+<li>✅ Simple runner script works</li>
+<li>✅ Code follows project conventions</li>
+<li>✅ Task files are updated with progress</li>
+</ol>
+<h2 id="references">References<a aria-hidden="true" class="anchor-heading icon-link" href="#references"></a></h2>
+<ul>
+<li><a href="/sflo/./task.2025-11-28-rdfsource-debasing-parsing.md">task.2025-11-28-rdfsource-debasing-parsing</a></li>
+<li><a href="/sflo/./task.2025-11-27-createNode.md">task.2025-11-27-createNode</a></li>
+<li><a href="/sflo/./concept.identifier.intramesh.relative.md">concept.identifier.intramesh.relative</a></li>
+<li><a href="/sflo/./concept.implied-rdf-base.md">concept.implied-rdf-base</a></li>
+<li><a href="/sflo/./concept.debasing.md">concept.debasing</a></li>
+<li><a href="/sflo/./concept.weave-process.md">concept.weave-process</a></li>
+<li><a href="/sflo/./dev.general-guidance.md">dev.general-guidance</a></li>
+</ul>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/ufnbtre0tn2pxq7dzjcgrz0">2025-11-27-createNode</a></li>
+</ul>

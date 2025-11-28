@@ -33,28 +33,31 @@ The primary constituents of a mesh are [[mesh-resource.node]]s. Nodes contain th
 
 [[Mesh resources|mesh-resource]] have at least one [[concept.identifier]] and (usually) a [[concept.referent]].
 
-| [[concept.identifier.intramesh]]                      | Semantic Flow resource type                                           | referent                     |
-| ----------------------------------------------------- | --------------------------------------------------------------------- | ---------------------------- |
-| `ns/`                                                 | [[mesh-resource.node.bare]]                                           | - nothing - (yet!)           |
-| `ns/djradon/`                                         | [[mesh-resource.node.reference]]                                      | a person                     |
-| `ns/djradon/_node-handle/`                            | [[mesh-resource.node-component.node-handle]]                          | mesh node                    |
-| `ns/djradon/_reference-flow/`                         | [[mesh-resource.node-component.flow.reference]]                       | reference flow               |
-| `ns/djradon/_reference-flow/_current/`                | [[mesh-resource.node-component.snapshot-distribution.current]]        | reference flow snapshot      |
-| `ns/djradon/index.html`                               | [[mesh-resource.node-component.documentation-resource.resource-page]] | resource page (content)      |
-| `ns/djradon/README.md`                                | [[mesh-resource.node-component.documentation-resource.readme]]        | README file (content)        |
-| `ns/djradon/picks/`                                   | [[mesh-resource.node.payload]]                                        | abstract dataset             |
-| `ns/djradon/picks/_payload-flow/`                     | [[mesh-resource.node-component.flow.payload]]                         | payload dataset series       |
-| `ns/djradon/picks/_payload-flow/_next/`               | [[mesh-resource.node-component.flow-snapshot.next]]                   | concrete payload dataset     |
-| `ns/djradon/picks/_payload-flow/_v1/picks_v1.trig`    | [[mesh-resource.node-component.snapshot-distribution]]                | paylod dataset distribution  |
-| `ns/djradon/picks/_node-metadata-flow/`               | [[mesh-resource.node-component.flow.node-metadata]]                   | node metadata dataset series |
-| `ns/djradon/picks/_node-metadata-flow/_current/`      | [[mesh-resource.node-component.flow-snapshot.current]]                | node metadata dataset        |
-| `ns/djradon/picks/_config-operational-flow/`          | [[mesh-resource.node-component.flow.node-config.operational]]         | operational config series    |
-| `ns/djradon/picks/_config-operational-flow/_current/` | [[mesh-resource.node-component.flow-snapshot.current]]                | operational config           |
-| `ns/djradon/picks/_config-inheritable-flow/`          | [[mesh-resource.node-component.flow.node-config.inheritable]]         | inheritable config series    |
-| `ns/djradon/picks/_config-inheritable-flow/_current/` | [[mesh-resource.node-component.flow-snapshot.current]]                | inheritable config           |
-| `ns/assets/`                                          | [[mesh-resource.node-component.asset-tree]]                           | collection of assets         |
-| `ns/assets/images/`                                   | asset folder                                                          | - not a sf resource -        |
-| `ns/assets/images/logo.svg`                           | asset                                                                 | - not a sf resource -        |
+| [[concept.identifier.intramesh]]                                | Semantic Flow resource type                                           | referent                     |
+| --------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------------------- |
+| `ns/`                                                           | [[mesh-resource.node.bare]]                                           | - nothing - (yet!)           |
+| `ns/djradon/`                                                   | [[mesh-resource.node.reference]]                                      | person                       |
+| `ns/djradon/_node-handle/`                                      | [[mesh-resource.node-component.node-handle]]                          | mesh node                    |
+| `ns/djradon/index.html`                                         | [[mesh-resource.node-component.documentation-resource.resource-page]] | resource page (content)      |
+| `ns/djradon/README.md`                                          | [[mesh-resource.node-component.documentation-resource.readme]]        | README file (content)        |
+| `ns/djradon/CHANGELOG.md`                                       | [[mesh-resource.node-component.documentation-resource.changelog]]     | README file (content)        |
+| `ns/djradon/_ref/`                                              | [[mesh-resource.node-component.flow.reference]]                       | reference flow               |
+| `ns/djradon/_ref/_working/`                                     | [[mesh-resource.node-component.flow-shot.working-shot]]               | reference flow snapshot      |
+| `ns/djradon/_ref/_working/djradon.jsonld`                       | [[mesh-resource.node-component.snapshot-distribution.working]]        | reference flow snapshot      |
+| `ns/djradon/_meta/`                                             | [[mesh-resource.node-component.flow.node-metadata]]                   | node metadata dataset series |
+| `ns/djradon/_meta/_default/`                                    | [[mesh-resource.node-component.flow-shot.default-shot]]               | node metadata dataset        |
+| `ns/djradon/picks/`                                             | [[mesh-resource.node.payload]]                                        | abstract dataset             |
+| `ns/djradon/picks/_payload/`                                    | [[mesh-resource.node-component.flow.payload]]                         | payload dataset series       |
+| `ns/djradon/picks/_payload/2025-11-24_0142_07_v1/`              | [[mesh-resource.node-component.flow-shot.snapshot]]                   | concrete payload dataset     |
+| `ns/djradon/picks/_payload/2025-11-24_0142_07_v1/picks.jsonld ` | [[mesh-resource.node-component.snapshot-distribution.version]]        | paylod dataset distribution  |
+| `ns/djradon/picks/_payload/_default/picks.jsonld `              | [[mesh-resource.node-component.snapshot-distribution.default]]        | paylod dataset distribution  |
+| `ns/djradon/picks/_cfg-op/`                                     | [[mesh-resource.node-component.flow.node-config.operational]]         | operational config series    |
+| `ns/djradon/picks/_cfg-op/2025-11-24_0142_07_v1/`               | [[mesh-resource.node-component.flow-shot.snapshot]]                   | operational config           |
+| `ns/djradon/picks/_cfg-inh/`                                    | [[mesh-resource.node-component.flow.node-config.inheritable]]         | inheritable config series    |
+| `ns/djradon/picks/_cfg-inh/_default/`                           | [[mesh-resource.node-component.flow-shot.default-shot]]               | inheritable config           |
+| `ns/assets/`                                                    | [[mesh-resource.node-component.asset-tree]]                           | collection of assets         |
+| `ns/assets/images/`                                             | asset folder                                                          | - not a sf resource -        |
+| `ns/assets/images/logo.svg`                                     | asset                                                                 | - not a sf resource -        |
 
 
 Example:
@@ -62,9 +65,9 @@ Example:
 - `ns/djradon/` = refers to Dave the person (payload node)
 - `ns/djradon/index.html` = resource page about Dave (content)
 - `ns/djradon/pics/` = refers to Dave's biographical dataset (payload node)
-- `ns/djradon/pics/_payload-flow/` = abstract dataset (DatasetSeries) containing Dave's "music picks" data
-- `ns/djradon/pics/_payload-flow/_current/` = current concrete dataset snapshot
-- `ns/djradon/pics/_payload-flow/_v1/picks_v1.trig` = RDF distribution from version 1
+- `ns/djradon/pics/_payload/` = abstract dataset (DatasetSeries) containing Dave's "music picks" data
+- `ns/djradon/pics/_payload/_default/` = current concrete dataset snapshot
+- `ns/djradon/pics/_payload/2025-11-24_0142_07_v1/picks.jsonld` = RDF distribution from version 1
 - `ns/djradon/_assets/images/headshot.jpg` = an image asset; "attached" to the mesh, but not a mesh resource
 
 
@@ -73,11 +76,11 @@ Example:
 
 #### Naming Resources
 
-- **[[mesh-resource.node-component.flow]]** and their [[mesh-resource.node-component.flow-snapshot]]
+- **[[mesh-resource.node-component.flow]]** and their [[mesh-resource.node-component.flow-shot]]
   - **[[mesh-resource.node-component.flow.node-metadata]]**: System-related administrative and structural metadata for mesh nodes
-  - **[[Version datasets|mesh-resource.node-component.flow-snapshot.version]]**: Versioned snapshots of datasets
-- **[[next snapshots|mesh-resource.node-component.flow-snapshot.next]]**: Draft workspaces for ongoing changes to versioned datasets
-- **[[Node handles|resource.node-component.node-handle]]**: Components that provide referential indirection, allowing references to nodes as mesh resources rather than their referents
+  - **[[Version datasets|mesh-resource.node-component.flow-shot.snapshot]]**: Versioned snapshots of datasets
+- **[[working snapshots|mesh-resource.node-component.flow-shot.working-shot]]**: Draft workspaces for ongoing changes to versioned datasets
+- **[[Node handles|mesh-resource.node-component.node-handle]]**: Components that provide referential indirection, allowing references to nodes as mesh resources rather than their referents
 - **[[Asset trees|mesh-resource.node-component.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
 
 #### File Resources
@@ -107,7 +110,7 @@ Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
 
 ### Reserved Names
 - All system identifiers begin with an underscore (_)
-- Examples: `_assets/`, `_node-metadata-flow/`, `_current`, `_next`
+- Examples: `_assets/`, `_meta/`, `_default`, `_working`
 
 ## Logical Structure
 
@@ -131,13 +134,13 @@ Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
 
 ### System vs User Boundaries
 - **System components**: Generated and managed by the weave process, not intended for user modification
-- **User components**: Directly modifiable by users ([[mesh-resource.node-component.flow-snapshot.current]], README.md, CHANGELOG.md)
+- **User components**: Directly modifiable by users ([[mesh-resource.node-component.flow-shot.default-shot]], README.md, CHANGELOG.md)
 - The weave process maintains system components and generates missing required flows
 
 ### Versioning Requirements
-- flow versioning is managed through the [[Versioning|concept.versioning]] system
+- flow versioning is managed through the [[Flow Version|concept.flow-version]] system
   - turning versioning on and off is controlled in the [[mesh-resource.node-component.node-config-defaults]]
-  - Version history is realized in [[mesh-resource.node-component.flow-snapshot.version]] with numbered version snapshots
+  - Version history is realized in [[mesh-resource.node-component.flow-shot.snapshot]] with numbered snapshots
   - Version history metadata is kept in the node's [[mesh-resource.node-component.flow.node-metadata]]
 
 ### Addressing Requirements

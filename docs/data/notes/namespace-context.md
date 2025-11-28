@@ -21,5 +21,5 @@ The context is a deployment concern; a [[woven|concept.weave-process]] mesh shou
   - `https://org.github.io/repo/`
   - Mesh path `/ns/people/alice/` publishes at `https://org.github.io/repo/ns/people/alice/`
 
-These mappings can be accomplished with both [[concept.mesh-repo]]s and [[concept.mesh.embedded]]
+These mappings can be accomplished with both [[concept.single-mesh-repo]]s and [[concept.mesh.embedded]]
 

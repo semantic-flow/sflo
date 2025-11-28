@@ -57,7 +57,7 @@ from [[t.cs.ai.assistant.memory-hygiene]]:
 
 ## t.2024.10.29.09
 
-- renamed to [[concept.mesh-repo]]
+- renamed to [[concept.single-mesh-repo]]
 - instead of duplicating highlights in a NI's index.trig, just define the _default datasets as "highlights" and use owl:imports
 
 ## t.2024.10.29.06

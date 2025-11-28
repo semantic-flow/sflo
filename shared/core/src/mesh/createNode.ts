@@ -243,11 +243,21 @@ async function generateResourcePages(
   await writeFile(nodeIndexPath, nodeIndexContent, "utf-8");
   indexPages.node = nodeIndexPath;
 
+  // _node-handle index.html
+  const handleIndexPath = join(nodePath, SPECIAL_DIRS.NODE_HANDLE, "index.html");
+  const handleIndexContent = generateGenericDirIndexHtml("Node Handle", nodeSlug);
+  await writeFile(handleIndexPath, handleIndexContent, "utf-8");
+
   // _meta index.html
   const metaIndexPath = join(nodePath, FLOW_SLUGS.METADATA, "index.html");
   const metaIndexContent = generateFlowIndexHtml(FLOW_SLUGS.METADATA, nodeSlug, false);
   await writeFile(metaIndexPath, metaIndexContent, "utf-8");
   indexPages.meta = metaIndexPath;
+
+  // _meta/_default index.html
+  const metaDefaultIndexPath = join(nodePath, FLOW_SLUGS.METADATA, SPECIAL_DIRS.DEFAULT, "index.html");
+  const metaDefaultIndexContent = generateShotDirIndexHtml("_default", FLOW_SLUGS.METADATA, nodeSlug, false);
+  await writeFile(metaDefaultIndexPath, metaDefaultIndexContent, "utf-8");
 
   // Flow and _working shot index pages
   for (const [flowKey, workingPath] of Object.entries(createdWorkingFlows)) {
@@ -377,6 +387,51 @@ function generateWorkingShotIndexHtml(flowSlug: string, nodeSlug: string): strin
   <ul>
     <li><a href="${filename}">${filename}</a></li>
   </ul>
+</body>
+</html>`;
+}
+
+/**
+ * Generate generic directory index.html
+ */
+function generateGenericDirIndexHtml(title: string, nodeSlug: string): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title}</title>
+</head>
+<body>
+  <h1>${title}</h1>
+  <p>Node: <a href="../">${nodeSlug}</a></p>
+</body>
+</html>`;
+}
+
+/**
+ * Generate shot directory index.html (for _default, _working, etc.)
+ */
+function generateShotDirIndexHtml(
+  shotName: string,
+  flowSlug: string,
+  nodeSlug: string,
+  hasDistributions: boolean
+): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shot: ${shotName}</title>
+</head>
+<body>
+  <h1>Shot: ${shotName}</h1>
+  <p>Flow: <a href="../">${flowSlug}</a></p>
+  <p>Node: <a href="../../">${nodeSlug}</a></p>
+  
+  ${hasDistributions ? `<h2>Distributions</h2>
+  <p>No distributions yet (created by weaves)</p>` : `<p>Empty directory (snapshots created by weaves)</p>`}
 </body>
 </html>`;
 }

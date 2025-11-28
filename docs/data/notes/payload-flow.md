@@ -3,7 +3,7 @@
 
 ## Overview
 
-A payload flow (formerly called a __dataset__ flow) is a series of RDF datasets. Like all flows, each payload flow has snapshots (_current/, _next/, _vN/) that track its evolution over time. 
+A payload flow (formerly called a __dataset__ flow) is a series of RDF datasets. Like all flows, each payload flow has snapshots (_default/, _working/, snapshot folders like `2025-11-24_0142_07_v1/`) that track its evolution over time.
 
 payload flows are distinct from [[mesh-resource.node-component.flow.node-metadata]]s, which are usually managed by the platform and describe the mesh node itself and its components.
 
@@ -18,17 +18,17 @@ payload flows serve as the primary content containers for [[mesh-resource.node.p
 
 ## Structure
 
-payload flows organize content through [[flow snapshots|mesh-resource.node-component.flow-snapshot]]:
+payload flows organize content through [[flow snapshots|mesh-resource.node-component.flow-shot]]:
 
-- `_current/` - Current stable version of the dataset
-- `_next/` - Draft/work-in-progress version
-- `_v1/`, `_v2/`, etc. - Versioned snapshots for historical access
+- `_default/` - Current stable version of the dataset
+- `_working/` - Draft/work-in-progress version
+- Snapshot folders (e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`) - Versioned snapshots for historical access
 
 Like all [[facet.filesystem.folder]], they should contain an `index.html` [[mesh-resource.node-component.documentation-resource.resource-page]] -- a human-readable description for the flow.
 
 ## Distribution Formats
 
-Each [[flow snapshot|mesh-resource.node-component.flow-snapshot]] typically provides multiple format distributions:
+Each [[flow snapshot|mesh-resource.node-component.flow-shot]] typically provides multiple format distributions:
 
 - **Trig (.trig)**: Primary RDF serialization
 - **JSON-LD (.jsonld)**: JSON-compatible linked data
@@ -40,12 +40,12 @@ Each [[flow snapshot|mesh-resource.node-component.flow-snapshot]] typically prov
 From the [[semantic mesh example|concept.semantic-mesh.example]]:
 
 ```
-/test-ns/djradon-bio/_payload-flow          # payload flow
-├── _current/                        # current snapshot
+/test-ns/djradon-bio/_payload          # payload flow
+├── _default/                        # default snapshot
 │   ├── djradon-bio.ttl             # turtle distribution
 │   ├── djradon-bio.jsonld          # json-ld distribution
 │   └── index.html                  # snapshot interface
-├── _next/                          # draft snapshot
+├── _working/                          # draft snapshot
 │   ├── djradon-bio.ttl             # draft turtle
 │   ├── djradon-bio.jsonld          # draft json-ld
 │   └── index.html                  # snapshot interface
@@ -56,6 +56,6 @@ From the [[semantic mesh example|concept.semantic-mesh.example]]:
 
 payload flows integrate with other mesh components:
 
-- **metapayload flows**: Provide provenance and management data
+- **metadata flows**: Provide provenance and management data
 - **Asset Trees**: Store associated files and media
 - **Resource Pages**: Provide human-readable interfaces
