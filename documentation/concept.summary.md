@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1764276568501
+updated: 1764327645691
 created: 1755820864360
 ---
 
@@ -101,18 +101,18 @@ See:
 Reserved folder names (underscore-prefixed; canonical set):
 - `_node-handle/`
 - Flow containers (abstract datasets):
-  - `_node-metadata-flow/`, `_payload-flow/`
-  - `_config-operational-flow/`, `_config-inheritable-flow/` (see §9)
+  - `_meta/`, `_payload/`
+  - `_cfg-op/`, `_cfg-inh/` (see §9)
 - FlowShots inside a flow:
   - `_default/`, `_working/`, snapshot folders with format `YYYY-MM-DD_HHMM_SS_vN/` (e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`, …)
 - Assets:
   - `_assets/` (static files)
 
 Folder-note pages for these reserved names live under `folder.*.md` (where defined):
-- `_node-metadata-flow/`: [[folder._node-metadata-flow]]
-- `_payload-flow/`: [[folder._data-flow]]
-- `_config-operational-flow/`: [[folder._config-operational-flow]]
-- `_config-inheritable-flow/`: [[folder._config-inheritable-flow]]
+- `_meta/`: [[folder._meta]]
+- `_payload/`: [[folder._data-flow]]
+- `_cfg-op/`: [[folder._cfg-op]]
+- `_cfg-inh/`: [[folder._cfg-inh]]
 - `_default/`: [[folder._default]]
 - `_working/`: [[folder._working]]
 - Snapshot folders (`YYYY-MM-DD_HHMM_SS_vN/`): [[folder.flowshot]]
@@ -177,15 +177,15 @@ See:
 ├── _assets/                         # optional site-wide assets
 ├── my-node/                         # a mesh node (folder)
 │   ├── _node-handle/                # handle component (resource.node-component.node-handle)
-│   ├── _node-metadata-flow/                  # metapayload flow (system)
+│   ├── _meta/                  # metapayload flow (system)
 │   │   ├── _default/
 │   │   └── 2025-11-24_0142_07_v1/
-│   ├── _payload-flow/                  # payload flow (for payload nodes)
+│   ├── _payload/                  # payload flow (for payload nodes)
 │   │   ├── _default/
 │   │   ├── _working/
 │   │   └── 2025-11-24_0142_07_v1/
-│   ├── _config-inheritable-flow/    # provider config (optional)
-│   ├── _config-operational-flow/    # resolved config (optional; may be system-written)
+│   ├── _cfg-inh/    # provider config (optional)
+│   ├── _cfg-op/    # resolved config (optional; may be system-written)
 │   ├── index.html                   # resource page
 │   ├── README.md
 │   └── CHANGELOG.md

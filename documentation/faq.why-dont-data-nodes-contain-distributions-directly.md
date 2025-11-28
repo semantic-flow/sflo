@@ -2,7 +2,7 @@
 id: osqi7xn4mw3j9v0kvsoc5uo
 title: Why Dont payload nodes Contain Distributions Directly
 desc: ''
-updated: 1764268668397
+updated: 1764327384142
 created: 1751387201637
 ---
 
@@ -17,7 +17,7 @@ payload nodes represent **abstract data concepts**, not concrete data instances.
 ### Clear Semantic Distinction
 
 - **payload node** (`/ns/monsters/`): "The concept of monster data"
-- **Data compound** (`/ns/monsters/_payload-flow/`): "The abstract dataset associated with the monster data concept" 
+- **Data compound** (`/ns/monsters/_payload/`): "The abstract dataset associated with the monster data concept" 
 - **Data compound layers**: the current, next and historical versions of the dataset
 
 This allows you to reference the concept separately from the associated abstract or concrete dataset.

@@ -2,7 +2,7 @@
 id: 4v2b7t8nbzkmtyvnayye3vj
 title: Provenance
 desc: ''
-updated: 1764276568507
+updated: 1764327645701
 created: 1753117923066
 ---
 
@@ -22,7 +22,7 @@ The structure is as follows:
 
 `<{flow-slug}-{version}-{entity-type}[-{unique-part}]>`
 
--   **`{flow-slug}`**: The slug of the flow this provenance describes (e.g., `[[folder._config-inheritable-flow]]`, `data-flow`). This provides the primary namespace for the identifier.
+-   **`{flow-slug}`**: The slug of the flow this provenance describes (e.g., `[[folder._cfg-inh]]`, `data-flow`). This provides the primary namespace for the identifier.
 -   **`{version}`**: The version of the target flow's snapshot (e.g., `v47`). This scopes the provenance to a specific point in time.
 -   **`{entity-type}`**: The class of the entity, using a consistent UpperCamelCase (e.g., `Activity`, `Context`, `DelegationChain`, `DelegationStep`).
 -   **`{unique-part}`**: (Optional) A unique suffix, such as a step number or a timestamp, used when multiple entities of the same type exist for the same flow and version.
@@ -44,7 +44,7 @@ For a `config-flow` at version `v47`, the identifiers would be:
 ### snapshot Provenance
 
 ```turtle
-# In my-dataset/_node-metadata-flow/2025-07-20_1430_00_v47/my-dataset_meta.trig
+# In my-dataset/_meta/2025-07-20_1430_00_v47/my-dataset_meta.trig
 @base <../2025-07-20_1430_00_v47/> .
 
 # Weave activity with PROV standard properties
@@ -87,7 +87,7 @@ For a `config-flow` at version `v47`, the identifiers would be:
 ### default snapshot Copy
 
 ```turtle
-# In my-dataset/_node-metadata-flow/_default/my-dataset_meta.trig
+# In my-dataset/_meta/_default/my-dataset_meta.trig
 @base <../2025-07-20_1430_00_v47/> .
 
 # Identical content to snapshot - all URIs resolve to stable version
@@ -99,15 +99,15 @@ For a `config-flow` at version `v47`, the identifiers would be:
 For flows without versioning, activities accumulate in `_working` with unique timestamps:
 
 ```turtle
-# In my-dataset/_node-metadata-flow/_working/my-dataset_meta.trig
+# In my-dataset/_meta/_working/my-dataset_meta.trig
 :dataActivity_2025-07-20_14-30 a meta:DataWeave ;
     prov:startedAtTime "2025-07-20T14:30:00Z" ;
-    prov:generated <../../_payload-flow/_default/data.trig> .
+    prov:generated <../../_payload/_default/data.trig> .
 
 :dataActivity_2025-07-20_16-45 a meta:DataWeave ;
     prov:startedAtTime "2025-07-20T16:45:00Z" ;
-    prov:used <../../_payload-flow/_default/data.trig> ;
-    prov:generated <../../_payload-flow/_default/data.trig> .
+    prov:used <../../_payload/_default/data.trig> ;
+    prov:generated <../../_payload/_default/data.trig> .
 ```
 
 ## Key Components

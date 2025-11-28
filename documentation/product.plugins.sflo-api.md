@@ -2,7 +2,7 @@
 id: 63tfb27btzbph10tpvckz7b
 title: sflo-api plugin
 desc: ''
-updated: 1762707513735
+updated: 1764327645693
 created: 1755903460930
 ---
 
@@ -15,10 +15,10 @@ Use noun URLs that mirror the mesh's filesystem. Bytes go to `_working`. Version
 * Reserved flow directories under a node:
 
   * `_node_metadata_flow/` (required)
-  * `_config-operational-flow/`
-  * `_config-inheritable-flow/`
-  * `_reference-flow/`
-  * `_payload-flow/`  ← payload dataset for payload nodes
+  * `_cfg-op/`
+  * `_cfg-inh/`
+  * `_ref/`
+  * `_payload/`  ← payload dataset for payload nodes
 * Snapshot layout under any flow:
 
   * `_snapshots/{vN}/_dist/{files…}`
@@ -76,7 +76,7 @@ Maybe returns:
 
 * **Dataset upload (bytes to `_working`)**
 
-  * `PUT /api/{mesh}/{nodePath}/_payload-flow/_working/{nodeName}.jsonld`
+  * `PUT /api/{mesh}/{nodePath}/_payload/_working/{nodeName}.jsonld`
 
     * Body: JSON-LD (or TriG variant if you standardize a filename)
     * Effects:
@@ -87,20 +87,20 @@ Maybe returns:
     * `201 Created` (new content) or `200/204` (duplicate); `Content-Location` echoes the `_working` URL
 * **List current distributions**
 
-  * `GET /api/{mesh}/{nodePath}/_payload-flow/_default/` → array of files
+  * `GET /api/{mesh}/{nodePath}/_payload/_default/` → array of files
 * **Fetch a current distribution**
 
-  * `GET /api/{mesh}/{nodePath}/_payload-flow/_default/{filename}` → bytes
+  * `GET /api/{mesh}/{nodePath}/_payload/_default/{filename}` → bytes
 * **List snapshots**
 
-  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/`
+  * `GET /api/{mesh}/{nodePath}/_payload/_snapshots/`
 * **Snapshot metadata**
 
-  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}` → JSON-LD summary
+  * `GET /api/{mesh}/{nodePath}/_payload/_snapshots/{vN}` → JSON-LD summary
 * **Snapshot distributions**
 
-  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}/_dist/`
-  * `GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}/_dist/{filename}`
+  * `GET /api/{mesh}/{nodePath}/_payload/_snapshots/{vN}/_dist/`
+  * `GET /api/{mesh}/{nodePath}/_payload/_snapshots/{vN}/_dist/{filename}`
 
 ## Flows (common to all five kinds)
 
@@ -178,10 +178,10 @@ Minimum links on a node:
 ```json
 "links": [
   { "rel":"self", "href":"/api/{mesh}/{nodePath}/" },
-  { "rel":"flow", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload-flow/" },
-  { "rel":"dataset.uploadNext", "href":"/api/{mesh}/{nodePath}/_payload-flow/_working/{nodeName}.jsonld", "method":"PUT" },
-  { "rel":"flow.patchNext", "kind":"op_config_flow", "href":"/api/{mesh}/{nodePath}/_config-operational-flow/_working/", "method":"PATCH", "type":"application/merge-patch+json" },
-  { "rel":"flow.createSnapshot", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload-flow/_snapshots/", "method":"POST" },
+  { "rel":"flow", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload/" },
+  { "rel":"dataset.uploadNext", "href":"/api/{mesh}/{nodePath}/_payload/_working/{nodeName}.jsonld", "method":"PUT" },
+  { "rel":"flow.patchNext", "kind":"op_config_flow", "href":"/api/{mesh}/{nodePath}/_cfg-op/_working/", "method":"PATCH", "type":"application/merge-patch+json" },
+  { "rel":"flow.createSnapshot", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload/_snapshots/", "method":"POST" },
   { "rel":"job.start", "href":"/api/{mesh}/jobs", "method":"POST", "expects":"sflo:WeaveJob" }
 ]
 ```

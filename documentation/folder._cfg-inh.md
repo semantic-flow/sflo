@@ -1,8 +1,8 @@
 ---
 id: nokx5o047yld6voaxnx8tmw
-title: _config-inheritable-flow
+title: _cfg-inh flow folder
 desc: ''
-updated: 1762635070943
+updated: 1764327658744
 created: 1755845377183
 ---
 

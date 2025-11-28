@@ -2,7 +2,7 @@
 id: 8t3swuswoi81yuzo2bnecy9
 title: FlowShot
 desc: ''
-updated: 1764276595432
+updated: 1764327509453
 created: 1751689346769
 ---
 
@@ -26,7 +26,7 @@ node flows have at least two snapshots:
 
 ```file
 /my-ontology/               ← dataset node: Conceptual, data-oriented "thing"
-├── _node-metadata-flow/                   ← meta flow (metadata)
+├── _meta/                   ← meta flow (metadata)
 │   ├── _default/           ← flow snapshot (default metadata)
 │   ├── _working/           ← flow snapshot (working draft)
 │   ├── 2025-11-24_0142_07_v1/              ← flow snapshot (version 1 metadata)

@@ -2,7 +2,7 @@
 id: loygbgsnn26c4shdayxaofe
 title: Resource Fragment
 desc: ''
-updated: 1764002864385
+updated: 1764327509439
 created: 1752244988548
 ---
 
@@ -27,7 +27,7 @@ mesh-node/
 │   │   └── back-references.html # list of back-references
 │   └── styles/
 │       └── common.css
-├── _node-metadata-flow/
+├── _meta/
 ├── CHANGELOG.md
 └── README.md
 ```

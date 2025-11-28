@@ -2,7 +2,7 @@
 id: payload-node
 title: paylod node
 desc: ''
-updated: 1764290000222
+updated: 1764327509402
 created: 1750999795528
 ---
 
@@ -36,8 +36,8 @@ The payload node provides **stable identity**: The dataset persists conceptually
 
 [[mesh-resource.node-component.flow.payload]] is the single user payload flow for a node, realized by snapshots:
 
-- `/ns/monsters/_payload-flow/_default/` = the default dataset snapshot
-- `/ns/weather-stations/_payload-flow/2025-11-24_0142_07_v3/` = version 3 dataset snapshot
+- `/ns/monsters/_payload/_default/` = the default dataset snapshot
+- `/ns/weather-stations/_payload/2025-11-24_0142_07_v3/` = version 3 dataset snapshot
 
 Snapshots contain **distribution files**: the actual data in various formats (e.g., .trig, .jsonld)
 
@@ -54,8 +54,8 @@ These are "concrete information resources", i.e. files.
 
 Every payload node must contain:
 
-- **[[mesh-resource.node-component.flow.node-metadata]]** (`_node-metadata-flow/`): Administrative metadata about the data concept
-- **[[mesh-resource.node-component.flow.payload]]** (`_payload-flow/`): dataset data
+- **[[mesh-resource.node-component.flow.node-metadata]]** (`_meta/`): Administrative metadata about the data concept
+- **[[mesh-resource.node-component.flow.payload]]** (`_payload/`): dataset data
 - **[[Node handle|mesh-resource.node-component.node-handle]]** (`_node-handle/`): Referential indirection for the node
 
 ## Optional Components
@@ -82,9 +82,9 @@ Like all mesh nodes, payload nodes can contain other mesh nodes and components, 
 ### Unversioned payload node
 ```
 ns/monsters/
-├── _node-metadata-flow/                 # metadata about the "monsters" payload node
+├── _meta/                 # metadata about the "monsters" payload node
 ├── _node-handle/               # handle for the payload node
-└── _payload-flow/                 # single payload flow
+└── _payload/                 # single payload flow
     └── _default/               # default dataset snapshot
         ├── monsters.jsonld     # concrete distribution of the default snapshot
         └── monsters.trig

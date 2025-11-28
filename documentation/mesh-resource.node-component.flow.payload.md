@@ -2,7 +2,7 @@
 id: payload-flow
 title: payload flow
 desc: ''
-updated: 1764268408883
+updated: 1764327384139
 created: 1751560483669
 ---
 
@@ -47,7 +47,7 @@ Each [[flow snapshot|mesh-resource.node-component.flow-shot]] typically provides
 From the [[semantic mesh example|concept.semantic-mesh.example]]:
 
 ```
-/test-ns/djradon-bio/_payload-flow          # payload flow
+/test-ns/djradon-bio/_payload          # payload flow
 ├── _default/                        # default snapshot
 │   ├── djradon-bio.ttl             # turtle distribution
 │   ├── djradon-bio.jsonld          # json-ld distribution

@@ -2,7 +2,7 @@
 id: node-flow
 title: node flow
 desc: ''
-updated: 1764276595430
+updated: 1764327384150
 created: 1751688486456
 ---
 
@@ -36,7 +36,7 @@ The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dat
 
 ```file
 /my-ontology/
-└── _payload-flow/                  ← node flow (ontology definitions)
+└── _payload/                  ← node flow (ontology definitions)
     ├── _default/           ← flow snapshot
     ├── _working/           ← flow snapshot
     ├── 2025-11-24_0142_07_v1/           ← flow snapshot

@@ -2,7 +2,7 @@
 id: 9c27yly4ed3ju7msf8luhge
 title: node component
 desc: ''
-updated: 1764276647492
+updated: 1764327509442
 created: 1750706813437
 ---
 
@@ -37,7 +37,7 @@ User components are primarily created and maintained by users or their software 
 System components are usually created or altered by the [[Weave Process|concept.weave-process]] process rather than direct user modification:
 
 **Folder-based system components:**
-- **[[metadataset flows|mesh-resource.node-component.flow.node-metadata]]**: Administrative and structural metadata for mesh nodes (in `_node-metadata-flow/` folders)
+- **[[metadataset flows|mesh-resource.node-component.flow.node-metadata]]**: Administrative and structural metadata for mesh nodes (in `_meta/` folders)
 - **[[snapshot|mesh-resource.node-component.flow-shot.snapshot]]**: Versioned snapshots of datasets (in `_vN/` folders) are created on weave
 - **[[mesh-resource.node-component.flow-shot.default-shot]]**: updated on weave
 - **[[Node handles|mesh-resource.node-component.node-handle]]**: Components providing referential indirection for nodes as mesh resources (in `_node-handle/` folders)
@@ -49,7 +49,7 @@ System components are usually created or altered by the [[Weave Process|concept.
 ## Physical vs Logical Structure
 
 **Physical Representation:**
-- Folder-based components are represented as folders with underscore prefixes (like `_node-metadata-flow/`, `_assets/`)
+- Folder-based components are represented as folders with underscore prefixes (like `_meta/`, `_assets/`)
 - File-based components are individual files within mesh nodes or other components
 - Component folders contain all files and folders that belong to that component
 

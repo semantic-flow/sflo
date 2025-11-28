@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1764267278843
+updated: 1764327582990
 created: 1751128698638
 ---
 
@@ -49,7 +49,7 @@ A weave run **never deletes** snapshots; it only produces a new one (if enabled)
 Every weave produces:
 
 1. **A consistent cut of all `_working/` FlowShots in scope**
-   → optionally stored as a new immutable Snapshot
+   → optionally and by default stored as a new immutable Snapshot
 
 2. **A refreshed `_default/` FlowShot**
    → always updated to match the weave result
@@ -293,11 +293,11 @@ Because direct edits are allowed, large files increase dirty-during-weave likeli
 │       ├── ontology.css
 │       └── person.css
 └── my-ontology/
-    ├── _config-operational-flow/
+    ├── _cfg-op/
     ├── _assets/
     │   ├── _templates/
     │   └── _css/
-    └── _payload-flow/
+    └── _payload/
 ```
 
 ---

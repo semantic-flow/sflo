@@ -2,7 +2,7 @@
 id: hp9ckpez0pmuv270sn005gt
 title: node folder
 desc: a folder that maps to a mesh node and extends the namespace
-updated: 1764268464574
+updated: 1764327509427
 created: 1751160854174
 ---
 
@@ -17,7 +17,7 @@ A node folder is any folder that maps to a [[mesh-resource.node]]. Each node fol
 
 - Every node folder must contain:
   - [[_node-handle/|folder._node-handle]]
-  - [[_node-metadata-flow/|folder._node-metadata-flow]]
+  - [[_meta/|folder._meta]]
 
 ## Node-specific flows (by type)
 
@@ -31,5 +31,5 @@ Distributions must live inside flow snapshot folders (e.g., `_default/`, `_worki
 ```file
 /my-node/                     # node folder → https://ex.org/my-node/
 ├── _node-handle/             # required
-├── _node-metadata-flow/               # required
+├── _meta/               # required
 └── _dataset-flow/               # required for dataset nodes

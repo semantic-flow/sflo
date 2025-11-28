@@ -2,7 +2,7 @@
 id: ufnbtre0tn2pxq7dzjcgrz0
 title: 2025-11-27-createNode
 desc: ''
-updated: 1764291005757
+updated: 1764327645683
 created: 1764276666359
 ---
 
@@ -12,9 +12,10 @@ Implement a core `createNode` operation that:
 
 - Takes a filesystem path and options.
 - Initializes that path as a **mesh node**.
-- Creates the minimal **handle** and **metadata** flows (including a v1 metadata shot).
+- Creates the minimal **handle** and **metadata** folders .
 - Optionally attaches initial payload/reference/config inputs.
 - Enforces basic safety invariants (no double-init, non-empty dir warnings).
+- executes the [[weave process|concept.weave-process]]
 
 This should be a **pure Node.js library function** plus a minimal Node-based entry point for manual use. Do **not** integrate Oclif yet (future task; likely with `@inquirer/prompts` for interactivity).
 
@@ -32,7 +33,7 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
 2. **Metadata flow invariants**
    - Metadata is **only** written as part of weaves (including this one).
    - The **metadata flow is always versioned**:
-     - A `v1` FlowShot is created for `_node-metadata-flow`.
+     - A `v1` FlowShot is created for `_meta`.
      - A `_default` distribution is a copy of `v1` with `@base` implicitly equal to the file’s future URL (no in-file `@base`).
    - There is **no `_working` metadata** in this v1.
 
@@ -52,8 +53,8 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
 
 5. **Safety and idempotence**
    - `createNode(nodeTargetPath, options)`:
-     - MUST **error** if the path already “looks like a node” (presence of `_node-handle` or `_node-metadata-flow`).
-     - MUST **warn/error** if the directory exists and is non-empty, unless `options.allowNonEmpty` (or similar) is set.
+     - MUST **error** if the path already “looks like a node” (presence of `_node-handle` or `_meta`).
+     - MUST **warn** if the directory exists and is non-empty.
      - SHOULD be idempotent only in the trivial “fails-fast on already-initialized” sense; no attempt to merge with existing node structure in this task.
 
 6. **Parent topology**
@@ -70,11 +71,15 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
      - `provenanceInput?: ProvenanceBundleInput` (see below)
    - In this task:
      - If `referenceDatasetPath` is provided:
-       - Copy or normalize it into `_reference-flow/v1/…` (no unpack, no de-basing logic yet).
+       - Copy or normalize it into `_ref/_working/` (no unpack, no de-basing logic yet).
      - If `payloadDatasetPath` is provided:
-       - Copy or normalize it into `_payload-flow/v1/…` (no de-basing, no unpack).
+       - Copy or normalize it into `_payload/_working/` (no de-basing, no unpack).
      - Config files:
-       - If provided, copy/normalize into `_config-operational-flow/v1/…` and/or `_config-inheritable-flow/v1/…`.
+       - If provided, copy/normalize into `_cfg-op/_working/` and/or `_cfg-inh/_working/`.
+     - in all cases, the target filename in general will be "node slug" + "flow slug" + ".jsonld". 
+       - the flow slugs are defined in ../ontology/semantic-flow/
+       - the node slug can be defined in operationalConfig. If it's not, then just use the folder name as the slug.
+     - 
    - **No de-basing or unpacking** in this task:
      - Imported payload/reference/config are treated as already “good enough” or mesh-native.
      - Debasing and unpacking are separate follow-up tasks.
@@ -131,3 +136,117 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
       allowNonEmpty?: boolean;
     }
   ): Promise<void>;
+````
+
+* Behavior:
+
+  1. **Path handling**
+
+     * If `nodeTargetPath` does not exist: create directory.
+     * If it exists and:
+
+       * contains `_node-handle` or `_meta` → throw an error (“Node already initialized”).
+       * is non-empty and `allowNonEmpty` is not set → throw an error or require explicit override.
+
+  2. **Node scaffolding**
+
+     * Create `_node-handle/` folder (stub content; minimal files per existing ontology conventions).
+
+     * Create `_meta/` with structure:
+
+       ```
+       _meta/
+         v1/
+           <metadata>.jsonld
+         _default/
+           <metadata>.jsonld   # content identical to v1, but treated as “current”
+       ```
+
+     * Metadata content for v1 must include at least:
+
+       * A minimal node description stub (node IRI, type placeholder).
+       * Rights/licensing if present in `provenanceInput` (at dataset or node level).
+       * A placeholder or minimal structure for the NodeCreation Activity and provenance model (no need to fully flesh out DelegationChain yet, but leave room).
+
+  3. **Optional flows**
+
+     * If `referenceDatasetPath` provided:
+
+       * Create `_ref/v1/…` and copy/normalize the file there.
+       * (No validation that `<> a dcat:Dataset` is present yet; that’s SHACL-level, not runtime.)
+     * If `payloadDatasetPath` provided:
+
+       * Create `_payload/v1/…` and copy/normalize the file.
+     * If config paths provided:
+
+       * Create `_cfg-op/v1/…` and/or `_cfg-inh/v1/…` and copy/normalize.
+
+  4. **No advanced behaviors**
+
+     * No de-basing (no IRI rewriting).
+     * No unpacking payload into child nodes.
+     * No config inheritance from parent nodes.
+
+* Implement a simple Node-based runner:
+
+  ```bash
+  node scripts/create-node.js <nodeTargetPath> [--allow-nonempty]
+  ```
+
+  that:
+
+  * resolves `nodeTargetPath`,
+  * calls `createNode(nodeTargetPath, { allowNonEmpty: true/false })`,
+  * logs structured success/failure.
+
+### Non-Functional
+
+* Clear, structured errors for:
+
+  * already-initialized node,
+  * non-empty directory without `allowNonEmpty`,
+  * filesystem failures.
+* Logging should integrate with your existing logging abstraction if available; otherwise, stub logging with a thin wrapper that can be replaced later.
+* Keep the core function testable without side effects beyond filesystem writes:
+
+  * All external interactions (e.g., resolving base IRIs, future namespace info) should be parameterizable or stubbed for now.
+
+---
+
+## Deliverables
+
+1. **Core implementation**
+
+   * `createNode` function in the core Node library.
+   * Supporting types (`ProvenanceBundleInput`, options interface).
+
+2. **Filesystem layout tests**
+
+   * Tests that:
+
+     * Starting from an empty directory, `createNode` produces the expected folder/file structure.
+     * Running `createNode` again fails with “already initialized.”
+     * Non-empty directory handling behaves correctly.
+
+3. **Minimal metadata content tests**
+
+   * Sanity checks that:
+
+     * `_meta/v1/*.jsonld` and `_default/*.jsonld` both exist.
+     * `rightsHolder` and `license` triples are present when `provenanceInput` provides them.
+     * Local IRIs in metadata are relative (no `@base` in the file).
+
+4. **Simple Node runner**
+
+   * `scripts/create-node.(ts|js)` or equivalent, wired to `createNode` with basic CLI arg parsing.
+
+---
+
+## Out of Scope / Follow-ups
+
+* Oclif-based CLI wrapping `createNode` (with `@inquirer/prompts`).
+* De-basing (namespace adoption) of imported datasets.
+* Payload unpacking into child nodes.
+* Config inheritance (from parent nodes).
+* Full PROV/DelegationChain/ProvenanceContext modeling in metadata (beyond minimal stubs).
+* RDF store integration or SHACL validation wiring (e.g., the `PayloadNode ⇒ dcat:Dataset` rule).

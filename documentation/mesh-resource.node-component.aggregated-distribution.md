@@ -2,7 +2,7 @@
 id: e6enrj5ztz3hz84ojujef0k
 title: Aggregated Distribution
 desc: ''
-updated: 1762707513739
+updated: 1764327384145
 created: 1751631229565
 ---
 
@@ -10,7 +10,7 @@ __note: maybe we will do them, maybe we won't__
  - t.2025.11.08.09 probably not. Better to go the other way: from a payload dataset, create all its named nodes and link back to the original; keeps things flow-y
 - probably won't do unified distributions except via API. 
 
-A node's **aggregated distribution** is a compilation of all the child flows of itself and its contained nodes (their `_payload-flow/_default/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
+A node's **aggregated distribution** is a compilation of all the child flows of itself and its contained nodes (their `_payload/_default/` snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".
 
 Essentially, it's a "(sub-)mesh in a single file." 
 
@@ -32,7 +32,7 @@ config options
 
 During [[concept.weave-process]], aggregated distributions are created by:
 1. **Scanning contained payload nodes** recursively within the mesh structure
-2. **Collecting `_payload-flow/_default/` distributions** from each flow
+2. **Collecting `_payload/_default/` distributions** from each flow
 3. **Merging content** with proper URI resolution and prefix handling
 4. **Excluding `_config` and `_meta` datasets** (data content only)
 5. **Generating multiple distributions** (.ttl, .rdf, .jsonld) as configured

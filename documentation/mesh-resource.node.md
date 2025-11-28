@@ -32,6 +32,6 @@ When stored on disk, all mesh nodes:
 
 Every mesh node has these components:
 
-- **[[mesh-resource.node-component.flow.node-metadata]]** ([[folder._node-metadata-flow]]): Centralized metadata for the node
+- **[[mesh-resource.node-component.flow.node-metadata]]** ([[folder._meta]]): Centralized metadata for the node
 - **[[mesh-resource.node-component.node-handle]]** (`_node-handle/`): Universal marker folder that refers to the parent "as a mesh node", as opposed to "as the name, dataset, or other thing" to which it normally refers; a handle resource page should explain this distinction
 

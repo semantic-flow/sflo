@@ -2,7 +2,7 @@
 id: faq000
 title: FAQ
 desc: ''
-updated: 1756869020438
+updated: 1764327509411
 created: 1751351477000
 ---
 
@@ -16,7 +16,7 @@ This section addresses common questions about Semantic Flow design principles an
 Why should a namespace have to refer to something?
 
 ### [[Why are there components at the top of a repo?|faq.why-are-there-components-at-the-top-of-a-repo]]
-The repository root can be a mesh node, in which case `_node-metadata-flow/` and `_node-handle/` components appear at the top level. 
+The repository root can be a mesh node, in which case `_meta/` and `_node-handle/` components appear at the top level. 
 
 ## Architecture Questions
 

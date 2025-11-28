@@ -2,7 +2,7 @@
 id: 8akbl2qj0nz38yrvet4oq3k
 title: Replace Monotonic V N Snapshots with Human Readable Weave Labels
 desc: ''
-updated: 1764276626522
+updated: 1764327384180
 created: 1762712674617
 ---
 
@@ -138,7 +138,7 @@ Therefore:
 The canonical identity of a snapshot IS its IRI, which includes the folder name:
 
 ```
-https://example.org/my-node/_payload-flow/2025-11-24_0142_07_v1/
+https://example.org/my-node/_payload/2025-11-24_0142_07_v1/
 ```
 
 Since the folder name is part of the IRI path, it directly contributes to the identity. The weave label and sequence number in the folder name become permanent parts of the snapshot's identity.

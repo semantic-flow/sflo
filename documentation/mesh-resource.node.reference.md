@@ -2,7 +2,7 @@
 id: bxqmsolrgfu4fm16m5acii7
 title: reference node
 desc: ''
-updated: 1764287991452
+updated: 1764327509431
 created: 1755977777704
 ---
 
@@ -14,7 +14,7 @@ A **reference node** is a [[mesh-resource.node]] that represents the (non-datase
 
 * To describe what the node *refers to* (person, place, concept, dataset, etc.).
 * To supply human/machine labels, identifiers, and minimal provenance about the referent.
-* To differentiate between metadata about the **node itself** (`_node-metadata-flow`) and metadata about the **referent**.
+* To differentiate between metadata about the **node itself** (`_meta`) and metadata about the **referent**.
 
 ## Typical Contents
 
