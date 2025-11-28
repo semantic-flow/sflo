@@ -2,7 +2,7 @@
 id: tudefgmmf2pdx28zb9xs84j
 title: Product Brief
 desc: ''
-updated: 1764268170415
+updated: 1764276568504
 created: 1762216937965
 ---
 
@@ -66,7 +66,7 @@ Meshes map directly from Git repository folder hierarchies to published static s
 The weave process maintains mesh coherence and publication readiness:
 
 - Ensures required system components exist
-- Creates new version snapshots from working data
+- Creates new snapshots from working data
 - Promotes working data to current
 - Updates metadata and provenance
 - Regenerates resource pages

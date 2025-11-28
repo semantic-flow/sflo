@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1764268112395
+updated: 1764276568501
 created: 1755820864360
 ---
 
@@ -32,7 +32,7 @@ See:
 2) Design Principles
 - [[principle.dereferencability-for-humans]]: resource pages
 - [[principle.single-referent]]: concept vs content is explicit
-- [[principle.pseudo-immutability]]: treat version snapshots/IDs as immutable
+- [[principle.pseudo-immutability]]: treat snapshots/IDs as immutable
 - [[principle.transposability]]: move meshes without breaking links via relative IDs
 - [[principle.composability]]: extract/compose submeshes
 

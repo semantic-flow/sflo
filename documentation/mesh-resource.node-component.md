@@ -2,7 +2,7 @@
 id: 9c27yly4ed3ju7msf8luhge
 title: node component
 desc: ''
-updated: 1762663706573
+updated: 1764276647492
 created: 1750706813437
 ---
 
@@ -26,7 +26,7 @@ User components are primarily created and maintained by users or their software 
 
 **Folder-based user components:**
 - **[[Asset trees|mesh-resource.node-component.asset-tree]]**: Collections of arbitrary files attached to the mesh (in `_assets/` folders)
-- **[[Working snapshots|mesh-resource.node-component.flow-snapshot.working]]**: Draft workspaces for ongoing changes to [[mesh-resource.node-component.flow]] (in `_working/` folders)
+- **[[mesh-resource.node-component.flow-shot.working-shot]]**: Draft workspaces for ongoing changes to [[mesh-resource.node-component.flow]] (in `_working/` folders)
 
 **File-based user components:**
 - **README.md files**: User documentation providing context
@@ -38,7 +38,7 @@ System components are usually created or altered by the [[Weave Process|concept.
 
 **Folder-based system components:**
 - **[[metadataset flows|mesh-resource.node-component.flow.node-metadata]]**: Administrative and structural metadata for mesh nodes (in `_node-metadata-flow/` folders)
-- **[[version snapshot|mesh-resource.node-component.flow-snapshot.version]]**: Versioned snapshots of datasets (in `_vN/` folders) are created on weave
+- **[[snapshot|mesh-resource.node-component.flow-shot.snapshot]]**: Versioned snapshots of datasets (in `_vN/` folders) are created on weave
 - **[[mesh-resource.node-component.flow-shot.default-shot]]**: updated on weave
 - **[[Node handles|mesh-resource.node-component.node-handle]]**: Components providing referential indirection for nodes as mesh resources (in `_node-handle/` folders)
 

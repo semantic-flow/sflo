@@ -2,7 +2,7 @@
 id: 1ieo7152nf46x4wiip1vwx5
 title: Dependencies
 desc: ''
-updated: 1764275413151
+updated: 1764290517693
 created: 1762221709385
 ---
 
@@ -38,7 +38,7 @@ These dependencies are critical for the `sflo-host` application:
 
 ## CLI Dependencies
 
-- 
+- oclif + enquirer
 
 
 ## Development Dependencies

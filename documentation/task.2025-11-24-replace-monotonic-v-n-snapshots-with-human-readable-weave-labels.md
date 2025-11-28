@@ -2,7 +2,7 @@
 id: 8akbl2qj0nz38yrvet4oq3k
 title: Replace Monotonic V N Snapshots with Human Readable Weave Labels
 desc: ''
-updated: 1764268567910
+updated: 1764276626522
 created: 1762712674617
 ---
 
@@ -154,7 +154,7 @@ To maintain consistency across documentation, use these preferred terms:
 
 **FlowShot-related:**
 - **FlowShot** - The abstract concept of a flow realization (Snapshot, DefaultShot, or WorkingShot)
-- **Snapshot** (or **Snapshot FlowShot**) - An immutable, versioned FlowShot (formerly called "version snapshot" or "flow snapshot")
+- **Snapshot** (or **Snapshot FlowShot**) - An immutable, versioned FlowShot (formerly called "snapshot" or "flow snapshot")
 - **DefaultShot** - The current/latest FlowShot content (the `_default/` folder)
 - **WorkingShot** - The mutable staging FlowShot (the `_working/` folder)
 
@@ -170,7 +170,7 @@ When updating documentation, apply these substitutions:
 | ---------------------- | ----------------------------- | --------------------------------------- |
 | `_vN` (as a concept)   | snapshot folder               | When referring to the folder itself     |
 | `_vN/` (in paths)      | `YYYY-MM-DD_HHMM_SS_vN/`      | When showing folder paths               |
-| "version snapshot"     | Snapshot or Snapshot FlowShot | When referring to the concept           |
+| "snapshot"             | Snapshot or Snapshot FlowShot | When referring to the concept           |
 | "flow snapshot"        | FlowShot (usually)            | Generic references to flow realizations |
 | "snapshot" (ambiguous) | Specify: Snapshot FlowShot    | When the Snapshot type is meant         |
 | "_default snapshot"    | DefaultShot                   | The current/latest realization          |
@@ -215,8 +215,8 @@ Update all references from simple `_vN` to the new format in:
 
 **FlowShot Terminology Alignment:**
 * [`mesh-resource.node-component.flow-snapshot.version.md`](documentation/mesh-resource.node-component.flow-snapshot.version.md)
-* [`mesh-resource.node-component.flow-snapshot.default.md`](documentation/mesh-resource.node-component.flow-snapshot.default.md)
-* [`mesh-resource.node-component.flow-snapshot.working.md`](documentation/mesh-resource.node-component.flow-snapshot.working.md)
+* [`mesh-resource.node-component.flow-shot.default.md`](documentation/mesh-resource.node-component.flow-shot.default.md)
+* [`mesh-resource.node-component.flow-shot.working.md`](documentation/mesh-resource.node-component.flow-shot.working.md)
 
 **Other Documentation:**
 * [`facet.flow.versioned.md`](documentation/facet.flow.versioned.md)

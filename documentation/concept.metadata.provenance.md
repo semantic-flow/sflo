@@ -2,7 +2,7 @@
 id: 4v2b7t8nbzkmtyvnayye3vj
 title: Provenance
 desc: ''
-updated: 1764268337263
+updated: 1764276568507
 created: 1753117923066
 ---
 
@@ -10,13 +10,13 @@ created: 1753117923066
 
 **Version-only provenance** - Provenance reference in [[mesh-resource.node-component.flow-shot.default-shot]] should reference its corresponding stable version; 
 
-**Meta-flow storage** - Semantic Flow-specific provenance lives in meta-flows, referencing version snapshots in other flows. Domain-specific provenance can live in datasets themselves.
+**Meta-flow storage** - Semantic Flow-specific provenance lives in meta-flows, referencing snapshots in other flows. Domain-specific provenance can live in datasets themselves.
 
-**default snapshot duplication** - `_default` meta snapshots contain identical copies of the latest version's provenance with base URI pointing to the version snapshot for stable fragment resolution.
+**default snapshot duplication** - `_default` meta snapshots contain identical copies of the latest version's provenance with base URI pointing to the snapshot for stable fragment resolution.
 
 ## Fragment Identifier Naming Scheme
 
-To ensure that every RDF node used in a `[[mesh-resource.node-component.flow.node-metadata]] distribution` has a unique and dereferenceable URI, the following naming scheme for [[fragment identifiers|concept.fragment-identifiers]] MUST be used. This allows the metadata snapshot's [[mesh-resource.node-component.documentation-resource.resource-page]] to correctly provide anchors for all provenance entities.
+To ensure that every RDF node used in a [[mesh-resource.node-component.flow.node-metadata]] distribution has a unique and dereferenceable URI, the following naming scheme for [[fragment identifiers|concept.fragment-identifiers]] MUST be used. This allows the metadata snapshot's [[mesh-resource.node-component.documentation-resource.resource-page]] to correctly provide anchors for all provenance entities.
 
 The structure is as follows:
 
@@ -41,7 +41,7 @@ For a `config-flow` at version `v47`, the identifiers would be:
 
 ## Architecture
 
-### Version Snapshot Provenance
+### snapshot Provenance
 
 ```turtle
 # In my-dataset/_node-metadata-flow/2025-07-20_1430_00_v47/my-dataset_meta.trig
@@ -90,7 +90,7 @@ For a `config-flow` at version `v47`, the identifiers would be:
 # In my-dataset/_node-metadata-flow/_default/my-dataset_meta.trig
 @base <../2025-07-20_1430_00_v47/> .
 
-# Identical content to version snapshot - all URIs resolve to stable version
+# Identical content to snapshot - all URIs resolve to stable version
 # (same provenance content as above)
 ```
 
@@ -141,7 +141,7 @@ For flows without versioning, activities accumulate in `_working` with unique ti
 
 ## Implementation Notes
 
-- **Fragment URIs**: Use `<#step1>` etc. within version snapshots for stable addressability
+- **Fragment URIs**: Use `<#step1>` etc. within snapshots for stable addressability
 - **Base URI**: All snapshots use `@base <../YYYY-MM-DD_HHMM_SS_vN/>` pattern for consistent resolution
 - **Rights inheritance**: Capture previous version rights holders in provenance contexts when content is derived
 - **Static site friendly**: Documentation approach for external references since no server-side redirects available

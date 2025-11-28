@@ -2,7 +2,7 @@
 id: bxqmsolrgfu4fm16m5acii7
 title: reference node
 desc: ''
-updated: 1756044376767
+updated: 1764287991452
 created: 1755977777704
 ---
 
@@ -10,18 +10,36 @@ created: 1755977777704
 
 A **reference node** is a [[mesh-resource.node]] that represents the (non-dataset) **referent** of the node — i.e., the thing in the world that the node stands for.
 
-**Purpose**
+## Purpose
 
 * To describe what the node *refers to* (person, place, concept, dataset, etc.).
 * To supply human/machine labels, identifiers, and minimal provenance about the referent.
 * To differentiate between metadata about the **node itself** (`_node-metadata-flow`) and metadata about the **referent**.
 
-**Contents (typical minimum)**
+## Typical Contents
+
+### Core Description
+
+What is the node’s referent? This is what the HTML resource page uses to say:
+
+“This is an Organization / Ontology / Rate Plan / Dataset / Whatever.”
 
 * `rdfs:label` (human-readable name of the referent).
 * `rdf:type` (classifying what kind of thing the referent is).
+* maybe  skos:prefLabel, dcterms:description, owl:sameAs, etc.
+
+### Dataset-level description (if the thing is a dataset)
+
 * Optional provenance (creator, source, temporal scope).
 * Optional identifiers (sameAs links, external URIs).
+* dcat:Dataset, dcat:distribution, dcterms:issued, dcterms:modified, dcterms:license, etc.
+
+This describes the dataset-as-thing.
+
+### Context / External Perspectives
+
+Links to registries, catalogs, external provenance, ie. alternate descriptions imported from elsewhere.
+
 
 ## Example Snapshot Distribution
 

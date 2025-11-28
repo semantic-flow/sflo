@@ -2,7 +2,7 @@
 id: payload-node
 title: paylod node
 desc: ''
-updated: 1764268473231
+updated: 1764290000222
 created: 1750999795528
 ---
 
@@ -10,13 +10,15 @@ created: 1750999795528
 
 ## Overview
 
-**payload nodes** (or “payload nodes” for short) are [[mesh-resource.node.reference]]s that represent and contain an evolvable "payload" dataset in the form of a [[mesh-resource.node-component.flow.payload]]. 
+**payload nodes** are [[mesh-resource.node.reference]]s that represent and contain an evolvable "payload" dataset in the form of a [[mesh-resource.node-component.flow.payload]]. 
 
 The payload dataset is kept in the payload node's [[mesh-resource.node-component.flow.payload]].
 
 Like all [[mesh-resource.node-component.flow]]s, because it is evolvable it gets typed as a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series). Its snapshots are [[datasets|https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset]].
 
 Unlike [[flow snapshots|mesh-resource.node-component.flow-shot]] which contain concrete data distributions, payload nodes serve as conceptual containers that organize and provide identity for datasets without containing the data directly. I.e., payload nodes only contain concrete datasets by virtue of containing a [[mesh-resource.node-component.flow.payload]] (also abstract) and its snapshots, which have concrete distributions.
+
+If a node has a PayloadFlow (i.e., it’s a “payload node”), then in its ReferenceFlow the node’s IRI MUST have rdf:type dcat:Dataset.
 
 ## Abstract vs Concrete Datasets
 
