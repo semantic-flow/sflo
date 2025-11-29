@@ -4,19 +4,23 @@
     "type": "module",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "exports": { ".": "./dist/index.js" },
+    "exports": {
+        ".": "./dist/index.js"
+    },
     "scripts": {
         "dev": "tsup src/index.ts --format esm --dts --watch",
         "build": "tsup src/index.ts --format esm --dts"
     },
     "dependencies": {
-        "@rdfjs/types": "^1.1.0",
         "@rdfjs/data-model": "^2.0.2",
+        "@rdfjs/types": "^1.1.0",
         "jsonld": "^8.3.2",
+        "markdown-it": "^14.1.0",
         "n3": "^1.21.3"
     },
     "devDependencies": {
         "@types/jsonld": "^1.5.15",
+        "@types/markdown-it": "^14.1.2",
         "@types/n3": "^1.21.0"
     }
 }

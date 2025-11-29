@@ -1,8 +1,8 @@
 ---
 id: kr1y9tt3qljsbfy8lxm3u1g
-title: meshnode config flows
+title: config flows
 desc: ''
-updated: 1755893848586
+updated: 1764355091768
 created: 1752325627733
 ---
 

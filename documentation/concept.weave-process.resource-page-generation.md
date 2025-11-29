@@ -2,7 +2,7 @@
 id: resource-page-generation
 title: static site generation
 desc: ''
-updated: 1762633548656
+updated: 1764378789122
 created: 1750641295998
 ---
 
@@ -17,3 +17,4 @@ created: 1750641295998
 - you could supplement with AI-generated
 - you're limited only by what can be served statically, i.e., client-side, so you could have entire web applications hosted on a resource page
 - for [[mesh-resource.node.payload]], check to see if there are any named graphs (which are hopefully identified relative to the node with fragment identifiers, e.g. /ns/djradon/bio/#childhood)
+- for any embedded node whose IRI is a fragment of the subject, create an anchor with that fragment.

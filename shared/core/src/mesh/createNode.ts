@@ -1,15 +1,16 @@
 /**
  * Create Node Operation
- * 
+ *
  * Scaffolds a new mesh node with _working shots and resource pages.
  * Does NOT create snapshots - those are written by weaves.
- * 
+ *
  * See: task.2025-11-28_refine-createnode
  */
 
 import { resolve, join, basename } from "path";
 import { mkdir, writeFile, readFile } from "fs/promises";
 import { pathToFileURL } from "url";
+import MarkdownIt from "markdown-it";
 import { parseRdfSource } from "../rdf/parser.js";
 import { serializeRdf } from "../rdf/serializer.js";
 import {
@@ -20,6 +21,13 @@ import {
 import { FLOW_SLUGS, SPECIAL_DIRS, getFlowFilename } from "./flows.js";
 import type { CreateNodeOptions, CreateNodeResult } from "./types.js";
 import type { RdfSource } from "../rdf/types.js";
+
+// Initialize markdown-it instance
+const md = new MarkdownIt({
+  html: true,        // Enable HTML tags in source
+  linkify: true,     // Auto-convert URLs to links
+  typographer: true  // Enable smart quotes and other typographic replacements
+});
 
 /**
  * Create a new mesh node
@@ -233,19 +241,22 @@ async function generateResourcePages(
     }
   }
 
-  // Node root index.html
+  // Node root index.html (represents the namespace)
   const nodeIndexPath = join(nodePath, "index.html");
   const nodeIndexContent = generateNodeIndexHtml(
     nodeSlug,
-    createdWorkingFlows,
     readmeHtml
   );
   await writeFile(nodeIndexPath, nodeIndexContent, "utf-8");
   indexPages.node = nodeIndexPath;
 
-  // _node-handle index.html
+  // _node-handle index.html (represents the mesh node itself)
   const handleIndexPath = join(nodePath, SPECIAL_DIRS.NODE_HANDLE, "index.html");
-  const handleIndexContent = generateGenericDirIndexHtml("Node Handle", nodeSlug);
+  const handleIndexContent = generateHandleIndexHtml(
+    nodeSlug,
+    createdWorkingFlows,
+    !!readmePath
+  );
   await writeFile(handleIndexPath, handleIndexContent, "utf-8");
 
   // _meta index.html
@@ -254,9 +265,9 @@ async function generateResourcePages(
   await writeFile(metaIndexPath, metaIndexContent, "utf-8");
   indexPages.meta = metaIndexPath;
 
-  // _meta/_default index.html
+  // _meta/_default index.html (special message for unweaved metadata)
   const metaDefaultIndexPath = join(nodePath, FLOW_SLUGS.METADATA, SPECIAL_DIRS.DEFAULT, "index.html");
-  const metaDefaultIndexContent = generateShotDirIndexHtml("_default", FLOW_SLUGS.METADATA, nodeSlug, false);
+  const metaDefaultIndexContent = generateMetaDefaultIndexHtml(nodeSlug);
   await writeFile(metaDefaultIndexPath, metaDefaultIndexContent, "utf-8");
 
   // Flow and _working shot index pages
@@ -298,38 +309,81 @@ function flowKeyToSlug(key: string): string | undefined {
 }
 
 /**
- * Generate node root index.html
+ * Generate node root index.html (namespace page)
  */
 function generateNodeIndexHtml(
   nodeSlug: string,
-  createdWorkingFlows: CreateNodeResult["createdWorkingFlows"],
   readmeHtml: string
 ): string {
-  const flowLinks = Object.entries(createdWorkingFlows)
-    .filter(([, path]) => path)
-    .map(([key]) => {
-      const slug = flowKeyToSlug(key);
-      return `<li><a href="${slug}/">${slug}/</a></li>`;
-    })
-    .join("\n");
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${nodeSlug} namespace</title>
+</head>
+<body>
+  <h1>${nodeSlug} namespace</h1>
+  
+  ${readmeHtml ? `${readmeHtml}\n\n` : ""}
+  <p><a href="_node-handle/">Node Handle →</a></p>
+</body>
+</html>`;
+}
+
+/**
+ * Generate _node-handle index.html (node page with component list in tree format)
+ */
+function generateHandleIndexHtml(
+  nodeSlug: string,
+  createdWorkingFlows: CreateNodeResult["createdWorkingFlows"],
+  hasReadme: boolean
+): string {
+  // Build tree structure
+  const treeLines: string[] = [`_node-handle`];
+
+  // Add README if present
+  if (hasReadme) {
+    treeLines.push(`<a href="../README.md">README.md</a>`);
+  }
+
+  // Add _meta with _default
+  treeLines.push(`<a href="../_meta/">_meta/</a>`);
+  treeLines.push(`  <a href="../_meta/_default/">_default/</a>`);
+
+  // Add data flows
+  for (const [key, path] of Object.entries(createdWorkingFlows)) {
+    if (!path) continue;
+    const slug = flowKeyToSlug(key);
+    if (slug) {
+      treeLines.push(`<a href="../${slug}/">${slug}/</a>`);
+    }
+  }
+
+  const treeHtml = treeLines.join("\n");
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Node: ${nodeSlug}</title>
+  <title>Mesh Node: ${nodeSlug}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { color: #2563eb; }
+    h2 { color: #4b5563; margin-top: 2rem; }
+    pre { background: #f9fafb; padding: 1rem; border-radius: 0.5rem; line-height: 1.6; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
 </head>
 <body>
   <h1>Mesh Node: ${nodeSlug}</h1>
   
-  <h2>Flows</h2>
-  <ul>
-    <li><a href="_meta/">_meta/</a> (metadata flow)</li>
-${flowLinks}
-  </ul>
-
-  ${readmeHtml ? `<h2>About</h2>\n${readmeHtml}` : ""}
+  <h2>Components</h2>
+  <pre>${treeHtml}</pre>
+  
+  <p><a href="../">← Back to namespace</a></p>
 </body>
 </html>`;
 }
@@ -437,64 +491,50 @@ function generateShotDirIndexHtml(
 }
 
 /**
- * Naive markdown to HTML converter
- * 
- * Converts:
- * - # Heading → <h1>
- * - ## Heading → <h2>
- * - ### Heading → <h3>
- * - Paragraphs (blank line separated)
+ * Generate _meta/_default index.html (special page for unweaved metadata)
+ */
+function generateMetaDefaultIndexHtml(nodeSlug: string): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metadata DefaultShot</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { color: #2563eb; }
+    p { line-height: 1.6; color: #4b5563; }
+    .info { background: #fef3c7; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f59e0b; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Metadata DefaultShot</h1>
+  <p>Node: <a href="../../">${nodeSlug}</a></p>
+  
+  <div class="info">
+    <p><strong>Note:</strong> This metadata DefaultShot hasn't been created yet. Try weaving.</p>
+  </div>
+  
+  <p><a href="../">← Back to _meta flow</a></p>
+</body>
+</html>`;
+}
+
+/**
+ * Convert markdown to HTML using markdown-it
+ *
+ * Supports full markdown syntax including:
+ * - Headings (# ## ### etc.)
+ * - Paragraphs
+ * - Lists (ordered and unordered)
+ * - Links and images
+ * - Code blocks and inline code
+ * - Blockquotes
+ * - Tables
+ * - And more
  */
 function markdownToHtml(markdown: string): string {
-  const lines = markdown.split("\n");
-  const html: string[] = [];
-  let inParagraph = false;
-
-  for (let line of lines) {
-    line = line.trim();
-
-    if (!line) {
-      if (inParagraph) {
-        html.push("</p>");
-        inParagraph = false;
-      }
-      continue;
-    }
-
-    // Headings
-    if (line.startsWith("### ")) {
-      if (inParagraph) {
-        html.push("</p>");
-        inParagraph = false;
-      }
-      html.push(`<h3>${line.slice(4)}</h3>`);
-    } else if (line.startsWith("## ")) {
-      if (inParagraph) {
-        html.push("</p>");
-        inParagraph = false;
-      }
-      html.push(`<h2>${line.slice(3)}</h2>`);
-    } else if (line.startsWith("# ")) {
-      if (inParagraph) {
-        html.push("</p>");
-        inParagraph = false;
-      }
-      html.push(`<h1>${line.slice(2)}</h1>`);
-    } else {
-      // Regular paragraph text
-      if (!inParagraph) {
-        html.push("<p>");
-        inParagraph = true;
-      } else {
-        html.push("<br>");
-      }
-      html.push(line);
-    }
-  }
-
-  if (inParagraph) {
-    html.push("</p>");
-  }
-
-  return html.join("\n");
+  return md.render(markdown);
 }

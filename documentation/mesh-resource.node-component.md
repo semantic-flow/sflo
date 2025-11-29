@@ -1,8 +1,8 @@
 ---
 id: 9c27yly4ed3ju7msf8luhge
-title: node component
+title: node components
 desc: ''
-updated: 1764327509442
+updated: 1764355047537
 created: 1750706813437
 ---
 

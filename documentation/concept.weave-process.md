@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1764327582990
+updated: 1764378714561
 created: 1751128698638
 ---
 
@@ -65,9 +65,7 @@ Every weave produces:
 
 4. **Regenerated Resource Pages**
    → stable HTML index pages for nodes and flows
-
-5. **(Optional) Tombstone Updates**
-   → for submesh relocation or branch rehoming
+   - for any embedded node whose IRI is a fragment of the subject, create an anchor with that fragment.
 
 ---
 
@@ -238,10 +236,6 @@ Locking spans both meshes, forming a single weave consistency domain.
 
 * Step-through validation
 * AI-assisted metadata review
-
-### Tombstoning
-
-* Node relocation support
 
 ### Resource Page Generation
 
