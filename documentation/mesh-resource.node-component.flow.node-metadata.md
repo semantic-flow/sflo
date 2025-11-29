@@ -2,11 +2,11 @@
 id: 0y6p8e594peoult03gobm94
 title: metadata flow
 desc: ''
-updated: 1764349658928
+updated: 1764386779496
 created: 1730660543063
 ---
 
-A **metadata flow** contains system-related administrative and structural metadata for every [[mesh-resource.node]], including the versioning data for each node's flows.
+A **node metadata flow** contains system-related administrative and structural metadata for every [[mesh-resource.node]], including the versioning data for each node's flows.
 
 In the filesystem, it exists as a [[folder._meta]] in a [[folder.node]].
 

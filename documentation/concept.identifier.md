@@ -2,7 +2,7 @@
 id: identifier
 title: identifier
 desc: ''
-updated: 1762649293965
+updated: 1764436784615
 created: 1750368774797
 ---
 
@@ -21,7 +21,9 @@ Semantic Flow resources can be identified via two types of identifiers:
 
 ### Content Identifiers
 
-Identifiers that [[denote|concept.denotation]] **concrete information resources** (files on disk or over HTTP):
+[[facet.resource.content]] identifiers [[denote|concept.denotation]] **concrete information resources** (files on disk or over HTTP).
+
+#### Examples
 
 * **Distributions** → materialized datasets, e.g. `test.ttl`, `djradon.jsonld`, etc.
 * **Resource pages** → e.g. `index.html`
@@ -29,26 +31,29 @@ Identifiers that [[denote|concept.denotation]] **concrete information resources*
 
 These are *retrievable representations* (materialized content), i.e. when dereferenced with a request to a [[concept.semantic-flow-site]], the content itself is returned.
 
-### Concept Identifiers
+### Naming Identifiers
 
-Identifiers that refer to **concepts, entities, or abstract things**, including:
+[[facet.resource.naming]] identifier refer to **concepts, entities, or abstract things**
 
-* **bare node identifiers** → Organizational containers
-* **reference node identifiers** → denotational 
-* **payload node identifiers** → Concepts that are datasets
-* **Abstract flow identifiers** → Dataset-as-persistent-concept
-* **Concrete dataset identifiers** → Specific dataset snapshots
-* **Handle identifiers** → Mesh node themselves
+
+#### Examples
+
+* **bare node identifiers** → Organizational/namespace containers
+* **reference node identifiers** → denotate things other than concrete information resources
+* **payload node identifiers** →  denote datasets in the abstract
+* **flow identifiers** → denote dataset series
+* **Concrete dataset identifiers** → Specific dataset versions ([[FlowShots|mesh-resource.node-component.flow-shot]]) 
+* **Handle identifiers** → Mesh nodes themselves, see [[mesh-resource.node-component.node-handle]]
 
 When dereferenced with a request to a [[concept.semantic-flow-site]], concept identifiers return content, but they still [[concept.denotation]] a concept.
 
 
 ## Identifier Pattern Semantics
 
-| Identifier Type    | Trailing Slash? | Refers to…                    | Example                                 |
-| ------------------ | --------------- | ----------------------------- | --------------------------------------- |
-| Content identifier | No              | A fetchable document or asset | `https://example.org/ns/foo/index.html` |
-| Concept IRI        | Yes (`/`)       | A real-world or mesh concept  | `https://example.org/ns/foo/`           |
+| Identifier Type | Trailing Slash? | Refers to…                       | Example                                 |
+| --------------- | --------------- | -------------------------------- | --------------------------------------- |
+| Content IRI     | No              | A fetchable document or asset    | `https://example.org/ns/foo/index.html` |
+| Naming IRI      | Yes (`/`)       | A real-world or abstract concept | `https://example.org/ns/foo/`           |
 
 Even though you might be tempted to think of datasets as concrete things, the IRIs for payload nodes, flows, and snapshots all refer to concepts, i.e., **non-retrievable entities**. Only Distribution IRIs refer to downloadable data, i.e., dataset distributions.
 

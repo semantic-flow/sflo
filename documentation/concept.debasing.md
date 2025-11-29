@@ -2,7 +2,7 @@
 id: 73pf6u3gkhdk3hix14jl07i
 title: Debasing
 desc: ''
-updated: 1764287709774
+updated: 1764428588704
 created: 1764287108669
 ---
 
@@ -18,9 +18,9 @@ Mesh-native files follow the rules described in
 
 - Remove any explicit `@base` / `BASE` declarations.  
 - Rewrite local IRIs so that they become **relative IRIs**.  
-- Ensure that the file is valid when parsed with the node’s **effective base IRI** (its final public URL).  
+- Ensure that the file is valid when parsed with the node’s **effective base IRI** (usually a "file:///").  
 - Preserve external IRIs unchanged.  
-- Record the transformation in provenance.
+- Record the transformation in .
 
 ## When De-basing Occurs
 
