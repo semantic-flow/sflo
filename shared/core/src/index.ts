@@ -20,8 +20,8 @@ export {
 
 // Mesh operations
 export type {
-  CreateNodeOptions,
-  CreateNodeResult,
+  CreateKnopOptions,
+  CreateKnopResult,
   FlowSlug,
   DistributionType,
 } from "./mesh/index.js";
@@ -31,12 +31,12 @@ export {
   SPECIAL_DIRS,
   getFlowFilename,
   getDistributionDir,
-  createNode,
-  generateNodeMetadata,
-  isNodeInitialized,
+  createKnop,
+  generateKnopMetadata,
+  isKnopInitialized,
   isDirectoryNonEmpty,
-  deriveNodeSlug,
-  createNodeStructure,
+  deriveKnopSlug,
+  createKnopStructure,
   createFlowStructure,
   writeFlowDistribution,
   copyDatasetToFlow,

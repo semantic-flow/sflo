@@ -2,7 +2,7 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Developer General Guidance
 desc: ''
-updated: 1762663114866
+updated: 1764867799415
 created: 1751259888479
 ---
 
@@ -45,8 +45,8 @@ sflo/
 
 
 - **ontology/**: repo containing relevant ontologies:
-  - `semantic-flow` - main ontology (sflo/ontology/semantic-flow/_data-flow/_working/semantic-flow-ontology.ttl) defines meshes and their nodes and components; 
-  - `node-config` - Configuration properties that apply directly to mesh entities (nodes, flows, snapshots, etc.)
+  - `semantic-flow` - main ontology (sflo/ontology/semantic-flow/_data-flow/_working/semantic-flow-ontology.ttl) defines meshes and their knops and components; 
+  - `knop-config` - Configuration properties that apply directly to mesh entities (knops, flows, versions, etc.)
   - `meta-flow` - provenance and licensing vocabulary
   - `sflo-service` - Service layer configuration vocabulary for the flow-service application
   - Ontologies are kept in a separate repository, but for development purposes are nested into the monorepo under ontology/ directory for ease of access. 
@@ -59,14 +59,14 @@ sflo/
 
 - The development workflow requires two terminals running concurrently:
  - **Terminal 1**: Run `pnpm dev:watch` to start the TypeScript compiler in watch mode. This will watch all packages and rebuild them on change.
- - **Terminal 2**: Run `pnpm dev` to start the `nodemon` server, which will automatically restart when the built files in the `dist` directories are updated.
+ - **Terminal 2**: Run `pnpm dev` to start the `knopmon` server, which will automatically restart when the built files in the `dist` directories are updated.
 - This setup ensures that changes in any package are automatically compiled and that the server restarts with the latest code.
 - Keep inter-package imports as package specifiers; avoid deep source imports across packages.
 
 
 ### Hot Reload
 
-The development setup includes automatic hot reload using nodemon:
+The development setup includes automatic hot reload using knopmon:
 
 - **Watches**: `sflo-host/src`, `plugins/*/src`, `shared/*/src`
 - **Auto-restarts** when any watched file changes
@@ -83,7 +83,7 @@ nvm exec 24 npx dendron publish export --target github --yes
 
 - prefer JSON-LD for all RDF instance data and ontologies, as Turtle doesn't support slash-terminated CURIEs, and we use a trailing slash to delineate between files and resource names.
 - terminate non-file IRIs with a slash (solves the httprange-14 problem)
-- avoid use of blank nodes
+- avoid use of blank knops
 - prefer relative/local URIs for transposability/composability
 - be mindful of RDF terminology and concepts
   - extends DCAT for dataset catalogs
@@ -143,7 +143,7 @@ Project documentation, specifications, and design choices are stored in `documen
 
 ### Code Comments
 
-- **Reference docs from code**: reference corresponding documentation by filename (e.g., `// See sflo.concept.mesh.resource.node.md`)
+- **Reference docs from code**: reference corresponding documentation by filename (e.g., `// See sflo.concept.mesh.resource.knop.md`)
 - **Interface Definitions**: Link to concept documentation
 - **Cross-Reference Validation**: Ensure consistency between code and documentation; if docs need updating, call it out
 
@@ -154,7 +154,7 @@ Project documentation, specifications, and design choices are stored in `documen
   - unit test files go in application-name/src/tests/unit/ using `.test.ts` suffix
   - intra-package integration tests go in application-name/src/tests/integration/ using `.test.ts` suffix
   - inter-package e2e tests go in tests/e2e/
-- **Mesh Resources**: Follow mesh resource naming conventions from [[Filenaming Per Snapshot|mesh-resource.node-component.snapshot-distribution#filenaming-per-snapshot]]
+- **Mesh Resources**: Follow mesh resource naming conventions from [[Filenaming Per Version|mesh-resource.component.distribution#filenaming-per-version]]
 - **Constants**: Use UPPER_SNAKE_CASE for constants, especially for reserved names; centralize constants, e.g. shared/src/mesh-constants.ts
 - **File size**: For ease of AI-based editing, prefer lots of small files over one huge file
 - **Quoting**: For easier compatibility with JSON files, use double quotes everywhere

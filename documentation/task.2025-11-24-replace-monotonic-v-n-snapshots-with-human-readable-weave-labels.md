@@ -1,8 +1,8 @@
 ---
 id: 8akbl2qj0nz38yrvet4oq3k
-title: Replace Monotonic V N Snapshots with Human Readable Weave Labels
+title: Replace Monotonic V N Versions with Human Readable Weave Labels
 desc: ''
-updated: 1764327384180
+updated: 1764867799455
 created: 1762712674617
 ---
 
@@ -12,8 +12,8 @@ created: 1762712674617
 The ontology groundwork is complete:
 - `sflo:weaveLabel` property exists for human-readable labels
 - `sflo:sequenceNumber` property exists for monotonic ordering
-- `sflo:previousSnapshot` property exists for snapshot linking
-- FlowShot terminology (Snapshot/DefaultShot/WorkingShot) is established in the ontology
+- `sflo:previousVersion` property exists for version linking
+- FlowSlice terminology (Version/DefaultSlice/WorkingSlice) is established in the ontology
 
 This task focuses on **documentation consistency** and **ontology verification**.
 
@@ -21,7 +21,7 @@ This task focuses on **documentation consistency** and **ontology verification**
 
 ## **GOAL**
 
-Document the enhanced snapshot folder naming that combines human-readable weave labels with sequence numbers:
+Document the enhanced version folder naming that combines human-readable weave labels with sequence numbers:
 
 ```
 YYYY-MM-DD_HHMM_SS_vN
@@ -33,9 +33,9 @@ Examples:
 * `2025-11-24_0142_15_v3`
 
 While preserving:
-* Immutable snapshots (FlowShots)
-* Consistent `_default` semantics (DefaultShot)
-* A linear `previousSnapshot` chain for metadata flows
+* Immutable versions (FlowSlices)
+* Consistent `_default` semantics (DefaultSlice)
+* A linear `previousVersion` chain for metadata flows
 * The folder name as part of the canonical IRI identity
 
 ---
@@ -53,9 +53,9 @@ While preserving:
 
 ## **SPECIFICATION**
 
-### **1. Flowshot (Snapshot) Folder Format**
+### **1. Flowslice (Version) Folder Format**
 
-Each snapshot folder uses:
+Each version folder uses:
 
 ```
 <weaveLabel>_v<sequenceNumber>
@@ -70,7 +70,7 @@ Where:
    (timestamp with second-level precision)
 
 2. **sequenceNumber:**
-   A strictly monotonic integer *per flow*, stored inside snapshot metadata and reflected in folder name:
+   A strictly monotonic integer *per flow*, stored inside version metadata and reflected in folder name:
    ```
    sflo:sequenceNumber 17 .
    ```
@@ -94,54 +94,54 @@ Sequence number provides ordering; weave label provides readability.
 
 ---
 
-### **3. FlowShot Structure (per flow)**
+### **3. FlowSlice Structure (per flow)**
 
 Each flow's directory structure:
 
 ```
-/<node>/<flow>/
-  YYYY-MM-DD_HHMM_SS_vN/    # Snapshot (immutable FlowShot)
-  _default/                 # DefaultShot
-  _working/                 # WorkingShot
+/<knop>/<flow>/
+  YYYY-MM-DD_HHMM_SS_vN/    # Version (immutable FlowSlice)
+  _default/                 # DefaultSlice
+  _working/                 # WorkingSlice
 ```
 
-A Snapshot dataset includes at minimum:
+A Version dataset includes at minimum:
 
 ```turtle
-:ThisSnapshot a sflo:Snapshot ;
+:ThisVersion a sflo:Version ;
     sflo:weaveRunId "urn:uuid:…" ;
     sflo:weaveLabel "2025-11-24_0142_55" ;
     sflo:sequenceNumber 7 ;
     prov:generatedAtTime "2025-11-24T01:42:55Z"^^xsd:dateTime ;
-    sflo:previousSnapshot :PriorSnapshot .   # optional if no prior
+    sflo:previousVersion :PriorVersion .   # optional if no prior
 ```
 
 ---
 
-### **4. DefaultShot Semantics**
+### **4. DefaultSlice Semantics**
 
 `_default/` for any flow is:
 
-* A **byte-for-byte mirror** of the latest snapshot dataset
-* Contains **no additional metadata** not present in the snapshot itself
+* A **byte-for-byte mirror** of the latest version dataset
+* Contains **no additional metadata** not present in the version itself
 * Updated on weave by **replacing** its contents atomically
 
 Therefore:
-* DefaultShot = "current snapshot content"
-* Snapshot = "immutable dataset with history metadata"
-* All historical links live **inside the snapshot**, not in `_default`
+* DefaultSlice = "current version content"
+* Version = "immutable dataset with history metadata"
+* All historical links live **inside the version**, not in `_default`
 
 ---
 
 ### **5. Canonical Identity**
 
-The canonical identity of a snapshot IS its IRI, which includes the folder name:
+The canonical identity of a version IS its IRI, which includes the folder name:
 
 ```
-https://example.org/my-node/_payload/2025-11-24_0142_07_v1/
+https://example.org/my-knop/_payload/2025-11-24_0142_07_v1/
 ```
 
-Since the folder name is part of the IRI path, it directly contributes to the identity. The weave label and sequence number in the folder name become permanent parts of the snapshot's identity.
+Since the folder name is part of the IRI path, it directly contributes to the identity. The weave label and sequence number in the folder name become permanent parts of the version's identity.
 
 ---
 
@@ -152,40 +152,40 @@ Since the folder name is part of the IRI path, it directly contributes to the id
 
 To maintain consistency across documentation, use these preferred terms:
 
-**FlowShot-related:**
-- **FlowShot** - The abstract concept of a flow realization (Snapshot, DefaultShot, or WorkingShot)
-- **Snapshot** (or **Snapshot FlowShot**) - An immutable, versioned FlowShot (formerly called "snapshot" or "flow snapshot")
-- **DefaultShot** - The current/latest FlowShot content (the `_default/` folder)
-- **WorkingShot** - The mutable staging FlowShot (the `_working/` folder)
+**FlowSlice-related:**
+- **FlowSlice** - The abstract concept of a flow realization (Version, DefaultSlice, or WorkingSlice)
+- **Version** (or **Version FlowSlice**) - An immutable, versioned FlowSlice (formerly called "version" or "flow version")
+- **DefaultSlice** - The current/latest FlowSlice content (the `_default/` folder)
+- **WorkingSlice** - The mutable staging FlowSlice (the `_working/` folder)
 
 **Folder-related:**
-- **snapshot folder** - Replace references to `_vN` folders with "snapshot folder" or "Snapshot FlowShot folder"
-- **flowshot folder** - Generic term for any FlowShot folder (`_default/`, `_working/`, or snapshot folders)
+- **version folder** - Replace references to `_vN` folders with "version folder" or "Version FlowSlice folder"
+- **flowslice folder** - Generic term for any FlowSlice folder (`_default/`, `_working/`, or version folders)
 
 ### **Replacement Guidelines**
 
 When updating documentation, apply these substitutions:
 
-| **Old Term**           | **New Term**                  | **Context**                             |
-| ---------------------- | ----------------------------- | --------------------------------------- |
-| `_vN` (as a concept)   | snapshot folder               | When referring to the folder itself     |
-| `_vN/` (in paths)      | `YYYY-MM-DD_HHMM_SS_vN/`      | When showing folder paths               |
-| "snapshot"             | Snapshot or Snapshot FlowShot | When referring to the concept           |
-| "flow snapshot"        | FlowShot (usually)            | Generic references to flow realizations |
-| "snapshot" (ambiguous) | Specify: Snapshot FlowShot    | When the Snapshot type is meant         |
-| "_default snapshot"    | DefaultShot                   | The current/latest realization          |
-| "_working snapshot"    | WorkingShot                   | The mutable staging realization         |
+| **Old Term**          | **New Term**                 | **Context**                             |
+| --------------------- | ---------------------------- | --------------------------------------- |
+| `_vN` (as a concept)  | version folder               | When referring to the folder itself     |
+| `_vN/` (in paths)     | `YYYY-MM-DD_HHMM_SS_vN/`     | When showing folder paths               |
+| "version"             | Version or Version FlowSlice | When referring to the concept           |
+| "flow version"        | FlowSlice (usually)          | Generic references to flow realizations |
+| "version" (ambiguous) | Specify: Version FlowSlice   | When the Version type is meant          |
+| "_default version"    | DefaultSlice                 | The current/latest realization          |
+| "_working version"    | WorkingSlice                 | The mutable staging realization         |
 
 ### **Common Ambiguities**
 
-**"Flow snapshots" vs "Snapshot FlowShots":**
-- **"Flow snapshots"** (legacy term) → Usually means **FlowShots** (all types: Snapshot, DefaultShot, WorkingShot)
-- **"Snapshot FlowShot"** or **"Snapshot"** → Specifically means the immutable, versioned type
+**"Flow versions" vs "Version FlowSlices":**
+- **"Flow versions"** (legacy term) → Usually means **FlowSlices** (all types: Version, DefaultSlice, WorkingSlice)
+- **"Version FlowSlice"** or **"Version"** → Specifically means the immutable, versioned type
 
 **When documenting:**
-- Use "FlowShot" for the general concept
-- Use "Snapshot" or "Snapshot FlowShot" when specifically referring to versioned, immutable realizations
-- Use "DefaultShot" and "WorkingShot" for their specific folder types
+- Use "FlowSlice" for the general concept
+- Use "Version" or "Version FlowSlice" when specifically referring to versioned, immutable realizations
+- Use "DefaultSlice" and "WorkingSlice" for their specific folder types
 
 ---
 
@@ -196,8 +196,8 @@ When updating documentation, apply these substitutions:
 Verify these properties exist and are correctly defined:
 - ✅ `sflo:weaveLabel` (exists in semantic-flow ontology)
 - ✅ `sflo:sequenceNumber` (exists in semantic-flow ontology)
-- ✅ `sflo:previousSnapshot` (exists in semantic-flow ontology)
-- ✅ FlowShot/Snapshot/DefaultShot/WorkingShot classes (exist in semantic-flow ontology)
+- ✅ `sflo:previousVersion` (exists in semantic-flow ontology)
+- ✅ FlowSlice/Version/DefaultSlice/WorkingSlice classes (exist in semantic-flow ontology)
 
 ### **2. Documentation Updates Required**
 
@@ -205,29 +205,29 @@ Update all references from simple `_vN` to the new format in:
 
 **Core Concept Documentation:**
 * [`concept.weave-label.md`](documentation/concept.weave-label.md) - Update format from YYYYMMDD.HHMMSS to YYYY-MM-DD_HHMM_SS
-* [`concept.flow-version.md`](documentation/concept.flow-version.md) - Clarify relationship with flowshot naming
-* [`folder.flowshot.md`](documentation/folder.flowshot.md) - Update to show concatenation format
+* [`concept.flow-version.md`](documentation/concept.flow-version.md) - Clarify relationship with flowslice naming
+* [`folder.flowslice.md`](documentation/folder.flowslice.md) - Update to show concatenation format
 
 **High Priority Updates (Multiple `_vN` references):**
 * [`concept.summary.md`](documentation/concept.summary.md) - 8 occurrences
-* [`guide.product-brief.md`](documentation/guide.product-brief.md) - Snapshot descriptions
+* [`guide.product-brief.md`](documentation/guide.product-brief.md) - Version descriptions
 * [`concept.weave-process.md`](documentation/concept.weave-process.md) - Weave process descriptions
 
-**FlowShot Terminology Alignment:**
-* [`mesh-resource.node-component.flow-snapshot.version.md`](documentation/mesh-resource.node-component.flow-snapshot.version.md)
-* [`mesh-resource.node-component.flow-shot.default.md`](documentation/mesh-resource.node-component.flow-shot.default.md)
-* [`mesh-resource.node-component.flow-shot.working.md`](documentation/mesh-resource.node-component.flow-shot.working.md)
+**FlowSlice Terminology Alignment:**
+* [`mesh-resource.knop-component.flow-version.version.md`](documentation/mesh-resource.knop-component.flow-version.version.md)
+* [`mesh-resource.knop-component.flow-slice.default.md`](documentation/mesh-resource.knop-component.flow-slice.default.md)
+* [`mesh-resource.knop-component.flow-slice.working.md`](documentation/mesh-resource.knop-component.flow-slice.working.md)
 
 **Other Documentation:**
 * [`facet.flow.versioned.md`](documentation/facet.flow.versioned.md)
-* [`mesh-resource.node-component.md`](documentation/mesh-resource.node-component.md)
+* [`mesh-resource.knop-component.md`](documentation/mesh-resource.knop-component.md)
 * [`concept.metadata.provenance.md`](documentation/concept.metadata.provenance.md)
-* [`mesh-resource.node-component.flow.payload.md`](documentation/mesh-resource.node-component.flow.payload.md)
-* [`mesh-resource.node-component.node-config-defaults.md`](documentation/mesh-resource.node-component.node-config-defaults.md)
+* [`mesh-resource.knop-component.flow.payload.md`](documentation/mesh-resource.knop-component.flow.payload.md)
+* [`mesh-resource.knop-component.knop-config-defaults.md`](documentation/mesh-resource.knop-component.knop-config-defaults.md)
 
 **Check for existence and update if present:**
 * `concept.namespace.segment.system.md`
-* `folder.node.md`
+* `folder.knop.md`
 * `facet.filesystem.folder.md`
 
 ---
@@ -238,18 +238,18 @@ Update all references from simple `_vN` to the new format in:
 
 - [x] Update `concept.weave-label.md` format description - **COMPLETED** (changed to YYYY-MM-DD_HHMM_SS)
 - [x] Update all `_vN` references in `concept.summary.md` - **COMPLETED** (8+ occurrences updated)
-- [x] Update `guide.product-brief.md` snapshot descriptions - **COMPLETED** (FlowShots reference updated)
+- [x] Update `guide.product-brief.md` version descriptions - **COMPLETED** (FlowSlices reference updated)
 - [x] Update `concept.flow-version.md` - **COMPLETED** (added format details with sequence numbers)
-- [x] Update `folder.snapshot.md` - **COMPLETED** (format specification with examples)
+- [x] Update `folder.version.md` - **COMPLETED** (format specification with examples)
 - [x] Update `concept.metadata.provenance.md` - **COMPLETED** (RDF turtle examples updated)
 - [x] Update `concept.git.md` - **COMPLETED** (5 sections updated with new format)
-- [x] Update `facet.filesystem.folder.md` - **COMPLETED** (snapshot folder section rewritten)
-- [x] Update `mesh-resource.node-component.flow.payload.md` - **COMPLETED** (snapshot references updated)
-- [x] Update `mesh-resource.node-component.flow-shot.default-shot.md` - **COMPLETED** (example updated)
-- [x] Update `mesh-resource.node-component.flow.md` - **COMPLETED** (code example updated)
+- [x] Update `facet.filesystem.folder.md` - **COMPLETED** (version folder section rewritten)
+- [x] Update `mesh-resource.knop-component.flow.payload.md` - **COMPLETED** (version references updated)
+- [x] Update `mesh-resource.knop-component.flow-slice.default-slice.md` - **COMPLETED** (example updated)
+- [x] Update `mesh-resource.knop-component.flow.md` - **COMPLETED** (code example updated)
 - [x] Update `concept.mesh.md` - **COMPLETED** (table examples updated)
-- [x] Update `folder.node.md` - **COMPLETED** (distribution folder reference updated)
-- [x] Update `mesh-resource.node.payload.md` - **COMPLETED** (version 3 example updated)
+- [x] Update `folder.knop.md` - **COMPLETED** (distribution folder reference updated)
+- [x] Update `mesh-resource.knop.payload.md` - **COMPLETED** (version 3 example updated)
 - [x] Review and update `concept.weave-process.md` - **COMPLETED** (terminology and format fixed)
 
 ### **Remaining Tasks**
@@ -262,10 +262,10 @@ Update all references from simple `_vN` to the new format in:
 
 ## **DECISIONS**
 
-* **2025-11-27**: Confirmed terminology - using `sflo:Snapshot` (not SnapshotShot) and `sflo:previousSnapshot` throughout
+* **2025-11-27**: Confirmed terminology - using `sflo:Version` (not VersionSlice) and `sflo:previousVersion` throughout
 * **2025-11-27**: Changed format to `YYYY-MM-DD_HHMM_SS_vN` using seconds (with underscore separator) instead of suffix approach
 * **2025-11-26**: Confirmed folder format keeping the `_vN` suffix for sequence numbers
-* **2025-11-26**: Aligned with FlowShot terminology (Snapshot/DefaultShot/WorkingShot)
+* **2025-11-26**: Aligned with FlowSlice terminology (Version/DefaultSlice/WorkingSlice)
 * **2025-11-26**: Clarified that folder name IS part of the canonical IRI identity
 * **2025-11-26**: Focused on documentation and ontology verification only (no implementation)
 

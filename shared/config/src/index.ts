@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile } from "knop:fs/promises";
 
 export type PluginSpec = { name: string; enabled?: boolean; options?: Record<string, unknown> };
 export type HostConfig = { port: number; plugins: PluginSpec[] };

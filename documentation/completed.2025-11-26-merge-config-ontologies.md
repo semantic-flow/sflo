@@ -23,7 +23,7 @@ Merge the sflo-config ontology and the sflo-host ontology, or perhaps just move 
 ### Configuration Hierarchy
 - Three levels of config: Platform, Application/Service, and Node
 - Each level can have inheritable config that flows down to lower levels
-- Inheritable config is primarily useful at platform and application levels, but nodes can also provide it
+- Inheritable config is primarily useful at platform and application levels, but knops can also provide it
 
 ### Class Naming
 - Rename `PlatformServiceConfig` → `PlatformConfig`

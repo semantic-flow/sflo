@@ -2,7 +2,7 @@
 id: qsqii47rbkfuw3ktpdhk9rv
 title: 2025 11 28 Rdfsource Debasing Parsing
 desc: ''
-updated: 1764328629975
+updated: 1764867799408
 created: 1764328025778
 ---
 
@@ -46,7 +46,7 @@ The goal is to make RDF ingestion/emission:
 
 ### 1. Mesh-native JSON-LD style (file format)
 
-Mesh-authored RDF files (the ones Semantic Flow writes into the node tree) MUST follow:
+Mesh-authored RDF files (the ones Semantic Flow writes into the knop tree) MUST follow:
 
 - **No `@base`** in JSON-LD.
 - **Local identifiers are relative IRIs**:
@@ -83,26 +83,26 @@ For external datasets (URL / file):
 We are going with **Option 1**:
 
 - **Flow directory slugs** (core flows, short names):
-  - `_meta`    → node metadata flow (old `_node-metadata-flow`)
+  - `_meta`    → knop metadata flow (old `_knop-metadata-flow`)
   - `_ref`     → reference flow
   - `_payload` → payload/data flow
   - `_cfg-op`  → operational config flow
   - `_cfg-inh` → inheritable config flow
 
 - **Node slug**:
-  - Derived from the node folder name.
+  - Derived from the knop folder name.
   - Used to construct filenames.
 
 - **Distribution filenames**:
 
-  - Payload: `<nodeSlug>.jsonld` (no `_payload` in filename).
-  - Others: `<nodeSlug>-<flowShort>.jsonld`, e.g.:
-    - metadata: `<nodeSlug>_meta.jsonld`
-    - reference: `<nodeSlug>_ref.jsonld`
-    - cfg-op: `<nodeSlug>_cfg-op.jsonld`
-    - cfg-inh: `<nodeSlug>_cfg-inh.jsonld`
+  - Payload: `<knopSlug>.jsonld` (no `_payload` in filename).
+  - Others: `<knopSlug>-<flowShort>.jsonld`, e.g.:
+    - metadata: `<knopSlug>_meta.jsonld`
+    - reference: `<knopSlug>_ref.jsonld`
+    - cfg-op: `<knopSlug>_cfg-op.jsonld`
+    - cfg-inh: `<knopSlug>_cfg-inh.jsonld`
 
-Example for node at `/ontology/semantic-flow-ontology/`:
+Example for knop at `/ontology/semantic-flow-ontology/`:
 
 ```text
 /ontology/semantic-flow-ontology/

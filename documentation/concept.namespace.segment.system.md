@@ -2,7 +2,7 @@
 id: h3xucygpf2i6f3u3gkegvlk
 title: system segments
 desc: underscore-prefixed reserved folder names
-updated: 1764327645688
+updated: 1764791714888
 created: 1750962692214
 ---
 
@@ -13,20 +13,20 @@ This page is the canonical list; see the linked docs for behavior and details.
 ## Flows (abstract/series)
 
 - [[_meta/|folder._meta]]
-- [[mesh-resource.node-component.flow.payload]]
-- [[mesh-resource.node-component.flow.reference]]
+- [[mesh-resource.component.flow.payload]]
+- [[mesh-resource.component.flow.reference]]
 - [[_cfg-op/|folder._cfg-op]]
 - [[_cfg-inh/|folder._cfg-inh]]
 
-## Snapshots (concrete)
+## Versions (concrete)
 
 - [[_current/|folder._default]]
 - [[_next/|folder._working]]
-- [[folder.snapshot]]
+- [[folder.version-slice]]
 
 ## Other reserved
 
-- [[_node-handle/|folder._node-handle]]
+- [[_knop-handle/|folder._knop-handle]]
 - [[_assets/|folder._assets]]
 
 For IRI semantics: see [[concept.identifier]]. For namespace background: see [[concept.namespace]] and [[concept.namespace.segment]].

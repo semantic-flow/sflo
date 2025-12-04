@@ -1,0 +1,18 @@
+---
+id: 074yxm151l47n1aak58ggni
+title: default version
+desc: ''
+updated: 1764855891738
+created: 1751237726111
+---
+
+
+[[Versioned|facet.flow.versioned]] mode: _default/ is a materialized copy of the latest version folder.
+[[Unversioned|facet.flow.unversioned]] mode: _default/ is the one-and-only dataset
+[[facet.flow.deversioned]] mode: [[folder._default]] is the current version of the dataset
+
+The default version provides the most recently published version of a flow's content without relying on symlinks or redirects. It serves as the "general purpose" source that users and external systems can reference, remaining unchanged during active development via the [[mesh-resource.knop-component.flow-slice.working-slice]].
+
+If versioning is turned on and nobody has cleaned up old versions, the default version matches the content of the latest versioned version (e.g., `2025-11-24_0142_07_v3/`) and remains identical to the [[mesh-resource.knop-component.flow-slice.working-slice]] until new changes begin. During weaving, the [[mesh-resource.knop-component.version-distribution.working]] becomes the new [[mesh-resource.knop-component.flow-slice.default-slice]]. If versioning is turned on, the _working content becomes the working version.
+
+This provides a reference point for citations and external links that want the latest information, while allowing ongoing development work to proceed safely in the `_working` dataset without disrupting users of the published data.

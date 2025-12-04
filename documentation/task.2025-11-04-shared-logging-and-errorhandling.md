@@ -2,7 +2,7 @@
 id: 3hejrrsh4j7i5p2l7rk38n6
 title: 2025 11 04 Shared Logging and Errorhandling
 desc: ''
-updated: 1762452057464
+updated: 1764867799467
 created: 1762325430077
 ---
 
@@ -112,9 +112,9 @@ export interface LogContext {
   
   // Semantic Flow specific context
   meshId?: string;
-  nodeId?: string;
+  knopId?: string;
   meshName?: string;
-  nodeName?: string;
+  knopName?: string;
   
   // Performance tracking
   startTime?: number;
@@ -726,7 +726,7 @@ export class ContextManager {
 }
 
 // HTTP middleware integration (framework-agnostic example)
-import { randomUUID } from 'node:crypto';
+import { randomUUID } from 'knop:crypto';
 
 export function createRequestLogger(
   req: { id?: string; method: string; path: string; get(header: string): string | undefined },
@@ -1431,7 +1431,7 @@ The specification now provides a solid foundation that can be extended increment
       },
       "./package.json": "./package.json"
     },
-    "engines": { "node": ">=18.17" }
+    "engines": { "knop": ">=18.17" }
   }
   ```
 
@@ -1462,8 +1462,8 @@ The specification now provides a solid foundation that can be extended increment
 - **No `require()`**: Use `import`/`import()` everywhere
 - **Replace `__dirname/__filename`**:
   ```typescript
-  import { fileURLToPath } from "node:url";
-  import { dirname } from "node:path";
+  import { fileURLToPath } from "knop:url";
+  import { dirname } from "knop:path";
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   ```
@@ -1473,7 +1473,7 @@ The specification now provides a solid foundation that can be extended increment
   ```
 - **CLI entry point**:
   ```javascript
-  #!/usr/bin/env node
+  #!/usr/bin/env knop
   import { run } from '../dist/cli.js';
   run();
   ```
@@ -1489,7 +1489,7 @@ The specification now provides a solid foundation that can be extended increment
 import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
-    environment: 'node',
+    environment: 'knop',
     isolate: true
   }
 });

@@ -2,7 +2,7 @@
 id: tudefgmmf2pdx28zb9xs84j
 title: Product Brief
 desc: ''
-updated: 1764276568504
+updated: 1764867799487
 created: 1762216937965
 ---
 
@@ -55,10 +55,10 @@ The main host application that supports semantic mesh use and development. Built
 
 Meshes map directly from Git repository folder hierarchies to published static sites:
 
-- Every folder is a **node** (container for resources and child nodes)
+- Every folder is a **knop** (container for resources and child knops)
 - Nodes contain **components** (flows, handles, assets, documentation)
 - **Flows** are versioned DatasetSeries (metadata, semantic data, arbitrary datasets, or config)
-- **FlowShots** are flow realizations (`_default/`, `_working/`, snapshot folders like `2025-11-24_0142_07_v1/`)
+- **FlowSlices** are flow realizations (`_default/`, `_working/`, version folders like `2025-11-24_0142_07_v1/`)
 - **Distributions** are serialization files (TriG, JSON-LD, etc.)
 
 ### The Weave Process
@@ -66,7 +66,7 @@ Meshes map directly from Git repository folder hierarchies to published static s
 The weave process maintains mesh coherence and publication readiness:
 
 - Ensures required system components exist
-- Creates new snapshots from working data
+- Creates new versions from working data
 - Promotes working data to current
 - Updates metadata and provenance
 - Regenerates resource pages
@@ -84,7 +84,7 @@ The weave process maintains mesh coherence and publication readiness:
 ### For Semantic Web Users
 
 - **Dereferenceable IRIs** - Every IRI resolves to content
-- **Version history** - Immutable snapshots for precise citation
+- **Version history** - Immutable versions for precise citation
 - **Human-friendly** - Resource pages provide context and navigation
 - **Machine-readable** - RDF distributions for automated processing
 

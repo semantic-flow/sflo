@@ -1,20 +1,20 @@
 /**
  * Mesh Operation Types
  * 
- * Type definitions for mesh operations like createNode.
+ * Type definitions for mesh operations like createKnop.
  * 
- * See: task.2025-11-28_refine-createnode
+ * See: task.2025-11-28_refine-createknop
  */
 
 import type { RdfSource } from "../rdf/types.js";
 
 /**
- * Options for createNode operation
+ * Options for createKnop operation
  * 
- * createNode no longer writes snapshots or metadata RDF.
+ * createKnop no longer writes slices or metadata RDF.
  * It only scaffolds directory structure and writes _working shots.
  */
-export interface CreateNodeOptions {
+export interface CreateKnopOptions {
   /** Payload dataset as RdfSource (optional) */
   payloadDataset?: RdfSource;
 
@@ -38,14 +38,14 @@ export interface CreateNodeOptions {
 }
 
 /**
- * Result of node creation operation
+ * Result of knop creation operation
  */
-export interface CreateNodeResult {
-  /** Path to the created node */
-  nodePath: string;
+export interface CreateKnopResult {
+  /** Path to the created knop */
+  knopPath: string;
 
-  /** Node slug derived from directory name */
-  nodeSlug: string;
+  /** Knop slug derived from directory name */
+  knopSlug: string;
 
   /** Paths to created _working distributions */
   createdWorkingFlows: {
@@ -55,12 +55,12 @@ export interface CreateNodeResult {
     configInh?: string;
   };
 
-  /** Path to node README if created */
+  /** Path to knop README if created */
   readmePath?: string;
 
   /** Paths to generated index.html files */
   indexPages: {
-    node: string;
+    knop: string;
     meta: string;
     flows: string[];
     workingShots: string[];

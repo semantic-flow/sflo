@@ -3,7 +3,7 @@ import staticPlugin from "@fastify/static";
 import { FastifySSEPlugin } from "fastify-sse-v2";
 import type { FastifyInstance } from "fastify";
 import chokidar from "chokidar";
-import path from "node:path";
+import path from "knop:path";
 
 type Mesh = { id: string; root: string; base?: string };
 export interface MeshServerOpts { meshes: Mesh[]; }

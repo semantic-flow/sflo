@@ -1,10 +1,10 @@
 /**
- * Create Node Operation
+ * Create Knop Operation
  *
- * Scaffolds a new mesh node with _working shots and resource pages.
- * Does NOT create snapshots - those are written by weaves.
+ * Scaffolds a new mesh knop with _working shots and resource pages.
+ * Does NOT create slices - those are written by weaves.
  *
- * See: task.2025-11-28_refine-createnode
+ * See: task.2025-11-28_refine-createknop
  */
 
 import { resolve, join, basename } from "path";
@@ -14,12 +14,12 @@ import MarkdownIt from "markdown-it";
 import { parseRdfSource } from "../rdf/parser.js";
 import { serializeRdf } from "../rdf/serializer.js";
 import {
-  isNodeInitialized,
+  isKnopInitialized,
   isDirectoryNonEmpty,
-  deriveNodeSlug,
+  deriveKnopSlug,
 } from "./scaffold.js";
 import { FLOW_SLUGS, SPECIAL_DIRS, getFlowFilename } from "./flows.js";
-import type { CreateNodeOptions, CreateNodeResult } from "./types.js";
+import type { CreateKnopOptions, CreateKnopResult } from "./types.js";
 import type { RdfSource } from "../rdf/types.js";
 
 // Initialize markdown-it instance
@@ -30,39 +30,39 @@ const md = new MarkdownIt({
 });
 
 /**
- * Create a new mesh node
+ * Create a new mesh knop
  * 
  * Scaffolds directory structure and writes _working shots.
- * Does NOT write snapshots (v1, _default) - those are created by weaves.
+ * Does NOT write slices (v1, _default) - those are created by weaves.
  * 
  * Creates:
- * - _node-handle/ directory
+ * - _knop-handle/ directory
  * - _meta/_default/ (empty, no RDF)
  * - _working shots for flows where RdfSource inputs provided
  * - README.md if content provided
  * - index.html resource pages
  * 
  * Safety:
- * - Fails if node already initialized
+ * - Fails if knop already initialized
  * - Fails/warns if directory non-empty (unless allowNonEmpty=true)
  * 
- * @param nodeTargetPath - Path to node directory (created if needed)
+ * @param knopTargetPath - Path to knop directory (created if needed)
  * @param options - Creation options
  * @returns Result with paths to created resources
  */
-export async function createNode(
-  nodeTargetPath: string,
-  options: CreateNodeOptions = {}
-): Promise<CreateNodeResult> {
-  const absPath = resolve(nodeTargetPath);
-  const nodeSlug = deriveNodeSlug(absPath);
+export async function createKnop(
+  knopTargetPath: string,
+  options: CreateKnopOptions = {}
+): Promise<CreateKnopResult> {
+  const absPath = resolve(knopTargetPath);
+  const knopSlug = deriveKnopSlug(absPath);
 
   // --- Safety checks ---
 
-  if (await isNodeInitialized(absPath)) {
+  if (await isKnopInitialized(absPath)) {
     throw new Error(
-      `Node already initialized at ${absPath}. ` +
-      `Found _node-handle or _meta directory.`
+      `Knop already initialized at ${absPath}. ` +
+      `Found _knop-handle or _meta directory.`
     );
   }
 
@@ -73,12 +73,12 @@ export async function createNode(
     );
   }
 
-  // --- Create base node structure ---
+  // --- Create base knop structure ---
 
-  // Ensure node directory exists
+  // Ensure knop directory exists
   await mkdir(absPath, { recursive: true });
 
-  // Create _node-handle (minimal stub)
+  // Create _knop-handle (minimal stub)
   const handleDir = join(absPath, SPECIAL_DIRS.NODE_HANDLE);
   await mkdir(handleDir, { recursive: true });
 
@@ -88,14 +88,14 @@ export async function createNode(
 
   // --- Write _working shots for provided inputs ---
 
-  const createdWorkingFlows: CreateNodeResult["createdWorkingFlows"] = {};
+  const createdWorkingFlows: CreateKnopResult["createdWorkingFlows"] = {};
 
   // Reference flow
   if (options.referenceDataset) {
     const refPath = await writeWorkingShot(
       absPath,
       FLOW_SLUGS.REFERENCE,
-      nodeSlug,
+      knopSlug,
       options.referenceDataset
     );
     createdWorkingFlows.reference = refPath;
@@ -106,7 +106,7 @@ export async function createNode(
     const payloadPath = await writeWorkingShot(
       absPath,
       FLOW_SLUGS.PAYLOAD,
-      nodeSlug,
+      knopSlug,
       options.payloadDataset
     );
     createdWorkingFlows.payload = payloadPath;
@@ -117,7 +117,7 @@ export async function createNode(
     const cfgOpPath = await writeWorkingShot(
       absPath,
       FLOW_SLUGS.CONFIG_OPERATIONAL,
-      nodeSlug,
+      knopSlug,
       options.operationalConfig
     );
     createdWorkingFlows.configOp = cfgOpPath;
@@ -128,7 +128,7 @@ export async function createNode(
     const cfgInhPath = await writeWorkingShot(
       absPath,
       FLOW_SLUGS.CONFIG_INHERITABLE,
-      nodeSlug,
+      knopSlug,
       options.inheritableConfig
     );
     createdWorkingFlows.configInh = cfgInhPath;
@@ -153,7 +153,7 @@ export async function createNode(
 
   const indexPages = await generateResourcePages(
     absPath,
-    nodeSlug,
+    knopSlug,
     createdWorkingFlows,
     readmePath
   );
@@ -161,8 +161,8 @@ export async function createNode(
   // --- Return result ---
 
   return {
-    nodePath: absPath,
-    nodeSlug,
+    knopPath: absPath,
+    knopSlug,
     createdWorkingFlows,
     readmePath,
     indexPages,
@@ -175,17 +175,17 @@ export async function createNode(
  * Parses RdfSource, debases to mesh-native JSON-LD, writes to _working directory.
  */
 async function writeWorkingShot(
-  nodePath: string,
+  knopPath: string,
   flowSlug: string,
-  nodeSlug: string,
+  knopSlug: string,
   source: RdfSource
 ): Promise<string> {
   // Create _working directory
-  const workingDir = join(nodePath, flowSlug, SPECIAL_DIRS.WORKING);
+  const workingDir = join(knopPath, flowSlug, SPECIAL_DIRS.WORKING);
   await mkdir(workingDir, { recursive: true });
 
   // Determine output filename
-  const filename = getFlowFilename(nodeSlug, flowSlug);
+  const filename = getFlowFilename(knopSlug, flowSlug);
   const outputPath = join(workingDir, filename);
 
   // Parse RdfSource (yields quads with absolute IRIs)
@@ -211,19 +211,19 @@ async function writeWorkingShot(
  * Generate index.html resource pages
  * 
  * Creates HTML pages for:
- * - Node root
+ * - Knop root
  * - _meta directory
  * - Each flow directory with _working shot
  * - Each _working shot directory
  */
 async function generateResourcePages(
-  nodePath: string,
-  nodeSlug: string,
-  createdWorkingFlows: CreateNodeResult["createdWorkingFlows"],
+  knopPath: string,
+  knopSlug: string,
+  createdWorkingFlows: CreateKnopResult["createdWorkingFlows"],
   readmePath?: string
-): Promise<CreateNodeResult["indexPages"]> {
-  const indexPages: CreateNodeResult["indexPages"] = {
-    node: "",
+): Promise<CreateKnopResult["indexPages"]> {
+  const indexPages: CreateKnopResult["indexPages"] = {
+    knop: "",
     meta: "",
     flows: [],
     workingShots: [],
@@ -241,33 +241,33 @@ async function generateResourcePages(
     }
   }
 
-  // Node root index.html (represents the namespace)
-  const nodeIndexPath = join(nodePath, "index.html");
-  const nodeIndexContent = generateNodeIndexHtml(
-    nodeSlug,
+  // Knop root index.html (represents the namespace)
+  const knopIndexPath = join(knopPath, "index.html");
+  const knopIndexContent = generateKnopIndexHtml(
+    knopSlug,
     readmeHtml
   );
-  await writeFile(nodeIndexPath, nodeIndexContent, "utf-8");
-  indexPages.node = nodeIndexPath;
+  await writeFile(knopIndexPath, knopIndexContent, "utf-8");
+  indexPages.knop = knopIndexPath;
 
-  // _node-handle index.html (represents the mesh node itself)
-  const handleIndexPath = join(nodePath, SPECIAL_DIRS.NODE_HANDLE, "index.html");
+  // _knop-handle index.html (represents the mesh knop itself)
+  const handleIndexPath = join(knopPath, SPECIAL_DIRS.NODE_HANDLE, "index.html");
   const handleIndexContent = generateHandleIndexHtml(
-    nodeSlug,
+    knopSlug,
     createdWorkingFlows,
     !!readmePath
   );
   await writeFile(handleIndexPath, handleIndexContent, "utf-8");
 
   // _meta index.html
-  const metaIndexPath = join(nodePath, FLOW_SLUGS.METADATA, "index.html");
-  const metaIndexContent = generateFlowIndexHtml(FLOW_SLUGS.METADATA, nodeSlug, false);
+  const metaIndexPath = join(knopPath, FLOW_SLUGS.METADATA, "index.html");
+  const metaIndexContent = generateFlowIndexHtml(FLOW_SLUGS.METADATA, knopSlug, false);
   await writeFile(metaIndexPath, metaIndexContent, "utf-8");
   indexPages.meta = metaIndexPath;
 
   // _meta/_default index.html (special message for unweaved metadata)
-  const metaDefaultIndexPath = join(nodePath, FLOW_SLUGS.METADATA, SPECIAL_DIRS.DEFAULT, "index.html");
-  const metaDefaultIndexContent = generateMetaDefaultIndexHtml(nodeSlug);
+  const metaDefaultIndexPath = join(knopPath, FLOW_SLUGS.METADATA, SPECIAL_DIRS.DEFAULT, "index.html");
+  const metaDefaultIndexContent = generateMetaDefaultIndexHtml(knopSlug);
   await writeFile(metaDefaultIndexPath, metaDefaultIndexContent, "utf-8");
 
   // Flow and _working shot index pages
@@ -279,15 +279,15 @@ async function generateResourcePages(
     if (!flowSlug) continue;
 
     // Flow directory index.html
-    const flowIndexPath = join(nodePath, flowSlug, "index.html");
-    const flowIndexContent = generateFlowIndexHtml(flowSlug, nodeSlug, true);
+    const flowIndexPath = join(knopPath, flowSlug, "index.html");
+    const flowIndexContent = generateFlowIndexHtml(flowSlug, knopSlug, true);
     await writeFile(flowIndexPath, flowIndexContent, "utf-8");
     indexPages.flows.push(flowIndexPath);
 
     // _working shot directory index.html
-    const workingDir = join(nodePath, flowSlug, SPECIAL_DIRS.WORKING);
+    const workingDir = join(knopPath, flowSlug, SPECIAL_DIRS.WORKING);
     const workingShotIndexPath = join(workingDir, "index.html");
-    const workingShotIndexContent = generateWorkingShotIndexHtml(flowSlug, nodeSlug);
+    const workingShotIndexContent = generateWorkingShotIndexHtml(flowSlug, knopSlug);
     await writeFile(workingShotIndexPath, workingShotIndexContent, "utf-8");
     indexPages.workingShots.push(workingShotIndexPath);
   }
@@ -309,10 +309,10 @@ function flowKeyToSlug(key: string): string | undefined {
 }
 
 /**
- * Generate node root index.html (namespace page)
+ * Generate knop root index.html (namespace page)
  */
-function generateNodeIndexHtml(
-  nodeSlug: string,
+function generateKnopIndexHtml(
+  knopSlug: string,
   readmeHtml: string
 ): string {
   return `<!DOCTYPE html>
@@ -320,27 +320,27 @@ function generateNodeIndexHtml(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${nodeSlug} namespace</title>
+  <title>${knopSlug} namespace</title>
 </head>
 <body>
-  <h1>${nodeSlug} namespace</h1>
+  <h1>${knopSlug} namespace</h1>
   
   ${readmeHtml ? `${readmeHtml}\n\n` : ""}
-  <p><a href="_node-handle/">Node Handle →</a></p>
+  <p><a href="_knop-handle/">Knop Handle →</a></p>
 </body>
 </html>`;
 }
 
 /**
- * Generate _node-handle index.html (node page with component list in tree format)
+ * Generate _knop-handle index.html (knop page with component list in tree format)
  */
 function generateHandleIndexHtml(
-  nodeSlug: string,
-  createdWorkingFlows: CreateNodeResult["createdWorkingFlows"],
+  knopSlug: string,
+  createdWorkingFlows: CreateKnopResult["createdWorkingFlows"],
   hasReadme: boolean
 ): string {
   // Build tree structure
-  const treeLines: string[] = [`_node-handle`];
+  const treeLines: string[] = [`_knop-handle`];
 
   // Add README if present
   if (hasReadme) {
@@ -367,7 +367,7 @@ function generateHandleIndexHtml(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mesh Node: ${nodeSlug}</title>
+  <title>mesh knop: ${knopSlug}</title>
   <style>
     body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
     h1 { color: #2563eb; }
@@ -378,7 +378,7 @@ function generateHandleIndexHtml(
   </style>
 </head>
 <body>
-  <h1>Mesh Node: ${nodeSlug}</h1>
+  <h1>mesh knop: ${knopSlug}</h1>
   
   <h2>Components</h2>
   <pre>${treeHtml}</pre>
@@ -393,7 +393,7 @@ function generateHandleIndexHtml(
  */
 function generateFlowIndexHtml(
   flowSlug: string,
-  nodeSlug: string,
+  knopSlug: string,
   hasWorking: boolean
 ): string {
   const workingLink = hasWorking
@@ -409,7 +409,7 @@ function generateFlowIndexHtml(
 </head>
 <body>
   <h1>Flow: ${flowSlug}</h1>
-  <p>Node: <a href="../">${nodeSlug}</a></p>
+  <p>Knop: <a href="../">${knopSlug}</a></p>
   
   <h2>Shots</h2>
   <ul>
@@ -422,8 +422,8 @@ function generateFlowIndexHtml(
 /**
  * Generate _working shot directory index.html
  */
-function generateWorkingShotIndexHtml(flowSlug: string, nodeSlug: string): string {
-  const filename = getFlowFilename(nodeSlug, flowSlug);
+function generateWorkingShotIndexHtml(flowSlug: string, knopSlug: string): string {
+  const filename = getFlowFilename(knopSlug, flowSlug);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -435,7 +435,7 @@ function generateWorkingShotIndexHtml(flowSlug: string, nodeSlug: string): strin
 <body>
   <h1>Working Shot</h1>
   <p>Flow: <a href="../">${flowSlug}</a></p>
-  <p>Node: <a href="../../">${nodeSlug}</a></p>
+  <p>Knop: <a href="../../">${knopSlug}</a></p>
   
   <h2>Distribution</h2>
   <ul>
@@ -448,7 +448,7 @@ function generateWorkingShotIndexHtml(flowSlug: string, nodeSlug: string): strin
 /**
  * Generate generic directory index.html
  */
-function generateGenericDirIndexHtml(title: string, nodeSlug: string): string {
+function generateGenericDirIndexHtml(title: string, knopSlug: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -458,7 +458,7 @@ function generateGenericDirIndexHtml(title: string, nodeSlug: string): string {
 </head>
 <body>
   <h1>${title}</h1>
-  <p>Node: <a href="../">${nodeSlug}</a></p>
+  <p>Knop: <a href="../">${knopSlug}</a></p>
 </body>
 </html>`;
 }
@@ -469,7 +469,7 @@ function generateGenericDirIndexHtml(title: string, nodeSlug: string): string {
 function generateShotDirIndexHtml(
   shotName: string,
   flowSlug: string,
-  nodeSlug: string,
+  knopSlug: string,
   hasDistributions: boolean
 ): string {
   return `<!DOCTYPE html>
@@ -482,10 +482,10 @@ function generateShotDirIndexHtml(
 <body>
   <h1>Shot: ${shotName}</h1>
   <p>Flow: <a href="../">${flowSlug}</a></p>
-  <p>Node: <a href="../../">${nodeSlug}</a></p>
+  <p>Knop: <a href="../../">${knopSlug}</a></p>
   
   ${hasDistributions ? `<h2>Distributions</h2>
-  <p>No distributions yet (created by weaves)</p>` : `<p>Empty directory (snapshots created by weaves)</p>`}
+  <p>No distributions yet (created by weaves)</p>` : `<p>Empty directory (slices created by weaves)</p>`}
 </body>
 </html>`;
 }
@@ -493,7 +493,7 @@ function generateShotDirIndexHtml(
 /**
  * Generate _meta/_default index.html (special page for unweaved metadata)
  */
-function generateMetaDefaultIndexHtml(nodeSlug: string): string {
+function generateMetaDefaultIndexHtml(knopSlug: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -511,7 +511,7 @@ function generateMetaDefaultIndexHtml(nodeSlug: string): string {
 </head>
 <body>
   <h1>Metadata DefaultShot</h1>
-  <p>Node: <a href="../../">${nodeSlug}</a></p>
+  <p>Knop: <a href="../../">${knopSlug}</a></p>
   
   <div class="info">
     <p><strong>Note:</strong> This metadata DefaultShot hasn't been created yet. Try weaving.</p>

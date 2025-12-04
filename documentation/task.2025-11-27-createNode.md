@@ -2,7 +2,7 @@
 id: ufnbtre0tn2pxq7dzjcgrz0
 title: 2025-11-27-createNode
 desc: ''
-updated: 1764328684352
+updated: 1764867799338
 created: 1764276666359
 ---
 
@@ -29,7 +29,7 @@ See detailed architecture plan in [[task.2025-11-28-architecture-plan]].
 Implement a core `createNode` operation that:
 
 - Takes a filesystem path and options.
-- Initializes that path as a **mesh node**.
+- Initializes that path as a **mesh knop**.
 - Creates the minimal **handle** and **metadata** folders .
 - Optionally attaches initial payload/reference/config inputs.
 - Enforces basic safety invariants (no double-init, non-empty dir warnings).
@@ -45,13 +45,13 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
    - Operation name: `createNode`.
    - Lives in core library (e.g. `@semantic-flow/core`), not tied to any specific CLI framework.
    - This task provides:
-     - `createNode(nodeTargetPath, options)` implementation.
-     - A thin, non-interactive Node entry point (e.g. `scripts/create-node.ts`) for manual testing.
+     - `createNode(knopTargetPath, options)` implementation.
+     - A thin, non-interactive Node entry point (e.g. `scripts/create-knop.ts`) for manual testing.
 
 2. **Metadata flow invariants**
    - Metadata is **only** written as part of weaves (including this one).
    - The **metadata flow is always versioned**:
-     - A `v1` FlowShot is created for `_meta`.
+     - A `v1` FlowSlice is created for `_meta`.
      - A `_default` distribution is a copy of `v1` with `@base` implicitly equal to the file’s future URL (no in-file `@base`).
    - There is **no `_working` metadata** in this v1.
 
@@ -59,25 +59,25 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
    - For all SF-authored RDF files:
      - No `@base` in the file.
      - Local identifiers use **relative IRIs** (see `concept.identifier.intramesh.relative`).
-     - Tooling must supply the base IRI when parsing/serializing (based on node path + namespace root).
+     - Tooling must supply the base IRI when parsing/serializing (based on knop path + namespace root).
    - This applies to metadata and any SF-authored reference/payload flows in this task.
 
 4. **Reference vs payload**
-   - **Exactly one ReferenceFlow per node** (or none).
-   - PayloadFlow is optional; a node having a PayloadFlow makes it a **Payload Node**.
+   - **Exactly one ReferenceFlow per knop** (or none).
+   - PayloadFlow is optional; a knop having a PayloadFlow makes it a **Payload Node**.
    - Enforceable difference (to be wired into SHACL later, not enforced in this task’s runtime logic):
-     - If a node has a PayloadFlow, its ReferenceFlow **must** type the node as a `dcat:Dataset`:
+     - If a knop has a PayloadFlow, its ReferenceFlow **must** type the knop as a `dcat:Dataset`:
        - In reference data: `<> a dcat:Dataset`.
 
 5. **Safety and idempotence**
-   - `createNode(nodeTargetPath, options)`:
-     - MUST **error** if the path already “looks like a node” (presence of `_node-handle` or `_meta`).
+   - `createNode(knopTargetPath, options)`:
+     - MUST **error** if the path already “looks like a knop” (presence of `_knop-handle` or `_meta`).
      - MUST **warn** if the directory exists and is non-empty.
-     - SHOULD be idempotent only in the trivial “fails-fast on already-initialized” sense; no attempt to merge with existing node structure in this task.
+     - SHOULD be idempotent only in the trivial “fails-fast on already-initialized” sense; no attempt to merge with existing knop structure in this task.
 
 6. **Parent topology**
    - This task does **not** persist any parent/child relationships in metadata.
-   - Optional runtime inspection of parent directories (e.g. to warn about creating “orphan” nodes) is out of scope for v1 and should **not** block this task.
+   - Optional runtime inspection of parent directories (e.g. to warn about creating “orphan” knops) is out of scope for v1 and should **not** block this task.
    - Mesh composability/transposability is preserved by not writing parent references into RDF.
 
 7. **Payload/reference/config handling (v1 scope)**
@@ -94,7 +94,7 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
        - Copy or normalize it into `_payload/_working/` (no de-basing, no unpack).
      - Config files:
        - If provided, copy/normalize into `_cfg-op/_working/` and/or `_cfg-inh/_working/`.
-     - in all cases, the target filename in general will be "node name" + "flow slug" + ".jsonld". 
+     - in all cases, the target filename in general will be "knop name" + "flow slug" + ".jsonld". 
        - the flow slugs are defined in ../ontology/semantic-flow/
      - 
    - **No de-basing or unpacking** in this task:
@@ -117,8 +117,8 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
 
    - In this task:
      - You do **not** need to fully implement DelegationChain / ProvenanceContext, but:
-       - `createNode` should **reserve space** in the v1 metadata shot for a future PROV model (e.g., stub nodes with IRIs based on your fragment scheme).
-       - At minimum, write the node’s `rightsHolder` and `license` if provided.
+       - `createNode` should **reserve space** in the v1 metadata slice for a future PROV model (e.g., stub knops with IRIs based on your fragment scheme).
+       - At minimum, write the knop’s `rightsHolder` and `license` if provided.
 
 9. **RDF format expectations**
    - Code should be written so that metadata and reference/payload flows can be emitted as **JSON-LD** datasets (primary), with internal APIs abstract enough to allow future TriG distributions.
@@ -128,7 +128,7 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
 
 10. **CLI framework**
     - This task **does not** integrate Oclif or any CLI framework.
-    - A minimal Node entry point (e.g. `node scripts/create-node.js <nodeTargetPath>`) is enough.
+    - A minimal Node entry point (e.g. `knop scripts/create-knop.js <knopTargetPath>`) is enough.
     - Future CLI work:
       - Will likely use `@inquirer/prompts` (modern Inquirer) for interactivity instead of Enquirer.
       - Should wrap this `createNode` core function, not replace it.
@@ -143,7 +143,7 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
 
   ```ts
   async function createNode(
-    nodeTargetPath: string,
+    knopTargetPath: string,
     options?: {
       payloadDatasetPath?: string;
       referenceDatasetPath?: string;
@@ -159,15 +159,15 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
 
   1. **Path handling**
 
-     * If `nodeTargetPath` does not exist: create directory.
+     * If `knopTargetPath` does not exist: create directory.
      * If it exists and:
 
-       * contains `_node-handle` or `_meta` → throw an error (“Node already initialized”).
+       * contains `_knop-handle` or `_meta` → throw an error (“Node already initialized”).
        * is non-empty and `allowNonEmpty` is not set → throw an error or require explicit override.
 
   2. **Node scaffolding**
 
-     * Create `_node-handle/` folder (stub content; minimal files per existing ontology conventions).
+     * Create `_knop-handle/` folder (stub content; minimal files per existing ontology conventions).
 
      * Create `_meta/` with structure:
 
@@ -181,9 +181,9 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
 
      * Metadata content for v1 must include at least:
 
-       * A minimal node description stub (node IRI, type placeholder).
-       * Rights/licensing if present in `provenanceInput` (at dataset or node level).
-       * A placeholder or minimal structure for the NodeCreation Activity and provenance model (no need to fully flesh out DelegationChain yet, but leave room).
+       * A minimal knop description stub (knop IRI, type placeholder).
+       * Rights/licensing if present in `provenanceInput` (at dataset or knop level).
+       * A placeholder or minimal structure for the KnopCreation Activity and provenance model (no need to fully flesh out DelegationChain yet, but leave room).
 
   3. **Optional flows**
 
@@ -201,26 +201,26 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
   4. **No advanced behaviors**
 
      * No de-basing (no IRI rewriting).
-     * No unpacking payload into child nodes.
-     * No config inheritance from parent nodes.
+     * No unpacking payload into child knops.
+     * No config inheritance from parent knops.
 
 * Implement a simple Node-based runner:
 
   ```bash
-  node scripts/create-node.js <nodeTargetPath> [--allow-nonempty]
+  knop scripts/create-knop.js <knopTargetPath> [--allow-nonempty]
   ```
 
   that:
 
-  * resolves `nodeTargetPath`,
-  * calls `createNode(nodeTargetPath, { allowNonEmpty: true/false })`,
+  * resolves `knopTargetPath`,
+  * calls `createNode(knopTargetPath, { allowNonEmpty: true/false })`,
   * logs structured success/failure.
 
 ### Non-Functional
 
 * Clear, structured errors for:
 
-  * already-initialized node,
+  * already-initialized knop,
   * non-empty directory without `allowNonEmpty`,
   * filesystem failures.
 * Logging should integrate with your existing logging abstraction if available; otherwise, stub logging with a thin wrapper that can be replaced later.
@@ -255,7 +255,7 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
 
 4. **Simple Node runner**
 
-   * `scripts/create-node.(ts|js)` or equivalent, wired to `createNode` with basic CLI arg parsing.
+   * `scripts/create-knop.(ts|js)` or equivalent, wired to `createNode` with basic CLI arg parsing.
 
 ---
 
@@ -263,7 +263,7 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
 
 * Oclif-based CLI wrapping `createNode` (with `@inquirer/prompts`).
 * De-basing (namespace adoption) of imported datasets.
-* Payload unpacking into child nodes.
-* Config inheritance (from parent nodes).
+* Payload unpacking into child knops.
+* Config inheritance (from parent knops).
 * Full PROV/DelegationChain/ProvenanceContext modeling in metadata (beyond minimal stubs).
 * RDF store integration or SHACL validation wiring (e.g., the `PayloadNode ⇒ dcat:Dataset` rule).

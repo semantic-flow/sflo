@@ -2,7 +2,7 @@
 id: s1yduc399adt3ihvnwievrd
 title: Reference Iri Choices
 desc: ''
-updated: 1764327435163
+updated: 1764867799248
 created: 1751240276585
 ---
 
@@ -74,8 +74,8 @@ If no base is specified, an inferred base of the requested scheme and authority 
 
 # In ns/djradon/_ref/_default/djradon_ref.trig
 <../../../djradon/> a foaf:Person ;          # The document itself
-   foaf:knows <../../alice/> ;           # A sibling node in the mesh
-   rdfs:seeAlso <../bio/bio.html> .      # A resource page contained in a "bio" node under ../../djradon/
+   foaf:knows <../../alice/> ;           # A sibling knop in the mesh
+   rdfs:seeAlso <../bio/bio.html> .      # A resource page contained in a "bio" knop under ../../djradon/
 ```
 
 #### Pros

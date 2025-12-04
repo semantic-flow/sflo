@@ -24,9 +24,9 @@ export interface LogContext {
 
   // Semantic Flow specific context
   meshId?: string;
-  nodeId?: string;
+  knopId?: string;
   meshName?: string;
-  nodeName?: string;
+  knopName?: string;
 
   // Performance tracking
   startTime?: number;

@@ -6,6 +6,6 @@ updated: 1762635260451
 created: 1751238539745
 ---
 
-Physical manifestation of (and slug for)  [[mesh-resource.node-component.flow-shot.working-shot]]
+Physical manifestation of (and slug for)  [[mesh-resource.component.slice.working-slice]]
 
-These folders should only contain a single "[[mesh-resource.node-component.snapshot-distribution.working]]", i.e., a single RDF syntax
+These folders should only contain a single "[[mesh-resource.component.distribution.working]]", i.e., a single RDF syntax

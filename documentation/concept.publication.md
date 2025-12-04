@@ -2,7 +2,7 @@
 id: publication
 title: publication
 desc: ''
-updated: 1760160253844
+updated: 1764867799301
 created: 1751240385918
 ---
 
@@ -11,11 +11,11 @@ created: 1751240385918
 
 ## Publication History Tracking
 
-The inferred publication locations can be tracked to maintain a history of where a node has been published, which aids in citation consistency and discovery:
+The inferred publication locations can be tracked to maintain a history of where a knop has been published, which aids in citation consistency and discovery:
 
 ```turtle
 # In _flow/ metadata
-<_node-handle> mesh:publishedAt <https://myorganization.github.io/data-mesh/ns/djradon/> ;
+<_knop-handle> mesh:publishedAt <https://myorganization.github.io/data-mesh/ns/djradon/> ;
           mesh:previousPublications ( 
             <https://djradon.github.io/ns/djradon/>
             <https://oldsite.com/research/ns/djradon/>

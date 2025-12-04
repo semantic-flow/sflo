@@ -1,14 +1,14 @@
 /**
  * Mesh Operations
  * 
- * Core operations for managing Semantic Flow mesh nodes.
+ * Core operations for managing Semantic Flow mesh knops.
  * 
- * See: task.2025-11-27-createNode
+ * See: task.2025-11-27-createKnop
  */
 
 export type {
-  CreateNodeOptions,
-  CreateNodeResult,
+  CreateKnopOptions,
+  CreateKnopResult,
 } from "./types.js";
 
 export type {
@@ -23,15 +23,15 @@ export {
   getDistributionDir,
 } from "./flows.js";
 
-export { createNode } from "./createNode.js";
+export { createKnop } from "./createKnop.js";
 
-export { generateNodeMetadata } from "./metadata.js";
+export { generateKnopMetadata } from "./metadata.js";
 
 export {
-  isNodeInitialized,
+  isKnopInitialized,
   isDirectoryNonEmpty,
-  deriveNodeSlug,
-  createNodeStructure,
+  deriveKnopSlug,
+  createKnopStructure,
   createFlowStructure,
   writeFlowDistribution,
   copyDatasetToFlow,

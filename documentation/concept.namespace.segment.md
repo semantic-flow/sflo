@@ -2,13 +2,13 @@
 id: namespace-segment
 title: namespace segment
 desc: a single identifier that extends a mesh namespace
-updated: 1756849384921
+updated: 1764867799236
 created: 1750960024104
 ---
 
 ## Definition
 
-A namespace segment is a single "folder resource" identifier that extends the a mesh's namespace. The concatenation of parent identifiers yields the namespace for a node.
+A namespace segment is a single "folder resource" identifier that extends the a mesh's namespace. The concatenation of parent identifiers yields the namespace for a knop.
 
 - Concept vs content IRI semantics: see [[concept.identifier]]
 - How relative identifiers are resolved: see [[concept.identifier.intramesh]]

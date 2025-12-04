@@ -1,10 +1,10 @@
 /**
  * Mesh Flow Constants
  * 
- * Defines flow directory slugs and filename patterns for Semantic Flow nodes.
+ * Defines flow directory slugs and filename patterns for Semantic Flow knops.
  * 
  * Flow directory slugs (core flows, short names):
- * - _meta    → node metadata flow
+ * - _meta    → knop metadata flow
  * - _ref     → reference flow
  * - _payload → payload/data flow
  * - _cfg-op  → operational config flow
@@ -28,7 +28,7 @@ export const FLOW_SLUGS = {
  * Special directory names
  */
 export const SPECIAL_DIRS = {
-  NODE_HANDLE: "_node-handle",
+  NODE_HANDLE: "_knop-handle",
   DEFAULT: "_default",
   WORKING: "_working",
 } as const;
@@ -37,19 +37,19 @@ export const SPECIAL_DIRS = {
  * Get filename for a flow distribution
  * 
  * Rules:
- * - Payload: <nodeSlug>.jsonld (no flow slug in filename)
- * - Others: <nodeSlug>_<flowSlug>.jsonld (underscore separator)
+ * - Payload: <knopSlug>.jsonld (no flow slug in filename)
+ * - Others: <knopSlug>_<flowSlug>.jsonld (underscore separator)
  * 
- * @param nodeSlug - The node's slug
+ * @param knopSlug - The knop's slug
  * @param flowSlug - The flow's directory slug
  * @returns The filename for this flow
  */
-export function getFlowFilename(nodeSlug: string, flowSlug: string): string {
+export function getFlowFilename(knopSlug: string, flowSlug: string): string {
   if (flowSlug === FLOW_SLUGS.PAYLOAD) {
-    return `${nodeSlug}.jsonld`;
+    return `${knopSlug}.jsonld`;
   }
 
-  return `${nodeSlug}${flowSlug}.jsonld`;
+  return `${knopSlug}${flowSlug}.jsonld`;
 }
 
 /**

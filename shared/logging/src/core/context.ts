@@ -1,10 +1,10 @@
 // shared/logging/src/core/context.ts
 
-import { AsyncLocalStorage } from 'node:async_hooks';
+import { AsyncLocalStorage } from 'knop:async_hooks';
 import type { LogContext } from './types.js';
 
 /**
- * Manages asynchronous context propagation using Node.js AsyncLocalStorage.
+ * Manages asynchronous context propagation using Knop.js AsyncLocalStorage.
  * This allows loggers to automatically pick up context (like request IDs)
  * across asynchronous operations.
  */

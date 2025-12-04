@@ -2,7 +2,7 @@
 id: g8h08le4lmeoxhf3zeqsecf
 title: 2025 11 29 Opslog
 desc: ''
-updated: 1764434852178
+updated: 1764867799353
 created: 1764434223489
 ---
 
@@ -10,7 +10,7 @@ created: 1764434223489
 
 We need to update the Semantic Flow documentation and the `createNode` code to reflect a finalized separation of responsibilities among `_opslog`, `_meta`, and `_ref`. This prompt defines exactly what must be implemented.
 
-All flows are now optional, so the only marker for a node is its "_node-handle/" folder. We need a sflo-config-ontology predicate for turning on/off the opslog. If it was on for a weave, and then gets turned off, I think _default and _working should get deleted on the next weave. 
+All flows are now optional, so the only marker for a knop is its "_knop-handle/" folder. We need a sflo-config-ontology predicate for turning on/off the opslog. If it was on for a weave, and then gets turned off, I think _default and _working should get deleted on the next weave. 
 
 ---
 
@@ -18,10 +18,10 @@ All flows are now optional, so the only marker for a node is its "_node-handle/"
 
 ## **Purpose**
 
-Record **node-level operational events**, including:
+Record **knop-level operational events**, including:
 
-* `meta:NodeCreation`
-* `meta:NodeWeave`, `meta:PayloadWeave`, etc.
+* `meta:KnopCreation`
+* `meta:KnopWeave`, `meta:PayloadWeave`, etc.
 * Validation run activities
 * Metric collection activities
 * Backlink scan activities
@@ -31,35 +31,35 @@ Record **node-level operational events**, including:
 
 * **Always Turtle (`opslog.ttl`)**
 * Append-only semantics for `_working`
-* Snapshot-on-weave semantics consistent with other flows
+* Version-on-weave semantics consistent with other flows
 
 ## **Directory Layout Per Node**
 
-Flows live **next to** the `_node-handle` folder:
+Flows live **next to** the `_knop-handle` folder:
 
 ```
 ns/
-  my-node/
+  my-knop/
   _payload/
   _ref/
   _cfg-op/
   _cfg-inh/
   _meta/
     _working/
-      my-node_meta.jsonld
+      my-knop_meta.jsonld
     _current/
-      my-node_meta.jsonld
+      my-knop_meta.jsonld
     2025-11-29_0647_59_v1/
-      my-node_meta.jsonld
+      my-knop_meta.jsonld
   _opslog/
     _working/
-      my-node_opslog.ttl
+      my-knop_opslog.ttl
     _current/
-      my-node_opslog.ttl
+      my-knop_opslog.ttl
     2025-11-29_0647_59_v1/
-      my-node_opslog.ttl
+      my-knop_opslog.ttl
     2025-11-29_0704_01_v2/
-      my-node_opslog.ttl
+      my-knop_opslog.ttl
 ```
 
 ## **Behavior**
@@ -67,26 +67,26 @@ ns/
 1. `_working/opslog.ttl` accumulates TTL blocks before/during a weave.
 2. At weave completion:
 
-   * Finalize the NodeWeave activity inside `_working/opslog.ttl`
+   * Finalize the KnopWeave activity inside `_working/opslog.ttl`
      (e.g., add `prov:endedAtTime`, `meta:status "success"` or `"failure"`).
    * Copy `_working/opslog.ttl` → `_opslog/<slug_vN>/opslog.ttl`
    * Copy `_working/opslog.ttl` → `_opslog/_current/opslog.ttl`
    * Rewrite `_working/opslog.ttl` to an empty file containing just prefixes.
-3. Do **not** attempt to log the act of snapshotting itself.
+3. Do **not** attempt to log the act of versionting itself.
 
 ## **Implementation Tasks**
 
 * Add a TTL-based append utility:
 
   ```ts
-  appendToopslog(nodePath: string, ttlBlock: string): Promise<void>
+  appendToopslog(knopPath: string, ttlBlock: string): Promise<void>
   ```
-* Update weave logic to snapshot `_opslog` after other flows.
+* Update weave logic to version `_opslog` after other flows.
 * Update `createNode` to initialize `_opslog` with:
 
   * `_working/opslog.ttl` containing prefixes only
   * `_current/opslog.ttl` empty
-  * A `meta:NodeCreation` entry appended at creation time
+  * A `meta:KnopCreation` entry appended at creation time
 
 ---
 
@@ -94,15 +94,15 @@ ns/
 
 ## **Purpose**
 
-`_meta` describes the **node itself**, not the referent.
+`_meta` describes the **knop itself**, not the referent.
 This is **NOT** operational logs, and **NOT** referent metadata.
 It is a **small, semantic summary** that changes infrequently, written as JSON-LD.
 
 ### `_meta` MAY include:
 
-* **Per-node copyright & licensing**
-  * Because nodes are transposable among meshes
-  * Repo-level licenses do NOT follow nodes
+* **Per-knop copyright & licensing**
+  * Because knops are transposable among meshes
+  * Repo-level licenses do NOT follow knops
   * Payload datasets may or may not have embedded licensing
 
 * **Consistency summary**
@@ -115,10 +115,10 @@ It is a **small, semantic summary** that changes infrequently, written as JSON-L
   * Any other quantitative state worth caching
 
 * **Backlink summary**
-  * External IRIs referencing this node, discovered through scans
+  * External IRIs referencing this knop, discovered through scans
   * Timestamp + weaveSlug of last backlink collection
 
-These are **derived** facts and serve as the node’s “status record.”
+These are **derived** facts and serve as the knop’s “status record.”
 
 ### `_meta` MUST NOT include:
 
@@ -129,14 +129,14 @@ These are **derived** facts and serve as the node’s “status record.”
 
 * recommended: JSON-LD
 * SHACL-validated to ensure it stays small and structured
-* One WorkingShot + one snapshot per weave, same as other flows
+* One WorkingSlice + one version per weave, same as other flows
 
 ## **Example Predicates to Use**
 
 Roo should update the ontology/docs to include or reuse predicates for:
 
-* `meta:nodeLicense` (IRI to license or SPDX expression)
-* `meta:nodeCopyright`
+* `meta:knopLicense` (IRI to license or SPDX expression)
+* `meta:knopCopyright`
 * `meta:assetTreeSizeBytes`
 * `meta:refTripleCount`
 * `meta:lastValidationStatus` (“pass” | “fail” | “unknown”)
@@ -146,13 +146,13 @@ Roo should update the ontology/docs to include or reuse predicates for:
 * `meta:backlinkCount`
 * `meta:backlink` (list of linking IRIs)
 
-## **Snapshot Behavior**
+## **Version Behavior**
 
 At weave time:
 
 1. Recompute metrics and summaries.
 2. Rewrite `_meta/_working/meta.jsonld` fully (no appending).
-3. Copy to snapshot folder `<slug_vN>/meta.jsonld`.
+3. Copy to version folder `<slug_vN>/meta.jsonld`.
 4. Copy to `_meta/_current/meta.jsonld`.
 
 This is lightweight and idempotent.
@@ -169,13 +169,13 @@ This is lightweight and idempotent.
   * Asset tree size
   * Checksums (SHA-256)
   * Backlink scans (placeholder function for now)
-* Ensure weave orchestrator rewrites `_meta` after flows + opslog snapshot.
+* Ensure weave orchestrator rewrites `_meta` after flows + opslog version.
 
 ---
 
 # **3. `_ref` Flow Remains Unchanged**
 
-**Purpose**: metadata about the **referent**, not the node.
+**Purpose**: metadata about the **referent**, not the knop.
 
 * Payload licensing may go here *only if it belongs to the dataset’s content*.
 * Node-level licensing lives in `_meta`, not `_ref`.
@@ -188,19 +188,19 @@ This is lightweight and idempotent.
 
 * Clear separation between `_ref`, `_meta`, and `_opslog`
 * Node vs referent vs operational metadata
-* Why per-node licensing is essential (transposable meshes)
+* Why per-knop licensing is essential (transposable meshes)
 * Why `_opslog` uses TTL
 * Why `_meta` is JSON-LD summary
 
 ### Update architecture diagrams:
 
 * Add `_meta` and `_opslog` as standard flows
-* Show lifecycle: working → snapshot → current
+* Show lifecycle: working → version → current
 
 ### Update flow summaries:
 
 * `_opslog` = append-only event log (TTL)
-* `_meta` = summary node metadata (JSON-LD)
+* `_meta` = summary knop metadata (JSON-LD)
 * `_ref` = referent metadata (JSON-LD)
 * `_payload` = data
 
@@ -217,14 +217,14 @@ This is lightweight and idempotent.
 1. Update `createNode` to create both `_meta` and `_opslog` structures.
 2. Initialize `_meta/_working/meta.jsonld` with:
 
-   * node descriptor
+   * knop descriptor
    * licensing stub
    * empty checksum/metrics fields
-3. Initialize `_opslog` with a NodeCreation TTL entry.
+3. Initialize `_opslog` with a KnopCreation TTL entry.
 4. Add utilities:
 
    * `appendToopslog()`
-   * `finalizeopslogSnapshot()`
+   * `finalizeopslogVersion()`
    * `computeNodeMetrics()`
    * `computeChecksums()`
    * `performBacklinkScan()` (stub for now)
@@ -232,8 +232,8 @@ This is lightweight and idempotent.
 
    1. weave normal flows
    2. update `_meta/_working`
-   3. snapshot `_meta`
-   4. snapshot `_opslog` last
+   3. version `_meta`
+   4. version `_opslog` last
 
 ---
 

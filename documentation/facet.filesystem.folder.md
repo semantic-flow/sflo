@@ -2,7 +2,7 @@
 id: p3mbdrze0qe8uvko4i16t1s
 title: folder resource facet
 desc: ''
-updated: 1764327509448
+updated: 1764867799239
 created: 1750659145476
 ---
 
@@ -10,7 +10,7 @@ A mesh when stored in a filesystem is physically structured with mesh folders, w
   
 When a mesh gets published, the folders also correspond to [[concept.identifier]]. 
 
-All folder-based resources should contain a [[mesh-resource.node-component.documentation-resource.resource-page]]
+All folder-based resources should contain a [[mesh-resource.component.documentation-resource.resource-page]]
 
 
 ## Types
@@ -19,30 +19,30 @@ All folder-based resources should contain a [[mesh-resource.node-component.docum
 
 #### Node Handle Folders
 
-- [[concept.mesh.resource.folder._node-handle]] correspond to the [[mesh-resource.node-component.node-handle]]
+- [[concept.mesh.resource.folder._knop-handle]] correspond to the [[mesh-resource.component.knop-handle]]
 
 #### Flow (Abstract Dataset) Folders
 
 - **`_meta/`**
-  - correspond to [[mesh-resource.node-component.flow.node-metadata]]
-  - present in all mesh nodes
+  - correspond to [[mesh-resource.component.flow.metadata]]
+  - present in all mesh knops
   
-- **`_dataset-flow/`**
+- **`_data/`**
 
-  - correspond to the [[mesh-resource.node-component.flow.dataset]]
-  - contain the dataset associated with the [[mesh-resource.node.payload]]
+  - correspond to the [[mesh-resource.knop-component.flow.dataset]]
+  - contain the dataset associated with the [[mesh-resource.knop.payload]]
 
-#### Snapshot (Concrete Dataset) System Folders
+#### Version (Concrete Dataset) System Folders
 
 - **`_default/`**
 
-- **Snapshot folders** (format: `YYYY-MM-DD_HHMM_SS_vN/`, e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`, …)
+- **Version folders** (format: `YYYY-MM-DD_HHMM_SS_vN/`, e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`, …)
 
-  - snapshot folders that represent [[mesh-resource.node-component.flow-shot.snapshot]]
+  - version folders that represent [[mesh-resource.component.slice.version]]
   - each holds one or more distribution file
-  - **Fully terminal**—neither user-nodes nor system-folders may live inside.
+  - **Fully terminal**—neither user-knops nor system-folders may live inside.
 
-#### Snapshot User Folders
+#### Version User Folders
 
 - **`_next/`**
   - Where edits get made to [[facet.flow.versioned]]
@@ -52,5 +52,5 @@ All folder-based resources should contain a [[mesh-resource.node-component.docum
 
 - **`_assets/`**
   - Holds static user assets (images, CSS, binaries).
-  - **Always terminal** - never contains nodes
-  - Ignored by the mesh scanner; asset trees carry no flows; any metadata about assets should live in the parent node’s meta flow.
+  - **Always terminal** - never contains knops
+  - Ignored by the mesh scanner; asset trees carry no flows; any metadata about assets should live in the parent knop’s meta flow.

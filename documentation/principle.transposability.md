@@ -2,7 +2,7 @@
 id: transposability
 title: transposability
 desc: ''
-updated: 1757997420203
+updated: 1764867799472
 created: 1750489919875
 ---
 
@@ -74,7 +74,7 @@ Transposability leverages standard RDF parsing behavior rather than custom mecha
 ## Best Practices
 
 1. **Use relative URIs** for all intra-mesh references
-2. **Avoid reorganizing internal structure**: because mesh structure determines namespaces, to maintain stable namespaces and preserve identifier permanence, nodes should not be moved around once published
+2. **Avoid reorganizing internal structure**: because mesh structure determines namespaces, to maintain stable namespaces and preserve identifier permanence, knops should not be moved around once published
 3. **Test transposition** by serving from different locations
 4. **Validate RDF** after moving to ensure parser compatibility
 

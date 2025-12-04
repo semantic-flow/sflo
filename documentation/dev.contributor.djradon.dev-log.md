@@ -2,7 +2,7 @@
 id: fd1whkyvoagggk6ubysjl50
 title: djradon's sflo devlog
 desc: ''
-updated: 1755752503539
+updated: 1764867799470
 created: 1727801720160
 ---
 
@@ -14,15 +14,15 @@ created: 1727801720160
 
 - Starting a rewrite with NodeJS. But Deno will always be my first love. 
 
-![](assets/images/deno-vs-node.png)
+![](assets/images/deno-vs-knop.png)
 
 ## t.2025.07.12.06
 
-- node config is a component, so it can travel around ([[principle.transposability]] and [[principle.composability]])
-- the [[mesh-resource.node-component.node-config-defaults]] is actually a "defaults" file that only gets used when nodes don't have a config yet (or their config is reset)
+- knop config is a component, so it can travel around ([[principle.transposability]] and [[principle.composability]])
+- the [[concept.knop-config.defaults]] is actually a "defaults" file that only gets used when knops don't have a config yet (or their config is reset)
   - when importing, grafting, you have the option to reset (parts of) config.
   - the tree walk for config-defaults only needs to happen when:
-    - a node's config is empty
+    - a knop's config is empty
     - config schema version gets bumped?
 
 ## t.2025.07.07.05

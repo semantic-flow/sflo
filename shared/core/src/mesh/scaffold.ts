@@ -1,9 +1,9 @@
 /**
- * Node Scaffolding Utilities
+ * Knop Scaffolding Utilities
  * 
- * Creates the filesystem structure for a mesh node.
+ * Creates the filesystem structure for a mesh knop.
  * 
- * See: task.2025-11-27-createNode
+ * See: task.2025-11-27-createKnop
  */
 
 import { promises as fs } from "fs";
@@ -11,14 +11,14 @@ import { join, resolve, basename } from "path";
 import { FLOW_SLUGS, SPECIAL_DIRS, getFlowFilename, getDistributionDir } from "./flows.js";
 
 /**
- * Check if a directory looks like an already-initialized node
+ * Check if a directory looks like an already-initialized knop
  * 
- * @param nodePath - Path to check
- * @returns true if directory appears to be a node
+ * @param knopPath - Path to check
+ * @returns true if directory appears to be a knop
  */
-export async function isNodeInitialized(nodePath: string): Promise<boolean> {
+export async function isKnopInitialized(knopPath: string): Promise<boolean> {
   try {
-    const entries = await fs.readdir(nodePath);
+    const entries = await fs.readdir(knopPath);
     return entries.includes(SPECIAL_DIRS.NODE_HANDLE) || entries.includes(FLOW_SLUGS.METADATA);
   } catch (error) {
     // Directory doesn't exist or can't be read
@@ -43,40 +43,40 @@ export async function isDirectoryNonEmpty(dirPath: string): Promise<boolean> {
 }
 
 /**
- * Derive node slug from directory path
+ * Derive knop slug from directory path
  * 
- * @param nodePath - Path to node directory
- * @returns Node slug (directory name)
+ * @param knopPath - Path to knop directory
+ * @returns Knop slug (directory name)
  */
-export function deriveNodeSlug(nodePath: string): string {
-  const absPath = resolve(nodePath);
+export function deriveKnopSlug(knopPath: string): string {
+  const absPath = resolve(knopPath);
   return basename(absPath);
 }
 
 /**
- * Create node directory structure
+ * Create knop directory structure
  * 
  * Creates:
- * - _node-handle/ (stub)
+ * - _knop-handle/ (stub)
  * - _meta/v1/
  * - _meta/_default/
  * 
- * @param nodePath - Path to node directory
+ * @param knopPath - Path to knop directory
  */
-export async function createNodeStructure(nodePath: string): Promise<void> {
-  const absPath = resolve(nodePath);
+export async function createKnopStructure(knopPath: string): Promise<void> {
+  const absPath = resolve(knopPath);
 
-  // Ensure node directory exists
+  // Ensure knop directory exists
   await fs.mkdir(absPath, { recursive: true });
 
-  // Create _node-handle (stub)
+  // Create _knop-handle (stub)
   const handlePath = join(absPath, SPECIAL_DIRS.NODE_HANDLE);
   await fs.mkdir(handlePath, { recursive: true });
 
-  // Create placeholder file in _node-handle
+  // Create placeholder file in _knop-handle
   await fs.writeFile(
     join(handlePath, ".gitkeep"),
-    "# Placeholder for node handle\n"
+    "# Placeholder for knop handle\n"
   );
 
   // Create _meta/v1 and _meta/_default
@@ -90,14 +90,14 @@ export async function createNodeStructure(nodePath: string): Promise<void> {
  * 
  * Creates versioned and default distribution directories for a flow.
  * 
- * @param nodePath - Path to node directory
+ * @param knopPath - Path to knop directory
  * @param flowSlug - Flow directory slug
  */
 export async function createFlowStructure(
-  nodePath: string,
+  knopPath: string,
   flowSlug: string
 ): Promise<void> {
-  const absPath = resolve(nodePath);
+  const absPath = resolve(knopPath);
   const flowPath = join(absPath, flowSlug);
 
   // Create v1 and _default directories
@@ -108,24 +108,24 @@ export async function createFlowStructure(
 /**
  * Write content to a flow distribution
  * 
- * @param nodePath - Path to node directory
+ * @param knopPath - Path to knop directory
  * @param flowSlug - Flow directory slug
  * @param distributionType - Distribution type (version/default)
  * @param content - Content to write
- * @param nodeSlug - Node slug for filename
+ * @param knopSlug - Knop slug for filename
  * @param versionLabel - Version label (default: "v1")
  */
 export async function writeFlowDistribution(
-  nodePath: string,
+  knopPath: string,
   flowSlug: string,
   distributionType: "version" | "default",
   content: string,
-  nodeSlug: string,
+  knopSlug: string,
   versionLabel: string = "v1"
 ): Promise<string> {
-  const absPath = resolve(nodePath);
+  const absPath = resolve(knopPath);
   const distributionDir = getDistributionDir(distributionType, versionLabel);
-  const filename = getFlowFilename(nodeSlug, flowSlug);
+  const filename = getFlowFilename(knopSlug, flowSlug);
   const filePath = join(absPath, flowSlug, distributionDir, filename);
 
   // Ensure directory exists
@@ -143,40 +143,40 @@ export async function writeFlowDistribution(
  * Reads the source file, parses it, and writes it to both v1 and _default.
  * 
  * @param sourcePath - Path to source dataset file
- * @param nodePath - Path to node directory
+ * @param knopPath - Path to knop directory
  * @param flowSlug - Flow directory slug
- * @param nodeSlug - Node slug for filename
+ * @param knopSlug - Knop slug for filename
  * @returns Object with paths to v1 and default files
  */
 export async function copyDatasetToFlow(
   sourcePath: string,
-  nodePath: string,
+  knopPath: string,
   flowSlug: string,
-  nodeSlug: string
+  knopSlug: string
 ): Promise<{ v1: string; default: string }> {
   // Read source file
   const content = await fs.readFile(sourcePath, "utf-8");
 
   // Ensure flow structure exists
-  await createFlowStructure(nodePath, flowSlug);
+  await createFlowStructure(knopPath, flowSlug);
 
   // Write to v1
   const v1Path = await writeFlowDistribution(
-    nodePath,
+    knopPath,
     flowSlug,
     "version",
     content,
-    nodeSlug,
+    knopSlug,
     "v1"
   );
 
   // Write to _default (same content)
   const defaultPath = await writeFlowDistribution(
-    nodePath,
+    knopPath,
     flowSlug,
     "default",
     content,
-    nodeSlug
+    knopSlug
   );
 
   return { v1: v1Path, default: defaultPath };

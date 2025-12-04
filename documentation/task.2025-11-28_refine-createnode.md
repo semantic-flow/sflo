@@ -1,8 +1,8 @@
 ---
 id: k2apr2q5ibovesxgkhhgkmp
-title: 2025 11 28_refine Createnode
+title: 2025 11 28_refine Createknop
 desc: ''
-updated: 1764346560192
+updated: 1764867799401
 created: 1764346329068
 ---
 
@@ -11,25 +11,25 @@ created: 1764346329068
 
 ## Prompt
 
-We already have an architecture draft in `architecture-plan-rdfsource-createnode.md`. Use it as a **structural reference**, but treat the rules below as **authoritative** where there is any conflict.
+We already have an architecture draft in `architecture-plan-rdfsource-createknop.md`. Use it as a **structural reference**, but treat the rules below as **authoritative** where there is any conflict.
 
 The goal of this task is to:
 
 1. Refine `createNode` so that it:
-   - scaffolds a mesh node’s directory structure,
-   - writes **_working** shots (where inputs are provided),
-   - does **not** write any snapshots (v1, _default) for any flow.
-2. Ensure `_meta` exists but contains **no RDF**; metadata snapshots are created only by later **weave** operations.
+   - scaffolds a mesh knop’s directory structure,
+   - writes **_working** slices (where inputs are provided),
+   - does **not** write any versions (v1, _default) for any flow.
+2. Ensure `_meta` exists but contains **no RDF**; metadata versions are created only by later **weave** operations.
 3. Create default `index.html` resource pages for:
-   - the node itself,
+   - the knop itself,
    - each flow directory that is created,
-   - and (optionally) each shot directory, using a platform default template.
+   - and (optionally) each slice directory, using a platform default template.
 4. Make provenance defaults come exclusively from `_cfg-op` (operational config), not from a separate provenance bundle.
 5. Preserve the existing RdfSource / parsing semantics direction (file:/// base, mesh-native JSON-LD).
 
 This sets us up so that:
 
-- `createNode` establishes a *reviewable, un-woven node* with optional `_working` data and HTML resource pages.
+- `createNode` establishes a *reviewable, un-woven knop* with optional `_working` data and HTML resource pages.
 - The first actual weave can be a **regular weave**—no special “initialization weave” concept is needed.
 
 ---
@@ -38,7 +38,7 @@ This sets us up so that:
 
 ### 1. Required vs optional flows
 
-For a newly created node:
+For a newly created knop:
 
 - `_meta/` is **mandatory** (always created).
 - All other flow directories are **optional**:
@@ -53,12 +53,12 @@ For a newly created node:
 - MUST NOT create `_meta/_working` at all.
 - MAY create other flow directories only when needed (inputs provided, or design choice to always scaffold them).
 
-### 2. Snapshots vs working shots
+### 2. Versions vs working slices
 
 Global rule to enforce:
 
-- **“Weaves write snapshots.”**
-- `createNode` is **not** a weave; it performs no snapshots.
+- **“Weaves write versions.”**
+- `createNode` is **not** a weave; it performs no versions.
 
 Concretely:
 
@@ -70,7 +70,7 @@ Concretely:
 Instead:
 
 - For any flow where input is provided (reference/payload/config), `createNode`:
-  - MUST create a `_working/` shot directory for that flow,
+  - MUST create a `_working/` slice directory for that flow,
   - MUST write a **mesh-native JSON-LD distribution** there,
   - MUST use the filename conventions below.
 
@@ -86,20 +86,20 @@ Flow directory slugs (fixed):
 
 Node slug:
 
-- Derived from the node folder name.
+- Derived from the knop folder name.
 
 File naming:
 
 - Payload:
-  - `_payload/_working/<nodeSlug>.jsonld`
-  - (later, weaves will write `_payload/vN/<nodeSlug>.jsonld` and `_payload/_default/<nodeSlug>.jsonld`)
+  - `_payload/_working/<knopSlug>.jsonld`
+  - (later, weaves will write `_payload/vN/<knopSlug>.jsonld` and `_payload/_default/<knopSlug>.jsonld`)
 - Other flows:
-  - `_ref/_working/<nodeSlug>_ref.jsonld`
-  - `_cfg-op/_working/<nodeSlug>_cfg-op.jsonld`
-  - `_cfg-inh/_working/<nodeSlug>_cfg-inh.jsonld`
+  - `_ref/_working/<knopSlug>_ref.jsonld`
+  - `_cfg-op/_working/<knopSlug>_cfg-op.jsonld`
+  - `_cfg-inh/_working/<knopSlug>_cfg-inh.jsonld`
 - `_meta`:
   - For **this task**, `createNode` **does not** write any JSON-LD inside `_meta` at all.
-  - `_meta/_default/` is created as an empty directory; snapshots will be created by weaves later.
+  - `_meta/_default/` is created as an empty directory; versions will be created by weaves later.
 
 No `_meta/_working` directory.
 
@@ -139,7 +139,7 @@ Remove or ignore `ProvenanceBundleInput` in `createNode`:
 
     allowNonEmpty?: boolean;
 
-    // Optional: node README content or path (see below)
+    // Optional: knop README content or path (see below)
     readme?: string;      // inline markdown
     readmePath?: string;  // file path for markdown
   }
@@ -147,7 +147,7 @@ Remove or ignore `ProvenanceBundleInput` in `createNode`:
 
 * If `operationalConfig` is provided:
 
-  * Parse it as RDF via `RdfSource` and write `_cfg-op/_working/<nodeSlug>_cfg-op.jsonld` in mesh-native form.
+  * Parse it as RDF via `RdfSource` and write `_cfg-op/_working/<knopSlug>_cfg-op.jsonld` in mesh-native form.
   * This config MAY contain “provenance defaults” (rightsHolder, license, default agents, etc.), but **no actual weave events**.
 * Actual weave events and PROV activities will be created later by a generic weave operation consuming `_cfg-op`, `_working` datasets, etc.
 
@@ -155,11 +155,11 @@ Remove or ignore `ProvenanceBundleInput` in `createNode`:
 
 For this task, support at least:
 
-* Optional README content for the node itself:
+* Optional README content for the knop itself:
 
   * `readme` (inline markdown) or `readmePath` (file).
-* Do **not** treat README as RDF; it’s normal content to be integrated into the node’s resource page (index.html).
-* You do *not* need to implement zipped starter kits now; just keep the architecture flexible enough that `createNode` could later accept a “starter node bundle” and unpack it before applying additional config.
+* Do **not** treat README as RDF; it’s normal content to be integrated into the knop’s resource page (index.html).
+* You do *not* need to implement zipped starter kits now; just keep the architecture flexible enough that `createNode` could later accept a “starter knop bundle” and unpack it before applying additional config.
 
 ---
 
@@ -171,26 +171,26 @@ We want dereferenceability even before the first weave.
 
 `createNode` should generate basic `index.html` files using a “platform default” template for:
 
-* The node root folder:
+* The knop root folder:
 
-  * `<nodePath>/index.html`
+  * `<knopPath>/index.html`
 * Each created flow directory:
 
-  * `<nodePath>/_meta/index.html`
-  * `<nodePath>/_payload/index.html` (if created)
-  * `<nodePath>/_ref/index.html` (if created)
+  * `<knopPath>/_meta/index.html`
+  * `<knopPath>/_payload/index.html` (if created)
+  * `<knopPath>/_ref/index.html` (if created)
   * etc.
-* Optionally, each shot directory created at this stage:
+* Optionally, each slice directory created at this stage:
 
-  * `<nodePath>/_payload/_working/index.html`
-  * `<nodePath>/_cfg-op/_working/index.html`
+  * `<knopPath>/_payload/_working/index.html`
+  * `<knopPath>/_cfg-op/_working/index.html`
   * etc.
 
 Template requirements (minimal for now):
 
 * Node `index.html`:
 
-  * Mentions the node slug.
+  * Mentions the knop slug.
   * Links to any existing flow directories as “NamingResources” / “FileResources” (no need for full ontology terms, just human-readable for now).
   * Optionally renders README content if provided (simple markdown → HTML is enough; can be naive).
 
@@ -210,21 +210,21 @@ These templates can be simple functions or static HTML skeletons with minimal lo
 
 When you implement this task, please:
 
-1. **Remove** snapshot generation from `createNode`:
+1. **Remove** version generation from `createNode`:
 
    * No `_meta/v1`, no `_meta/_default` distributions.
-   * No `v1` snapshots for `_payload`, `_ref`, `_cfg-*`.
+   * No `v1` versions for `_payload`, `_ref`, `_cfg-*`.
 2. **Ensure `_meta` is mandatory**, but only the directory and `_default/` subdir exist; no RDF.
-3. **Add `_working` shots** for flows where inputs are provided, using the naming rules above.
+3. **Add `_working` slices** for flows where inputs are provided, using the naming rules above.
 4. **Drop `ProvenanceBundleInput`** from `createNode`; provenance defaults belong in `_cfg-op/_working`.
-5. **Add support for optional Node README** (inline or from file) at `createNode` time, store it as nodename/README.md
-6. **Generate default `index.html`** in node root (using README.md if present, and linking to created flow and FlowShot dirs).
+5. **Add support for optional Node README** (inline or from file) at `createNode` time, store it as knopname/README.md
+6. **Generate default `index.html`** in knop root (using README.md if present, and linking to created flow and FlowSlice dirs).
 
 You can either refactor the existing `createNode` implementation/plan or restart it with these rules; given the amount of change, a **surgical refactor** is probably reasonable:
 
 * Keep file locations, error types, and basic directory scaffolding logic.
-* Remove snapshot-writing logic and provenance bundles.
-* Insert `_working` shot writing + `index.html` generation.
+* Remove version-writing logic and provenance bundles.
+* Insert `_working` slice writing + `index.html` generation.
 
 ---
 
@@ -237,19 +237,19 @@ This task is complete when:
    * Creates `_meta/_default/` as an empty directory.
    * Creates other flow dirs only as needed.
    * Writes `_working` distributions (mesh-native JSON-LD) for any flows where `RdfSource` inputs are provided.
-   * Does not write any snapshots (`v1`, `_default` distributions) or metadata RDF.
-2. Optional `operationalConfig` is written to `_cfg-op/_working/<nodeSlug>_cfg-op.jsonld` and not used to generate any PROV events yet.
-3. Optional README is accepted and integrated into the node’s `index.html` page.
+   * Does not write any versions (`v1`, `_default` distributions) or metadata RDF.
+2. Optional `operationalConfig` is written to `_cfg-op/_working/<knopSlug>_cfg-op.jsonld` and not used to generate any PROV events yet.
+3. Optional README is accepted and integrated into the knop’s `index.html` page.
 4. `index.html` exists in:
 
-   * node root,
+   * knop root,
    * `_meta/`,
    * each non-empty flow dir,
-   * and each `_working` shot dir created by `createNode`.
+   * and each `_working` slice dir created by `createNode`.
 5. All affected tests are updated or added to reflect:
 
    * `_meta` is mandatory but RDF-free after `createNode`,
-   * no snapshots exist after `createNode`,
+   * no versions exist after `createNode`,
    * `_working` distributions appear correctly when inputs are provided,
    * `index.html` gets created in the expected locations.
 

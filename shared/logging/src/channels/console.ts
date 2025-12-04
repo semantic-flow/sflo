@@ -36,7 +36,7 @@ export class ConsoleChannel implements LogChannel {
   }
 
   // Synchronous critical path for errors (writes to stderr)
-  private writeSynchronous(entry: LogEntry, stream: NodeJS.WriteStream): void {
+  private writeSynchronous(entry: LogEntry, stream: KnopJS.WriteStream): void {
     const line = formatCritical(entry);
     try {
       stream.write(line);
@@ -46,7 +46,7 @@ export class ConsoleChannel implements LogChannel {
   }
 
   // Standard output for non-critical levels (writes to stdout)
-  private writeStandard(entry: LogEntry, stream: NodeJS.WriteStream): void {
+  private writeStandard(entry: LogEntry, stream: KnopJS.WriteStream): void {
     const line = stream.isTTY
       ? formatForTTY(entry)
       : formatForPipe(entry);

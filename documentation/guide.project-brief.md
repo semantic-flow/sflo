@@ -2,7 +2,7 @@
 id: p1h6n78assy929ogf6e97uy
 title: Project Brief
 desc: ''
-updated: 1762306225336
+updated: 1764867799393
 created: 1762216879675
 ---
 
@@ -19,10 +19,10 @@ This is the entry point for understanding the Semantic Flow project and its memo
 Core abstractions are documented in detail:
 
 - [[concept.mesh]] - Dereferenceable collection of semantic resources
-- [[mesh-resource.node]] - Atomic unit of a mesh; provides a name to refer to something, and optionally, data about that thing
-- [[mesh-resource.node-component.flow]] - data about the node or thing it names, in the abstract; possibly versioned
-- [[mesh-resource.node-component.flow-shot]] - a version of a flow
-- [[mesh-resource.node-component.snapshot-distribution]] - a file that concretizes a version of a flow
+- [[mesh-resource.knop]] - Atomic unit of a mesh; provides a name to refer to something, and optionally, data about that thing
+- [[mesh-resource.component.flow]] - data about the knop or thing it names, in the abstract; possibly versioned
+- [[mesh-resource.component.slice]] - a version of a flow
+- [[mesh-resource.component.distribution]] - a file that concretizes a version of a flow
 - [[concept.weave-process]] - Lifecycle operation for versioning/publishing
 
 See [[concept.summary]] for more depth documentation.

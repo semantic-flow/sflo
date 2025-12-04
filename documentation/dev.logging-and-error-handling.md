@@ -2,7 +2,7 @@
 id: ewpjwhqsry5j49gdfj9xd0b
 title: Logging and Error Handling
 desc: ''
-updated: 1762365200861
+updated: 1764867799462
 created: 1762362594296
 ---
 
@@ -116,9 +116,9 @@ interface LogContext {
   
   // Semantic Flow specific
   meshId?: string;
-  nodeId?: string;
+  knopId?: string;
   meshName?: string;
-  nodeName?: string;
+  knopName?: string;
   
   // Performance tracking
   startTime?: number;

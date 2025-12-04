@@ -2,13 +2,13 @@
 id: namespace
 title: Namespace
 desc: hierarchical address space formed by folder paths
-updated: 1756828146866
+updated: 1764867799264
 created: 1730226356459
 ---
 
 ## Overview
 
-A namespace is the hierarchical address space formed by nesting nodes. Every node extends the namespace with its identifier, which correspond to filesystem folders when the mesh is stored in the filesystem. The resulting path maps directly to the published IRI when appended to the [[concept.namespace.context]]
+A namespace is the hierarchical address space formed by nesting knops. Every knop extends the namespace with its identifier, which correspond to filesystem folders when the mesh is stored in the filesystem. The resulting path maps directly to the published IRI when appended to the [[concept.namespace.context]]
 
 - Concept vs content IRI semantics: see [[concept.identifier]]
 - How intramesh identifiers are resolved: see [[concept.identifier.intramesh]]
@@ -17,9 +17,9 @@ A namespace is the hierarchical address space formed by nesting nodes. Every nod
 ## Minimal Example
 
 ```file
-/ns/                         # bare node → https://ex.org/ns/
-└── people/                  # bare node → https://ex.org/ns/people/
-    └── alice/               # reference node → https://ex.org/ns/people/alice/
+/ns/                         # bare knop → https://ex.org/ns/
+└── people/                  # bare knop → https://ex.org/ns/people/
+    └── alice/               # reference knop → https://ex.org/ns/people/alice/
 ```
 
 - Folder names correspond to [[concept.identifier.intramesh]]s and become namespace segments when [[published|concept.publication]].

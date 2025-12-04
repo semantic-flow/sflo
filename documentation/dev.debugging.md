@@ -2,7 +2,7 @@
 id: fwcrpbvxl7cm5xqd4e0qdep
 title: Debugging
 desc: ''
-updated: 1755743911504
+updated: 1764867799278
 created: 1755743408280
 ---
 
@@ -10,7 +10,7 @@ created: 1755743408280
 
 ### Root Level
 
-- `pnpm dev` - Start sflo-host with hot reload (nodemon + tsx)
+- `pnpm dev` - Start sflo-host with hot reload (knopmon + tsx)
 - `pnpm dev:debug` - Start sflo-host with hot reload and debugging enabled
 - `pnpm dev:tsx` - Start sflo-host without hot reload (direct tsx)
 - `pnpm dev:tsx:debug` - Start sflo-host without hot reload, with debugging

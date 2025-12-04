@@ -2,7 +2,7 @@
 id: sngbxo44ylhlflch69d4qfb
 title: 2025 11 28 Templates and Stylesheets
 desc: ''
-updated: 1764371338645
+updated: 1764867799431
 created: 1764371302931
 ---
 
@@ -10,12 +10,12 @@ created: 1764371302931
 
 Implement a proper templates/stylesheets system for Semantic Flow that:
 
-1. Treats templates and CSS as **real files in `_assets`** folders owned by nodes in a mesh.
-2. Represents those assets as **RDF nodes** (with IRIs) that config refers to, not bare strings.
+1. Treats templates and CSS as **real files in `_assets`** folders owned by knops in a mesh.
+2. Represents those assets as **RDF knops** (with IRIs) that config refers to, not bare strings.
 3. Extracts **platform defaults** out of the config ontology file into a separate **`sflo-platform-defaults` mesh**.
-4. Preserves inheritance semantics (platform → application → node) while making asset resolution unambiguous and offline-capable.
+4. Preserves inheritance semantics (platform → application → knop) while making asset resolution unambiguous and offline-capable.
 
-This epic covers required changes to **sflo-config ontology**, introduction of **template/stylesheet resource nodes**, and **runtime resolution** from config → node → `_assets` files.
+This epic covers required changes to **sflo-config ontology**, introduction of **template/stylesheet resource knops**, and **runtime resolution** from config → knop → `_assets` files.
 
 ---
 
@@ -26,7 +26,7 @@ You currently have:
 * `hasResourcePageTemplate` as a **DatatypeProperty** (xsd:string path).
 * `stylesheetPath` as a **DatatypeProperty** (xsd:string path).
 * `TemplatePathShape` enforcing a regex on a **relative path string**.
-* `TemplateMappings` / `TemplateMapping` that still assume string paths, not node IRIs.
+* `TemplateMappings` / `TemplateMapping` that still assume string paths, not knop IRIs.
 * `defaultPlatformConfig` as **instance data embedded in the ontology document**.
 
 Key structural issues:
@@ -34,8 +34,8 @@ Key structural issues:
 1. **Path strings instead of IRIs**
 
    * Config is entangled with filesystem layout.
-   * No way to distinguish “path of defining node” vs “path of consuming node.”
-   * No clean way to support inheritance across nodes while keeping assets anchored to their defining node.
+   * No way to distinguish “path of defining knop” vs “path of consuming knop.”
+   * No clean way to support inheritance across knops while keeping assets anchored to their defining knop.
 
 2. **Instance data in ontology**
 
@@ -46,13 +46,13 @@ Key structural issues:
 3. **TemplateMappings is underspecified**
 
    * It’s a collection wrapper (`TemplateMappings`) plus `TemplateMapping` + `hasResourcePageTemplate` string.
-   * No clear mapping semantics (e.g., map which resource types to which template nodes).
-   * Hard to evolve toward node-based templates without either breaking or duplicating semantics.
+   * No clear mapping semantics (e.g., map which resource types to which template knops).
+   * Hard to evolve toward knop-based templates without either breaking or duplicating semantics.
 
 4. **CSS and templates not modeled as resources**
 
    * There is no class for “Template resource” or “Stylesheet resource.”
-   * No way, in RDF, to say “this node’s default template is *that* node’s `_assets` file.”
+   * No way, in RDF, to say “this knop’s default template is *that* knop’s `_assets` file.”
 
 ---
 
@@ -65,11 +65,11 @@ Add **resource classes** for templates and stylesheets in the config ontology:
 * `TemplateResource/` (class)
 * `StylesheetResource/` (class)
 
-These are *not* the bytes themselves; they are RDF nodes that:
+These are *not* the bytes themselves; they are RDF knops that:
 
 * Have an IRI.
-* Are associated with a **defining node** (a `sflo:Handle`).
-* Point to a file under that node’s `_assets` folder via a relative asset path.
+* Are associated with a **defining knop** (a `sflo:Handle`).
+* Point to a file under that knop’s `_assets` folder via a relative asset path.
 
 JSON-LD sketch (not implement yet, just conceptual):
 
@@ -79,18 +79,18 @@ JSON-LD sketch (not implement yet, just conceptual):
   "@type": "rdfs:Class",
   "rdfs:subClassOf": { "@id": "ConfigurationClass/" },
   "rdfs:label": "Template Resource",
-  "rdfs:comment": "Template resource anchored in a mesh node's _assets folder."
+  "rdfs:comment": "Template resource anchored in a mesh knop's _assets folder."
 },
 {
   "@id": "StylesheetResource/",
   "@type": "rdfs:Class",
   "rdfs:subClassOf": { "@id": "ConfigurationClass/" },
   "rdfs:label": "Stylesheet Resource",
-  "rdfs:comment": "Stylesheet resource anchored in a mesh node's _assets folder."
+  "rdfs:comment": "Stylesheet resource anchored in a mesh knop's _assets folder."
 }
 ```
 
-### D2. Asset location is always relative to the **defining node folder**
+### D2. Asset location is always relative to the **defining knop folder**
 
 Introduce a property like:
 
@@ -98,18 +98,18 @@ Introduce a property like:
 
   * `schema:domainIncludes`: `TemplateResource/`, `StylesheetResource/`
   * Range: `xsd:string` (relative filesystem path)
-  * Semantics: **relative to the node folder that “owns” the resource**, not to the consumer node.
+  * Semantics: **relative to the knop folder that “owns” the resource**, not to the consumer knop.
 
 Either:
 
-* Make the owning node explicit via `definedAtNode/` (ObjectProperty) to `sflo:Handle/`, **or**
-* Rely on “this RDF lives in that node’s dataset” as implied ownership (more magical; more fragile).
+* Make the owning knop explicit via `definedAtNode/` (ObjectProperty) to `sflo:Handle/`, **or**
+* Rely on “this RDF lives in that knop’s dataset” as implied ownership (more magical; more fragile).
 
 Epic should bias toward an explicit `definedAtNode/` for clarity.
 
 ### D3. Config points to resource IRIs, not to paths
 
-Replace “string path” usage in config with **object properties to TemplateResource/StylesheetResource** nodes:
+Replace “string path” usage in config with **object properties to TemplateResource/StylesheetResource** knops:
 
 * New properties (object properties):
 
@@ -141,16 +141,16 @@ You must not design a half-and-half world where both are “equally first-class�
 * Create a new **single-mesh repo** (e.g., `sflo-platform-defaults`).
 * In that repo:
 
-  * A **platform config node** (of class `PlatformConfig/`) with an IRI, e.g.:
+  * A **platform config knop** (of class `PlatformConfig/`) with an IRI, e.g.:
 
     `https://semantic-flow.github.io/platform/config/default`
 
-  * Template and stylesheet nodes (TemplateResource/StylesheetResource) plus `_assets` files for each.
-* Ship a **snapshot** of that mesh (RDF + `_assets`) with the platform tooling for offline use.
+  * Template and stylesheet knops (TemplateResource/StylesheetResource) plus `_assets` files for each.
+* Ship a **version** of that mesh (RDF + `_assets`) with the platform tooling for offline use.
 
 Ontology file remains **schema-only**.
 
-### D6. Runtime behavior: config → TemplateResource → node folder → `_assets` file
+### D6. Runtime behavior: config → TemplateResource → knop folder → `_assets` file
 
 Define the runtime lookup:
 
@@ -158,9 +158,9 @@ Define the runtime lookup:
 2. For each:
 
    * Load its RDF.
-   * Determine defining node (via `definedAtNode/` or similar).
-   * Map node IRI → node folder.
-   * Combine node folder + `assetPath/` to get the actual file.
+   * Determine defining knop (via `definedAtNode/` or similar).
+   * Map knop IRI → knop folder.
+   * Combine knop folder + `assetPath/` to get the actual file.
 3. HTML references the `_assets` file directly (no RDF parsing from the page).
 
 ---
@@ -179,7 +179,7 @@ Define the runtime lookup:
 **Out of scope (for this epic):**
 
 * Full refactor of TemplateMappings to support arbitrarily complex mapping rules.
-* Implementing per-resource-type template selection beyond a single “resource page template” per node.
+* Implementing per-resource-type template selection beyond a single “resource page template” per knop.
 * The TODO `VersioningState` properties (they’re orthogonal).
 
 ---
@@ -188,12 +188,12 @@ Define the runtime lookup:
 
 ### WS1: Config ontology refactor for templates/styles
 
-**Goal:** introduce node-based Template/Stylesheet resources and IRI-based config, while preserving backward compatibility.
+**Goal:** introduce knop-based Template/Stylesheet resources and IRI-based config, while preserving backward compatibility.
 
 #### T1.1 Add TemplateResource and StylesheetResource classes
 
 * Add `TemplateResource/` and `StylesheetResource/` as subclasses of `ConfigurationClass/`.
-* Ensure comments make it explicit that they describe template/CSS assets anchored to mesh nodes.
+* Ensure comments make it explicit that they describe template/CSS assets anchored to mesh knops.
 
 #### T1.2 Introduce `assetPath/` and (optionally) `definedAtNode/`
 
@@ -202,7 +202,7 @@ Define the runtime lookup:
   * `@type`: `owl:DatatypeProperty`
   * `schema:domainIncludes`: `TemplateResource/`, `StylesheetResource/`
   * `schema:rangeIncludes`: `xsd:string`
-  * Comment: “Relative path to an asset under the defining node’s folder (usually its `_assets` directory).”
+  * Comment: “Relative path to an asset under the defining knop’s folder (usually its `_assets` directory).”
 
 * `definedAtNode/`:
 
@@ -211,7 +211,7 @@ Define the runtime lookup:
   * `schema:rangeIncludes`: `sflo:Handle/`
   * Comment: “Node whose `_assets` subtree contains the file indicated by `assetPath`.”
 
-If you’re unwilling to add `definedAtNode/` yet, you must document the ownership rule (e.g., “TemplateResource nodes must be defined in the dataset belonging to their owning node”).
+If you’re unwilling to add `definedAtNode/` yet, you must document the ownership rule (e.g., “TemplateResource knops must be defined in the dataset belonging to their owning knop”).
 
 #### T1.3 Add IRI-based config properties for template & stylesheet selection
 
@@ -222,14 +222,14 @@ Add:
   * `@type`: `owl:ObjectProperty`
   * domain: `AbstractNodeConfig/`, `PlatformConfig/`, `ApplicationConfig/`
   * range: `TemplateResource/`
-  * comment: “Template resource used to generate HTML resource pages for this node (before any more specific mapping rules).”
+  * comment: “Template resource used to generate HTML resource pages for this knop (before any more specific mapping rules).”
 
 * `defaultStylesheet/`:
 
   * `@type`: `owl:ObjectProperty`
   * domain: same as above
   * range: `StylesheetResource/`
-  * comment: “Stylesheet resource applied to generated pages for this node.”
+  * comment: “Stylesheet resource applied to generated pages for this knop.”
 
 These will eventually replace `hasResourcePageTemplate/` and `stylesheetPath/` for new configs.
 
@@ -262,8 +262,8 @@ Adjust or add SHACL shapes:
 
 * Initialize as a mesh repo with:
 
-  * A root node for platform config, e.g.: `…/platform/config/default/`.
-  * One or more nodes for UI, e.g.: `…/platform/ui/`.
+  * A root knop for platform config, e.g.: `…/platform/config/default/`.
+  * One or more knops for UI, e.g.: `…/platform/ui/`.
 * Define a minimal `_assets` layout under `platform/ui/`:
 
   * `_assets/templates/resource-page-default.hbs`
@@ -271,7 +271,7 @@ Adjust or add SHACL shapes:
 
 #### T2.2 Define TemplateResource/StylesheetResource instances
 
-In the `platform/ui` node’s dataset, add JSON-LD like:
+In the `platform/ui` knop’s dataset, add JSON-LD like:
 
 ```jsonld
 {
@@ -307,7 +307,7 @@ Create a `PlatformConfig/` instance in the mesh (not in the ontology):
     ],
     "generateUnifiedDataset": false,
     "generateAggregatedDataset": false,
-    "nodeConfigInheritanceEnabled": true,
+    "knopConfigInheritanceEnabled": true,
     "defaultResourcePageTemplate": {
       "@id": "https://semantic-flow.github.io/platform/ui/templates/resource-page/default"
     },
@@ -322,7 +322,7 @@ This replaces the now-removed `defaultPlatformConfig` in the ontology file.
 
 #### T2.4 Decide and document the canonical platform-config IRI
 
-* Pick a stable IRI for the platform default config node (above).
+* Pick a stable IRI for the platform default config knop (above).
 * Platform code will treat this as the **canonical fallback** when no other config is provided.
 
 ---
@@ -331,30 +331,30 @@ This replaces the now-removed `defaultPlatformConfig` in the ontology file.
 
 **Goal:** Implement the end-to-end resolution from config → TemplateResource/StylesheetResource → `_assets` files, including offline bundling.
 
-#### T3.1 Define a clear node-IRI → folder → HTTP-path mapping
+#### T3.1 Define a clear knop-IRI → folder → HTTP-path mapping
 
 You cannot handwave this.
 
 * Document:
 
-  * How a node’s IRI maps to its folder on disk.
+  * How a knop’s IRI maps to its folder on disk.
   * How that folder maps to an HTTP path when served.
-* Ensure `_assets` folders under that node are exposed at predictable URLs.
+* Ensure `_assets` folders under that knop are exposed at predictable URLs.
 
 #### T3.2 Implement Template/Stylesheet resolution logic
 
-Given a **resolved config** for a node:
+Given a **resolved config** for a knop:
 
 1. Determine effective template and stylesheet IRIs:
 
-   * Use inheritance chain: node → application → platform.
+   * Use inheritance chain: knop → application → platform.
    * If both legacy string props and new object props are present, **favor IRIs**.
 
 2. For each IRI:
 
    * Load its RDF (using current in-memory store).
-   * Fetch `definedAtNode` (or infer the owning node).
-   * Map node IRI → node folder.
+   * Fetch `definedAtNode` (or infer the owning knop).
+   * Map knop IRI → knop folder.
    * Combine with `assetPath` to get a filesystem path.
 
 3. Provide these as:
@@ -368,14 +368,14 @@ Given a **resolved config** for a node:
 
   * Use the resolved template file instead of a hardwired or path-string-based template.
   * Inject the stylesheet via `<link>` tag referencing the resolved CSS asset.
-* Ensure the engine can be configured per-node by altering Operational/Inheritable configs, not by tweaking code.
+* Ensure the engine can be configured per-knop by altering Operational/Inheritable configs, not by tweaking code.
 
 #### T3.4 Offline bundling of `sflo-platform-defaults`
 
 * Introduce a build step that:
 
   * Pulls a tagged commit of `sflo-platform-defaults`.
-  * Produces a snapshot bundle:
+  * Produces a version bundle:
 
     * `platform-defaults.bundle.jsonld` (RDF dataset of the mesh),
     * A copy of the `_assets` tree under a known directory inside the platform distribution.
@@ -403,8 +403,8 @@ Given a **resolved config** for a node:
 * Provide a script or documented recipe to:
 
   * Scan configs using string paths.
-  * Produce TemplateResource/StylesheetResource nodes + assetPath.
-  * Update configs to reference those new nodes by IRI.
+  * Produce TemplateResource/StylesheetResource knops + assetPath.
+  * Update configs to reference those new knops by IRI.
 
 Don’t rely on “tribal knowledge” for this; write it down.
 
@@ -413,10 +413,10 @@ Don’t rely on “tribal knowledge” for this; write it down.
 * Unit tests:
 
   * Template/Stylesheet resolution from config.
-  * Asset path resolution relative to defining node.
+  * Asset path resolution relative to defining knop.
 * Integration tests:
 
-  * Sample node with inherited config from platform mesh generating a resource page with the correct template and stylesheet.
+  * Sample knop with inherited config from platform mesh generating a resource page with the correct template and stylesheet.
 
 ---
 
@@ -448,6 +448,6 @@ Don’t rely on “tribal knowledge” for this; write it down.
 
 If you want, a next step after this epic is to define a **minimal JSON-LD example** of:
 
-* A node with an OperationalNodeConfig,
+* A knop with an OperationalNodeConfig,
 * Inheriting a PlatformConfig from `sflo-platform-defaults`,
 * And producing a specific HTML page wired to a TemplateResource + StylesheetResource.

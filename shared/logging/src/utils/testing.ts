@@ -113,9 +113,9 @@ export class LoggerTestUtils {
   // Utility to wait for a specific number of log entries (with proper cleanup)
   static async waitForLogs(logger: MockLogger, count: number, timeout: number = 100): Promise<void> {
     return new Promise((resolve, reject) => {
-      let timeoutId: NodeJS.Timeout | null = null;
-      let checkIntervalId: NodeJS.Timeout | null = null;
-      
+      let timeoutId: KnopJS.Timeout | null = null;
+      let checkIntervalId: KnopJS.Timeout | null = null;
+
       const check = () => {
         if (logger.mockChannel.entries.length >= count) {
           if (timeoutId) clearTimeout(timeoutId);
@@ -125,12 +125,12 @@ export class LoggerTestUtils {
           checkIntervalId = setTimeout(check, 10);
         }
       };
-      
+
       timeoutId = setTimeout(() => {
         if (checkIntervalId) clearTimeout(checkIntervalId);
         reject(new Error(`Timeout waiting for ${count} logs`));
       }, timeout);
-      
+
       check();
     });
   }

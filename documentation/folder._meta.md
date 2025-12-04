@@ -1,9 +1,9 @@
 ---
-id: node-metadata-flow-folder
+id: knop-metadata-flow-folder
 title: _meta flow folder
 desc: ''
-updated: 1764327519385
+updated: 1764867799259
 created: 1751206968994
 ---
 
-The filesystem container of the [[mesh-resource.node-component.flow.node-metadata]]
+The filesystem container of the [[mesh-resource.component.flow.metadata]]
