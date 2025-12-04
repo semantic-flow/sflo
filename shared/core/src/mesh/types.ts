@@ -12,7 +12,7 @@ import type { RdfSource } from "../rdf/types.js";
  * Options for createKnop operation
  * 
  * createKnop no longer writes slices or metadata RDF.
- * It only scaffolds directory structure and writes _working shots.
+ * It only scaffolds directory structure and writes _working slices.
  */
 export interface CreateKnopOptions {
   /** Payload dataset as RdfSource (optional) */
@@ -63,6 +63,6 @@ export interface CreateKnopResult {
     knop: string;
     meta: string;
     flows: string[];
-    workingShots: string[];
+    workingSlices: string[];
   };
 }

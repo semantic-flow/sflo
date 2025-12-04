@@ -1,6 +1,6 @@
 // shared/logging/src/core/context.ts
 
-import { AsyncLocalStorage } from 'knop:async_hooks';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import type { LogContext } from './types.js';
 
 /**

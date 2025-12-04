@@ -13,9 +13,9 @@ import { ConfigLoader } from '../config/loader.js';
 import { DEFAULT_LOGGER_CONFIG } from '../config/defaults.js';
 import { ContextManager } from './context.js';
 import { captureFunctionName } from '../utils/stack-trace.js';
-import os from 'knop:os';
-import process from 'knop:process';
-import { fileURLToPath } from 'knop:url';
+import os from 'node:os';
+import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 
 // --- Global Singleton Instance ---
 

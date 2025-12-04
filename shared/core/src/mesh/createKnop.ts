@@ -1,7 +1,7 @@
 /**
  * Create Knop Operation
  *
- * Scaffolds a new mesh knop with _working shots and resource pages.
+ * Scaffolds a new mesh knop with _working slices and resource pages.
  * Does NOT create slices - those are written by weaves.
  *
  * See: task.2025-11-28_refine-createknop
@@ -32,13 +32,13 @@ const md = new MarkdownIt({
 /**
  * Create a new mesh knop
  * 
- * Scaffolds directory structure and writes _working shots.
+ * Scaffolds directory structure and writes _working slices.
  * Does NOT write slices (v1, _default) - those are created by weaves.
  * 
  * Creates:
  * - _knop-handle/ directory
  * - _meta/_default/ (empty, no RDF)
- * - _working shots for flows where RdfSource inputs provided
+ * - _working slices for flows where RdfSource inputs provided
  * - README.md if content provided
  * - index.html resource pages
  * 
@@ -86,7 +86,7 @@ export async function createKnop(
   const metaDefaultDir = join(absPath, FLOW_SLUGS.METADATA, SPECIAL_DIRS.DEFAULT);
   await mkdir(metaDefaultDir, { recursive: true });
 
-  // --- Write _working shots for provided inputs ---
+  // --- Write _working slices for provided inputs ---
 
   const createdWorkingFlows: CreateKnopResult["createdWorkingFlows"] = {};
 
@@ -213,8 +213,8 @@ async function writeWorkingSlice(
  * Creates HTML pages for:
  * - Knop root
  * - _meta directory
- * - Each flow directory with _working shot
- * - Each _working shot directory
+ * - Each flow directory with _working slice
+ * - Each _working slice directory
  */
 async function generateResourcePages(
   knopPath: string,

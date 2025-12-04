@@ -112,8 +112,8 @@ try {
   for (const flowIndexPath of result.indexPages.flows) {
     console.log(`  ${flowIndexPath}  (flow directory)`);
   }
-  for (const shotIndexPath of result.indexPages.workingShots) {
-    console.log(`  ${shotIndexPath}  (_working slice)`);
+  for (const sliceIndexPath of result.indexPages.workingSlices) {
+    console.log(`  ${sliceIndexPath}  (_working slice)`);
   }
   console.log();
 
