@@ -12,27 +12,27 @@
 import { DataFactory } from "n3";
 import type { Quad } from "@rdfjs/types";
 
-const { namedKnop, literal, quad, defaultGraph } = DataFactory;
+const { namedNode, literal, quad, defaultGraph } = DataFactory;
 
 // Common vocabulary IRIs
 const RDF = {
-  type: namedKnop("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
+  type: namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
 };
 
 const DCTERMS = {
-  title: namedKnop("http://purl.org/dc/terms/title"),
-  description: namedKnop("http://purl.org/dc/terms/description"),
-  created: namedKnop("http://purl.org/dc/terms/created"),
-  rightsHolder: namedKnop("http://purl.org/dc/terms/rightsHolder"),
-  license: namedKnop("http://purl.org/dc/terms/license"),
+  title: namedNode("http://purl.org/dc/terms/title"),
+  description: namedNode("http://purl.org/dc/terms/description"),
+  created: namedNode("http://purl.org/dc/terms/created"),
+  rightsHolder: namedNode("http://purl.org/dc/terms/rightsHolder"),
+  license: namedNode("http://purl.org/dc/terms/license"),
 };
 
 const PROV = {
-  Entity: namedKnop("http://www.w3.org/ns/prov#Entity"),
-  Activity: namedKnop("http://www.w3.org/ns/prov#Activity"),
-  wasGeneratedBy: namedKnop("http://www.w3.org/ns/prov#wasGeneratedBy"),
-  wasAssociatedWith: namedKnop("http://www.w3.org/ns/prov#wasAssociatedWith"),
-  atTime: namedKnop("http://www.w3.org/ns/prov#atTime"),
+  Entity: namedNode("http://www.w3.org/ns/prov#Entity"),
+  Activity: namedNode("http://www.w3.org/ns/prov#Activity"),
+  wasGeneratedBy: namedNode("http://www.w3.org/ns/prov#wasGeneratedBy"),
+  wasAssociatedWith: namedNode("http://www.w3.org/ns/prov#wasAssociatedWith"),
+  atTime: namedNode("http://www.w3.org/ns/prov#atTime"),
 };
 
 /**
@@ -64,10 +64,10 @@ export function generateKnopMetadata(
 
   // Knop IRI: relative path from metadata file to knop (../../..)
   // This will be debased to "../../.." in serialization
-  const knopIri = namedKnop(`${baseIri}/../../..`);
+  const knopIri = namedNode(`${baseIri}/../../..`);
 
   // Creation activity IRI (fragment, resolved against base)
-  const creationActivityIri = namedKnop(`${baseIri}#creation`);
+  const creationActivityIri = namedNode(`${baseIri}#creation`);
 
   // Current timestamp
   const now = new Date().toISOString();
@@ -100,7 +100,7 @@ export function generateKnopMetadata(
     quad(
       knopIri,
       DCTERMS.created,
-      literal(now, namedKnop("http://www.w3.org/2001/XMLSchema#dateTime")),
+      literal(now, namedNode("http://www.w3.org/2001/XMLSchema#dateTime")),
       defaultGraph()
     )
   );
@@ -114,7 +114,7 @@ export function generateKnopMetadata(
     quad(
       creationActivityIri,
       PROV.atTime,
-      literal(now, namedKnop("http://www.w3.org/2001/XMLSchema#dateTime")),
+      literal(now, namedNode("http://www.w3.org/2001/XMLSchema#dateTime")),
       defaultGraph()
     )
   );
@@ -132,7 +132,7 @@ export function generateKnopMetadata(
         quad(
           creationActivityIri,
           PROV.wasAssociatedWith,
-          namedKnop(provenanceInput.primaryAgentIri),
+          namedNode(provenanceInput.primaryAgentIri),
           defaultGraph()
         )
       );
@@ -148,7 +148,7 @@ export function generateKnopMetadata(
         quad(
           knopIri,
           DCTERMS.rightsHolder,
-          namedKnop(rightsHolderIri),
+          namedNode(rightsHolderIri),
           defaultGraph()
         )
       );
@@ -160,7 +160,7 @@ export function generateKnopMetadata(
         quad(
           knopIri,
           DCTERMS.license,
-          namedKnop(provenanceInput.licenseIri),
+          namedNode(provenanceInput.licenseIri),
           defaultGraph()
         )
       );
@@ -173,7 +173,7 @@ export function generateKnopMetadata(
           quad(
             creationActivityIri,
             PROV.wasAssociatedWith,
-            namedKnop(contributorIri),
+            namedNode(contributorIri),
             defaultGraph()
           )
         );

@@ -89,7 +89,7 @@ try {
   const hasWorkingFlows = Object.values(workingFlows).some(path => path);
 
   if (hasWorkingFlows) {
-    console.log("Working shots created:");
+    console.log("Working slices created:");
     if (workingFlows.reference) {
       console.log(`  _ref/_working/  (reference data)`);
     }
@@ -113,13 +113,13 @@ try {
     console.log(`  ${flowIndexPath}  (flow directory)`);
   }
   for (const shotIndexPath of result.indexPages.workingShots) {
-    console.log(`  ${shotIndexPath}  (_working shot)`);
+    console.log(`  ${shotIndexPath}  (_working slice)`);
   }
   console.log();
 
   console.log("Next steps:");
-  console.log(`  1. Review working shots in the knop directory`);
-  console.log(`  2. Run a weave operation to create slices (v1, _default)`);
+  console.log(`  1. Review working slices in the knop directory`);
+  console.log(`  2. Run a weave operation to create versions (v1, _default)`);
   console.log(`  3. Publish the knop (weaves will generate full metadata)`);
 
   process.exit(0);

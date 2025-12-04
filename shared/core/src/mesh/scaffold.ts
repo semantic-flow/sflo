@@ -19,7 +19,7 @@ import { FLOW_SLUGS, SPECIAL_DIRS, getFlowFilename, getDistributionDir } from ".
 export async function isKnopInitialized(knopPath: string): Promise<boolean> {
   try {
     const entries = await fs.readdir(knopPath);
-    return entries.includes(SPECIAL_DIRS.NODE_HANDLE) || entries.includes(FLOW_SLUGS.METADATA);
+    return entries.includes(SPECIAL_DIRS.KNOP_HANDLE) || entries.includes(FLOW_SLUGS.METADATA);
   } catch (error) {
     // Directory doesn't exist or can't be read
     return false;
@@ -70,7 +70,7 @@ export async function createKnopStructure(knopPath: string): Promise<void> {
   await fs.mkdir(absPath, { recursive: true });
 
   // Create _knop-handle (stub)
-  const handlePath = join(absPath, SPECIAL_DIRS.NODE_HANDLE);
+  const handlePath = join(absPath, SPECIAL_DIRS.KNOP_HANDLE);
   await fs.mkdir(handlePath, { recursive: true });
 
   // Create placeholder file in _knop-handle

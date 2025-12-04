@@ -28,7 +28,7 @@ export const FLOW_SLUGS = {
  * Special directory names
  */
 export const SPECIAL_DIRS = {
-  NODE_HANDLE: "_knop-handle",
+  KNOP_HANDLE: "_knop-handle",
   DEFAULT: "_default",
   WORKING: "_working",
 } as const;
