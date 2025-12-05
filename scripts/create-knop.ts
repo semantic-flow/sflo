@@ -85,21 +85,21 @@ try {
   console.log();
 
   // Show _working flows if any were created
-  const workingFlows = result.createdWorkingFlows;
-  const hasWorkingFlows = Object.values(workingFlows).some(path => path);
+  const createdFlows = result.createdFlows;
+  const hasCreatedFlows = Object.values(createdFlows).some(path => path);
 
-  if (hasWorkingFlows) {
+  if (hasCreatedFlows) {
     console.log("Working slices created:");
-    if (workingFlows.reference) {
+    if (createdFlows.reference) {
       console.log(`  _ref/_working/  (reference data)`);
     }
-    if (workingFlows.payload) {
+    if (createdFlows.payload) {
       console.log(`  _payload/_working/  (payload data)`);
     }
-    if (workingFlows.configOp) {
-      console.log(`  _cfg-op/_working/  (operational config)`);
+    if (createdFlows.configLocal) {
+      console.log(`  _cfg-local/_working/  (local config)`);
     }
-    if (workingFlows.configInh) {
+    if (createdFlows.configInh) {
       console.log(`  _cfg-inh/_working/  (inheritable config)`);
     }
     console.log();

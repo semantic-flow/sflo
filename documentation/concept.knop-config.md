@@ -17,7 +17,11 @@ knop configuration determines:
 
 ### Calculating operational knop config
 
-Knop configuration ("OperationalKnopConfig") is at least partially determined by the two config flows:  [[mesh-resource.component.flow.local-config]] and [[mesh-resource.component.flow.inheritable-config]] (which can be inherited to contained knops).
+The runtime "OperationalKnopConfig" (resolved configuration) is computed from:
+1. **LocalKnopConfig** - persisted in the `_cfg-local` flow, contains explicit settings for this knop
+2. **InheritableKnopConfig** - inherited from parent knops via `_cfg-inh` flows
+
+Note: OperationalKnopConfig is NOT persisted—it exists only in application memory at runtime. LocalKnopConfig is what gets stored in the mesh.
 
 For "weave-mandatory" config settings aren't specified by flow-derived config, (i.e., inheritable config is turned off or unspecified and local config is unspecified), mandatory knop configuration should be determined from application-level config specification first, and then the application should  use sensible defaults at the platform level.
 

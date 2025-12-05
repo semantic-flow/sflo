@@ -88,7 +88,7 @@ export async function createKnop(
 
   // --- Write _working slices for provided inputs ---
 
-  const createdWorkingFlows: CreateKnopResult["createdWorkingFlows"] = {};
+  const createdFlows: CreateKnopResult["createdFlows"] = {};
 
   // Reference flow
   if (options.referenceDataset) {
@@ -98,7 +98,7 @@ export async function createKnop(
       knopSlug,
       options.referenceDataset
     );
-    createdWorkingFlows.reference = refPath;
+    createdFlows.reference = refPath;
   }
 
   // Payload flow
@@ -109,18 +109,18 @@ export async function createKnop(
       knopSlug,
       options.payloadDataset
     );
-    createdWorkingFlows.payload = payloadPath;
+    createdFlows.payload = payloadPath;
   }
 
-  // Operational config flow
-  if (options.operationalConfig) {
-    const cfgOpPath = await writeWorkingSlice(
+  // Local config flow
+  if (options.localConfig) {
+    const cfgLocalPath = await writeWorkingSlice(
       absPath,
-      FLOW_SLUGS.CONFIG_OPERATIONAL,
+      FLOW_SLUGS.CONFIG_LOCAL,
       knopSlug,
-      options.operationalConfig
+      options.localConfig
     );
-    createdWorkingFlows.configOp = cfgOpPath;
+    createdFlows.configLocal = cfgLocalPath;
   }
 
   // Inheritable config flow
@@ -131,7 +131,7 @@ export async function createKnop(
       knopSlug,
       options.inheritableConfig
     );
-    createdWorkingFlows.configInh = cfgInhPath;
+    createdFlows.configInh = cfgInhPath;
   }
 
   // --- Handle README ---
@@ -154,7 +154,7 @@ export async function createKnop(
   const indexPages = await generateResourcePages(
     absPath,
     knopSlug,
-    createdWorkingFlows,
+    createdFlows,
     readmePath
   );
 
@@ -163,7 +163,7 @@ export async function createKnop(
   return {
     knopPath: absPath,
     knopSlug,
-    createdWorkingFlows,
+    createdFlows,
     readmePath,
     indexPages,
   };
@@ -219,7 +219,7 @@ async function writeWorkingSlice(
 async function generateResourcePages(
   knopPath: string,
   knopSlug: string,
-  createdWorkingFlows: CreateKnopResult["createdWorkingFlows"],
+  createdFlows: CreateKnopResult["createdFlows"],
   readmePath?: string
 ): Promise<CreateKnopResult["indexPages"]> {
   const indexPages: CreateKnopResult["indexPages"] = {
@@ -254,7 +254,7 @@ async function generateResourcePages(
   const handleIndexPath = join(knopPath, SPECIAL_DIRS.KNOP_HANDLE, "index.html");
   const handleIndexContent = generateHandleIndexHtml(
     knopSlug,
-    createdWorkingFlows,
+    createdFlows,
     !!readmePath
   );
   await writeFile(handleIndexPath, handleIndexContent, "utf-8");
@@ -271,7 +271,7 @@ async function generateResourcePages(
   await writeFile(metaDefaultIndexPath, metaDefaultIndexContent, "utf-8");
 
   // Flow and _working slice index pages
-  for (const [flowKey, workingPath] of Object.entries(createdWorkingFlows)) {
+  for (const [flowKey, workingPath] of Object.entries(createdFlows)) {
     if (!workingPath) continue;
 
     // Determine flow slug from key
@@ -302,7 +302,7 @@ function flowKeyToSlug(key: string): string | undefined {
   const map: Record<string, string> = {
     reference: FLOW_SLUGS.REFERENCE,
     payload: FLOW_SLUGS.PAYLOAD,
-    configOp: FLOW_SLUGS.CONFIG_OPERATIONAL,
+    configLocal: FLOW_SLUGS.CONFIG_LOCAL,
     configInh: FLOW_SLUGS.CONFIG_INHERITABLE,
   };
   return map[key];
@@ -336,7 +336,7 @@ function generateKnopIndexHtml(
  */
 function generateHandleIndexHtml(
   knopSlug: string,
-  createdWorkingFlows: CreateKnopResult["createdWorkingFlows"],
+  createdFlows: CreateKnopResult["createdFlows"],
   hasReadme: boolean
 ): string {
   // Build tree structure
@@ -352,7 +352,7 @@ function generateHandleIndexHtml(
   treeLines.push(`  <a href="../_meta/_default/">_default/</a>`);
 
   // Add data flows
-  for (const [key, path] of Object.entries(createdWorkingFlows)) {
+  for (const [key, path] of Object.entries(createdFlows)) {
     if (!path) continue;
     const slug = flowKeyToSlug(key);
     if (slug) {

@@ -21,8 +21,8 @@ export interface CreateKnopOptions {
   /** Reference dataset as RdfSource (optional) */
   referenceDataset?: RdfSource;
 
-  /** Operational config as RdfSource (optional) */
-  operationalConfig?: RdfSource;
+  /** Local config as RdfSource (optional) - persisted to _cfg-local flow */
+  localConfig?: RdfSource;
 
   /** Inheritable config as RdfSource (optional) */
   inheritableConfig?: RdfSource;
@@ -47,11 +47,11 @@ export interface CreateKnopResult {
   /** Knop slug derived from directory name */
   knopSlug: string;
 
-  /** Paths to created _working distributions */
-  createdWorkingFlows: {
+  /** Paths to created flows (each with _working slice) */
+  createdFlows: {
     reference?: string;
     payload?: string;
-    configOp?: string;
+    configLocal?: string;
     configInh?: string;
   };
 

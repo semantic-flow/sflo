@@ -4,11 +4,11 @@
  * Defines flow directory slugs and filename patterns for Semantic Flow knops.
  * 
  * Flow directory slugs (core flows, short names):
- * - _meta    → knop metadata flow
- * - _ref     → reference flow
- * - _payload → payload/data flow
- * - _cfg-op  → operational config flow
- * - _cfg-inh → inheritable config flow
+ * - _meta      → knop metadata flow
+ * - _ref       → reference flow
+ * - _payload   → payload/data flow
+ * - _cfg-local → local config flow (persisted)
+ * - _cfg-inh   → inheritable config flow
  * 
  * See: task.2025-11-28-rdfsource-debasing-parsing
  */
@@ -20,7 +20,7 @@ export const FLOW_SLUGS = {
   METADATA: "_meta",
   REFERENCE: "_ref",
   PAYLOAD: "_payload",
-  CONFIG_OPERATIONAL: "_cfg-op",
+  CONFIG_LOCAL: "_cfg-local",
   CONFIG_INHERITABLE: "_cfg-inh",
 } as const;
 
@@ -59,7 +59,7 @@ export type FlowSlug =
   | typeof FLOW_SLUGS.METADATA
   | typeof FLOW_SLUGS.REFERENCE
   | typeof FLOW_SLUGS.PAYLOAD
-  | typeof FLOW_SLUGS.CONFIG_OPERATIONAL
+  | typeof FLOW_SLUGS.CONFIG_LOCAL
   | typeof FLOW_SLUGS.CONFIG_INHERITABLE;
 
 /**

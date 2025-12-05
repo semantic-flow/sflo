@@ -2,7 +2,7 @@
 id: k2apr2q5ibovesxgkhhgkmp
 title: 2025 11 28_refine Createknop
 desc: ''
-updated: 1764954352854
+updated: 1764965547018
 created: 1764346329068
 ---
 
@@ -46,6 +46,7 @@ For a newly created knop:
   - `_payload/`
   - `_cfg-local/`
   - `_cfg-inh/`
+  - `_opslog/`  
 
 `createNode`:
 
