@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1764910157177
+updated: 1764954329518
 created: 1751128698638
 ---
 
@@ -287,7 +287,7 @@ Because direct edits are allowed, large files increase dirty-during-weave likeli
 │       ├── ontology.css
 │       └── person.css
 └── my-ontology/
-    ├── _cfg-op/
+    ├── _cfg-local/
     ├── _assets/
     │   ├── _templates/
     │   └── _css/

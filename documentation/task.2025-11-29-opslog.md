@@ -2,7 +2,7 @@
 id: g8h08le4lmeoxhf3zeqsecf
 title: 2025 11 29 Opslog
 desc: ''
-updated: 1764911032917
+updated: 1764954329538
 created: 1764434223489
 ---
 
@@ -42,7 +42,7 @@ ns/
   my-knop/
   _payload/
   _ref/
-  _cfg-op/
+  _cfg-local/
   _cfg-inh/
   _meta/
     _working/

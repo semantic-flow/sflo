@@ -225,7 +225,7 @@ export interface CreateNodeOptions {
   /** Path to reference dataset (optional) */
   referenceDatasetPath?: string;
   
-  /** Path to operational config dataset (optional) */
+  /** Path to local config dataset (optional) */
   operationalConfigPath?: string;
   
   /** Path to inheritable config dataset (optional) */
@@ -376,7 +376,7 @@ export const FLOW_SLUGS = {
   META: "_meta",
   REF: "_ref",
   PAYLOAD: "_payload",
-  CFG_OP: "_cfg-op",
+  CFG_OP: "_cfg-local",
   CFG_INH: "_cfg-inh",
 } as const;
 
@@ -501,11 +501,11 @@ Example metadata structure:
 │   │   └── <slug>.jsonld
 │   └── _default/
 │       └── <slug>.jsonld
-├── _cfg-op/
+├── _cfg-local/
 │   ├── v1/
-│   │   └── <slug>_cfg-op.jsonld
+│   │   └── <slug>_cfg-local.jsonld
 │   └── _default/
-│       └── <slug>_cfg-op.jsonld
+│       └── <slug>_cfg-local.jsonld
 └── _cfg-inh/
     ├── v1/
     │   └── <slug>_cfg-inh.jsonld

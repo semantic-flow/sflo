@@ -4,7 +4,7 @@ title: knop config Defaults
 desc: >-
   inheritable default settings used when a knop lacks explicit operational
   config
-updated: 1764867799191
+updated: 1764954362636
 created: 1751646537672
 ---
 
@@ -13,7 +13,7 @@ created: 1751646537672
 knop config defaults are settings that provide baseline behavior for knops. They are supplied by service config and platform config.
 
 - Inheritance mechanism: see [[mesh-resource.component.flow.inheritable-config]]
-- Operational config: see [[mesh-resource.component.flow.operational-config]]
+- local config: see [[mesh-resource.component.flow.local-config]]
 
 ## Common default settings (examples)
 
@@ -22,7 +22,7 @@ knop config defaults are settings that provide baseline behavior for knops. They
 - Resource pages and fragments: enable page/fragment generation; template and stylesheet selection
 - Aggregated distributions: on/off for generating top-level rollups
 
-These defaults apply when a knop does not specify the setting in its [[mesh-resource.component.flow.operational-config]]; “most specific wins” from parent → service → platform (see [[mesh-resource.component.flow.inheritable-config]] for precedence).
+These defaults apply when a knop does not specify the setting in its [[mesh-resource.component.flow.local-config]]; “most specific wins” from parent → service → platform (see [[mesh-resource.component.flow.inheritable-config]] for precedence).
 
 ## Minimal guidance
 

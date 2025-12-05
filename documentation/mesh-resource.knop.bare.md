@@ -2,7 +2,7 @@
 id: bare-knop
 title: bare knop
 desc: ''
-updated: 1764867799207
+updated: 1764954259372
 created: 1751000577920
 ---
 
@@ -13,7 +13,7 @@ created: 1751000577920
 - namespace extenders and perhaps organizational containers
 
 **Mandatory Components**: `_knop-handle/`, [[mesh-resource.component.flow.metadata]]
-**Optional Components**: [[mesh-resource.component.flow.opslog]],  [[mesh-resource.component.flow.operational-config]], [[mesh-resource.component.flow.inheritable-config]], [[mesh-resource.component.documentation-resource]]
+**Optional Components**: [[mesh-resource.component.flow.opslog]],  [[mesh-resource.component.flow.local-config]], [[mesh-resource.component.flow.inheritable-config]], [[mesh-resource.component.documentation-resource]]
 
 
 They are physically represented by [[folder.knop]].

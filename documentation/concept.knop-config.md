@@ -2,11 +2,11 @@
 id: pqjdlyd8g80x3yr9o3p82mj
 title: knop config
 desc: ''
-updated: 1764867799194
+updated: 1764954966497
 created: 1752325154211
 ---
 
-## per-knop config specification
+## Purpose
 
 knop configuration determines:
 
@@ -15,24 +15,17 @@ knop configuration determines:
 - distribution syntaxes
 - template usage and stylesheets
 
-knop configuration is at least partially determined by "local config specification", which happens in the two config flows:  [[mesh-resource.component.flow.operational-config]] and [[mesh-resource.component.flow.inheritable-config]] (which can be inherited to contained knops).
+### Calculating operational knop config
 
-If local config specification is missing, (i.e., config spec inheritance is turned off or unspecified and opertaional config is missing), knop configuration will be determined from application-level config specification. In case there is none, the service will use sensible defaults at the platform level.
+Knop configuration ("OperationalKnopConfig") is at least partially determined by the two config flows:  [[mesh-resource.component.flow.local-config]] and [[mesh-resource.component.flow.inheritable-config]] (which can be inherited to contained knops).
 
+For "weave-mandatory" config settings aren't specified by flow-derived config, (i.e., inheritable config is turned off or unspecified and local config is unspecified), mandatory knop configuration should be determined from application-level config specification first, and then the application should  use sensible defaults at the platform level.
 
-### Calculating knop config
+While there are two separate flows, there is a single inheritance mechanism that resolves the final local configuration for a knop. This mechanism draws from the `inheritable` configs of parent knops, as well as service and platform-level defaults.
 
-Knop configuration is managed through two distinct flows that provide settings for a knop's behavior.
+## per-application settings for knop defaults
 
-1.  **[[Operational Config Flow|mesh-resource.component.flow.operational-config]]**: This flow contains the final, resolved configuration that dictates how a specific knop operates.
-
-2.  **[[Inheritable Config Flow|mesh-resource.component.flow.inheritable-config]]**: This flow contains settings that a knop makes available to its descendants in the mesh hierarchy.
-
-While there are two separate flows, there is a single inheritance mechanism that resolves the final operational configuration for a knop. This mechanism draws from the `inheritable` configs of parent knops, as well as service and platform-level defaults.
-
-## per-service settings for knop defaults
-
-- [[product.service.config]] can establish any mesh-wide settings that diverge from the system defaults
+- applications can establish any mesh-wide settings that diverge from the system defaults; if applications access multiple meshes, they may choose to have mesh-specific application defaults and a general set as well.
 
 ## platform knop-config defaults
 

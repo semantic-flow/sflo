@@ -2,7 +2,7 @@
 id: h3xucygpf2i6f3u3gkegvlk
 title: system segments
 desc: underscore-prefixed reserved folder names
-updated: 1764791714888
+updated: 1764954329534
 created: 1750962692214
 ---
 
@@ -15,7 +15,7 @@ This page is the canonical list; see the linked docs for behavior and details.
 - [[_meta/|folder._meta]]
 - [[mesh-resource.component.flow.payload]]
 - [[mesh-resource.component.flow.reference]]
-- [[_cfg-op/|folder._cfg-op]]
+- [[_cfg-local/|folder._cfg-local]]
 - [[_cfg-inh/|folder._cfg-inh]]
 
 ## Versions (concrete)

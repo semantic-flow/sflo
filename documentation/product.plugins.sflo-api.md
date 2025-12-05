@@ -2,7 +2,7 @@
 id: 63tfb27btzbph10tpvckz7b
 title: sflo-api plugin
 desc: ''
-updated: 1764867799243
+updated: 1764954329547
 created: 1755903460930
 ---
 
@@ -15,7 +15,7 @@ Use noun URLs that mirror the mesh's filesystem. Bytes go to `_working`. Version
 * Reserved flow directories under a knop:
 
   * `_knop_metadata_flow/` (required)
-  * `_cfg-op/`
+  * `_cfg-local/`
   * `_cfg-inh/`
   * `_ref/`
   * `_payload/`  ← payload dataset for payload knops
@@ -180,7 +180,7 @@ Minimum links on a knop:
   { "rel":"self", "href":"/api/{mesh}/{knopPath}/" },
   { "rel":"flow", "kind":"payload-flow", "href":"/api/{mesh}/{knopPath}/_payload/" },
   { "rel":"dataset.uploadNext", "href":"/api/{mesh}/{knopPath}/_payload/_working/{knopName}.jsonld", "method":"PUT" },
-  { "rel":"flow.patchNext", "kind":"op_config_flow", "href":"/api/{mesh}/{knopPath}/_cfg-op/_working/", "method":"PATCH", "type":"application/merge-patch+json" },
+  { "rel":"flow.patchNext", "kind":"op_config_flow", "href":"/api/{mesh}/{knopPath}/_cfg-local/_working/", "method":"PATCH", "type":"application/merge-patch+json" },
   { "rel":"flow.createVersion", "kind":"payload-flow", "href":"/api/{mesh}/{knopPath}/_payload/_versions/", "method":"POST" },
   { "rel":"job.start", "href":"/api/{mesh}/jobs", "method":"POST", "expects":"sflo:WeaveJob" }
 ]

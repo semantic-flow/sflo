@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1764910157195
+updated: 1764954352865
 created: 1750624002110
 ---
 
@@ -58,8 +58,8 @@ The primary constituents of a mesh are [[mesh-resource.knop]]s. Nodes contain th
 | `ns/djradon/picks/_payload/2025-11-24_0142_07_v1/`              | [[mesh-resource.component.slice.version]]                        | concrete payload dataset     |
 | `ns/djradon/picks/_payload/2025-11-24_0142_07_v1/picks.jsonld ` | [[mesh-resource.component.distribution.version]]                 | paylod dataset distribution  |
 | `ns/djradon/picks/_payload/_default/picks.jsonld `              | [[mesh-resource.component.distribution.default]]                 | paylod dataset distribution  |
-| `ns/djradon/picks/_cfg-op/`                                     | [[mesh-resource.component.flow.operational-config]]              | operational config series    |
-| `ns/djradon/picks/_cfg-op/2025-11-24_0142_07_v1/`               | [[mesh-resource.component.slice.version]]                        | operational config           |
+| `ns/djradon/picks/_cfg-local/`                                  | [[mesh-resource.component.flow.local-config]]                    | local config series          |
+| `ns/djradon/picks/_cfg-local/2025-11-24_0142_07_v1/`            | [[mesh-resource.component.slice.version]]                        | local config                 |
 | `ns/djradon/picks/_cfg-inh/`                                    | [[mesh-resource.component.flow.inheritable-config]]              | inheritable config series    |
 | `ns/djradon/picks/_cfg-inh/_default/`                           | [[mesh-resource.component.slice.default]]                        | inheritable config           |
 | `ns/assets/`                                                    | [[mesh-resource.component.asset-tree]]                           | collection of assets         |

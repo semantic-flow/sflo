@@ -2,7 +2,7 @@
 id: 0n1lq6aq1gskj46bpcx9h4h
 title: version distribution
 desc: ''
-updated: 1764914216096
+updated: 1764954259376
 created: 1751138751433
 ---
 
@@ -11,6 +11,6 @@ created: 1751138751433
 
 ## Distribution Filenaming Per Flow
 
--  [[mesh-resource.component.flow.reference]], [[mesh-resource.component.flow.metadata]], [[mesh-resource.component.flow.operational-config]] and [[mesh-resource.component.flow.inheritable-config]] have their distributions named with `_ref`, `_meta`, `_config` and `_inheritable-config` respectively
+-  [[mesh-resource.component.flow.reference]], [[mesh-resource.component.flow.metadata]], [[mesh-resource.component.flow.local-config]] and [[mesh-resource.component.flow.inheritable-config]] have their distributions named with `_ref`, `_meta`, `_config` and `_inheritable-config` respectively
 - [[mesh-resource.component.flow.payload]] distributions use the knop slug as the base filename (no "_payload" or "_payload" suffix):
 

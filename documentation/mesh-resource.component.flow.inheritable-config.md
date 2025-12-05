@@ -2,7 +2,7 @@
 id: config-inheritance-resolution
 title: inheritable config flow
 desc: How InheritableNodeConfig inheritance works in Semantic Flow
-updated: 1755916057245
+updated: 1764954352858
 created: 1754285606247
 ---
 
@@ -21,7 +21,7 @@ The final `OperationalNodeConfig` for a given knop is resolved by merging the se
 
 ## Resolution Algorithm
 
-When resolving a knop's operational configuration, the system walks up the hierarchy from the knop's parent, collecting `InheritableNodeConfig` at each level. These are merged, with settings from closer ancestors taking precedence.
+When resolving a knop's local configuration, the system walks up the hierarchy from the knop's parent, collecting `InheritableNodeConfig` at each level. These are merged, with settings from closer ancestors taking precedence.
 
 ### Property-Level Inheritance
 
@@ -49,7 +49,7 @@ Configuration inheritance works at the property level. A child's `InheritableNod
 
 Controls whether a knop *receives* inherited configuration.
 -   **Default**: `true`
--   **Effect**: When `false`, the knop ignores the inheritance chain and uses only its own operational config or system defaults.
+-   **Effect**: When `false`, the knop ignores the inheritance chain and uses only its own local config or system defaults.
 
 ### `inheritableConfigPropagationEnabled` (Parent's Perspective)
 

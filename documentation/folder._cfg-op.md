@@ -1,9 +1,9 @@
 ---
 id: hfmgd0w82phfjkre3ippnk9
-title: _cfg-op flow folder
+title: _cfg-local flow folder
 desc: ''
-updated: 1764327617669
+updated: 1764954329514
 created: 1752928530694
 ---
 
-The physical representation of the [[mesh-resource.component.flow.operational-config]]
+The physical representation of the [[mesh-resource.component.flow.local-config]]

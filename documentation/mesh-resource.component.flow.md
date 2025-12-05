@@ -2,7 +2,7 @@
 id: flows
 title: flows
 desc: ''
-updated: 1764910157183
+updated: 1764954259356
 created: 1751688486456
 ---
 
@@ -11,7 +11,7 @@ created: 1751688486456
 There are five types of knop flows.
 
 - [[mesh-resource.component.flow.metadata]] (required)
-- [[mesh-resource.component.flow.operational-config]] (optional)
+- [[mesh-resource.component.flow.local-config]] (optional)
 - [[mesh-resource.component.flow.inheritable-config]] (optional)
 - [[mesh-resource.component.flow.reference]] (optional)
 - [[mesh-resource.component.flow.payload]] (for payload knops)

@@ -2,7 +2,7 @@
 id: k2apr2q5ibovesxgkhhgkmp
 title: 2025 11 28_refine Createknop
 desc: ''
-updated: 1764867799401
+updated: 1764954352854
 created: 1764346329068
 ---
 
@@ -24,7 +24,7 @@ The goal of this task is to:
    - the knop itself,
    - each flow directory that is created,
    - and (optionally) each slice directory, using a platform default template.
-4. Make provenance defaults come exclusively from `_cfg-op` (operational config), not from a separate provenance bundle.
+4. Make provenance defaults come exclusively from `_cfg-local` (local config), not from a separate provenance bundle.
 5. Preserve the existing RdfSource / parsing semantics direction (file:/// base, mesh-native JSON-LD).
 
 This sets us up so that:
@@ -44,7 +44,7 @@ For a newly created knop:
 - All other flow directories are **optional**:
   - `_ref/`
   - `_payload/`
-  - `_cfg-op/`
+  - `_cfg-local/`
   - `_cfg-inh/`
 
 `createNode`:
@@ -81,7 +81,7 @@ Flow directory slugs (fixed):
 - `_meta`
 - `_ref`
 - `_payload`
-- `_cfg-op`
+- `_cfg-local`
 - `_cfg-inh`
 
 Node slug:
@@ -95,7 +95,7 @@ File naming:
   - (later, weaves will write `_payload/vN/<knopSlug>.jsonld` and `_payload/_default/<knopSlug>.jsonld`)
 - Other flows:
   - `_ref/_working/<knopSlug>_ref.jsonld`
-  - `_cfg-op/_working/<knopSlug>_cfg-op.jsonld`
+  - `_cfg-local/_working/<knopSlug>_cfg-local.jsonld`
   - `_cfg-inh/_working/<knopSlug>_cfg-inh.jsonld`
 - `_meta`:
   - For **this task**, `createNode` **does not** write any JSON-LD inside `_meta` at all.
@@ -124,7 +124,7 @@ Continue to implement/extend the previously agreed model:
 
 `createNode` must use `RdfSource` + debasing logic to populate `_working` distributions when inputs are provided.
 
-### 5. Provenance defaults: only via operational config
+### 5. Provenance defaults: only via local config
 
 Remove or ignore `ProvenanceBundleInput` in `createNode`:
 
@@ -147,9 +147,9 @@ Remove or ignore `ProvenanceBundleInput` in `createNode`:
 
 * If `operationalConfig` is provided:
 
-  * Parse it as RDF via `RdfSource` and write `_cfg-op/_working/<knopSlug>_cfg-op.jsonld` in mesh-native form.
+  * Parse it as RDF via `RdfSource` and write `_cfg-local/_working/<knopSlug>_cfg-local.jsonld` in mesh-native form.
   * This config MAY contain “provenance defaults” (rightsHolder, license, default agents, etc.), but **no actual weave events**.
-* Actual weave events and PROV activities will be created later by a generic weave operation consuming `_cfg-op`, `_working` datasets, etc.
+* Actual weave events and PROV activities will be created later by a generic weave operation consuming `_cfg-local`, `_working` datasets, etc.
 
 ### 6. README and starter kits
 
@@ -183,7 +183,7 @@ We want dereferenceability even before the first weave.
 * Optionally, each slice directory created at this stage:
 
   * `<knopPath>/_payload/_working/index.html`
-  * `<knopPath>/_cfg-op/_working/index.html`
+  * `<knopPath>/_cfg-local/_working/index.html`
   * etc.
 
 Template requirements (minimal for now):
@@ -196,7 +196,7 @@ Template requirements (minimal for now):
 
 * Flow `index.html`:
 
-  * Identifies the flow by slug (`_payload`, `_ref`, `_cfg-op`, etc.).
+  * Identifies the flow by slug (`_payload`, `_ref`, `_cfg-local`, etc.).
   * Links to any `_working` distributions present (plain file links).
 
 These templates can be simple functions or static HTML skeletons with minimal logic; the goal is just to ensure:
@@ -216,7 +216,7 @@ When you implement this task, please:
    * No `v1` versions for `_payload`, `_ref`, `_cfg-*`.
 2. **Ensure `_meta` is mandatory**, but only the directory and `_default/` subdir exist; no RDF.
 3. **Add `_working` slices** for flows where inputs are provided, using the naming rules above.
-4. **Drop `ProvenanceBundleInput`** from `createNode`; provenance defaults belong in `_cfg-op/_working`.
+4. **Drop `ProvenanceBundleInput`** from `createNode`; provenance defaults belong in `_cfg-local/_working`.
 5. **Add support for optional Node README** (inline or from file) at `createNode` time, store it as knopname/README.md
 6. **Generate default `index.html`** in knop root (using README.md if present, and linking to created flow and FlowSlice dirs).
 
@@ -238,7 +238,7 @@ This task is complete when:
    * Creates other flow dirs only as needed.
    * Writes `_working` distributions (mesh-native JSON-LD) for any flows where `RdfSource` inputs are provided.
    * Does not write any versions (`v1`, `_default` distributions) or metadata RDF.
-2. Optional `operationalConfig` is written to `_cfg-op/_working/<knopSlug>_cfg-op.jsonld` and not used to generate any PROV events yet.
+2. Optional `operationalConfig` is written to `_cfg-local/_working/<knopSlug>_cfg-local.jsonld` and not used to generate any PROV events yet.
 3. Optional README is accepted and integrated into the knop’s `index.html` page.
 4. `index.html` exists in:
 

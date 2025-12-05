@@ -2,7 +2,7 @@
 id: ufnbtre0tn2pxq7dzjcgrz0
 title: 2025-11-27-createNode
 desc: ''
-updated: 1764867799338
+updated: 1764954329543
 created: 1764276666359
 ---
 
@@ -93,7 +93,7 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
      - If `payloadDatasetPath` is provided:
        - Copy or normalize it into `_payload/_working/` (no de-basing, no unpack).
      - Config files:
-       - If provided, copy/normalize into `_cfg-op/_working/` and/or `_cfg-inh/_working/`.
+       - If provided, copy/normalize into `_cfg-local/_working/` and/or `_cfg-inh/_working/`.
      - in all cases, the target filename in general will be "knop name" + "flow slug" + ".jsonld". 
        - the flow slugs are defined in ../ontology/semantic-flow/
      - 
@@ -196,7 +196,7 @@ This should be a **pure Node.js library function** plus a minimal Node-based ent
        * Create `_payload/v1/…` and copy/normalize the file.
      * If config paths provided:
 
-       * Create `_cfg-op/v1/…` and/or `_cfg-inh/v1/…` and copy/normalize.
+       * Create `_cfg-local/v1/…` and/or `_cfg-inh/v1/…` and copy/normalize.
 
   4. **No advanced behaviors**
 

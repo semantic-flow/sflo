@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1764914182206
+updated: 1764954440343
 created: 1755820864360
 ---
 
@@ -48,7 +48,7 @@ See:
     - Meta flow (metadata/provenance): [[mesh-resource.component.flow.metadata]]
     - payload flow (payload data): [[mesh-resource.component.flow.payload]]
     - config flows (settings; see §9):
-      - [[mesh-resource.component.flow.operational-config]]
+      - [[mesh-resource.component.flow.local-config]]
       - [[mesh-resource.component.flow.inheritable-config]]
   - FlowSlices (concrete Datasets): `_default/`, `_working/`, version folders (e.g., `2025-11-24_0142_07_v1/`)
     - Overview: [[mesh-resource.component.slice]]
@@ -104,7 +104,7 @@ Reserved folder names (underscore-prefixed; canonical set):
 - `_knop-handle/`
 - Flow containers (abstract datasets):
   - `_meta/`, `_payload/`
-  - `_cfg-op/`, `_cfg-inh/` (see §9)
+  - `_cfg-local/`, `_cfg-inh/` (see §9)
 - FlowSlices inside a flow:
   - `_default/`, `_working/`, version folders with format `YYYY-MM-DD_HHMM_SS_vN/` (e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`, …)
 - Assets:
@@ -112,12 +112,12 @@ Reserved folder names (underscore-prefixed; canonical set):
 
 Folder-note pages for these reserved names live under `folder.*.md` (where defined):
 - `_meta/`: [[folder._meta]]
-- `_payload/`: [[folder._payload-flow]]
-- `_cfg-op/`: [[folder._cfg-op]]
+- `_payload/`: [[folder._payload]]
+- `_cfg-local/`: [[folder._cfg-local]]
 - `_cfg-inh/`: [[folder._cfg-inh]]
 - `_default/`: [[folder._default]]
 - `_working/`: [[folder._working]]
-- Version folders (`YYYY-MM-DD_HHMM_SS_vN/`): [[folder.flowslice]]
+- Version folders (`YYYY-MM-DD_HHMM_SS_vN/`): [[folder.version-slice]]
 - `_assets/`: [[folder._assets]]
 - knop folder pages:
   - Node: [[folder.knop]]
@@ -158,12 +158,12 @@ See:
 - [[concept.publication]]
 
 1) Configuration and Inheritance (Two Config Flows)
-- Operational Config Flow: final, resolved settings for a knop (consumer). Overrides apply here.
+- local config flow: final, resolved settings for a knop (consumer). Overrides apply here.
 - Inheritable Config Flow: settings a knop offers to descendants (provider). Property-level merge; order: parent → … → service → platform; propagation can be firewalled.
-- Resolution: a single inheritance mechanism resolves operational config from inheritable configs plus service/platform defaults. Explicit operational entries override inherited ones.
+- Resolution: a single inheritance mechanism resolves local config from inheritable configs plus service/platform defaults. Explicit operational entries override inherited ones.
 See:
 - [[concept.knop-config]]: overview
-- [[mesh-resource.component.flow.operational-config]]
+- [[mesh-resource.component.flow.local-config]]
 - [[mesh-resource.component.flow.inheritable-config]]
 - [[concept.knop-config.defaults]]: defaults 
 
@@ -187,7 +187,7 @@ See:
 │   │   ├── _working/
 │   │   └── 2025-11-24_0142_07_v1/
 │   ├── _cfg-inh/    # provider config (optional)
-│   ├── _cfg-op/    # resolved config (optional; may be system-written)
+│   ├── _cfg-local/    # resolved config (optional; may be system-written)
 │   ├── index.html                   # resource page
 │   ├── README.md
 │   └── CHANGELOG.md

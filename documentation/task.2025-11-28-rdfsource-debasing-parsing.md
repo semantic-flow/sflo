@@ -2,7 +2,7 @@
 id: qsqii47rbkfuw3ktpdhk9rv
 title: 2025 11 28 Rdfsource Debasing Parsing
 desc: ''
-updated: 1764867799408
+updated: 1764954329552
 created: 1764328025778
 ---
 
@@ -86,7 +86,7 @@ We are going with **Option 1**:
   - `_meta`    → knop metadata flow (old `_knop-metadata-flow`)
   - `_ref`     → reference flow
   - `_payload` → payload/data flow
-  - `_cfg-op`  → operational config flow
+  - `_cfg-local`  → local config flow
   - `_cfg-inh` → inheritable config flow
 
 - **Node slug**:
@@ -99,7 +99,7 @@ We are going with **Option 1**:
   - Others: `<knopSlug>-<flowShort>.jsonld`, e.g.:
     - metadata: `<knopSlug>_meta.jsonld`
     - reference: `<knopSlug>_ref.jsonld`
-    - cfg-op: `<knopSlug>_cfg-op.jsonld`
+    - cfg-op: `<knopSlug>_cfg-local.jsonld`
     - cfg-inh: `<knopSlug>_cfg-inh.jsonld`
 
 Example for knop at `/ontology/semantic-flow-ontology/`:

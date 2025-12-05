@@ -2,7 +2,7 @@
 id: xqjr13fyons9goxv8rjrskj
 title: Todo
 desc: ''
-updated: 1764854583731
+updated: 1764954352856
 created: 1755715425146
 ---
 
@@ -12,7 +12,7 @@ This list captures general tasks, ideas, and items that have not yet been broken
 
 ## High Priority
 
-- rename "operational config" IF warranted: maybe "specific config", "self config", "override config"
+- rename "local config" IF warranted: maybe "specific config", "self config", "override config"
 - See @/documentation/task.2025-11-28-templates-and-stylesheets.md - but we need to make a pluggable "defaults" architecture where during runtime and/or build time, you can point at an existing config distribution, 
 - [ ] Implement the core Weave Process logic (versioning, promotion, link resolution).
 - [ ] Define and implement the two-flow configuration inheritance model.
