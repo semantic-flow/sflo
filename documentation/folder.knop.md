@@ -2,7 +2,7 @@
 id: hp9ckpez0pmuv270sn005gt
 title: knop folder
 desc: a folder that maps to a mesh knop and extends the namespace
-updated: 1764867799294
+updated: 1764914216058
 created: 1751160854174
 ---
 
@@ -15,14 +15,12 @@ A knop folder is any folder that maps to a [[mesh-resource.knop]]. Each knop fol
 
 ## Minimal requirements
 
-- Every knop folder must contain:
-  - [[_knop-handle/|folder._knop-handle]]
-  - [[_meta/|folder._meta]]
+Every knop folder must contain a [[_knop-handle/|folder._knop-handle]]
 
 ## Node-specific flows (by type)
 
 - [[bare knop|mesh-resource.knop.bare]]: no additional flows 
-- [[dataset knop|mesh-resource.knop.payload]]: requires [[_data/|folder._data]]
+- [[dataset knop|mesh-resource.knop.payload]]: requires [[_payload/|folder._payload]]
 
 Distributions must live inside flow version folders (e.g., `_default/`, `_working/`, version folders like `2025-11-24_0142_07_v1/`). See [[resource.knop-component.flow]] and [[resource.knop-component.flow-version]].
 
@@ -32,4 +30,4 @@ Distributions must live inside flow version folders (e.g., `_default/`, `_workin
 /my-knop/                     # knop folder → https://ex.org/my-knop/
 ├── _knop-handle/             # required
 ├── _meta/               # required
-└── _data/               # required for dataset knops
+└── _payload/               # required for dataset knops

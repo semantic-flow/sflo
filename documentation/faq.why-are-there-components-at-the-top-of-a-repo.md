@@ -2,7 +2,7 @@
 id: why-are-there-components-at-the-top-of-a-repo
 title: Why are there components at the top of a repo?
 desc: ''
-updated: 1764867799475
+updated: 1764914216073
 created: 1751351383000
 ---
 
@@ -27,7 +27,7 @@ Since the repository root is a mesh knop, it follows the same rules as any other
 - **`_meta/`**: corresponds to the [[mesh-resource.component.flow.metadata]] with administrative metadata for the root knop
 - **`_knop-handle/`**: corresponds to [[knop handle|resource.knop-component.knop-handle]] for referential indirection
 
-The root knop may contain **other components**: Depending on the root knop type (e.g., `_ref/` for reference knops, `_data/` for versioned datasets)
+The root knop may contain **other components**: Depending on the root knop type (e.g., `_ref/` for reference knops, `_payload/` for versioned datasets)
 
 ### Consistency Principle
 

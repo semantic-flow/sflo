@@ -2,7 +2,7 @@
 id: p3mbdrze0qe8uvko4i16t1s
 title: folder resource facet
 desc: ''
-updated: 1764910114611
+updated: 1764914216061
 created: 1750659145476
 ---
 
@@ -27,7 +27,7 @@ All folder-based resources should contain a [[mesh-resource.component.documentat
   - correspond to [[mesh-resource.component.flow.metadata]]
   - present in all mesh knops
   
-- **`_data/`**
+- **`_payload/`**
 
   - correspond to the [[mesh-resource.component.flow.dataset]]
   - contain the dataset associated with the [[mesh-resource.knop.payload]]

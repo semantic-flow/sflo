@@ -2,7 +2,7 @@
 id: payload-flow
 title: payload flow
 desc: ''
-updated: 1764909854357
+updated: 1764914216075
 created: 1751560483669
 ---
 
@@ -10,7 +10,7 @@ created: 1751560483669
 
 ## Overview
 
-A payload flow (formerly called a __dataset__ flow) is a series of RDF datasets. Like all flows, each payload flow has versions (_default/, _working/, version folders like `2025-11-24_0142_07_v1/`) that track its evolution over time.
+A payload flow (formerly called a __payloadset__ flow) is a series of RDF datasets. Like all flows, each payload flow has versions (_default/, _working/, version folders like `2025-11-24_0142_07_v1/`) that track its evolution over time.
 
 payload flows are distinct from [[mesh-resource.component.flow.metadata]]s, which are usually managed by the platform and describe the mesh knop itself and its components.
 

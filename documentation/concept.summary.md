@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1764910157173
+updated: 1764914182206
 created: 1755820864360
 ---
 
@@ -112,7 +112,7 @@ Reserved folder names (underscore-prefixed; canonical set):
 
 Folder-note pages for these reserved names live under `folder.*.md` (where defined):
 - `_meta/`: [[folder._meta]]
-- `_payload/`: [[folder._data-flow]]
+- `_payload/`: [[folder._payload-flow]]
 - `_cfg-op/`: [[folder._cfg-op]]
 - `_cfg-inh/`: [[folder._cfg-inh]]
 - `_default/`: [[folder._default]]

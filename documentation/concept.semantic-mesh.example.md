@@ -2,7 +2,7 @@
 id: s5ild34tbe4w2wt4m8ldllg
 title: Example Mesh Hierarchy
 desc: ''
-updated: 1764867799448
+updated: 1764914216071
 created: 1750640592487
 ---
 
@@ -22,7 +22,7 @@ created: 1750640592487
 /test-ns/djradon/                                # dataset knop
 ├── _knop-handle/                                     # handle component
 │   └── index.html                               # mesh knop handle page
-├── _data/                                       # knop flow (data)
+├── _payload/                                       # knop flow (data)
 │   ├── _default/                                # flow version
 │   │   └── index.html                           # resource page
 │   ├── _working/                                # flow version (draft)
@@ -41,13 +41,13 @@ created: 1750640592487
 └── README.md                                    # resource documentation
 
 /test-ns/djradon/bio/                            # dataset knop (unversioned dataset)
-├── _data/                                       # knop flow (data)
+├── _payload/                                       # knop flow (data)
 │   ├── _default/                                # flow version
-│   │   ├── djradon-bio_data.trig                      # biographical data distribution
-│   │   ├── djradon-bio_data.jsonld                   # alternative distribution
+│   │   ├── djradon-bio_payload.trig                      # biographical data distribution
+│   │   ├── djradon-bio_payload.jsonld                   # alternative distribution
 │   │   └── index.html                           # resource page
 │   ├── _working/                                # flow version (draft)
-│   │   ├── djradon-bio_data.trig                      # draft biographical data
+│   │   ├── djradon-bio_payload.trig                      # draft biographical data
 │   │   └── index.html                           # resource page
 │   └── index.html                               # resource page
 ├── _meta/                                       # knop flow (metadata)
@@ -63,7 +63,7 @@ created: 1750640592487
 └── README.md                                    # resource documentation
 
 /test-ns/djradon/picks/                          # dataset knop (versioned dataset)
-├── _data/                                       # knop flow (data)
+├── _payload/                                       # knop flow (data)
 │   ├── _default/                                # flow version
 │   │   ├── djradon-picks.trig                    # current picks data
 │   │   ├── djradon-picks.jsonld
@@ -102,7 +102,7 @@ created: 1750640592487
 │   └── index.html                               # resource page
 ├── index.html                                   # resource page
 ├── 1996-11-10/                                  # dataset knop (individual playlist)
-│   ├── _data/                                   # knop flow (data)
+│   ├── _payload/                                   # knop flow (data)
 │   │   ├── _default/                            # flow version
 │   │   │   ├── 1996-11-10.trig                   # playlist data
 │   │   │   └── index.html                       # resource page
@@ -132,7 +132,7 @@ created: 1750640592487
 │   ├── 1996-11-10.trig                           # aggregated distribution
 │   └── index.html                               # resource page
 └── 1996-11-17/                                  # dataset knop (another playlist)
-    ├── _data/                                   # knop flow (data)
+    ├── _payload/                                   # knop flow (data)
     │   ├── _default/                            # flow version
     │   │   ├── 1996-11-17.trig
     │   │   └── index.html                       # resource page

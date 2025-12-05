@@ -2,7 +2,7 @@
 id: 8t3swuswoi81yuzo2bnecy9
 title: FlowSlice
 desc: ''
-updated: 1764910157160
+updated: 1764914216055
 created: 1751689346769
 ---
 
@@ -31,7 +31,7 @@ knop flows have at least two versions:
 │   ├── _working/           ← flow version (working draft)
 │   ├── 2025-11-24_0142_07_v1/              ← flow version (version 1 metadata)
 │   └── 2025-11-24_0142_08_v2/              ← flow version (version 2 metadata)
-└── _data/                  ← dataset knop flow (ontology definition--by-dataset)
+└── _payload/                  ← dataset knop flow (ontology definition--by-dataset)
     ├── _default/           ← flow version (default definition)
     ├── _working/           ← flow version (working draft)
     └── 2025-11-24_0142_07_v1/              ← flow version (version 1 definition)

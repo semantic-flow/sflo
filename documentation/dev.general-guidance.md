@@ -2,7 +2,7 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Developer General Guidance
 desc: ''
-updated: 1764867799415
+updated: 1764914216064
 created: 1751259888479
 ---
 
@@ -45,7 +45,7 @@ sflo/
 
 
 - **ontology/**: repo containing relevant ontologies:
-  - `semantic-flow` - main ontology (sflo/ontology/semantic-flow/_data-flow/_working/semantic-flow-ontology.ttl) defines meshes and their knops and components; 
+  - `semantic-flow` - main ontology (sflo/ontology/semantic-flow/_payload-flow/_working/semantic-flow-ontology.ttl) defines meshes and their knops and components; 
   - `knop-config` - Configuration properties that apply directly to mesh entities (knops, flows, versions, etc.)
   - `meta-flow` - provenance and licensing vocabulary
   - `sflo-service` - Service layer configuration vocabulary for the flow-service application

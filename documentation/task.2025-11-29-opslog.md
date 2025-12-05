@@ -2,13 +2,13 @@
 id: g8h08le4lmeoxhf3zeqsecf
 title: 2025 11 29 Opslog
 desc: ''
-updated: 1764867799353
+updated: 1764911032917
 created: 1764434223489
 ---
 
 # **Prompt for Roo: Integrate `_opslog` and `_meta` Flows Into the Semantic Flow Model**
 
-We need to update the Semantic Flow documentation and the `createNode` code to reflect a finalized separation of responsibilities among `_opslog`, `_meta`, and `_ref`. This prompt defines exactly what must be implemented.
+We need to update the Semantic Flow documentation and the `createKnop` code to reflect a finalized separation of responsibilities among `_opslog`, `_meta`, and `_ref`. This prompt defines exactly what must be implemented.
 
 All flows are now optional, so the only marker for a knop is its "_knop-handle/" folder. We need a sflo-config-ontology predicate for turning on/off the opslog. If it was on for a weave, and then gets turned off, I think _default and _working should get deleted on the next weave. 
 
