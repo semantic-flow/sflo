@@ -2,7 +2,7 @@
 id: payload-knop
 title: paylod knop
 desc: ''
-updated: 1764867799268
+updated: 1764909854355
 created: 1750999795528
 ---
 
@@ -86,6 +86,6 @@ ns/monsters/
 ├── _knop-handle/               # handle for the payload knop
 └── _payload/                 # single payload flow
     └── _default/               # default dataset version
-        ├── monsters.jsonld     # concrete distribution of the default version
+        ├── monsters.jsonld     # concrete distribution of the default slice
         └── monsters.trig
 ```

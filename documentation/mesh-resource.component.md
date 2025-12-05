@@ -2,7 +2,7 @@
 id: 9c27yly4ed3ju7msf8luhge
 title: knop components
 desc: ''
-updated: 1764867799232
+updated: 1764910157180
 created: 1750706813437
 ---
 
@@ -39,7 +39,7 @@ System components are usually created or altered by the [[Weave Process|concept.
 **Folder-based system components:**
 - **[[metadataset flows|mesh-resource.component.flow.metadata]]**: Administrative and structural metadata for mesh knops (in `_meta/` folders)
 - **[[version|mesh-resource.component.slice.version]]**: Versioned versions of datasets (in `_vN/` folders) are created on weave
-- **[[mesh-resource.component.slice.default-slice]]**: updated on weave
+- **[[mesh-resource.component.slice.default]]**: updated on weave
 - **[[Node handles|mesh-resource.component.knop-handle]]**: Components providing referential indirection for knops as mesh resources (in `_knop-handle/` folders)
 
 **File-based system components:**

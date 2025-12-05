@@ -2,7 +2,7 @@
 id: flows
 title: flows
 desc: ''
-updated: 1764867799464
+updated: 1764910157183
 created: 1751688486456
 ---
 
@@ -19,19 +19,19 @@ There are five types of knop flows.
 
 ## Relationship to versions
 
-As DatasetSeries, knop flows are realized through [[mesh-resource.knop-component.flow-version]] datasets, which are temporal slices of the flow. To borrow a phrase from the PROV model, we say that a version is a specialization of the knop flow.
+As DatasetSeries, knop flows are realized through [[mesh-resource.component.flow-version]] datasets, which are temporal slices of the flow. To borrow a phrase from the PROV model, we say that a version is a specialization of the knop flow.
 
 ### Relationship pattern:
 
-Every knop flow has at least two concrete versions: [[mesh-resource.component.slice.default-slice]] and [[mesh-resource.knop-component.flow-slice.working]].
+Every knop flow has at least two concrete versions: [[mesh-resource.component.slice.default]] and [[mesh-resource.component.slice.working]].
 
-The knop flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series) and may have multiple [[mesh-resource.knop-component.flow-version.version]]s.
+The knop flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series) and may have multiple [[mesh-resource.component.flow-version.version]]s.
 
 
 ### Ontology Example
 
 - knop flow: "My ontology definitions" (persistent concept)
-- flow versions: v1, v2, current version, working draft of working version (specific realizations)
+- flow versions: v1, v2, current version, working draft of working slice (specific realizations)
 
 
 ```file

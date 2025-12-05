@@ -2,7 +2,7 @@
 id: 6hmxoiahi5lxjg1urdibvi1
 title: operational config flow
 desc: ''
-updated: 1764867799246
+updated: 1755846188515
 created: 1755844590439
 ---
 

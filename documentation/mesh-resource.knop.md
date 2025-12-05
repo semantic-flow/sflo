@@ -2,7 +2,7 @@
 id: mesh-knop
 title: mesh knop
 desc: ''
-updated: 1764867799335
+updated: 1764910114624
 created: 1750999795528
 ---
 
@@ -32,6 +32,6 @@ When stored on disk, all mesh knops:
 
 Every mesh knop has these components:
 
-- **[[mesh-resource.knop-component.flow.knop-metadata]]** ([[folder._meta]]): Centralized metadata for the knop
-- **[[mesh-resource.knop-component.knop-handle]]** (`_knop-handle/`): Universal marker folder that refers to the parent "as a mesh knop", as opposed to "as the name, dataset, or other thing" to which it normally refers; a handle resource page should explain this distinction
+- **[[mesh-resource.component.flow.knop-metadata]]** ([[folder._meta]]): Centralized metadata for the knop
+- **[[mesh-resource.component.knop-handle]]** (`_knop-handle/`): Universal marker folder that refers to the parent "as a mesh knop", as opposed to "as the name, dataset, or other thing" to which it normally refers; a handle resource page should explain this distinction
 

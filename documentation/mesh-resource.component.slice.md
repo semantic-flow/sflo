@@ -2,7 +2,7 @@
 id: 8t3swuswoi81yuzo2bnecy9
 title: FlowSlice
 desc: ''
-updated: 1764867799360
+updated: 1764910157160
 created: 1751689346769
 ---
 
@@ -67,11 +67,11 @@ _default/
 
 ## Immutability
 
-**[[mesh-resource.knop-component.flow-version.version]]** (historical flow versions, i.e., version folders like `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.
+**[[mesh-resource.component.flow-version.version]]** (historical flow versions, i.e., version folders like `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.
 
-**[[mesh-resource.component.slice.default-slice]]** (the latest "woven" flow versions, `_default/`) should not be modified directly by users, but will be updated "on weave" if the [[mesh-resource.knop-component.flow-slice.working]] has evolved.
+**[[mesh-resource.component.slice.default]]** (the latest "woven" flow versions, `_default/`) should not be modified directly by users, but will be updated "on weave" if the [[mesh-resource.component.slice.working]] has evolved.
 
-**[[mesh-resource.knop-component.flow-slice.working]]** (working flow versions, `_working/`) are mutable:
+**[[mesh-resource.component.slice.working]]** (working flow versions, `_working/`) are mutable:
 - Can be edited and updated during development
 - Represent evolving state of the knop flow
 

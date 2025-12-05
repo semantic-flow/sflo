@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1764867799453
+updated: 1764910157195
 created: 1750624002110
 ---
 
@@ -52,7 +52,7 @@ The primary constituents of a mesh are [[mesh-resource.knop]]s. Nodes contain th
 | `ns/djradon/_ref/_working/`                                     | [[mesh-resource.component.slice.working-slice]]                  | reference flow version       |
 | `ns/djradon/_ref/_working/djradon.jsonld`                       | [[mesh-resource.component.distribution.working]]                 | reference flow version       |
 | `ns/djradon/_meta/`                                             | [[mesh-resource.component.flow.metadata]]                        | knop metadata dataset series |
-| `ns/djradon/_meta/_default/`                                    | [[mesh-resource.component.slice.default-slice]]                  | knop metadata dataset        |
+| `ns/djradon/_meta/_default/`                                    | [[mesh-resource.component.slice.default]]                        | knop metadata dataset        |
 | `ns/djradon/picks/`                                             | [[mesh-resource.knop.payload]]                                   | abstract dataset             |
 | `ns/djradon/picks/_payload/`                                    | [[mesh-resource.component.flow.payload]]                         | payload dataset series       |
 | `ns/djradon/picks/_payload/2025-11-24_0142_07_v1/`              | [[mesh-resource.component.slice.version]]                        | concrete payload dataset     |
@@ -61,7 +61,7 @@ The primary constituents of a mesh are [[mesh-resource.knop]]s. Nodes contain th
 | `ns/djradon/picks/_cfg-op/`                                     | [[mesh-resource.component.flow.operational-config]]              | operational config series    |
 | `ns/djradon/picks/_cfg-op/2025-11-24_0142_07_v1/`               | [[mesh-resource.component.slice.version]]                        | operational config           |
 | `ns/djradon/picks/_cfg-inh/`                                    | [[mesh-resource.component.flow.inheritable-config]]              | inheritable config series    |
-| `ns/djradon/picks/_cfg-inh/_default/`                           | [[mesh-resource.component.slice.default-slice]]                  | inheritable config           |
+| `ns/djradon/picks/_cfg-inh/_default/`                           | [[mesh-resource.component.slice.default]]                        | inheritable config           |
 | `ns/assets/`                                                    | [[mesh-resource.component.asset-tree]]                           | collection of assets         |
 | `ns/assets/images/`                                             | asset folder                                                     | - not a sf resource -        |
 | `ns/assets/images/logo.svg`                                     | asset                                                            | - not a sf resource -        |
@@ -86,7 +86,7 @@ Example:
 - **[[mesh-resource.component.flow]]** and their [[mesh-resource.component.slice]]
   - **[[mesh-resource.component.flow.metadata]]**: System-related administrative and structural metadata for mesh knops
   - **[[Version datasets|mesh-resource.component.slice.version]]**: Versioned versions of datasets
-- **[[working versions|mesh-resource.component.slice.working-slice]]**: Draft workspaces for ongoing changes to versioned datasets
+- **[[working slices|mesh-resource.component.slice.working-slice]]**: Draft workspaces for ongoing changes to versioned datasets
 - **[[Node handles|mesh-resource.component.knop-handle]]**: Components that provide referential indirection, allowing references to knops as mesh resources rather than their referents
 - **[[Asset trees|mesh-resource.component.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
 
@@ -101,7 +101,7 @@ Terminal [[mesh resources|mesh-resource]] that cannot contain other resources:
 
 ## Filesystem Structure
 
-Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
+Meshes may be constituted as a set of filesystem [[folder]]s and [[facet.resource.file]]s.
 
 ### Folder Mapping
 
@@ -141,7 +141,7 @@ Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
 
 ### System vs User Boundaries
 - **System components**: Generated and managed by the weave process, not intended for user modification
-- **User components**: Directly modifiable by users ([[mesh-resource.component.slice.default-slice]], README.md, CHANGELOG.md)
+- **User components**: Directly modifiable by users ([[mesh-resource.component.slice.default]], README.md, CHANGELOG.md)
 - The weave process maintains system components and generates missing required flows
 
 ### Versioning Requirements

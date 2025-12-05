@@ -2,7 +2,7 @@
 id: payload-flow
 title: payload flow
 desc: ''
-updated: 1764867799478
+updated: 1764909854357
 created: 1751560483669
 ---
 
@@ -48,7 +48,7 @@ From the [[semantic mesh example|concept.semantic-mesh.example]]:
 
 ```
 /test-ns/djradon-bio/_payload          # payload flow
-├── _default/                        # default version
+├── _default/                        # default slice
 │   ├── djradon-bio.ttl             # turtle distribution
 │   ├── djradon-bio.jsonld          # json-ld distribution
 │   └── index.html                  # version interface

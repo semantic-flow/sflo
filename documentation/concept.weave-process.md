@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1764867799262
+updated: 1764910157177
 created: 1751128698638
 ---
 
@@ -16,7 +16,7 @@ created: 1751128698638
 The **weave process** transforms evolving Flow data (the **[[WorkingSlice|mesh-resource.component.slice.working-slice]]**) into:
 
 * a new immutable **[[Version|mesh-resource.component.slice.version]]** (if versioning is enabled),
-* an updated **[[DefaultSlice|mesh-resource.component.slice.default-slice]]** (always),
+* an updated **[[DefaultSlice|mesh-resource.component.slice.default]]** (always),
 * updated metadata ([[meta-flow|mesh-resource.component.flow.metadata]]) and [[mesh-resource.component.documentation-resource.changelog]]
 * regenerated resource pages
 * and a stable, cross-knop consistent “cut” of the mesh state(s).

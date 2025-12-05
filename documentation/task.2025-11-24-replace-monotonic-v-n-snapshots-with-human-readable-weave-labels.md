@@ -2,7 +2,7 @@
 id: 8akbl2qj0nz38yrvet4oq3k
 title: Replace Monotonic V N Versions with Human Readable Weave Labels
 desc: ''
-updated: 1764867799455
+updated: 1764910157199
 created: 1762712674617
 ---
 
@@ -173,8 +173,8 @@ When updating documentation, apply these substitutions:
 | "version"             | Version or Version FlowSlice | When referring to the concept           |
 | "flow version"        | FlowSlice (usually)          | Generic references to flow realizations |
 | "version" (ambiguous) | Specify: Version FlowSlice   | When the Version type is meant          |
-| "_default version"    | DefaultSlice                 | The current/latest realization          |
-| "_working version"    | WorkingSlice                 | The mutable staging realization         |
+| "_default slice"      | DefaultSlice                 | The current/latest realization          |
+| "_working slice"      | WorkingSlice                 | The mutable staging realization         |
 
 ### **Common Ambiguities**
 
@@ -214,16 +214,16 @@ Update all references from simple `_vN` to the new format in:
 * [`concept.weave-process.md`](documentation/concept.weave-process.md) - Weave process descriptions
 
 **FlowSlice Terminology Alignment:**
-* [`mesh-resource.knop-component.flow-version.version.md`](documentation/mesh-resource.knop-component.flow-version.version.md)
-* [`mesh-resource.knop-component.flow-slice.default.md`](documentation/mesh-resource.knop-component.flow-slice.default.md)
-* [`mesh-resource.knop-component.flow-slice.working.md`](documentation/mesh-resource.knop-component.flow-slice.working.md)
+* [`mesh-resource.component.flow-version.version.md`](documentation/mesh-resource.component.flow-version.version.md)
+* [`mesh-resource.component.slice.default.md`](documentation/mesh-resource.component.slice.default.md)
+* [`mesh-resource.component.slice.working.md`](documentation/mesh-resource.component.slice.working.md)
 
 **Other Documentation:**
 * [`facet.flow.versioned.md`](documentation/facet.flow.versioned.md)
-* [`mesh-resource.knop-component.md`](documentation/mesh-resource.knop-component.md)
+* [`mesh-resource.component.md`](documentation/mesh-resource.component.md)
 * [`concept.metadata.provenance.md`](documentation/concept.metadata.provenance.md)
-* [`mesh-resource.knop-component.flow.payload.md`](documentation/mesh-resource.knop-component.flow.payload.md)
-* [`mesh-resource.knop-component.knop-config-defaults.md`](documentation/mesh-resource.knop-component.knop-config-defaults.md)
+* [`mesh-resource.component.flow.payload.md`](documentation/mesh-resource.component.flow.payload.md)
+* [`mesh-resource.component.knop-config-defaults.md`](documentation/mesh-resource.component.knop-config-defaults.md)
 
 **Check for existence and update if present:**
 * `concept.namespace.segment.system.md`
@@ -244,9 +244,9 @@ Update all references from simple `_vN` to the new format in:
 - [x] Update `concept.metadata.provenance.md` - **COMPLETED** (RDF turtle examples updated)
 - [x] Update `concept.git.md` - **COMPLETED** (5 sections updated with new format)
 - [x] Update `facet.filesystem.folder.md` - **COMPLETED** (version folder section rewritten)
-- [x] Update `mesh-resource.knop-component.flow.payload.md` - **COMPLETED** (version references updated)
-- [x] Update `mesh-resource.knop-component.flow-slice.default-slice.md` - **COMPLETED** (example updated)
-- [x] Update `mesh-resource.knop-component.flow.md` - **COMPLETED** (code example updated)
+- [x] Update `mesh-resource.component.flow.payload.md` - **COMPLETED** (version references updated)
+- [x] Update `mesh-resource.component.slice.default.md` - **COMPLETED** (example updated)
+- [x] Update `mesh-resource.component.flow.md` - **COMPLETED** (code example updated)
 - [x] Update `concept.mesh.md` - **COMPLETED** (table examples updated)
 - [x] Update `folder.knop.md` - **COMPLETED** (distribution folder reference updated)
 - [x] Update `mesh-resource.knop.payload.md` - **COMPLETED** (version 3 example updated)

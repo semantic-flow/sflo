@@ -2,17 +2,17 @@
 id: 4v2b7t8nbzkmtyvnayye3vj
 title: Provenance
 desc: ''
-updated: 1764867799290
+updated: 1764910157192
 created: 1753117923066
 ---
 
 ## Core Principles
 
-**Version-only provenance** - Provenance reference in [[mesh-resource.component.slice.default-slice]] should reference its corresponding stable version; 
+**Version-only provenance** - Provenance reference in [[mesh-resource.component.slice.default]] should reference its corresponding stable version; 
 
 **Meta-flow storage** - Semantic Flow-specific provenance lives in meta-flows, referencing versions in other flows. Domain-specific provenance can live in datasets themselves.
 
-**default version duplication** - `_default` meta versions contain identical copies of the latest version's provenance with base URI pointing to the version for stable fragment resolution.
+**default slice duplication** - `_default` meta versions contain identical copies of the latest version's provenance with base URI pointing to the version for stable fragment resolution.
 
 ## Fragment Identifier Naming Scheme
 
@@ -84,7 +84,7 @@ For a `config-flow` at version `v47`, the identifiers would be:
        prov:actedOnBehalfOf <https://orcid.org/0000-0002-1825-0097> .
 ```
 
-### default version Copy
+### default slice Copy
 
 ```turtle
 # In my-dataset/_meta/_default/my-dataset_meta.trig

@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1764867799209
+updated: 1764910157173
 created: 1755820864360
 ---
 
@@ -52,7 +52,7 @@ See:
       - [[mesh-resource.component.flow.inheritable-config]]
   - FlowSlices (concrete Datasets): `_default/`, `_working/`, version folders (e.g., `2025-11-24_0142_07_v1/`)
     - Overview: [[mesh-resource.component.slice]]
-    - `_default/`: [[mesh-resource.component.slice.default-slice]]
+    - `_default/`: [[mesh-resource.component.slice.default]]
     - `_working/`: [[mesh-resource.component.slice.working-slice]]
     - Version folders: [[mesh-resource.component.slice.version]]
     - Distributions: [[mesh-resource.component.distribution]]

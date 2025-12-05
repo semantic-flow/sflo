@@ -2,11 +2,11 @@
 id: wie8wazi0eoq81zke09czxk
 title: knop handle
 desc: ''
-updated: 1764867799479
+updated: 1764910114606
 created: 1756064147279
 ---
 
-# **Node Handle (mesh-resource.knop-component.knop-handle)**
+# **Node Handle (mesh-resource.component.knop-handle)**
 
 ## **Summary**
 
