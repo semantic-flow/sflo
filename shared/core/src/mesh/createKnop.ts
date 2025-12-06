@@ -69,7 +69,7 @@ export async function createKnop(
   if (!options.allowNonEmpty && await isDirectoryNonEmpty(absPath)) {
     throw new Error(
       `Directory ${absPath} is non-empty. ` +
-      `Use allowNonEmpty option to override this safety check.`
+      `Use --allow-nonempty option to override this safety check.`
     );
   }
 
