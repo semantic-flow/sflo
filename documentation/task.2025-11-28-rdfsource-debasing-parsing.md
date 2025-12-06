@@ -6,6 +6,8 @@ updated: 1764954329552
 created: 1764328025778
 ---
 
+> **✅ STATUS**: RdfSource is implemented in `shared/core/src/rdf/` with minor naming differences (`kind` vs `type`, `inline` vs `content`). Core functions `parseRdfSource` and `serializeRdf` are working.
+
 ## TODO
 
 - [x] Explore project structure and understand requirements

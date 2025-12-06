@@ -6,6 +6,8 @@ updated: 1764954329543
 created: 1764276666359
 ---
 
+> **⚠️ SUPERSEDED**: This original design was superseded by [[completed.2025-11-28_refine-createnode]]. **Key difference**: The original design created v1 versions; the refined version only creates `_working` slices. The function is now named `createKnop`.
+
 ## TODO
 
 - [x] Explore project structure and understand requirements

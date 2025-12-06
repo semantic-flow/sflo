@@ -33,7 +33,7 @@ const md = new MarkdownIt({
  * Create a new mesh knop
  * 
  * Scaffolds directory structure and writes _working slices.
- * Does NOT write slices (v1, _default) - those are created by weaves.
+ * Does NOT write other slices (v1, _default) - those are created by weaves.
  * 
  * Creates:
  * - _knop-handle/ directory

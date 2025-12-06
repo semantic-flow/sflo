@@ -5,6 +5,20 @@ desc: Detailed architecture and implementation plan for RdfSource abstraction an
 created: 2025-11-28
 ---
 
+> ## Implementation Status (as of 2025-12-05)
+>
+> | Component | Status | Notes |
+> |-----------|--------|-------|
+> | RdfSource abstraction | ✅ Implemented | Minor naming differences from spec |
+> | createKnop (was createNode) | ✅ Implemented | Per refined spec - no versions, only `_working` |
+> | ProvenanceBundleInput | ❌ Removed | Per refinement |
+>
+> **Naming differences from this spec:**
+> - `kind` instead of `type`
+> - `inline` instead of `content`
+> - `RdfSource` instead of `RdfSourceInput`
+> - `localConfig` instead of `operationalConfig`
+
 # Architecture Plan: RdfSource Abstraction & createNode Operation
 
 ## Overview
@@ -706,7 +720,6 @@ Update [`shared/core/package.json`](../../shared/core/package.json):
    - Add API documentation
    - Update task files
 
-**Total estimated time: 5-7 days**
 
 ## 8. Future Enhancements (Out of Scope)
 
@@ -725,16 +738,16 @@ These are explicitly **not** part of this task:
 
 The implementation is complete when:
 
-1. ✅ RdfSource can parse JSON-LD and Turtle with explicit base
-2. ✅ RdfSource can serialize mesh-native JSON-LD (no @base, relative IRIs)
-3. ✅ createNode creates correct directory structure
-4. ✅ createNode generates valid v1 metadata
-5. ✅ createNode can import optional datasets
-6. ✅ All tests pass (unit + integration)
-7. ✅ Documentation is updated
-8. ✅ Simple runner script works
-9. ✅ Code follows project conventions
-10. ✅ Task files are updated with progress
+1. RdfSource can parse JSON-LD and Turtle with explicit base
+2. RdfSource can serialize mesh-native JSON-LD (no @base, relative IRIs)
+3. createNode creates correct directory structure
+4. createNode generates valid v1 metadata
+5. createNode can import optional datasets
+6. All tests pass (unit + integration)
+7. Documentation is updated
+8. Simple runner script works
+9. Code follows project conventions
+10. Task files are updated with progress
 
 ## References
 
