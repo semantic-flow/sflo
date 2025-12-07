@@ -1,0 +1,14 @@
+{
+  "@context": {
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "/",
+      "@type": "LocalKnopConfig/",
+      "rdfs:label": "test local configuration",
+      "rdfs:comment": "test local configuration.",
+      "useTimestamps": true
+    }
+  ]
+}

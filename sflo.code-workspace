@@ -2,10 +2,6 @@
   "folders": [
     {
       "path": "."
-    },
-    {
-      "path": "sflo-platform-defaults",
-      "name": "sflo-platform-defaults"
     }
   ],
   "settings": {
@@ -22,16 +18,6 @@
     "typescript.suggest.autoImports": true,
     "files.exclude": {
       "docs/**": true
-    },
-    "[json]": {
-      "editor.tabSize": 2,
-      "editor.formatOnSave": true,
-      "editor.defaultFormatter": "vscode.json-language-features"
-    },
-    "[jsonc]": {
-      "editor.tabSize": 2,
-      "editor.formatOnSave": true,
-      "editor.defaultFormatter": "vscode.json-language-features"
     }
   },
   "extensions": {
