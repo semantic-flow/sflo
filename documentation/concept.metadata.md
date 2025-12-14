@@ -2,7 +2,7 @@
 id: vqah4oe61zin07t2ztfx4v4
 title: Metadata
 desc: ''
-updated: 1764867799438
+updated: 1765489496878
 created: 1753141346178
 ---
 
@@ -61,7 +61,7 @@ Nodes are [[transposable|principle.transposability]] across meshes, so each must
 * **Backlink summaries**
 
   * External IRIs referencing this knop
-  * Timestamp & weaveSlug of last backlink scan
+  * Timestamp of last backlink scan
 
 
 **Who writes it:** Weave pipeline, maintenance tools

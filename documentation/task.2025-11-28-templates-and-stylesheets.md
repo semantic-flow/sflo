@@ -2,7 +2,7 @@
 id: sngbxo44ylhlflch69d4qfb
 title: 2025 11 28 Templates and Stylesheets
 desc: ''
-updated: 1765136182715
+updated: 1765430529278
 created: 1764371302931
 ---
 
@@ -445,9 +445,3 @@ Don’t rely on “tribal knowledge” for this; write it down.
    * Keep all defaults in the `sflo-platform-defaults` mesh.
 
 ---
-
-If you want, a next step after this epic is to define a **minimal JSON-LD example** of:
-
-* A knop with an OperationalNodeConfig,
-* Inheriting a PlatformKnopConfig from `sflo-platform-defaults`,
-* And producing a specific HTML page wired to a TemplateResource + StylesheetResource.

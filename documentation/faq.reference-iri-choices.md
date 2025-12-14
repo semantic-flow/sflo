@@ -2,7 +2,7 @@
 id: s1yduc399adt3ihvnwievrd
 title: Reference Iri Choices
 desc: ''
-updated: 1764867799248
+updated: 1765632602106
 created: 1751240276585
 ---
 
@@ -24,7 +24,7 @@ Any IRI that has a scheme (e.g., http:) is an **Absolute IRI**
 
 ### Example
 
-This example uses two absolute IRIs, one using the "ex:" prefix for the example.com authority:
+This example uses two absolute IRIs, one using the "ex:" prefix for the example.com authority, and one referring to an external domain.
 
 ```ttl
 @prefix ex: <https://example.com/> .
@@ -33,7 +33,7 @@ This example uses two absolute IRIs, one using the "ex:" prefix for the example.
 
 # In ns/djradon/_ref/_default/djradon_ref.trig
 ex:djradon a foaf:Person ;
-   rdfs:seeAlso ex:djradon/index.html .
+   rdfs:seeAlso <https://djradon.com/> .
 ```
 
 ### Pros
@@ -43,7 +43,7 @@ ex:djradon a foaf:Person ;
 ### Cons
   
 -  limits [[principle.transposability]] and [[principle.composability]]
-  - e.g., if you moved mesh hosting away from `https://example.com`, the `foaf:Person` and `rdfs:seeAlso` assertions would still refer to the original references
+  - e.g., if you moved mesh hosting away from `https://example.com`, the `foaf:Person` assertions would still refer to the original references
 - not ideal if you're:
   - making updates
   - working offline
@@ -73,9 +73,9 @@ If no base is specified, an inferred base of the requested scheme and authority 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 # In ns/djradon/_ref/_default/djradon_ref.trig
-<../../../djradon/> a foaf:Person ;          # The document itself
-   foaf:knows <../../alice/> ;           # A sibling knop in the mesh
-   rdfs:seeAlso <../bio/bio.html> .      # A resource page contained in a "bio" knop under ../../djradon/
+<../../djradon/> a foaf:Person ;          # The document itself
+   foaf:knows <../../../alice/> ;           # A sibling knop in the mesh
+   rdfs:seeAlso <../../bio/index.html> .      # A resource page contained in a "bio" knop under ../../../djradon/
 ```
 
 #### Pros
@@ -84,7 +84,8 @@ If no base is specified, an inferred base of the requested scheme and authority 
 
 #### Cons
 
-- `../../../` makes eyes swim
+- `../../` makes eyes swim
+- extra-knop references will probably break if the knop is moved
 
 ### Absolute-Path Relative IRIs
   
@@ -107,4 +108,4 @@ If no base is specified, an inferred base of the requested scheme and authority 
 
 #### Cons
 
-- composability requires re-computing paths
+- composability may require re-computing paths

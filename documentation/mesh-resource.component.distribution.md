@@ -1,13 +1,13 @@
 ---
 id: 0n1lq6aq1gskj46bpcx9h4h
-title: version distribution
+title: Distribution
 desc: ''
-updated: 1764954259376
+updated: 1765638539493
 created: 1751138751433
 ---
 
-- each [[mesh-resource.component.slice]] should have one or more [[mesh-resource.component.version-distribution]] [[facet.resource.file]].
-- a version's distributions should all contain the same data, just in different syntaxes 
+- each [[mesh-resource.component.slice]] should have one or more distribution [[facet.resource.file]]s.
+- a slice's distributions should all contain the same data, just in different syntaxes 
 
 ## Distribution Filenaming Per Flow
 
