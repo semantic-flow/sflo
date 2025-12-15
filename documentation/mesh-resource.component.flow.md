@@ -2,11 +2,11 @@
 id: flows
 title: flows
 desc: ''
-updated: 1764954259356
+updated: 1765763992441
 created: 1751688486456
 ---
 
-[[Nodes|mesh-resource.knop]] are primarily constituted by their semantic flows: evolvable datasets about their knop's data, metadata, configuration, or referent. They exist through time, independent of any specific version or realization, and can evolve semi-independently.
+[[Nodes|mesh-resource.knop]] are primarily constituted by their Flows:  knop's data, metadata, configuration, or referent. They exist through time, independent of any specific version or realization, and can evolve semi-independently.
 
 There are five types of knop flows.
 
@@ -23,9 +23,9 @@ As DatasetSeries, knop flows are realized through [[mesh-resource.component.flow
 
 ### Relationship pattern:
 
-Every knop flow has at least two concrete versions: [[mesh-resource.component.slice.default]] and [[mesh-resource.component.slice.working]].
+Every knop flow has at least two concrete versions: [[mesh-resource.component.slice.default]] and [[folder._working]].
 
-The knop flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series) and may have multiple [[mesh-resource.component.flow-version.version]]s.
+The knop flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series) and may have multiple [[mesh-resource.component.slice]]s.
 
 
 ### Ontology Example

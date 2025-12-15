@@ -2,7 +2,7 @@
 id: 8akbl2qj0nz38yrvet4oq3k
 title: Replace Monotonic V N Versions with Human Readable Weave Labels
 desc: ''
-updated: 1764910157199
+updated: 1765763442611
 created: 1762712674617
 ---
 
@@ -214,9 +214,9 @@ Update all references from simple `_vN` to the new format in:
 * [`concept.weave-process.md`](documentation/concept.weave-process.md) - Weave process descriptions
 
 **FlowSlice Terminology Alignment:**
-* [`mesh-resource.component.flow-version.version.md`](documentation/mesh-resource.component.flow-version.version.md)
+* [`mesh-resource.component.slice.md`](documentation/mesh-resource.component.slice.md)
 * [`mesh-resource.component.slice.default.md`](documentation/mesh-resource.component.slice.default.md)
-* [`mesh-resource.component.slice.working.md`](documentation/mesh-resource.component.slice.working.md)
+* [`folder._working.md`](documentation/folder._working.md)
 
 **Other Documentation:**
 * [`facet.flow.versioned.md`](documentation/facet.flow.versioned.md)

@@ -2,7 +2,7 @@
 id: mesh-resource
 title: mesh resources
 desc: ''
-updated: 1764910028156
+updated: 1765763442598
 created: 1750709094321
 ---
 
@@ -28,7 +28,7 @@ The structure of a semantic mesh is built on a fundamental distinction between *
 - **[[metadata flows|mesh-resource.component.flow.metadata]]**: Administrative metadata (in `_meta/` folders)
 - **[[Asset trees|mesh-resource.component.asset-tree]]**: File collections (in `_assets/` folders)
 - **[[Version datasets|mesh-resource.component.slice.version]]**: Versioned versions
-- **[[working slices|mesh-resource.component.slice.working-slice]]**: Draft workspaces
+- **[[working slices|folder._working-slice]]**: Draft workspaces
 
 **File-based components:**
 - **Documentation files**: 

@@ -2,7 +2,7 @@
 id: 9c27yly4ed3ju7msf8luhge
 title: knop components
 desc: ''
-updated: 1764910157180
+updated: 1765763442581
 created: 1750706813437
 ---
 
@@ -26,7 +26,7 @@ User components are primarily created and maintained by users or their software 
 
 **Folder-based user components:**
 - **[[Asset trees|mesh-resource.component.asset-tree]]**: Collections of arbitrary files attached to the mesh (in `_assets/` folders)
-- **[[mesh-resource.component.slice.working-slice]]**: Draft workspaces for ongoing changes to [[mesh-resource.component.flow]] (in `_working/` folders)
+- **[[folder._working-slice]]**: Draft workspaces for ongoing changes to [[mesh-resource.component.flow]] (in `_working/` folders)
 
 **File-based user components:**
 - **README.md files**: User documentation providing context

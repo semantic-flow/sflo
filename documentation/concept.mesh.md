@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1764954352865
+updated: 1765763442613
 created: 1750624002110
 ---
 
@@ -49,7 +49,7 @@ The primary constituents of a mesh are [[mesh-resource.knop]]s. Nodes contain th
 | `ns/djradon/README.md`                                          | [[mesh-resource.component.documentation-resource.readme]]        | README file (content)        |
 | `ns/djradon/CHANGELOG.md`                                       | [[mesh-resource.component.documentation-resource.changelog]]     | README file (content)        |
 | `ns/djradon/_ref/`                                              | [[mesh-resource.component.flow.reference]]                       | reference flow               |
-| `ns/djradon/_ref/_working/`                                     | [[mesh-resource.component.slice.working-slice]]                  | reference flow version       |
+| `ns/djradon/_ref/_working/`                                     | [[folder._working-slice]]                                        | reference flow version       |
 | `ns/djradon/_ref/_working/djradon.jsonld`                       | [[mesh-resource.component.distribution.working]]                 | reference flow version       |
 | `ns/djradon/_meta/`                                             | [[mesh-resource.component.flow.metadata]]                        | knop metadata dataset series |
 | `ns/djradon/_meta/_default/`                                    | [[mesh-resource.component.slice.default]]                        | knop metadata dataset        |
@@ -86,7 +86,7 @@ Example:
 - **[[mesh-resource.component.flow]]** and their [[mesh-resource.component.slice]]
   - **[[mesh-resource.component.flow.metadata]]**: System-related administrative and structural metadata for mesh knops
   - **[[Version datasets|mesh-resource.component.slice.version]]**: Versioned versions of datasets
-- **[[working slices|mesh-resource.component.slice.working-slice]]**: Draft workspaces for ongoing changes to versioned datasets
+- **[[working slices|folder._working-slice]]**: Draft workspaces for ongoing changes to versioned datasets
 - **[[Node handles|mesh-resource.component.knop-handle]]**: Components that provide referential indirection, allowing references to knops as mesh resources rather than their referents
 - **[[Asset trees|mesh-resource.component.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
 

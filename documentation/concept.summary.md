@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1764954440343
+updated: 1765763716532
 created: 1755820864360
 ---
 
@@ -53,7 +53,7 @@ See:
   - FlowSlices (concrete Datasets): `_default/`, `_working/`, version folders (e.g., `2025-11-24_0142_07_v1/`)
     - Overview: [[mesh-resource.component.slice]]
     - `_default/`: [[mesh-resource.component.slice.default]]
-    - `_working/`: [[mesh-resource.component.slice.working-slice]]
+    - `_working/`: [[folder._working-slice]]
     - Version folders: [[mesh-resource.component.slice.version]]
     - Distributions: [[mesh-resource.component.distribution]]
   - Handle (refer to the knop “as a mesh resource”): [[mesh-resource.component.knop-handle]]
@@ -111,18 +111,15 @@ Reserved folder names (underscore-prefixed; canonical set):
   - `_assets/` (static files)
 
 Folder-note pages for these reserved names live under `folder.*.md` (where defined):
-- `_meta/`: [[folder._meta]]
 - `_payload/`: [[folder._payload]]
 - `_cfg-local/`: [[folder._cfg-local]]
 - `_cfg-inh/`: [[folder._cfg-inh]]
-- `_default/`: [[folder._default]]
-- `_working/`: [[folder._working]]
 - Version folders (`YYYY-MM-DD_HHMM_SS_vN/`): [[folder.slice]]
 - `_assets/`: [[folder._assets]]
 - knop folder pages:
   - Node: [[folder.knop]]
 
-6) Data and Versioning Model
+1) Data and Versioning Model
 - Only flows are versioned (flows are DatasetSeries). Nodes are not versioned.
 - FlowSlices (flow realizations):
   - `_default/`: latest stable realization; after weave it equals the content of the latest version.
@@ -135,7 +132,7 @@ See:
 - [[mesh-resource.component.distribution.working]]
 - [[concept.sibling-distribution]]
 
-7) Lifecycle and Weave Process
+1) Lifecycle and Weave Process
 Weave maintains structural coherence and publication readiness:
 - Ensures required system components exist.
 - If versioning is enabled, creates a new version folder (format `YYYY-MM-DD_HHMM_SS_vN/`) from `_working/`.
@@ -149,7 +146,7 @@ See:
 - [[concept.scanner]]
 - [[concept.metadata.provenance]]
 
-8) Publishing and Sites
+1) Publishing and Sites
 - Repos are static-site-ready; pushing to GitHub Pages or any static host publishes the mesh (folder paths → IRI paths).
 - Transposition (domain/project move) is safe with relative IDs.
 See:

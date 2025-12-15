@@ -2,11 +2,11 @@
 id: 8t3swuswoi81yuzo2bnecy9
 title: FlowSlice
 desc: ''
-updated: 1764914216055
+updated: 1765763442594
 created: 1751689346769
 ---
 
-**flow versions** are components that are datasets and represent the evolutionary steps of the [[mesh-resource.component.flow]].  
+**flow slices** are components that are datasets and represent the evolutionary steps of the [[mesh-resource.component.flow]].  
 
 flow versions have corresponding [[distributions|mesh-resource.component.distribution]] and are the connective tissue between knops and their RDF-based representation.
 
@@ -67,11 +67,10 @@ _default/
 
 ## Immutability
 
-**[[mesh-resource.component.flow-version.version]]** (historical flow versions, i.e., version folders like `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.
+**[[mesh-resource.component.slice]]** (historical versions of the Flow's [[mesh-resource.component.distribution]], are kept in folders like `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`) should be treated as immutable once created. This provides reliable references for external systems and ensures accurate provenance and history.
 
-**[[mesh-resource.component.slice.default]]** (the latest "woven" flow versions, `_default/`) should not be modified directly by users, but will be updated "on weave" if the [[mesh-resource.component.slice.working]] has evolved.
 
-**[[mesh-resource.component.slice.working]]** (working flow versions, `_working/`) are mutable:
+**[[folder._working]]** (working flow versions, `_working/`) are mutable:
 - Can be edited and updated during development
 - Represent evolving state of the knop flow
 

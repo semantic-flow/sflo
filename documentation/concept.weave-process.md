@@ -2,7 +2,7 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1765757456365
+updated: 1765763442572
 created: 1751128698638
 ---
 
@@ -12,7 +12,7 @@ created: 1751128698638
 
 ## Purpose
 
-The **weave process** transforms evolving Flow data (the **[[WorkingSlice|mesh-resource.component.slice.working-slice]]**) into:
+The **weave process** transforms evolving Flow data (the **[[WorkingSlice|folder._working-slice]]**) into:
 
 * a new immutable **[[Version|mesh-resource.component.slice.version]]** (if versioning is enabled),
 * an updated **[[DefaultSlice|mesh-resource.component.slice.default]]** (always),

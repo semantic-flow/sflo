@@ -2,7 +2,7 @@
 id: f0g7d31ivgn6rgllncdwep8
 title: Memory Bank
 desc: ''
-updated: 1762552863614
+updated: 1765763808600
 created: 1762222195753
 ---
 
@@ -29,15 +29,16 @@ The memory bank is a git-based shared memory system that enables both humans and
 
 These files MUST be read at the start of every new task:
 
+- [[concept.summary]]
 - [[guide.project-brief]] - Foundation document explaining the memory bank approach and pointing to other files
 - [[guide.product-brief]] - Project vision, problems solved, components/applications, user experience goals
-- [[guide.status]] - Current project status, what's working, high-level summary
 - [[dev.memory-bank]] - This file; ground rules for the memory bank system
 
 #### Frequently Referenced Memory Bank Files
 
 These should be consulted as appropriate to the task:
 
+- [[guide.status]] - Current project status, what's working, high-level summary
 - [[dev.general-guidance]] - for any development-related tasks
 - [[dev.dependencies]] - for technical architecture questions or any development-related tasks
 - [[guide.ontologies]] - for any RDF-related tasks
