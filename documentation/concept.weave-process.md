@@ -2,14 +2,13 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1764954329518
+updated: 1765757456365
 created: 1751128698638
 ---
 
 
 # Weave Process
 
-*(concept.weave-process)*
 
 ## Purpose
 
@@ -48,17 +47,19 @@ A weave run **never deletes** versions; it only produces a new one (if enabled) 
 
 Every weave produces:
 
-1. **A consistent cut of all `_working/` FlowSlices in scope**
-   → optionally and by default stored as a new immutable Version
+1. **A consistent cut of all `_working/` folder distributions in scope**
 
-2. **A refreshed `_default/` FlowSlice**
-   → always updated to match the weave result
+- ptionally and by default stored as a new immutable Version
 
-3. **Updated meta-flow**
-   → includes:
+2. **Refreshed Pointers Files**
+
+- new `sequenceNumber`
+
+3. **Updated inventory**
+
+ includes:
 
    * new `weaveLabel`
-   * new `sequenceNumber`
    * `previousVersion`
    * provenance info
      (Only includes *latest* provenance; older provenance lives in older versions.)

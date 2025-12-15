@@ -145,7 +145,7 @@ Meshes may be constituted as a set of filesystem [[folder]]s and [[facet.resourc
 - The weave process maintains system components and generates missing required flows
 
 ### Versioning Requirements
-- flow versioning is managed through the [[Flow Version|concept.flow-version]] system
+- flow versioning is managed through the [[Flow Slice|concept.flow-slice]] system
   - turning versioning on and off is controlled in the [[concept.knop-config.defaults]]
   - Version history is realized in [[mesh-resource.component.slice.version]] with numbered versions
   - Version history metadata is kept in the knop's [[mesh-resource.component.flow.metadata]]

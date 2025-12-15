@@ -6,7 +6,7 @@ updated: 1764268103700
 created: 1762811935065
 ---
 
-A human-readable, sortable identifier for a given weave that is used in composing [[version folder names|folder.version-slice]].
+A human-readable, sortable identifier for a given weave that is used in composing [[version folder names|folder.slice]].
 
 The value encodes the UTC date and time of [[mesh-resource.component.slice.version]] creation (weave) in the format `YYYY-MM-DD_HHMM_SS` (with underscores between date, time, and seconds), enabling simple chronological (lexical) comparison in SPARQL and across file-system hierarchies.
 

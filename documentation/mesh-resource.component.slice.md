@@ -85,5 +85,5 @@ flow versions are created through:
 ## Related Concepts
 
 - **[[mesh-resource.component.flow]]** - Parent conceptual entities
-- **[[concept.flow-version]]** - Process of creating versioned flow versions
+- **[[concept.flow-slice]]** - Process of creating versioned flow versions
 - **[[concept.weave-process]]** - Operation that manages flow version lifecycle

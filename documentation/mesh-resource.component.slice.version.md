@@ -8,7 +8,7 @@ created: 1751087645111
 
 A version dataset generated "on [[weave|concept.weave-process]]"
 
-The [[folder.version-slice]] is named with the [[concept.weave-label]] plus the [[concept.flow-version]]
+The [[folder.slice]] is named with the [[concept.weave-label]] plus the [[concept.flow-slice]]
 
 ## Disambiguation
 

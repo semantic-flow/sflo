@@ -2,7 +2,7 @@
 id: s1yduc399adt3ihvnwievrd
 title: Reference Iri Choices
 desc: ''
-updated: 1765632602106
+updated: 1765743628179
 created: 1751240276585
 ---
 
@@ -62,7 +62,7 @@ Any IRI that lacks a scheme (e.g., http:) is resolved against a base IRI followi
 - Relative-path reference — does not begin with / or //.
    - Example: foo/bar or ../foo → inherits the base’s scheme, authority, and path context, e.g. http://example.org/base/foo/bar.
 
-If no base is specified, an inferred base of the requested scheme and authority is used. **This behaviour is essential to Semantic Flow [[Best Practices|guide.best-practices]].**
+If no base is specified, an inferred base of the requested scheme and authority is used. **This behaviour is essential to Semantic Flow [[Best Practices|guide.best-practices]].** Relative IRIs are always created and resolved against the distribution file’s document IRI (its file:// URL when local, its HTTP URL when served).
 
 
 ### Relative-Path Relative IRIs

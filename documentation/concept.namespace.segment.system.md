@@ -22,7 +22,7 @@ This page is the canonical list; see the linked docs for behavior and details.
 
 - [[_current/|folder._default]]
 - [[_next/|folder._working]]
-- [[folder.version-slice]]
+- [[folder.slice]]
 
 ## Other reserved
 

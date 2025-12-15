@@ -10,7 +10,7 @@ Immutable data provides fundamental guarantees that enable reliable, distributed
 
 
 
-- [[mesh-resource.component.slice.version]] (e.g. in [[folder.version-slice]]) should be usually be treated as immutable. 
+- [[mesh-resource.component.slice.version]] (e.g. in [[folder.slice]]) should be usually be treated as immutable. 
   - Therefore, if you need to refer to a flow "as is", you should refer to its corresponding version version.
   - TODO: examples
 - sometimes, e.g., for compliance reasons, you have to modify or hard-delete some data. 
