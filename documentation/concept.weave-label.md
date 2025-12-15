@@ -2,11 +2,15 @@
 id: 1c023wm7blmyv94jqsw8slt
 title: Weave Label
 desc: ''
-updated: 1764268103700
+updated: 1765782247629
 created: 1762811935065
 ---
 
-A human-readable, sortable identifier for a given weave that is used in composing [[version folder names|folder.slice]].
+Two kinds:
+
+## Timestampy
+
+human-readable, sortable identifier for a given weave that is used in composing [[version folder names|folder.slice]].
 
 The value encodes the UTC date and time of [[mesh-resource.component.slice.version]] creation (weave) in the format `YYYY-MM-DD_HHMM_SS` (with underscores between date, time, and seconds), enabling simple chronological (lexical) comparison in SPARQL and across file-system hierarchies.
 
@@ -18,3 +22,7 @@ The weave label is combined with a sequence number to form complete version fold
 - Example: `2025-11-24_0142_55_v7`
 
 Used as the human-readable component of version folder names and as a lightweight temporal ordering key when full RDF provenance data is unavailable.
+
+## unordered guid
+
+For cases when you don't want to attach timestamps, but you want filesystem-correlation of weaves. See [[concept.slice-label]]

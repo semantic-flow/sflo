@@ -2,7 +2,7 @@
 id: 4v2b7t8nbzkmtyvnayye3vj
 title: Provenance
 desc: ''
-updated: 1764910157192
+updated: 1765784468277
 created: 1753117923066
 ---
 
@@ -44,34 +44,35 @@ For a `config-flow` at version `v47`, the identifiers would be:
 ### version Provenance
 
 ```turtle
-# In my-dataset/_meta/2025-07-20_1430_00_v47/my-dataset_meta.trig
-@base <../2025-07-20_1430_00_v47/> .
+# In djradon/_/_opslog/index.jsonld
 
 # Weave activity with PROV standard properties
-:#configUpdateActivity a meta:ConfigWeave ;
+<#> a meta:NodeCreation ;
     prov:startedAtTime "2025-07-20T14:30:00Z" ;
     prov:endedAtTime "2025-07-20T14:30:15Z" ;
     prov:used <../../_config-flow/2025-07-20_1429_30_v46/config.jsonld> ;
     prov:generated <../../_config-flow/2025-07-20_1430_00_v47/config.jsonld> ;
     prov:wasAssociatedWith <https://semantic-flow.org/agents/flow-service-bot> .
 
-# Rights and licensing at version level
-<../../_config-flow/2025-07-20_1430_00_v47> dcterms:rightsHolder <https://orcid.org/0000-0002-1825-0097> ;
-                          dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-                          prov:has_provenance :configProvenance .
+# Rights and licensing at slice level
+# In djradon/bio/_inventory/index.jsonld
 
-# Delegation chain (step 1 = top authority, gets copyright by default)
-:configProvenance a meta:ProvenanceContext ;
-    meta:forActivity :configUpdateActivity ;
+<../../_ref/2025-07-20_1430_00_v47> dcterms:rightsHolder <https://orcid.org/0000-0002-1825-0097> ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    prov:has_provenance <../../slice-inventory/#> .
+
+<#custom-provenance-relator> a ops:ProvenanceRelator ;
+    meta:forActivity sflops:configUpdateActivity ;
     meta:forVersion <../../_config-flow/2025-07-20_1430_00_v47> ;
     prov:wasAttributedTo <https://acme-corp.com/org> ; # Primary attribution
     meta:delegationChain :delegationChain_001 .
 
 :delegationChain_001 meta:hasStep :step1, :step2, :step3 .
 
+# Delegation chain (step 1 = top authority)
 :step1 a meta:DelegationStep ;
        meta:stepOrder 1 ;
-       prov:agent <https://acme-corp.com/org> . # Prime mover, no actedOnBehalfOf
+       prov:agent <https://acme-corp.com/org> . # Buck stops here, no actedOnBehalfOf
 
 :step2 a meta:DelegationStep ;
        meta:stepOrder 2 ;
