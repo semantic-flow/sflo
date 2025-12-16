@@ -2,13 +2,14 @@
 id: beitdeou8xgrn47ti9b5gt8
 title: Pointers Dataset
 desc: ''
-updated: 1765767069125
+updated: 1765862460836
 created: 1765764454154
 ---
 
 The **pointers dataset** holds critical metadata for a knop instance:
 
 - [optional] the IRIs of the latest slice for each of its flows
+  - this is optional, because if this knop has been [[expanded|concept.knop-expansion]], 
 - the IRIs of those slices' distributions
 - a pointer to the inventory and opslog datasets, if present
 - [optional] "current Knop", if not this one (i.e., if a knop has an multiple locations)
@@ -18,3 +19,4 @@ The **pointers dataset** holds critical metadata for a knop instance:
 ## Invariants
 
 - It is managed exclusively by sflo tooling
+- Its canonical distribution location is `.../knop/_sfops/pointers/index.jsonld`
