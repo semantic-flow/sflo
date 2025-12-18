@@ -33,7 +33,7 @@ These are *retrievable representations* (materialized content), i.e. when derefe
 
 ### Naming Identifiers
 
-[[facet.resource.naming]] identifier refer to **concepts, entities, or abstract things**
+[[facet.naming-resource]] identifier refer to **concepts, entities, or abstract things**
 
 
 #### Examples

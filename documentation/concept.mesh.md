@@ -101,7 +101,7 @@ Terminal [[mesh resources|mesh-resource]] that cannot contain other resources:
 
 ## Filesystem Structure
 
-Meshes may be constituted as a set of filesystem [[folder]]s and [[facet.resource.file]]s.
+Meshes may be constituted as a set of filesystem [[folder]]s and [[facet.file-resource]]s.
 
 ### Folder Mapping
 

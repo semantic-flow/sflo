@@ -10,4 +10,4 @@ A **loose mesh** has not yet been woven, and may have any number of:
 
 - [[concept.identifier]]s without corresponding [[mesh-resource]]
 - [[folder._working]] that differ from [[mesh-resource.component.slice.default]]
-- missing [[facet.system]] [[files|facet.resource.file]] or [[folder]]
+- missing [[facet.system]] [[files|facet.file-resource]] or [[folder]]

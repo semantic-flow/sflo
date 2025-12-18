@@ -6,7 +6,7 @@ updated: 1762747097571
 created: 1751958308859
 ---
 
-- [[facet.resource.file]] like:
+- [[facet.file-resource]] like:
   - [[mesh-resource.component.documentation-resource.changelog]]
   - [[mesh-resource.component.documentation-resource.readme]]
   - [[mesh-resource.component.documentation-resource.resource-page]]
