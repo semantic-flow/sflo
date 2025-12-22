@@ -10,7 +10,7 @@ A mesh when stored in a filesystem is physically structured with mesh folders, w
   
 When a mesh gets published, the folders also correspond to [[concept.identifier]]. 
 
-All folder-based resources should contain a [[mesh-resource.node-component.documentation-resource.resource-page]]
+All folder-based resources should contain a [[ResourcePage]]
 
 
 ## Types

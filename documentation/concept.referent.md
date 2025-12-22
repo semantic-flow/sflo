@@ -8,7 +8,7 @@ created: 1755990922267
 
 ## Definition
 
-The *referent* is the thing (real or imaginary) to which a [[resource|mesh-resource]]’s [[concept.identifier]] **refers**. Every identifier [[denotes|concept.denotation]] its referent, 
+The *referent* is the thing (real or imaginary) to which a [[resource|NonArtifact]]’s [[concept.identifier]] **refers**. Every identifier [[denotes|concept.denotation]] its referent, 
 
 ## Node vs. referent
 

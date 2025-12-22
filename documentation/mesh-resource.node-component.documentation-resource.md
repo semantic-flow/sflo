@@ -9,5 +9,5 @@ created: 1751958308859
 - [[file]] like:
   - [[mesh-resource.node-component.documentation-resource.changelog]]
   - [[mesh-resource.node-component.documentation-resource.readme]]
-  - [[mesh-resource.node-component.documentation-resource.resource-page]]
+  - [[ResourcePage]]
   - [[mesh-resource.node-component.node-handle.page]]

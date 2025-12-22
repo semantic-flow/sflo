@@ -8,7 +8,7 @@ created: 1750996953035
 
 The node at the top of a mesh hierarchy may be referred to as the root node. 
 
-Every other [[mesh-resource]] in a mesh "lives under" the root node.
+Every other [[NonArtifact]] in a mesh "lives under" the root node.
 
 For pure [[concept.single-mesh-repo]]s, the repository's name is used as root node's identifier. 
 

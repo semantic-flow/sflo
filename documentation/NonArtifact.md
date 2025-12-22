@@ -1,16 +1,12 @@
 ---
-id: mesh-resource
-title: mesh resources
+id: NonArtifact
+title: NonArtifact
 desc: ''
-updated: 1762663243700
+updated: 1766294605954
 created: 1750709094321
 ---
 
-## Overview
-
-A **mesh resource** is any addressable component within a [[semantic mesh|concept.mesh]]. Every mesh resource has a unique [[Intramesh|concept.identifier.intramesh]] based on its path and locally unique name, making it dereferenceable via IRI.
-
-In RDF terms, a resource is any node in an RDF graph that can be represented with an IRI (the other kinds of RDF graph nodes are literals and blank nodes). So theoretically, files and folders in [[mesh-resource.node-component.asset-tree]] could be considered RDF resources. But they are not considered **mesh** resources
+A NonArtifact is anything referenced by a "container-like" identifier, i.e. ending in a slash. 
 
 ## Types of Mesh Resources
 
@@ -32,7 +28,7 @@ The structure of a semantic mesh is built on a fundamental distinction between *
 
 **File-based components:**
 - **Documentation files**: 
-  - [[Resource pages|mesh-resource.node-component.documentation-resource.resource-page]] are index.html files that provide de-referencability for their containing [[concept.identifier.intramesh]] [[facet.filesystem.folder]]
+  - [[Resource pages|ResourcePage]] are index.html files that provide de-referencability for their containing [[concept.identifier.intramesh]] [[facet.filesystem.folder]]
   - **README.md and CHANGELOG.md**: unstructured documentation
 - **[[snapshot distribution files|mesh-resource.node-component.snapshot-distribution]]**: Data files in RDF formats
 

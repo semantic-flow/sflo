@@ -6,7 +6,7 @@ updated: 1756869552825
 created: 1750654763700
 ---
 
-An **intramesh identifier** is a esentially a relative [[concept.iri]] (i.e., without the scheme, e.g., https:// or file://) except that they should correspond to an existing [[mesh-resource]], i.e. [[principle.dereferencability-for-humans]]
+An **intramesh identifier** is a esentially a relative [[concept.iri]] (i.e., without the scheme, e.g., https:// or file://) except that they should correspond to an existing [[NonArtifact]], i.e. [[principle.dereferencability-for-humans]]
 
 There are two types of intramesh identifiers: [[concept.identifier.intramesh.relative]] and [[concept.identifier.intramesh.absolute]]
 
@@ -30,7 +30,7 @@ Unlike IRIs:
 
 ## Purpose
 
-- locate [[mesh-resource]]s (when used in a filesystem or web site context)
+- locate [[NonArtifact]]s (when used in a filesystem or web site context)
 - denote a [[concept.referent]], either [[internal|facet.internal]] or [[external|facet.external]]
 
 ## Identifier Name Limitations for Users

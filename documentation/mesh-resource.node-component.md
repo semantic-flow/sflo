@@ -43,7 +43,7 @@ System components are usually created or altered by the [[Weave Process|concept.
 - **[[Node handles|mesh-resource.node-component.node-handle]]**: Components providing referential indirection for nodes as mesh resources (in `_node-handle/` folders)
 
 **File-based system components:**
-- **[[Resource pages|mesh-resource.node-component.documentation-resource.resource-page]]**: Generated index.html files for human-readable access
+- **[[Resource pages|ResourcePage]]**: Generated index.html files for human-readable access
 - **[[Distribution files|mesh-resource.node-component.snapshot-distribution]]**: Data files in various RDF formats
 
 ## Physical vs Logical Structure

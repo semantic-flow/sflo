@@ -60,7 +60,7 @@ See:
   - Documentation resources (README/CHANGELOG/resource pages/fragments):
     - README: [[mesh-resource.node-component.documentation-resource.readme]]
     - CHANGELOG: [[mesh-resource.node-component.documentation-resource.changelog]]
-    - Resource page (index.html): [[mesh-resource.node-component.documentation-resource.resource-page]]
+    - Resource page (index.html): [[ResourcePage]]
     - Resource fragment: [[mesh-resource.node-component.documentation-resource.resource-fragment]]
   - Aggregated distribution (optional roll-up of child node data): [[mesh-resource.node-component.aggregated-distribution]]
 
@@ -217,5 +217,5 @@ graph TD
 - [[mesh-resource.node-component.flow-shot]]: concrete Dataset realization of a flow (Snapshot, DefaultShot, WorkingShot)
 - [[mesh-resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.)
 - [[mesh-resource.node-component.node-handle]]: indirection to refer to the node "as a mesh resource"
-- [[mesh-resource.node-component.documentation-resource.resource-page]]: dereferenceable `index.html` for folders
+- [[ResourcePage]]: dereferenceable `index.html` for folders
 - [[concept.weave-process]]: lifecycle operation to version/promote/regenerate/repair
