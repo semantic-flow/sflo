@@ -2,7 +2,7 @@
 id: 1c023wm7blmyv94jqsw8slt
 title: Weave Label
 desc: ''
-updated: 1765782247629
+updated: 1766072121118
 created: 1762811935065
 ---
 
@@ -17,7 +17,7 @@ The value encodes the UTC date and time of [[mesh-resource.component.slice.versi
 Format: `YYYY-MM-DD_HHMM_SS`
 - Example: `2025-11-24_0142_55`
 
-The weave label is combined with a sequence number to form complete version folder names:
+The weave label is combined with a sequence number to form complete slice folder names:
 - Full format: `YYYY-MM-DD_HHMM_SS_vN`
 - Example: `2025-11-24_0142_55_v7`
 

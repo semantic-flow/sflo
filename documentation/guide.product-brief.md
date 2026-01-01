@@ -2,7 +2,7 @@
 id: tudefgmmf2pdx28zb9xs84j
 title: Product Brief
 desc: ''
-updated: 1764867799487
+updated: 1766175541698
 created: 1762216937965
 ---
 
@@ -41,9 +41,7 @@ The main host application that supports semantic mesh use and development. Built
 - [[product.plugins.mesh-server]] - Static mesh server(s)
 - [[product.plugins.sflo-web]] - Web UI
 - [[product.plugins.sflo-api]] - OpenAPI REST endpoint
-- [[product.plugins.sparql-readonly]] - SPARQL read-only endpoint
-- [[product.plugins.sparql-update]] - SPARQL write-capable endpoint (provided by Comunica)
-- [[product.plugins.sparql-editor]] - SIB Swiss editor at /play
+- [[product.plugins.sparql-editor]] - custom web UI for running the query catalog and custom queries
 
 ### Shared Packages
 
