@@ -2,7 +2,7 @@
 id: kawddwi1dx4qqbhdyip4896
 title: 'Use Case: Radio Show Websiste'
 desc: a simple user story
-updated: 1762649438053
+updated: 1764867799460
 created: 1750645191521
 ---
 
@@ -20,17 +20,17 @@ But to get started:
 
 See [[Example Mesh|concept.mesh#example-mesh]] for a mapping of resources types
 
-#### Mesh Node Directory Structure
+#### mesh knop Directory Structure
 
 ```file
-test-ns                    # bare node
-   djradon                 # ref node (refering to a human dj)
-      bio                  # payload node
-      picks                # payload node 
-      underbrush           # ref node
-         playlists         # data (series) node
-            1996-11-10     # payload node
-            1996-11-17     # payload node
+test-ns                    # bare knop
+   djradon                 # ref knop (refering to a human dj)
+      bio                  # payload knop
+      picks                # payload knop 
+      underbrush           # ref knop
+         playlists         # data (series) knop
+            1996-11-10     # payload knop
+            1996-11-17     # payload knop
 ```
 
 #### Sample RDF (Turtle)

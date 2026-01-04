@@ -10,7 +10,7 @@
 <p><strong>Where it’s described</strong></p>
 <ul>
 <li>The <strong>referent’s description</strong> lives in the node’s <a href="/sflo/notes/np4wrgk86b44hnlsjo964nz">reference flow</a>.</li>
-<li>The <strong>node’s own metadata and provenance</strong> live in the <strong><code>_node-*</code> flows</strong> (e.g. <code>_node-metadata-flow</code>, <code>_node-config-*</code>).</li>
+<li>The <strong>node’s own metadata and provenance</strong> live in the <strong><code>_node-*</code> flows</strong> (e.g. <code>_meta</code>, <code>_node-config-*</code>).</li>
 </ul>
 <p><strong>Special case: payload nodes</strong></p>
 <ul>
@@ -18,18 +18,18 @@
 <p>In a <strong>payload node</strong>, the <strong>referent</strong> is not an external entity but an <strong>evolvable dataset</strong> contained in the node.</p>
 </li>
 <li>
-<p>The dataset evolves as versioned distributions inside the node’s <code>_payload-flow</code> (e.g. <code>v1/</code>, <code>v2/</code>, …).</p>
+<p>The dataset evolves as versioned distributions inside the node’s <code>_payload</code> (e.g. <code>v1/</code>, <code>v2/</code>, …).</p>
 </li>
 <li>
-<p>The <code>_reference-flow</code> may describe the dataset, e.g. its <strong>name, type, and provenance</strong>.</p>
+<p>The <code>_ref</code> may describe the dataset, e.g. its <strong>name, type, and provenance</strong>.</p>
 </li>
 <li>
 <p>Example:</p>
 <ul>
 <li>Node IRI: <code>https://ns.example.org/projects/atlas/</code></li>
 <li>Referent: <em>the Atlas dataset</em> (identified by the node IRI, evolving over time).</li>
-<li><code>_reference-flow</code>: declares it as a dataset, supplies label and attribution.</li>
-<li><code>_payload-flow</code>: provides concrete versions (<code>v1</code>, <code>v2</code>, …).</li>
+<li><code>_ref</code>: declares it as a dataset, supplies label and attribution.</li>
+<li><code>_payload</code>: provides concrete versions (<code>v1</code>, <code>v2</code>, …).</li>
 </ul>
 </li>
 </ul>

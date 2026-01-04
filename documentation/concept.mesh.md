@@ -2,7 +2,7 @@
 id: h6ssv16gdyf56gg235dxv85
 title: semantic mesh
 desc: ''
-updated: 1764327645718
+updated: 1765763442613
 created: 1750624002110
 ---
 
@@ -13,69 +13,69 @@ A **semantic mesh** is a [[pseudo-immutable|principle.pseudo-immutability]] coll
 ### Key characteristics
 
 - **Addressable**: Every [[mesh-resource]] has an [[concept.identifier]]; when a mesh is [[published|concept.publication]], every [[mesh-resource]] then gets a globally unique, human-readable IRI
-- **Versioned**: Changes are managed through the [[Weave Process|concept.weave-process]] process, and [[mesh-resource.node-component.flow]] are versioned by default
+- **Versioned**: Changes are managed through the [[Weave Process|concept.weave-process]] process, and [[mesh-resource.component.flow]] are versioned by default
 - **Publish-ready**: Can be served directly via GitHub Pages or similar static hosting; or via a local web server like live-server
 
 ## Core Concepts
 
 ### Mesh Resources
 
-The primary constituents of a mesh are [[mesh-resource.node]]s. Nodes contain their own [[mesh-resource.node-component]]s, and may also contain other nodes. 
+The primary constituents of a mesh are [[mesh-resource.knop]]s. Nodes contain their own [[mesh-resource.component]]s, and may also contain other knops. 
 
-#### Mesh Nodes
+#### mesh knops
 
-[[Mesh nodes|mesh-resource.node]] extend [[concept.namespace]]s and serve as containers.
+[[mesh knops|mesh-resource.knop]] extend [[concept.namespace]]s and serve as containers.
 
-- **[[bare nodes|mesh-resource.node.bare]]**: Empty containers for organizing other mesh nodes
-- **[[reference nodes|mesh-resource.node.reference]]**: Nodes that refer to entities (people, places, concepts, etc.)
-- **[[payload nodes|mesh-resource.node.payload]]**: Nodes containing data distributions with optional versioning
+- **[[bare knops|mesh-resource.knop.bare]]**: Empty containers for organizing other mesh knops
+- **[[reference knops|mesh-resource.knop.reference]]**: Nodes that refer to entities (people, places, concepts, etc.)
+- **[[payload knops|mesh-resource.knop.payload]]**: Nodes containing data distributions with optional versioning
 
 
 #### Node components
 
-[[Node components|mesh-resource.node-component]] help define, support, and systematize nodes.
+[[Node components|mesh-resource.component]] help define, support, and systematize knops.
 
 
 #### Example Mesh
 
 [[Mesh resources|mesh-resource]] have at least one [[concept.identifier]] and (usually) a [[concept.referent]].
 
-| [[concept.identifier.intramesh]]                                | Semantic Flow resource type                                           | referent                     |
-| --------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------------------- |
-| `ns/`                                                           | [[mesh-resource.node.bare]]                                           | - nothing - (yet!)           |
-| `ns/djradon/`                                                   | [[mesh-resource.node.reference]]                                      | person                       |
-| `ns/djradon/_node-handle/`                                      | [[mesh-resource.node-component.node-handle]]                          | mesh node                    |
-| `ns/djradon/index.html`                                         | [[mesh-resource.node-component.documentation-resource.resource-page]] | resource page (content)      |
-| `ns/djradon/README.md`                                          | [[mesh-resource.node-component.documentation-resource.readme]]        | README file (content)        |
-| `ns/djradon/CHANGELOG.md`                                       | [[mesh-resource.node-component.documentation-resource.changelog]]     | README file (content)        |
-| `ns/djradon/_ref/`                                              | [[mesh-resource.node-component.flow.reference]]                       | reference flow               |
-| `ns/djradon/_ref/_working/`                                     | [[mesh-resource.node-component.flow-shot.working-shot]]               | reference flow snapshot      |
-| `ns/djradon/_ref/_working/djradon.jsonld`                       | [[mesh-resource.node-component.snapshot-distribution.working]]        | reference flow snapshot      |
-| `ns/djradon/_meta/`                                             | [[mesh-resource.node-component.flow.node-metadata]]                   | node metadata dataset series |
-| `ns/djradon/_meta/_default/`                                    | [[mesh-resource.node-component.flow-shot.default-shot]]               | node metadata dataset        |
-| `ns/djradon/picks/`                                             | [[mesh-resource.node.payload]]                                        | abstract dataset             |
-| `ns/djradon/picks/_payload/`                                    | [[mesh-resource.node-component.flow.payload]]                         | payload dataset series       |
-| `ns/djradon/picks/_payload/2025-11-24_0142_07_v1/`              | [[mesh-resource.node-component.flow-shot.snapshot]]                   | concrete payload dataset     |
-| `ns/djradon/picks/_payload/2025-11-24_0142_07_v1/picks.jsonld ` | [[mesh-resource.node-component.snapshot-distribution.version]]        | paylod dataset distribution  |
-| `ns/djradon/picks/_payload/_default/picks.jsonld `              | [[mesh-resource.node-component.snapshot-distribution.default]]        | paylod dataset distribution  |
-| `ns/djradon/picks/_cfg-op/`                                     | [[mesh-resource.node-component.flow.node-config.operational]]         | operational config series    |
-| `ns/djradon/picks/_cfg-op/2025-11-24_0142_07_v1/`               | [[mesh-resource.node-component.flow-shot.snapshot]]                   | operational config           |
-| `ns/djradon/picks/_cfg-inh/`                                    | [[mesh-resource.node-component.flow.node-config.inheritable]]         | inheritable config series    |
-| `ns/djradon/picks/_cfg-inh/_default/`                           | [[mesh-resource.node-component.flow-shot.default-shot]]               | inheritable config           |
-| `ns/assets/`                                                    | [[mesh-resource.node-component.asset-tree]]                           | collection of assets         |
-| `ns/assets/images/`                                             | asset folder                                                          | - not a sf resource -        |
-| `ns/assets/images/logo.svg`                                     | asset                                                                 | - not a sf resource -        |
+| [[concept.identifier.intramesh]]                                | Semantic Flow resource type                                      | referent                     |
+| --------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------- |
+| `ns/`                                                           | [[mesh-resource.knop.bare]]                                      | - nothing - (yet!)           |
+| `ns/djradon/`                                                   | [[mesh-resource.knop.reference]]                                 | person                       |
+| `ns/djradon/_knop-handle/`                                      | [[mesh-resource.component.knop-handle]]                          | mesh knop                    |
+| `ns/djradon/index.html`                                         | [[mesh-resource.component.documentation-resource.resource-page]] | resource page (content)      |
+| `ns/djradon/README.md`                                          | [[mesh-resource.component.documentation-resource.readme]]        | README file (content)        |
+| `ns/djradon/CHANGELOG.md`                                       | [[mesh-resource.component.documentation-resource.changelog]]     | README file (content)        |
+| `ns/djradon/_ref/`                                              | [[mesh-resource.component.flow.reference]]                       | reference flow               |
+| `ns/djradon/_ref/_working/`                                     | [[folder._working-slice]]                                        | reference flow version       |
+| `ns/djradon/_ref/_working/djradon.jsonld`                       | [[mesh-resource.component.distribution.working]]                 | reference flow version       |
+| `ns/djradon/_meta/`                                             | [[mesh-resource.component.flow.metadata]]                        | knop metadata dataset series |
+| `ns/djradon/_meta/_default/`                                    | [[mesh-resource.component.slice.default]]                        | knop metadata dataset        |
+| `ns/djradon/picks/`                                             | [[mesh-resource.knop.payload]]                                   | abstract dataset             |
+| `ns/djradon/picks/_payload/`                                    | [[mesh-resource.component.flow.payload]]                         | payload dataset series       |
+| `ns/djradon/picks/_payload/2025-11-24_0142_07_v1/`              | [[mesh-resource.component.slice.version]]                        | concrete payload dataset     |
+| `ns/djradon/picks/_payload/2025-11-24_0142_07_v1/picks.jsonld ` | [[mesh-resource.component.distribution.version]]                 | paylod dataset distribution  |
+| `ns/djradon/picks/_payload/_default/picks.jsonld `              | [[mesh-resource.component.distribution.default]]                 | paylod dataset distribution  |
+| `ns/djradon/picks/_cfg-local/`                                  | [[mesh-resource.component.flow.local-config]]                    | local config series          |
+| `ns/djradon/picks/_cfg-local/2025-11-24_0142_07_v1/`            | [[mesh-resource.component.slice.version]]                        | local config                 |
+| `ns/djradon/picks/_cfg-inh/`                                    | [[mesh-resource.component.flow.inheritable-config]]              | inheritable config series    |
+| `ns/djradon/picks/_cfg-inh/_default/`                           | [[mesh-resource.component.slice.default]]                        | inheritable config           |
+| `ns/assets/`                                                    | [[mesh-resource.component.asset-tree]]                           | collection of assets         |
+| `ns/assets/images/`                                             | asset folder                                                     | - not a sf resource -        |
+| `ns/assets/images/logo.svg`                                     | asset                                                            | - not a sf resource -        |
 
 
 Example:
-- `ns/` = bare node for organizing content and minting IRIs; refers to itself as a namespace
-- `ns/djradon/` = refers to Dave the person (payload node)
+- `ns/` = bare knop for organizing content and minting IRIs; refers to itself as a namespace
+- `ns/djradon/` = refers to Dave the person (payload knop)
 - `ns/djradon/index.html` = resource page about Dave (content)
-- `ns/djradon/pics/` = refers to Dave's biographical dataset (payload node)
+- `ns/djradon/pics/` = refers to Dave's biographical dataset (payload knop)
 - `ns/djradon/pics/_payload/` = abstract dataset (DatasetSeries) containing Dave's "music picks" data
-- `ns/djradon/pics/_payload/_default/` = current concrete dataset snapshot
+- `ns/djradon/pics/_payload/_default/` = current concrete dataset version
 - `ns/djradon/pics/_payload/2025-11-24_0142_07_v1/picks.jsonld` = RDF distribution from version 1
-- `ns/djradon/_assets/images/headshot.jpg` = an image asset; "attached" to the mesh, but not a mesh resource
+- `ns/djradon/_assets/images/headslice.jpg` = an image asset; "attached" to the mesh, but not a mesh resource
 
 
 
@@ -83,31 +83,31 @@ Example:
 
 #### Naming Resources
 
-- **[[mesh-resource.node-component.flow]]** and their [[mesh-resource.node-component.flow-shot]]
-  - **[[mesh-resource.node-component.flow.node-metadata]]**: System-related administrative and structural metadata for mesh nodes
-  - **[[Version datasets|mesh-resource.node-component.flow-shot.snapshot]]**: Versioned snapshots of datasets
-- **[[working snapshots|mesh-resource.node-component.flow-shot.working-shot]]**: Draft workspaces for ongoing changes to versioned datasets
-- **[[Node handles|mesh-resource.node-component.node-handle]]**: Components that provide referential indirection, allowing references to nodes as mesh resources rather than their referents
-- **[[Asset trees|mesh-resource.node-component.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
+- **[[mesh-resource.component.flow]]** and their [[mesh-resource.component.slice]]
+  - **[[mesh-resource.component.flow.metadata]]**: System-related administrative and structural metadata for mesh knops
+  - **[[Version datasets|mesh-resource.component.slice.version]]**: Versioned versions of datasets
+- **[[working slices|folder._working-slice]]**: Draft workspaces for ongoing changes to versioned datasets
+- **[[Node handles|mesh-resource.component.knop-handle]]**: Components that provide referential indirection, allowing references to knops as mesh resources rather than their referents
+- **[[Asset trees|mesh-resource.component.asset-tree]]**: Collections of arbitrary files and folders attached to the mesh
 
 #### File Resources
 
 Terminal [[mesh resources|mesh-resource]] that cannot contain other resources:
 
-- **[[Resource pages|mesh-resource.node-component.documentation-resource.resource-page]]**: index.html files present in every mesh folder after weaving
-- **[[Distribution files|mesh-resource.node-component.snapshot-distribution]]**: Data files in various RDF formats
+- **[[Resource pages|mesh-resource.component.documentation-resource.resource-page]]**: index.html files present in every mesh folder after weaving
+- **[[Distribution files|mesh-resource.component.distribution]]**: Data files in various RDF formats
 - **README.md and CHANGELOG.md**: Documentation files providing context
 
 
 ## Filesystem Structure
 
-Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
+Meshes may be constituted as a set of filesystem [[folder]]s and [[facet.file-resource]]s.
 
 ### Folder Mapping
 
-- Mesh nodes correspond physically to [[mesh folders|facet.filesystem.folder]]
+- mesh knops correspond physically to [[mesh folders|facet.filesystem.folder]]
 - Folder names become namespace segments and IRI path components
-- The local [[concept.identifier.intramesh]] for a node matches its containing folder name
+- The local [[concept.identifier.intramesh]] for a knop matches its containing folder name
 
 ### File Organization
 
@@ -129,32 +129,32 @@ Meshes may be constituted as a set of filesystem [[folder]]s and [[file]]s.
 
 ### Containment Rules
 
-- **Mesh nodes** are always containers of components (i.e., at least [[mesh-resource.node-component.flow.node-metadata]] and [[mesh-resource.node-component.node-handle]]) and potentially containers of other nodes
-  - **[[bare nodes|mesh-resource.node.bare]]**: no additional containment requirements
-  - **[[reference nodes|mesh-resource.node.reference]]**: must have [[mesh-resource.node-component.flow.reference]]  where the referenced entity can be described
-  - **[[payload nodes|mesh-resource.node.payload]]**: must have [[mesh-resource.node-component.flow.payload]] with at least one distribution
-- **Asset tree components**: Cannot contain nodes
-- all resource folders should contain a [[mesh-resource.node-component.documentation-resource.resource-page]] that makes there IRIs servable/dereferenca
+- **mesh knops** are always containers of components (i.e., at least [[mesh-resource.component.flow.metadata]] and [[mesh-resource.component.knop-handle]]) and potentially containers of other knops
+  - **[[bare knops|mesh-resource.knop.bare]]**: no additional containment requirements
+  - **[[reference knops|mesh-resource.knop.reference]]**: must have [[mesh-resource.component.flow.reference]]  where the referenced entity can be described
+  - **[[payload knops|mesh-resource.knop.payload]]**: must have [[mesh-resource.component.flow.payload]] with at least one distribution
+- **Asset tree components**: Cannot contain knops
+- all resource folders should contain a [[mesh-resource.component.documentation-resource.resource-page]] that makes there IRIs servable/dereferenca
 - 
 
 ## Rules & Constraints
 
 ### System vs User Boundaries
 - **System components**: Generated and managed by the weave process, not intended for user modification
-- **User components**: Directly modifiable by users ([[mesh-resource.node-component.flow-shot.default-shot]], README.md, CHANGELOG.md)
+- **User components**: Directly modifiable by users ([[mesh-resource.component.slice.default]], README.md, CHANGELOG.md)
 - The weave process maintains system components and generates missing required flows
 
 ### Versioning Requirements
-- flow versioning is managed through the [[Flow Version|concept.flow-version]] system
-  - turning versioning on and off is controlled in the [[mesh-resource.node-component.node-config-defaults]]
-  - Version history is realized in [[mesh-resource.node-component.flow-shot.snapshot]] with numbered snapshots
-  - Version history metadata is kept in the node's [[mesh-resource.node-component.flow.node-metadata]]
+- flow versioning is managed through the [[Flow Slice|concept.flow-slice]] system
+  - turning versioning on and off is controlled in the [[concept.knop-config.defaults]]
+  - Version history is realized in [[mesh-resource.component.slice.version]] with numbered versions
+  - Version history metadata is kept in the knop's [[mesh-resource.component.flow.metadata]]
 
 ### Addressing Requirements
 - Every mesh resource must be addressable via its IRI path
 - IRIs must return meaningful content when dereferenced
-  - [[mesh-resource.node-component.documentation-resource.resource-page]] provide human-readable information for [[facet.filesystem.folder]]-based resources
-    - resource pages are always index.html files generated by "on weave" from the [[mesh-resource.node-component.documentation-resource.changelog]] and [[mesh-resource.node-component.documentation-resource.readme]] [[mesh-resource.node-component.documentation-resource]], templates in [[mesh-resource.node-component.asset-tree]] and any scoped template mappings specified in [[mesh-resource.node-component.node-config-defaults]] files 
+  - [[mesh-resource.component.documentation-resource.resource-page]] provide human-readable information for [[facet.filesystem.folder]]-based resources
+    - resource pages are always index.html files generated by "on weave" from the [[mesh-resource.component.documentation-resource.changelog]] and [[mesh-resource.component.documentation-resource.readme]] [[mesh-resource.component.documentation-resource]], templates in [[mesh-resource.component.asset-tree]] and any scoped template mappings specified in [[concept.knop-config.defaults]] files 
   - [[facet.filesystem.file]]
 
 ## Integration Points
@@ -173,4 +173,4 @@ The [[Weave Process|concept.weave-process]] process maintains mesh integrity by:
 - The repository structure directly maps to the published IRI structure
 
 ### Dataset Integration
-Meshes support multiple RDF formats and follow [[DCAT v3|related-topics.dcat.vocabulary]] standards for dataset organization. [[Datasets|facet.resource.dataset]] within meshes include both standalone datasets and those embedded as node components.
+Meshes support multiple RDF formats and follow [[DCAT v3|related-topics.dcat.vocabulary]] standards for dataset organization. [[Datasets|facet.resource.dataset]] within meshes include both standalone datasets and those embedded as knop components.

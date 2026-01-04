@@ -2,7 +2,7 @@
 id: dbaynabroewbewplp3pt6sk
 title: sflo CLI
 desc: ''
-updated: 1764275277464
+updated: 1764863799664
 created: 1755903432827
 ---
 
@@ -12,3 +12,6 @@ created: 1755903432827
 
 ## Commands
 
+### Convert
+
+converts a working distribution to a different RDF syntax.

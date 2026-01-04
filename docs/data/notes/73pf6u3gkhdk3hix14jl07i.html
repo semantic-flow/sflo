@@ -1,0 +1,64 @@
+<h1 id="debasing">Debasing<a aria-hidden="true" class="anchor-heading icon-link" href="#debasing"></a></h1>
+<h2 id="overview">Overview<a aria-hidden="true" class="anchor-heading icon-link" href="#overview"></a></h2>
+<p><strong>De-basing</strong> is the process of converting an imported RDF dataset into <strong>mesh-native form</strong> so that all local IRIs resolve relative to a node’s future serving location.<br>
+It is part of <strong>namespace adoption</strong>: bringing external content under a Semantic Flow node’s identifier space.</p>
+<p>Mesh-native files follow the rules described in<br>
+<a href="/sflo/notes/relative-identifier">relative identifier</a>.</p>
+<h2 id="goals">Goals<a aria-hidden="true" class="anchor-heading icon-link" href="#goals"></a></h2>
+<ul>
+<li>Remove any explicit <code>@base</code> / <code>BASE</code> declarations.  </li>
+<li>Rewrite local IRIs so that they become <strong>relative IRIs</strong>.  </li>
+<li>Ensure that the file is valid when parsed with the node’s <strong>effective base IRI</strong> (its final public URL).  </li>
+<li>Preserve external IRIs unchanged.  </li>
+<li>Record the transformation in provenance.</li>
+</ul>
+<h2 id="when-de-basing-occurs">When De-basing Occurs<a aria-hidden="true" class="anchor-heading icon-link" href="#when-de-basing-occurs"></a></h2>
+<p>De-basing is applied whenever an imported dataset is intended to become <strong>content</strong> of a node—either as:</p>
+<ul>
+<li>a <strong>PayloadFlow</strong> dataset, or  </li>
+<li>a <strong>ReferenceFlow</strong> dataset.</li>
+</ul>
+<p>Datasets placed in the <strong>assets tree</strong> are <em>not</em> de-based.</p>
+<h2 id="algorithm-conceptual">Algorithm (Conceptual)<a aria-hidden="true" class="anchor-heading icon-link" href="#algorithm-conceptual"></a></h2>
+<p>Given:</p>
+<ul>
+<li><code>oldBase</code>: the detected namespace prefix of the imported dataset.</li>
+<li><code>nodeBase</code>: the node’s future HTTP URL (the mesh-native base).</li>
+</ul>
+<p>For each IRI <code>I</code> in the dataset:</p>
+<ol>
+<li>If <code>I</code> begins with <code>oldBase</code>:
+<ul>
+<li>Replace <code>I</code> with a <strong>relative IRI</strong>:<br>
+<code>I_rel = I.removePrefix(oldBase)</code>  </li>
+</ul>
+</li>
+<li>Else:
+<ul>
+<li>Leave <code>I</code> unchanged (external reference).</li>
+</ul>
+</li>
+</ol>
+<p>Finally:</p>
+<ul>
+<li>Remove explicit <code>@base</code> from serialization.</li>
+<li>Ensure <strong>all local IRIs are relative IRIs</strong>.</li>
+<li>Store provenance documenting:
+<ul>
+<li>original base (<code>oldBase</code>),</li>
+<li>target node base (<code>nodeBase</code>),</li>
+<li>the de-basing Activity.</li>
+</ul>
+</li>
+</ul>
+<h2 id="example">Example<a aria-hidden="true" class="anchor-heading icon-link" href="#example"></a></h2>
+<p>Imported:</p>
+<pre class="language-turtle"><code class="language-turtle"><span class="token keyword">@base</span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://legacy.example.org/ns/foo/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span>Bar<span class="token punctuation">></span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">ex<span class="token punctuation">:</span></span><span class="token local-name">Thing</span></span> <span class="token punctuation">.</span>
+
+</code></pre>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/qsqii47rbkfuw3ktpdhk9rv">2025 11 28 Rdfsource Debasing Parsing</a></li>
+</ul>

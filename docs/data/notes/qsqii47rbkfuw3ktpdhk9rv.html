@@ -1,0 +1,116 @@
+<h1 id="2025-11-28-rdfsource-debasing-parsing">2025 11 28 Rdfsource Debasing Parsing<a aria-hidden="true" class="anchor-heading icon-link" href="#2025-11-28-rdfsource-debasing-parsing"></a></h1>
+<h2 id="todo">TODO<a aria-hidden="true" class="anchor-heading icon-link" href="#todo"></a></h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Explore project structure and understand requirements</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Design RdfSource abstraction architecture</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Design createNode operation architecture</li>
+<li class="task-list-item"><input type="checkbox" disabled> Document parsing semantics for SFLO spec</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement RdfSource types and core abstractions</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement RdfSource parsing/serialization helpers</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement createNode core function</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement filesystem scaffolding utilities</li>
+<li class="task-list-item"><input type="checkbox" disabled> Implement metadata generation with provenance stubs</li>
+<li class="task-list-item"><input type="checkbox" disabled> Create tests for RdfSource</li>
+<li class="task-list-item"><input type="checkbox" disabled> Create tests for createNode</li>
+<li class="task-list-item"><input type="checkbox" disabled> Create simple Node.js runner script</li>
+<li class="task-list-item"><input type="checkbox" disabled> Update task files with progress</li>
+</ul>
+<h2 id="prompt">Prompt<a aria-hidden="true" class="anchor-heading icon-link" href="#prompt"></a></h2>
+<p>Implement and document a coherent <strong>RDF loading and serialization model</strong> for Semantic Flow, then <strong>integrate it into <code>createNode</code></strong>.</p>
+<p>This task has four tightly related parts:</p>
+<ol>
+<li>Define a <strong>code-level <code>RdfSource</code> abstraction</strong> and helpers.</li>
+<li>Write/update the <strong>“Parsing Semantics”</strong> sections of the SFLO spec (check <a href="/sflo/notes/relative-identifier">relative identifier</a>, <a href="/sflo/notes/onheps7i79fvmzgfnm11phw">IRI</a>, <a href="/sflo/notes/implied-rdf-base">implied rdf base</a>)</li>
+<li>Formalize the <strong>debasing/rebasing algorithm</strong> (in <a href="/sflo/notes/73pf6u3gkhdk3hix14jl07i">Debasing</a>) for adopting external datasets into mesh-native form.</li>
+<li>Integrate all of the above into the  <strong><code>createNode</code></strong> task (<a href="/sflo/notes/ufnbtre0tn2pxq7dzjcgrz0">2025-11-27-createNode</a>), replacing any ad-hoc path/string handling.</li>
+</ol>
+<p>The goal is to make RDF ingestion/emission:</p>
+<ul>
+<li>explicit,</li>
+<li>testable,</li>
+<li>compatible with RDF/JS and JSON-LD tooling,</li>
+<li>and aligned with the “relative, base-free JSON-LD on disk” rule.</li>
+</ul>
+<hr>
+<h2 id="context--decisions-must-be-respected">Context &#x26; Decisions (must be respected)<a aria-hidden="true" class="anchor-heading icon-link" href="#context--decisions-must-be-respected"></a></h2>
+<h3 id="1-mesh-native-json-ld-style-file-format">1. Mesh-native JSON-LD style (file format)<a aria-hidden="true" class="anchor-heading icon-link" href="#1-mesh-native-json-ld-style-file-format"></a></h3>
+<p>Mesh-authored RDF files (the ones Semantic Flow writes into the node tree) MUST follow:</p>
+<ul>
+<li><strong>No <code>@base</code></strong> in JSON-LD.</li>
+<li><strong>Local identifiers are relative IRIs</strong>:
+<ul>
+<li>e.g. <code>"@id": "foo"</code>, <code>"@id": "payload/v1"</code>.</li>
+</ul>
+</li>
+<li><strong>External identifiers are absolute IRIs</strong>:
+<ul>
+<li>vocabularies, external links, etc.</li>
+</ul>
+</li>
+</ul>
+<p>These files must be “publishable anywhere” as-is:</p>
+<ul>
+<li>When loaded from <code>file:///…</code>, the base is file path.</li>
+<li>When served from HTTP (e.g. GitHub Pages), the base is the HTTP URL.</li>
+</ul>
+<p>No additional rewrite step is required at publish time.</p>
+<h3 id="2-internal-base-semantics-parsing">2. Internal base semantics (parsing)<a aria-hidden="true" class="anchor-heading icon-link" href="#2-internal-base-semantics-parsing"></a></h3>
+<p>Internally, RDF/JSON-LD tooling always works with <strong>absolute IRIs</strong>.</p>
+<p>For <strong>any mesh-native file read from disk</strong>:</p>
+<ul>
+<li>Compute <strong>document IRI</strong> as a <code>file:///</code> URL from the absolute path.</li>
+<li>Always parse with <strong><code>baseIRI = file:///…</code></strong>:
+<ul>
+<li>JSON-LD: <code>jsonld.expand(..., { base: documentIri })</code> or equivalent.</li>
+<li>Turtle/TriG: N3/rdf-parse with <code>baseIRI: documentIri</code>.</li>
+</ul>
+</li>
+</ul>
+<p>There is <strong>no “base-less” in memory</strong>; “base-free” is only a file-level serialization convention.</p>
+<p>For external datasets (URL / file):</p>
+<ul>
+<li>If they have an explicit base or document IRI (HTTP/file), use that as base.</li>
+<li>If they have relative IRIs but no usable base, treat as an error or require explicit base (no silent guessing).</li>
+</ul>
+<h3 id="3-flow--filename-conventions-relevant-to-this-task">3. Flow + filename conventions relevant to this task<a aria-hidden="true" class="anchor-heading icon-link" href="#3-flow--filename-conventions-relevant-to-this-task"></a></h3>
+<p>We are going with <strong>Option 1</strong>:</p>
+<ul>
+<li>
+<p><strong>Flow directory slugs</strong> (core flows, short names):</p>
+<ul>
+<li><code>_meta</code>    → node metadata flow (old <code>_node-metadata-flow</code>)</li>
+<li><code>_ref</code>     → reference flow</li>
+<li><code>_payload</code> → payload/data flow</li>
+<li><code>_cfg-op</code>  → operational config flow</li>
+<li><code>_cfg-inh</code> → inheritable config flow</li>
+</ul>
+</li>
+<li>
+<p><strong>Node slug</strong>:</p>
+<ul>
+<li>Derived from the node folder name.</li>
+<li>Used to construct filenames.</li>
+</ul>
+</li>
+<li>
+<p><strong>Distribution filenames</strong>:</p>
+<ul>
+<li>Payload: <code>&#x3C;nodeSlug>.jsonld</code> (no <code>_payload</code> in filename).</li>
+<li>Others: <code>&#x3C;nodeSlug>-&#x3C;flowShort>.jsonld</code>, e.g.:
+<ul>
+<li>metadata: <code>&#x3C;nodeSlug>_meta.jsonld</code></li>
+<li>reference: <code>&#x3C;nodeSlug>_ref.jsonld</code></li>
+<li>cfg-op: <code>&#x3C;nodeSlug>_cfg-op.jsonld</code></li>
+<li>cfg-inh: <code>&#x3C;nodeSlug>_cfg-inh.jsonld</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Example for node at <code>/ontology/semantic-flow-ontology/</code>:</p>
+<pre class="language-text"><code class="language-text">/ontology/semantic-flow-ontology/
+  _payload/_default/semantic-flow-ontology.jsonld
+  _meta/_default/semantic-flow-ontology_meta.jsonld
+  _ref/_default/semantic-flow-ontology_ref.jsonld
+
+</code></pre>

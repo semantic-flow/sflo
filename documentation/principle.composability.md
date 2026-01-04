@@ -2,19 +2,19 @@
 id: principle-composability
 title: composability
 desc: ''
-updated: 1760158748835
+updated: 1764867799346
 created: 1751233874377
 ---
 
 ## Overview
 
-Composability is the ability to combine meshes. Semantic Flow enables flexible mesh composition by allowing any mesh node to contain other nodes, and by not specifying an absolute path anywhere. 
+Composability is the ability to combine meshes. Semantic Flow enables flexible mesh composition by allowing any mesh knop to contain other knops, and by not specifying an absolute path anywhere. 
 
 ## Key Concepts
 
 ### Mesh Boundaries
 
-A mesh is identified as a folder that looks like a [[folder.node]], i.e., has (at least) these two subfolders:
+A mesh is identified as a folder that looks like a [[folder.knop]], i.e., has (at least) these two subfolders:
 
 
 
@@ -72,13 +72,13 @@ The embedded content becomes part of your repository and site, but you can pull 
 ```
 your-mesh/
 ├── _flow/                           # Your mesh metadata
-├── _node-handle/
+├── _knop-handle/
 ├── ns/
 │   └── yourdata/
 └── collaborators/
     └── djradon/                     # Imported/embedded mesh - served as static files
         ├── _flow/                   # Their mesh metadata
-        ├── _node-handle/
+        ├── _knop-handle/
         └── ns/
             └── djradon/
 ```
@@ -146,13 +146,13 @@ git subtree add --prefix=departments/cs/ https://github.com/cs-dept/mesh.git mai
 git subtree add --prefix=departments/bio/ https://github.com/bio-dept/mesh.git main
 ```
 
-### Temporal Snapshots
+### Temporal Versions
 
 Preserving historical versions of external meshes:
 
 ```bash
 # Import specific version
-git subtree add --prefix=snapshots/2024/djradon/ https://github.com/djradon/mesh.git v2024.1
+git subtree add --prefix=versions/2024/djradon/ https://github.com/djradon/mesh.git v2024.1
 ```
 
 ## Best Practices

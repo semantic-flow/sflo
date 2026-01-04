@@ -20,12 +20,12 @@ A filesystem-based mesh maps directly from a Git repository’s folder hierarchy
 See:
 - [[concept.mesh]]: definition, requirements
 - [[concept.semantic-flow-site]]: site posture
-- [[concept.mesh-repo]]: repo-to-site mapping
+- [[concept.single-mesh-repo]]: repo-to-site mapping
 
 2) Design Principles
 - [[principle.dereferencability-for-humans]]: resource pages
 - [[principle.single-referent]]: concept vs content is explicit
-- [[principle.pseudo-immutability]]: treat version snapshots/IDs as immutable
+- [[principle.pseudo-immutability]]: treat snapshots/IDs as immutable
 - [[principle.transposability]]: move meshes without breaking links via relative IDs
 - [[principle.composability]]: extract/compose submeshes
 
@@ -41,11 +41,11 @@ See:
     - Meta flow (metadata/provenance): [[mesh-resource.node-component.flow.node-metadata]]
     - payload flow (payload data): [[mesh-resource.node-component.flow.payload]]
     - Node-config flows (settings; see §9): [[mesh-resource.node-component.flow.node-config]]
-  - Flow snapshots (concrete Datasets): `_current/`, `_next/`, `_vN/`
-    - Overview: [[mesh-resource.node-component.flow-snapshot]]
-    - `_current/`: [[mesh-resource.node-component.flow-snapshot.current]]
-    - `_next/`: [[mesh-resource.node-component.flow-snapshot.next]]
-    - `_vN/`: [[mesh-resource.node-component.flow-snapshot.version]]
+  - FlowShots (concrete Datasets): `_default/`, `_working/`, snapshot folders (e.g., `2025-11-24_0142_07_v1/`)
+    - Overview: [[mesh-resource.node-component.flow-shot]]
+    - `_default/`: [[mesh-resource.node-component.flow-shot.default-shot]]
+    - `_working/`: [[mesh-resource.node-component.flow-shot.working-shot]]
+    - Snapshot folders: [[mesh-resource.node-component.flow-shot.snapshot]]
     - Distributions: [[mesh-resource.node-component.snapshot-distribution]]
   - Handle (refer to the node “as a mesh resource”): [[mesh-resource.node-component.node-handle]]
     - Handle page (human-facing): [[mesh-resource.node-component.node-handle.page]]
@@ -94,43 +94,43 @@ See:
 Reserved folder names (underscore-prefixed; canonical set):
 - `_node-handle/`
 - Flow containers (abstract datasets):
-  - `_node-metadata-flow/`, `_payload-flow/`
-  - `_config-operational-flow/`, `_config-inheritable-flow/` (see §9)
-- Snapshots inside a flow:
-  - `_current/`, `_next/`, `_vN/` (e.g., `_v1/`, `_v2/`, …)
+  - `_meta/`, `_payload/`
+  - `_cfg-op/`, `_cfg-inh/` (see §9)
+- FlowShots inside a flow:
+  - `_default/`, `_working/`, snapshot folders with format `YYYY-MM-DD_HHMM_SS_vN/` (e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`, …)
 - Assets:
   - `_assets/` (static files)
 
 Folder-note pages for these reserved names live under `folder.*.md` (where defined):
-- `_node-metadata-flow/`: [[folder._node-metadata-flow]]
-- `_payload-flow/`: [[folder._data-flow]]
-- `_config-operational-flow/`: [[folder._config-operational-flow]]
-- `_config-inheritable-flow/`: [[folder._config-inheritable-flow]]
-- `_current/`: [[folder._current]]
-- `_next/`: [[folder._next]]
-- `_vN/`: [[folder._vN]]
+- `_meta/`: [[folder._meta]]
+- `_payload/`: [[folder._data-flow]]
+- `_cfg-op/`: [[folder._cfg-op]]
+- `_cfg-inh/`: [[folder._cfg-inh]]
+- `_default/`: [[folder._default]]
+- `_working/`: [[folder._working]]
+- Snapshot folders (`YYYY-MM-DD_HHMM_SS_vN/`): [[folder.flowshot]]
 - `_assets/`: [[folder._assets]]
 - Node folder pages:
   - Node: [[folder.node]]
 
 6) Data and Versioning Model
 - Only flows are versioned (flows are DatasetSeries). Nodes are not versioned.
-- Flow snapshots:
-  - `_current/`: latest stable realization; after weave it equals the content of the latest `_vN/`.
-  - `_next/`: mutable working area.
-  - `_vN/`: immutable history for precise citation and provenance.
-- Working distribution: `_next/` typically contains a single editable source; weave can fan-out serializations.
+- FlowShots (flow realizations):
+  - `_default/`: latest stable realization; after weave it equals the content of the latest snapshot.
+  - `_working/`: mutable working area.
+  - Snapshot folders (format `YYYY-MM-DD_HHMM_SS_vN/`): immutable history for precise citation and provenance.
+- Working distribution: `_working/` typically contains a single editable source; weave can fan-out serializations.
 - Sibling distribution: patterns and constraints for multi-file realizations.
 See:
-- [[concept.versioning]]
+- [[concept.flow-version]]
 - [[mesh-resource.node-component.snapshot-distribution.working]]
 - [[concept.sibling-distribution]]
 
 7) Lifecycle and Weave Process
 Weave maintains structural coherence and publication readiness:
 - Ensures required system components exist.
-- If versioning is enabled, creates a new `_vN/` from `_next/`.
-- Promotes `_next/` contents to `_current/`.
+- If versioning is enabled, creates a new snapshot folder (format `YYYY-MM-DD_HHMM_SS_vN/`) from `_working/`.
+- Promotes `_working/` contents to `_default/`.
 - Updates meta/provenance; regenerates resource pages.
 - Resolves internal links to maintain transposability.
 - Integrates with the scanner where applicable.
@@ -144,7 +144,7 @@ See:
 - Repos are static-site-ready; pushing to GitHub Pages or any static host publishes the mesh (folder paths → IRI paths).
 - Transposition (domain/project move) is safe with relative IDs.
 See:
-- [[concept.mesh-repo]]
+- [[concept.single-mesh-repo]]
 - [[concept.semantic-flow-site]]
 - [[concept.publication]]
 
@@ -159,7 +159,7 @@ See:
 - [[mesh-resource.node-component.node-config-defaults]]: defaults as inheritable values
 
 1)  Aggregated Views
-- Aggregated distribution: optional roll-up of child payload nodes’ current datasets at a parent node for convenience.
+- Aggregated distribution: optional roll-up of child payload nodes’ default datasets at a parent node for convenience.
 See:
 - [[mesh-resource.node-component.aggregated-distribution]]
 
@@ -170,15 +170,15 @@ See:
 ├── _assets/                         # optional site-wide assets
 ├── my-node/                         # a mesh node (folder)
 │   ├── _node-handle/                # handle component (resource.node-component.node-handle)
-│   ├── _node-metadata-flow/                  # metapayload flow (system)
-│   │   ├── _current/
-│   │   └── _v1/
-│   ├── _payload-flow/                  # payload flow (for payload nodes)
-│   │   ├── _current/
-│   │   ├── _next/
-│   │   └── _v1/
-│   ├── _config-inheritable-flow/    # provider config (optional)
-│   ├── _config-operational-flow/    # resolved config (optional; may be system-written)
+│   ├── _meta/                  # metadata flow (system)
+│   │   ├── _default/
+│   │   └── 2025-11-24_0142_07_v1/
+│   ├── _payload/                  # payload flow (for payload nodes)
+│   │   ├── _default/
+│   │   ├── _working/
+│   │   └── 2025-11-24_0142_07_v1/
+│   ├── _cfg-inh/    # provider config (optional)
+│   ├── _cfg-op/    # resolved config (optional; may be system-written)
 │   ├── index.html                   # resource page
 │   ├── README.md
 │   └── CHANGELOG.md
@@ -195,11 +195,11 @@ graph TD
   A --> G[Asset tree]
   A --> H[Resource pages]
 
-  C --> C1[_current]
-  C --> C2[_vN]
-  E --> E1[_current]
-  E --> E2[_next]
-  E --> E3[_vN]
+  C --> C1[_default]
+  C --> C2[Snapshots]
+  E --> E1[_default]
+  E --> E2[_working]
+  E --> E3[Snapshots]
 ```
 
 13) Glossary
@@ -207,8 +207,8 @@ graph TD
 - [[mesh-resource.node]]: an extensible  resource containing other nodes and its own components
 - [[mesh-resource.node-component]]: terminal resource that supports node behavior/structure
 - [[mesh-resource.node-component.flow]]: DatasetSeries representing an abstract dataset (meta/data/config)
-- [[mesh-resource.node-component.flow-snapshot]]: concrete Dataset realization of a flow (`_current/`, `_next/`, `_vN/`)
-- [[mesh-resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.): 
-- [[mesh-resource.node-component.node-handle]]: indirection to refer to the node “as a mesh resource”
+- [[mesh-resource.node-component.flow-shot]]: concrete Dataset realization of a flow (Snapshot, DefaultShot, WorkingShot)
+- [[mesh-resource.node-component.snapshot-distribution]]: a concrete serialization file (TriG, JSON-LD, etc.)
+- [[mesh-resource.node-component.node-handle]]: indirection to refer to the node "as a mesh resource"
 - [[mesh-resource.node-component.documentation-resource.resource-page]]: dereferenceable `index.html` for folders
-- [[concept.weave-process]]: lifecycle operation to version/promote/regenerate/repair:
+- [[concept.weave-process]]: lifecycle operation to version/promote/regenerate/repair

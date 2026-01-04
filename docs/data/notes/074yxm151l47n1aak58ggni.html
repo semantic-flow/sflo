@@ -1,7 +1,10 @@
-<h1 id="current-snapshot">current snapshot<a aria-hidden="true" class="anchor-heading icon-link" href="#current-snapshot"></a></h1>
-<p>The current snapshot represents the latest published version of a dataset's content. It serves as the authoritative source that users and external systems reference, containing the most recent released data while remaining unchanged during active development.</p>
-<p>If versioning is turned on and nobody has cleaned up old versions, the current snapshot matches the content of the latest versioned snapshot (e.g., <code>_v3/</code>) and remains identical to the <a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a> until new changes begin. During weaving, the <code>_next</code> content becomes the new current snapshot. If versioning is turned on, the _next content becomes the next version.</p>
-<p>This provides a reference point for citations and external links that want the latest information, while allowing ongoing development work to proceed safely in the <code>_next</code> dataset without disrupting users of the published data.</p>
+<h1 id="default-snapshot">default snapshot<a aria-hidden="true" class="anchor-heading icon-link" href="#default-snapshot"></a></h1>
+<p><a href="/sflo/notes/elncscz2versnfcbtvqsg46">Versioned</a> mode: _default/ is a materialized copy of the latest snapshot folder.
+<a href="/sflo/notes/mjrp94i4d65x6ypgdd2ki0v">Unversioned</a> mode: _default/ is the one-and-only dataset
+<a href="/sflo/notes/20dz80zbx82nrym7e88ozy7">de-versioned flow facet</a> mode: <a href="/sflo/notes/xz41kd5hzao6yjybm05uw4l">_default</a> is the current version of the dataset</p>
+<p>The default snapshot provides the most recently published version of a flow's content without relying on symlinks or redirects. It serves as the "general purpose" source that users and external systems can reference, remaining unchanged during active development via the <a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">working snapshot</a>.</p>
+<p>If versioning is turned on and nobody has cleaned up old versions, the default snapshot matches the content of the latest versioned snapshot (e.g., <code>2025-11-24_0142_07_v3/</code>) and remains identical to the <a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">working snapshot</a> until new changes begin. During weaving, the <a href="/sflo/notes/2qp8vfjygd43lmwcmj6362r">working distribution</a> becomes the new <a href="/sflo/notes/074yxm151l47n1aak58ggni">default snapshot</a>. If versioning is turned on, the _working content becomes the working version.</p>
+<p>This provides a reference point for citations and external links that want the latest information, while allowing ongoing development work to proceed safely in the <code>_working</code> dataset without disrupting users of the published data.</p>
 <hr>
 <strong>Backlinks</strong>
 <ul>
@@ -9,7 +12,11 @@
 <li><a href="/sflo/notes/pqjdlyd8g80x3yr9o3p82mj">node config</a></li>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
 <li><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a></li>
+<li><a href="/sflo/notes/xz41kd5hzao6yjybm05uw4l">_default</a></li>
+<li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a></li>
 <li><a href="/sflo/notes/loose-mesh">loose mesh</a></li>
-<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
+<li><a href="/sflo/notes/4v2b7t8nbzkmtyvnayye3vj">Provenance</a></li>
+<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">FlowShot</a></li>
 <li><a href="/sflo/notes/node-flow">node flow</a></li>
+<li><a href="/sflo/notes/074yxm151l47n1aak58ggni">default snapshot</a></li>
 </ul>

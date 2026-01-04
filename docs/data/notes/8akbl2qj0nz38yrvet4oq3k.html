@@ -1,0 +1,287 @@
+<h1 id="replace-monotonic-v-n-snapshots-with-human-readable-weave-labels">Replace Monotonic V N Snapshots with Human Readable Weave Labels<a aria-hidden="true" class="anchor-heading icon-link" href="#replace-monotonic-v-n-snapshots-with-human-readable-weave-labels"></a></h1>
+<h2 id="current-state"><strong>CURRENT STATE</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#current-state"></a></h2>
+<p>The ontology groundwork is complete:</p>
+<ul>
+<li><code>sflo:weaveLabel</code> property exists for human-readable labels</li>
+<li><code>sflo:sequenceNumber</code> property exists for monotonic ordering</li>
+<li><code>sflo:previousSnapshot</code> property exists for snapshot linking</li>
+<li>FlowShot terminology (Snapshot/DefaultShot/WorkingShot) is established in the ontology</li>
+</ul>
+<p>This task focuses on <strong>documentation consistency</strong> and <strong>ontology verification</strong>.</p>
+<hr>
+<h2 id="goal"><strong>GOAL</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#goal"></a></h2>
+<p>Document the enhanced snapshot folder naming that combines human-readable weave labels with sequence numbers:</p>
+<pre><code>YYYY-MM-DD_HHMM_SS_vN
+</code></pre>
+<p>Examples:</p>
+<ul>
+<li><code>2025-11-24_0142_07_v1</code></li>
+<li><code>2025-11-24_0142_08_v2</code></li>
+<li><code>2025-11-24_0142_15_v3</code></li>
+</ul>
+<p>While preserving:</p>
+<ul>
+<li>Immutable snapshots (FlowShots)</li>
+<li>Consistent <code>_default</code> semantics (DefaultShot)</li>
+<li>A linear <code>previousSnapshot</code> chain for metadata flows</li>
+<li>The folder name as part of the canonical IRI identity</li>
+</ul>
+<hr>
+<h2 id="motivation"><strong>MOTIVATION</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#motivation"></a></h2>
+<ol>
+<li><code>_vN</code> alone gives ordinality but no human context</li>
+<li>Full millisecond timestamps (<code>20251109181158123</code>) are too visually dense for humans</li>
+<li>Weaves are slow, human-mediated operations, so:
+<ul>
+<li>Second-resolution labels are adequate, and</li>
+<li>Same-second multiple runs would be extremely rare</li>
+</ul>
+</li>
+<li>Human-friendly labels improve UX without affecting machine identity</li>
+</ol>
+<hr>
+<h2 id="specification"><strong>SPECIFICATION</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#specification"></a></h2>
+<h3 id="1-flowshot-snapshot-folder-format"><strong>1. Flowshot (Snapshot) Folder Format</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#1-flowshot-snapshot-folder-format"></a></h3>
+<p>Each snapshot folder uses:</p>
+<pre><code>&#x3C;weaveLabel>_v&#x3C;sequenceNumber>
+</code></pre>
+<p>Where:</p>
+<ol>
+<li>
+<p><strong>weaveLabel:</strong> a human-oriented identifier, generated once per weave run:</p>
+<pre><code>YYYY-MM-DD_HHMM_SS
+</code></pre>
+<p>(timestamp with second-level precision)</p>
+</li>
+<li>
+<p><strong>sequenceNumber:</strong>
+A strictly monotonic integer <em>per flow</em>, stored inside snapshot metadata and reflected in folder name:</p>
+<pre><code>sflo:sequenceNumber 17 .
+</code></pre>
+</li>
+</ol>
+<p>Sequence number provides ordering; weave label provides readability.</p>
+<hr>
+<h3 id="2-weave-label-allocation"><strong>2. Weave Label Allocation</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#2-weave-label-allocation"></a></h3>
+<ul>
+<li>
+<p><strong>Only one process should weave a mesh/sub-mesh at a time.</strong></p>
+</li>
+<li>
+<p>Advisory soft lock (see <a href="/sflo/notes/93ortuby9xg8zp5wb1nxyl1">Weave Lock</a>):</p>
+<ul>
+<li>At start of weave: create <code>.weave-lock</code> in the mesh root</li>
+<li>Lock file contains: PID, host, timestamp</li>
+<li>Stale locks may be broken with <code>--force</code></li>
+</ul>
+</li>
+<li>
+<p>Within a single weave run:</p>
+<ul>
+<li>Core computes <code>weaveLabel</code> once and reuses it for all flows</li>
+<li>The timestamp is captured at weave start and includes seconds precision</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-flowshot-structure-per-flow"><strong>3. FlowShot Structure (per flow)</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#3-flowshot-structure-per-flow"></a></h3>
+<p>Each flow's directory structure:</p>
+<pre><code>/&#x3C;node>/&#x3C;flow>/
+  YYYY-MM-DD_HHMM_SS_vN/    # Snapshot (immutable FlowShot)
+  _default/                 # DefaultShot
+  _working/                 # WorkingShot
+</code></pre>
+<p>A Snapshot dataset includes at minimum:</p>
+<pre class="language-turtle"><code class="language-turtle"><span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">ThisSnapshot</span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">sflo<span class="token punctuation">:</span></span><span class="token local-name">Snapshot</span></span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">sflo<span class="token punctuation">:</span></span><span class="token local-name">weaveRunId</span></span> <span class="token string">"urn:uuid:…"</span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">sflo<span class="token punctuation">:</span></span><span class="token local-name">weaveLabel</span></span> <span class="token string">"2025-11-24_0142_55"</span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">sflo<span class="token punctuation">:</span></span><span class="token local-name">sequenceNumber</span></span> <span class="token number">7</span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generatedAtTime</span></span> <span class="token string">"2025-11-24T01:42:55Z"</span><span class="token punctuation">^^</span><span class="token function"><span class="token prefix">xsd<span class="token punctuation">:</span></span><span class="token local-name">dateTime</span></span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">sflo<span class="token punctuation">:</span></span><span class="token local-name">previousSnapshot</span></span> <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">PriorSnapshot</span></span> <span class="token punctuation">.</span>   <span class="token comment"># optional if no prior</span>
+</code></pre>
+<hr>
+<h3 id="4-defaultshot-semantics"><strong>4. DefaultShot Semantics</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#4-defaultshot-semantics"></a></h3>
+<p><code>_default/</code> for any flow is:</p>
+<ul>
+<li>A <strong>byte-for-byte mirror</strong> of the latest snapshot dataset</li>
+<li>Contains <strong>no additional metadata</strong> not present in the snapshot itself</li>
+<li>Updated on weave by <strong>replacing</strong> its contents atomically</li>
+</ul>
+<p>Therefore:</p>
+<ul>
+<li>DefaultShot = "current snapshot content"</li>
+<li>Snapshot = "immutable dataset with history metadata"</li>
+<li>All historical links live <strong>inside the snapshot</strong>, not in <code>_default</code></li>
+</ul>
+<hr>
+<h3 id="5-canonical-identity"><strong>5. Canonical Identity</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#5-canonical-identity"></a></h3>
+<p>The canonical identity of a snapshot IS its IRI, which includes the folder name:</p>
+<pre><code>https://example.org/my-node/_payload/2025-11-24_0142_07_v1/
+</code></pre>
+<p>Since the folder name is part of the IRI path, it directly contributes to the identity. The weave label and sequence number in the folder name become permanent parts of the snapshot's identity.</p>
+<hr>
+<h2 id="terminology--replacements"><strong>TERMINOLOGY &#x26; REPLACEMENTS</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#terminology--replacements"></a></h2>
+<h3 id="key-terms"><strong>Key Terms</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#key-terms"></a></h3>
+<p>To maintain consistency across documentation, use these preferred terms:</p>
+<p><strong>FlowShot-related:</strong></p>
+<ul>
+<li><strong>FlowShot</strong> - The abstract concept of a flow realization (Snapshot, DefaultShot, or WorkingShot)</li>
+<li><strong>Snapshot</strong> (or <strong>Snapshot FlowShot</strong>) - An immutable, versioned FlowShot (formerly called "snapshot" or "flow snapshot")</li>
+<li><strong>DefaultShot</strong> - The current/latest FlowShot content (the <code>_default/</code> folder)</li>
+<li><strong>WorkingShot</strong> - The mutable staging FlowShot (the <code>_working/</code> folder)</li>
+</ul>
+<p><strong>Folder-related:</strong></p>
+<ul>
+<li><strong>snapshot folder</strong> - Replace references to <code>_vN</code> folders with "snapshot folder" or "Snapshot FlowShot folder"</li>
+<li><strong>flowshot folder</strong> - Generic term for any FlowShot folder (<code>_default/</code>, <code>_working/</code>, or snapshot folders)</li>
+</ul>
+<h3 id="replacement-guidelines"><strong>Replacement Guidelines</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#replacement-guidelines"></a></h3>
+<p>When updating documentation, apply these substitutions:</p>
+<div class="table-responsive">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Old Term</strong></th><th><strong>New Term</strong></th><th><strong>Context</strong></th></tr></thead><tbody><tr><td><code>_vN</code> (as a concept)</td><td>snapshot folder</td><td>When referring to the folder itself</td></tr><tr><td><code>_vN/</code> (in paths)</td><td><code>YYYY-MM-DD_HHMM_SS_vN/</code></td><td>When showing folder paths</td></tr><tr><td>"snapshot"</td><td>Snapshot or Snapshot FlowShot</td><td>When referring to the concept</td></tr><tr><td>"flow snapshot"</td><td>FlowShot (usually)</td><td>Generic references to flow realizations</td></tr><tr><td>"snapshot" (ambiguous)</td><td>Specify: Snapshot FlowShot</td><td>When the Snapshot type is meant</td></tr><tr><td>"_default snapshot"</td><td>DefaultShot</td><td>The current/latest realization</td></tr><tr><td>"_working snapshot"</td><td>WorkingShot</td><td>The mutable staging realization</td></tr></tbody></table></div>
+<h3 id="common-ambiguities"><strong>Common Ambiguities</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#common-ambiguities"></a></h3>
+<p><strong>"Flow snapshots" vs "Snapshot FlowShots":</strong></p>
+<ul>
+<li><strong>"Flow snapshots"</strong> (legacy term) → Usually means <strong>FlowShots</strong> (all types: Snapshot, DefaultShot, WorkingShot)</li>
+<li><strong>"Snapshot FlowShot"</strong> or <strong>"Snapshot"</strong> → Specifically means the immutable, versioned type</li>
+</ul>
+<p><strong>When documenting:</strong></p>
+<ul>
+<li>Use "FlowShot" for the general concept</li>
+<li>Use "Snapshot" or "Snapshot FlowShot" when specifically referring to versioned, immutable realizations</li>
+<li>Use "DefaultShot" and "WorkingShot" for their specific folder types</li>
+</ul>
+<hr>
+<h2 id="deliverables"><strong>DELIVERABLES</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#deliverables"></a></h2>
+<h3 id="1-ontology-verification"><strong>1. Ontology Verification</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#1-ontology-verification"></a></h3>
+<p>Verify these properties exist and are correctly defined:</p>
+<ul>
+<li>✅ <code>sflo:weaveLabel</code> (exists in semantic-flow ontology)</li>
+<li>✅ <code>sflo:sequenceNumber</code> (exists in semantic-flow ontology)</li>
+<li>✅ <code>sflo:previousSnapshot</code> (exists in semantic-flow ontology)</li>
+<li>✅ FlowShot/Snapshot/DefaultShot/WorkingShot classes (exist in semantic-flow ontology)</li>
+</ul>
+<h3 id="2-documentation-updates-required"><strong>2. Documentation Updates Required</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#2-documentation-updates-required"></a></h3>
+<p>Update all references from simple <code>_vN</code> to the new format in:</p>
+<p><strong>Core Concept Documentation:</strong></p>
+<ul>
+<li><a href="/sflo/documentation/concept.weave-label.md"><code>concept.weave-label.md</code></a> - Update format from YYYYMMDD.HHMMSS to YYYY-MM-DD_HHMM_SS</li>
+<li><a href="/sflo/documentation/concept.flow-version.md"><code>concept.flow-version.md</code></a> - Clarify relationship with flowshot naming</li>
+<li><a href="/sflo/documentation/folder.flowshot.md"><code>folder.flowshot.md</code></a> - Update to show concatenation format</li>
+</ul>
+<p><strong>High Priority Updates (Multiple <code>_vN</code> references):</strong></p>
+<ul>
+<li><a href="/sflo/documentation/concept.summary.md"><code>concept.summary.md</code></a> - 8 occurrences</li>
+<li><a href="/sflo/documentation/guide.product-brief.md"><code>guide.product-brief.md</code></a> - Snapshot descriptions</li>
+<li><a href="/sflo/documentation/concept.weave-process.md"><code>concept.weave-process.md</code></a> - Weave process descriptions</li>
+</ul>
+<p><strong>FlowShot Terminology Alignment:</strong></p>
+<ul>
+<li><a href="/sflo/documentation/mesh-resource.node-component.flow-snapshot.version.md"><code>mesh-resource.node-component.flow-snapshot.version.md</code></a></li>
+<li><a href="/sflo/documentation/mesh-resource.node-component.flow-shot.default.md"><code>mesh-resource.node-component.flow-shot.default.md</code></a></li>
+<li><a href="/sflo/documentation/mesh-resource.node-component.flow-shot.working.md"><code>mesh-resource.node-component.flow-shot.working.md</code></a></li>
+</ul>
+<p><strong>Other Documentation:</strong></p>
+<ul>
+<li><a href="/sflo/documentation/facet.flow.versioned.md"><code>facet.flow.versioned.md</code></a></li>
+<li><a href="/sflo/documentation/mesh-resource.node-component.md"><code>mesh-resource.node-component.md</code></a></li>
+<li><a href="/sflo/documentation/concept.metadata.provenance.md"><code>concept.metadata.provenance.md</code></a></li>
+<li><a href="/sflo/documentation/mesh-resource.node-component.flow.payload.md"><code>mesh-resource.node-component.flow.payload.md</code></a></li>
+<li><a href="/sflo/documentation/mesh-resource.node-component.node-config-defaults.md"><code>mesh-resource.node-component.node-config-defaults.md</code></a></li>
+</ul>
+<p><strong>Check for existence and update if present:</strong></p>
+<ul>
+<li><code>concept.namespace.segment.system.md</code></li>
+<li><code>folder.node.md</code></li>
+<li><code>facet.filesystem.folder.md</code></li>
+</ul>
+<hr>
+<h2 id="todo"><strong>TODO</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#todo"></a></h2>
+<h3 id="completed-documentation-updates-2025-11-27"><strong>Completed Documentation Updates (2025-11-27)</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#completed-documentation-updates-2025-11-27"></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>concept.weave-label.md</code> format description - <strong>COMPLETED</strong> (changed to YYYY-MM-DD_HHMM_SS)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update all <code>_vN</code> references in <code>concept.summary.md</code> - <strong>COMPLETED</strong> (8+ occurrences updated)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>guide.product-brief.md</code> snapshot descriptions - <strong>COMPLETED</strong> (FlowShots reference updated)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>concept.flow-version.md</code> - <strong>COMPLETED</strong> (added format details with sequence numbers)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>folder.snapshot.md</code> - <strong>COMPLETED</strong> (format specification with examples)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>concept.metadata.provenance.md</code> - <strong>COMPLETED</strong> (RDF turtle examples updated)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>concept.git.md</code> - <strong>COMPLETED</strong> (5 sections updated with new format)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>facet.filesystem.folder.md</code> - <strong>COMPLETED</strong> (snapshot folder section rewritten)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>mesh-resource.node-component.flow.payload.md</code> - <strong>COMPLETED</strong> (snapshot references updated)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>mesh-resource.node-component.flow-shot.default-shot.md</code> - <strong>COMPLETED</strong> (example updated)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>mesh-resource.node-component.flow.md</code> - <strong>COMPLETED</strong> (code example updated)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>concept.mesh.md</code> - <strong>COMPLETED</strong> (table examples updated)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>folder.node.md</code> - <strong>COMPLETED</strong> (distribution folder reference updated)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Update <code>mesh-resource.node.payload.md</code> - <strong>COMPLETED</strong> (version 3 example updated)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Review and update <code>concept.weave-process.md</code> - <strong>COMPLETED</strong> (terminology and format fixed)</li>
+</ul>
+<h3 id="remaining-tasks"><strong>Remaining Tasks</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#remaining-tasks"></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Verify all ontology properties are consistent in semantic-flow-ontology.jsonld</li>
+<li class="task-list-item"><input type="checkbox" disabled> Ensure all documentation cross-references are consistent</li>
+<li class="task-list-item"><input type="checkbox" disabled> Perform final search for any remaining <code>_vN</code> patterns in documentation</li>
+</ul>
+<hr>
+<h2 id="decisions"><strong>DECISIONS</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#decisions"></a></h2>
+<ul>
+<li><strong>2025-11-27</strong>: Confirmed terminology - using <code>sflo:Snapshot</code> (not SnapshotShot) and <code>sflo:previousSnapshot</code> throughout</li>
+<li><strong>2025-11-27</strong>: Changed format to <code>YYYY-MM-DD_HHMM_SS_vN</code> using seconds (with underscore separator) instead of suffix approach</li>
+<li><strong>2025-11-26</strong>: Confirmed folder format keeping the <code>_vN</code> suffix for sequence numbers</li>
+<li><strong>2025-11-26</strong>: Aligned with FlowShot terminology (Snapshot/DefaultShot/WorkingShot)</li>
+<li><strong>2025-11-26</strong>: Clarified that folder name IS part of the canonical IRI identity</li>
+<li><strong>2025-11-26</strong>: Focused on documentation and ontology verification only (no implementation)</li>
+</ul>
+<hr>
+<h2 id="notes"><strong>NOTES</strong><a aria-hidden="true" class="anchor-heading icon-link" href="#notes"></a></h2>
+<ul>
+<li>The sequence number (_vN) remains in folder names for clear ordinality</li>
+<li>Weave labels provide human-readable temporal context</li>
+<li>The folder name becomes part of the permanent IRI identity</li>
+<li>No implementation work is needed at this stage</li>
+<li>Documentation consistency is the primary goal</li>
+<li>The <a href="/sflo/documentation/concept.weave-process.md"><code>concept.weave-process.md</code></a> has been reviewed and updated for consistency</li>
+</ul>

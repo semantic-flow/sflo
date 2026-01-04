@@ -2,7 +2,7 @@
 id: onheps7i79fvmzgfnm11phw
 title: IRI
 desc: ''
-updated: 1756827771166
+updated: 1765864574798
 created: 1750807757168
 ---
 
@@ -10,7 +10,7 @@ On the semantic web, resources (things you might want to talk about with RDF sta
 
 But with [[Semantic Flow sites|concept.semantic-flow-site]], all [[mesh-resource]] IRIs return a web page. 
 
-## Types of IRIs
+## Syntactic Types of IRIs
 
 - Absolute IRIs
 - Relative IRIs

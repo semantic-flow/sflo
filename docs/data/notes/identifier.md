@@ -16,7 +16,7 @@ Semantic Flow resources can be identified via two types of identifiers:
 
 Identifiers that [[denote|concept.denotation]] **concrete information resources** (files on disk or over HTTP):
 
-* **Distributions** → materialized datasets, e.g. `test.ttl`, `dave_v1.jsonld`, etc.
+* **Distributions** → materialized datasets, e.g. `test.ttl`, `djradon.jsonld`, etc.
 * **Resource pages** → e.g. `index.html`
 * **Other documentation resources** → e.g. `README.md`, `CHANGELOG.md`
 
@@ -43,6 +43,6 @@ When dereferenced with a request to a [[concept.semantic-flow-site]], concept id
 | Content identifier | No              | A fetchable document or asset | `https://example.org/ns/foo/index.html` |
 | Concept IRI        | Yes (`/`)       | A real-world or mesh concept  | `https://example.org/ns/foo/`           |
 
-Even though you might be tempted to think of a datasets as concrete things, the IRIs for payload nodes, abstract datasets, and concrete datasets all refer to concepts, i.e., **non-retrievable entities**. Only Distribution IRIs refer to downloadable data, i.e., dataset distributions.
+Even though you might be tempted to think of datasets as concrete things, the IRIs for payload nodes, flows, and snapshots all refer to concepts, i.e., **non-retrievable entities**. Only Distribution IRIs refer to downloadable data, i.e., dataset distributions.
 
 

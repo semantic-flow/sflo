@@ -28,9 +28,9 @@
 <ul>
 <li><a href="/sflo/notes/sny3p0risg0h1nmx4zdkq6p">API Docs plugin</a> - API documentation/playground (Stoplight Elements)</li>
 <li><a href="/sflo/notes/bn5jhz9sr2lvqq02s1b4j2x">Mesh Server</a> - Static mesh server(s)</li>
-<li><a href="/sflo/notes/uwtv6cmipn1vnbn8ewkiikp">Sflo Web</a> - Web UI</li>
+<li><a href="/sflo/notes/uwtv6cmipn1vnbn8ewkiikp">sflo-web</a> - Web UI</li>
 <li><a href="/sflo/notes/63tfb27btzbph10tpvckz7b">sflo-api plugin</a> - OpenAPI REST endpoint</li>
-<li><a href="/sflo/notes/dy7pxuck9namnxlmz8gl80t">Sparql Ro</a> - SPARQL read-only endpoint</li>
+<li><a href="/sflo/notes/dy7pxuck9namnxlmz8gl80t">Sparql Readonly</a> - SPARQL read-only endpoint</li>
 <li><a href="/sflo/notes/kvsgy8qci2uxgcnve7e424f">Sparql Upd</a> - SPARQL write-capable endpoint (provided by Comunica)</li>
 <li><a href="/sflo/notes/2ldpw5fu0v9qq19r0wf9a3j">Sparql Editor</a> - SIB Swiss editor at /play</li>
 </ul>
@@ -45,14 +45,14 @@
 <li>Every folder is a <strong>node</strong> (container for resources and child nodes)</li>
 <li>Nodes contain <strong>components</strong> (flows, handles, assets, documentation)</li>
 <li><strong>Flows</strong> are versioned DatasetSeries (metadata, semantic data, arbitrary datasets, or config)</li>
-<li><strong>Snapshots</strong> are flow realizations (<code>_current/</code>, <code>_next/</code>, <code>_vN/</code>)</li>
+<li><strong>FlowShots</strong> are flow realizations (<code>_default/</code>, <code>_working/</code>, snapshot folders like <code>2025-11-24_0142_07_v1/</code>)</li>
 <li><strong>Distributions</strong> are serialization files (TriG, JSON-LD, etc.)</li>
 </ul>
 <h3 id="the-weave-process">The Weave Process<a aria-hidden="true" class="anchor-heading icon-link" href="#the-weave-process"></a></h3>
 <p>The weave process maintains mesh coherence and publication readiness:</p>
 <ul>
 <li>Ensures required system components exist</li>
-<li>Creates new version snapshots from working data</li>
+<li>Creates new snapshots from working data</li>
 <li>Promotes working data to current</li>
 <li>Updates metadata and provenance</li>
 <li>Regenerates resource pages</li>
@@ -88,6 +88,6 @@
 <hr>
 <strong>Backlinks</strong>
 <ul>
-<li><a href="/sflo/notes/f0g7d31ivgn6rgllncdwep8">Memory Bank</a></li>
 <li><a href="/sflo/notes/g97elh6q5bszy2c74gsmuqk">2025 11 03 Optimizing for Agents</a></li>
+<li><a href="/sflo/notes/f0g7d31ivgn6rgllncdwep8">Memory Bank</a></li>
 </ul>

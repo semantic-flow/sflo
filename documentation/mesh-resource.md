@@ -2,7 +2,7 @@
 id: mesh-resource
 title: mesh resources
 desc: ''
-updated: 1764327509423
+updated: 1765763442598
 created: 1750709094321
 ---
 
@@ -10,36 +10,36 @@ created: 1750709094321
 
 A **mesh resource** is any addressable component within a [[semantic mesh|concept.mesh]]. Every mesh resource has a unique [[Intramesh|concept.identifier.intramesh]] based on its path and locally unique name, making it dereferenceable via IRI.
 
-In RDF terms, a resource is any node in an RDF graph that can be represented with an IRI (the other kinds of RDF graph nodes are literals and blank nodes). So theoretically, files and folders in [[mesh-resource.node-component.asset-tree]] could be considered RDF resources. But they are not considered **mesh** resources
+In RDF terms, a resource is any knop in an RDF graph that can be represented with an IRI (the other kinds of RDF graph knops are literals and blank knops). So theoretically, files and folders in [[mesh-resource.component.asset-tree]] could be considered RDF resources. But they are not considered **mesh** resources
 
 ## Types of Mesh Resources
 
 The structure of a semantic mesh is built on a fundamental distinction between **extensible** and **terminal** resources:
 
-- **[[Mesh nodes|mesh-resource.node]]** are extensible namespace containers:
-- **[[Mesh node components|mesh-resource.node-component]]** are terminal mesh resources:
+- **[[mesh knops|mesh-resource.knop]]** are extensible namespace containers:
+- **[[mesh knop components|mesh-resource.component]]** are terminal mesh resources:
   - Can be physically represented as folders or files
     - Folder [[concept.identifier.intramesh]] are part of the namespace but cannot be extended beyond their own internal structure
-  - All files and folders within a component folder are considered to be part of the parent node
+  - All files and folders within a component folder are considered to be part of the parent knop
 
 **Folder-based components:**
 
 
-- **[[metapayload flows|mesh-resource.node-component.flow.node-metadata]]**: Administrative metadata (in `_meta/` folders)
-- **[[Asset trees|mesh-resource.node-component.asset-tree]]**: File collections (in `_assets/` folders)
-- **[[Version datasets|mesh-resource.node-component.flow-shot.snapshot]]**: Versioned snapshots
-- **[[working snapshots|mesh-resource.node-component.flow-shot.working-shot]]**: Draft workspaces
+- **[[metadata flows|mesh-resource.component.flow.metadata]]**: Administrative metadata (in `_meta/` folders)
+- **[[Asset trees|mesh-resource.component.asset-tree]]**: File collections (in `_assets/` folders)
+- **[[Version datasets|mesh-resource.component.slice.version]]**: Versioned versions
+- **[[working slices|folder._working-slice]]**: Draft workspaces
 
 **File-based components:**
 - **Documentation files**: 
-  - [[Resource pages|mesh-resource.node-component.documentation-resource.resource-page]] are index.html files that provide de-referencability for their containing [[concept.identifier.intramesh]] [[facet.filesystem.folder]]
+  - [[Resource pages|mesh-resource.component.documentation-resource.resource-page]] are index.html files that provide de-referencability for their containing [[concept.identifier.intramesh]] [[facet.filesystem.folder]]
   - **README.md and CHANGELOG.md**: unstructured documentation
-- **[[snapshot distribution files|mesh-resource.node-component.snapshot-distribution]]**: Data files in RDF formats
+- **[[version distribution files|mesh-resource.component.distribution]]**: Data files in RDF formats
 
 ## Physical vs Logical Structure
 
 **Physical Representation:**
-- Mesh nodes and components are represented as folders in the filesystem
+- mesh knops and components are represented as folders in the filesystem
 - File resources are represented as individual files
 - Folder names become namespace segments and IRI path components
 
@@ -50,8 +50,8 @@ The structure of a semantic mesh is built on a fundamental distinction between *
 
 ## Asset Tree Special Case
 
-[[Asset trees|mesh-resource.node-component.asset-tree]] represent a special category where:
-- The asset tree itself (with its [[mesh-resource.node-component.flow.node-metadata]]) is part of the mesh structure
+[[Asset trees|mesh-resource.component.asset-tree]] represent a special category where:
+- The asset tree itself (with its [[mesh-resource.component.flow.metadata]]) is part of the mesh structure
 - The files and folders contained within asset trees are "attached to" but not "contained in" the mesh
 - Asset tree contents are addressable but are not considered semantic flow resources
 

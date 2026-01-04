@@ -27,9 +27,9 @@ created: 1764134636086
 
 Weave is a pure filesystem operation. It:
 
-- reads current FlowShots (especially each Flow’s `_working/` directory),
+- reads current FlowSlices (especially each Flow’s `_working/` directory),
 - validates and processes them,
-- writes new snapshot directories and `_default/` content,
+- writes new version directories and `_default/` content,
 - updates `_working/` to match `_default/` after a successful weave.
 
 Weave **does not**:
@@ -42,9 +42,9 @@ Git history is independent of weave activity.
 
 ---
 
-### 1.2 Weave operates on current FlowShots, not commit state
+### 1.2 Weave operates on current FlowSlices, not commit state
 
-Weave consumes the **current contents of the mesh’s FlowShots in the working
+Weave consumes the **current contents of the mesh’s FlowSlices in the working
 tree** (primarily `_working/` for each Flow), regardless of whether those files
 are committed to Git.
 
@@ -65,7 +65,7 @@ Each versioned Flow maintains:
 
 - a `sequenceNumber` (monotonic integer per Flow),
 - a weaveLabel (format: `YYYY-MM-DD_HHMM_SS`, e.g. `2025-11-24_0142_07`),
-- snapshot directories combining weaveLabel and sequence number (format: `YYYY-MM-DD_HHMM_SS_vN`, e.g., `2025-11-24_0142_07_v1`).
+- version directories combining weaveLabel and sequence number (format: `YYYY-MM-DD_HHMM_SS_vN`, e.g., `2025-11-24_0142_07_v1`).
 
 These are:
 
@@ -80,12 +80,12 @@ Semantic meshes assume that each Flow evolves along **one linear timeline**.
 
 If Git introduces merges joining divergent histories, you can end up with:
 
-- multiple incompatible "next" snapshots for the same Flow,
-- ambiguous or duplicated sequence numbers in snapshot folder names,
+- multiple incompatible "next" versions for the same Flow,
+- ambiguous or duplicated sequence numbers in version folder names,
 - weaveLabels that no longer line up with a single causal sequence.
 
 So the Git constraints are solely about preventing Git from fabricating
-histories that the FlowShot model cannot represent.
+histories that the FlowSlice model cannot represent.
 
 ---
 
@@ -103,7 +103,7 @@ Each mesh designates one **canonical branch** (typically `main`). For this branc
 - **No force-push**  
   - Canonical history must not be rewritten.
 
-This preserves a single linear sequence for FlowShot ordinality.
+This preserves a single linear sequence for FlowSlice ordinality.
 
 ---
 
@@ -176,13 +176,13 @@ No merges; only rebased linear histories.
 
 ## 5. Mesh Integrity Expectations
 
-### 5.1 Snapshots are immutable
+### 5.1 Versions are immutable
 
-Once a Snapshot directory (e.g. `2025-11-24_0142_07_v3/`) is created:
+Once a Version directory (e.g. `2025-11-24_0142_07_v3/`) is created:
 
 - its contents must not be edited by hand,
 - any change to the Flow must go through `_working/` and a new weave,
-- Git diffs should only ever see new snapshots added, not old ones mutated.
+- Git diffs should only ever see new versions added, not old ones mutated.
 
 ---
 
@@ -191,19 +191,19 @@ Once a Snapshot directory (e.g. `2025-11-24_0142_07_v3/`) is created:
 After a successful weave:
 
 - `_default/` must reflect the current authoritative dataset for the Flow:
-  - for versioned flows, it matches the latest Snapshot,
+  - for versioned flows, it matches the latest Version,
   - for unversioned flows, it is *the* dataset state.
 - `_working/` is reset from `_default/` to provide a clean starting point.
 
 If Git rewrites `_default/` or `_working/` via rebase, the next weave will
-normalize them by recomputing snapshots.
+normalize them by recomputing versions.
 
 ---
 
-### 5.3 No parallel “next snapshots”
+### 5.3 No parallel “next versions”
 
 Two different weave runs from divergent Git histories cannot both claim to be
-the next snapshot with the same sequence number for the same Flow in canonical.
+the next version with the same sequence number for the same Flow in canonical.
 
 - Rebasing chooses which sequence is "first."
 - The other must be re-woven atop the new canonical state.
@@ -214,7 +214,7 @@ the next snapshot with the same sequence number for the same Flow in canonical.
 
 - Uncommitted edits during weave.  
 - Arbitrary local branches and WIP commits.  
-- Editing `_working/` FlowShots directly.  
+- Editing `_working/` FlowSlices directly.  
 - Offline edit + weave + later push.  
 - Rebasing local history onto canonical, followed by re-weave.
 
@@ -224,8 +224,8 @@ the next snapshot with the same sequence number for the same Flow in canonical.
 
 - Merge commits that combine diverged histories on canonical.
 - Force-push to canonical.
-- Editing Snapshot directories in-place.
-- Any Git operation that makes Flow `sequenceNumber` or snapshot folder names ambiguous.
+- Editing Version directories in-place.
+- Any Git operation that makes Flow `sequenceNumber` or version folder names ambiguous.
 - Merging two different weave timelines back into a single canonical line.
 
 ---
@@ -236,8 +236,8 @@ Semantic meshes impose a **small, strict** set of Git rules:
 
 - One linear canonical history (fast-forward only, no force-push).  
 - Divergent work is reconciled via rebase + re-weave, not merge.  
-- Weave operates on FlowShots in the working tree, independent of commit state.  
-- Snapshot ordinality is defined by weave runs along that single timeline.
+- Weave operates on FlowSlices in the working tree, independent of commit state.  
+- Version ordinality is defined by weave runs along that single timeline.
 
 These constraints keep filesystem-based weave semantics coherent and ensure that
 every Flow evolves along a single, interpretable timeline.

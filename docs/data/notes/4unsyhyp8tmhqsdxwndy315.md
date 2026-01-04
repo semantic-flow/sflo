@@ -5,7 +5,7 @@ This document provides a high-level summary of the current project state, what i
 
 ## Current State Summary
 
-The core Semantic Flow architecture is defined, focusing on the Git-native, filesystem-based mesh structure. The primary development focus is currently on establishing the agent memory bank system and refining the core concepts and documentation.
+The core Semantic Flow architecture is defined, focusing on the Git-native, filesystem-based mesh structure.
 
 ## Working Components
 

@@ -1,6 +1,9 @@
 
-A snapshot or checkpoint dataset generated "on [[weave|concept.weave-process]]"
+A snapshot dataset generated "on [[weave|concept.weave-process]]"
+
+The [[folder.snapshot]] is named with the [[concept.weave-label]] plus the [[concept.flow-version]]
 
 ## Disambiguation
 
-- a version snapshot is an addressable resource; it is differentiated from the concept of a [[facet.flow.versioned]] in that a versioned flow is a flow that has ever had a version.
+- a snapshot is an addressable resource; 
+- it is differentiated from the concept of a [[facet.flow.unversioned]] in that a versioned flow is a flow that has never had a version.

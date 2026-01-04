@@ -2,7 +2,7 @@
 id: g97elh6q5bszy2c74gsmuqk
 title: 2025 11 03 Optimizing for Agents
 desc: ''
-updated: 1762324788092
+updated: 1764867799412
 created: 1762220840574
 ---
 
@@ -76,7 +76,7 @@ The Agent's TODO list should be mirrored into the "TODO" section and updated as 
 A review of all 90 documentation files in `documentation/` revealed several areas for improvement:
 
 1.  **Critical Repetition:** The file [`documentation/product-ideas.hateoas-driven-api-recipes.md`](documentation/product-ideas.hateoas-driven-api-recipes.md) contains its entire content duplicated four times, requiring immediate consolidation.
-2.  **Inconsistencies:** Several core concept files, including [`documentation/concept.mesh.md`](documentation/concept.mesh.md) and [`documentation/mesh-resource.node.md`](documentation/mesh-resource.node.md), inconsistently define the full set of node types (omitting "reference nodes"). Provenance documentation also shows conflicting naming conventions for internal identifiers.
+2.  **Inconsistencies:** Several core concept files, including [`documentation/concept.mesh.md`](documentation/concept.mesh.md) and [`documentation/mesh-resource.knop.md`](documentation/mesh-resource.knop.md), inconsistently define the full set of knop types (omitting "reference knops"). Provenance documentation also shows conflicting naming conventions for internal identifiers.
 3.  **Clarity/Pithiness:** 18 files are empty or contain minimal content (e.g., [`documentation/concept.hosting.md`](documentation/concept.hosting.md), [`documentation/facet.filesystem.md`](documentation/facet.filesystem.md), and six plugin files), suggesting opportunities for consolidation or expansion to improve clarity and reduce unnecessary file clutter.
 4.  **Broken Links/Currency:** Multiple files, including [`documentation/concept.summary.md`](documentation/concept.summary.md) and [`documentation/concept.immutability.md`](documentation/concept.immutability.md), contain broken internal links or unaddressed `TODO` items, indicating outdated references or incomplete sections.
 

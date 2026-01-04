@@ -2,7 +2,7 @@
 id: voy7zrf0f6bs86m02uadhaf
 title: Semantic Flow Documentation
 desc: ''
-updated: 1756155165637
+updated: 1764867799292
 created: 1755709990079
 ---
 
@@ -26,5 +26,5 @@ created: 1755709990079
 ## Features
 
 - seamlessly integrate other data sources anywhere in your mesh
-- generate and customize mini-sites or single-page applications for nodes in your mesh
+- generate and customize mini-sites or single-page applications for knops in your mesh
 - see [[feature]] for a list of planned features

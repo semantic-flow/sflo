@@ -2,26 +2,26 @@
 id: 17l23vl7sqg997hr773dh23
 title: intramesh identifier
 desc: ''
-updated: 1764327645699
+updated: 1765633918067
 created: 1750654763700
 ---
 
 An **intramesh identifier** is a esentially a relative [[concept.iri]] (i.e., without the scheme, e.g., https:// or file://) except that they should correspond to an existing [[mesh-resource]], i.e. [[principle.dereferencability-for-humans]]
 
-There are two types of intramesh identifiers: [[concept.identifier.intramesh.relative]] and [[concept.identifier.intramesh.absolute]]
+There are two types of intramesh identifiers: [[concept.identifier.intramesh.relative]] and [[concept.identifier.intramesh.absolute]]. Absolute identifiers are not recommended because they break composability/transposability.
 
 ## Syntax
 
-Like IRIs:
+Like relative URLs:
 
   * Written without a scheme (e.g., no `https://` or `file://`).
-  * May use path segments (`../`, `/foo/bar`) 
-  * May use fragment identifiers (`#`)
+  * May use path segments (`../`, `/foo/bar/`) 
+  * May use fragment identifiers (`../#`, `/foo/bar/#inner-default-template`)
 
-Unlike IRIs:
+Unlike URLs:
 
   * **Must not** contain queries (`?`).
-  * 
+
 
 ## Semantics
 
@@ -43,6 +43,7 @@ Unlike IRIs:
 
 ### Examples
 
-Node self-reference: `"../../../my-dataset"`  
-Other flows: `"../../_cfg-op/_current/config.trig"`, `"../../_cfg-inh/_current/config.trig"`, `"../../_dataset-flow/_current/data.jsonld"`  
-Components in other flows: Same pattern, just different flow names
+- Knop self-reference: `../../`
+- sibling knop: `../../../my-dataset`  
+- sibling components: `"../../_cfg-local/_current/config.trig"`, `"../../_cfg-inh/_current/config.trig"`, `"../../_payload/_current/data.jsonld"`  
+- Components in other flows: Same pattern, just different flow names

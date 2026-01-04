@@ -5,16 +5,17 @@ This page is the canonical list; see the linked docs for behavior and details.
 
 ## Flows (abstract/series)
 
-- [[_node-metadata-flow/|folder._node-metadata-flow]]
-- [[_dataset-flow/|folder._dataset-flow]]
-- [[_config-operational-flow/|folder._config-operational-flow]]
-- [[_config-inheritable-flow/|folder._config-inheritable-flow]]
+- [[_meta/|folder._meta]]
+- [[mesh-resource.node-component.flow.payload]]
+- [[mesh-resource.node-component.flow.reference]]
+- [[_cfg-op/|folder._cfg-op]]
+- [[_cfg-inh/|folder._cfg-inh]]
 
 ## Snapshots (concrete)
 
-- [[_current/|folder._current]]
-- [[_next/|folder._next]]
-- [[_vN/|folder._vN]]
+- [[_current/|folder._default]]
+- [[_next/|folder._working]]
+- [[folder.snapshot]]
 
 ## Other reserved
 

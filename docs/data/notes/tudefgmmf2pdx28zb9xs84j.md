@@ -32,9 +32,9 @@ The main host application that supports semantic mesh use and development. Built
 
 - [[product.plugins.api-docs]] - API documentation/playground (Stoplight Elements)
 - [[product.plugins.mesh-server]] - Static mesh server(s)
-- [[product.sflo-web]] - Web UI
+- [[product.plugins.sflo-web]] - Web UI
 - [[product.plugins.sflo-api]] - OpenAPI REST endpoint
-- [[product.plugins.sparql-ro]] - SPARQL read-only endpoint
+- [[product.plugins.sparql-readonly]] - SPARQL read-only endpoint
 - [[product.plugins.sparql-update]] - SPARQL write-capable endpoint (provided by Comunica)
 - [[product.plugins.sparql-editor]] - SIB Swiss editor at /play
 
@@ -51,7 +51,7 @@ Meshes map directly from Git repository folder hierarchies to published static s
 - Every folder is a **node** (container for resources and child nodes)
 - Nodes contain **components** (flows, handles, assets, documentation)
 - **Flows** are versioned DatasetSeries (metadata, semantic data, arbitrary datasets, or config)
-- **Snapshots** are flow realizations (`_current/`, `_next/`, `_vN/`)
+- **FlowShots** are flow realizations (`_default/`, `_working/`, snapshot folders like `2025-11-24_0142_07_v1/`)
 - **Distributions** are serialization files (TriG, JSON-LD, etc.)
 
 ### The Weave Process
@@ -59,7 +59,7 @@ Meshes map directly from Git repository folder hierarchies to published static s
 The weave process maintains mesh coherence and publication readiness:
 
 - Ensures required system components exist
-- Creates new version snapshots from working data
+- Creates new snapshots from working data
 - Promotes working data to current
 - Updates metadata and provenance
 - Regenerates resource pages

@@ -2,7 +2,7 @@
 id: faq000
 title: FAQ
 desc: ''
-updated: 1764327509411
+updated: 1764867799372
 created: 1751351477000
 ---
 
@@ -12,11 +12,11 @@ This section addresses common questions about Semantic Flow design principles an
 
 ## Design Principles
 
-### [[Why don't bare nodes have reference flows?|faq.why-dont-namespace-and-data-nodes-have-reference-flows]]
+### [[Why don't bare knops have reference flows?|faq.why-dont-namespace-and-data-knops-have-reference-flows]]
 Why should a namespace have to refer to something?
 
 ### [[Why are there components at the top of a repo?|faq.why-are-there-components-at-the-top-of-a-repo]]
-The repository root can be a mesh node, in which case `_meta/` and `_node-handle/` components appear at the top level. 
+The repository root can be a mesh knop, in which case `_meta/` and `_knop-handle/` components appear at the top level. 
 
 ## Architecture Questions
 

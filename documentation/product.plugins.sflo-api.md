@@ -2,27 +2,27 @@
 id: 63tfb27btzbph10tpvckz7b
 title: sflo-api plugin
 desc: ''
-updated: 1764327645693
+updated: 1764954329547
 created: 1755903460930
 ---
 
 
-Use noun URLs that mirror the mesh's filesystem. Bytes go to `_working`. Versioning and "current flips" happen on weave. All flows except [[mesh-resource.node-component.flow.node-metadata]] support arbitrary PATCH. System-only fields in `_node_metadata_flow` are rejected on write.
+Use noun URLs that mirror the mesh's filesystem. Bytes go to `_working`. Versioning and "current flips" happen on weave. All flows except [[mesh-resource.component.flow.metadata]] support arbitrary PATCH. System-only fields in `_knop_metadata_flow` are rejected on write.
 
 ## Conventions
 
-* Base: `/api/{mesh}/{nodePath}/…` where `{resourcePath}` is greedy and slash-separated.
-* Reserved flow directories under a node:
+* Base: `/api/{mesh}/{knopPath}/…` where `{resourcePath}` is greedy and slash-separated.
+* Reserved flow directories under a knop:
 
-  * `_node_metadata_flow/` (required)
-  * `_cfg-op/`
+  * `_knop_metadata_flow/` (required)
+  * `_cfg-local/`
   * `_cfg-inh/`
   * `_ref/`
-  * `_payload/`  ← payload dataset for payload nodes
-* Snapshot layout under any flow:
+  * `_payload/`  ← payload dataset for payload knops
+* Version layout under any flow:
 
-  * `_snapshots/{vN}/_dist/{files…}`
-  * `_default/` → pointer to a snapshot (folder or file)
+  * `_versions/{vN}/_dist/{files…}`
+  * `_default/` → pointer to a version (folder or file)
   * `_working/`   → working content before weave
 * Headers:
 
@@ -59,67 +59,67 @@ Use noun URLs that mirror the mesh's filesystem. Bytes go to `_working`. Version
 
 ### Nodes
 
-#### `GET /api/{mesh}/{nodePath}/`
+#### `GET /api/{mesh}/{knopPath}/`
 
 Probably Returns:
 
-- A list of its components (including flows) — This is important to understand what building blocks or sub-resources the node contains.
-- A list and count of its child nodes — Useful for navigation and understanding the node hierarchy.
-- Its node type (probably computed) — Helps clients understand the nature or classification of the node.
-- HATEOAS links to related resources like flows, snapshots, jobs, resource pages and other documentation resources, asset trees — Enables discoverability and navigation.
+- A list of its components (including flows) — This is important to understand what building blocks or sub-resources the knop contains.
+- A list and count of its child knops — Useful for navigation and understanding the knop hierarchy.
+- Its knop type (probably computed) — Helps clients understand the nature or classification of the knop.
+- HATEOAS links to related resources like flows, versions, jobs, resource pages and other documentation resources, asset trees — Enables discoverability and navigation.
 
 
 Maybe returns:
-- backlinks (references to this node from other places in the mesh)
+- backlinks (references to this knop from other places in the mesh)
 - some metadata, especially non-semantic metadata like filesystem creation/modification timestamps, filesystem permissions
 - status flags like whether _working has diverged
 
 * **Dataset upload (bytes to `_working`)**
 
-  * `PUT /api/{mesh}/{nodePath}/_payload/_working/{nodeName}.jsonld`
+  * `PUT /api/{mesh}/{knopPath}/_payload/_working/{knopName}.jsonld`
 
     * Body: JSON-LD (or TriG variant if you standardize a filename)
     * Effects:
 
-      * Bare → becomes payload node
+      * Bare → becomes payload knop
       * Reference → becomes Reference+Dataset
       * Dataset → replaces `_working`
     * `201 Created` (new content) or `200/204` (duplicate); `Content-Location` echoes the `_working` URL
 * **List current distributions**
 
-  * `GET /api/{mesh}/{nodePath}/_payload/_default/` → array of files
+  * `GET /api/{mesh}/{knopPath}/_payload/_default/` → array of files
 * **Fetch a current distribution**
 
-  * `GET /api/{mesh}/{nodePath}/_payload/_default/{filename}` → bytes
-* **List snapshots**
+  * `GET /api/{mesh}/{knopPath}/_payload/_default/{filename}` → bytes
+* **List versions**
 
-  * `GET /api/{mesh}/{nodePath}/_payload/_snapshots/`
-* **Snapshot metadata**
+  * `GET /api/{mesh}/{knopPath}/_payload/_versions/`
+* **Version metadata**
 
-  * `GET /api/{mesh}/{nodePath}/_payload/_snapshots/{vN}` → JSON-LD summary
-* **Snapshot distributions**
+  * `GET /api/{mesh}/{knopPath}/_payload/_versions/{vN}` → JSON-LD summary
+* **Version distributions**
 
-  * `GET /api/{mesh}/{nodePath}/_payload/_snapshots/{vN}/_dist/`
-  * `GET /api/{mesh}/{nodePath}/_payload/_snapshots/{vN}/_dist/{filename}`
+  * `GET /api/{mesh}/{knopPath}/_payload/_versions/{vN}/_dist/`
+  * `GET /api/{mesh}/{knopPath}/_payload/_versions/{vN}/_dist/{filename}`
 
 ## Flows (common to all five kinds)
 
 * **Flow summary**
 
-  * `GET /api/{mesh}/{nodePath}/_{flowKind}/`
-    `flowKind ∈ { metapayload-flow, op_config_flow, inheritable_config_flow, reference_flow, payload-flow }`
-* **Create snapshot from `_working` (server constructs version)**
+  * `GET /api/{mesh}/{knopPath}/_{flowKind}/`
+    `flowKind ∈ { metadata-flow, op_config_flow, inheritable_config_flow, reference_flow, payload-flow }`
+* **Create version from `_working` (server constructs version)**
 
-  * `POST /api/{mesh}/{nodePath}/_{flowKind}/_snapshots/`
+  * `POST /api/{mesh}/{knopPath}/_{flowKind}/_versions/`
 
     * Body: `{ "source": "next", "note": "…" }` (optional)
-    * Fast: `201 Location: …/_snapshots/{vN}`; Long: `202 Location: /api/{mesh}/jobs/{id}`
+    * Fast: `201 Location: …/_versions/{vN}`; Long: `202 Location: /api/{mesh}/jobs/{id}`
 
 ### PATCH (config flows)
 
 Goal: “make a couple changes without re-uploading a full file.” We merge **current** with patch → write result to `_working`.
 
-* `PATCH /api/{mesh}/{nodePath}/_{flowKind}/_working/`
+* `PATCH /api/{mesh}/{knopPath}/_{flowKind}/_working/`
 
   * Allowed `flowKind`: `op_config_flow`, `inheritable_config_flow` (and optionally others with JSON-LD content)
   * `Content-Type: application/merge-patch+json`
@@ -132,19 +132,19 @@ Goal: “make a couple changes without re-uploading a full file.” We merge **c
 
     * `201 Created` with `Content-Location: …/_{flowKind}/_working/`
     * Emits `fs.change`
-  * **System-only fields** (especially in `_node_metadata_flow`): writes to these keys are **rejected** with `403` (or `422`), response lists offending JSON Pointers
+  * **System-only fields** (especially in `_knop_metadata_flow`): writes to these keys are **rejected** with `403` (or `422`), response lists offending JSON Pointers
 
 #### Optional PUT for entire JSON-LD next
 
-* `PUT /api/{mesh}/{nodePath}/_{flowKind}/_working/{filename}`
+* `PUT /api/{mesh}/{knopPath}/_{flowKind}/_working/{filename}`
 
   * Replace `_working` fully with a new JSON-LD file
 
 ## Pointer management (promote current)
 
-* `PUT /api/{mesh}/{nodePath}/_{flowKind}/_default/`
+* `PUT /api/{mesh}/{knopPath}/_{flowKind}/_default/`
 
-  * Body: `{ "snapshot": "vN" }`
+  * Body: `{ "version": "vN" }`
   * Headers: `If-Match: "<etag-of-current-pointer>"`
   * `200/204` and `fs.change`
 
@@ -157,8 +157,8 @@ Goal: “make a couple changes without re-uploading a full file.” We merge **c
     ```json
     {
       "@type": "sflo:WeaveJob",
-      "targets": [ "/{nodePath}/" ],
-      "flows": ["payload-flow","metapayload-flow","reference_flow"],
+      "targets": [ "/{knopPath}/" ],
+      "flows": ["payload-flow","metadata-flow","reference_flow"],
       "promote": true
     }
     ```
@@ -167,28 +167,28 @@ Goal: “make a couple changes without re-uploading a full file.” We merge **c
 * SSE emits progress and completion; on success weave:
 
   * Validates (SHACL if enabled)
-  * Creates `…/_snapshots/{vN}` from `_working` for addressed flows
+  * Creates `…/_versions/{vN}` from `_working` for addressed flows
   * Optionally flips `…/_default/` when `promote:true`
   * Emits `fs.change` with `paths` and `iris`
 
 ## HATEOAS (every JSON-LD/HTML response)
 
-Minimum links on a node:
+Minimum links on a knop:
 
 ```json
 "links": [
-  { "rel":"self", "href":"/api/{mesh}/{nodePath}/" },
-  { "rel":"flow", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload/" },
-  { "rel":"dataset.uploadNext", "href":"/api/{mesh}/{nodePath}/_payload/_working/{nodeName}.jsonld", "method":"PUT" },
-  { "rel":"flow.patchNext", "kind":"op_config_flow", "href":"/api/{mesh}/{nodePath}/_cfg-op/_working/", "method":"PATCH", "type":"application/merge-patch+json" },
-  { "rel":"flow.createSnapshot", "kind":"payload-flow", "href":"/api/{mesh}/{nodePath}/_payload/_snapshots/", "method":"POST" },
+  { "rel":"self", "href":"/api/{mesh}/{knopPath}/" },
+  { "rel":"flow", "kind":"payload-flow", "href":"/api/{mesh}/{knopPath}/_payload/" },
+  { "rel":"dataset.uploadNext", "href":"/api/{mesh}/{knopPath}/_payload/_working/{knopName}.jsonld", "method":"PUT" },
+  { "rel":"flow.patchNext", "kind":"op_config_flow", "href":"/api/{mesh}/{knopPath}/_cfg-local/_working/", "method":"PATCH", "type":"application/merge-patch+json" },
+  { "rel":"flow.createVersion", "kind":"payload-flow", "href":"/api/{mesh}/{knopPath}/_payload/_versions/", "method":"POST" },
   { "rel":"job.start", "href":"/api/{mesh}/jobs", "method":"POST", "expects":"sflo:WeaveJob" }
 ]
 ```
 
 ## Permissions
 
-* System-only properties (esp. `_node_metadata_flow`) are enforced server-side:
+* System-only properties (esp. `_knop_metadata_flow`) are enforced server-side:
 
   * Attempted write → `403` with list of blocked JSON Pointers
   * Server may augment or overwrite these during weave
@@ -203,7 +203,7 @@ Minimum links on a node:
 
 ## Open flags to decide (defaults in parentheses)
 
-* Allow PATCH for `reference_flow` and `metapayload-flow`? (default: **disallow** for `_node_metadata_flow`, **allow** for `reference_flow` JSON-LD)
+* Allow PATCH for `reference_flow` and `metadata-flow`? (default: **disallow** for `_knop_metadata_flow`, **allow** for `reference_flow` JSON-LD)
 * Enforce `Idempotency-Key` as **required** or **optional** on PUT/PATCH? (recommended: **required**)
 * Return `application/problem+json` or `…+json+ld` for errors? (recommended: **…+json+ld**)
 

@@ -2,31 +2,31 @@
 <p><a href="/sflo/notes/mesh-node">Nodes</a> are primarily constituted by their semantic flows: evolvable datasets about their node's data, metadata, configuration, or referent. They exist through time, independent of any specific version or realization, and can evolve semi-independently.</p>
 <p>There are five types of node flows.</p>
 <ul>
-<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a> (required)</li>
+<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> (required)</li>
 <li><a href="/sflo/notes/6hmxoiahi5lxjg1urdibvi1">operational config flow</a> (optional)</li>
 <li><a href="/sflo/notes/config-inheritance-resolution">inheritable config flow</a> (optional)</li>
 <li><a href="/sflo/notes/np4wrgk86b44hnlsjo964nz">reference flow</a> (optional)</li>
 <li><a href="/sflo/notes/payload-flow">payload flow</a> (for payload nodes)</li>
 </ul>
 <h2 id="relationship-to-snapshots">Relationship to snapshots<a aria-hidden="true" class="anchor-heading icon-link" href="#relationship-to-snapshots"></a></h2>
-<p>As DatasetSeries, node flows are realized through <a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a> datasets, which are temporal slices of the flow. To borrow a phrase from the PROV model, we say that a snapshot is a specialization of the node flow.</p>
+<p>As DatasetSeries, node flows are realized through <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">mesh-resource.node-component.flow-snapshot (Private)</a> datasets, which are temporal slices of the flow. To borrow a phrase from the PROV model, we say that a snapshot is a specialization of the node flow.</p>
 <h3 id="relationship-pattern">Relationship pattern:<a aria-hidden="true" class="anchor-heading icon-link" href="#relationship-pattern"></a></h3>
-<p>Every node flow has at least two concrete snapshots: <a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a> and <a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a>.</p>
-<p>The node flow is a <a href="https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series">DatasetSeries</a> and may have multiple <a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a>s.</p>
+<p>Every node flow has at least two concrete snapshots: <a href="/sflo/notes/074yxm151l47n1aak58ggni">default snapshot</a> and <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">mesh-resource.node-component.flow-shot.working (Private)</a>.</p>
+<p>The node flow is a <a href="https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series">DatasetSeries</a> and may have multiple <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">mesh-resource.node-component.flow-snapshot.version (Private)</a>s.</p>
 <h3 id="ontology-example">Ontology Example<a aria-hidden="true" class="anchor-heading icon-link" href="#ontology-example"></a></h3>
 <ul>
 <li>node flow: "My ontology definitions" (persistent concept)</li>
-<li>flow snapshots: v1, v2, current version, working draft of next version (specific realizations)</li>
+<li>flow snapshots: v1, v2, current version, working draft of working version (specific realizations)</li>
 </ul>
 <pre class="language-file"><code class="language-file">/my-ontology/
-└── _payload-flow/                  ← node flow (ontology definitions)
-    ├── _current/           ← flow snapshot (in this case, probably )
-    ├── _next/           ← flow snapshot
-    ├── _v1/           ← flow snapshot
-    └── _v2/                ← flow snapshot
+└── _payload/                  ← node flow (ontology definitions)
+    ├── _default/           ← flow snapshot
+    ├── _working/           ← flow snapshot
+    ├── 2025-11-24_0142_07_v1/           ← flow snapshot
+    └── 2025-11-24_0142_08_v2/                ← flow snapshot
 </code></pre>
 <p>In this example:</p>
-<p>Each _current/, _v1/, etc. contains flow snapshot realizations</p>
+<p>Each _default/, _working/, and snapshot folder contains flow snapshot realizations</p>
 <h2 id="persistent-identity">Persistent Identity<a aria-hidden="true" class="anchor-heading icon-link" href="#persistent-identity"></a></h2>
 <p>node flows provide conceptual continuity by:</p>
 <ul>
@@ -39,24 +39,24 @@
 <strong>Children</strong>
 <ol>
 <li><a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a></li>
-<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a></li>
+<li><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a></li>
 <li><a href="/sflo/notes/payload-flow">payload flow</a></li>
 <li><a href="/sflo/notes/np4wrgk86b44hnlsjo964nz">reference flow</a></li>
 </ol>
 <hr>
 <strong>Backlinks</strong>
 <ul>
+<li><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Flow Version</a></li>
 <li><a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a></li>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
-<li><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Versioning</a></li>
 <li><a href="/sflo/notes/umdmedpk9br3elwxntbamaw">How Is a Flow Different from a Dataset Series</a></li>
 <li><a href="/sflo/notes/p1h6n78assy929ogf6e97uy">Project Brief</a></li>
 <li><a href="/sflo/notes/9c27yly4ed3ju7msf8luhge">node component</a></li>
 <li><a href="/sflo/notes/20dz80zbx82nrym7e88ozy7">de-versioned flow facet</a></li>
 <li><a href="/sflo/notes/elncscz2versnfcbtvqsg46">versioned flow facet</a></li>
 <li><a href="/sflo/notes/6ki4upsdymjb9vy82oec2cf">dataset facet</a></li>
-<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
+<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">FlowShot</a></li>
 <li><a href="/sflo/notes/payload-node">paylod node</a></li>
-<li><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">next snapshot</a></li>
+<li><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">working snapshot</a></li>
 <li><a href="/sflo/notes/rs5d7fcphmre7h1ltz4t9ut">version distribution</a></li>
 </ul>

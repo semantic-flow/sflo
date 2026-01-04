@@ -3,7 +3,7 @@ The node at the top of a mesh hierarchy may be referred to as the root node.
 
 Every other [[mesh-resource]] in a mesh "lives under" the root node.
 
-For pure [[concept.mesh-repo]]s, the repository's name is used as root node's identifier. 
+For pure [[concept.single-mesh-repo]]s, the repository's name is used as root node's identifier. 
 
 For [[concept.mesh.embedded]], the root node's folder name is its identifier.
 

@@ -2,18 +2,18 @@
 <h2 id="per-node-config-specification">per-node config specification<a aria-hidden="true" class="anchor-heading icon-link" href="#per-node-config-specification"></a></h2>
 <p>Node configuration determines:</p>
 <ul>
-<li>flow versioning</li>
+<li>flow versioning (on/off; perhaps customweaveLabl)</li>
 <li>resource page and resource fragment generation</li>
 <li>distribution syntaxes</li>
 <li>template usage and stylesheets</li>
-<li>attribution defaults</li>
+<li>attribution/provenance defaults</li>
 </ul>
-<p>Node configuration is held in memory by the <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">flow service (Private)</a>, and is calculated when the service starts.</p>
-<p>Node configuration is at least partially determined by "config specification", which happens in <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a> and can be inherited to contained nodes.</p>
-<p>If config specification is missing, (i.e., config spec inheritance is turned off or unspecified), node configuration will be determined from service-level config specification, i.e. <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">product.service.config (Private)</a>. In case there is none, the service will use sensible defaults at the root level which will be inherited down the mesh.</p>
+<p>Node configuration is held in memory by the <a href="/sflo/notes/73k0himk6cuq7sqhp8rshtg">sflo-host</a>, and is calculated when the application starts.</p>
+<p>Node configuration is at least partially determined by "config specification", which happens in the two <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a>:  <a href="/sflo/notes/6hmxoiahi5lxjg1urdibvi1">operational config flow</a> and <a href="/sflo/notes/config-inheritance-resolution">inheritable config flow</a> (which can be inherited to contained nodes).</p>
+<p>If config specification is missing, (i.e., config spec inheritance is turned off or unspecified), node configuration will be determined from application-level config specification. In case there is none, the service will use sensible defaults at the platform level.</p>
 <h3 id="initial-config-specification">Initial Config Specification<a aria-hidden="true" class="anchor-heading icon-link" href="#initial-config-specification"></a></h3>
 <ul>
-<li>When a node is initially created, if config-defaults-inheritance is turned on for its parent node, it will have its <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a> populated based on any parent <a href="/sflo/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a> files present in the hierarchy. If there are none, its <a href="/sflo/notes/074yxm151l47n1aak58ggni">current snapshot</a> will not be created.</li>
+<li>When a node is initially created, if inheritance is turned on for its parent node, it will have its <a href="/sflo/notes/kr1y9tt3qljsbfy8lxm3u1g">meshnode config flows</a> populated based on any parent <a href="/sflo/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a> files present in the hierarchy. If there are none, its <a href="/sflo/notes/074yxm151l47n1aak58ggni">default snapshot</a> will not be created.</li>
 </ul>
 <h3 id="calculating-node-config">Calculating Node Config<a aria-hidden="true" class="anchor-heading icon-link" href="#calculating-node-config"></a></h3>
 <p>When the <a href="/sflo/notes/73k0himk6cuq7sqhp8rshtg">sflo-host</a> starts, it calculates non-default config settings for every node.</p>
@@ -40,4 +40,9 @@
 <li><a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">concept.mesh.resource.element.flow.unified (Private)</a></li>
 </ul>
 </li>
+</ul>
+<hr>
+<strong>Backlinks</strong>
+<ul>
+<li><a href="/sflo/notes/m24m2p2s7iom3rwzvp28kvy">Flow Version</a></li>
 </ul>

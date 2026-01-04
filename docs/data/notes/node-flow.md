@@ -16,7 +16,7 @@ As DatasetSeries, node flows are realized through [[mesh-resource.node-component
 
 ### Relationship pattern:
 
-Every node flow has at least two concrete snapshots: [[mesh-resource.node-component.flow-snapshot.current]] and [[mesh-resource.node-component.flow-snapshot.next]].
+Every node flow has at least two concrete snapshots: [[mesh-resource.node-component.flow-shot.default-shot]] and [[mesh-resource.node-component.flow-shot.working]].
 
 The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dataset_Series) and may have multiple [[mesh-resource.node-component.flow-snapshot.version]]s.
 
@@ -24,21 +24,21 @@ The node flow is a [DatasetSeries](https://www.w3.org/TR/vocab-dcat-3/#Class:Dat
 ### Ontology Example
 
 - node flow: "My ontology definitions" (persistent concept)
-- flow snapshots: v1, v2, current version, working draft of next version (specific realizations)
+- flow snapshots: v1, v2, current version, working draft of working version (specific realizations)
 
 
 ```file
 /my-ontology/
-└── _payload-flow/                  ← node flow (ontology definitions)
-    ├── _current/           ← flow snapshot (in this case, probably )
-    ├── _next/           ← flow snapshot
-    ├── _v1/           ← flow snapshot
-    └── _v2/                ← flow snapshot
+└── _payload/                  ← node flow (ontology definitions)
+    ├── _default/           ← flow snapshot
+    ├── _working/           ← flow snapshot
+    ├── 2025-11-24_0142_07_v1/           ← flow snapshot
+    └── 2025-11-24_0142_08_v2/                ← flow snapshot
 ```
 
 In this example:
 
-Each _current/, _v1/, etc. contains flow snapshot realizations
+Each _default/, _working/, and snapshot folder contains flow snapshot realizations
 
 ## Persistent Identity
 

@@ -10,10 +10,10 @@ Resource files are returned directly when accessed by their [[concept.identifier
 
 ## Types
 
-- [[mesh-resource.node-component.documentation-resource]]
-  - [[mesh-resource.node-component.documentation-resource.resource-page]] (system-generated)
-  - [[mesh-resource.node-component.documentation-resource.changelog]]
-  - [[mesh-resource.node-component.documentation-resource.readme]]
-- [[mesh-resource.node-component.snapshot-distribution]]
-- [[mesh-resource.node-component.aggregated-distribution]]
+- [[mesh-resource.component.documentation-resource]]
+  - [[mesh-resource.component.documentation-resource.resource-page]] (system-generated)
+  - [[mesh-resource.component.documentation-resource.changelog]]
+  - [[mesh-resource.component.documentation-resource.readme]]
+- [[mesh-resource.component.distribution]]
+- [[mesh-resource.component.aggregated-distribution]]
 - 

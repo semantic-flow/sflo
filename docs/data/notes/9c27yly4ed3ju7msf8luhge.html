@@ -15,7 +15,7 @@
 <p><strong>Folder-based user components:</strong></p>
 <ul>
 <li><strong><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">Asset trees</a></strong>: Collections of arbitrary files attached to the mesh (in <code>_assets/</code> folders)</li>
-<li><strong><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">Next datasets</a></strong>: Draft workspaces for ongoing changes to <a href="/sflo/notes/node-flow">node flow</a> (in <code>_next/</code> folders)</li>
+<li><strong><a href="/sflo/notes/yci31i07s3bwpl9jd2hptod">working snapshot</a></strong>: Draft workspaces for ongoing changes to <a href="/sflo/notes/node-flow">node flow</a> (in <code>_working/</code> folders)</li>
 </ul>
 <p><strong>File-based user components:</strong></p>
 <ul>
@@ -26,8 +26,9 @@
 <p>System components are usually created or altered by the <a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a> process rather than direct user modification:</p>
 <p><strong>Folder-based system components:</strong></p>
 <ul>
-<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadataset flows</a></strong>: Administrative and structural metadata for mesh nodes (in <code>_node-metadata-flow/</code> folders)</li>
-<li><strong><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a></strong>: Versioned snapshots of datasets (in <code>_vN/</code> folders)</li>
+<li><strong><a href="/sflo/notes/0y6p8e594peoult03gobm94">metadataset flows</a></strong>: Administrative and structural metadata for mesh nodes (in <code>_meta/</code> folders)</li>
+<li><strong><a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">snapshot</a></strong>: Versioned snapshots of datasets (in <code>_vN/</code> folders) are created on weave</li>
+<li><strong><a href="/sflo/notes/074yxm151l47n1aak58ggni">default snapshot</a></strong>: updated on weave</li>
 <li><strong><a href="/sflo/notes/wie8wazi0eoq81zke09czxk">Node handles</a></strong>: Components providing referential indirection for nodes as mesh resources (in <code>_node-handle/</code> folders)</li>
 </ul>
 <p><strong>File-based system components:</strong></p>
@@ -38,7 +39,7 @@
 <h2 id="physical-vs-logical-structure">Physical vs Logical Structure<a aria-hidden="true" class="anchor-heading icon-link" href="#physical-vs-logical-structure"></a></h2>
 <p><strong>Physical Representation:</strong></p>
 <ul>
-<li>Folder-based components are represented as folders with underscore prefixes (like <code>_node-metadata-flow/</code>, <code>_assets/</code>)</li>
+<li>Folder-based components are represented as folders with underscore prefixes (like <code>_meta/</code>, <code>_assets/</code>)</li>
 <li>File-based components are individual files within mesh nodes or other components</li>
 <li>Component folders contain all files and folders that belong to that component</li>
 </ul>
@@ -51,18 +52,18 @@
 <h2 id="integration-with-nodes">Integration with Nodes<a aria-hidden="true" class="anchor-heading icon-link" href="#integration-with-nodes"></a></h2>
 <p>Components work in conjunction with mesh nodes to create the complete mesh structure:</p>
 <ul>
-<li>Every mesh node contains at least two components: metadataset flows and node handles</li>
-<li>dataset nodes contain a single <a href="/sflo/notes/payload-flow">payload flow</a> </li>
-<li>Any node may contain asset trees (user components) for file attachments</li>
+<li>Every mesh node contains at least two components: <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> and <a href="/sflo/notes/wie8wazi0eoq81zke09czxk">node handle</a></li>
+<li><a href="/sflo/notes/payload-node">paylod node</a> contain a single <a href="/sflo/notes/payload-flow">payload flow</a> </li>
+<li>Any node may contain asset trees (user files) for bundling or <a href="/sflo/notes/resource-page-generation">static site generation</a></li>
 </ul>
 <hr>
 <strong>Children</strong>
 <ol>
 <li><a href="/sflo/notes/e6enrj5ztz3hz84ojujef0k">Aggregated Distribution</a></li>
 <li><a href="/sflo/notes/kjv2s38gz9xxk94szui293p">Documentation Resource</a></li>
+<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">FlowShot</a></li>
 <li><a href="/sflo/notes/9el7ivz22xvt8exiz7tj23f">Node Config Defaults</a></li>
 <li><a href="/sflo/notes/3lqeacm90xhf0b8jrrerfop">assets tree</a></li>
-<li><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></li>
 <li><a href="/sflo/notes/node-flow">node flow</a></li>
 <li><a href="/sflo/notes/wie8wazi0eoq81zke09czxk">node handle</a></li>
 <li><a href="/sflo/notes/0n1lq6aq1gskj46bpcx9h4h">snapshot distribution</a></li>

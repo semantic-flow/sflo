@@ -1,5 +1,5 @@
 <h1 id="sflo-api-plugin">sflo-api plugin<a aria-hidden="true" class="anchor-heading icon-link" href="#sflo-api-plugin"></a></h1>
-<p>Use noun URLs that mirror the mesh's filesystem. Bytes go to <code>_next</code>. Versioning and "current flips" happen on weave. All flows except <a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a> support arbitrary PATCH. System-only fields in <code>_node_metadata_flow</code> are rejected on write.</p>
+<p>Use noun URLs that mirror the mesh's filesystem. Bytes go to <code>_working</code>. Versioning and "current flips" happen on weave. All flows except <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> support arbitrary PATCH. System-only fields in <code>_node_metadata_flow</code> are rejected on write.</p>
 <h2 id="conventions">Conventions<a aria-hidden="true" class="anchor-heading icon-link" href="#conventions"></a></h2>
 <ul>
 <li>
@@ -9,18 +9,18 @@
 <p>Reserved flow directories under a node:</p>
 <ul>
 <li><code>_node_metadata_flow/</code> (required)</li>
-<li><code>_config-operational-flow/</code></li>
-<li><code>_config-inheritable-flow/</code></li>
-<li><code>_reference-flow/</code></li>
-<li><code>_payload-flow/</code>  ← payload dataset for payload nodes</li>
+<li><code>_cfg-op/</code></li>
+<li><code>_cfg-inh/</code></li>
+<li><code>_ref/</code></li>
+<li><code>_payload/</code>  ← payload dataset for payload nodes</li>
 </ul>
 </li>
 <li>
 <p>Snapshot layout under any flow:</p>
 <ul>
 <li><code>_snapshots/{vN}/_dist/{files…}</code></li>
-<li><code>_current/</code> → pointer to a snapshot (folder or file)</li>
-<li><code>_next/</code>   → working content before weave</li>
+<li><code>_default/</code> → pointer to a snapshot (folder or file)</li>
+<li><code>_working/</code>   → working content before weave</li>
 </ul>
 </li>
 <li>
@@ -77,20 +77,20 @@
 <li>A list of its components (including flows) — This is important to understand what building blocks or sub-resources the node contains.</li>
 <li>A list and count of its child nodes — Useful for navigation and understanding the node hierarchy.</li>
 <li>Its node type (probably computed) — Helps clients understand the nature or classification of the node.</li>
-<li>HATEOAS links to related resources like flows, snapshots, jobs — Enables discoverability and navigation.</li>
+<li>HATEOAS links to related resources like flows, snapshots, jobs, resource pages and other documentation resources, asset trees — Enables discoverability and navigation.</li>
 </ul>
 <p>Maybe returns:</p>
 <ul>
 <li>backlinks (references to this node from other places in the mesh)</li>
 <li>some metadata, especially non-semantic metadata like filesystem creation/modification timestamps, filesystem permissions</li>
-<li>status flags like whether _next has diverged</li>
+<li>status flags like whether _working has diverged</li>
 </ul>
 <ul>
 <li>
-<p><strong>Dataset upload (bytes to <code>_next</code>)</strong></p>
+<p><strong>Dataset upload (bytes to <code>_working</code>)</strong></p>
 <ul>
 <li>
-<p><code>PUT /api/{mesh}/{nodePath}/_payload-flow/_next/{nodeName}.jsonld</code></p>
+<p><code>PUT /api/{mesh}/{nodePath}/_payload/_working/{nodeName}.jsonld</code></p>
 <ul>
 <li>
 <p>Body: JSON-LD (or TriG variant if you standardize a filename)</p>
@@ -100,11 +100,11 @@
 <ul>
 <li>Bare → becomes payload node</li>
 <li>Reference → becomes Reference+Dataset</li>
-<li>Dataset → replaces <code>_next</code></li>
+<li>Dataset → replaces <code>_working</code></li>
 </ul>
 </li>
 <li>
-<p><code>201 Created</code> (new content) or <code>200/204</code> (duplicate); <code>Content-Location</code> echoes the <code>_next</code> URL</p>
+<p><code>201 Created</code> (new content) or <code>200/204</code> (duplicate); <code>Content-Location</code> echoes the <code>_working</code> URL</p>
 </li>
 </ul>
 </li>
@@ -113,32 +113,32 @@
 <li>
 <p><strong>List current distributions</strong></p>
 <ul>
-<li><code>GET /api/{mesh}/{nodePath}/_payload-flow/_current/</code> → array of files</li>
+<li><code>GET /api/{mesh}/{nodePath}/_payload/_default/</code> → array of files</li>
 </ul>
 </li>
 <li>
 <p><strong>Fetch a current distribution</strong></p>
 <ul>
-<li><code>GET /api/{mesh}/{nodePath}/_payload-flow/_current/{filename}</code> → bytes</li>
+<li><code>GET /api/{mesh}/{nodePath}/_payload/_default/{filename}</code> → bytes</li>
 </ul>
 </li>
 <li>
 <p><strong>List snapshots</strong></p>
 <ul>
-<li><code>GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/</code></li>
+<li><code>GET /api/{mesh}/{nodePath}/_payload/_snapshots/</code></li>
 </ul>
 </li>
 <li>
 <p><strong>Snapshot metadata</strong></p>
 <ul>
-<li><code>GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}</code> → JSON-LD summary</li>
+<li><code>GET /api/{mesh}/{nodePath}/_payload/_snapshots/{vN}</code> → JSON-LD summary</li>
 </ul>
 </li>
 <li>
 <p><strong>Snapshot distributions</strong></p>
 <ul>
-<li><code>GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}/_dist/</code></li>
-<li><code>GET /api/{mesh}/{nodePath}/_payload-flow/_snapshots/{vN}/_dist/{filename}</code></li>
+<li><code>GET /api/{mesh}/{nodePath}/_payload/_snapshots/{vN}/_dist/</code></li>
+<li><code>GET /api/{mesh}/{nodePath}/_payload/_snapshots/{vN}/_dist/{filename}</code></li>
 </ul>
 </li>
 </ul>
@@ -148,11 +148,11 @@
 <p><strong>Flow summary</strong></p>
 <ul>
 <li><code>GET /api/{mesh}/{nodePath}/_{flowKind}/</code>
-<code>flowKind ∈ { metapayload-flow, op_config_flow, inheritable_config_flow, reference_flow, payload-flow }</code></li>
+<code>flowKind ∈ { metadata-flow, op_config_flow, inheritable_config_flow, reference_flow, payload-flow }</code></li>
 </ul>
 </li>
 <li>
-<p><strong>Create snapshot from <code>_next</code> (server constructs version)</strong></p>
+<p><strong>Create snapshot from <code>_working</code> (server constructs version)</strong></p>
 <ul>
 <li>
 <p><code>POST /api/{mesh}/{nodePath}/_{flowKind}/_snapshots/</code></p>
@@ -165,10 +165,10 @@
 </li>
 </ul>
 <h3 id="patch-config-flows">PATCH (config flows)<a aria-hidden="true" class="anchor-heading icon-link" href="#patch-config-flows"></a></h3>
-<p>Goal: “make a couple changes without re-uploading a full file.” We merge <strong>current</strong> with patch → write result to <code>_next</code>.</p>
+<p>Goal: “make a couple changes without re-uploading a full file.” We merge <strong>current</strong> with patch → write result to <code>_working</code>.</p>
 <ul>
 <li>
-<p><code>PATCH /api/{mesh}/{nodePath}/_{flowKind}/_next/</code></p>
+<p><code>PATCH /api/{mesh}/{nodePath}/_{flowKind}/_working/</code></p>
 <ul>
 <li>
 <p>Allowed <code>flowKind</code>: <code>op_config_flow</code>, <code>inheritable_config_flow</code> (and optionally others with JSON-LD content)</p>
@@ -179,15 +179,15 @@
 <li>
 <p>Semantics:</p>
 <ol>
-<li>Server reads <code>_current</code> distribution (JSON-LD framed DTO)</li>
+<li>Server reads <code>_default</code> distribution (JSON-LD framed DTO)</li>
 <li>Applies RFC 7396 merge patch</li>
-<li>Writes the merged document to <code>_next/</code> as JSON-LD</li>
+<li>Writes the merged document to <code>_working/</code> as JSON-LD</li>
 </ol>
 </li>
 <li>
 <p>Response:</p>
 <ul>
-<li><code>201 Created</code> with <code>Content-Location: …/_{flowKind}/_next/</code></li>
+<li><code>201 Created</code> with <code>Content-Location: …/_{flowKind}/_working/</code></li>
 <li>Emits <code>fs.change</code></li>
 </ul>
 </li>
@@ -200,16 +200,16 @@
 <h4 id="optional-put-for-entire-json-ld-next">Optional PUT for entire JSON-LD next<a aria-hidden="true" class="anchor-heading icon-link" href="#optional-put-for-entire-json-ld-next"></a></h4>
 <ul>
 <li>
-<p><code>PUT /api/{mesh}/{nodePath}/_{flowKind}/_next/{filename}</code></p>
+<p><code>PUT /api/{mesh}/{nodePath}/_{flowKind}/_working/{filename}</code></p>
 <ul>
-<li>Replace <code>_next</code> fully with a new JSON-LD file</li>
+<li>Replace <code>_working</code> fully with a new JSON-LD file</li>
 </ul>
 </li>
 </ul>
 <h2 id="pointer-management-promote-current">Pointer management (promote current)<a aria-hidden="true" class="anchor-heading icon-link" href="#pointer-management-promote-current"></a></h2>
 <ul>
 <li>
-<p><code>PUT /api/{mesh}/{nodePath}/_{flowKind}/_current/</code></p>
+<p><code>PUT /api/{mesh}/{nodePath}/_{flowKind}/_default/</code></p>
 <ul>
 <li>Body: <code>{ "snapshot": "vN" }</code></li>
 <li>Headers: <code>If-Match: "&#x3C;etag-of-current-pointer>"</code></li>
@@ -227,7 +227,7 @@
 <pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
   <span class="token property">"@type"</span><span class="token operator">:</span> <span class="token string">"sflo:WeaveJob"</span><span class="token punctuation">,</span>
   <span class="token property">"targets"</span><span class="token operator">:</span> <span class="token punctuation">[</span> <span class="token string">"/{nodePath}/"</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
-  <span class="token property">"flows"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"payload-flow"</span><span class="token punctuation">,</span><span class="token string">"metapayload-flow"</span><span class="token punctuation">,</span><span class="token string">"reference_flow"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"flows"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"payload-flow"</span><span class="token punctuation">,</span><span class="token string">"metadata-flow"</span><span class="token punctuation">,</span><span class="token string">"reference_flow"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token property">"promote"</span><span class="token operator">:</span> <span class="token boolean">true</span>
 <span class="token punctuation">}</span>
 </code></pre>
@@ -244,8 +244,8 @@
 <p>SSE emits progress and completion; on success weave:</p>
 <ul>
 <li>Validates (SHACL if enabled)</li>
-<li>Creates <code>…/_snapshots/{vN}</code> from <code>_next</code> for addressed flows</li>
-<li>Optionally flips <code>…/_current/</code> when <code>promote:true</code></li>
+<li>Creates <code>…/_snapshots/{vN}</code> from <code>_working</code> for addressed flows</li>
+<li>Optionally flips <code>…/_default/</code> when <code>promote:true</code></li>
 <li>Emits <code>fs.change</code> with <code>paths</code> and <code>iris</code></li>
 </ul>
 </li>
@@ -254,10 +254,10 @@
 <p>Minimum links on a node:</p>
 <pre class="language-json"><code class="language-json"><span class="token property">"links"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span><span class="token string">"self"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span><span class="token string">"/api/{mesh}/{nodePath}/"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span><span class="token string">"flow"</span><span class="token punctuation">,</span> <span class="token property">"kind"</span><span class="token operator">:</span><span class="token string">"payload-flow"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span><span class="token string">"/api/{mesh}/{nodePath}/_payload-flow/"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span><span class="token string">"dataset.uploadNext"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span><span class="token string">"/api/{mesh}/{nodePath}/_payload-flow/_next/{nodeName}.jsonld"</span><span class="token punctuation">,</span> <span class="token property">"method"</span><span class="token operator">:</span><span class="token string">"PUT"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span><span class="token string">"flow.patchNext"</span><span class="token punctuation">,</span> <span class="token property">"kind"</span><span class="token operator">:</span><span class="token string">"op_config_flow"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span><span class="token string">"/api/{mesh}/{nodePath}/_config-operational-flow/_next/"</span><span class="token punctuation">,</span> <span class="token property">"method"</span><span class="token operator">:</span><span class="token string">"PATCH"</span><span class="token punctuation">,</span> <span class="token property">"type"</span><span class="token operator">:</span><span class="token string">"application/merge-patch+json"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span><span class="token string">"flow.createSnapshot"</span><span class="token punctuation">,</span> <span class="token property">"kind"</span><span class="token operator">:</span><span class="token string">"payload-flow"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span><span class="token string">"/api/{mesh}/{nodePath}/_payload-flow/_snapshots/"</span><span class="token punctuation">,</span> <span class="token property">"method"</span><span class="token operator">:</span><span class="token string">"POST"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span><span class="token string">"flow"</span><span class="token punctuation">,</span> <span class="token property">"kind"</span><span class="token operator">:</span><span class="token string">"payload-flow"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span><span class="token string">"/api/{mesh}/{nodePath}/_payload/"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span><span class="token string">"dataset.uploadNext"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span><span class="token string">"/api/{mesh}/{nodePath}/_payload/_working/{nodeName}.jsonld"</span><span class="token punctuation">,</span> <span class="token property">"method"</span><span class="token operator">:</span><span class="token string">"PUT"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span><span class="token string">"flow.patchNext"</span><span class="token punctuation">,</span> <span class="token property">"kind"</span><span class="token operator">:</span><span class="token string">"op_config_flow"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span><span class="token string">"/api/{mesh}/{nodePath}/_cfg-op/_working/"</span><span class="token punctuation">,</span> <span class="token property">"method"</span><span class="token operator">:</span><span class="token string">"PATCH"</span><span class="token punctuation">,</span> <span class="token property">"type"</span><span class="token operator">:</span><span class="token string">"application/merge-patch+json"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span><span class="token string">"flow.createSnapshot"</span><span class="token punctuation">,</span> <span class="token property">"kind"</span><span class="token operator">:</span><span class="token string">"payload-flow"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span><span class="token string">"/api/{mesh}/{nodePath}/_payload/_snapshots/"</span><span class="token punctuation">,</span> <span class="token property">"method"</span><span class="token operator">:</span><span class="token string">"POST"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
   <span class="token punctuation">{</span> <span class="token property">"rel"</span><span class="token operator">:</span><span class="token string">"job.start"</span><span class="token punctuation">,</span> <span class="token property">"href"</span><span class="token operator">:</span><span class="token string">"/api/{mesh}/jobs"</span><span class="token punctuation">,</span> <span class="token property">"method"</span><span class="token operator">:</span><span class="token string">"POST"</span><span class="token punctuation">,</span> <span class="token property">"expects"</span><span class="token operator">:</span><span class="token string">"sflo:WeaveJob"</span> <span class="token punctuation">}</span>
 <span class="token punctuation">]</span>
 </code></pre>
@@ -276,18 +276,18 @@
 </ul>
 <h2 id="notes-and-constraints">Notes and constraints<a aria-hidden="true" class="anchor-heading icon-link" href="#notes-and-constraints"></a></h2>
 <ul>
-<li>No multi-file uploads: <code>_next</code> is a single JSON-LD (or TriG) file for payload-flow. </li>
-<li>PATCH is supported for flows whose <code>_current</code> is JSON-LD. Not supported for TriG distributions.</li>
+<li>No multi-file uploads: <code>_working</code> is a single JSON-LD (or TriG) file for payload-flow. </li>
+<li>PATCH is supported for flows whose <code>_default</code> is JSON-LD. Not supported for TriG distributions.</li>
 <li>All URLs are nouns. No <code>?op=</code>. Jobs model compute.</li>
 <li>API ↔ site symmetry: replacing <code>/api</code> with the site host yields the same resource for GETs that return files.</li>
 </ul>
 <h2 id="open-flags-to-decide-defaults-in-parentheses">Open flags to decide (defaults in parentheses)<a aria-hidden="true" class="anchor-heading icon-link" href="#open-flags-to-decide-defaults-in-parentheses"></a></h2>
 <ul>
-<li>Allow PATCH for <code>reference_flow</code> and <code>metapayload-flow</code>? (default: <strong>disallow</strong> for <code>_node_metadata_flow</code>, <strong>allow</strong> for <code>reference_flow</code> JSON-LD)</li>
+<li>Allow PATCH for <code>reference_flow</code> and <code>metadata-flow</code>? (default: <strong>disallow</strong> for <code>_node_metadata_flow</code>, <strong>allow</strong> for <code>reference_flow</code> JSON-LD)</li>
 <li>Enforce <code>Idempotency-Key</code> as <strong>required</strong> or <strong>optional</strong> on PUT/PATCH? (recommended: <strong>required</strong>)</li>
 <li>Return <code>application/problem+json</code> or <code>…+json+ld</code> for errors? (recommended: <strong>…+json+ld</strong>)</li>
 </ul>
-<p>This spec matches your rules: nouns only, <code>_next</code> for bytes, weave does validation + versioning + promotion, and PATCH merges “current → next” for the two config flows (and optionally others) while blocking system-only fields.</p>
+<p>This spec matches your rules: nouns only, <code>_working</code> for bytes, weave does validation + versioning + promotion, and PATCH merges “current → next” for the two config flows (and optionally others) while blocking system-only fields.</p>
 <hr>
 <strong>Backlinks</strong>
 <ul>

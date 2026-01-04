@@ -3,21 +3,21 @@
 
 Node configuration determines:
 
-- flow versioning
+- flow versioning (on/off; perhaps customweaveLabl)
 - resource page and resource fragment generation
 - distribution syntaxes
 - template usage and stylesheets
-- attribution defaults
+- attribution/provenance defaults
 
-Node configuration is held in memory by the [[flow service|sflo.product.service]], and is calculated when the service starts.
+Node configuration is held in memory by the [[product.sflo-host]], and is calculated when the application starts.
 
-Node configuration is at least partially determined by "config specification", which happens in [[mesh-resource.node-component.flow.node-config]] and can be inherited to contained nodes.
+Node configuration is at least partially determined by "config specification", which happens in the two [[mesh-resource.node-component.flow.node-config]]:  [[mesh-resource.node-component.flow.node-config.operational]] and [[mesh-resource.node-component.flow.node-config.inheritable]] (which can be inherited to contained nodes).
 
-If config specification is missing, (i.e., config spec inheritance is turned off or unspecified), node configuration will be determined from service-level config specification, i.e. [[product.service.config]]. In case there is none, the service will use sensible defaults at the root level which will be inherited down the mesh.
+If config specification is missing, (i.e., config spec inheritance is turned off or unspecified), node configuration will be determined from application-level config specification. In case there is none, the service will use sensible defaults at the platform level.
 
 ### Initial Config Specification
 
-- When a node is initially created, if config-defaults-inheritance is turned on for its parent node, it will have its [[mesh-resource.node-component.flow.node-config]] populated based on any parent [[mesh-resource.node-component.node-config-defaults]] files present in the hierarchy. If there are none, its [[mesh-resource.node-component.flow-snapshot.current]] will not be created.
+- When a node is initially created, if inheritance is turned on for its parent node, it will have its [[mesh-resource.node-component.flow.node-config]] populated based on any parent [[mesh-resource.node-component.node-config-defaults]] files present in the hierarchy. If there are none, its [[mesh-resource.node-component.flow-shot.default-shot]] will not be created.
 
 ### Calculating Node Config
 
@@ -41,6 +41,6 @@ Semantic Flow uses sensible defaults, specified in the so that neither node-leve
 - by default:
   - versioning is turned on for all flows
   - distribution syntaxes are .trig and jsonld
-  - resource pages are generated using a standard template and CSS file that get copied into a [[concept.mesh-repo]]'s root [[mesh-resource.node-component.asset-tree]] upon initialization
+  - resource pages are generated using a standard template and CSS file that get copied into a [[concept.single-mesh-repo]]'s root [[mesh-resource.node-component.asset-tree]] upon initialization
   - [[mesh-resource.node-component.aggregated-distribution]] are not generated
   - [[concept.mesh.resource.element.flow.unified]]

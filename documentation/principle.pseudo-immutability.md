@@ -2,11 +2,11 @@
 id: ngw89xo9m9jop5b3o32dwwd
 title: pseudo-immutability
 desc: ''
-updated: 1762663175774
+updated: 1764910028157
 created: 1751817577224
 ---
 
-In a filesystem-based structure like a [[concept.mesh]], you can't really prevent changes. But some things in a mesh should be treated as immutable, like [[mesh-resource.node-component.flow-shot.snapshot]] and [[concept.identifier.intramesh]].
+In a filesystem-based structure like a [[concept.mesh]], you can't really prevent changes. But some things in a mesh should be treated as immutable, like [[mesh-resource.component.slice.version]] and [[concept.identifier.intramesh]].
 
 **Pseudo-immutability** acknowledges that things might be changed, for various reasons:
 
@@ -20,7 +20,7 @@ Applications should deal gracefully, and optionally alert users to improperly mu
 
 **Pseudo-immutability** also acknowledges that:
 
-- for "draft data" especially, "the working version" is going to keep changing until a "weave" happens (i.e., a new version is minted). 
+- for "draft data" especially, "the working slice" is going to keep changing until a "weave" happens (i.e., a new version is minted). 
 - sometimes you want the "latest" data for a given resource. Typically, "current" would be a pointer, redirect, or symlink. But given our goal of static hosting, we've decided just to have duplicate files for the "current" flow and the "most recent version" flow. 
 
 

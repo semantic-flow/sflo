@@ -6,6 +6,6 @@ updated: 1762746816115
 created: 1755992301466
 ---
 
-Semantic meshes are represented in filesystems as a collection of folders and files. Mesh folders correspond to [[facet.resource.naming]].
+Semantic meshes are represented in filesystems as a collection of folders and files. Mesh folders correspond to [[facet.naming-resource]].
 
-With the exception of [[folder._assets]], **mesh folders** should only contain other [[mesh-resource]], i.e., other mesh folders and [[file]], no "arbitrary files."
+With the exception of [[folder._assets]], **mesh folders** should only contain other [[mesh-resource]], i.e., other mesh folders and [[facet.file-resource]], no "arbitrary files."

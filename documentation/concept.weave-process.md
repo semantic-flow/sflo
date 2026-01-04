@@ -2,24 +2,23 @@
 id: rall4fbxm369okmy5383sf8
 title: Weave Process
 desc: ''
-updated: 1764327582990
+updated: 1765763442572
 created: 1751128698638
 ---
 
 
 # Weave Process
 
-*(concept.weave-process)*
 
 ## Purpose
 
-The **weave process** transforms evolving Flow data (the **[[WorkingShot|mesh-resource.node-component.flow-shot.working-shot]]**) into:
+The **weave process** transforms evolving Flow data (the **[[WorkingSlice|folder._working-slice]]**) into:
 
-* a new immutable **[[Snapshot|mesh-resource.node-component.flow-shot.snapshot]]** (if versioning is enabled),
-* an updated **[[DefaultShot|mesh-resource.node-component.flow-shot.default-shot]]** (always),
-* updated metadata ([[meta-flow|mesh-resource.node-component.flow.node-metadata]]) and [[mesh-resource.node-component.documentation-resource.changelog]]
+* a new immutable **[[Version|mesh-resource.component.slice.version]]** (if versioning is enabled),
+* an updated **[[DefaultSlice|mesh-resource.component.slice.default]]** (always),
+* updated metadata ([[meta-flow|mesh-resource.component.flow.metadata]]) and [[mesh-resource.component.documentation-resource.changelog]]
 * regenerated resource pages
-* and a stable, cross-node consistent “cut” of the mesh state(s).
+* and a stable, cross-knop consistent “cut” of the mesh state(s).
 
 Weave provides the **atomic publication boundary** of a mesh: everything within the weave scope becomes internally consistent, visible to other tools, and ready for downstream consumption.
 
@@ -31,16 +30,16 @@ A **Flow** is a `dcat:DatasetSeries`.
 A Flow always contains three permanent subdirectories:
 
 * **`_working/`** – mutable; edited by humans & apps
-* **`_default/`** – mutable; holds latest published FlowShot
-* **Snapshot folders** – immutable; each a `FlowShot` with `weaveLabel` + `sequenceNumber`
+* **`_default/`** – mutable; holds latest published FlowSlice
+* **Version folders** – immutable; each a `FlowSlice` with `weaveLabel` + `sequenceNumber`
 
-Weave operates on **FlowShots**:
+Weave operates on **FlowSlices**:
 
-* `sflo:WorkingShot`
-* `sflo:DefaultShot`
-* `sflo:Snapshot` (immutable)
+* `sflo:WorkingSlice`
+* `sflo:DefaultSlice`
+* `sflo:Version` (immutable)
 
-A weave run **never deletes** snapshots; it only produces a new one (if enabled) and refreshes `_default/`.
+A weave run **never deletes** versions; it only produces a new one (if enabled) and refreshes `_default/`.
 
 ---
 
@@ -48,26 +47,26 @@ A weave run **never deletes** snapshots; it only produces a new one (if enabled)
 
 Every weave produces:
 
-1. **A consistent cut of all `_working/` FlowShots in scope**
-   → optionally and by default stored as a new immutable Snapshot
+1. **A consistent cut of all `_working/` folder distributions in scope**
 
-2. **A refreshed `_default/` FlowShot**
-   → always updated to match the weave result
+- ptionally and by default stored as a new immutable Version
 
-3. **Updated meta-flow**
-   → includes:
+2. **Refreshed Pointers Files**
+
+- new `sequenceNumber`
+
+3. **Updated inventory**
+
+ includes:
 
    * new `weaveLabel`
-   * new `sequenceNumber`
-   * `previousSnapshot`
+   * `previousVersion`
    * provenance info
-     (Only includes *latest* provenance; older provenance lives in older snapshots.)
+     (Only includes *latest* provenance; older provenance lives in older versions.)
 
 4. **Regenerated Resource Pages**
-   → stable HTML index pages for nodes and flows
-
-5. **(Optional) Tombstone Updates**
-   → for submesh relocation or branch rehoming
+   → stable HTML index pages for knops and flows
+   - for any embedded knop whose IRI is a fragment of the subject, create an anchor with that fragment.
 
 ---
 
@@ -75,31 +74,31 @@ Every weave produces:
 
 Weave is structured as:
 
-## **Phase 1 — Snapshot Cut (Atomic Input Capture)**
+## **Phase 1 — Version Cut (Atomic Input Capture)**
 
-Goal: capture a consistent, static copy of all FlowShots being woven.
+Goal: capture a consistent, static copy of all FlowSlices being woven.
 
 Steps:
 
-1. Acquire weave locks for all nodes/flows in scope
+1. Acquire weave locks for all knops/flows in scope
 
    * Subtree locking permitted
    * Cross-mesh locking permitted
    * Locks prevent *other weaves* and *sflo-host writes*
 
-2. For each `_working/` FlowShot:
+2. For each `_working/` FlowSlice:
 
    * Stat + hash before read
    * Copy contents into a staging directory
    * Stat + hash again
    * If changed during read → **Phase 1 abort (dirty during weave)**
 
-3. If all FlowShots are stable:
+3. If all FlowSlices are stable:
 
    * Create the new `weaveLabel`
    * Increment `sequenceNumber`
-   * Create new Snapshot folders (if versioning enabled)
-   * Create new DefaultShot folders (always)
+   * Create new Version folders (if versioning enabled)
+   * Create new DefaultSlice folders (always)
 
 At the end of Phase 1:
 
@@ -116,22 +115,22 @@ At the end of Phase 1:
 
 ## **Phase 2 — Materialization (Atomic Output Publish)**
 
-Goal: publish the staged FlowShots as the official new state.
+Goal: publish the staged FlowSlices as the official new state.
 
 Steps:
 
 1. Atomic rename (per directory) from staging into:
 
-   * `…/<weaveLabel_vN>/` (Snapshot)
-   * `…/_default/` (DefaultShot)
+   * `…/<weaveLabel_vN>/` (Version)
+   * `…/_default/` (DefaultSlice)
 
 2. Update meta-flow:
 
    * `sflo:weaveLabel`
    * `sflo:sequenceNumber`
-   * `sflo:previousSnapshot`
+   * `sflo:previousVersion`
    * provenance fields
-     (Only latest provenance is stored; snapshots retain historical provenance.)
+     (Only latest provenance is stored; versions retain historical provenance.)
 
 3. Generate documentation Resource Pages
 
@@ -139,7 +138,7 @@ Steps:
 
 ### If Phase 2 fails:
 
-* Snapshots are still valid (they were already atomically written)
+* Versions are still valid (they were already atomically written)
 * Resource pages may be regenerated in a later weave
 * Meta-flow will reflect incomplete status until next weave
 
@@ -147,7 +146,7 @@ Steps:
 
 # Locking Model
 
-### Weave locks are **at the node (or submesh) level**, not per-file.
+### Weave locks are **at the knop (or submesh) level**, not per-file.
 
 This prevents:
 
@@ -162,7 +161,7 @@ sflo-host must acquire locks across all referenced meshes before Phase 1 begins.
 
 ### Lock propagation
 
-Requesting a lock for a node implicitly requires locking all ancestors up to the mesh root.
+Requesting a lock for a knop implicitly requires locking all ancestors up to the mesh root.
 This prevents parallel weaves on overlapping submeshes.
 
 ---
@@ -191,12 +190,12 @@ Weave explicitly does *not* guarantee:
 
 ### **Node Weave**
 
-* Weaves all flows under one node
+* Weaves all flows under one knop
 * Meta-flow updates accordingly
 
 ### **Node Tree Weave**
 
-* Recursively weaves node and descendants
+* Recursively weaves knop and descendants
 * Ideal for large cohesive units (directories)
 
 ### **Cross-Mesh Weave**
@@ -208,21 +207,21 @@ Locking spans both meshes, forming a single weave consistency domain.
 
 ---
 
-# DefaultShot Behavior
+# DefaultSlice Behavior
 
-* `_default/` is a **real FlowShot**
+* `_default/` is a **real FlowSlice**
 * It is **not** a pointer; it contains real Folder/Files
-* It always mirrors the latest Snapshot (or staged result if versioning is off)
+* It always mirrors the latest Version (or staged result if versioning is off)
 * Its IRI is stable, so tools may dereference it without knowing weave labels
 
 ### Unversioned flows
 
-* Still produce a DefaultShot
+* Still produce a DefaultSlice
 * You can treat `_default/` as the active published dataset
 
 ---
 
-# WorkingShot Behavior
+# WorkingSlice Behavior
 
 * Always present
 * Always mutable
@@ -238,10 +237,6 @@ Locking spans both meshes, forming a single weave consistency domain.
 
 * Step-through validation
 * AI-assisted metadata review
-
-### Tombstoning
-
-* Node relocation support
 
 ### Resource Page Generation
 
@@ -259,7 +254,7 @@ Locking spans both meshes, forming a single weave consistency domain.
 
 ### “Weave Often”
 
-Produces clean snapshots and stable metadata.
+Produces clean versions and stable metadata.
 
 ### “Weave Before Push”
 
@@ -293,7 +288,7 @@ Because direct edits are allowed, large files increase dirty-during-weave likeli
 │       ├── ontology.css
 │       └── person.css
 └── my-ontology/
-    ├── _cfg-op/
+    ├── _cfg-local/
     ├── _assets/
     │   ├── _templates/
     │   └── _css/
@@ -306,5 +301,5 @@ If you'd like, I can also generate:
 
 * A **parallel document** called `concept.weave-process.locking`
 * A **process flow diagram**
-* A **SHACL model** for FlowShots
+* A **SHACL model** for FlowSlices
 * A **step-by-step pseudo-code spec** of the weave engine

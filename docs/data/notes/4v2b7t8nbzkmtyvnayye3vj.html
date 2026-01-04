@@ -1,30 +1,53 @@
 <h1 id="provenance">Provenance<a aria-hidden="true" class="anchor-heading icon-link" href="#provenance"></a></h1>
 <h2 id="core-principles">Core Principles<a aria-hidden="true" class="anchor-heading icon-link" href="#core-principles"></a></h2>
-<p><strong>Version-only provenance</strong> - Provenance is recorded only for immutable version snapshots (like <code>_v47</code>), not for moving targets like <code>_current</code> or <code>_next</code>.</p>
-<p><strong>Meta-flow storage</strong> - Semantic Flow-specific provenance lives in meta-flows, referencing version snapshots in other flows. Domain-specific provenance can live in datasets themselves.</p>
-<p><strong>Current snapshot duplication</strong> - <code>_current</code> meta snapshots contain identical copies of the latest version's provenance with base URI pointing to the version snapshot for stable fragment resolution.</p>
+<p><strong>Version-only provenance</strong> - Provenance reference in <a href="/sflo/notes/074yxm151l47n1aak58ggni">default snapshot</a> should reference its corresponding stable version; </p>
+<p><strong>Meta-flow storage</strong> - Semantic Flow-specific provenance lives in meta-flows, referencing snapshots in other flows. Domain-specific provenance can live in datasets themselves.</p>
+<p><strong>default snapshot duplication</strong> - <code>_default</code> meta snapshots contain identical copies of the latest version's provenance with base URI pointing to the snapshot for stable fragment resolution.</p>
+<h2 id="fragment-identifier-naming-scheme">Fragment Identifier Naming Scheme<a aria-hidden="true" class="anchor-heading icon-link" href="#fragment-identifier-naming-scheme"></a></h2>
+<p>To ensure that every RDF node used in a <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> distribution has a unique and dereferenceable URI, the following naming scheme for <a href="/sflo/notes/stwf07fdqihn13if65hc5g0">fragment identifiers</a> MUST be used. This allows the metadata snapshot's <a href="/sflo/notes/wvzsqsdcvkd1d2adyeqw996">mesh resource page</a> to correctly provide anchors for all provenance entities.</p>
+<p>The structure is as follows:</p>
+<p><code>&#x3C;{flow-slug}-{version}-{entity-type}[-{unique-part}]></code></p>
+<ul>
+<li><strong><code>{flow-slug}</code></strong>: The slug of the flow this provenance describes (e.g., <code>[[folder._cfg-inh]]</code>, <code>data-flow</code>). This provides the primary namespace for the identifier.</li>
+<li><strong><code>{version}</code></strong>: The version of the target flow's snapshot (e.g., <code>v47</code>). This scopes the provenance to a specific point in time.</li>
+<li><strong><code>{entity-type}</code></strong>: The class of the entity, using a consistent UpperCamelCase (e.g., <code>Activity</code>, <code>Context</code>, <code>DelegationChain</code>, <code>DelegationStep</code>).</li>
+<li><strong><code>{unique-part}</code></strong>: (Optional) A unique suffix, such as a step number or a timestamp, used when multiple entities of the same type exist for the same flow and version.</li>
+</ul>
+<h3 id="provenance-fragment-identifier-examples">Provenance Fragment Identifier Examples<a aria-hidden="true" class="anchor-heading icon-link" href="#provenance-fragment-identifier-examples"></a></h3>
+<p>For a <code>config-flow</code> at version <code>v47</code>, the identifiers would be:</p>
+<ul>
+<li><strong>Activity</strong>: <code>&#x3C;#config-flow-v47-Activity></code></li>
+<li><strong>Provenance Context</strong>: <code>&#x3C;#config-flow-v47-Context></code></li>
+<li><strong>Delegation Chain</strong>: <code>&#x3C;#config-flow-v47-DelegationChain></code></li>
+<li><strong>Delegation Steps</strong>:
+<ul>
+<li><code>&#x3C;#config-flow-v47-DelegationStep-1></code></li>
+<li><code>&#x3C;#config-flow-v47-DelegationStep-2></code></li>
+</ul>
+</li>
+</ul>
 <h2 id="architecture">Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#architecture"></a></h2>
-<h3 id="version-snapshot-provenance">Version Snapshot Provenance<a aria-hidden="true" class="anchor-heading icon-link" href="#version-snapshot-provenance"></a></h3>
-<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_node-metadata-flow/_v47/my-dataset_meta.trig</span>
-<span class="token keyword">@base</span> <span class="token url"><span class="token punctuation">&#x3C;</span>../_v47/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+<h3 id="snapshot-provenance">snapshot Provenance<a aria-hidden="true" class="anchor-heading icon-link" href="#snapshot-provenance"></a></h3>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_meta/2025-07-20_1430_00_v47/my-dataset_meta.trig</span>
+<span class="token keyword">@base</span> <span class="token url"><span class="token punctuation">&#x3C;</span>../2025-07-20_1430_00_v47/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 
 <span class="token comment"># Weave activity with PROV standard properties</span>
-<span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">configUpdateActivity</span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">meta<span class="token punctuation">:</span></span><span class="token local-name">ConfigWeave</span></span> <span class="token punctuation">;</span>
+<span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span></span><span class="token comment">#configUpdateActivity a meta:ConfigWeave ;</span>
     <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">startedAtTime</span></span> <span class="token string">"2025-07-20T14:30:00Z"</span> <span class="token punctuation">;</span>
     <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">endedAtTime</span></span> <span class="token string">"2025-07-20T14:30:15Z"</span> <span class="token punctuation">;</span>
-    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">used</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_config-flow/_v46/config.jsonld<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
-    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generated</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_config-flow/_v47/config.jsonld<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">used</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_config-flow/2025-07-20_1429_30_v46/config.jsonld<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generated</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_config-flow/2025-07-20_1430_00_v47/config.jsonld<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
     <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">wasAssociatedWith</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://semantic-flow.org/agents/flow-service-bot<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 
 <span class="token comment"># Rights and licensing at snapshot level</span>
-<span class="token url"><span class="token punctuation">&#x3C;</span>../../_config-flow/_v47<span class="token punctuation">></span></span> <span class="token function"><span class="token prefix">dcterms<span class="token punctuation">:</span></span><span class="token local-name">rightsHolder</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://orcid.org/0000-0002-1825-0097<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+<span class="token url"><span class="token punctuation">&#x3C;</span>../../_config-flow/2025-07-20_1430_00_v47<span class="token punctuation">></span></span> <span class="token function"><span class="token prefix">dcterms<span class="token punctuation">:</span></span><span class="token local-name">rightsHolder</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://orcid.org/0000-0002-1825-0097<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
                           <span class="token function"><span class="token prefix">dcterms<span class="token punctuation">:</span></span><span class="token local-name">license</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://creativecommons.org/licenses/by-sa/4.0/<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
                           <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">has_provenance</span></span> <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">configProvenance</span></span> <span class="token punctuation">.</span>
 
 <span class="token comment"># Delegation chain (step 1 = top authority, gets copyright by default)</span>
 <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">configProvenance</span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">meta<span class="token punctuation">:</span></span><span class="token local-name">ProvenanceContext</span></span> <span class="token punctuation">;</span>
     <span class="token function"><span class="token prefix">meta<span class="token punctuation">:</span></span><span class="token local-name">forActivity</span></span> <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">configUpdateActivity</span></span> <span class="token punctuation">;</span>
-    <span class="token function"><span class="token prefix">meta<span class="token punctuation">:</span></span><span class="token local-name">forSnapshot</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_config-flow/_v47<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">meta<span class="token punctuation">:</span></span><span class="token local-name">forSnapshot</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_config-flow/2025-07-20_1430_00_v47<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
     <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">wasAttributedTo</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://acme-corp.com/org<span class="token punctuation">></span></span> <span class="token punctuation">;</span> <span class="token comment"># Primary attribution</span>
     <span class="token function"><span class="token prefix">meta<span class="token punctuation">:</span></span><span class="token local-name">delegationChain</span></span> <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">delegationChain_001</span></span> <span class="token punctuation">.</span>
 
@@ -44,24 +67,24 @@
        <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">agent</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://semantic-flow.org/agents/flow-service-bot<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
        <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">actedOnBehalfOf</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>https://orcid.org/0000-0002-1825-0097<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 </code></pre>
-<h3 id="current-snapshot-copy">Current Snapshot Copy<a aria-hidden="true" class="anchor-heading icon-link" href="#current-snapshot-copy"></a></h3>
-<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_node-metadata-flow/_current/my-dataset_meta.trig</span>
-<span class="token keyword">@base</span> <span class="token url"><span class="token punctuation">&#x3C;</span>../_v47/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+<h3 id="default-snapshot-copy">default snapshot Copy<a aria-hidden="true" class="anchor-heading icon-link" href="#default-snapshot-copy"></a></h3>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_meta/_default/my-dataset_meta.trig</span>
+<span class="token keyword">@base</span> <span class="token url"><span class="token punctuation">&#x3C;</span>../2025-07-20_1430_00_v47/<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 
-<span class="token comment"># Identical content to version snapshot - all URIs resolve to stable version</span>
+<span class="token comment"># Identical content to snapshot - all URIs resolve to stable version</span>
 <span class="token comment"># (same provenance content as above)</span>
 </code></pre>
 <h3 id="unversioned-flow-accumulation">Unversioned Flow Accumulation<a aria-hidden="true" class="anchor-heading icon-link" href="#unversioned-flow-accumulation"></a></h3>
-<p>For flows without versioning, activities accumulate in <code>_next</code> with unique timestamps:</p>
-<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_node-metadata-flow/_next/my-dataset_meta.trig</span>
+<p>For flows without versioning, activities accumulate in <code>_working</code> with unique timestamps:</p>
+<pre class="language-turtle"><code class="language-turtle"><span class="token comment"># In my-dataset/_meta/_working/my-dataset_meta.trig</span>
 <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">dataActivity_2025-07-20_14-30</span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">meta<span class="token punctuation">:</span></span><span class="token local-name">DataWeave</span></span> <span class="token punctuation">;</span>
     <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">startedAtTime</span></span> <span class="token string">"2025-07-20T14:30:00Z"</span> <span class="token punctuation">;</span>
-    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generated</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_payload-flow/_current/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generated</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_payload/_default/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 
 <span class="token function"><span class="token prefix"><span class="token punctuation">:</span></span><span class="token local-name">dataActivity_2025-07-20_16-45</span></span> <span class="token keyword">a</span> <span class="token function"><span class="token prefix">meta<span class="token punctuation">:</span></span><span class="token local-name">DataWeave</span></span> <span class="token punctuation">;</span>
     <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">startedAtTime</span></span> <span class="token string">"2025-07-20T16:45:00Z"</span> <span class="token punctuation">;</span>
-    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">used</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_payload-flow/_current/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
-    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generated</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_payload-flow/_current/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
+    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">used</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_payload/_default/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">;</span>
+    <span class="token function"><span class="token prefix">prov<span class="token punctuation">:</span></span><span class="token local-name">generated</span></span> <span class="token url"><span class="token punctuation">&#x3C;</span>../../_payload/_default/data.trig<span class="token punctuation">></span></span> <span class="token punctuation">.</span>
 </code></pre>
 <h2 id="key-components">Key Components<a aria-hidden="true" class="anchor-heading icon-link" href="#key-components"></a></h2>
 <h3 id="activity-types-subclass-provactivity">Activity Types (subclass <code>prov:Activity</code>)<a aria-hidden="true" class="anchor-heading icon-link" href="#activity-types-subclass-provactivity"></a></h3>
@@ -93,37 +116,15 @@
 <p><strong>External vocabulary tracking</strong>: Use SHACL to declare recommended external properties like <code>prov:wasInfluencedBy</code>, <code>dcterms:license</code>.</p>
 <h2 id="implementation-notes">Implementation Notes<a aria-hidden="true" class="anchor-heading icon-link" href="#implementation-notes"></a></h2>
 <ul>
-<li><strong>Fragment URIs</strong>: Use <code>&#x3C;#step1></code> etc. within version snapshots for stable addressability</li>
-<li><strong>Base URI</strong>: All snapshots use <code>@base &#x3C;../_vN/></code> pattern for consistent resolution</li>
+<li><strong>Fragment URIs</strong>: Use <code>&#x3C;#step1></code> etc. within snapshots for stable addressability</li>
+<li><strong>Base URI</strong>: All snapshots use <code>@base &#x3C;../YYYY-MM-DD_HHMM_SS_vN/></code> pattern for consistent resolution</li>
 <li><strong>Rights inheritance</strong>: Capture previous version rights holders in provenance contexts when content is derived</li>
 <li><strong>Static site friendly</strong>: Documentation approach for external references since no server-side redirects available</li>
-</ul>
-<h2 id="fragment-identifier-naming-scheme">Fragment Identifier Naming Scheme<a aria-hidden="true" class="anchor-heading icon-link" href="#fragment-identifier-naming-scheme"></a></h2>
-<p>To ensure that every RDF node within a <code>_meta</code> distribution has a unique and dereferenceable URI, the following naming scheme for fragment identifiers MUST be used. This allows the <code>index.html</code> file for a given snapshot version to correctly link to all provenance entities.</p>
-<p>The structure is as follows:</p>
-<p><code>&#x3C;{flow-slug}-{version}-{entity-type}[-{unique-part}]></code></p>
-<ul>
-<li><strong><code>{flow-slug}</code></strong>: The slug of the flow this provenance describes (e.g., <code>config-flow</code>, <code>data-flow</code>). This provides the primary namespace for the identifier.</li>
-<li><strong><code>{version}</code></strong>: The version of the snapshot (e.g., <code>v47</code>). This scopes the provenance to a specific point in time.</li>
-<li><strong><code>{entity-type}</code></strong>: The class of the entity, using a consistent UpperCamelCase (e.g., <code>Activity</code>, <code>Context</code>, <code>DelegationChain</code>, <code>DelegationStep</code>).</li>
-<li><strong><code>{unique-part}</code></strong>: (Optional) A unique suffix, such as a step number or a timestamp, used when multiple entities of the same type exist for the same flow and version.</li>
-</ul>
-<h3 id="example">Example<a aria-hidden="true" class="anchor-heading icon-link" href="#example"></a></h3>
-<p>For a <code>config-flow</code> at version <code>v47</code>, the identifiers would be:</p>
-<ul>
-<li><strong>Activity</strong>: <code>&#x3C;#config-flow-v47-Activity></code></li>
-<li><strong>Provenance Context</strong>: <code>&#x3C;#config-flow-v47-Context></code></li>
-<li><strong>Delegation Chain</strong>: <code>&#x3C;#config-flow-v47-DelegationChain></code></li>
-<li><strong>Delegation Steps</strong>:
-<ul>
-<li><code>&#x3C;#config-flow-v47-DelegationStep-1></code></li>
-<li><code>&#x3C;#config-flow-v47-DelegationStep-2></code></li>
-</ul>
-</li>
 </ul>
 <hr>
 <strong>Backlinks</strong>
 <ul>
+<li><a href="/sflo/notes/stwf07fdqihn13if65hc5g0">Fragment Identifiers</a></li>
 <li><a href="/sflo/notes/vqah4oe61zin07t2ztfx4v4">Metadata</a></li>
 <li><a href="/sflo/notes/concept-summary">Concept Summary</a></li>
 </ul>

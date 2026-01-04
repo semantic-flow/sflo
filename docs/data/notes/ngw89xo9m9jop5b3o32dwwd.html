@@ -1,5 +1,5 @@
 <h1 id="pseudo-immutability">pseudo-immutability<a aria-hidden="true" class="anchor-heading icon-link" href="#pseudo-immutability"></a></h1>
-<p>In a filesystem-based structure like a <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a>, you can't really prevent changes. But some things in a mesh should be treated as immutable, like <a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">version snapshot</a> and <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a>.</p>
+<p>In a filesystem-based structure like a <a href="/sflo/notes/h6ssv16gdyf56gg235dxv85">semantic mesh</a>, you can't really prevent changes. But some things in a mesh should be treated as immutable, like <a href="/sflo/notes/r6akf3zjimf3ubkxpqmeubc">snapshot</a> and <a href="/sflo/notes/17l23vl7sqg997hr773dh23">intramesh identifier</a>.</p>
 <p><strong>Pseudo-immutability</strong> acknowledges that things might be changed, for various reasons:</p>
 <ul>
 <li>accidental changes</li>
@@ -10,7 +10,7 @@
 <p>Applications should deal gracefully, and optionally alert users to improperly mutated data. </p>
 <p><strong>Pseudo-immutability</strong> also acknowledges that:</p>
 <ul>
-<li>for "draft data" especially, "the next version" is going to keep changing until a "weave" happens (i.e., a new version is minted). </li>
+<li>for "draft data" especially, "the working version" is going to keep changing until a "weave" happens (i.e., a new version is minted). </li>
 <li>sometimes you want the "latest" data for a given resource. Typically, "current" would be a pointer, redirect, or symlink. But given our goal of static hosting, we've decided just to have duplicate files for the "current" flow and the "most recent version" flow. </li>
 </ul>
 <h2 id="mitigations">Mitigations<a aria-hidden="true" class="anchor-heading icon-link" href="#mitigations"></a></h2>

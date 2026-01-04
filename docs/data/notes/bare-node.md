@@ -5,7 +5,7 @@
 
 - namespace extenders and perhaps organizational containers
 
-**Mandatory Components**: `_node-metadata-flow/` + `_node-handle/`
+**Mandatory Components**: `_meta/` + `_node-handle/`
 **Optional Components**: [[mesh-resource.node-component.flow.node-config]], [[mesh-resource.node-component.documentation-resource]]
 
 

@@ -1,12 +1,12 @@
 <h1 id="why-dont-payload-nodes-contain-distributions-directly">Why Dont payload nodes Contain Distributions Directly<a aria-hidden="true" class="anchor-heading icon-link" href="#why-dont-payload-nodes-contain-distributions-directly"></a></h1>
 <h2 id="question">Question<a aria-hidden="true" class="anchor-heading icon-link" href="#question"></a></h2>
-<p>Why don't <a href="/sflo/notes/payload-node">payload nodes</a> contain distribution files directly? Why do I need to go to <code>_current/</code> to find the actual data?</p>
+<p>Why don't <a href="/sflo/notes/payload-node">payload nodes</a> contain distribution files directly? Why do I need to go to <code>_default/</code> to find the actual data?</p>
 <h2 id="answer">Answer<a aria-hidden="true" class="anchor-heading icon-link" href="#answer"></a></h2>
 <p>payload nodes represent <strong>abstract data concepts</strong>, not concrete data instances. This separation provides several important benefits:</p>
 <h3 id="clear-semantic-distinction">Clear Semantic Distinction<a aria-hidden="true" class="anchor-heading icon-link" href="#clear-semantic-distinction"></a></h3>
 <ul>
 <li><strong>payload node</strong> (<code>/ns/monsters/</code>): "The concept of monster data"</li>
-<li><strong>Data compound</strong> (<code>/ns/monsters/_payload-flow/</code>): "The abstract dataset associated with the monster data concept" </li>
+<li><strong>Data compound</strong> (<code>/ns/monsters/_payload/</code>): "The abstract dataset associated with the monster data concept" </li>
 <li><strong>Data compound layers</strong>: the current, next and historical versions of the dataset</li>
 </ul>
 <p>This allows you to reference the concept separately from the associated abstract or concrete dataset.</p>
@@ -15,24 +15,24 @@
 <h3 id="temporal-organization">Temporal Organization<a aria-hidden="true" class="anchor-heading icon-link" href="#temporal-organization"></a></h3>
 <p>By separating the concept from concrete instances, payload nodes can cleanly organize different temporal states:</p>
 <ul>
-<li><code>_current/</code> - current data</li>
-<li><code>_next/</code> - draft changes  </li>
-<li><code>_v1/</code>, <code>_v2/</code> - historical versions</li>
+<li><code>_default/</code> - current data</li>
+<li><code>_working/</code> - draft changes</li>
+<li>Snapshot folders (e.g., <code>2025-11-24_0142_07_v1/</code>, <code>2025-11-24_0142_08_v2/</code>) - historical versions</li>
 </ul>
 <h3 id="consistent-architecture">Consistent Architecture<a aria-hidden="true" class="anchor-heading icon-link" href="#consistent-architecture"></a></h3>
 <p>This mirrors how <a title="Private" href="https://wiki.dendron.so/notes/hfyvYGJZQiUwQaaxQO27q.html" target="_blank" class="private">reference nodes (Private)</a> work:</p>
 <ul>
 <li><strong>Reference nodes</strong>: Abstract entity concept + <code>_ref/</code> node component with concrete data</li>
-<li><strong>payload nodes</strong>: Abstract data concept + <code>_current/</code> component with concrete data</li>
+<li><strong>payload nodes</strong>: Abstract data concept + <code>_default/</code> component with concrete data</li>
 </ul>
 <h3 id="metadata-separation">Metadata Separation<a aria-hidden="true" class="anchor-heading icon-link" href="#metadata-separation"></a></h3>
-<p>The payload node's <a href="/sflo/notes/0y6p8e594peoult03gobm94">metapayload flow</a> contains system metadata about the data concept and its components, while each <a href="/sflo/notes/payload-flow">payload flow</a> can also contain (concept-specific) metadata.</p>
+<p>The payload node's <a href="/sflo/notes/0y6p8e594peoult03gobm94">metadata flow</a> contains system metadata about the data concept and its components, while each <a href="/sflo/notes/payload-flow">payload flow</a> can also contain (concept-specific) metadata.</p>
 <p>TODO: example</p>
 <h2 id="analogy">Analogy<a aria-hidden="true" class="anchor-heading icon-link" href="#analogy"></a></h2>
 <p>Think of it like a library:</p>
 <ul>
 <li><strong>payload node</strong> = "The concept of the Encyclopedia Britannica"</li>
 <li><strong>payload flow</strong> = The Encyclopedia Britannica as an ongoing series of editions</li>
-<li><strong><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></strong> = Specific editions (1990 edition, 2020 edition, current edition)</li>
+<li><strong><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">FlowShot</a></strong> = Specific editions (1990 edition, 2020 edition, current edition)</li>
 </ul>
 <p>You can refer to "Encyclopedia Britannica" as a general concept or as a series without specifying which edition, or you can reference a specific edition when you need concrete data.</p>

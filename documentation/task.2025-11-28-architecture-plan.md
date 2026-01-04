@@ -1,9 +1,23 @@
 ---
-id: architecture-plan-rdfsource-createnode
+id: architecture-plan-rdfsource-createknop
 title: Architecture Plan - RdfSource & createNode
 desc: Detailed architecture and implementation plan for RdfSource abstraction and createNode operation
 created: 2025-11-28
 ---
+
+> ## Implementation Status (as of 2025-12-05)
+>
+> | Component | Status | Notes |
+> |-----------|--------|-------|
+> | RdfSource abstraction | ✅ Implemented | Minor naming differences from spec |
+> | createKnop (was createNode) | ✅ Implemented | Per refined spec - no versions, only `_working` |
+> | ProvenanceBundleInput | ❌ Removed | Per refinement |
+>
+> **Naming differences from this spec:**
+> - `kind` instead of `type`
+> - `inline` instead of `content`
+> - `RdfSource` instead of `RdfSourceInput`
+> - `localConfig` instead of `operationalConfig`
 
 # Architecture Plan: RdfSource Abstraction & createNode Operation
 
@@ -11,7 +25,7 @@ created: 2025-11-28
 
 This document provides the architectural design for implementing:
 1. **RdfSource abstraction** - A coherent model for RDF loading/serialization
-2. **createNode operation** - Core mesh node initialization using RdfSource
+2. **createNode operation** - Core mesh knop initialization using RdfSource
 
 ## 1. RdfSource Abstraction Design
 
@@ -212,11 +226,11 @@ Test cases:
 
 ### 2.1 Core Function Signature
 
-Location: [`shared/core/src/operations/create-node.ts`](../../shared/core/src/operations/create-node.ts)
+Location: [`shared/core/src/operations/create-knop.ts`](../../shared/core/src/operations/create-knop.ts)
 
 ```typescript
 /**
- * Options for creating a new mesh node
+ * Options for creating a new mesh knop
  */
 export interface CreateNodeOptions {
   /** Path to payload dataset (optional) */
@@ -225,7 +239,7 @@ export interface CreateNodeOptions {
   /** Path to reference dataset (optional) */
   referenceDatasetPath?: string;
   
-  /** Path to operational config dataset (optional) */
+  /** Path to local config dataset (optional) */
   operationalConfigPath?: string;
   
   /** Path to inheritable config dataset (optional) */
@@ -242,7 +256,7 @@ export interface CreateNodeOptions {
 }
 
 /**
- * Provenance information for node creation
+ * Provenance information for knop creation
  */
 export interface ProvenanceBundleInput {
   /** Primary agent IRI (human or system) */
@@ -262,17 +276,17 @@ export interface ProvenanceBundleInput {
 }
 
 /**
- * Result of node creation
+ * Result of knop creation
  */
 export interface CreateNodeResult {
-  /** Absolute path to created node */
-  nodePath: string;
+  /** Absolute path to created knop */
+  knopPath: string;
   
   /** Node slug (derived from folder name) */
-  nodeSlug: string;
+  knopSlug: string;
   
-  /** Base IRI for the node */
-  nodeBaseIri: string;
+  /** Base IRI for the knop */
+  knopBaseIri: string;
   
   /** Created flow paths */
   flows: {
@@ -285,26 +299,26 @@ export interface CreateNodeResult {
 }
 
 /**
- * Create a new mesh node
+ * Create a new mesh knop
  * 
  * Steps:
- * 1. Validate path (not already a node, handle allowNonEmpty)
- * 2. Create node directory structure
- * 3. Create _node-handle/ stub
+ * 1. Validate path (not already a knop, handle allowNonEmpty)
+ * 2. Create knop directory structure
+ * 3. Create _knop-handle/ stub
  * 4. Create _meta/ v1 and _default/ with minimal metadata
  * 5. Optionally import reference/payload/config datasets
  * 6. Return result summary
  * 
- * @param nodeTargetPath - Path where node should be created
+ * @param knopTargetPath - Path where knop should be created
  * @param options - Creation options
  * @returns Creation result
- * @throws {NodeAlreadyExistsError} if node already initialized
+ * @throws {NodeAlreadyExistsError} if knop already initialized
  * @throws {DirectoryNotEmptyError} if directory not empty and !allowNonEmpty
  * 
  * See: task.2025-11-27-createNode, concept.weave-process
  */
 export async function createNode(
-  nodeTargetPath: string,
+  knopTargetPath: string,
   options?: CreateNodeOptions
 ): Promise<CreateNodeResult>;
 ```
@@ -313,7 +327,7 @@ export async function createNode(
 
 ```typescript
 /**
- * Validate that path is suitable for node creation
+ * Validate that path is suitable for knop creation
  */
 async function validateNodePath(
   path: string,
@@ -321,19 +335,19 @@ async function validateNodePath(
 ): Promise<void>;
 
 /**
- * Create directory structure for a node
+ * Create directory structure for a knop
  */
 async function createNodeScaffolding(
-  nodePath: string,
-  nodeSlug: string
+  knopPath: string,
+  knopSlug: string
 ): Promise<void>;
 
 /**
- * Generate minimal v1 metadata for a new node
+ * Generate minimal v1 metadata for a new knop
  */
 function generateNodeMetadata(
-  nodeSlug: string,
-  nodeBaseIri: string,
+  knopSlug: string,
+  knopBaseIri: string,
   provenance?: ProvenanceBundleInput
 ): RdfDataset;
 
@@ -343,21 +357,21 @@ function generateNodeMetadata(
 async function importDatasetToFlow(
   sourcePath: string,
   targetFlowPath: string,
-  nodeSlug: string,
+  knopSlug: string,
   flowSlug: string,
-  nodeBaseIri: string
+  knopBaseIri: string
 ): Promise<void>;
 
 /**
- * Derive node slug from folder name
+ * Derive knop slug from folder name
  */
-function deriveNodeSlug(nodePath: string): string;
+function deriveNodeSlug(knopPath: string): string;
 
 /**
- * Compute node base IRI from path and namespace root
+ * Compute knop base IRI from path and namespace root
  */
 function computeNodeBaseIri(
-  nodePath: string,
+  knopPath: string,
   namespaceRoot?: string
 ): string;
 ```
@@ -376,12 +390,12 @@ export const FLOW_SLUGS = {
   META: "_meta",
   REF: "_ref",
   PAYLOAD: "_payload",
-  CFG_OP: "_cfg-op",
+  CFG_OP: "_cfg-local",
   CFG_INH: "_cfg-inh",
 } as const;
 
 /**
- * Snapshot folder names
+ * Version folder names
  */
 export const SNAPSHOT_FOLDERS = {
   WORKING: "_working",
@@ -392,7 +406,7 @@ export const SNAPSHOT_FOLDERS = {
  * System folder names
  */
 export const SYSTEM_FOLDERS = {
-  HANDLE: "_node-handle",
+  HANDLE: "_knop-handle",
 } as const;
 ```
 
@@ -402,21 +416,21 @@ export const SYSTEM_FOLDERS = {
 /**
  * Generate distribution filename for a flow
  * 
- * Payload: <nodeSlug>.jsonld
- * Others: <nodeSlug>_<flowSlug>.jsonld
+ * Payload: <knopSlug>.jsonld
+ * Others: <knopSlug>_<flowSlug>.jsonld
  * 
- * @param nodeSlug - Node slug
+ * @param knopSlug - Node slug
  * @param flowSlug - Flow slug (undefined for payload)
  * @returns Filename
  */
 function generateDistributionFilename(
-  nodeSlug: string,
+  knopSlug: string,
   flowSlug?: string
 ): string {
   if (!flowSlug || flowSlug === FLOW_SLUGS.PAYLOAD) {
-    return `${nodeSlug}.jsonld`;
+    return `${knopSlug}.jsonld`;
   }
-  return `${nodeSlug}${flowSlug}.jsonld`;
+  return `${knopSlug}${flowSlug}.jsonld`;
 }
 ```
 
@@ -425,7 +439,7 @@ function generateDistributionFilename(
 The v1 metadata will include:
 
 1. **Node Description**
-   - Node IRI: `<>` (relative, resolves to node)
+   - Node IRI: `<>` (relative, resolves to knop)
    - Type: Placeholder or inferred from flows
    - Label/description: Minimal stub
 
@@ -436,7 +450,7 @@ The v1 metadata will include:
    - Sequence number: 1
 
 3. **Provenance (Minimal)**
-   - NodeCreation activity stub
+   - KnopCreation activity stub
    - Agent reference (if provided)
    - Rights/license (if provided)
    - No full DelegationChain yet
@@ -469,7 +483,7 @@ Example metadata structure:
     },
     {
       "@id": "_meta/_default/",
-      "@type": "sflo:DefaultShot",
+      "@type": "sflo:DefaultSlice",
       "sflo:sequenceNumber": 1,
       "prov:wasGeneratedBy": {
         "@id": "_meta/_default/#creation-activity"
@@ -482,8 +496,8 @@ Example metadata structure:
 ### 2.6 Directory Structure Created
 
 ```
-<nodeTargetPath>/
-├── _node-handle/
+<knopTargetPath>/
+├── _knop-handle/
 │   └── README.md          # Stub explaining the handle concept
 ├── _meta/
 │   ├── v1/
@@ -501,11 +515,11 @@ Example metadata structure:
 │   │   └── <slug>.jsonld
 │   └── _default/
 │       └── <slug>.jsonld
-├── _cfg-op/
+├── _cfg-local/
 │   ├── v1/
-│   │   └── <slug>_cfg-op.jsonld
+│   │   └── <slug>_cfg-local.jsonld
 │   └── _default/
-│       └── <slug>_cfg-op.jsonld
+│       └── <slug>_cfg-local.jsonld
 └── _cfg-inh/
     ├── v1/
     │   └── <slug>_cfg-inh.jsonld
@@ -515,7 +529,7 @@ Example metadata structure:
 
 ### 2.7 Error Handling
 
-Custom error types in [`shared/core/src/errors/node-errors.ts`](../../shared/core/src/errors/node-errors.ts):
+Custom error types in [`shared/core/src/errors/knop-errors.ts`](../../shared/core/src/errors/knop-errors.ts):
 
 ```typescript
 export class NodeAlreadyExistsError extends Error {
@@ -534,7 +548,7 @@ export class DirectoryNotEmptyError extends Error {
 
 export class InvalidNodePathError extends Error {
   constructor(path: string, reason: string) {
-    super(`Invalid node path: ${path}. Reason: ${reason}`);
+    super(`Invalid knop path: ${path}. Reason: ${reason}`);
     this.name = "InvalidNodePathError";
   }
 }
@@ -542,7 +556,7 @@ export class InvalidNodePathError extends Error {
 
 ## 3. Simple Node Runner
 
-Location: [`scripts/create-node.ts`](../../scripts/create-node.ts)
+Location: [`scripts/create-knop.ts`](../../scripts/create-knop.ts)
 
 ```typescript
 #!/usr/bin/env tsx
@@ -550,11 +564,11 @@ Location: [`scripts/create-node.ts`](../../scripts/create-node.ts)
  * Simple CLI runner for createNode operation
  * 
  * Usage:
- *   npx tsx scripts/create-node.ts <nodePath> [--allow-non-empty]
+ *   npx tsx scripts/create-knop.ts <knopPath> [--allow-non-empty]
  */
 
 import { createNode } from "@semantic-flow/core";
-import { parseArgs } from "node:util";
+import { parseArgs } from "knop:util";
 
 async function main() {
   const { values, positionals } = parseArgs({
@@ -565,23 +579,23 @@ async function main() {
   });
 
   if (positionals.length === 0) {
-    console.error("Usage: create-node <nodePath> [--allow-non-empty]");
+    console.error("Usage: create-knop <knopPath> [--allow-non-empty]");
     process.exit(1);
   }
 
-  const nodePath = positionals[0];
+  const knopPath = positionals[0];
 
   try {
-    console.log(`Creating node at: ${nodePath}`);
+    console.log(`Creating knop at: ${knopPath}`);
     
-    const result = await createNode(nodePath, {
+    const result = await createNode(knopPath, {
       allowNonEmpty: values["allow-non-empty"] as boolean,
     });
 
     console.log("\n✅ Node created successfully!");
-    console.log(`  Path: ${result.nodePath}`);
-    console.log(`  Slug: ${result.nodeSlug}`);
-    console.log(`  Base IRI: ${result.nodeBaseIri}`);
+    console.log(`  Path: ${result.knopPath}`);
+    console.log(`  Slug: ${result.knopSlug}`);
+    console.log(`  Base IRI: ${result.knopBaseIri}`);
     console.log(`\nFlows created:`);
     console.log(`  Metadata: ${result.flows.meta}`);
     if (result.flows.ref) console.log(`  Reference: ${result.flows.ref}`);
@@ -590,7 +604,7 @@ async function main() {
     if (result.flows.cfgInh) console.log(`  Config (Inh): ${result.flows.cfgInh}`);
     
   } catch (error) {
-    console.error("\n❌ Error creating node:");
+    console.error("\n❌ Error creating knop:");
     console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
@@ -611,16 +625,16 @@ main();
 
 ### 4.2 createNode Tests
 
-Location: [`shared/core/src/operations/__tests__/create-node.test.ts`](../../shared/core/src/operations/__tests__/create-node.test.ts)
+Location: [`shared/core/src/operations/__tests__/create-knop.test.ts`](../../shared/core/src/operations/__tests__/create-knop.test.ts)
 
 Test cases:
-1. Create node in empty directory
-2. Fail on already-initialized node
+1. Create knop in empty directory
+2. Fail on already-initialized knop
 3. Fail on non-empty directory without flag
 4. Succeed on non-empty with allowNonEmpty
-5. Create node with payload dataset
-6. Create node with reference dataset
-7. Create node with all optional datasets
+5. Create knop with payload dataset
+6. Create knop with reference dataset
+7. Create knop with all optional datasets
 8. Validate metadata content
 9. Validate filename conventions
 10. Validate directory structure
@@ -628,9 +642,9 @@ Test cases:
 ### 4.3 Integration Tests
 
 End-to-end scenarios:
-1. Create node → read metadata → validate structure
-2. Create node → import dataset → verify relative IRIs
-3. Multiple nodes in hierarchy
+1. Create knop → read metadata → validate structure
+2. Create knop → import dataset → verify relative IRIs
+3. Multiple knops in hierarchy
 
 ## 5. Documentation Updates
 
@@ -706,15 +720,14 @@ Update [`shared/core/package.json`](../../shared/core/package.json):
    - Add API documentation
    - Update task files
 
-**Total estimated time: 5-7 days**
 
 ## 8. Future Enhancements (Out of Scope)
 
 These are explicitly **not** part of this task:
 
 - Full debasing algorithm with IRI rewriting
-- Payload unpacking into child nodes
-- Config inheritance from parent nodes
+- Payload unpacking into child knops
+- Config inheritance from parent knops
 - Full PROV/DelegationChain modeling
 - SHACL validation
 - RDF store integration
@@ -725,16 +738,16 @@ These are explicitly **not** part of this task:
 
 The implementation is complete when:
 
-1. ✅ RdfSource can parse JSON-LD and Turtle with explicit base
-2. ✅ RdfSource can serialize mesh-native JSON-LD (no @base, relative IRIs)
-3. ✅ createNode creates correct directory structure
-4. ✅ createNode generates valid v1 metadata
-5. ✅ createNode can import optional datasets
-6. ✅ All tests pass (unit + integration)
-7. ✅ Documentation is updated
-8. ✅ Simple runner script works
-9. ✅ Code follows project conventions
-10. ✅ Task files are updated with progress
+1. RdfSource can parse JSON-LD and Turtle with explicit base
+2. RdfSource can serialize mesh-native JSON-LD (no @base, relative IRIs)
+3. createNode creates correct directory structure
+4. createNode generates valid v1 metadata
+5. createNode can import optional datasets
+6. All tests pass (unit + integration)
+7. Documentation is updated
+8. Simple runner script works
+9. Code follows project conventions
+10. Task files are updated with progress
 
 ## References
 

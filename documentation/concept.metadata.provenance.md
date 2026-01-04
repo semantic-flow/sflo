@@ -2,28 +2,28 @@
 id: 4v2b7t8nbzkmtyvnayye3vj
 title: Provenance
 desc: ''
-updated: 1764327645701
+updated: 1765784468277
 created: 1753117923066
 ---
 
 ## Core Principles
 
-**Version-only provenance** - Provenance reference in [[mesh-resource.node-component.flow-shot.default-shot]] should reference its corresponding stable version; 
+**Version-only provenance** - Provenance reference in [[mesh-resource.component.slice.default]] should reference its corresponding stable version; 
 
-**Meta-flow storage** - Semantic Flow-specific provenance lives in meta-flows, referencing snapshots in other flows. Domain-specific provenance can live in datasets themselves.
+**Meta-flow storage** - Semantic Flow-specific provenance lives in meta-flows, referencing versions in other flows. Domain-specific provenance can live in datasets themselves.
 
-**default snapshot duplication** - `_default` meta snapshots contain identical copies of the latest version's provenance with base URI pointing to the snapshot for stable fragment resolution.
+**default slice duplication** - `_default` meta versions contain identical copies of the latest version's provenance with base URI pointing to the version for stable fragment resolution.
 
 ## Fragment Identifier Naming Scheme
 
-To ensure that every RDF node used in a [[mesh-resource.node-component.flow.node-metadata]] distribution has a unique and dereferenceable URI, the following naming scheme for [[fragment identifiers|concept.fragment-identifiers]] MUST be used. This allows the metadata snapshot's [[mesh-resource.node-component.documentation-resource.resource-page]] to correctly provide anchors for all provenance entities.
+To ensure that every RDF knop used in a [[mesh-resource.component.flow.metadata]] distribution has a unique and dereferenceable URI, the following naming scheme for [[fragment identifiers|concept.fragment-identifiers]] MUST be used. This allows the metadata version's [[mesh-resource.component.documentation-resource.resource-page]] to correctly provide anchors for all provenance entities.
 
 The structure is as follows:
 
 `<{flow-slug}-{version}-{entity-type}[-{unique-part}]>`
 
 -   **`{flow-slug}`**: The slug of the flow this provenance describes (e.g., `[[folder._cfg-inh]]`, `data-flow`). This provides the primary namespace for the identifier.
--   **`{version}`**: The version of the target flow's snapshot (e.g., `v47`). This scopes the provenance to a specific point in time.
+-   **`{version}`**: The version of the target flow's version (e.g., `v47`). This scopes the provenance to a specific point in time.
 -   **`{entity-type}`**: The class of the entity, using a consistent UpperCamelCase (e.g., `Activity`, `Context`, `DelegationChain`, `DelegationStep`).
 -   **`{unique-part}`**: (Optional) A unique suffix, such as a step number or a timestamp, used when multiple entities of the same type exist for the same flow and version.
 
@@ -41,37 +41,38 @@ For a `config-flow` at version `v47`, the identifiers would be:
 
 ## Architecture
 
-### snapshot Provenance
+### version Provenance
 
 ```turtle
-# In my-dataset/_meta/2025-07-20_1430_00_v47/my-dataset_meta.trig
-@base <../2025-07-20_1430_00_v47/> .
+# In djradon/_/_opslog/index.jsonld
 
 # Weave activity with PROV standard properties
-:#configUpdateActivity a meta:ConfigWeave ;
+<#> a meta:NodeCreation ;
     prov:startedAtTime "2025-07-20T14:30:00Z" ;
     prov:endedAtTime "2025-07-20T14:30:15Z" ;
     prov:used <../../_config-flow/2025-07-20_1429_30_v46/config.jsonld> ;
     prov:generated <../../_config-flow/2025-07-20_1430_00_v47/config.jsonld> ;
     prov:wasAssociatedWith <https://semantic-flow.org/agents/flow-service-bot> .
 
-# Rights and licensing at snapshot level
-<../../_config-flow/2025-07-20_1430_00_v47> dcterms:rightsHolder <https://orcid.org/0000-0002-1825-0097> ;
-                          dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
-                          prov:has_provenance :configProvenance .
+# Rights and licensing at slice level
+# In djradon/bio/_inventory/index.jsonld
 
-# Delegation chain (step 1 = top authority, gets copyright by default)
-:configProvenance a meta:ProvenanceContext ;
-    meta:forActivity :configUpdateActivity ;
-    meta:forSnapshot <../../_config-flow/2025-07-20_1430_00_v47> ;
+<../../_ref/2025-07-20_1430_00_v47> dcterms:rightsHolder <https://orcid.org/0000-0002-1825-0097> ;
+    dcterms:license <https://creativecommons.org/licenses/by-sa/4.0/> ;
+    prov:has_provenance <../../slice-inventory/#> .
+
+<#custom-provenance-relator> a ops:ProvenanceRelator ;
+    meta:forActivity sflops:configUpdateActivity ;
+    meta:forVersion <../../_config-flow/2025-07-20_1430_00_v47> ;
     prov:wasAttributedTo <https://acme-corp.com/org> ; # Primary attribution
     meta:delegationChain :delegationChain_001 .
 
 :delegationChain_001 meta:hasStep :step1, :step2, :step3 .
 
+# Delegation chain (step 1 = top authority)
 :step1 a meta:DelegationStep ;
        meta:stepOrder 1 ;
-       prov:agent <https://acme-corp.com/org> . # Prime mover, no actedOnBehalfOf
+       prov:agent <https://acme-corp.com/org> . # Buck stops here, no actedOnBehalfOf
 
 :step2 a meta:DelegationStep ;
        meta:stepOrder 2 ;
@@ -84,13 +85,13 @@ For a `config-flow` at version `v47`, the identifiers would be:
        prov:actedOnBehalfOf <https://orcid.org/0000-0002-1825-0097> .
 ```
 
-### default snapshot Copy
+### default slice Copy
 
 ```turtle
 # In my-dataset/_meta/_default/my-dataset_meta.trig
 @base <../2025-07-20_1430_00_v47/> .
 
-# Identical content to snapshot - all URIs resolve to stable version
+# Identical content to version - all URIs resolve to stable version
 # (same provenance content as above)
 ```
 
@@ -114,7 +115,7 @@ For flows without versioning, activities accumulate in `_working` with unique ti
 
 ### Activity Types (subclass `prov:Activity`)
 - `meta:ConfigWeave`, `meta:ReferenceWeave`, `meta:DataWeave`, `meta:MetaWeave`
-- `meta:NodeWeave` (entire node), `meta:NodeTreeWeave` (recursive)
+- `meta:KnopWeave` (entire knop), `meta:MeshWeave` (recursive)
 
 ### Provenance Entities (subclass `meta:ProvenanceEntity`)
 - `meta:ProvenanceContext` - Relator for complex authorship scenarios
@@ -123,8 +124,8 @@ For flows without versioning, activities accumulate in `_working` with unique ti
 
 ### Standard Properties Used
 - `prov:agent`, `prov:actedOnBehalfOf`, `prov:wasAttributedTo` (instead of custom properties)
-- `dcterms:rightsHolder`, `dcterms:license` (rights at snapshot level)
-- `prov:has_provenance` (link snapshots to provenance contexts)
+- `dcterms:rightsHolder`, `dcterms:license` (rights at version level)
+- `prov:has_provenance` (link versions to provenance contexts)
 
 ## Delegation Chain Pattern
 
@@ -135,14 +136,14 @@ For flows without versioning, activities accumulate in `_working` with unique ti
 
 ## Configuration
 
-**Copyright assignment**: Configurable in node-config-defaults, defaults to first agent in delegation chain (step 1).
+**Copyright assignment**: Configurable in knop-config-defaults, defaults to first agent in delegation chain (step 1).
 
 **External vocabulary tracking**: Use SHACL to declare recommended external properties like `prov:wasInfluencedBy`, `dcterms:license`.
 
 ## Implementation Notes
 
-- **Fragment URIs**: Use `<#step1>` etc. within snapshots for stable addressability
-- **Base URI**: All snapshots use `@base <../YYYY-MM-DD_HHMM_SS_vN/>` pattern for consistent resolution
+- **Fragment URIs**: Use `<#step1>` etc. within versions for stable addressability
+- **Base URI**: All versions use `@base <../YYYY-MM-DD_HHMM_SS_vN/>` pattern for consistent resolution
 - **Rights inheritance**: Capture previous version rights holders in provenance contexts when content is derived
 - **Static site friendly**: Documentation approach for external references since no server-side redirects available
 

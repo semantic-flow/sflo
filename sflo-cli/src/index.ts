@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env knop
 import { cac } from "cac";
 import { startHost } from "@semantic-flow/host";
 

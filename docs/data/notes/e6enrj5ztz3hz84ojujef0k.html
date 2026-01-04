@@ -4,7 +4,7 @@
 <li>t.2025.11.08.09 probably not. Better to go the other way: from a payload dataset, create all its named nodes and link back to the original; keeps things flow-y</li>
 <li>probably won't do unified distributions except via API. </li>
 </ul>
-<p>A node's <strong>aggregated distribution</strong> is a compilation of all the child flows of itself and its contained nodes (their <code>_payload-flow/_current/</code> snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".</p>
+<p>A node's <strong>aggregated distribution</strong> is a compilation of all the child flows of itself and its contained nodes (their <code>_payload/_default/</code> snapshots), situated directly under the parent node with an intuitive filename like "nodename.ext".</p>
 <p>Essentially, it's a "(sub-)mesh in a single file." </p>
 <p>Perhaps its only available via API. </p>
 <h2 id="purpose">Purpose<a aria-hidden="true" class="anchor-heading icon-link" href="#purpose"></a></h2>
@@ -23,7 +23,7 @@
 <p>During <a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a>, aggregated distributions are created by:</p>
 <ol>
 <li><strong>Scanning contained payload nodes</strong> recursively within the mesh structure</li>
-<li><strong>Collecting <code>_payload-flow/_current/</code> distributions</strong> from each flow</li>
+<li><strong>Collecting <code>_payload/_default/</code> distributions</strong> from each flow</li>
 <li><strong>Merging content</strong> with proper URI resolution and prefix handling</li>
 <li><strong>Excluding <code>_config</code> and <code>_meta</code> datasets</strong> (data content only)</li>
 <li><strong>Generating multiple distributions</strong> (.ttl, .rdf, .jsonld) as configured</li>
@@ -69,7 +69,7 @@
 <ul>
 <li><strong><a href="/sflo/notes/payload-flow">payload flow</a></strong> - Source datasets for aggregation</li>
 <li><strong><a href="/sflo/notes/rall4fbxm369okmy5383sf8">Weave Process</a></strong> - Process that generates aggregated distributions</li>
-<li><strong><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">flow snapshot</a></strong> - Contains the actual distributions being aggregated</li>
+<li><strong><a href="/sflo/notes/8t3swuswoi81yuzo2bnecy9">FlowShot</a></strong> - Contains the actual distributions being aggregated</li>
 </ul>
 <hr>
 <strong>Backlinks</strong>

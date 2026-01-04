@@ -2,7 +2,7 @@
 id: s1yduc399adt3ihvnwievrd
 title: Reference Iri Choices
 desc: ''
-updated: 1764327435163
+updated: 1765782902096
 created: 1751240276585
 ---
 
@@ -24,16 +24,14 @@ Any IRI that has a scheme (e.g., http:) is an **Absolute IRI**
 
 ### Example
 
-This example uses two absolute IRIs, one using the "ex:" prefix for the example.com authority:
+This example uses five absolute IRIs, one assigning the "ex:" prefix to the example.com authority, and four referring to an external named nodes.
 
 ```ttl
-@prefix ex: <https://example.com/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://djradon.com>.
+@prefix ex: <http://example.com/> .
 
-# In ns/djradon/_ref/_default/djradon_ref.trig
-ex:djradon a foaf:Person ;
-   rdfs:seeAlso ex:djradon/index.html .
+</> a http://xmlns.com/foaf/0.1/Person ;
+   http://www.w3.org/2000/01/rdf-schema#seeAlso <https://djradon.com/bio> .
 ```
 
 ### Pros
@@ -41,9 +39,12 @@ ex:djradon a foaf:Person ;
 - explicit
   
 ### Cons
+
+- full specified IRIs aren't easily [[dereferenceable|principle.dereferencability-for-humans]] when working offline.
+- 
   
 -  limits [[principle.transposability]] and [[principle.composability]]
-  - e.g., if you moved mesh hosting away from `https://example.com`, the `foaf:Person` and `rdfs:seeAlso` assertions would still refer to the original references
+  - e.g., if you moved mesh hosting away from `https://example.com`, the `foaf:Person` assertions would still refer to the original references
 - not ideal if you're:
   - making updates
   - working offline
@@ -57,12 +58,12 @@ Any IRI that lacks a scheme (e.g., http:) is resolved against a base IRI followi
   - Example: //other.org/x → inherits the base’s scheme, e.g. http://other.org/x.
 
 - Absolute-path reference — begins with / but not //.
-   - Example: /foo/bar → keeps the base’s scheme and authority, resets the path, e.g. http://example.org/foo/bar.
+   - Example: /foo/bar → keeps the base’s scheme and authority, resets the path, e.g. http://example.org/foo/bar or file:///foo/bar.
 
 - Relative-path reference — does not begin with / or //.
    - Example: foo/bar or ../foo → inherits the base’s scheme, authority, and path context, e.g. http://example.org/base/foo/bar.
 
-If no base is specified, an inferred base of the requested scheme and authority is used. **This behaviour is essential to Semantic Flow [[Best Practices|guide.best-practices]].**
+If no base is specified, an inferred base of the requested scheme and authority is used. **This behaviour is essential to Semantic Flow [[Best Practices|guide.best-practices]].** Relative IRIs are always created and resolved against the distribution file’s document IRI (its file:// URL when local, its HTTP URL when served).
 
 
 ### Relative-Path Relative IRIs
@@ -73,9 +74,9 @@ If no base is specified, an inferred base of the requested scheme and authority 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 # In ns/djradon/_ref/_default/djradon_ref.trig
-<../../../djradon/> a foaf:Person ;          # The document itself
-   foaf:knows <../../alice/> ;           # A sibling node in the mesh
-   rdfs:seeAlso <../bio/bio.html> .      # A resource page contained in a "bio" node under ../../djradon/
+<../../djradon/> a foaf:Person ;          # The document itself
+   foaf:knows <../../../alice/> ;           # A sibling knop in the mesh
+   rdfs:seeAlso <../../bio/index.html> .      # A resource page contained in a "bio" knop under ../../../djradon/
 ```
 
 #### Pros
@@ -84,7 +85,8 @@ If no base is specified, an inferred base of the requested scheme and authority 
 
 #### Cons
 
-- `../../../` makes eyes swim
+- `../../` makes eyes swim
+- extra-knop references will probably break if the knop is moved
 
 ### Absolute-Path Relative IRIs
   
@@ -107,4 +109,4 @@ If no base is specified, an inferred base of the requested scheme and authority 
 
 #### Cons
 
-- composability requires re-computing paths
+- composability may require re-computing paths

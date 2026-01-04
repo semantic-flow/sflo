@@ -8,7 +8,7 @@ created: 1750486049862
 
 ## Overview
 
-[[mesh-resource.node-component.snapshot-distribution]]s have an **implied namespace base**, essentially the absolute IRI that corresponds to the [[concept.publication]] URL (without the filename).
+[[mesh-resource.component.distribution]]s have an **implied namespace base**, essentially the absolute IRI that corresponds to the [[concept.publication]] URL (without the filename).
 
 ## RDF Bases
 

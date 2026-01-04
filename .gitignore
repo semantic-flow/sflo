@@ -1,7 +1,8 @@
 .sflocache
 
-# external ontology links
+# external repos that might be embedded
 ontology/
+sflo-platform-defaults/
 
 # Denron
 .dendron.*
