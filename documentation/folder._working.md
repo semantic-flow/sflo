@@ -13,4 +13,4 @@ During the [[concept.weave-process]], modified [[mesh-resource.component.distrib
 
 This allows almost-continuous availability for editing and continuous access for users of the stable slices.
 
-These folders should only contain a single "[[mesh-resource.component.distribution.working]] file" plus an optional [[mesh-resource.component.documentation-resource.resource-page]]
+These folders should only contain a single "[[mesh-resource.component.distribution.working]] file" plus an optional [[concept.resource-page]]

@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1765763716532
+updated: 1767508891899
 created: 1755820864360
 ---
 
@@ -56,13 +56,11 @@ See:
     - `_working/`: [[folder._working-slice]]
     - Version folders: [[mesh-resource.component.slice.version]]
     - Distributions: [[mesh-resource.component.distribution]]
-  - Handle (refer to the knop “as a mesh resource”): [[mesh-resource.component.knop-handle]]
-    - Handle page (human-facing): [[mesh-resource.component.knop-handle.page]]
   - Asset tree (static files for the knop): [[mesh-resource.component.asset-tree]]
   - Documentation resources (README/CHANGELOG/resource pages/fragments):
     - README: [[mesh-resource.component.documentation-resource.readme]]
     - CHANGELOG: [[mesh-resource.component.documentation-resource.changelog]]
-    - Resource page (index.html): [[mesh-resource.component.documentation-resource.resource-page]]
+    - Resource page (index.html): [[concept.resource-page]]
     - Resource fragment: [[mesh-resource.component.documentation-resource.resource-fragment]]
   - Aggregated distribution (optional roll-up of child knop data): [[mesh-resource.component.aggregated-distribution]]
 
@@ -91,14 +89,8 @@ See:
 - [[faq.reference-iri-choices]]: trade-offs
 - [[concept.iri]]: terminology; prefer “IRIs” when referring to mesh-local IRIs
 
-4.3 Handle Rationale
-- A knop’s IRI refers to its referent (namespace, real-world entity, or dataset concept).
-- The handle component provides a IRI to refer to the knop itself “as a mesh resource” (for config, provenance, lifecycle).
-See:
-- [[mesh-resource.component.knop-handle]]
-- [[mesh-resource.component.knop-handle.page]]
 
-5) Physical Structure and Reserved Folders
+1) Physical Structure and Reserved Folders
 
 Reserved folder names (underscore-prefixed; canonical set):
 - `_knop-handle/`
@@ -117,7 +109,7 @@ Folder-note pages for these reserved names live under `folder.*.md` (where defin
 - Version folders (`YYYY-MM-DD_HHMM_SS_vN/`): [[folder.slice]]
 - `_assets/`: [[folder._assets]]
 - knop folder pages:
-  - Node: [[folder.knop]]
+  - Node: [[folder._knop]]
 
 1) Data and Versioning Model
 - Only flows are versioned (flows are DatasetSeries). Nodes are not versioned.
@@ -216,5 +208,5 @@ graph TD
 - [[mesh-resource.component.slice]]: concrete Dataset realization of a flow (Version, DefaultSlice, WorkingSlice)
 - [[mesh-resource.component.distribution]]: a concrete serialization file (TriG, JSON-LD, etc.)
 - [[mesh-resource.component.knop-handle]]: indirection to refer to the knop "as a mesh resource"
-- [[mesh-resource.component.documentation-resource.resource-page]]: dereferenceable `index.html` for folders
+- [[concept.resource-page]]: dereferenceable `index.html` for folders
 - [[concept.weave-process]]: lifecycle operation to version/promote/regenerate/repair

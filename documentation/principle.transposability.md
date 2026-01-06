@@ -2,16 +2,18 @@
 id: transposability
 title: transposability
 desc: ''
-updated: 1765631845279
+updated: 1767667354308
 created: 1750489919875
 ---
+
+see also, [[principle.composability]]
 
 ## Overview
 
 There are two types of mesh transposability:
 
 - **[[Host transposability|principle.transposability.host]]** is the ability to move a [[concept.mesh]] to different serving locations without breaking its internal structure; i.e., A transposable mesh works correctly regardless of which [[concept.namespace.context]] contains it.
-- **[[Intramesh transposability|principle.transposability.intramesh]]** is the ability to move a [[concept.mesh.sub]] to a different part of the mesh
+- **[[Intramesh transposability|principle.transposability.intramesh]]** is the ability to move a [[concept.mesh.sub]] or leaf [[mesh-resource.knop]]to a different part of the mesh
 
 Both types of transposability rely on the use of an [[concept.implied-rdf-base]] and the use of [[relative identifier|concept.identifier.intramesh.relative]]s for intramesh references.
 

@@ -2,15 +2,11 @@
 id: beitdeou8xgrn47ti9b5gt8
 title: Pointers Dataset
 desc: ''
-updated: 1766073432821
+updated: 1767506352373
 created: 1765764454154
 ---
 
 The **pointers dataset** holds critical metadata for a Knop and is present in every KnopNode, and contains EITHER:
-
-- the currently active KnopNode IRI (if this one is dormant), i.e. activePeerKnopNode
-
-OR
 
 - currentMetaDownloadJSONLD / currentMetaDownloadTTL  (specified with [[concept.identifier.intramesh.relative]])
 - [optional] "other Knop" locations (peerKnopNode)

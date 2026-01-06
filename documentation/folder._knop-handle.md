@@ -6,5 +6,5 @@ updated: 1764867799280
 created: 1751140668163
 ---
 
-Every [[folder.knop]] contains a **knop handle folder** which corresponds to its [[mesh-resource.component.knop-handle]]. 
+Every [[folder._knop]] contains a **knop handle folder** which corresponds to its [[mesh-resource.component.knop-handle]]. 
 

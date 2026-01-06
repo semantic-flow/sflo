@@ -32,7 +32,7 @@ The structure of a semantic mesh is built on a fundamental distinction between *
 
 **File-based components:**
 - **Documentation files**: 
-  - [[Resource pages|mesh-resource.component.documentation-resource.resource-page]] are index.html files that provide de-referencability for their containing [[concept.identifier.intramesh]] [[facet.filesystem.folder]]
+  - [[Resource pages|concept.resource-page]] are index.html files that provide de-referencability for their containing [[concept.identifier.intramesh]] [[facet.filesystem.folder]]
   - **README.md and CHANGELOG.md**: unstructured documentation
 - **[[version distribution files|mesh-resource.component.distribution]]**: Data files in RDF formats
 

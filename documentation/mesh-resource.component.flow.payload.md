@@ -31,7 +31,7 @@ payload flows organize content through [[flow versions|mesh-resource.component.s
 - `_working/` - Draft/work-in-progress version
 - Version folders (e.g., `2025-11-24_0142_07_v1/`, `2025-11-24_0142_08_v2/`) - Versioned versions for historical access
 
-Like all [[facet.filesystem.folder]], they should contain an `index.html` [[mesh-resource.component.documentation-resource.resource-page]] -- a human-readable description for the flow.
+Like all [[facet.filesystem.folder]], they should contain an `index.html` [[concept.resource-page]] -- a human-readable description for the flow.
 
 ## Distribution Formats
 

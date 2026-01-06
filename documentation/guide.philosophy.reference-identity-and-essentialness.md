@@ -2,7 +2,7 @@
 id: jncnax3gfzyher3vg87tf5k
 title: Reference Identity and Essentialness
 desc: ''
-updated: 1767374041164
+updated: 1767716809398
 created: 1767373938172
 ---
 
@@ -105,7 +105,7 @@ Authority, if present, is expressed explicitly, attributed to specific assertion
 
 ### 4.1 Identity Is Not Fixed at Minting
 
-When an identifier (IRI) is minted in Semantic Flow, it does **not** fix or freeze the identity of its referent.
+When an identifier (IRI) is minted in the Semantic Flow, it does **not** fix or freeze the identity of its referent.
 
 An IRI is **a-temporal**: it does not itself encode when, how, or under what assumptions it is used. By contrast, the **Knop** that supports an IRI is **temporal**. It evolves as reference assertions are added, revised, or superseded. It also evolves as its payload (if present) evolves.
 

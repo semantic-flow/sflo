@@ -11,7 +11,7 @@ Resource files are returned directly when accessed by their [[concept.identifier
 ## Types
 
 - [[mesh-resource.component.documentation-resource]]
-  - [[mesh-resource.component.documentation-resource.resource-page]] (system-generated)
+  - [[concept.resource-page]] (system-generated)
   - [[mesh-resource.component.documentation-resource.changelog]]
   - [[mesh-resource.component.documentation-resource.readme]]
 - [[mesh-resource.component.distribution]]

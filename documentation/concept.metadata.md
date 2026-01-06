@@ -2,11 +2,11 @@
 id: vqah4oe61zin07t2ztfx4v4
 title: Metadata
 desc: ''
-updated: 1765489496878
+updated: 1767716803841
 created: 1753141346178
 ---
 
-Metadata in Semantic Flow falls into **three distinct categories**, each with a specific purpose and a well-defined location.
+Metadata in the Semantic Flow falls into **three distinct categories**, each with a specific purpose and a well-defined location.
 Understanding these boundaries is essential for composability, transposability, and clean tooling behavior.
 
 ---

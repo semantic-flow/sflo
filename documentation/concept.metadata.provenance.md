@@ -16,7 +16,7 @@ created: 1753117923066
 
 ## Fragment Identifier Naming Scheme
 
-To ensure that every RDF knop used in a [[mesh-resource.component.flow.metadata]] distribution has a unique and dereferenceable URI, the following naming scheme for [[fragment identifiers|concept.fragment-identifiers]] MUST be used. This allows the metadata version's [[mesh-resource.component.documentation-resource.resource-page]] to correctly provide anchors for all provenance entities.
+To ensure that every RDF knop used in a [[mesh-resource.component.flow.metadata]] distribution has a unique and dereferenceable URI, the following naming scheme for [[fragment identifiers|concept.fragment-identifiers]] MUST be used. This allows the metadata version's [[concept.resource-page]] to correctly provide anchors for all provenance entities.
 
 The structure is as follows:
 

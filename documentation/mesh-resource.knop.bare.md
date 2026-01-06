@@ -2,21 +2,19 @@
 id: bare-knop
 title: bare knop
 desc: ''
-updated: 1764954259372
+updated: 1767710476060
 created: 1751000577920
 ---
 
-**Bare knops** are [[mesh-resource.knop]]s that contain other mesh knops. Their [[concept.identifier]]
+**Bare knops** are [[mesh-resource.knop]]s that contain other mesh knops. Their [[concept.nomen]] 
 
 ## Function
 
 - namespace extenders and perhaps organizational containers
 
-**Mandatory Components**: `_knop-handle/`, [[mesh-resource.component.flow.metadata]]
-**Optional Components**: [[mesh-resource.component.knop-metadata-resource.opslog]],  [[mesh-resource.component.flow.local-config]], [[mesh-resource.component.flow.inheritable-config]], [[mesh-resource.component.documentation-resource]]
-
-
-They are physically represented by [[folder.knop]].
+**Mandatory KnopComponents**: [[mesh-resource.component.pointers-dataset]] [[mesh-resource.component.flow.inventory]], [[mesh-resource.component.flow.metadata]], [[concept.resource-page]]
+**Optional KnopComponents**: [[mesh-resource.component.knop-metadata-resource.opslog]] 
+**Excluded KnopComponents**; [[mesh-resource.component.flow.reference]], [[mesh-resource.component.flow.payload]]
 
 ## Purpose
 

@@ -2,11 +2,11 @@
 id: r6akf3zjimf3ubkxpqmeubc
 title: version
 desc: ''
-updated: 1764276568498
+updated: 1767507946002
 created: 1751087645111
 ---
 
-A version dataset generated "on [[weave|concept.weave-process]]"
+A version artifact  generated "on [[weave|concept.weave-process]]"
 
 The [[folder.slice]] is named with the [[concept.weave-label]] plus the [[concept.flow-slice]]
 

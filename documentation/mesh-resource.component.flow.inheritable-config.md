@@ -1,8 +1,8 @@
 ---
 id: config-inheritance-resolution
 title: inheritable config flow
-desc: How InheritableNodeConfig inheritance works in Semantic Flow
-updated: 1764954352858
+desc: How InheritableNodeConfig inheritance works in the Semantic Flow
+updated: 1767716816089
 created: 1754285606247
 ---
 

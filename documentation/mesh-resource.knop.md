@@ -2,9 +2,12 @@
 id: mesh-knop
 title: mesh knop
 desc: ''
-updated: 1764910114624
+updated: 1767715864450
 created: 1750999795528
 ---
+
+Every Knop is bound to a single [[concept.nomen]]. A Knop may describe the referent of its nomen via its ReferenceFlow. If the nomen denotes a digital artifact, the Knop may host that artifact via its PayloadFlow.
+
 
 ## Overview
 

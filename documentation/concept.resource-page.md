@@ -4,11 +4,13 @@ title: ResourcePage
 desc: >-
   If you want to know more about the thing referenced by an identifier, resource
   pages can help
-updated: 1766146171868
+updated: 1767569369342
 created: 1729880396813
 ---
 
-To make every  more discoverable, they each have an index.html page that gets generate "on [[concept.weave-process]]"
+Every [[concept.iri]]
+
+To make every  more discoverable, they each have an index.html page that gets generated "on [[concept.weave-process]]"
 
 - primarily for humans
 

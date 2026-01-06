@@ -14,4 +14,4 @@ created: 1751164675876
     - "For Semantic Web purposes, this IRI should be considered to connote the parent knop's [[folder._knop-handle]]"
   - if it ends with "index.html" :
     - "For Semantic Web purposes, this IRI should be considered to connote a [[folder._knop-handle]]'s Resource Page"
-- essentially, a [[mesh-resource.component.documentation-resource.resource-page]]
+- essentially, a [[concept.resource-page]]
