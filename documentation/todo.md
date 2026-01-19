@@ -2,7 +2,7 @@
 id: xqjr13fyons9goxv8rjrskj
 title: Todo
 desc: ''
-updated: 1765679319195
+updated: 1768771779541
 created: 1755715425146
 ---
 
@@ -12,7 +12,12 @@ This list captures general tasks, ideas, and items that have not yet been broken
 
 ## High Priority
 
-- rename "local config" IF warranted: maybe "specific config", "self config", "override config"
+- anticipatedPublishedIri : per Knop/Nomen, per Mesh, computed vs explicit
+- specify root Nomen architecture
+- remove NomenHandle as a class?
+- in RDF, 
+
+
 - See @/documentation/task.2025-11-28-templates-and-stylesheets.md - but we need to make a pluggable "defaults" architecture where during runtime and/or build time, you can point at an existing config distribution, 
 - [ ] Implement the core Weave Process logic (versioning, promotion, link resolution).
 - [ ] Define and implement the two-flow configuration inheritance model.
@@ -43,8 +48,6 @@ Can you help me verify that @/documentation/task.2025-11-28-templates-and-styles
 - I've defined the platform defaults in /sflo-platform-defaults and their eventual RDF IRI will be https://semantic-flow.github.io/sflo-platform-defaults/ with a corresponding "current distribution" IRI of https://semantic-flow.github.io/sflo-platform-defaults/_payload/_current/sflo-platform-defaults.jsonld
 -  regarding "No way to distinguish “path of defining knop” vs “path of consuming knop.”" -- there actually is now. The defining knop is where the inheritable config is defined. When calculating operational config, you'll know the filesystem structure and/or the "parentKnop" chain, so you could calculate the relative  location of assets. I think (relative) path strings are also IRIs, and there's no reason we can't handle relative and absolute IRIs? Still, I think we have to update TemplatePathShape to support relative (../../_assets) and fully-specified URLs, but maybe reject root-no-scheme URLs like (/_assets)
 - I think TemplateMappings is now adequately specified. 
-- I don't think we want to require treating templates and stylesheets as (reference) Knops. We could, and I think that might be useful for doing some redirection.  But for now, we'll keep things simple. 
 - Regarding D2... we don't need a special semantics of "asset location is relative to the defining knop folder"... we can just use the convention (which will be common) of referring to the distribution's slice's flow's parent-knop's _assets folder explicitly, e.g. ../../_assets
 - we can defer the Offline bundling of `sflo-platform-defaults` for now.
 
-If you think everything is settled, let's figure out 
