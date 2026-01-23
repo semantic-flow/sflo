@@ -35,7 +35,6 @@ Depending on the task, these are required reading:
 ## Step 4: Optionally Read Big-Picture Files
 
 - documentation/todo - General task list; items not yet broken into formal tasks
-- documentation/progress - Completed tasks with dated summaries
 - documentation/decision-log - Important project-level decisions with dates
 
 ## Step 5: Affirmation

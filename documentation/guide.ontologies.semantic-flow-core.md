@@ -2,7 +2,7 @@
 id: 5xnb5j3t2sgokorr9rxqyky
 title: Semantic Flow Core
 desc: ''
-updated: 1768775056771
+updated: 1768796900743
 created: 1768704613041
 ---
 
@@ -10,6 +10,7 @@ created: 1768704613041
 
 * **SemanticFlowResource** — Any resource participating in SF conventions.
 * **Mesh** — A servable filesystem region that contains SemanticFlowResources and, optionally, other supporting resources.
+  * Mesh root handle is `/_mesh/`.
 * **AbstractResource** *(SemanticFlowResource)* — Slash IRI (`/`); dereferencing yields a resource page.
 * **LocatedFile** *(SemanticFlowResource; TargetKind)* — File IRI (typically with an extension) intended to retrieve concrete bytes.
 * **ResourcePage** *(LocatedFile; schema:WebPage)* — A derived UI/navigation file (e.g., `index.html`) that presents an AbstractResource (or other referent) to humans.
@@ -18,8 +19,9 @@ created: 1768704613041
 
 ## Naming
 
-* **Nomen** *(AbstractResource; TargetKind)* — A human-facing Designator IRI (e.g., `/people/alice/`) intended to denote a discourse-worthy thing, with a corresponding system-facing NomenHandle (e.g., `/people/alice/_nomen/`) that denotes the IRI-as-an-identifier, and a 
-* **NomenHandle** *(AbstractResource; MeshComponent)* — The naming-object handle for a Nomen (e.g., `/people/alice/_nomen/`); hosts denotation and reference-link metadata (via NomenMetadataFlow, which may remain WorkingSlice-only until history is recorded). Mesh root handle is `/_mesh/`.
+* **Nomen** *(AbstractResource; TargetKind)* — A human-facing Designator IRI (Designator) (e.g., `/people/alice/`) intended to denote a discourse-worthy thing, including other Nomina as aliases.
+* **NomenComponent** *(MeshComponent)* — Reserved components under a Nomen (e.g., NomenHandle, Nomen flows, inventories).
+* **NomenHandle** *(AbstractResource; NomenComponent)* — The naming-object handle for a Nomen (e.g., `/people/alice/_nomen/`); is the subject of denotation and reference-link metadata (via NomenMetadataFlow, which may remain WorkingSlice-only until history is woven).
 
 ## Reference links
 
@@ -38,7 +40,10 @@ created: 1768704613041
 
 ## Artifacts and versioning
 
-* **Flow** *(AbstractResource; KnopComponent; TargetKind)* — Artifact over revisions; organizes Slices and provides a stable artifact identity; has `sflo:artifactKind`.
+* **Flow** *(AbstractResource; TargetKind)* — Artifact over revisions; organizes Slices and provides a stable artifact identity; has `sflo:artifactKind`.
+* **KnopFlow** *(Flow; KnopComponent)* — A Flow that is a component of a Knop.
+* **NomenFlow** *(Flow; NomenComponent)* — A Flow that is a component of a NomenHandle.
+* **MeshFlow** *(Flow; MeshComponent)* — A Flow that is a component of the mesh (mesh-level).
 * **Slice** *(AbstractResource; MeshComponent; TargetKind)* — A particular revision of the artifact represented by a Flow. 
 
   * **WorkingSlice** — Mutable current state.
@@ -55,15 +60,16 @@ created: 1768704613041
 ## Supporting flows
 
 * **SupportingFlow** *(Flow)* — A non-payload flow used for metadata/inventory/auxiliary artifacts.
-* **PayloadFlow** *(Flow)* — The primary digital-artifact flow hosted by a Knop.
-* **KnopMetadataFlow** *(SupportingFlow)* — Small, discoverable: structure/pointers/summary inventory for the Knop.
-* **MeshMetadataFlow** *(SupportingFlow; MeshComponent)* — Optional mesh-level operational metadata/config.
-* **NomenMetadataFlow** *(SupportingFlow)* — Metadata about a NomenHandle; may remain WorkingSlice-only until history is recorded.
+* **PayloadFlow** *(KnopFlow)* — The primary digital-artifact flow hosted by a Knop.
+* **KnopMetadataFlow** *(SupportingFlow; KnopFlow)* — Small, discoverable: structure/pointers/summary inventory for the Knop.
+* **MeshMetadataFlow** *(SupportingFlow; MeshFlow)* — Optional mesh-level operational metadata/config.
+* **NomenMetadataFlow** *(SupportingFlow; NomenFlow)* — Metadata about a NomenHandle; may remain WorkingSlice-only until history is recorded.
 
 ## Operational indices and logs
 
 * **MeshInventoryDataset** *(RdfDataset; MeshComponent)* — Optional derived index for explorability at the mesh level (non-flow; may be large/sharded).
 * **KnopInventoryDataset** *(RdfDataset; KnopComponent)* — Optional derived index for explorability at the knop level (non-flow; may be large/sharded).
+* **NomenInventoryDataset** *(RdfDataset; NomenComponent)* — Optional derived index for explorability at the nomen handle level (non-flow; may be large/sharded).
 * **OperationalLogFile** *(LocatedFile)* — A plain tool log file (not discourse-worthy by default).
 
 ## Reserved/system resources

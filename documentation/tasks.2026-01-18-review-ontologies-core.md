@@ -99,6 +99,14 @@ Regarding "/<nomen>/ is the designator IRI that denotes something else (person, 
 - [x] Provide findings and questions
 - [x] Review updated core ontology
 - [x] Update guide.ontologies.semantic-flow-core.md for ontology alignment
+- [x] Update semantic-flow-ontology flow/component classes and denotes comment
+- [x] Add NomenInventoryDataset and hasNomenMetadataFlow
+- [x] Add sflo-shacl denotes subject constraint
+- [x] Refresh sflo-platform-defaults folder tokens
+- [x] Update sflo-shacl to current core classes
+- [x] Update sflo-platform-defaults for new inventory types
+- [x] Clarify Nomen structure in self-containment use case
+- [x] Draft Dendron page map (shared in chat)
 
 # Decisions
 - None

@@ -2,7 +2,7 @@
 id: f0g7d31ivgn6rgllncdwep8
 title: Memory Bank
 desc: ''
-updated: 1765763808600
+updated: 1769195597234
 created: 1762222195753
 ---
 
@@ -49,7 +49,6 @@ These should be consulted as appropriate to the task:
 
 - [[now]] - Current work focus (big-picture)
 - [[todo]] - General task list; items not yet broken into formal tasks
-- [[progress]] - Completed tasks with dated summaries
 - [[decision-log]] - Important project-level decisions with dates
 
 ### Task Memory Bank Files

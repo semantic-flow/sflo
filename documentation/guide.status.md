@@ -2,7 +2,7 @@
 id: 4unsyhyp8tmhqsdxwndy315
 title: Status
 desc: ''
-updated: 1762627285661
+updated: 1769195640892
 created: 1762224334067
 ---
 
@@ -31,5 +31,4 @@ The core Semantic Flow architecture is defined, focusing on the Git-native, file
 
 - [[now]] - Detailed focus of current work (big picture)
 - [[todo]] - General list of pending tasks
-- [[progress]] - Log of completed work
 - [[decision-log]] - Log of important project decisions

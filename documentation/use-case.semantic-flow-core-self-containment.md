@@ -2,15 +2,9 @@
 id: n5qdtqg3a941372y6cc40ix
 title: Semantic Flow Core Self Containment
 desc: 'Extract in-namespace terms from Semantic Flow core sources, attach canonical provenance links, and generate self-documenting ResourcePages for every Nomen'
-updated: 1768781533994
+updated: 1768799175162
 created: 1768780529266
 ---
----
-
-id: use-case.semantic-flow-core-self-containment
-title: Semantic Flow Core Self-Containment
-status: draft
--------------
 
 ## Purpose
 
@@ -45,8 +39,6 @@ The self-containment pipeline should therefore be implemented as a **browser-gra
 
 ## Inputs
 
-### 
-
 ### Source artifacts
 
 One or more RDF sources that define or describe terms, such as:
@@ -76,6 +68,14 @@ For each discovered term IRI **T** in the target namespace:
 * Ensure `T/` exists as the **designator IRI** (Nomen).
 * Ensure `T/_nomen/` exists as the **NomenHandle** (the naming object).
 * Ensure `T/_nomen/_meta/_working/...` exists as the **NomenMetadataFlow working slice** distributions (at least one format).
+
+### Nomen structure (designator vs handle)
+
+For each term IRI **T**:
+
+* The designator IRI `T/` denotes the referent (person, artifact, etc.). It is a human-facing entrypoint but is not the identifier-object.
+* The Nomen is identified by its handle `T/_nomen/` (identifier-object) and is the subject for naming metadata and ReferenceLinks.
+* Nomen components live under the designator path in the filesystem, e.g. `T/_nomen/_meta/` and `T/_nomen/_inventory/`, but the handle IRI denotes the Nomen itself.
 
 ### Canonical provenance
 
