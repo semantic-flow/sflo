@@ -2,7 +2,7 @@
 id: tudefgmmf2pdx28zb9xs84j
 title: Product Brief
 desc: ''
-updated: 1766175541698
+updated: 1769481500817
 created: 1762216937965
 ---
 
@@ -10,12 +10,12 @@ created: 1762216937965
 
 ## What is Semantic Flow?
 
-Semantic Flow is a platform for creating, managing and publishing **semantic meshes** - dereferenceable, versioned collections of data resources where every IRI resolves to meaningful content.
+Semantic Flow is a platform for creating, managing and publishing **semantic meshes** - dereferenceable, versioned collections humane IRI-based identifier (Nomen) and digital artifact (contained in Knops), where every IRI dereferences to meaningful content.
 
 ## Twin Purposes
 
-- **Mint dereferenceable IRIs** for referring to things on the Semantic Web
-- **Hold versionable semantic data** that uses those IRIs and can be referenced by other semantic data
+- **Mint humane IRIs (with Nomen)** for referring to things on the Semantic Web
+- **Hold versionable digital artifacts, including semantic data (with Knops)** that can be denoted by Nomen
 
 ## Problems Solved
 

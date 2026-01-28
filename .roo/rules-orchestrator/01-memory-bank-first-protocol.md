@@ -29,7 +29,7 @@ If the TODO or Decisions headings are missing, create them, no permission needed
 Depending on the task, these are required reading:
 
 - documentation/dev.dependencies - for technical architecture questions or any development-related tasks
-- documentation/guide.ontologies - for any RDF-related tasks
+- documentation/guide.ontologies.* - for any RDF-related tasks
 - documentation/dev.debugging - Debugging workflows and tips
 
 ## Step 4: Optionally Read Big-Picture Files

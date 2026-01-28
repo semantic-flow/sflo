@@ -2,7 +2,7 @@
 id: t9bdv5vj10qx2ihjhmo56an
 title: Artifact Resolution
 desc: ''
-updated: 1768790941384
+updated: 1769479932486
 created: 1768790804038
 ---
 
@@ -30,6 +30,8 @@ Any non-trivial choice must be explainable (and ideally recordable) as resolutio
 
 ## Inputs
 
+### Target
+
 Artifact resolution accepts a **target** that is one of:
 
 * **`ArtifactLocatedFile`**: already concrete; return it.
@@ -38,12 +40,9 @@ Artifact resolution accepts a **target** that is one of:
 * **`Slice`**: choose a suitable `AbstractFile` then `ArtifactLocatedFile`.
 * **`Flow`**: choose a suitable `Slice` (often Working) then `AbstractFile` then `ArtifactLocatedFile`.
 
-Commonly the target arrives via a `ReferenceLink`:
+### Preferred Formats (Optional)
 
-* `ReferenceLink.target` (an IRI expected to **denote** a source)
-* and/or `ReferenceLink.targetUriLiteral` (a URL string expected to **locate content**)
-
-If only `targetUriLiteral` is present, resolution is trivial: return that URL as the retrievable location.
+tbd
 
 ## Outputs
 

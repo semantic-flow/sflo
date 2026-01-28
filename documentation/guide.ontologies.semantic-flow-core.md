@@ -2,77 +2,90 @@
 id: 5xnb5j3t2sgokorr9rxqyky
 title: Semantic Flow Core
 desc: ''
-updated: 1768796900743
+updated: 1769482202326
 created: 1768704613041
 ---
-
 ## Foundations
 
-* **SemanticFlowResource** — Any resource participating in SF conventions.
-* **Mesh** — A servable filesystem region that contains SemanticFlowResources and, optionally, other supporting resources.
-  * Mesh root handle is `/_mesh/`.
-* **AbstractResource** *(SemanticFlowResource)* — Slash IRI (`/`); dereferencing yields a resource page.
-* **LocatedFile** *(SemanticFlowResource; TargetKind)* — File IRI (typically with an extension) intended to retrieve concrete bytes.
-* **ResourcePage** *(LocatedFile; schema:WebPage)* — A derived UI/navigation file (e.g., `index.html`) that presents an AbstractResource (or other referent) to humans.
-* **ArtifactLocatedFile** *(LocatedFile; TargetKind)* — A LocatedFile that is a concrete realization of an AbstractFile.
-* **AssetFile** *(LocatedFile)* — A non-artifact support file used by resource pages (images/css/js), conventionally under `_assets/`.
+* **MeshResource** — Any resource governed by Semantic Flow conventions and intended to live *inside a mesh*.
+* **Mesh** *(MeshResource)* — A servable filesystem region that contains MeshResources (and, optionally, other non-mesh resources).
+
+  * Mesh root handle is `_mesh/`.
+  * Mesh declares **`sflo:meshBase`** *(xsd:anyURI literal)* as the canonical BASE intended for in-mesh RDF files.
+* **LocatedFile** — A file-like IRI intended to retrieve concrete bytes (typically with an extension). LocatedFiles may be in-mesh or external.
+* **ResourcePage** *(LocatedFile; schema:WebPage)* — A derived UI/navigation file (e.g., `index.html`) that presents some referent to humans.
 
 ## Naming
 
-* **Nomen** *(AbstractResource; TargetKind)* — A human-facing Designator IRI (Designator) (e.g., `/people/alice/`) intended to denote a discourse-worthy thing, including other Nomina as aliases.
-* **NomenComponent** *(MeshComponent)* — Reserved components under a Nomen (e.g., NomenHandle, Nomen flows, inventories).
-* **NomenHandle** *(AbstractResource; NomenComponent)* — The naming-object handle for a Nomen (e.g., `/people/alice/_nomen/`); is the subject of denotation and reference-link metadata (via NomenMetadataFlow, which may remain WorkingSlice-only until history is woven).
+* **Nomen** *(ArtifactHost)* — A naming-object resource (conventionally denoted with a reserved `_nomen/` path) that corresponds to a mesh token (`meshPath`) and holds metadata about what that token is “about” via reference data. A Nomen may also function as a namespace prefix for subordinate Nomens under its path.
+
+  * **Important:** the *designator token* (e.g., `people/alice/`) is **not** the Nomen. The Nomen is conventionally at `people/alice/_nomen/`.
+  * **`sflo:meshPath`** *(string)* — The mesh-relative token the Nomen is “for”. Convention: the empty string (`""`) denotes the root token.
+  * **`sflo:hasChildNomen`** *(derived/operational)* — Convenience adjacency; not a source of truth (truth is meshPath + filesystem layout).
+  * A Nomen may specify, via **ReferenceLink**, additional sources of reference data about its designatum (when known) or its intended interpretation (when not).
+* **NomenComponent** *(MeshResource; documentation/SHACL convenience)* — Reserved components under a Nomen (e.g., nomen metadata flow, inventories).
 
 ## Reference links
 
-* **ReferenceLink** — Relator describing a reference-data link from a NomenHandle to a specific reference source; uses `target` (denoting IRI) or `targetUriLiteral` (retrievable location), plus `expectedTargetKind`, `lastVerifiedAt`, `lastVerifiedBy`.
+* **ReferenceLink** — Relator describing a reference-data link from a Nomen to a specific reference source.
+
+  * **`sflo:referenceTarget`** *(IRI, optional)* — A denoting identifier for a reference source (e.g., a dataset IRI, an external vocabulary term IRI, a mesh artifact IRI).
+  * **`sflo:targetUriLiteral`** *(xsd:anyURI, optional)* — A retrievable location *without* asserting denotation.
+  * **`sflo:referenceRole`** *(0..n)* — Role(s) describing how the link is used.
+  * **`sflo:lastVerifiedAt`**, **`sflo:lastVerifiedBy`** *(optional)*.
+  * **`sflo:referenceLinkForNomen`** — Backpointer to the Nomen the ReferenceLink is about.
 * **ReferenceRole** — Controlled vocabulary for how a ReferenceLink should be used.
-* **ReferenceRoleCanonical** — Canonical.
-* **ReferenceRoleIntegrate** — Integrate into resource page.
-* **ReferenceRoleSupplemental** — Supplemental.
-* **ReferenceRoleDeprecated** — Deprecated.
-* **TargetKind** — Metaclass used to constrain expected target kinds for ReferenceLinks (e.g., Nomen, Flow, Slice, AbstractFile, ArtifactLocatedFile, LocatedFile).
+
+  * **ReferenceRoleCanonical** — Canonical.
+  * **ReferenceRoleIntegrate** — Integrate into resource page.
+  * **ReferenceRoleSupplemental** — Supplemental.
+  * **ReferenceRoleDeprecated** — Deprecated.
 
 ## Containers
 
-* **Knop** *(AbstractResource)* — SF container anchored at a stable in-mesh location; hosts payload and supporting flows.
-* **KnopComponent** *(AbstractResource; MeshComponent)* — Reserved components under a Knop (payload/supporting flows and their parts).
+* **Knop** *(MeshResource)* — SF container anchored at a stable in-mesh location (e.g., `_knops/<uuid>/`); hosts payload + operational/supporting artifacts.
 
-## Artifacts and versioning
 
-* **Flow** *(AbstractResource; TargetKind)* — Artifact over revisions; organizes Slices and provides a stable artifact identity; has `sflo:artifactKind`.
-* **KnopFlow** *(Flow; KnopComponent)* — A Flow that is a component of a Knop.
-* **NomenFlow** *(Flow; NomenComponent)* — A Flow that is a component of a NomenHandle.
-* **MeshFlow** *(Flow; MeshComponent)* — A Flow that is a component of the mesh (mesh-level).
-* **Slice** *(AbstractResource; MeshComponent; TargetKind)* — A particular revision of the artifact represented by a Flow. 
+## Digital artifacts and revisions
+
+* **DigitalArtifact** — Umbrella for artifacts SF manages as artifacts (not “things in the world” like Alice).
+* **FlowArtifact** *(DigitalArtifact; MeshResource)* — Artifact with revision history.
+
+  * Has **`sflo:hasSlice`** *(1..n)*.
+  * Has **`sflo:currentSlice`** *(0..1)*; if present, it **must be a WorkingSlice** (enforced in SHACL).
+* **Slice** *(MeshResource)* — A revision in a FlowArtifact’s history (a revision *itself*, not a thing with its own revision history).
 
   * **WorkingSlice** — Mutable current state.
   * **HistoricalSlice** — Immutable published snapshot.
-* **AbstractFile** *(AbstractResource; MeshComponent; TargetKind)* — A representation specification of a Slice (format/syntax/canonicalization/bundling).
-* **DatasetSeries** *(AbstractResource; dcat:DatasetSeries)* — A series/partitioning of related dataset artifacts.
+* **SimpleArtifact** *(DigitalArtifact; MeshResource)* — Artifact without slice history (single-state artifact).
+
+## Realizations
+
+* **AbstractFile** — A file-based, specific (format/syntax/bundling/canonicalization) realization of some digitally-representable thing. AbstractFile is general and may be external or in-mesh.
+
+* **AbstractArtifactFile** *(AbstractFile; MeshResource)* — An AbstractFile that participates in mesh-governed artifact realization.
+
+* **LocatedArtifactFile** *(LocatedFile; MeshResource)* — A mesh-governed LocatedFile that locates an AbstractArtifactFile.
+
+* Realization links:
+
+  * **`sflo:hasAbstractFile`** — From **Slice** and **SimpleArtifact** to **AbstractFile** (how the content can be realized).
+  * **`sflo:hasLocatedFile`** / **`sflo:locatesAbstractFile`** — AbstractFile ↔ LocatedFile (inverses).
+  * **`sflo:hasLocatedArtifactFile`** / **`sflo:locatesAbstractArtifactFile`** — AbstractArtifactFile ↔ LocatedArtifactFile (inverses).
 
 ## RDF payload types
 
-* **RdfDataset** — RDF dataset content: default graph + 0..n named graphs; default graph may be empty. Used as a Flow artifact kind and for non-flow inventories.
-* **RdfGraph** — RDF graph content: exactly one graph (default graph only; may be empty).
-* **NamedGraph** — A graph identified by a graph-name IRI (interpretation depends on whether you denote a Flow, a HistoricalSlice, or a WorkingSlice).
+* **RdfDataset** — Marker/content-kind class for RDF dataset content (default graph + 0..n named graphs). Used as a payload kind and for inventories.
 
-## Supporting flows
+## Operational indices
 
-* **SupportingFlow** *(Flow)* — A non-payload flow used for metadata/inventory/auxiliary artifacts.
-* **PayloadFlow** *(KnopFlow)* — The primary digital-artifact flow hosted by a Knop.
-* **KnopMetadataFlow** *(SupportingFlow; KnopFlow)* — Small, discoverable: structure/pointers/summary inventory for the Knop.
-* **MeshMetadataFlow** *(SupportingFlow; MeshFlow)* — Optional mesh-level operational metadata/config.
-* **NomenMetadataFlow** *(SupportingFlow; NomenFlow)* — Metadata about a NomenHandle; may remain WorkingSlice-only until history is recorded.
+* **MeshInventoryDataset** — Optional derived index for mesh-level explorability.
+* **KnopInventoryDataset** — Optional derived index for knop-level explorability.
+* **NomenInventoryDataset** — Optional derived index for nomen-level explorability.
 
-## Operational indices and logs
-
-* **MeshInventoryDataset** *(RdfDataset; MeshComponent)* — Optional derived index for explorability at the mesh level (non-flow; may be large/sharded).
-* **KnopInventoryDataset** *(RdfDataset; KnopComponent)* — Optional derived index for explorability at the knop level (non-flow; may be large/sharded).
-* **NomenInventoryDataset** *(RdfDataset; NomenComponent)* — Optional derived index for explorability at the nomen handle level (non-flow; may be large/sharded).
-* **OperationalLogFile** *(LocatedFile)* — A plain tool log file (not discourse-worthy by default).
+*(Whether these are modeled as SimpleArtifacts, or merely as “RdfDataset-kind things”, is still a design choice—your SHACL currently treats “realizable via hasAbstractFile” as the core invariant for content-bearing objects.)*
 
 ## Reserved/system resources
 
-* **MeshComponent** *(AbstractResource)* — Reserved underscore-path/system resources (e.g., `_mesh/`, `_knops/`, `_assets/`, inventories, configs).
-* **Asset folders** *(convention)* — `/_mesh/_assets/…` (mesh shared) and `<knop>/_assets/…` (per Knop). Templates are Knops, so template assets live in their Knop `_assets/`.
+* **Underscore folders** *(convention)* — `_mesh/...`, `_knops/...`, and per-resource reserved subtrees (including `_nomen/` for naming-objects).
+* **Asset folders** *(convention)* — `_mesh/_assets/...` (mesh shared) and per-Knop assets under `<knop>/_assets/...`. Templates are Knops, so template assets live in their Knop `_assets/`.
