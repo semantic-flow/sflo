@@ -2,7 +2,7 @@
 id: concept-summary
 title: Concept Summary
 desc: ''
-updated: 1767508891899
+updated: 1769854176656
 created: 1755820864360
 ---
 
@@ -10,7 +10,7 @@ created: 1755820864360
 
 This document is the canonical, compact context for LLMs. It summarizes all `documentation/concepts.*` notes and cross-links to authoritative pages.
 
-0) Semantic Flow Twin Purposes
+1) Semantic Flow Purposes
 - Mint dereferenceable IRIs for referring to things on the Semantic Web
 - Hold versionable semantic data that uses those IRIs
 

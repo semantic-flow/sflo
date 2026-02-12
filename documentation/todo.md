@@ -2,7 +2,7 @@
 id: xqjr13fyons9goxv8rjrskj
 title: Todo
 desc: ''
-updated: 1768771779541
+updated: 1769881245153
 created: 1755715425146
 ---
 
@@ -11,8 +11,8 @@ created: 1755715425146
 This list captures general tasks, ideas, and items that have not yet been broken down into formal, actionable tasks (i.e., `tasks.YYYY-MM-DD-task-name.md`).
 
 ## High Priority
-
-- anticipatedPublishedIri : per Knop/Nomen, per Mesh, computed vs explicit
+- modular dataset composition
+- pav:hasCurrentVersion, other pav re-use
 - specify root Nomen architecture
 - remove NomenHandle as a class?
 - in RDF, 

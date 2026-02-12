@@ -1,1 +1,3 @@
-Use `documentation/dev.memory-bank.md` to familiarize yourself with the project
+# AGENTS.md
+
+Read `documentation/dev.general-guidance.md` for project context (overview, structure, commands, architecture, conventions).

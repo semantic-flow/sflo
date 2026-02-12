@@ -6,7 +6,7 @@ updated: 1756767742331
 created: 1751300673030
 ---
 
-If you put any [[NonArtifact]]'s IRI in a browser, it should return some useful context. 
+If you put any [[c.SemanticFlowResource]]'s IRI in a browser, it should return some useful context. 
 
  
 

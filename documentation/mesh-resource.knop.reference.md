@@ -2,13 +2,12 @@
 id: bxqmsolrgfu4fm16m5acii7
 title: reference knop
 desc: ''
-updated: 1764867799444
+updated: 1770099381293
 created: 1755977777704
 ---
 
 ## Definition
 
-A **reference knop** is a [[mesh-resource.knop]] that represents the (non-dataset) **referent** of the knop — i.e., the thing in the world that the knop stands for.
 
 ## Purpose
 

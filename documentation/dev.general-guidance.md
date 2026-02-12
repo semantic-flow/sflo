@@ -2,14 +2,12 @@
 id: xebek3dtv2zgs9ah0vbv57g
 title: Developer General Guidance
 desc: ''
-updated: 1764914216064
+updated: 1770781700758
 created: 1751259888479
 ---
 
-## Agent-specific Instructions
-
-- See [[concept.summary]] for a conceptual overview. See [[dev.memory-bank]] for CRITICAL information for AI agents.
-- agents should re-use terminals instead of starting a new one for each command
+- See [[concept.summary]] for a conceptual overview. 
+- See [[dev.memory-bank]] for CRITICAL information for AI agents.
 
 ## Workspace layout
 

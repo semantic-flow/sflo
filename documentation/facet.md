@@ -6,4 +6,4 @@ updated: 1756899195620
 created: 1755993727401
 ---
 
-A way of categorizing a [[NonArtifact]]
+A way of categorizing a [[c.SemanticFlowResource]]
