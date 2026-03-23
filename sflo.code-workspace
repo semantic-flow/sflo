@@ -17,8 +17,8 @@
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "editor.suggest.showSnippets": true,
     "editor.tabCompletion": "on",
-    "typescript.preferences.includePackageJsonAutoImports": "auto",
-    "typescript.suggest.autoImports": true,
+    "js/ts.preferences.includePackageJsonAutoImports": "auto",
+    "js/ts.suggest.autoImports": true,
     "files.exclude": {
       "docs/**": true
     }

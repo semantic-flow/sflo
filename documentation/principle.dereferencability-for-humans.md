@@ -2,11 +2,11 @@
 id: x5zwfsdfzap0c5843n5a1fh
 title: Dereferencability for Humans
 desc: ''
-updated: 1756767742331
+updated: 1773890404148
 created: 1751300673030
 ---
 
-If you put any [[c.SemanticFlowResource]]'s IRI in a browser, it should return some useful context. 
+
 
  
 

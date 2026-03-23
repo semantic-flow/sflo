@@ -2,7 +2,7 @@
 id: f0g7d31ivgn6rgllncdwep8
 title: Memory Bank
 desc: ''
-updated: 1769395012828
+updated: 1773631365331
 created: 1762222195753
 ---
 
@@ -31,7 +31,7 @@ These files MUST be read at the start of every new task:
 
 - [[concept.summary]]
 - [[guide.project-brief]] - Foundation document explaining the memory bank approach and pointing to other files
-- [[guide.product-brief]] - Project vision, problems solved, components/applications, user experience goals
+- [[guide.product-brief]] - Product vision, problems solved, components/applications, user experience goals
 - [[dev.memory-bank]] - This file; ground rules for the memory bank system
 
 #### Frequently Referenced Memory Bank Files
