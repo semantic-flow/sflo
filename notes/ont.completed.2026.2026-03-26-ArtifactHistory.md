@@ -138,7 +138,7 @@ This still leaves room for later named histories such as a redacted or migrated 
 ## Candidate Documentation Updates
 
 - update `semantic-flow-core-ontology.ttl` to remove `ArtifactContainer`, add `ArtifactHistory`, `hasArtifactHistory`, `currentArtifactHistory`, `historyOrdinal`, `nextHistoryOrdinal`, `nextStateOrdinal`, and revise comments/domain expectations for history relations
-- update `sflo-core-shacl.jsonld` so validation matches the revised core model, especially around `hasHistoricalState`, `latestHistoricalState`, and any assumptions that still target `DigitalArtifact` directly
+- update `semantic-flow-core-shacl.ttl` so validation matches the revised core model, especially around `hasHistoricalState`, `latestHistoricalState`, and any assumptions that still target `DigitalArtifact` directly
 - update `notes/ont.summary.core.md` to describe the revised artifact/history model and new path examples
 - update `notes/ont.use-case.biographical-data-publishing.md` so history resources and states use the new explicit `ArtifactHistory` framing rather than direct artifact-to-state structure
 - add a decision entry in `notes/ont.decision-log.md` adopting `ArtifactHistory` and the `_historyNNN` / `_sNNNN` default naming direction while keeping `ArtifactFlow` out of the active core
@@ -150,6 +150,6 @@ This still leaves room for later named histories such as a redacted or migrated 
 2. Remove `ArtifactContainer` from the core and strip its remaining subclass uses.
 3. Define `hasArtifactHistory`, `currentArtifactHistory`, and move the authoritative use of `hasHistoricalState` / `latestHistoricalState` onto `ArtifactHistory`.
 4. Define the minimal ordinal vocabulary: `historyOrdinal` on `ArtifactHistory`, `stateOrdinal` on `HistoricalState`, `nextHistoryOrdinal` on `DigitalArtifact`, and `nextStateOrdinal` on `ArtifactHistory`.
-5. Update `sflo-core-shacl.jsonld` so shapes validate the revised ontology rather than the current direct-`DigitalArtifact` history model.
+5. Update `semantic-flow-core-shacl.ttl` so shapes validate the revised ontology rather than the current direct-`DigitalArtifact` history model.
 6. Update the path examples and Alice Bio use case to use explicit histories and padded `_historyNNN` / `_sNNNN` names.
 7. Record the decision in the ontology decision log before changing the mesh example branches that depend on it.

@@ -14,11 +14,25 @@
   dcterms:title "Semantic Flow Core Ontology" ;
   dcterms:description "The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes." ;
   dcterms:creator <https://djradon.github.io/ns/djradon> ;
+  dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0> ;
+  dcterms:modified "2026-05-06"^^xsd:date ;
+  owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-ontology.ttl> ;
   owl:versionInfo "0.1.0" ;
-  owl:versionIRI <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/ontology/> ;
   vann:preferredNamespacePrefix "sflo" ;
   vann:preferredNamespaceUri <https://semantic-flow.github.io/ontology/core/> .
+
+<https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0>
+  a owl:Ontology ;
+  dcterms:isVersionOf <https://semantic-flow.github.io/sflo/ontology> ;
+  dcterms:issued "2026-05-06"^^xsd:date ;
+  owl:versionInfo "0.1.0" ;
+  <hasManifestation> <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl> .
+
+<https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl>
+  a <ArtifactManifestation> ;
+  dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-ontology.ttl> ;
+  dcat:downloadURL <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl> ;
+  dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
 
 #################################################################
 #################################################################

@@ -3,6 +3,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix sflo: <https://semantic-flow.github.io/ontology/core/> .
 
@@ -10,10 +11,26 @@
   dcterms:title "Semantic Flow Config Ontology" ;
   dcterms:description "Vocabulary for Semantic Flow configuration resources, first-pass operational runtime-resolution policy, and first-pass resource-page presentation configuration. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
   dcterms:creator <https://djradon.github.io/ns/djradon> ;
+  dcterms:hasVersion <https://semantic-flow.github.io/ontology/config/releases/v0.1.0-draft> ;
+  dcterms:modified "2026-05-06"^^xsd:date ;
   owl:versionInfo "0.1.0-draft" ;
+  owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0-draft/semantic-flow-config-ontology.ttl> ;
   owl:imports <https://semantic-flow.github.io/ontology/core/> ;
   vann:preferredNamespacePrefix "sfcfg" ;
   vann:preferredNamespaceUri <https://semantic-flow.github.io/ontology/config/> .
+
+<https://semantic-flow.github.io/ontology/config/releases/v0.1.0-draft>
+  a owl:Ontology ;
+  dcterms:isVersionOf <> ;
+  dcterms:issued "2026-05-06"^^xsd:date ;
+  owl:versionInfo "0.1.0-draft" ;
+  <https://semantic-flow.github.io/sflo/ontology/hasManifestation> <https://semantic-flow.github.io/ontology/config/releases/v0.1.0-draft/ttl> .
+
+<https://semantic-flow.github.io/ontology/config/releases/v0.1.0-draft/ttl>
+  a <https://semantic-flow.github.io/sflo/ontology/ArtifactManifestation> ;
+  dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0-draft/semantic-flow-config-ontology.ttl> ;
+  dcat:downloadURL <https://semantic-flow.github.io/ontology/config/releases/v0.1.0-draft/ttl/semantic-flow-config-ontology.ttl> ;
+  dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
 
 #################################################################
 #################################################################

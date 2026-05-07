@@ -4,6 +4,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix schema: <https://schema.org/> .
@@ -14,10 +15,26 @@
   dcterms:title "Semantic Flow Job Ontology" ;
   dcterms:description "The Semantic Flow Job ontology defines public Semantic Flow API vocabulary for jobs, targets, progress, results, errors, and job events." ;
   dcterms:creator <https://djradon.github.io/ns/djradon> ;
+  dcterms:hasVersion <https://semantic-flow.github.io/semantic-flow-job-ontology/releases/v0.1.0-draft> ;
+  dcterms:modified "2026-05-06"^^xsd:date ;
   owl:versionInfo "0.1.0-draft" ;
+  owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0-draft/semantic-flow-job-ontology.ttl> ;
   owl:imports <https://semantic-flow.github.io/semantic-flow-ontology/>, <https://semantic-flow.github.io/semantic-flow-prov-ontology/> ;
   vann:preferredNamespacePrefix "sfjob" ;
   vann:preferredNamespaceUri <https://semantic-flow.github.io/semantic-flow-job-ontology/> .
+
+<releases/v0.1.0-draft>
+  a owl:Ontology ;
+  dcterms:isVersionOf <> ;
+  dcterms:issued "2026-05-06"^^xsd:date ;
+  owl:versionInfo "0.1.0-draft" ;
+  <https://semantic-flow.github.io/sflo/ontology/hasManifestation> <releases/v0.1.0-draft/ttl> .
+
+<releases/v0.1.0-draft/ttl>
+  a <https://semantic-flow.github.io/sflo/ontology/ArtifactManifestation> ;
+  dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0-draft/semantic-flow-job-ontology.ttl> ;
+  dcat:downloadURL <https://semantic-flow.github.io/semantic-flow-job-ontology/releases/v0.1.0-draft/ttl/semantic-flow-job-ontology.ttl> ;
+  dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
 
 #################################################################
 #################################################################

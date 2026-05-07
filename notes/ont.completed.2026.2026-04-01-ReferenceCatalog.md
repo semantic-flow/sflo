@@ -144,7 +144,7 @@ This keeps `ReferenceCatalog` aligned with other support artifacts while allowin
 ## Testing
 
 - Validate the updated [semantic-flow-core-ontology.ttl](../semantic-flow-core-ontology.ttl) with `riot --validate`.
-- Validate the updated [sflo-core-shacl.jsonld](../sflo-core-shacl.jsonld) with `riot --validate` and `jq empty`.
+- Validate the updated [semantic-flow-core-shacl.ttl](../semantic-flow-core-shacl.ttl) with `riot --validate`.
 - Run SHACL against representative graphs that include:
   - a `Knop` with one `ReferenceCatalog`
   - a `SemanticMesh` with one `ReferenceCatalog`
@@ -164,7 +164,7 @@ This keeps `ReferenceCatalog` aligned with other support artifacts while allowin
 
 - [x] Update [semantic-flow-core-ontology.ttl](../semantic-flow-core-ontology.ttl) to remove `ReferentMetadata` and `hasReferentMetadata`.
 - [x] Add `ReferenceCatalog` and `hasReferenceCatalog` to [semantic-flow-core-ontology.ttl](../semantic-flow-core-ontology.ttl).
-- [x] Update [sflo-core-shacl.jsonld](../sflo-core-shacl.jsonld) so `Knop` and `SemanticMesh` may each optionally own one `ReferenceCatalog`.
+- [x] Update [semantic-flow-core-shacl.ttl](../semantic-flow-core-shacl.ttl) so `Knop` and `SemanticMesh` may each optionally own one `ReferenceCatalog`.
 - [x] Add SHACL support that keeps `ReferenceLink` usage aligned with the revised model, especially that `referenceLinkFor` points to the actual subject resource rather than the Knop support object.
 - [x] Update [[ont.summary.core]] to replace `ReferentMetadata` with `ReferenceCatalog` in the artifact-level support story.
 - [x] Add a decision entry to [[ont.decision-log]] capturing the removal of `ReferentMetadata` and the introduction of `ReferenceCatalog`.
