@@ -13,7 +13,7 @@
 <https://semantic-flow.github.io/sflo/ontology> a owl:Ontology ;
   dcterms:title "Semantic Flow Core Ontology" ;
   dcterms:description "The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes." ;
-  dcterms:creator <https://djradon.github.io/ns/djradon> ;
+  dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0> ;
   dcterms:modified "2026-05-06"^^xsd:date ;
   owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-ontology.ttl> ;

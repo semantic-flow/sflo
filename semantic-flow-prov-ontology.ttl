@@ -1,4 +1,4 @@
-@base <https://semantic-flow.github.io/semantic-flow-prov-ontology/> .
+@base <https://semantic-flow.github.io/ontology/prov/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -7,29 +7,30 @@
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
 
-<> a owl:Ontology ;
+<https://semantic-flow.github.io/ontology/prov> a owl:Ontology ;
   dcterms:title "Semantic Flow Provenance Ontology" ;
   dcterms:description "The Semantic Flow Meta ontology currently defines optional provenance vocabulary for Semantic Flow resources and jobs, including provenance contexts, delegation chains, and agent-role assignments. It intentionally stays narrow and does not try to define general metadata beyond provenance." ;
-  dcterms:creator <https://djradon.github.io/ns/djradon> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/semantic-flow-prov-ontology/releases/v0.1.0-draft> ;
+  dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
+  dcterms:hasVersion <https://semantic-flow.github.io/ontology/prov/releases/v0.1.0> ;
   dcterms:modified "2026-05-06"^^xsd:date ;
-  owl:versionInfo "0.1.0-draft" ;
-  owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0-draft/semantic-flow-prov-ontology.ttl> ;
+  owl:versionInfo "0.1.0" ;
+  owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-prov-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfprov" ;
-  vann:preferredNamespaceUri <https://semantic-flow.github.io/semantic-flow-prov-ontology/> .
+  vann:preferredNamespaceUri <https://semantic-flow.github.io/ontology/prov/> .
 
-<releases/v0.1.0-draft>
+<https://semantic-flow.github.io/ontology/prov/releases/v0.1.0>
   a owl:Ontology ;
-  dcterms:isVersionOf <> ;
+  dcterms:isVersionOf <https://semantic-flow.github.io/ontology/prov> ;
   dcterms:issued "2026-05-06"^^xsd:date ;
-  owl:versionInfo "0.1.0-draft" ;
-  <https://semantic-flow.github.io/sflo/ontology/hasManifestation> <releases/v0.1.0-draft/ttl> .
+  owl:versionInfo "0.1.0" ;
+  sflo:hasManifestation <https://semantic-flow.github.io/ontology/prov/releases/v0.1.0/ttl> .
 
-<releases/v0.1.0-draft/ttl>
-  a <https://semantic-flow.github.io/sflo/ontology/ArtifactManifestation> ;
-  dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0-draft/semantic-flow-prov-ontology.ttl> ;
-  dcat:downloadURL <https://semantic-flow.github.io/semantic-flow-prov-ontology/releases/v0.1.0-draft/ttl/semantic-flow-prov-ontology.ttl> ;
+<https://semantic-flow.github.io/ontology/prov/releases/v0.1.0/ttl>
+  a sflo:ArtifactManifestation ;
+  dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-prov-ontology.ttl> ;
+  dcat:downloadURL <https://semantic-flow.github.io/ontology/prov/releases/v0.1.0/ttl/semantic-flow-prov-ontology.ttl> ;
   dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
 
 #################################################################
