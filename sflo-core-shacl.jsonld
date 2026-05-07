@@ -1,6 +1,6 @@
 {
   "@context": {
-    "@base": "https://semantic-flow.github.io/ontology/semantic-flow-shacl/",
+    "@base": "https://semantic-flow.github.io/sflo/ontology/shacl/",
     "owl": "http://www.w3.org/2002/07/owl#",
     "vann": "http://purl.org/vocab/vann/",
     "sh": "http://www.w3.org/ns/shacl#",
@@ -10,8 +10,7 @@
     "dcat": "http://www.w3.org/ns/dcat#",
     "dcterms": "http://purl.org/dc/terms/",
     "schema": "https://schema.org/",
-    "sflo": "https://semantic-flow.github.io/semantic-flow-ontology/",
-    "sfc": "https://semantic-flow.github.io/ontology/core/",
+    "sflo": "https://semantic-flow.github.io/sflo/ontology/",
     "sh:targetClass": {
       "@type": "@id"
     },
@@ -36,12 +35,12 @@
   },
   "@graph": [
     {
-      "@id": "",
+      "@id": "https://semantic-flow.github.io/sflo/ontology/shacl",
       "@type": "owl:Ontology",
-      "dcterms:title": "Semantic Flow SHACL Shapes",
+      "dcterms:title": "Semantic Flow Ontology SHACL Shapes",
       "dcterms:description": "SHACL shapes for validating Semantic Flow data structures and operational invariants.",
       "vann:preferredNamespacePrefix": "sflo-shacl",
-      "vann:preferredNamespaceUri": "https://semantic-flow.github.io/ontology/semantic-flow-shacl/"
+      "vann:preferredNamespaceUri": "https://semantic-flow.github.io/sflo/ontology/shacl/"
     },
     {
       "@id": "MeshBaseShape",

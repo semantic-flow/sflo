@@ -1,4 +1,4 @@
-@base <https://semantic-flow.github.io/ontology/core> .
+@base <https://semantic-flow.github.io/sflo/ontology/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -10,13 +10,13 @@
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 
-<> a owl:Ontology ;
-  dcterms:title "Semantic Flow Ontology" ;
-  dcterms:description "The Semantic Flow ontology defines the classes and properties used for defining and describing semantic meshes and their resources." ;
+<https://semantic-flow.github.io/sflo/ontology> a owl:Ontology ;
+  dcterms:title "Semantic Flow Core Ontology" ;
+  dcterms:description "The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes." ;
   dcterms:creator <https://djradon.github.io/ns/djradon> ;
-  owl:versionInfo "0.0.2" ;
-  owl:versionIRI <https://semantic-flow.github.io/mesh-sidecar-fantasy-rules/ontology/releases/v0.0.2/ttl/fantasy-rules-ontology.ttl> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/mesh-sidecar-fantasy-rules/ontology/releases/v0.0.2> ;
+  owl:versionInfo "0.1.0" ;
+  owl:versionIRI <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0> ;
+  dcterms:hasVersion <https://semantic-flow.github.io/ontology/> ;
   vann:preferredNamespacePrefix "sflo" ;
   vann:preferredNamespaceUri <https://semantic-flow.github.io/ontology/core/> .
 
@@ -32,6 +32,7 @@
 
 
 <DigitalArtifact> a rdfs:Class ;
+  rdfs:subClassOf dcat:Dataset ;
   rdfs:label "Digital artifact" ;
   rdfs:comment "A digital artifact considered as the governing artifact-level resource across its states, manifestations, and retrievable files. In the current Semantic Flow model, payload, metadata, and inventory roles classify DigitalArtifacts directly." .
 
@@ -58,7 +59,7 @@
   rdfs:comment "An immutable snapshot facet for a DigitalArtifact, normally organized within an ArtifactHistory." .
 
 <ArtifactManifestation> a rdfs:Class ;
-  rdfs:subClassOf <DigitalArtifactFacet> ;
+  rdfs:subClassOf <DigitalArtifactFacet>, dcat:Distribution ;
   rdfs:label "Artifact manifestation" ;
   rdfs:comment "A concrete artifact manifestation: a specific variant (e.g., Markdown vs PDF, Turtle vs JSON-LD, zipped vs unzipped, or distinct build/canonicalization choices) whose bytes may be served from one or more LocatedFiles. ArtifactManifestations are typically linked from HistoricalStates, but may also be linked directly from a DigitalArtifact in sparse cases where no HistoricalState is materialized." .
 
@@ -131,6 +132,7 @@
   rdfs:comment "Next auto-issued ordinal for generated default HistoricalState resources such as '_s0001' within an ArtifactHistory." .
 
 <hasManifestation> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcat:distribution ;
   rdfs:range <ArtifactManifestation> ;
   rdfs:label "has manifestation" ;
   rdfs:comment "Relates a DigitalArtifact or DigitalArtifactFacet to one of its ArtifactManifestations. In the current core model this is used primarily from HistoricalState and optionally from DigitalArtifact in sparse cases." .
@@ -166,6 +168,7 @@
   rdfs:comment "Convenience shortcut from a Knop directly to the current working LocatedFile of its Knop inventory document." .
 
 <hasLocatedFile> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcat:downloadURL ;
   rdfs:domain <ArtifactManifestation> ;
   rdfs:range <LocatedFile> ;
   owl:inverseOf <locatesManifestation> ;
