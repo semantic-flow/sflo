@@ -102,15 +102,15 @@
   rdfs:label "Local path base" ;
   rdfs:comment "A controlled vocabulary naming the base against which a LocalPathAccessRule pathPrefix should be interpreted." .
 
-<meshRootPathBase> a <LocalPathBase> ;
+<localPathBase_meshRoot> a <LocalPathBase> ;
   rdfs:label "Mesh root local path base" ;
   rdfs:comment "Interpret the pathPrefix relative to the current mesh root." .
 
-<userHomePathBase> a <LocalPathBase> ;
+<localPathBase_userHome> a <LocalPathBase> ;
   rdfs:label "User home local path base" ;
   rdfs:comment "Interpret the pathPrefix relative to the current user's home directory." .
 
-<absolutePathBase> a <LocalPathBase> ;
+<localPathBase_absolutePath> a <LocalPathBase> ;
   rdfs:label "Absolute path local path base" ;
   rdfs:comment "Interpret the pathPrefix as an absolute host path prefix." .
 
@@ -118,11 +118,11 @@
   rdfs:label "Local path locator kind" ;
   rdfs:comment "A controlled vocabulary naming which local-path locator kinds a LocalPathAccessRule applies to." .
 
-<workingLocalRelativePathLocatorKind> a <LocalPathLocatorKind> ;
+<localPathLocatorKind_workingLocalRelativePath> a <LocalPathLocatorKind> ;
   rdfs:label "Working local relative path locator kind" ;
   rdfs:comment "Applies specifically to workingLocalRelativePath resolution." .
 
-<targetLocalRelativePathLocatorKind> a <LocalPathLocatorKind> ;
+<localPathLocatorKind_targetLocalRelativePath> a <LocalPathLocatorKind> ;
   rdfs:label "Target local relative path locator kind" ;
   rdfs:comment "Applies specifically to targetLocalRelativePath resolution." .
 
@@ -134,11 +134,11 @@
   rdfs:label "Remote locator kind" ;
   rdfs:comment "A controlled vocabulary naming which remote locator kinds a RemoteAccessRule applies to." .
 
-<workingAccessUrlLocatorKind> a <RemoteLocatorKind> ;
+<remoteLocatorKind_workingAccessUrl> a <RemoteLocatorKind> ;
   rdfs:label "Working access URL remote locator kind" ;
   rdfs:comment "Applies specifically to workingAccessUrl resolution." .
 
-<targetAccessUrlLocatorKind> a <RemoteLocatorKind> ;
+<remoteLocatorKind_targetAccessUrl> a <RemoteLocatorKind> ;
   rdfs:label "Target access URL remote locator kind" ;
   rdfs:comment "Applies specifically to targetAccessUrl resolution." .
 

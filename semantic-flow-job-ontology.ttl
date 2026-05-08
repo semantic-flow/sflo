@@ -74,35 +74,35 @@
 # Job kinds
 #################################################################
 
-<JobKind/MeshCreate> a <JobKind> ;
+<jobKind_meshCreate> a <JobKind> ;
   rdfs:label "mesh create" ;
   rdfs:comment "Create a new SemanticMesh." .
 
-<JobKind/KnopCreate> a <JobKind> ;
+<jobKind_knopCreate> a <JobKind> ;
   rdfs:label "knop create" ;
   rdfs:comment "Create a new Knop and its initial mesh-managed support resources." .
 
-<JobKind/KnopAddReference> a <JobKind> ;
+<jobKind_knopAddReference> a <JobKind> ;
   rdfs:label "knop add reference" ;
   rdfs:comment "Add a ReferenceLink to a targeted Knop or other targeted Semantic Flow resource." .
 
-<JobKind/Integrate> a <JobKind> ;
+<jobKind_integrate> a <JobKind> ;
   rdfs:label "integrate" ;
   rdfs:comment "Integrate candidate resources into a mesh-managed Semantic Flow surface." .
 
-<JobKind/Version> a <JobKind> ;
+<jobKind_version> a <JobKind> ;
   rdfs:label "version" ;
   rdfs:comment "Materialize new historical states for changed managed artifacts." .
 
-<JobKind/Validate> a <JobKind> ;
+<jobKind_validate> a <JobKind> ;
   rdfs:label "validate" ;
   rdfs:comment "Validate targeted Semantic Flow resources or generated outputs." .
 
-<JobKind/Generate> a <JobKind> ;
+<jobKind_generate> a <JobKind> ;
   rdfs:label "generate" ;
   rdfs:comment "Generate or refresh derived outputs such as resource pages, reports, or other managed artifacts." .
 
-<JobKind/Weave> a <JobKind> ;
+<jobKind_weave> a <JobKind> ;
   rdfs:label "weave" ;
   rdfs:comment "A high-level orchestration job that may integrate, version, validate, and generate over a selected scope." .
 
@@ -110,23 +110,23 @@
 # Job statuses
 #################################################################
 
-<JobStatus/Accepted> a <JobStatus> ;
+<jobStatus_accepted> a <JobStatus> ;
   rdfs:label "accepted" ;
   rdfs:comment "The Job has been accepted for execution but has not yet started running." .
 
-<JobStatus/Running> a <JobStatus> ;
+<jobStatus_running> a <JobStatus> ;
   rdfs:label "running" ;
   rdfs:comment "The Job is currently executing." .
 
-<JobStatus/Succeeded> a <JobStatus> ;
+<jobStatus_succeeded> a <JobStatus> ;
   rdfs:label "succeeded" ;
   rdfs:comment "The Job completed successfully." .
 
-<JobStatus/Failed> a <JobStatus> ;
+<jobStatus_failed> a <JobStatus> ;
   rdfs:label "failed" ;
   rdfs:comment "The Job terminated unsuccessfully." .
 
-<JobStatus/Cancelled> a <JobStatus> ;
+<jobStatus_cancelled> a <JobStatus> ;
   rdfs:label "cancelled" ;
   rdfs:comment "The Job was cancelled before completion." .
 

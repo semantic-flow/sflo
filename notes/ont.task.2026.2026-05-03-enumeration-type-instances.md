@@ -8,7 +8,7 @@ created: 1777870909784
 
 ## Goals
 
-- Replace hierarchical PascalCase controlled-value IRIs such as `ReferenceRole/Canonical` and `ArtifactResolutionMode/Current` with flat camelCase individuals.
+- Replace hierarchical PascalCase controlled-value IRIs such as `ReferenceRole/Canonical` and `ArtifactResolutionMode/Current` with flat underscore-separated individuals.
 - Avoid slash-based enum values so Turtle, JSON-LD, SPARQL, and CLI/generated-code consumers do not need escaped prefixed names such as `sflo:ArtifactResolutionMode\/Current`.
 - Keep class IRIs such as `ReferenceRole`, `ArtifactResolutionMode`, and `JobKind` stable unless a separate modeling problem requires changing the classes themselves.
 - Use human-readable `rdfs:label` values for display legibility rather than encoding display text in the IRI.
@@ -24,35 +24,36 @@ The current ontologies model controlled values as hierarchical IRIs with PascalC
 <JobKind/MeshCreate> a <JobKind> .
 ```
 
-That shape is readable as full IRIs, but it is awkward for prefixed Turtle and inconsistent with the current desire for ordinary term-like identifiers. The intended replacement is flat camelCase controlled-value individuals, preferably with the type name as a prefix:
+That shape is readable as full IRIs, but it is awkward for prefixed Turtle and inconsistent with the current desire for ordinary term-like identifiers. The intended replacement is flat controlled-value individuals using the enum class lowerCamel name, an underscore, and a lowerCamel value suffix:
 
 ```ttl
-<referenceRoleCanonical> a <ReferenceRole> ;
+<referenceRole_canonical> a <ReferenceRole> ;
   rdfs:label "Canonical" .
 
-<artifactResolutionModeCurrent> a <ArtifactResolutionMode> ;
+<artifactResolutionMode_current> a <ArtifactResolutionMode> ;
   rdfs:label "Current" .
 
-<jobKindMeshCreate> a <JobKind> ;
+<jobKind_meshCreate> a <JobKind> ;
   rdfs:label "mesh create" .
 ```
 
-This keeps enum instances visually distinct from classes without requiring path hierarchy. It also lets generated RDF use the ontology's preferred namespace prefix `sflo:` cleanly, for example `sflo:referenceRoleCanonical`.
+This keeps enum instances visually distinct from classes without requiring path hierarchy. It also lets generated RDF use the ontology's preferred namespace prefix `sflo:` cleanly, for example `sflo:referenceRole_canonical`.
 
 The migration affects ontology files, Weave constants/tests, fixture RDF, Accord manifests, and docs/spec examples that assert exact IRIs.
 
 ## Discussion
 
-Two alternatives were considered:
+Three alternatives were considered:
 
 - hierarchical camelCase values such as `ReferenceRole/canonical`
 - flat values such as `referenceRoleCanonical`
+- hyphenated values such as `referenceRole-canonical`
 
 Hierarchical camelCase keeps a type/value visual grouping, but it still requires escaping in prefixed Turtle and carries the same cross-library risk as the current pattern. Flat values avoid that problem and align with ordinary RDF vocabulary practice. The display label stays available through `rdfs:label`, so the IRI does not need to preserve `Canonical` or `Current` as a PascalCase segment.
 
-Hyphenated forms such as `referenceRole-Canonical` are more legible at a glance, but they preserve PascalCase in the value portion and introduce a special delimiter convention that differs from the rest of the ontology. The preferred shape is lower camelCase throughout.
+Pure lowerCamel values such as `referenceRoleCanonical` are code-generation-friendly, but they are less legible once enum class names and value names both contain multiple words. Hyphenated forms such as `referenceRole-canonical` are similarly readable in RDF, but many generated programming-language bindings would need bracket access or name transformation because `-` is an operator in common target languages. The preferred shape is therefore `referenceRole_canonical`: class lowerCamel, underscore separator, and value lowerCamel.
 
-The change should not be treated as a compatibility migration. Semantic Flow is still pre-v1, and carrying aliases for every old enum IRI would make generated RDF and fixture tests harder to reason about. If temporary aliases are needed while branches are being repaired, they should stay local and short-lived.
+The change should not be treated as a compatibility migration. Semantic Flow is still pre-v1, and carrying aliases for every old enum IRI would make generated RDF and fixture tests harder to reason about.
 
 Known affected controlled vocabularies include at least:
 
@@ -67,36 +68,57 @@ The Fantasy Rules ontology also carries domain-specific enum-like individuals su
 
 ## Open Issues
 
-- Confirm whether any controlled values outside the currently known list should be migrated in the same pass.
-- Decide whether old enum IRIs should be removed outright or left as deprecated individuals in ontology files. Current preference is removal/no alias for pre-v1 clarity.
-- Decide whether SHACL should explicitly enforce the new enum value IRIs anywhere, or whether ordinary RDF/manifest tests are enough for the migration.
-- Coordinate exact fixture branch repair order with the Weave split-extraction/page-selection task so re-runging happens once.
+- No remaining modeling blockers are known before implementation.
+
+## Inventory Notes
+
+Active Semantic Flow ontology files only contain slash-shaped controlled-value IRIs for the six vocabularies already listed in this note:
+
+- `ReferenceRole`
+- `ArtifactResolutionMode`
+- `ArtifactResolutionFallbackPolicy`
+- `JobKind`
+- `JobStatus`
+- `RoleType`
+
+The config ontology also defines controlled vocabularies. Their current values are already flat camelCase rather than hierarchical slash paths, but they should be normalized in this pass so enum-like values consistently use the same underscore-separated class/value shape:
+
+- `LocalPathBase`: `meshRootPathBase` -> `localPathBase_meshRoot`, `userHomePathBase` -> `localPathBase_userHome`, `absolutePathBase` -> `localPathBase_absolutePath`
+- `LocalPathLocatorKind`: `workingLocalRelativePathLocatorKind` -> `localPathLocatorKind_workingLocalRelativePath`, `targetLocalRelativePathLocatorKind` -> `localPathLocatorKind_targetLocalRelativePath`
+- `RemoteLocatorKind`: `workingAccessUrlLocatorKind` -> `remoteLocatorKind_workingAccessUrl`, `targetAccessUrlLocatorKind` -> `remoteLocatorKind_targetAccessUrl`
+
+The config rename is not required to remove slash paths, but it avoids preserving a second enum-value naming convention.
 
 ## Decisions
 
-- Use flat camelCase individuals for controlled enum values.
-- Prefix the individual local name with the enum class name in lower camelCase, for example `referenceRoleCanonical` and `artifactResolutionModeCurrent`.
+- Use flat underscore-separated individuals for controlled enum values.
+- Prefix the individual local name with the enum class name in lowerCamel, followed by `_`, followed by the value name in lowerCamel, for example `referenceRole_canonical` and `artifactResolutionMode_current`.
 - Keep enum classes themselves as PascalCase class IRIs.
 - Prefer `rdfs:label` for display strings such as "Canonical", "Current", and "mesh create".
 - Do not use slash hierarchy for enum values.
-- Do not use hyphenated enum values such as `referenceRole-Canonical` for the first pass.
-- Do not add broad backward-compatibility shims unless a short local repair step absolutely requires them.
+- Do not use pure lowerCamel enum values such as `referenceRoleCanonical`.
+- Do not use hyphenated enum values such as `referenceRole-canonical`.
+- Normalize already-flat config ontology controlled values to the same underscore-separated class/value shape in this pass.
+- Remove old enum IRIs outright; do not preserve them as deprecated individuals or compatibility aliases.
+- Do not repair fixture branches as part of this task; fixtures will be regenerated after the ontology and code constants settle.
+- Defer explicit SHACL enum-value enforcement unless a later validation task decides ordinary RDF/tests are insufficient.
+- Leave historical task notes alone; update only live docs/specs and current tests.
 
 ## Contract Changes
 
-- Semantic Flow enum instance IRIs move from hierarchical PascalCase paths to flat camelCase names.
+- Semantic Flow enum instance IRIs move from hierarchical PascalCase paths or older unseparated config names to flat underscore-separated names.
 - RDF examples, generated support artifacts, Accord manifests, SHACL tests, and Weave constants must use the new enum IRIs.
 - JSON-LD contexts and API examples that mention enum values must be updated to the new term IRIs.
-- Existing fixture branches that assert old enum IRIs are no longer canonical once rerunging is complete.
+- Existing fixtures that assert old enum IRIs are no longer canonical once fixture regeneration is complete.
 
 ## Testing
 
 - Validate changed ontology Turtle files with RDF syntax validation.
-- Run ontology SHACL validation if available for the affected files.
+- Run ontology SHACL validation if available for the affected files, but do not add new enum-value SHACL constraints in this pass.
 - Update Weave unit/integration/e2e tests that assert enum IRIs.
 - Search the workspace for old enum IRI fragments such as `ReferenceRole/`, `ArtifactResolutionMode/`, `JobKind/`, `JobStatus/`, and `RoleType/` after the migration.
-- Rerun the fixture conformance tests after Alice Bio and Fantasy Rules branches are repaired.
-- Validate updated Accord manifests after branch repair.
+- Rerun the fixture conformance tests after fixtures are regenerated.
+- Validate regenerated Accord manifests.
 
 ## Non-Goals
 
@@ -108,14 +130,16 @@ The Fantasy Rules ontology also carries domain-specific enum-like individuals su
 
 ## Implementation Plan
 
-- [ ] Inventory all enum-like controlled values in Semantic Flow ontology files and classify which are in scope.
-- [ ] Update core ontology enum individuals to flat camelCase names.
-- [ ] Update job ontology enum individuals to flat camelCase names.
-- [ ] Update provenance ontology enum individuals to flat camelCase names.
-- [ ] Update SHACL, JSON-LD examples, and ontology notes that refer to old enum IRIs.
-- [ ] Update Weave constants and rendered Turtle templates for `ReferenceRole`, `ArtifactResolutionMode`, and any other enum values it emits or parses.
-- [ ] Update Weave tests and fixtures that assert old enum IRIs.
-- [ ] Rerung Alice Bio from the first affected ReferenceLink branch when coordinated with the page-selection split.
-- [ ] Rerung Fantasy Rules from the first affected term-extraction branch when coordinated with the page-selection split.
-- [ ] Record exact reproduction commands for every rerunged transition manifest or conformance README entry while repairing the ladders.
+- [x] Inventory all enum-like controlled values in Semantic Flow ontology files and classify which are in scope.
+- [x] Update core ontology enum individuals to flat underscore-separated names.
+- [x] Update job ontology enum individuals to flat underscore-separated names.
+- [x] Update provenance ontology enum individuals to flat underscore-separated names.
+- [x] Update config ontology controlled-value individuals to flat underscore-separated names.
+- [x] Update JSON-LD examples, live docs/spec examples, and ontology notes that refer to old enum IRIs.
+- [x] Update Weave constants and rendered Turtle templates for `ReferenceRole`, `ArtifactResolutionMode`, and any other enum values it emits or parses.
+- [x] Update Weave tests that assert old enum IRIs.
+- [c] Rerung Alice Bio from the first affected ReferenceLink branch when coordinated with the page-selection split.
+- [c] Rerung Fantasy Rules from the first affected term-extraction branch when coordinated with the page-selection split.
+- [ ] Regenerate fixtures after the ontology/code migration is complete.
+- [ ] Record exact reproduction commands for regenerated fixture transition manifests or conformance README entries.
 - [ ] Run focused ontology validation, Weave lint/check/tests, and conformance validation for the repaired ladders.

@@ -251,13 +251,13 @@
   rdfs:label "Reference role" ;
   rdfs:comment "A controlled vocabulary of roles describing how a ReferenceLink should be used." .
 
-<ReferenceRole/Canonical> a <ReferenceRole> ;
+<referenceRole_canonical> a <ReferenceRole> ;
   rdfs:label "Canonical" .
 
-<ReferenceRole/Supplemental> a <ReferenceRole> ;
+<referenceRole_supplemental> a <ReferenceRole> ;
   rdfs:label "Supplemental" .
 
-<ReferenceRole/Deprecated> a <ReferenceRole> ;
+<referenceRole_deprecated> a <ReferenceRole> ;
   rdfs:label "Deprecated" .
 
 <hasReferenceLink> a owl:ObjectProperty ;
@@ -480,11 +480,11 @@
   rdfs:label "Artifact resolution mode" ;
   rdfs:comment "A controlled vocabulary describing whether an ArtifactResolutionTarget is pinned to an explicitly requested state or follows the current/default artifact surface." .
 
-<ArtifactResolutionMode/Pinned> a <ArtifactResolutionMode> ;
+<artifactResolutionMode_pinned> a <ArtifactResolutionMode> ;
   rdfs:label "Pinned" ;
   rdfs:comment "The ArtifactResolutionTarget is pinned to explicitly requested target coordinates when provided." .
 
-<ArtifactResolutionMode/Current> a <ArtifactResolutionMode> ;
+<artifactResolutionMode_current> a <ArtifactResolutionMode> ;
   rdfs:label "Current" ;
   rdfs:comment "The ArtifactResolutionTarget should follow the current/default artifact surface rather than pinning a specific state." .
 
@@ -492,11 +492,11 @@
   rdfs:label "Artifact resolution fallback policy" ;
   rdfs:comment "A controlled vocabulary describing what fallback, if any, is acceptable when a requested artifact-resolution target cannot be resolved exactly." .
 
-<ArtifactResolutionFallbackPolicy/ExactOnly> a <ArtifactResolutionFallbackPolicy> ;
+<artifactResolutionFallbackPolicy_exactOnly> a <ArtifactResolutionFallbackPolicy> ;
   rdfs:label "Exact only" ;
   rdfs:comment "Only the exact requested target is acceptable; otherwise resolution fails." .
 
-<ArtifactResolutionFallbackPolicy/AcceptLatestInRequestedHistory> a <ArtifactResolutionFallbackPolicy> ;
+<artifactResolutionFallbackPolicy_acceptLatestInRequestedHistory> a <ArtifactResolutionFallbackPolicy> ;
   rdfs:label "Accept latest in requested history" ;
   rdfs:comment "If an exact requested state cannot be resolved, the latest available HistoricalState in the requested ArtifactHistory is acceptable." .
 

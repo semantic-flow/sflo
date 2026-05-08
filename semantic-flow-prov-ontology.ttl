@@ -69,19 +69,19 @@
 # Role types
 #################################################################
 
-<RoleType/DataExtraction> a <RoleType> ;
+<roleType_dataExtraction> a <RoleType> ;
   rdfs:label "data extraction" ;
   rdfs:comment "Responsible for extracting or gathering data." .
 
-<RoleType/QualityAssurance> a <RoleType> ;
+<roleType_qualityAssurance> a <RoleType> ;
   rdfs:label "quality assurance" ;
   rdfs:comment "Responsible for validation and quality assurance." .
 
-<RoleType/FinalApproval> a <RoleType> ;
+<roleType_finalApproval> a <RoleType> ;
   rdfs:label "final approval" ;
   rdfs:comment "Responsible for final review and approval." .
 
-<RoleType/Coordination> a <RoleType> ;
+<roleType_coordination> a <RoleType> ;
   rdfs:label "coordination" ;
   rdfs:comment "Responsible for coordinating between other agents." .
 
