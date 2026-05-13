@@ -12,7 +12,7 @@ created: 1777870909784
 - Avoid slash-based enum values so Turtle, JSON-LD, SPARQL, and CLI/generated-code consumers do not need escaped prefixed names such as `sflo:ArtifactResolutionMode\/Current`.
 - Keep class IRIs such as `ReferenceRole`, `ArtifactResolutionMode`, and `JobKind` stable unless a separate modeling problem requires changing the classes themselves.
 - Use human-readable `rdfs:label` values for display legibility rather than encoding display text in the IRI.
-- Coordinate the enum migration with the next fixture ladder rerunging pass, especially [[wd.task.2026.2026-05-04-split-extraction-from-page-selection]], so Alice Bio and Fantasy Rules are not rerung twice for closely related ontology vocabulary churn.
+- Coordinate the enum migration with the next fixture ladder rerunging pass, now expected after the next config synthesis pass, so Alice Bio and Fantasy Rules are not rerung twice for closely related ontology and config vocabulary churn.
 
 ## Summary
 
@@ -100,7 +100,7 @@ The config rename is not required to remove slash paths, but it avoids preservin
 - Do not use hyphenated enum values such as `referenceRole-canonical`.
 - Normalize already-flat config ontology controlled values to the same underscore-separated class/value shape in this pass.
 - Remove old enum IRIs outright; do not preserve them as deprecated individuals or compatibility aliases.
-- Do not repair fixture branches as part of this task; fixtures will be regenerated after the ontology and code constants settle.
+- Do not repair fixture branches as part of this task; defer fixture regeneration until after the next config synthesis pass so enum and config vocabulary fallout can be absorbed together.
 - Defer explicit SHACL enum-value enforcement unless a later validation task decides ordinary RDF/tests are insufficient.
 - Leave historical task notes alone; update only live docs/specs and current tests.
 
@@ -116,9 +116,8 @@ The config rename is not required to remove slash paths, but it avoids preservin
 - Validate changed ontology Turtle files with RDF syntax validation.
 - Run ontology SHACL validation if available for the affected files, but do not add new enum-value SHACL constraints in this pass.
 - Update Weave unit/integration/e2e tests that assert enum IRIs.
-- Search the workspace for old enum IRI fragments such as `ReferenceRole/`, `ArtifactResolutionMode/`, `JobKind/`, `JobStatus/`, and `RoleType/` after the migration.
-- Rerun the fixture conformance tests after fixtures are regenerated.
-- Validate regenerated Accord manifests.
+- Search the workspace for old enum IRI fragments such as `ReferenceRole/`, `ArtifactResolutionMode/`, `ArtifactResolutionFallbackPolicy/`, `JobKind/`, `JobStatus/`, and `RoleType/` after the migration, plus old config value names such as `meshRootPathBase`, `workingLocalRelativePathLocatorKind`, `targetLocalRelativePathLocatorKind`, `workingAccessUrlLocatorKind`, and `targetAccessUrlLocatorKind`.
+- After deferred fixture regeneration, rerun the fixture conformance tests and validate regenerated Accord manifests.
 
 ## Non-Goals
 
@@ -140,6 +139,6 @@ The config rename is not required to remove slash paths, but it avoids preservin
 - [x] Update Weave tests that assert old enum IRIs.
 - [c] Rerung Alice Bio from the first affected ReferenceLink branch when coordinated with the page-selection split.
 - [c] Rerung Fantasy Rules from the first affected term-extraction branch when coordinated with the page-selection split.
-- [ ] Regenerate fixtures after the ontology/code migration is complete.
-- [ ] Record exact reproduction commands for regenerated fixture transition manifests or conformance README entries.
-- [ ] Run focused ontology validation, Weave lint/check/tests, and conformance validation for the repaired ladders.
+- [d] Regenerate fixtures after the ontology/code migration is complete; deferred until after the next config synthesis pass.
+- [d] Record exact reproduction commands for regenerated fixture transition manifests or conformance README entries; deferred with fixture regeneration.
+- [c] Skip a standalone enum-only validation pass; fixture-backed tests and exact generated outputs will be updated after the next config synthesis pass and fixture regeneration.
