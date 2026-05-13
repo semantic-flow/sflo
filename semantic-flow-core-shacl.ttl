@@ -16,7 +16,7 @@
   dcterms:description "SHACL shapes for validating Semantic Flow data structures and operational invariants.";
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0>;
-  dcterms:modified "2026-05-06"^^xsd:date;
+  dcterms:modified "2026-05-13"^^xsd:date;
   vann:preferredNamespacePrefix "sflo-shacl";
   vann:preferredNamespaceUri "https://semantic-flow.github.io/sflo/ontology/shacl/";
   owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-shacl.ttl>;
@@ -220,6 +220,49 @@
     sh:severity sh:Warning
   ];
   sh:targetSubjectsOf sflo:locatedFileForState .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ContentDigestLiteralShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Content digests are compact algorithm-qualified strings such as sha256:<hex>. This shape checks the literal form only; byte retrieval, canonicalization, and cryptographic verification are runtime responsibilities.";
+  rdfs:label "content digest literal";
+  sh:property [
+    sh:datatype xsd:string;
+    sh:message "sflo:hasContentDigest values MUST be xsd:string literals.";
+    sh:path sflo:hasContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:message "sflo:hasContentDigest values SHOULD include an algorithm prefix followed by ':', for example sha256:<hex>.";
+    sh:path sflo:hasContentDigest;
+    sh:pattern "^[A-Za-z][A-Za-z0-9+._-]*:.+$";
+    sh:severity sh:Warning
+  ];
+  sh:targetSubjectsOf sflo:hasContentDigest .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ExpectedContentDigestShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "ArtifactResolutionTargets may carry a single expected digest used by runtime resolution to verify fetched or loaded target bytes before use.";
+  rdfs:label "expected content digest";
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "sflo:expectsContentDigest values MUST be a single xsd:string literal.";
+    sh:path sflo:expectsContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:message "sflo:expectsContentDigest values SHOULD include an algorithm prefix followed by ':', for example sha256:<hex>.";
+    sh:path sflo:expectsContentDigest;
+    sh:pattern "^[A-Za-z][A-Za-z0-9+._-]*:.+$";
+    sh:severity sh:Warning
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "sflo:expectsContentDigest SHOULD be used on resources typed sflo:ArtifactResolutionTarget or a subclass such as sflo:ExtractionSource.";
+    sh:select "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:expectsContentDigest ?digest .\n  FILTER NOT EXISTS { $this a/rdfs:subClassOf* sflo:ArtifactResolutionTarget }\n}";
+    sh:severity sh:Warning
+  ];
+  sh:targetSubjectsOf sflo:expectsContentDigest .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/LatestHistoricalStateIsMemberShape>
   rdf:type sh:NodeShape;
