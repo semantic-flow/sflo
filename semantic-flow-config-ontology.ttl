@@ -1,18 +1,18 @@
-@base <https://semantic-flow.github.io/ontology/config> .
+@base <https://semantic-flow.github.io/ontology/config/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
-@prefix sflo: <https://semantic-flow.github.io/ontology/core/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
 
 <> a owl:Ontology ;
   dcterms:title "Semantic Flow Config Ontology" ;
-  dcterms:description "Vocabulary for Semantic Flow configuration resources, first-pass operational runtime-resolution policy, and first-pass resource-page presentation configuration. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
+  dcterms:description "Vocabulary for Semantic Flow configuration resources, authored config attachment, resolver policy, derived resolved-config records, operational runtime-resolution policy, and resource-page presentation configuration. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcterms:hasVersion <https://semantic-flow.github.io/ontology/config/releases/v0.1.0> ;
-  dcterms:modified "2026-05-06"^^xsd:date ;
+  dcterms:modified "2026-05-13"^^xsd:date ;
   owl:versionInfo "0.1.0" ;
   owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-config-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfcfg" ;
@@ -21,12 +21,12 @@
 <https://semantic-flow.github.io/ontology/config/releases/v0.1.0>
   a owl:Ontology ;
   dcterms:isVersionOf <> ;
-  dcterms:issued "2026-05-06"^^xsd:date ;
+  dcterms:issued "2026-05-13"^^xsd:date ;
   owl:versionInfo "0.1.0" ;
-  <https://semantic-flow.github.io/sflo/ontology/hasManifestation> <https://semantic-flow.github.io/ontology/config/releases/v0.1.0/ttl> .
+  sflo:hasManifestation <https://semantic-flow.github.io/ontology/config/releases/v0.1.0/ttl> .
 
 <https://semantic-flow.github.io/ontology/config/releases/v0.1.0/ttl>
-  a <https://semantic-flow.github.io/sflo/ontology/ArtifactManifestation> ;
+  a sflo:ArtifactManifestation ;
   dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-config-ontology.ttl> ;
   dcat:downloadURL <https://semantic-flow.github.io/ontology/config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> ;
   dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
@@ -39,19 +39,55 @@
 
 <Config> a rdfs:Class ;
   rdfs:label "Config" ;
-  rdfs:comment "An RDF configuration description used to control or parameterize Semantic Flow behavior. A Config may be attached directly to a resource or realized as a separately managed ConfigArtifact. This ontology intentionally does not define generic key-level merge semantics, precedence rules, or regex-based bulk template matching." .
+  rdfs:comment "An RDF configuration description used to control or parameterize Semantic Flow behavior. A Config may be attached directly to a resource or realized as a separately managed ConfigArtifact. This ontology intentionally does not define a single global merge order, regex-based bulk template matching, or boolean policy switches for history and page generation." .
 
 <ConfigArtifact> a rdfs:Class ;
   rdfs:subClassOf <Config>, sflo:DigitalArtifact, sflo:RdfDocument ;
   rdfs:label "Config artifact" ;
-  rdfs:comment "A named reusable Config that is also a mesh-manageable DigitalArtifact RdfDocument. Use when a config needs stable identity, revision history, working files, or reuse across multiple configured resources." .
+  rdfs:comment "A named reusable Config that is also a mesh-manageable DigitalArtifact RdfDocument. Use when a config needs stable identity, revision history, working files, dereferenceability, or reuse across multiple configured resources." .
+
+<ApplicationConfig> a rdfs:Class ;
+  rdfs:subClassOf <Config> ;
+  rdfs:label "Application config" ;
+  rdfs:comment "A Config describing application-level behavior defaults. Concrete implementation defaults, such as Weave's default profile, should be named config artifacts or bundles that use this class rather than implementation-specific default-config classes." .
+
+<hasConfigResolutionConfig> a owl:ObjectProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range <ConfigResolutionConfig> ;
+  rdfs:label "has config resolution config" ;
+  rdfs:comment "Links an application, operational, or portable config to the ConfigResolutionConfig it includes, requests, or exposes. Portable uses remain subject to trusted bootstrap resolver policy and cannot expand their own trust boundary." .
+
+<KnopConfig> a rdfs:Class ;
+  rdfs:subClassOf <Config> ;
+  rdfs:label "Knop config" ;
+  rdfs:comment "Optional scope marker for portable Config intended for use at a Knop scope. Knop-local and Knop-inheritable semantics are expressed by attachment properties, ConfigLayerRole values, and resolution context rather than by this class alone." .
+
+<MeshConfig> a rdfs:Class ;
+  rdfs:subClassOf <Config> ;
+  rdfs:label "Mesh config" ;
+  rdfs:comment "A portable Config intended to travel with a Semantic Mesh, conventionally under mesh-owned config support such as _mesh/_config. MeshConfig may describe expected mesh behavior, config attachments, and local project layout, but it is not by itself host trust policy and must not grant arbitrary host access outside the active runtime trust boundary." .
+
+<OperationalConfig> a rdfs:Class ;
+  rdfs:subClassOf <Config> ;
+  rdfs:label "Operational config" ;
+  rdfs:comment "A trusted runtime input describing host/runtime policy rather than portable mesh-authored behavior. OperationalConfig gates resolution before portable mesh config participates; it is an input to config resolution, not the same thing as ResolvedConfig or an operation-specific effective config." .
+
+<WorkspaceOperationalConfig> a rdfs:Class ;
+  rdfs:subClassOf <OperationalConfig> ;
+  rdfs:label "Workspace operational config" ;
+  rdfs:comment "OperationalConfig discovered inside an active workspace boundary. It may describe project-local layout and narrow behavior within the runtime-approved workspace, but it cannot expand host access beyond that boundary by itself." .
+
+<HostLocalOperationalConfig> a rdfs:Class ;
+  rdfs:subClassOf <OperationalConfig> ;
+  rdfs:label "Host-local operational config" ;
+  rdfs:comment "OperationalConfig intended to remain user-, machine-, daemon-, or session-local. Use for host-local preferences and trust decisions such as extra-workspace local-directory allowances, remote-access allowances, or user-specific operational restrictions/extensions that should not travel with a mesh by default." .
 
 <hasConfig> a owl:ObjectProperty ;
   rdfs:domain rdfs:Resource ;
   rdfs:range <Config> ;
   owl:inverseOf <configFor> ;
   rdfs:label "has config" ;
-  rdfs:comment "Associates a resource with one or more configuration descriptions. Precedence and merge behavior are application-defined rather than implicit in this ontology." .
+  rdfs:comment "Associates a resource with one or more configuration descriptions. Prefer role-specific subproperties when the attachment role affects merge or inheritance semantics." .
 
 <configFor> a owl:ObjectProperty ;
   rdfs:domain <Config> ;
@@ -65,7 +101,619 @@
   rdfs:domain rdfs:Resource ;
   rdfs:range <Config> ;
   rdfs:label "has effective config" ;
-  rdfs:comment "Associates a resource with a computed effective Config. This should be treated as a runtime, view, or debugging convenience rather than as authoritative source data." .
+  rdfs:comment "Associates a resource with a computed effective Config. Treat this as a runtime, view, or debugging convenience rather than as authoritative portable source data." .
+
+<hasResolvedConfig> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ResolvedConfig> ;
+  owl:inverseOf <hasResolvedConfigFor> ;
+  rdfs:label "has resolved config" ;
+  rdfs:comment "Associates a scope with derived resolver output. ResolvedConfig is inspectable runtime/application state and must not be treated as an authored config source that can authorize itself." .
+
+<hasResolvedConfigFor> a owl:ObjectProperty ;
+  rdfs:domain <ResolvedConfig> ;
+  rdfs:range rdfs:Resource ;
+  owl:inverseOf <hasResolvedConfig> ;
+  rdfs:label "has resolved config for" ;
+  rdfs:comment "Identifies the scope for which a ResolvedConfig was produced." .
+
+#################################################################
+#################################################################
+# Authored config attachment and reusable config sources
+#################################################################
+#################################################################
+
+<hasMeshConfig> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasConfig> ;
+  rdfs:domain sflo:SemanticMesh ;
+  rdfs:range <Config> ;
+  rdfs:label "has mesh config" ;
+  rdfs:comment "Associates a SemanticMesh with mesh-level authored config for the mesh surface and defaults that apply across the mesh." .
+
+<hasMeshInheritableConfig> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasConfig> ;
+  rdfs:domain sflo:SemanticMesh ;
+  rdfs:range <Config> ;
+  rdfs:label "has mesh inheritable config" ;
+  rdfs:comment "Associates a SemanticMesh with authored defaults it offers to Knops, submeshes, or descendant scopes inside the mesh boundary." .
+
+<hasKnopConfig> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasConfig> ;
+  rdfs:domain sflo:Knop ;
+  rdfs:range <Config> ;
+  rdfs:label "has Knop config" ;
+  rdfs:comment "Associates a Knop with portable authored config. Prefer hasKnopLocalConfig or hasKnopInheritableConfig when the local or inheritable role matters." .
+
+<hasKnopLocalConfig> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasKnopConfig> ;
+  rdfs:domain sflo:Knop ;
+  rdfs:range <Config> ;
+  rdfs:label "has Knop local config" ;
+  rdfs:comment "Associates a Knop with config that applies locally to that Knop, its resource page, and artifacts governed at that Knop." .
+
+<hasKnopInheritableConfig> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasKnopConfig> ;
+  rdfs:domain sflo:Knop ;
+  rdfs:range <Config> ;
+  rdfs:label "has Knop inheritable config" ;
+  rdfs:comment "Associates a Knop with config offered to descendant Knops and subtrees. By default this is a descendant offer, not an implicit local override for the declaring Knop." .
+
+<hasConfigSource> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range sflo:ArtifactResolutionTarget ;
+  rdfs:label "has config source" ;
+  rdfs:comment "Associates a config layer, config-bearing resource, or authored config attachment with an ArtifactResolutionTarget that resolves a ConfigArtifact or config bytes. Reuse core artifact-resolution target properties for current versus pinned behavior, requested state, fallback policy, and expected content digest." .
+
+<hasMeshConfigSource> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasConfigSource> ;
+  rdfs:domain sflo:SemanticMesh ;
+  rdfs:range sflo:ArtifactResolutionTarget ;
+  rdfs:label "has mesh config source" ;
+  rdfs:comment "Associates a SemanticMesh with a mesh-level config source, often a target pointing at _mesh/_config or a reusable ConfigArtifact." .
+
+<hasMeshInheritableConfigSource> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasConfigSource> ;
+  rdfs:domain sflo:SemanticMesh ;
+  rdfs:range sflo:ArtifactResolutionTarget ;
+  rdfs:label "has mesh inheritable config source" ;
+  rdfs:comment "Associates a SemanticMesh with a config source it offers to descendant scopes inside the mesh boundary." .
+
+<hasKnopLocalConfigSource> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasConfigSource> ;
+  rdfs:domain sflo:Knop ;
+  rdfs:range sflo:ArtifactResolutionTarget ;
+  rdfs:label "has Knop local config source" ;
+  rdfs:comment "Associates a Knop with a config source that applies locally to that Knop." .
+
+<hasKnopInheritableConfigSource> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasConfigSource> ;
+  rdfs:domain sflo:Knop ;
+  rdfs:range sflo:ArtifactResolutionTarget ;
+  rdfs:label "has Knop inheritable config source" ;
+  rdfs:comment "Associates a Knop with a config source it offers to descendants." .
+
+#################################################################
+#################################################################
+# Policy vocabulary
+#################################################################
+#################################################################
+
+<ArtifactRole> a rdfs:Class ;
+  rdfs:label "Artifact role" ;
+  rdfs:comment "A controlled vocabulary of Semantic Flow artifact roles used when applying config defaults by role rather than by one exact artifact." .
+
+<artifactRole_payload> a <ArtifactRole> ;
+  rdfs:label "payload" .
+
+<artifactRole_meshInventory> a <ArtifactRole> ;
+  rdfs:label "mesh inventory" .
+
+<artifactRole_knopInventory> a <ArtifactRole> ;
+  rdfs:label "Knop inventory" .
+
+<artifactRole_meshMetadata> a <ArtifactRole> ;
+  rdfs:label "mesh metadata" .
+
+<artifactRole_knopMetadata> a <ArtifactRole> ;
+  rdfs:label "Knop metadata" .
+
+<artifactRole_config> a <ArtifactRole> ;
+  rdfs:label "config" .
+
+<artifactRole_referenceCatalog> a <ArtifactRole> ;
+  rdfs:label "reference catalog" .
+
+<artifactRole_resourcePageDefinition> a <ArtifactRole> ;
+  rdfs:label "resource page definition" .
+
+<artifactRole_resourcePageTemplate> a <ArtifactRole> ;
+  rdfs:label "resource page template" .
+
+<artifactRole_resourcePageStylesheet> a <ArtifactRole> ;
+  rdfs:label "resource page stylesheet" .
+
+<artifactRole_runtimeMeta> a <ArtifactRole> ;
+  rdfs:label "runtime metadata" .
+
+<ArtifactRolePolicy> a rdfs:Class ;
+  rdfs:label "Artifact role policy" ;
+  rdfs:comment "A policy node that applies one or more policy values to artifacts with a specific ArtifactRole." .
+
+<hasArtifactRole> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactRolePolicy> ;
+  rdfs:range <ArtifactRole> ;
+  rdfs:label "has artifact role" ;
+  rdfs:comment "Identifies the ArtifactRole to which an ArtifactRolePolicy applies." .
+
+<HistoryTrackingPolicy> a rdfs:Class ;
+  rdfs:label "History tracking policy" ;
+  rdfs:comment "A controlled vocabulary describing whether and how a DigitalArtifact should materialize history." .
+
+<historyTrackingPolicy_versioned> a <HistoryTrackingPolicy> ;
+  rdfs:label "versioned" ;
+  rdfs:comment "Materialize ordinary artifact history when the artifact changes." .
+
+<historyTrackingPolicy_currentOnly> a <HistoryTrackingPolicy> ;
+  rdfs:label "current only" ;
+  rdfs:comment "Keep only current working-surface facts unless another invariant requires history." .
+
+<historyTrackingPolicy_required> a <HistoryTrackingPolicy> ;
+  rdfs:label "required" ;
+  rdfs:comment "History is required for this artifact role or scope and cannot be disabled by ordinary portable config or request overrides." .
+
+<historyTrackingPolicy_slimHistory> a <HistoryTrackingPolicy> ;
+  rdfs:label "slim history" ;
+  rdfs:comment "Keep history with slimmed support surfaces, reduced generated pages, or metadata-focused representations as defined by the active application profile." .
+
+<historyTrackingPolicy_checkpointOnly> a <HistoryTrackingPolicy> ;
+  rdfs:label "checkpoint only" ;
+  rdfs:comment "Record history only at explicit checkpoints or according to an application-defined checkpoint policy." .
+
+<historyTrackingPolicy_metadataOnly> a <HistoryTrackingPolicy> ;
+  rdfs:label "metadata only" ;
+  rdfs:comment "Record metadata or fingerprints for state transitions without necessarily preserving full public byte snapshots." .
+
+<hasHistoryTrackingPolicy> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <HistoryTrackingPolicy> ;
+  rdfs:label "has history tracking policy" ;
+  rdfs:comment "Assigns a HistoryTrackingPolicy to a config or role policy." .
+
+<hasDefaultHistoryTrackingPolicy> a owl:ObjectProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range <HistoryTrackingPolicy> ;
+  rdfs:label "has default history tracking policy" ;
+  rdfs:comment "Declares the default HistoryTrackingPolicy used when no more specific artifact-role, scope, or artifact policy applies." .
+
+<hasHistoryTrackingDefault> a owl:ObjectProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range <ArtifactRolePolicy> ;
+  rdfs:label "has history tracking default" ;
+  rdfs:comment "Associates a Config with an artifact-role-specific history tracking default." .
+
+<ResourcePageGenerationPolicy> a rdfs:Class ;
+  rdfs:label "ResourcePage generation policy" ;
+  rdfs:comment "A controlled vocabulary describing whether ResourcePage files should be generated independently of whether artifact history is tracked." .
+
+<resourcePageGenerationPolicy_generate> a <ResourcePageGenerationPolicy> ;
+  rdfs:label "generate" .
+
+<resourcePageGenerationPolicy_suppress> a <ResourcePageGenerationPolicy> ;
+  rdfs:label "suppress" .
+
+<resourcePageGenerationPolicy_defer> a <ResourcePageGenerationPolicy> ;
+  rdfs:label "defer" .
+
+<resourcePageGenerationPolicy_onRequest> a <ResourcePageGenerationPolicy> ;
+  rdfs:label "on request" .
+
+<hasResourcePageGenerationPolicy> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ResourcePageGenerationPolicy> ;
+  rdfs:label "has ResourcePage generation policy" ;
+  rdfs:comment "Assigns a ResourcePageGenerationPolicy to a config or role policy. Suppressed pages should omit sflo:hasResourcePage rather than promising a page that policy says should not exist." .
+
+<hasDefaultResourcePageGenerationPolicy> a owl:ObjectProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range <ResourcePageGenerationPolicy> ;
+  rdfs:label "has default ResourcePage generation policy" ;
+  rdfs:comment "Declares the default ResourcePageGenerationPolicy used when no more specific policy applies." .
+
+<hasResourcePageGenerationDefault> a owl:ObjectProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range <ArtifactRolePolicy> ;
+  rdfs:label "has ResourcePage generation default" ;
+  rdfs:comment "Associates a Config with an artifact-role-specific ResourcePage generation default." .
+
+<ResourcePageRegenerationConfigPolicy> a rdfs:Class ;
+  rdfs:label "ResourcePage regeneration config policy" ;
+  rdfs:comment "A controlled vocabulary describing which configuration generation should use when regenerating historical ResourcePages." .
+
+<resourcePageRegenerationConfigPolicy_configAtTheTime> a <ResourcePageRegenerationConfigPolicy> ;
+  rdfs:label "config at the time" .
+
+<resourcePageRegenerationConfigPolicy_currentPresentation> a <ResourcePageRegenerationConfigPolicy> ;
+  rdfs:label "current presentation" .
+
+<resourcePageRegenerationConfigPolicy_currentFullConfig> a <ResourcePageRegenerationConfigPolicy> ;
+  rdfs:label "current full config" .
+
+<resourcePageRegenerationConfigPolicy_historicalSemanticsCurrentPresentation> a <ResourcePageRegenerationConfigPolicy> ;
+  rdfs:label "historical semantics, current presentation" .
+
+<hasResourcePageRegenerationConfigPolicy> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ResourcePageRegenerationConfigPolicy> ;
+  rdfs:label "has ResourcePage regeneration config policy" ;
+  rdfs:comment "Assigns the config-time mode for historical ResourcePage regeneration." .
+
+<HistoryNamingPolicy> a rdfs:Class ;
+  rdfs:label "History naming policy" ;
+  rdfs:comment "A controlled vocabulary describing default history-segment naming policy. This is config and hint vocabulary; allocator state such as sflo:nextHistoryOrdinal remains in core artifact/history RDF." .
+
+<historyNamingPolicy_ordinal> a <HistoryNamingPolicy> ;
+  rdfs:label "ordinal" .
+
+<historyNamingPolicy_named> a <HistoryNamingPolicy> ;
+  rdfs:label "named" .
+
+<StateNamingPolicy> a rdfs:Class ;
+  rdfs:label "State naming policy" ;
+  rdfs:comment "A controlled vocabulary describing default state-segment naming policy. This is config and hint vocabulary; allocator state such as sflo:nextStateOrdinal remains in core artifact/history RDF." .
+
+<stateNamingPolicy_ordinal> a <StateNamingPolicy> ;
+  rdfs:label "ordinal" .
+
+<stateNamingPolicy_semver> a <StateNamingPolicy> ;
+  rdfs:label "semantic version" .
+
+<stateNamingPolicy_date> a <StateNamingPolicy> ;
+  rdfs:label "date" .
+
+<ManifestationNamingPolicy> a rdfs:Class ;
+  rdfs:label "Manifestation naming policy" ;
+  rdfs:comment "A controlled vocabulary describing default manifestation-segment naming policy." .
+
+<manifestationNamingPolicy_filenameDerived> a <ManifestationNamingPolicy> ;
+  rdfs:label "filename derived" .
+
+<manifestationNamingPolicy_contentKindDerived> a <ManifestationNamingPolicy> ;
+  rdfs:label "content-kind derived" .
+
+<manifestationNamingPolicy_ordinal> a <ManifestationNamingPolicy> ;
+  rdfs:label "ordinal" .
+
+<hasHistoryNamingPolicy> a owl:ObjectProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range <HistoryNamingPolicy> ;
+  rdfs:label "has history naming policy" .
+
+<hasStateNamingPolicy> a owl:ObjectProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range <StateNamingPolicy> ;
+  rdfs:label "has state naming policy" .
+
+<hasManifestationNamingPolicy> a owl:ObjectProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range <ManifestationNamingPolicy> ;
+  rdfs:label "has manifestation naming policy" .
+
+<hasDefaultHistorySegmentHint> a owl:DatatypeProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range xsd:string ;
+  rdfs:label "has default history segment hint" ;
+  rdfs:comment "Optional default or hint for a requested history segment. The current artifact/history RDF remains authoritative for validation and ordinal allocation." .
+
+<hasDefaultStateSegmentHint> a owl:DatatypeProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range xsd:string ;
+  rdfs:label "has default state segment hint" ;
+  rdfs:comment "Optional default or hint for a requested state segment. The current artifact/history RDF remains authoritative for validation and ordinal allocation." .
+
+<hasDefaultManifestationSegmentHint> a owl:DatatypeProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range xsd:string ;
+  rdfs:label "has default manifestation segment hint" .
+
+<hasNextHistorySegmentHint> a owl:DatatypeProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range xsd:string ;
+  rdfs:label "has next history segment hint" ;
+  rdfs:comment "Optional hint for the next history segment. This must not be treated as the authoritative sflo:nextHistoryOrdinal counter." .
+
+<hasNextStateSegmentHint> a owl:DatatypeProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range xsd:string ;
+  rdfs:label "has next state segment hint" ;
+  rdfs:comment "Optional hint for the next state segment. This must not be treated as the authoritative sflo:nextStateOrdinal counter." .
+
+#################################################################
+#################################################################
+# Config resolution and derived resolved config
+#################################################################
+#################################################################
+
+<ConfigResolutionConfig> a rdfs:Class ;
+  rdfs:subClassOf <Config> ;
+  rdfs:label "Config resolution config" ;
+  rdfs:comment "Config for the resolver itself: discovery, trust caps, layer ordering, merge behavior, reusable config references, cycle handling, unknown-term behavior, and cache policy. Trusted bootstrap resolver policy must come from application defaults, explicit runtime input, host-local operational config, or daemon/session state; portable mesh config may only request or narrow behavior within the existing trust boundary." .
+
+<ResolvedConfig> a rdfs:Class ;
+  rdfs:subClassOf <Config> ;
+  rdfs:label "Resolved config" ;
+  rdfs:comment "Derived resolver output for a scope after application defaults, operational gates, config-resolution policy, authored mesh/Knop config, inherited config, reusable config artifacts, and validated request-level inputs have been applied. ResolvedConfig is output state, not trusted operational input and not authoritative authored mesh config." .
+
+<ConfigResolutionRecord> a rdfs:Class ;
+  rdfs:label "Config resolution record" ;
+  rdfs:comment "Derived provenance describing config-source decisions, fingerprints, resolver/profile identity, trust decisions, warnings, and resolved-config digest without logging full config contents by default." .
+
+<ConfigLayer> a rdfs:Class ;
+  rdfs:label "Config layer" ;
+  rdfs:comment "A configured source layer considered by a config resolver. Concrete ordering belongs in ConfigPrecedenceProfile or an implementation/default profile rather than in ontology comments alone." .
+
+<ConfigLayerRole> a rdfs:Class ;
+  rdfs:label "Config layer role" ;
+  rdfs:comment "A controlled vocabulary naming the role a config layer plays during resolution." .
+
+<configLayerRole_builtInDefaults> a <ConfigLayerRole> ;
+  rdfs:label "built-in defaults" .
+
+<configLayerRole_weaveDefaults> a <ConfigLayerRole> ;
+  rdfs:label "Weave defaults" .
+
+<configLayerRole_commandOverride> a <ConfigLayerRole> ;
+  rdfs:label "command override" .
+
+<configLayerRole_machineLocalOperational> a <ConfigLayerRole> ;
+  rdfs:label "machine-local operational" .
+
+<configLayerRole_workspaceOperational> a <ConfigLayerRole> ;
+  rdfs:label "workspace operational" .
+
+<configLayerRole_meshLocal> a <ConfigLayerRole> ;
+  rdfs:label "mesh local" .
+
+<configLayerRole_meshInheritable> a <ConfigLayerRole> ;
+  rdfs:label "mesh inheritable" .
+
+<configLayerRole_knopInherited> a <ConfigLayerRole> ;
+  rdfs:label "Knop inherited" .
+
+<configLayerRole_knopLocal> a <ConfigLayerRole> ;
+  rdfs:label "Knop local" .
+
+<configLayerRole_knopInheritable> a <ConfigLayerRole> ;
+  rdfs:label "Knop inheritable" .
+
+<configLayerRole_reusableConfig> a <ConfigLayerRole> ;
+  rdfs:label "reusable config" .
+
+<configLayerRole_resolvedRuntime> a <ConfigLayerRole> ;
+  rdfs:label "resolved runtime" .
+
+<ConfigPrecedenceProfile> a rdfs:Class ;
+  rdfs:label "Config precedence profile" ;
+  rdfs:comment "A profile describing layer order candidates. A single global order is not sufficient for all property families; merge profiles and required invariants still control how values combine." .
+
+<ConfigMergeProfile> a rdfs:Class ;
+  rdfs:label "Config merge profile" ;
+  rdfs:comment "A profile describing property-family merge behavior such as stricter-wins safety caps, nearest-scope defaults, additive values, required invariants, and operation-request overrides." .
+
+<ConfigReferencePolicy> a rdfs:Class ;
+  rdfs:label "Config reference policy" ;
+  rdfs:comment "A controlled vocabulary describing which reusable or external config references may be followed." .
+
+<configReferencePolicy_noExternalReferences> a <ConfigReferencePolicy> ;
+  rdfs:label "no external references" .
+
+<configReferencePolicy_pinnedOnly> a <ConfigReferencePolicy> ;
+  rdfs:label "pinned only" .
+
+<configReferencePolicy_currentAllowedWithinTrustedBoundary> a <ConfigReferencePolicy> ;
+  rdfs:label "current allowed within trusted boundary" .
+
+<ConfigInheritancePolicy> a rdfs:Class ;
+  rdfs:label "Config inheritance policy" ;
+  rdfs:comment "A controlled vocabulary describing how inherited config is accepted and propagated." .
+
+<configInheritancePolicy_acceptAndPropagate> a <ConfigInheritancePolicy> ;
+  rdfs:label "accept and propagate" .
+
+<configInheritancePolicy_acceptDoNotPropagate> a <ConfigInheritancePolicy> ;
+  rdfs:label "accept, do not propagate" .
+
+<configInheritancePolicy_blockInherited> a <ConfigInheritancePolicy> ;
+  rdfs:label "block inherited" .
+
+<configInheritancePolicy_offerDescendantsOnly> a <ConfigInheritancePolicy> ;
+  rdfs:label "offer descendants only" .
+
+<configInheritancePolicy_offerSelfAndDescendants> a <ConfigInheritancePolicy> ;
+  rdfs:label "offer self and descendants" .
+
+<OperationRequestOverridePolicy> a rdfs:Class ;
+  rdfs:label "Operation request override policy" ;
+  rdfs:comment "A controlled vocabulary describing how explicit operation request fields interact with resolved defaults, hints, strict policies, and invariants." .
+
+<operationRequestOverridePolicy_warnAndApply> a <OperationRequestOverridePolicy> ;
+  rdfs:label "warn and apply" .
+
+<operationRequestOverridePolicy_rejectConflict> a <OperationRequestOverridePolicy> ;
+  rdfs:label "reject conflict" .
+
+<operationRequestOverridePolicy_requireExplicitAcknowledgement> a <OperationRequestOverridePolicy> ;
+  rdfs:label "require explicit acknowledgement" .
+
+<ConfigCyclePolicy> a rdfs:Class ;
+  rdfs:label "Config cycle policy" .
+
+<configCyclePolicy_reject> a <ConfigCyclePolicy> ;
+  rdfs:label "reject" .
+
+<configCyclePolicy_useFirstSeen> a <ConfigCyclePolicy> ;
+  rdfs:label "use first seen" .
+
+<UnknownConfigTermPolicy> a rdfs:Class ;
+  rdfs:label "Unknown config term policy" .
+
+<unknownConfigTermPolicy_reject> a <UnknownConfigTermPolicy> ;
+  rdfs:label "reject" .
+
+<unknownConfigTermPolicy_ignore> a <UnknownConfigTermPolicy> ;
+  rdfs:label "ignore" .
+
+<unknownConfigTermPolicy_warn> a <UnknownConfigTermPolicy> ;
+  rdfs:label "warn" .
+
+<ResolvedConfigCachePolicy> a rdfs:Class ;
+  rdfs:label "ResolvedConfig cache policy" .
+
+<resolvedConfigCachePolicy_noCache> a <ResolvedConfigCachePolicy> ;
+  rdfs:label "no cache" .
+
+<resolvedConfigCachePolicy_cacheForProcess> a <ResolvedConfigCachePolicy> ;
+  rdfs:label "cache for process" .
+
+<resolvedConfigCachePolicy_persistDiagnosticCache> a <ResolvedConfigCachePolicy> ;
+  rdfs:label "persist diagnostic cache" .
+
+<PortableResolverHintPolicy> a rdfs:Class ;
+  rdfs:label "Portable resolver hint policy" ;
+  rdfs:comment "A controlled vocabulary describing whether portable resolver hints are ignored or honored within trusted operational caps." .
+
+<portableResolverHintPolicy_ignore> a <PortableResolverHintPolicy> ;
+  rdfs:label "ignore" .
+
+<portableResolverHintPolicy_honorWithinTrustedBoundary> a <PortableResolverHintPolicy> ;
+  rdfs:label "honor within trusted boundary" .
+
+<ConfigResolutionStatus> a rdfs:Class ;
+  rdfs:label "Config resolution status" .
+
+<configResolutionStatus_accepted> a <ConfigResolutionStatus> ;
+  rdfs:label "accepted" .
+
+<configResolutionStatus_ignored> a <ConfigResolutionStatus> ;
+  rdfs:label "ignored" .
+
+<configResolutionStatus_rejected> a <ConfigResolutionStatus> ;
+  rdfs:label "rejected" .
+
+<hasConfigLayer> a owl:ObjectProperty ;
+  rdfs:domain <ConfigResolutionConfig> ;
+  rdfs:range <ConfigLayer> ;
+  rdfs:label "has config layer" .
+
+<hasConfigLayerRole> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ConfigLayerRole> ;
+  rdfs:label "has config layer role" .
+
+<layerOrder> a owl:DatatypeProperty ;
+  rdfs:domain <ConfigLayer> ;
+  rdfs:range xsd:nonNegativeInteger ;
+  rdfs:label "layer order" ;
+  rdfs:comment "Numeric order within a configured precedence profile. Values are profile data, not universal ontology law." .
+
+<hasConfigPrecedenceProfile> a owl:ObjectProperty ;
+  rdfs:domain <ConfigResolutionConfig> ;
+  rdfs:range <ConfigPrecedenceProfile> ;
+  rdfs:label "has config precedence profile" .
+
+<hasConfigMergeProfile> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ConfigMergeProfile> ;
+  rdfs:label "has config merge profile" .
+
+<hasConfigReferencePolicy> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ConfigReferencePolicy> ;
+  rdfs:label "has config reference policy" .
+
+<hasConfigInheritancePolicy> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ConfigInheritancePolicy> ;
+  rdfs:label "has config inheritance policy" .
+
+<hasOperationRequestOverridePolicy> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <OperationRequestOverridePolicy> ;
+  rdfs:label "has operation request override policy" .
+
+<hasConfigCyclePolicy> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ConfigCyclePolicy> ;
+  rdfs:label "has config cycle policy" .
+
+<hasUnknownConfigTermPolicy> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <UnknownConfigTermPolicy> ;
+  rdfs:label "has unknown config term policy" .
+
+<hasResolvedConfigCachePolicy> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ResolvedConfigCachePolicy> ;
+  rdfs:label "has ResolvedConfig cache policy" .
+
+<hasPortableResolverHintPolicy> a owl:ObjectProperty ;
+  rdfs:domain <ConfigResolutionConfig> ;
+  rdfs:range <PortableResolverHintPolicy> ;
+  rdfs:label "has portable resolver hint policy" .
+
+<maxConfigReferenceDepth> a owl:DatatypeProperty ;
+  rdfs:domain <ConfigResolutionConfig> ;
+  rdfs:range xsd:nonNegativeInteger ;
+  rdfs:label "maximum config reference depth" .
+
+<hasConfigRoot> a owl:ObjectProperty ;
+  rdfs:domain <ConfigResolutionConfig> ;
+  rdfs:range rdfs:Resource ;
+  rdfs:label "has config root" .
+
+<hasConfigScope> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range rdfs:Resource ;
+  rdfs:label "has config scope" .
+
+<resolvedFromConfig> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <Config> ;
+  rdfs:label "resolved from config" .
+
+<resolvedAt> a owl:DatatypeProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range xsd:dateTimeStamp ;
+  rdfs:label "resolved at" .
+
+<hasConfigSourceFingerprint> a owl:DatatypeProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range xsd:string ;
+  rdfs:label "has config source fingerprint" .
+
+<hasResolverProfileDigest> a owl:DatatypeProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range xsd:string ;
+  rdfs:label "has resolver profile digest" .
+
+<hasTrustPolicyDigest> a owl:DatatypeProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range xsd:string ;
+  rdfs:label "has trust policy digest" .
+
+<hasResolvedConfigDigest> a owl:DatatypeProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range xsd:string ;
+  rdfs:label "has ResolvedConfig digest" .
+
+<hasConfigResolutionRecord> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ConfigResolutionRecord> ;
+  rdfs:label "has config resolution record" .
+
+<hasConfigResolutionStatus> a owl:ObjectProperty ;
+  rdfs:domain <ConfigResolutionRecord> ;
+  rdfs:range <ConfigResolutionStatus> ;
+  rdfs:label "has config resolution status" .
 
 #################################################################
 #################################################################
@@ -73,45 +721,30 @@
 #################################################################
 #################################################################
 
-<OperationalConfig> a rdfs:Class ;
-  rdfs:subClassOf <Config> ;
-  rdfs:label "Operational config" ;
-  rdfs:comment "A Config describing host/runtime policy rather than portable mesh behavior. OperationalConfig is the broader first-pass root for execution-surface policy such as local-path and remote-access allowances used by CLI, daemon, or similar runtime surfaces. Narrower specializations such as RuntimeResolutionConfig may be added later if the vocabulary grows enough to justify them." .
-
-<MeshConfig> a rdfs:Class ;
-  rdfs:subClassOf <Config> ;
-  rdfs:label "Mesh config" ;
-  rdfs:comment "A portable Config intended to travel with a Semantic Mesh, conventionally under mesh-owned config support such as _mesh/_config. MeshConfig may describe expected mesh behavior and local-relative source relationships, but it is not by itself host trust policy and should not imply arbitrary host access outside the active workspace boundary." .
-
-<LocalConfig> a rdfs:Class ;
-  rdfs:subClassOf <Config> ;
-  rdfs:label "Local config" ;
-  rdfs:comment "A Config intended to remain user- or machine-local, for example via ~/.sf-local-config.ttl. Use for host-local preferences and trust decisions such as extra-workspace local-directory allowances, remote-access allowances, or user-specific operational restrictions/extensions that should not travel with a mesh by default." .
-
 <workspaceRootRelativeToMeshRoot> a owl:DatatypeProperty ;
-  rdfs:domain <MeshConfig> ;
+  rdfs:domain <Config> ;
   rdfs:range xsd:string ;
   rdfs:label "workspace root relative to mesh root" ;
-  rdfs:comment "A normalized relative path from the mesh root to the containing local workspace root, used by portable sidecar mesh config to describe how the mesh is situated inside a larger project. This should not be interpreted as an absolute host path or as a broad access grant; local-path access still requires explicit LocalPathAccessRule entries and remains capped by the active runtime workspace boundary." .
+  rdfs:comment "A normalized relative path from the mesh root to the containing local workspace root, used by mesh-carried or workspace-local config to describe how the mesh is situated inside a larger project. This should not be interpreted as an absolute host path or as a broad access grant; local-path access still requires explicit LocalPathAccessRule entries and remains capped by the active runtime workspace boundary." .
 
 <LocalPathAccessRule> a rdfs:Class ;
   rdfs:label "Local path access rule" ;
-  rdfs:comment "A rule describing when an operational local-path locator such as workingLocalRelativePath or targetLocalRelativePath may resolve outside the default runtime boundary. The first-pass model is deny-by-default: access is allowed only when at least one applicable LocalPathAccessRule matches." .
+  rdfs:comment "A rule describing when an operational local-path locator such as sflo:workingLocalRelativePath or sflo:targetLocalRelativePath may resolve outside the default runtime boundary. The first-pass model is deny-by-default: access is allowed only when at least one applicable LocalPathAccessRule matches and the active trust boundary permits it." .
 
 <LocalPathBase> a rdfs:Class ;
   rdfs:label "Local path base" ;
   rdfs:comment "A controlled vocabulary naming the base against which a LocalPathAccessRule pathPrefix should be interpreted." .
 
 <localPathBase_meshRoot> a <LocalPathBase> ;
-  rdfs:label "Mesh root local path base" ;
+  rdfs:label "mesh root" ;
   rdfs:comment "Interpret the pathPrefix relative to the current mesh root." .
 
 <localPathBase_userHome> a <LocalPathBase> ;
-  rdfs:label "User home local path base" ;
+  rdfs:label "user home" ;
   rdfs:comment "Interpret the pathPrefix relative to the current user's home directory." .
 
 <localPathBase_absolutePath> a <LocalPathBase> ;
-  rdfs:label "Absolute path local path base" ;
+  rdfs:label "absolute path" ;
   rdfs:comment "Interpret the pathPrefix as an absolute host path prefix." .
 
 <LocalPathLocatorKind> a rdfs:Class ;
@@ -119,52 +752,50 @@
   rdfs:comment "A controlled vocabulary naming which local-path locator kinds a LocalPathAccessRule applies to." .
 
 <localPathLocatorKind_workingLocalRelativePath> a <LocalPathLocatorKind> ;
-  rdfs:label "Working local relative path locator kind" ;
-  rdfs:comment "Applies specifically to workingLocalRelativePath resolution." .
+  rdfs:label "working local relative path" ;
+  rdfs:comment "Applies specifically to sflo:workingLocalRelativePath resolution." .
 
 <localPathLocatorKind_targetLocalRelativePath> a <LocalPathLocatorKind> ;
-  rdfs:label "Target local relative path locator kind" ;
-  rdfs:comment "Applies specifically to targetLocalRelativePath resolution." .
+  rdfs:label "target local relative path" ;
+  rdfs:comment "Applies specifically to sflo:targetLocalRelativePath resolution." .
 
 <RemoteAccessRule> a rdfs:Class ;
   rdfs:label "Remote access rule" ;
-  rdfs:comment "A rule describing when a direct remote/external locator such as workingAccessUrl or targetAccessUrl may be followed. The first-pass model is deny-by-default: remote access is allowed only when at least one applicable RemoteAccessRule matches." .
+  rdfs:comment "A rule describing when a direct remote/external locator such as sflo:workingAccessUrl or sflo:targetAccessUrl may be followed. The first-pass model is deny-by-default: remote access is allowed only when at least one applicable RemoteAccessRule matches and the active trust boundary permits it." .
 
 <RemoteLocatorKind> a rdfs:Class ;
   rdfs:label "Remote locator kind" ;
   rdfs:comment "A controlled vocabulary naming which remote locator kinds a RemoteAccessRule applies to." .
 
 <remoteLocatorKind_workingAccessUrl> a <RemoteLocatorKind> ;
-  rdfs:label "Working access URL remote locator kind" ;
-  rdfs:comment "Applies specifically to workingAccessUrl resolution." .
+  rdfs:label "working access URL" ;
+  rdfs:comment "Applies specifically to sflo:workingAccessUrl resolution." .
 
 <remoteLocatorKind_targetAccessUrl> a <RemoteLocatorKind> ;
-  rdfs:label "Target access URL remote locator kind" ;
-  rdfs:comment "Applies specifically to targetAccessUrl resolution." .
+  rdfs:label "target access URL" ;
+  rdfs:comment "Applies specifically to sflo:targetAccessUrl resolution." .
 
 <hasLocalPathAccessRule> a owl:ObjectProperty ;
   rdfs:domain <Config> ;
   rdfs:range <LocalPathAccessRule> ;
   rdfs:label "has local path access rule" ;
-  rdfs:comment "Associates a Config with one of its local-path access rules. Mesh-carried rules describe expected local-relative access and remain capped by runtime workspace boundaries; local config rules may grant broader host-local trust. This ontology intentionally defines positive allow rules only; deny behavior is expressed by absence of a matching rule rather than by a separate deny vocabulary in the first pass." .
+  rdfs:comment "Associates a Config with one of its local-path access rules. Mesh-carried rules describe expected local-relative access and remain capped by runtime workspace boundaries; host-local operational rules may grant broader host-local trust. This ontology intentionally defines positive allow rules only; deny behavior is expressed by absence of a matching rule or by a stricter trust cap." .
 
 <hasRemoteAccessRule> a owl:ObjectProperty ;
   rdfs:domain <Config> ;
   rdfs:range <RemoteAccessRule> ;
   rdfs:label "has remote access rule" ;
-  rdfs:comment "Associates a Config with one of its remote-access rules. Remote access remains operationally fail-closed unless the active runtime explicitly accepts the relevant config layer. This ontology intentionally defines positive allow rules only; deny behavior is expressed by absence of a matching rule rather than by a separate deny vocabulary in the first pass." .
+  rdfs:comment "Associates a Config with one of its remote-access rules. Remote access remains operationally fail-closed unless the active runtime explicitly accepts the relevant config layer." .
 
 <hasLocalPathBase> a owl:ObjectProperty ;
   rdfs:domain <LocalPathAccessRule> ;
   rdfs:range <LocalPathBase> ;
-  rdfs:label "has local path base" ;
-  rdfs:comment "Identifies the base against which a LocalPathAccessRule pathPrefix is interpreted." .
+  rdfs:label "has local path base" .
 
 <hasLocalPathLocatorKind> a owl:ObjectProperty ;
   rdfs:domain <LocalPathAccessRule> ;
   rdfs:range <LocalPathLocatorKind> ;
-  rdfs:label "has local path locator kind" ;
-  rdfs:comment "Identifies which local-path locator kind a LocalPathAccessRule applies to." .
+  rdfs:label "has local path locator kind" .
 
 <pathPrefix> a owl:DatatypeProperty ;
   rdfs:domain <LocalPathAccessRule> ;
@@ -175,8 +806,7 @@
 <hasRemoteLocatorKind> a owl:ObjectProperty ;
   rdfs:domain <RemoteAccessRule> ;
   rdfs:range <RemoteLocatorKind> ;
-  rdfs:label "has remote locator kind" ;
-  rdfs:comment "Identifies which remote locator kind a RemoteAccessRule applies to." .
+  rdfs:label "has remote locator kind" .
 
 <allowedRemoteScheme> a owl:DatatypeProperty ;
   rdfs:domain <RemoteAccessRule> ;
@@ -198,50 +828,71 @@
 
 <ResourcePagePresentationConfig> a rdfs:Class ;
   rdfs:subClassOf <Config> ;
-  rdfs:label "Resource page presentation config" ;
+  rdfs:label "ResourcePage presentation config" ;
   rdfs:comment "A Config describing presentation and chrome preferences adjacent to a ResourcePageDefinition. It names templates, stylesheets, and similar presentation artifacts, but does not encode authored content regions, source bindings, or source-resolution policy; those belong in the core ontology." .
 
 <ResourcePageTemplate> a rdfs:Class ;
   rdfs:subClassOf sflo:DigitalArtifact ;
-  rdfs:label "Resource page template" ;
-  rdfs:comment "A DigitalArtifact used as a template input for generated resource pages. Template selection should remain explicit or narrowly scoped; this ontology does not define regex-driven template mapping sets." .
+  rdfs:label "ResourcePage template" ;
+  rdfs:comment "A DigitalArtifact used as a template input for generated ResourcePages. Template selection should remain explicit or narrowly scoped; this ontology does not define regex-driven template mapping sets." .
 
 <InnerResourcePageTemplate> a rdfs:Class ;
   rdfs:subClassOf <ResourcePageTemplate> ;
-  rdfs:label "Inner resource page template" ;
-  rdfs:comment "A ResourcePageTemplate used for the inner or body portion of a generated resource page." .
+  rdfs:label "inner ResourcePage template" ;
+  rdfs:comment "A ResourcePageTemplate used for the inner or body portion of a generated ResourcePage." .
 
 <OuterResourcePageTemplate> a rdfs:Class ;
   rdfs:subClassOf <ResourcePageTemplate> ;
-  rdfs:label "Outer resource page template" ;
-  rdfs:comment "A ResourcePageTemplate used for the outer shell, chrome, or frame of a generated resource page." .
+  rdfs:label "outer ResourcePage template" ;
+  rdfs:comment "A ResourcePageTemplate used for the outer shell, chrome, or frame of a generated ResourcePage." .
 
 <ResourcePageStylesheet> a rdfs:Class ;
   rdfs:subClassOf sflo:DigitalArtifact ;
-  rdfs:label "Resource page stylesheet" ;
-  rdfs:comment "A stylesheet DigitalArtifact referenced by generated resource pages." .
+  rdfs:label "ResourcePage stylesheet" ;
+  rdfs:comment "A stylesheet DigitalArtifact referenced by generated ResourcePages." .
+
+<ResourcePageRenderRecord> a rdfs:Class ;
+  rdfs:label "ResourcePage render record" ;
+  rdfs:comment "Derived provenance for a ResourcePage generation or regeneration event, including source state, presentation config, renderer version, and relevant ResolvedConfig digest. These records are runtime/provenance artifacts only when deliberately materialized." .
 
 <hasResourcePagePresentationConfig> a owl:ObjectProperty ;
   rdfs:subPropertyOf <hasConfig> ;
   rdfs:domain sflo:ResourcePageDefinition ;
   rdfs:range <ResourcePagePresentationConfig> ;
-  rdfs:label "has resource page presentation config" ;
-  rdfs:comment "Associates a ResourcePageDefinition with adjacent presentation/chrome configuration. Broader defaults, if modeled later, should layer through generic config attachment rather than through regex-based template mapping." .
+  rdfs:label "has ResourcePage presentation config" ;
+  rdfs:comment "Associates a ResourcePageDefinition with adjacent presentation/chrome configuration. Broader defaults should layer through generic or role-specific config attachment rather than regex-based template mapping." .
 
 <hasInnerResourcePageTemplate> a owl:ObjectProperty ;
   rdfs:domain <ResourcePagePresentationConfig> ;
   rdfs:range <InnerResourcePageTemplate> ;
-  rdfs:label "has inner resource page template" ;
-  rdfs:comment "Relates a ResourcePagePresentationConfig to an inner/body template artifact." .
+  rdfs:label "has inner ResourcePage template" .
 
 <hasOuterResourcePageTemplate> a owl:ObjectProperty ;
   rdfs:domain <ResourcePagePresentationConfig> ;
   rdfs:range <OuterResourcePageTemplate> ;
-  rdfs:label "has outer resource page template" ;
-  rdfs:comment "Relates a ResourcePagePresentationConfig to an outer/chrome template artifact." .
+  rdfs:label "has outer ResourcePage template" .
 
 <hasResourcePageStylesheet> a owl:ObjectProperty ;
   rdfs:domain <ResourcePagePresentationConfig> ;
   rdfs:range <ResourcePageStylesheet> ;
-  rdfs:label "has resource page stylesheet" ;
-  rdfs:comment "Relates a ResourcePagePresentationConfig to one of its stylesheet artifacts." .
+  rdfs:label "has ResourcePage stylesheet" .
+
+<renderedAt> a owl:DatatypeProperty ;
+  rdfs:domain <ResourcePageRenderRecord> ;
+  rdfs:range xsd:dateTimeStamp ;
+  rdfs:label "rendered at" .
+
+<renderedFromSourceState> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePageRenderRecord> ;
+  rdfs:range sflo:HistoricalState ;
+  rdfs:label "rendered from source state" .
+
+<renderedWithConfig> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePageRenderRecord> ;
+  rdfs:range <Config> ;
+  rdfs:label "rendered with config" .
+
+<hasRendererVersion> a owl:DatatypeProperty ;
+  rdfs:domain <ResourcePageRenderRecord> ;
+  rdfs:range xsd:string ;
+  rdfs:label "has renderer version" .

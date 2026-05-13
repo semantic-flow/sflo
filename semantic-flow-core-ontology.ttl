@@ -196,6 +196,12 @@
   rdfs:label "locates manifestation" ;
   rdfs:comment "Navigation: links a LocatedFile to an ArtifactManifestation whose bytes it provides." .
 
+<hasContentDigest> a owl:DatatypeProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range xsd:string ;
+  rdfs:label "has content digest" ;
+  rdfs:comment "A digest for the byte stream or canonical representation of a byte-bearing resource such as a LocatedFile, ArtifactManifestation, or HistoricalState. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'. RDF graph artifacts SHOULD make clear which serialization bytes or canonicalization profile were hashed." .
+
 #################################################################
 # Optional skip-links (structural narrowing shortcuts)
 #################################################################
@@ -605,3 +611,9 @@
   rdfs:range <ArtifactResolutionFallbackPolicy> ;
   rdfs:label "has artifact resolution fallback policy" ;
   rdfs:comment "Assigns an ArtifactResolutionFallbackPolicy to an ArtifactResolutionTarget." .
+
+<expectsContentDigest> a owl:DatatypeProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range xsd:string ;
+  rdfs:label "expects content digest" ;
+  rdfs:comment "Digest expected after resolving an ArtifactResolutionTarget. Resolution should verify resolved bytes or canonical representations against this value before using them when policy requires a strong pin. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'." .
