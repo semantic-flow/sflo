@@ -15,7 +15,7 @@
   dcterms:description "The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0> ;
-  dcterms:modified "2026-05-06"^^xsd:date ;
+  dcterms:modified "2026-05-14"^^xsd:date ;
   owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-ontology.ttl> ;
   owl:versionInfo "0.1.0" ;
   vann:preferredNamespacePrefix "sflo" ;
@@ -471,6 +471,10 @@
   rdfs:label "Artifact resolution target" ;
   rdfs:comment "A policy-bearing relator that identifies bytes for an application concern by naming a target artifact, a mesh-local file path string, a specific LocatedFile, or another explicit packaged/distributed target together with optional requested state, mode, and fallback policy. At least one concrete target should normally be provided, but this ontology does not enforce that cardinality directly." .
 
+<RepositorySourceLocator> a rdfs:Class ;
+  rdfs:label "Repository source locator" ;
+  rdfs:comment "A durable locator for bytes or a tree path in a version-control repository. It records repository identity, ref or commit coordinates, and a repository-relative path without implying a local checkout path or granting runtime access. Content digests may be expressed with hasContentDigest on this locator or expectsContentDigest on the ArtifactResolutionTarget that uses it." .
+
 <ExtractionSource> a rdfs:Class ;
   rdfs:subClassOf <ArtifactResolutionTarget> ;
   rdfs:label "Extraction source" ;
@@ -539,6 +543,36 @@
   rdfs:range xsd:anyURI ;
   rdfs:label "target access URL" ;
   rdfs:comment "An access URL for the target bytes of an ArtifactResolutionTarget when those bytes may be fetched or streamed from a remote or otherwise non-local location. This does not by itself imply that a runtime may use network access; that remains an operational-policy question. When targetLocalRelativePath, hasTargetArtifact, hasTargetLocatedFile, or other explicit target locators are also asserted, all declared target locators SHOULD identify the same target bytes." .
+
+<hasTargetRepositorySource> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range <RepositorySourceLocator> ;
+  rdfs:label "has target repository source" ;
+  rdfs:comment "Relates an ArtifactResolutionTarget to a version-control repository locator for the bytes or tree path it should resolve. Runtime policy decides whether and how that locator may be fetched or mapped to a local checkout." .
+
+<sourceRepositoryUrl> a owl:DatatypeProperty ;
+  rdfs:domain <RepositorySourceLocator> ;
+  rdfs:range xsd:anyURI ;
+  rdfs:label "source repository URL" ;
+  rdfs:comment "Canonical or preferred repository URL for a RepositorySourceLocator. This names repository provenance and does not by itself authorize network access." .
+
+<sourceRepositoryRef> a owl:DatatypeProperty ;
+  rdfs:domain <RepositorySourceLocator> ;
+  rdfs:range xsd:string ;
+  rdfs:label "source repository ref" ;
+  rdfs:comment "A branch, tag, symbolic ref, commit expression, or other version-control ref used to resolve the repository source. Mutable refs SHOULD be paired with a resolved sourceRepositoryCommit or content digest when deterministic replay matters." .
+
+<sourceRepositoryCommit> a owl:DatatypeProperty ;
+  rdfs:domain <RepositorySourceLocator> ;
+  rdfs:range xsd:string ;
+  rdfs:label "source repository commit" ;
+  rdfs:comment "Resolved immutable commit identifier for the sourceRepositoryRef when known. The lexical form is version-control-system specific, such as a Git object ID." .
+
+<sourceRepositoryPath> a owl:DatatypeProperty ;
+  rdfs:domain <RepositorySourceLocator> ;
+  rdfs:range xsd:string ;
+  rdfs:label "source repository path" ;
+  rdfs:comment "Path to the source bytes or tree within the repository ref, written relative to the repository root. Values should not be absolute host paths; use '.' for the repository root when the whole tree is the source." .
 
 <hasPageRegion> a owl:ObjectProperty ;
   rdfs:domain <ResourcePageDefinition> ;
