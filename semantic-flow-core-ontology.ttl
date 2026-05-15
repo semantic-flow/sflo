@@ -455,6 +455,28 @@
   rdfs:comment "Links a Knop or SemanticMesh to its single primary ReferenceCatalog resource when present. Owner constraints are enforced in SHACL rather than through a shared superclass." .
 
 #################################################################
+# Source registry artifacts
+#################################################################
+
+<KnopSourceRegistry> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
+  rdfs:label "Knop source registry" ;
+  rdfs:comment "A Knop-owned DigitalArtifact RdfDocument used to catalog source bindings for artifacts carried by the Knop. A source registry is provenance about artifact bytes and materialization, not operational mesh configuration." .
+
+<hasKnopSourceRegistry> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <Knop> ;
+  rdfs:range <KnopSourceRegistry> ;
+  rdfs:label "has Knop source registry" ;
+  rdfs:comment "Links a Knop to its single primary KnopSourceRegistry resource when present." .
+
+<hasSourceBinding> a owl:ObjectProperty ;
+  rdfs:domain <KnopSourceRegistry> ;
+  rdfs:range <ArtifactResolutionTarget> ;
+  rdfs:label "has source binding" ;
+  rdfs:comment "Links a KnopSourceRegistry to an ArtifactResolutionTarget that records a source binding for one artifact carried by the Knop." .
+
+#################################################################
 # Resource page definition artifacts and helpers
 #################################################################
 

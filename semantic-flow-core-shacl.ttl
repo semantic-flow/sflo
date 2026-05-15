@@ -100,6 +100,116 @@
   ];
   sh:targetSubjectsOf sflo:hasReferenceCatalog .
 
+<https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceRegistryShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A KnopSourceRegistry catalogs artifact source bindings for one Knop.";
+  rdfs:label "KnopSourceRegistry";
+  sh:property [
+    sh:class sflo:ArtifactResolutionTarget;
+    sh:message "A KnopSourceRegistry MUST have at least one sflo:hasSourceBinding value typed sflo:ArtifactResolutionTarget.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasSourceBinding;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:KnopSourceRegistry .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceRegistryAttachmentShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Only Knops may own a KnopSourceRegistry in this version of the model.";
+  rdfs:label "KnopSourceRegistry owner constraints";
+  sh:property [
+    sh:class sflo:KnopSourceRegistry;
+    sh:maxCount 1;
+    sh:message "A Knop may have at most one sflo:hasKnopSourceRegistry value, and it must be an IRI typed sflo:KnopSourceRegistry.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasKnopSourceRegistry;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "Only sflo:Knop resources may own a sflo:hasKnopSourceRegistry in this version of the model.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT DISTINCT $this WHERE {\n  $this sflo:hasKnopSourceRegistry ?registry .\n  FILTER NOT EXISTS { $this a sflo:Knop }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:hasKnopSourceRegistry .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceBindingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A source binding carried by a KnopSourceRegistry records the materialized target artifact and its repository source locator.";
+  rdfs:label "Knop source binding";
+  sh:property [
+    sh:maxCount 1;
+    sh:message "A Knop source binding MUST identify exactly one sflo:hasTargetArtifact IRI.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasTargetArtifact;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A Knop source binding MUST declare exactly one sflo:targetLocalRelativePath string literal.";
+    sh:minCount 1;
+    sh:path sflo:targetLocalRelativePath;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A Knop source binding MUST declare exactly one sflo:expectsContentDigest string literal.";
+    sh:minCount 1;
+    sh:path sflo:expectsContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sflo:RepositorySourceLocator;
+    sh:maxCount 1;
+    sh:message "A Knop source binding MUST identify exactly one sflo:hasTargetRepositorySource value typed sflo:RepositorySourceLocator.";
+    sh:minCount 1;
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sflo:hasTargetRepositorySource;
+    sh:severity sh:Violation
+  ];
+  sh:targetObjectsOf sflo:hasSourceBinding .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/RepositorySourceLocatorShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A repository source locator records durable repository coordinates for bytes or a tree path without implying local checkout access.";
+  rdfs:label "RepositorySourceLocator";
+  sh:property [
+    sh:maxCount 1;
+    sh:message "A RepositorySourceLocator MUST declare exactly one sflo:sourceRepositoryUrl literal.";
+    sh:minCount 1;
+    sh:nodeKind sh:Literal;
+    sh:path sflo:sourceRepositoryUrl;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A RepositorySourceLocator MUST declare exactly one sflo:sourceRepositoryRef string literal.";
+    sh:minCount 1;
+    sh:path sflo:sourceRepositoryRef;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "If present, sflo:sourceRepositoryCommit MUST be a single string literal.";
+    sh:path sflo:sourceRepositoryCommit;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A RepositorySourceLocator MUST declare exactly one sflo:sourceRepositoryPath string literal.";
+    sh:minCount 1;
+    sh:path sflo:sourceRepositoryPath;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:RepositorySourceLocator .
+
 <https://semantic-flow.github.io/sflo/ontology/shacl/PreviousHistoricalStateShape>
   rdf:type sh:NodeShape;
   rdfs:comment "previousHistoricalState is optional but, if present, must point to exactly one HistoricalState (the immediately preceding published state).";
@@ -280,6 +390,14 @@
   rdf:type sh:NodeShape;
   rdfs:comment "Operational slot expectations for common Knop-associated artifacts.";
   rdfs:label "Knop slots";
+  sh:property [
+    sh:class sflo:KnopSourceRegistry;
+    sh:maxCount 1;
+    sh:message "If present, a Knop may have at most one sflo:hasKnopSourceRegistry, and it must be an IRI typed sflo:KnopSourceRegistry.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasKnopSourceRegistry;
+    sh:severity sh:Warning
+  ];
   sh:property [
     sh:class sflo:ExtractionSource;
     sh:maxCount 1;

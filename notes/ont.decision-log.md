@@ -10,6 +10,21 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-05-15: Keep repository source provenance in Knop source registries
+
+- Status: Active
+- Decision: Add `KnopSourceRegistry` as a Knop-owned support artifact for source bindings about artifacts carried by that Knop. Link it with `hasKnopSourceRegistry`, and let each registry point to `ArtifactResolutionTarget` relators through `hasSourceBinding`. Repository-backed bindings reuse the existing `RepositorySourceLocator`, digest, and target locator vocabulary.
+- References: [[wd.task.2026.2026-05-15_1113-mesh-branch-fantasy-rules]], [[wd.task.2026.2026-05-13_1655-support-gh-pages-branch-based-deployments]]
+- Why:
+  - source provenance for included artifacts belongs beside the target Knop rather than in `_mesh/_config/config.ttl`
+  - mesh config should remain operational policy/configuration rather than growing into a provenance registry for every materialized artifact
+  - a dedicated `_knop/_sources` artifact keeps inventory from carrying bulky repository binding details while still giving the registry a durable, dereferenceable home
+  - reusing `ArtifactResolutionTarget` keeps repository source bindings aligned with extraction and page-source resolution instead of inventing a branch-deploy-only relator
+- Notes:
+  - conventional serialization is `D/_knop/_sources/sources.ttl`, linked from the Knop inventory with `hasKnopSourceRegistry`
+  - source binding IRIs may be registry-rooted fragments such as `D/_knop/_sources#branch-source-ontology`
+  - runtime policy for resolving repository locators remains outside core ontology
+
 ### 2026-04-12: Model runtime-resolution policy in the config ontology with mesh/local access layers
 
 - Status: Active
