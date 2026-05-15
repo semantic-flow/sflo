@@ -646,6 +646,42 @@
   rdfs:label "has artifact resolution fallback policy" ;
   rdfs:comment "Assigns an ArtifactResolutionFallbackPolicy to an ArtifactResolutionTarget." .
 
+<hasObservedSourceState> a owl:ObjectProperty ;
+  rdfs:domain <ExtractionSource> ;
+  rdfs:range <HistoricalState> ;
+  rdfs:label "has observed source state" ;
+  rdfs:comment "Relates an ExtractionSource to the concrete HistoricalState observed while resolving the source bytes. This records observed evidence and may be more specific than the requested target coordinates." .
+
+<hasObservedSourceManifestation> a owl:ObjectProperty ;
+  rdfs:domain <ExtractionSource> ;
+  rdfs:range <ArtifactManifestation> ;
+  rdfs:label "has observed source manifestation" ;
+  rdfs:comment "Relates an ExtractionSource to the concrete ArtifactManifestation observed while resolving the source bytes." .
+
+<hasObservedSourceLocatedFile> a owl:ObjectProperty ;
+  rdfs:domain <ExtractionSource> ;
+  rdfs:range <LocatedFile> ;
+  rdfs:label "has observed source located file" ;
+  rdfs:comment "Relates an ExtractionSource to the concrete LocatedFile resource observed while resolving the source bytes. Use observedSourceLocalRelativePath for local checkout paths that are not modeled as mesh LocatedFile resources." .
+
+<observedSourceLocalRelativePath> a owl:DatatypeProperty ;
+  rdfs:domain <ExtractionSource> ;
+  rdfs:range xsd:string ;
+  rdfs:label "observed source local relative path" ;
+  rdfs:comment "A local relative path for source bytes observed while resolving an ExtractionSource when those bytes are not modeled as a mesh LocatedFile resource. Values should remain relative to the active local workspace or mesh root policy; absolute host paths should not be persisted here." .
+
+<observedSourceDigest> a owl:DatatypeProperty ;
+  rdfs:domain <ExtractionSource> ;
+  rdfs:range xsd:string ;
+  rdfs:label "observed source digest" ;
+  rdfs:comment "Digest of the concrete source bytes observed while resolving an ExtractionSource. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'." .
+
+<observedAt> a owl:DatatypeProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range xsd:dateTime ;
+  rdfs:label "observed at" ;
+  rdfs:comment "Timestamp for when source or target bytes were observed while resolving an ArtifactResolutionTarget. Prefer durable state, manifestation, located-file, and digest evidence when available; use a timestamp as supplemental evidence or fallback when byte identity cannot be made durable." .
+
 <expectsContentDigest> a owl:DatatypeProperty ;
   rdfs:domain <ArtifactResolutionTarget> ;
   rdfs:range xsd:string ;

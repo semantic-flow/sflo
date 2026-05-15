@@ -400,6 +400,44 @@
     sh:path sflo:hasTargetArtifact;
     sh:severity sh:Violation
   ];
+  sh:property [
+    sh:class sflo:HistoricalState;
+    sh:maxCount 1;
+    sh:message "If present, sflo:hasObservedSourceState should be a single IRI typed sflo:HistoricalState.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasObservedSourceState;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:ArtifactManifestation;
+    sh:maxCount 1;
+    sh:message "If present, sflo:hasObservedSourceManifestation should be a single IRI typed sflo:ArtifactManifestation.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasObservedSourceManifestation;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:LocatedFile;
+    sh:maxCount 1;
+    sh:message "If present, sflo:hasObservedSourceLocatedFile should be a single IRI typed sflo:LocatedFile.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasObservedSourceLocatedFile;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "If present, sflo:observedSourceLocalRelativePath should be a single local relative path literal.";
+    sh:path sflo:observedSourceLocalRelativePath;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "If present, sflo:observedSourceDigest should be a single digest literal.";
+    sh:path sflo:observedSourceDigest;
+    sh:severity sh:Warning
+  ];
   sh:targetClass sflo:ExtractionSource .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/DigitalArtifactHistoryShape>
