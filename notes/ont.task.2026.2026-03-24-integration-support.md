@@ -16,7 +16,18 @@ Integration-oriented config can still live in the same ontology as presentation 
 
 The [March 14 `weave integrate` discussion](../../sflo-dendron-notes/sflo.conv.2026.2026-03-14_0958-existing-solutions-that-could-be-extended-with-weave-codex.md) is the main immediate design anchor.
 
-## Working Goal
+## Current Status
+
+This is no longer an immediate implementation need. The newer branch-published fixture work settled two adjacent pieces that this note should not pull back into integration config:
+
+- source provenance for carried bytes and extracted terms now belongs in the Knop-owned `_knop/_sources` support artifact, modeled as `KnopSourceRegistry` plus `ArtifactResolutionTarget` / `ExtractionSource` bindings
+- operational access policy and reusable config-source resolution belong with the grand config synthesis work, especially [[wd.task.2026.2026-05-06-grand-config-synthesis]]
+
+Automated integration remains a useful future capability, but it should wait until there is real pressure for automatic claiming/matching/mapping of candidate source files. The current `weave integrate`, `weave extract`, and branch-published deploy flows can be driven explicitly by commands and Accord manifests.
+
+When this task resumes, keep the boundary crisp: integration support chooses how to recognize and initialize candidate artifacts; source registries record what source was actually used; operational config decides which local/remote sources the runtime is allowed to follow.
+
+## Deferred Working Goal
 
 Define the minimal ontology and concept model needed to support `weave integrate` without overcommitting to a heavyweight template/matcher system too early.
 
@@ -28,11 +39,11 @@ At minimum, the model should help answer:
 - how multiple integration rules can apply to the same mesh
 - how integration behavior can start simple and grow toward richer selectors later
 
-## Current Direction
+## Deferred Direction
 
-- `IntegrationConfig` is likely a named subclass of `Config`
+- `IntegrationConfig` may still be a useful subclass of `Config`, but it should be introduced only when automated integration needs authored matching/mapping policy
 - individual `IntegrationContext`s may be better modeled as relator-like things that can apply multiply to a `SemanticMesh`
-- matching can start with regex-style filename-to-designatorPath rules
+- matching can start with filename-to-designatorPath rules; avoid committing to regex-first until real examples show that regex is the right authoring surface
 - Dendron-style dotted hierarchy may be a useful additional convention for expressing hierarchy in source naming
 - future matching/mapping may need to inspect filename parts, extensions, YAML frontmatter, embedded metadata, and RDF attributes, but that should not block the simpler filename-first start
 
@@ -51,6 +62,8 @@ Likely areas of vocabulary include:
 - history vs no-history behavior at integration time
 - support for external working sources like paths outside the tree or URLs
 
+Do not use this vocabulary to store repository source provenance, extraction provenance, or runtime path grants. Those are already covered by source registries and operational config.
+
 ## Open Questions
 
 - How exactly should `IntegrationConfig` relate to individual `IntegrationContext` instances?
@@ -61,7 +74,7 @@ Likely areas of vocabulary include:
 
 ## Candidate Deliverables
 
-- a small integration-support section in the future config ontology
+- a small integration-support section in the future config ontology, only if automated integration becomes an active feature
 - a short note or example showing filename-to-designatorPath mapping
 - a worked example showing enough `IntegrationConfig` / `IntegrationContext` to drive a realistic `weave integrate`
 - follow-up notes if richer selector language is needed
