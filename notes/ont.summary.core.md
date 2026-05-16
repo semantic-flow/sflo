@@ -138,7 +138,7 @@ Substantive RDF about a referent should normally live in a payload artifact or d
 - `ResourcePage` is a `LocatedFile` subclass for the human-facing HTML resource pages that should accompany every `SemanticFlowResource`
 - `ResourcePageDefinition` is a separate artifact-level control resource for customized identifier-page composition; it is not the same thing as the generated HTML `ResourcePage`
 - `KnopAssetBundle` is a bounded helper structure for local `_knop/_assets` modeling and does not by itself imply governed artifacts or recursive inventory capture
-- `KnopSourceRegistry` is a Knop-owned support artifact for source bindings, conventionally materialized under `_knop/_sources`; it records materialization sources and extraction provenance rather than operational mesh configuration
+- `KnopSourceRegistry` is a Knop-owned support artifact for source bindings, conventionally materialized under `_knop/_sources`; it records materialization sources and extraction provenance rather than operational mesh configuration or descriptive payload facts
 - `ArtifactResolutionTarget` is the generic policy-bearing relator for application concerns that need to resolve bytes from an artifact, a direct mesh-local path string, a direct access URL, a specific `LocatedFile`, or another explicit packaged target together with optional history/state/mode/fallback inputs
 - `ExtractionSource` specializes `ArtifactResolutionTarget` for the source RDF document bytes from which a Knop-managed resource was extracted or first grounded; Knops link to it with `hasExtractionSource`, usually as a source-registry fragment such as `D/_knop/_sources#extraction-source`
 - `ResourcePageRegion` and `ResourcePageSource` describe page-content composition in core; `ResourcePageSource` specializes `ArtifactResolutionTarget` and uses the generic target/history/state/mode/fallback properties directly while template/chrome policy remains a separate config concern
@@ -146,6 +146,13 @@ Substantive RDF about a referent should normally live in a payload artifact or d
 - `designatorPath` is the mesh-relative path-like naming value carried by a `Knop`; it is not a generic path property for every `SemanticFlowResource`.
 - a `Semantic Flow identifier` is the public IRI formed from `meshBase + Knop.designatorPath`; support resources in the mesh may still have ordinary IRIs without thereby being Semantic Flow identifiers.
 - `preferredPayloadFileSlug` is the mutable filename preference.
+
+Source registries are the current home for two related but distinct records:
+
+- repository-backed materialization bindings, where an `ArtifactResolutionTarget` records the target artifact plus repository URL, ref, resolved commit, repository-relative path, and byte digest for the source that was copied into the mesh
+- extraction provenance, where an `ExtractionSource` records the source artifact coordinates used to ground an extracted Knop, the resolution mode, the observed state/manifestation/located file when those are available, an observed digest, and at most a local relative path fallback when no durable located file is modeled
+
+These records are not curated references. Use `ReferenceCatalog` / `ReferenceLink` when the mesh wants to say that one resource intentionally references another. Use `_knop/_sources` when the mesh needs to explain where carried bytes or extracted-term evidence came from. Inventory-rooted extraction-source detail blocks are historical only; current serialization keeps the details in `_knop/_sources/sources.ttl` and lets the Knop inventory point to that registry and to the primary extraction source.
 
 ## Things To Not Reintroduce
 
