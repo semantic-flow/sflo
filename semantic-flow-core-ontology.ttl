@@ -461,7 +461,7 @@
 <KnopSourceRegistry> a rdfs:Class ;
   rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
   rdfs:label "Knop source registry" ;
-  rdfs:comment "A Knop-owned DigitalArtifact RdfDocument used to catalog source bindings for artifacts carried by the Knop. A source registry is provenance about artifact bytes and materialization, not operational mesh configuration." .
+  rdfs:comment "A Knop-owned DigitalArtifact RdfDocument used to catalog source bindings for artifacts or resources associated with the Knop, including materialized payload sources and extraction provenance. A source registry is provenance about source bytes and resolution, not operational mesh configuration." .
 
 <hasKnopSourceRegistry> a owl:ObjectProperty ;
   rdfs:subPropertyOf dcterms:hasPart ;
@@ -474,7 +474,7 @@
   rdfs:domain <KnopSourceRegistry> ;
   rdfs:range <ArtifactResolutionTarget> ;
   rdfs:label "has source binding" ;
-  rdfs:comment "Links a KnopSourceRegistry to an ArtifactResolutionTarget that records a source binding for one artifact carried by the Knop." .
+  rdfs:comment "Links a KnopSourceRegistry to an ArtifactResolutionTarget that records a source binding for an artifact or resource associated with the Knop." .
 
 #################################################################
 # Resource page definition artifacts and helpers
@@ -500,7 +500,7 @@
 <ExtractionSource> a rdfs:Class ;
   rdfs:subClassOf <ArtifactResolutionTarget> ;
   rdfs:label "Extraction source" ;
-  rdfs:comment "An artifact-resolution target that identifies the RDF document bytes from which a Knop-managed resource was extracted or first grounded." .
+  rdfs:comment "An artifact-resolution target that identifies the RDF document bytes from which a Knop-managed resource was extracted or first grounded. ExtractionSource records are normally carried in the KnopSourceRegistry under '_knop/_sources' and linked from the Knop with hasExtractionSource." .
 
 <hasExtractionSource> a owl:ObjectProperty ;
   rdfs:domain <Knop> ;

@@ -102,7 +102,7 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceRegistryShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "A KnopSourceRegistry catalogs artifact source bindings for one Knop.";
+  rdfs:comment "A KnopSourceRegistry catalogs source bindings and extraction provenance for one Knop.";
   rdfs:label "KnopSourceRegistry";
   sh:property [
     sh:class sflo:ArtifactResolutionTarget;
@@ -136,11 +136,11 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceBindingShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "A source binding carried by a KnopSourceRegistry records the materialized target artifact and its repository source locator.";
-  rdfs:label "Knop source binding";
+  rdfs:comment "A repository-backed source binding carried by a KnopSourceRegistry records the materialized target artifact and its repository source locator.";
+  rdfs:label "Repository-backed Knop source binding";
   sh:property [
     sh:maxCount 1;
-    sh:message "A Knop source binding MUST identify exactly one sflo:hasTargetArtifact IRI.";
+    sh:message "A repository-backed Knop source binding MUST identify exactly one sflo:hasTargetArtifact IRI.";
     sh:minCount 1;
     sh:nodeKind sh:IRI;
     sh:path sflo:hasTargetArtifact;
@@ -149,7 +149,7 @@
   sh:property [
     sh:datatype xsd:string;
     sh:maxCount 1;
-    sh:message "A Knop source binding MUST declare exactly one sflo:targetLocalRelativePath string literal.";
+    sh:message "A repository-backed Knop source binding MUST declare exactly one sflo:targetLocalRelativePath string literal.";
     sh:minCount 1;
     sh:path sflo:targetLocalRelativePath;
     sh:severity sh:Violation
@@ -157,7 +157,7 @@
   sh:property [
     sh:datatype xsd:string;
     sh:maxCount 1;
-    sh:message "A Knop source binding MUST declare exactly one sflo:expectsContentDigest string literal.";
+    sh:message "A repository-backed Knop source binding MUST declare exactly one sflo:expectsContentDigest string literal.";
     sh:minCount 1;
     sh:path sflo:expectsContentDigest;
     sh:severity sh:Violation
@@ -165,13 +165,13 @@
   sh:property [
     sh:class sflo:RepositorySourceLocator;
     sh:maxCount 1;
-    sh:message "A Knop source binding MUST identify exactly one sflo:hasTargetRepositorySource value typed sflo:RepositorySourceLocator.";
+    sh:message "A repository-backed Knop source binding MUST identify exactly one sflo:hasTargetRepositorySource value typed sflo:RepositorySourceLocator.";
     sh:minCount 1;
     sh:nodeKind sh:BlankNodeOrIRI;
     sh:path sflo:hasTargetRepositorySource;
     sh:severity sh:Violation
   ];
-  sh:targetObjectsOf sflo:hasSourceBinding .
+  sh:targetSubjectsOf sflo:hasTargetRepositorySource .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/RepositorySourceLocatorShape>
   rdf:type sh:NodeShape;

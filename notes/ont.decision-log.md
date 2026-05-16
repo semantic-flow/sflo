@@ -10,10 +10,25 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-05-16: Carry extraction provenance in Knop source registries
+
+- Status: Active
+- Decision: Keep `hasExtractionSource` as the Knop-level pointer to the primary `ExtractionSource`, but serialize the `ExtractionSource` record in the Knop's `_knop/_sources/sources.ttl` registry rather than as an inventory-rooted fragment. Use source-registry fragment IRIs such as `D/_knop/_sources#extraction-source`.
+- References: [[wd.task.2026.2026-05-15_1113-mesh-branch-fantasy-rules]], [[wd.task.2026.2026-05-04-extraction-improvements]]
+- Why:
+  - extraction provenance is source provenance, and belongs with other source bindings rather than making KnopInventory carry bulky source records
+  - source registries can carry both repository-backed payload source bindings and extraction-source bindings without making mesh config a provenance bucket
+  - keeping the Knop-level `hasExtractionSource` pointer preserves the simple "what source grounds this extracted resource?" query shape
+  - repository-backed source-binding SHACL should apply only to bindings with `hasTargetRepositorySource`; not every `hasSourceBinding` relator is repository materialization
+- Notes:
+  - KnopInventory still links the source registry with `hasKnopSourceRegistry` and links the primary extraction source with `hasExtractionSource`
+  - `_knop/_sources/sources.ttl` owns the `ExtractionSource` block and links it from the registry with `hasSourceBinding`
+  - legacy inventory-rooted extraction-source records may appear in old fixtures, but new generated fixtures should use `_sources`
+
 ### 2026-05-15: Keep repository source provenance in Knop source registries
 
 - Status: Active
-- Decision: Add `KnopSourceRegistry` as a Knop-owned support artifact for source bindings about artifacts carried by that Knop. Link it with `hasKnopSourceRegistry`, and let each registry point to `ArtifactResolutionTarget` relators through `hasSourceBinding`. Repository-backed bindings reuse the existing `RepositorySourceLocator`, digest, and target locator vocabulary.
+- Decision: Add `KnopSourceRegistry` as a Knop-owned support artifact for source bindings about artifacts carried by or resources grounded through that Knop. Link it with `hasKnopSourceRegistry`, and let each registry point to `ArtifactResolutionTarget` relators through `hasSourceBinding`. Repository-backed bindings reuse the existing `RepositorySourceLocator`, digest, and target locator vocabulary.
 - References: [[wd.task.2026.2026-05-15_1113-mesh-branch-fantasy-rules]], [[wd.task.2026.2026-05-13_1655-support-gh-pages-branch-based-deployments]]
 - Why:
   - source provenance for included artifacts belongs beside the target Knop rather than in `_mesh/_config/config.ttl`
@@ -71,7 +86,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 ### 2026-05-04: Model Extraction Source Binding As An Inventory Relator
 
-- Status: Active
+- Status: Superseded by 2026-05-16
 - Decision: Add `ExtractionSource` as an `ArtifactResolutionTarget` subclass for the RDF document bytes from which a Knop-managed resource was extracted or first grounded, and add `hasExtractionSource` from `Knop` to `ExtractionSource`. Use inventory-rooted fragment IRIs such as `D/_knop/_inventory#extraction-source` for the carried local extraction slices.
 - References: [[wd.task.2026.2026-05-03-term-extraction]], [[wd.task.2026.2026-05-02-fantasy-rules-sidecar]], [[sf.spec.2026-04-05-extract-behavior]]
 - Why:
