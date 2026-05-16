@@ -23,7 +23,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 - Notes:
   - KnopInventory still links the source registry with `hasKnopSourceRegistry` and links the primary extraction source with `hasExtractionSource`
   - `_knop/_sources/sources.ttl` owns the `ExtractionSource` block and links it from the registry with `hasSourceBinding`
-  - legacy inventory-rooted extraction-source records may appear in old fixtures, but new generated fixtures should use `_sources`
+  - inventory-rooted extraction-source records are historical only; generated fixture refs should be regenerated to the `_sources` shape rather than supported as a runtime compatibility mode
 
 ### 2026-05-15: Keep repository source provenance in Knop source registries
 
