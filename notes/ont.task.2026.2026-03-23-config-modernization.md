@@ -10,6 +10,28 @@ created: 1774330976647
 
 The old config work in `old/sflo-config-ontology.jsonld` was designed around ontology structures that no longer exist in the active model.
 
+## Status
+
+Superseded by [[wd.task.2026.2026-05-06-grand-config-synthesis]]. Keep this note as historical rationale for the config modernization line; do not treat its "Current Direction", "Current Decisions", or "Suggested Plan" sections as active implementation guidance.
+
+The useful ideas carried forward were:
+
+- `Config` stays distinct from `DigitalArtifact`, while reusable persisted configs may also be `ConfigArtifact`, `DigitalArtifact`, and `RdfDocument`
+- config should have explicit mesh/Knop attachment relations rather than relying only on generic `hasConfig`
+- reusable named config artifacts are valid
+- computed effective config is non-authoritative runtime/debug output
+- the old Flow/State/Distribution framing and `AbstractArtifact` vocabulary should not be carried forward
+- ResourcePage template/style terms belong in the config line while ResourcePage content composition belongs in core
+
+The active synthesis changed or rejected several early ideas from this note:
+
+- do not add `ConfigFragment`; use inline ordinary `Config` data for embedded fragments and `ConfigArtifact` for independently identified reusable configs
+- do not introduce `KnopConfigDefaults` as the main model; use mesh/Knop inheritable config attachments, config layer roles, and resolution context
+- do not replace Knop-local/inheritable config with mesh-scoped defaults only; Knops need both local config and inheritable config surfaces
+- do not revive boolean switches such as `generateResourcePages` or `createHistoricalStatesOnWeave`; use policy-valued config
+- do not make regex-heavy template mapping the first presentation-selection contract
+- keep automated integration support deferred unless there is concrete pressure for source-file claiming/matching/mapping
+
 The main mismatches are:
 
 - `sflo:Mesh` should now be `sflo:SemanticMesh`
