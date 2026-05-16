@@ -44,7 +44,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 - Status: Active
 - Decision: Keep the first-pass runtime-resolution vocabulary in the live config ontology rather than blocking on a separate host/operational companion ontology. Use `MeshConfig` for portable mesh-carried config and `LocalConfig` for user- or machine-local config; keep `OperationalConfig` for host/runtime policy rather than making mesh config a subclass of it. Model local-boundary allowances with positive `LocalPathAccessRule` resources carrying an explicit base plus `pathPrefix`, and model remote-boundary allowances with positive `RemoteAccessRule` resources carrying locator-kind plus scheme/origin constraints.
-- References: [[wd.task.2026.2026-04-11_1723-operational-config-for-runtime-resolution]], [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[ont.task.2026.2026-03-23-config-modernization]]
+- References: [[wd.task.2026.2026-04-11_1723-operational-config-for-runtime-resolution]], [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[wa.cancelled.2026.2026-03-23-config-modernization]]
 - Why:
   - CLI and daemon both need the same operational path/URL policy surface, so the first-pass model should not stay daemon-centric
   - the current config ontology already provides the generic `Config` substrate, so keeping operational policy there is a smaller and clearer first step than introducing a separate namespace immediately
@@ -62,7 +62,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 - Status: Active
 - Decision: Add `workspaceRootRelativeToMeshRoot` to `MeshConfig` so a sidecar mesh can carry the portable relationship from its mesh root to its containing workspace root, for example `"../"` for a mesh rooted at `docs/`.
-- References: [[ont.task.2026.2026-03-23-config-modernization]], [[ont.use-case.dereferenceable-ontology]]
+- References: [[wa.cancelled.2026.2026-03-23-config-modernization]], [[ont.use-case.dereferenceable-ontology]]
 - Why:
   - a sidecar mesh often needs to travel with the knowledge that it lives inside a larger project tree
   - the portable relationship is the relative path from mesh root to workspace root, not the absolute host path of the checkout
@@ -76,7 +76,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 - Status: Active
 - Decision: Keep `ResourcePageDefinition` as the Knop-owned support artifact for customized identifier pages, but replace the earlier page-bundle helper model with a more general resolution model. Introduce `ArtifactResolutionTarget` as a generic policy-bearing relator for resolving bytes from either a `DigitalArtifact`, a direct mesh-local path string, a direct access URL, a direct `LocatedFile`, or another explicit packaged target. Keep `ResourcePageSource` as a page-specific subclass of `ArtifactResolutionTarget`, but have it use the generic target/history/state/mode/fallback properties directly rather than duplicating page-specific alias properties; use `targetLocalRelativePath` for unmanaged mesh-local file references; use `targetAccessUrl` for explicit remote/external target URLs when operational policy allows them; and use `KnopAssetBundle` only for the bounded `_knop/_assets` helper area. Leave template/chrome configuration for the separate config-ontology track.
-- References: [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[ont.task.2026.2026-03-23-config-modernization]]
+- References: [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[wa.cancelled.2026.2026-03-23-config-modernization]]
 - Why:
   - identifier-page customization needs an explicit control-plane artifact without pretending the identifier itself is a payload-bearing `DigitalArtifact`
   - page-source resolution is a broader application concern than resource-page rendering alone and should not be trapped in page-specific bundle vocabulary
@@ -110,7 +110,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 - Status: Superseded on 2026-04-11 by the `ArtifactResolutionTarget` decision
 - Decision: Add `ResourcePageDefinition` to the live core model as a Knop-owned support artifact for customizable identifier pages. Model the local `_knop/_page` boundary with `ResourcePageBundle`, model member files with `ResourcePageBundleFile`, model `_knop/_page/_assets` with `ResourcePageAssetBundle`, and model authored content composition with `ResourcePageRegion` plus `ResourcePageSource`. Keep per-source requested state, source mode, and fallback policy in core, but leave template/chrome configuration for the separate config-ontology track.
-- References: [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[ont.task.2026.2026-03-23-config-modernization]]
+- References: [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[wa.cancelled.2026.2026-03-23-config-modernization]]
 - Why:
   - identifier-page customization needs an explicit control-plane artifact without pretending the identifier itself is a payload-bearing `DigitalArtifact`
   - the `_knop/_page` boundary and its member files need explicit semantics without forcing every local helper file into `KnopInventory`
