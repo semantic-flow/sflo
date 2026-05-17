@@ -1,5 +1,5 @@
 # Semantic Flow Ontologies
 
-A set of ontologies to support the Semantic Flow framework and semantic meshes in general
+This repo contains a set of ontologies and some SHACL to support the Semantic Flow framework, plus some documentation. 
 
 

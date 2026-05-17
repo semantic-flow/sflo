@@ -1,4 +1,4 @@
-@base <https://semantic-flow.github.io/ontology/config/> .
+@base <https://semantic-flow.github.io/sflo/config/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -7,28 +7,28 @@
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
 
-<> a owl:Ontology ;
+<https://semantic-flow.github.io/sflo/config> a owl:Ontology ;
   dcterms:title "Semantic Flow Config Ontology" ;
   dcterms:description "Vocabulary for Semantic Flow configuration resources, authored config attachment, resolver policy, derived resolved-config records, operational runtime-resolution policy, and resource-page presentation configuration. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/ontology/config/releases/v0.1.0> ;
+  dcterms:hasVersion <https://semantic-flow.github.io/sflo/config/releases/v0.1.0> ;
   dcterms:modified "2026-05-13"^^xsd:date ;
   owl:versionInfo "0.1.0" ;
   owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-config-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfcfg" ;
-  vann:preferredNamespaceUri <https://semantic-flow.github.io/ontology/config/> .
+  vann:preferredNamespaceUri <https://semantic-flow.github.io/sflo/config/> .
 
-<https://semantic-flow.github.io/ontology/config/releases/v0.1.0>
+<https://semantic-flow.github.io/sflo/config/releases/v0.1.0>
   a owl:Ontology ;
-  dcterms:isVersionOf <> ;
+  dcterms:isVersionOf <https://semantic-flow.github.io/sflo/config> ;
   dcterms:issued "2026-05-13"^^xsd:date ;
   owl:versionInfo "0.1.0" ;
-  sflo:hasManifestation <https://semantic-flow.github.io/ontology/config/releases/v0.1.0/ttl> .
+  sflo:hasManifestation <https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl> .
 
-<https://semantic-flow.github.io/ontology/config/releases/v0.1.0/ttl>
+<https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl>
   a sflo:ArtifactManifestation ;
   dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-config-ontology.ttl> ;
-  dcat:downloadURL <https://semantic-flow.github.io/ontology/config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> ;
+  dcat:downloadURL <https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> ;
   dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
 
 #################################################################
