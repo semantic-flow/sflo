@@ -1,0 +1,65 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<_knop> a sflo:Knop ;
+  sflo:hasKnopMetadata <_knop/_meta> ;
+  sflo:hasKnopInventory <_knop/_inventory> ;
+  sflo:hasWorkingKnopInventoryFile <_knop/_inventory/inventory.ttl> ;
+  sflo:hasPayloadArtifact <> ;
+  sflo:hasResourcePage <_knop/index.html> .
+
+<> a sflo:PayloadArtifact, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasArtifactHistory <main> ;
+  sflo:currentArtifactHistory <main> ;
+  sflo:nextHistoryOrdinal "2"^^xsd:nonNegativeInteger ;
+  sflo:hasWorkingLocatedFile <welcome.ttl> ;
+  sflo:hasResourcePage <index.html> .
+
+<main> a sflo:ArtifactHistory ;
+  sflo:historyOrdinal "1"^^xsd:nonNegativeInteger ;
+  sflo:hasHistoricalState <main/_s0001> ;
+  sflo:latestHistoricalState <main/_s0001> ;
+  sflo:nextStateOrdinal "2"^^xsd:nonNegativeInteger ;
+  sflo:hasResourcePage <main/index.html> .
+
+<main/_s0001> a sflo:HistoricalState ;
+  sflo:stateOrdinal "1"^^xsd:nonNegativeInteger ;
+  sflo:hasManifestation <main/_s0001/ttl> ;
+  sflo:locatedFileForState <main/_s0001/ttl/welcome.ttl> ;
+  sflo:hasResourcePage <main/_s0001/index.html> .
+
+<main/_s0001/ttl> a sflo:ArtifactManifestation, sflo:RdfDocument ;
+  sflo:locatedFileForManifestation <main/_s0001/ttl/welcome.ttl> ;
+  sflo:hasResourcePage <main/_s0001/ttl/index.html> .
+
+<_knop/_meta> a sflo:KnopMetadata, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <_knop/_meta/meta.ttl> ;
+  sflo:hasResourcePage <_knop/_meta/index.html> .
+
+<_knop/_inventory> a sflo:KnopInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <_knop/_inventory/index.html> .
+
+<_knop/_meta/meta.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<welcome.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<main/_s0001/ttl/welcome.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<main/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<main/_s0001/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<main/_s0001/ttl/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<_knop/_meta/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<_knop/_inventory/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+

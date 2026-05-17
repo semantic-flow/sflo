@@ -1,0 +1,5 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://semantic-flow.github.io/sflo> dcterms:title "Semantic Flow Ontology and Related Resources" ;
+  dcterms:description "The Semantic Flow core ontology and other related resources provide a way to create identifiers that are dereferenceable, resilient, and explorable. It formalizes how Semantic Flow designators, supporting artifacts, and optional payload resources can be combined to make these identifiers useful." .

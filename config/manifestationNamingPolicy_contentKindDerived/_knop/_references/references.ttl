@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/manifestationNamingPolicy_contentKindDerived> sflo:hasReferenceLink <config/manifestationNamingPolicy_contentKindDerived/_knop/_references#reference001> .
+
+<config/manifestationNamingPolicy_contentKindDerived/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/manifestationNamingPolicy_contentKindDerived> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

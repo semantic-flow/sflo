@@ -1,0 +1,718 @@
+@base <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <https://schema.org/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+<https://semantic-flow.github.io/sflo/ontology> a owl:Ontology ;
+  dcterms:title "Semantic Flow Core Ontology" ;
+  dcterms:description "The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes." ;
+  dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
+  dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0> ;
+  dcterms:modified "2026-05-17"^^xsd:date ;
+  owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-core-ontology.ttl> ;
+  owl:versionInfo "0.1.0" ;
+  vann:preferredNamespacePrefix "sflo" ;
+  vann:preferredNamespaceUri "https://semantic-flow.github.io/sflo/ontology/" .
+
+<https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0>
+  a owl:Ontology, <HistoricalState> ;
+  dcterms:isVersionOf <https://semantic-flow.github.io/sflo/ontology> ;
+  dcterms:issued "2026-05-17"^^xsd:date ;
+  owl:versionInfo "0.1.0" ;
+  schema:contentUrl <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl> ;
+  <hasManifestation> <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl> .
+
+<https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl>
+  dcat:downloadURL <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl> .
+
+#################################################################
+#################################################################
+# General-purpose vocabulary
+#################################################################
+#################################################################
+
+#################################################################
+# DigitalArtifact
+#################################################################
+
+
+<DigitalArtifact> a rdfs:Class ;
+  rdfs:subClassOf dcat:Dataset ;
+  rdfs:label "Digital artifact" ;
+  rdfs:comment "A digital artifact considered as the governing artifact-level resource across its states, manifestations, and retrievable files. In the current Semantic Flow model, payload, metadata, and inventory roles classify DigitalArtifacts directly." .
+
+<ArtifactHistory> a rdfs:Class ;
+  rdfs:subClassOf <SemanticFlowResource> ;
+  rdfs:label "Artifact history" ;
+  rdfs:comment "An explicit history-lineage resource for a DigitalArtifact. It groups published HistoricalStates, carries lineage-level operational metadata such as ordinals, and may have its own ResourcePage." .
+
+<DigitalArtifactFacet> a rdfs:Class ;
+  rdfs:label "Digital artifact facet" ;
+  rdfs:comment "A Semantic Flow facet of a DigitalArtifact." .
+
+#################################################################
+# Artifact facet types
+#################################################################
+
+#################################################################
+# Core artifact model (DigitalArtifact / ArtifactHistory / HistoricalState / ArtifactManifestation / LocatedFile)
+#################################################################
+
+<HistoricalState> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifactFacet> ;
+  rdfs:label "Historical state" ;
+  rdfs:comment "An immutable snapshot facet for a DigitalArtifact, normally organized within an ArtifactHistory." .
+
+<ArtifactManifestation> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifactFacet>, dcat:Distribution ;
+  rdfs:label "Artifact manifestation" ;
+  rdfs:comment "A concrete artifact manifestation: a specific variant (e.g., Markdown vs PDF, Turtle vs JSON-LD, zipped vs unzipped, or distinct build/canonicalization choices) whose bytes may be served from one or more LocatedFiles. ArtifactManifestations are typically linked from HistoricalStates, but may also be linked directly from a DigitalArtifact in sparse cases where no HistoricalState is materialized." .
+
+<LocatedFile> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifactFacet> ;
+  rdfs:label "Located file" ;
+  rdfs:comment "A retrievable bytes identity (typically with an extension). A LocatedFile may be used as a facet of broader artifacts (ArtifactManifestation, HistoricalState, DigitalArtifact) and may also stand alone in external or partially modeled cases." .
+
+#################################################################
+# Core structural relations
+#################################################################
+
+<hasHistoricalState> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactHistory> ;
+  rdfs:range <HistoricalState> ;
+  rdfs:label "has historical state" ;
+  rdfs:comment "Relates an ArtifactHistory to one of its published HistoricalStates." .
+
+<hasArtifactHistory> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:range <ArtifactHistory> ;
+  rdfs:label "has artifact history" ;
+  rdfs:comment "Relates a DigitalArtifact to one of its explicit ArtifactHistory resources." .
+
+<currentArtifactHistory> a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:subPropertyOf <hasArtifactHistory> ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:range <ArtifactHistory> ;
+  rdfs:label "current artifact history" ;
+  rdfs:comment "Convenience pointer from a DigitalArtifact to its current/default explicit ArtifactHistory. When explicit histories are in use, this is the normative target for subsequent weave/version operations." .
+
+<previousHistoricalState> a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:subPropertyOf prov:wasRevisionOf ;
+  rdfs:domain <HistoricalState> ;
+  rdfs:range <HistoricalState> ;
+  rdfs:label "previous historical state" ;
+  rdfs:comment "Links a HistoricalState to the immediately preceding HistoricalState in its published revision lineage." .
+
+<latestHistoricalState> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasHistoricalState> ;
+  rdf:type owl:FunctionalProperty ;
+  rdfs:domain <ArtifactHistory> ;
+  rdfs:range <HistoricalState> ;
+  rdfs:label "latest historical state" ;
+  rdfs:comment "Operational metadata convenience pointer from an ArtifactHistory to its most recently published HistoricalState. MUST NOT be asserted into immutable historical snapshots/distributions." .
+
+<historyOrdinal> a owl:DatatypeProperty ;
+  rdfs:domain <ArtifactHistory> ;
+  rdfs:range xsd:nonNegativeInteger ;
+  rdfs:label "history ordinal" ;
+  rdfs:comment "Machine-oriented ordinal for a numbered default ArtifactHistory resource such as '_history001'." .
+
+<stateOrdinal> a owl:DatatypeProperty ;
+  rdfs:domain <HistoricalState> ;
+  rdfs:range xsd:nonNegativeInteger ;
+  rdfs:label "state ordinal" ;
+  rdfs:comment "Machine-oriented ordinal for a numbered default HistoricalState resource such as '_s0001' within its ArtifactHistory." .
+
+<nextHistoryOrdinal> a owl:DatatypeProperty ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:range xsd:nonNegativeInteger ;
+  rdfs:label "next history ordinal" ;
+  rdfs:comment "Next auto-issued ordinal for generated default ArtifactHistory resources such as '_history001'. When present, it SHOULD reflect the next unused historyOrdinal for this DigitalArtifact." .
+
+<nextStateOrdinal> a owl:DatatypeProperty ;
+  rdfs:domain <ArtifactHistory> ;
+  rdfs:range xsd:nonNegativeInteger ;
+  rdfs:label "next state ordinal" ;
+  rdfs:comment "Next auto-issued ordinal for generated default HistoricalState resources such as '_s0001' within an ArtifactHistory." .
+
+<hasManifestation> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcat:distribution ;
+  rdfs:range <ArtifactManifestation> ;
+  rdfs:label "has manifestation" ;
+  rdfs:comment "Relates a DigitalArtifact or DigitalArtifactFacet to one of its ArtifactManifestations. In the current core model this is used primarily from HistoricalState and optionally from DigitalArtifact in sparse cases." .
+
+<hasWorkingLocatedFile> a owl:ObjectProperty ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:range <LocatedFile> ;
+  rdfs:label "has working located file" ;
+  rdfs:comment "Relates a DigitalArtifact directly to its working LocatedFile when a mesh wants sparse authoring support without materializing working/current state resources. When workingLocalRelativePath is also asserted and the LocatedFile denotes a mesh-addressable local file, the two SHOULD identify the same current bytes." .
+
+<workingLocalRelativePath> a owl:DatatypeProperty ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:range xsd:string ;
+  rdfs:label "working local relative path" ;
+  rdfs:comment "A local relative path for the current working bytes of a DigitalArtifact. The value is resolved relative to the current mesh root, may include '../' segments when allowed by active config, and does not by itself imply a mesh-addressable LocatedFile or public IRI. Absolute host paths should not be persisted here. When hasWorkingLocatedFile is also asserted and denotes a mesh-addressable local file, the two SHOULD identify the same current bytes." .
+
+<workingAccessUrl> a owl:DatatypeProperty ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:range xsd:anyURI ;
+  rdfs:label "working access URL" ;
+  rdfs:comment "A current access URL for the working bytes of a DigitalArtifact when those bytes may be fetched or streamed from a remote or otherwise non-local location. This does not by itself imply that a runtime may use network access; that remains an operational-policy question. When workingLocalRelativePath, hasWorkingLocatedFile, or both are also asserted, all declared current-byte locators SHOULD identify the same current bytes." .
+
+<hasWorkingMeshInventoryFile> a owl:ObjectProperty ;
+  rdfs:domain <SemanticMesh> ;
+  rdfs:range <LocatedFile> ;
+  rdfs:label "has working mesh inventory file" ;
+  rdfs:comment "Convenience shortcut from a SemanticMesh directly to the current working LocatedFile of its mesh inventory document." .
+
+<hasWorkingKnopInventoryFile> a owl:ObjectProperty ;
+  rdfs:domain <Knop> ;
+  rdfs:range <LocatedFile> ;
+  rdfs:label "has working Knop inventory file" ;
+  rdfs:comment "Convenience shortcut from a Knop directly to the current working LocatedFile of its Knop inventory document." .
+
+<hasContentDigest> a owl:DatatypeProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range xsd:string ;
+  rdfs:label "has content digest" ;
+  rdfs:comment "A digest for the byte stream or canonical representation of a byte-bearing resource such as a LocatedFile, ArtifactManifestation, or HistoricalState. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'. RDF graph artifacts SHOULD make clear which serialization bytes or canonicalization profile were hashed." .
+
+<locatedFileForManifestation> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcat:downloadURL ;
+  rdfs:domain <ArtifactManifestation> ;
+  rdfs:range <LocatedFile> ;
+  owl:inverseOf <locatesManifestation> ;
+  rdfs:label "located file for manifestation" ;
+  rdfs:comment "Relates an ArtifactManifestation to one or more LocatedFiles that provide retrievable bytes for that manifestation." .
+
+<locatesManifestation> a owl:ObjectProperty ;
+  rdfs:domain <LocatedFile> ;
+  rdfs:range <ArtifactManifestation> ;
+  owl:inverseOf <locatedFileForManifestation> ;
+  rdfs:label "locates manifestation" ;
+  rdfs:comment "Navigation: links a LocatedFile to an ArtifactManifestation whose bytes it provides." .
+
+
+#################################################################
+# Optional skip-links (sparse shortcuts)
+#################################################################
+
+<locatedFileForState> a owl:ObjectProperty ;
+  rdfs:domain <HistoricalState> ;
+  rdfs:range <LocatedFile> ;
+  rdfs:label "located file for state" ;
+  rdfs:comment "Optional shortcut relating a HistoricalState directly to a LocatedFile. When present in mesh-managed data, it SHOULD be consistent with the chain: hasManifestation / locatedFileForManifestation." .
+
+<locatedFileForArtifact> a owl:ObjectProperty ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:range <LocatedFile> ;
+  rdfs:label "located file for artifact" ;
+  rdfs:comment "Relates a DigitalArtifact directly to one or more LocatedFiles that provide bytes for that artifact when a mesh wants a sparse file shortcut without materializing HistoricalState or ArtifactManifestation resources. Use locatedFileForManifestation when the file is tied to a specific ArtifactManifestation." .
+
+
+
+#################################################################
+# Content kinds
+#################################################################
+
+<RdfDocument> a rdfs:Class ;
+  rdfs:label "RDF document" ;
+  rdfs:comment "A content-kind classification for resources whose content is at least one RDF graph. It may be applied selectively to a DigitalArtifact or to a specific DigitalArtifactFacet such as an ArtifactManifestation or LocatedFile." .
+
+#################################################################
+# Compatibility
+#################################################################
+
+<compatibleWith> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range rdfs:Resource ;
+  rdfs:label "compatible with" ;
+  rdfs:comment "Relates a resource to another resource it is intended to interoperate with or conform to." .
+
+#################################################################
+# Web presentation
+#################################################################
+
+<ResourcePage> a rdfs:Class ;
+  rdfs:subClassOf <LocatedFile>, schema:WebPage ;
+  rdfs:label "Resource page file" ;
+  rdfs:comment "An HTML page that presents a resource. By convention, resource pages are located at a reserved 'index.html' located-file name. Mesh layout invariant: reserve 'index.html' for ResourcePages; other artifact facets SHOULD NOT use 'index.html' as their identifier token." .
+
+<hasResourcePage> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ResourcePage> ;
+  rdfs:label "has resource page file" ;
+  rdfs:comment "Associates any resource with a human-readable presentation page." .
+
+#################################################################
+# Reference data
+#################################################################
+
+<ReferenceLink> a rdfs:Class ;
+  rdfs:label "Reference link" ;
+  rdfs:comment "A relator describing a reference-data link from a resource to a specific reference data source, including role metadata." .
+
+<ReferenceRole> a rdfs:Class ;
+  rdfs:label "Reference role" ;
+  rdfs:comment "A controlled vocabulary of roles describing how a ReferenceLink should be used." .
+
+<referenceRole_canonical> a <ReferenceRole> ;
+  rdfs:label "Canonical" .
+
+<referenceRole_supplemental> a <ReferenceRole> ;
+  rdfs:label "Supplemental" .
+
+<referenceRole_deprecated> a <ReferenceRole> ;
+  rdfs:label "Deprecated" .
+
+<hasReferenceLink> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ReferenceLink> ;
+  owl:inverseOf <referenceLinkFor> ;
+  rdfs:label "has reference link"@en ;
+  rdfs:comment "Associates a resource with a ReferenceLink that provides external or supporting reference information about it." .
+
+<referenceLinkFor> a owl:ObjectProperty ;
+  rdfs:domain <ReferenceLink> ;
+  rdfs:range rdfs:Resource ;
+  owl:inverseOf <hasReferenceLink> ;
+  rdfs:label "reference link for"@en ;
+  rdfs:comment "Identifies the resource that a ReferenceLink is about." .
+
+<hasReferenceRole> a owl:ObjectProperty ;
+  rdfs:domain <ReferenceLink> ;
+  rdfs:range <ReferenceRole> ;
+  rdfs:label "has reference role" ;
+  rdfs:comment "Assigns one or more ReferenceRoles to this ReferenceLink, indicating how the reference data should be used." .
+
+<referenceTarget> a owl:ObjectProperty ;
+  rdfs:domain <ReferenceLink> ;
+  rdfs:range rdfs:Resource ;
+  rdfs:label "reference target" ;
+  rdfs:comment "If present, the reference target is a resource used as a reference-data identifier." .
+
+<referenceTargetState> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <referenceTarget> ;
+  rdfs:domain <ReferenceLink> ;
+  rdfs:range <HistoricalState> ;
+  rdfs:label "reference target state" ;
+  rdfs:comment "If present, the reference target is specifically a HistoricalState rather than a broader artifact/resource identity." .
+
+<referenceUriLiteral> a owl:DatatypeProperty ;
+  rdfs:domain <ReferenceLink> ;
+  rdfs:range xsd:anyURI ;
+  rdfs:label "reference URI literal" ;
+  rdfs:comment "If present, a retrievable location for reference data (without asserting denotation). May be used alongside referenceTarget or alone." .
+
+<verifiedAt> a owl:DatatypeProperty ;
+  rdfs:domain <ReferenceLink> ;
+  rdfs:range xsd:dateTimeStamp ;
+  rdfs:label "last verified at" ;
+  rdfs:comment "Most recent verification timestamp for this reference link." .
+
+<verifiedBy> a owl:ObjectProperty ;
+  rdfs:domain <ReferenceLink> ;
+  rdfs:range dcterms:Agent ;
+  rdfs:label "last verified by" ;
+  rdfs:comment "Agent responsible for the most recent verification of this reference link." .
+
+#################################################################
+#################################################################
+# Semantic Flow resources
+#################################################################
+#################################################################
+
+<SemanticFlowResource> a rdfs:Class ;
+  rdfs:label "Semantic Flow resource" ;
+  rdfs:comment "A constituent of a SemanticMesh modeled using Semantic Flow conventions (SemanticMesh, Knop, ArtifactHistory, and mesh-hosted artifacts such as payload, metadata, and inventory)." .
+
+#################################################################
+# Semantic Meshes
+#################################################################
+
+<SemanticMesh> a rdfs:Class ;
+  rdfs:subClassOf <SemanticFlowResource> ;
+  rdfs:label "Semantic Mesh" ;
+  rdfs:comment "A namespace region, conventionally exposed via a reserved _mesh/ handle and, in filesystem-backed serializations, represented by a filesystem region, that has Semantic Flow resources and other supporting resources." .
+
+<meshBase> a owl:DatatypeProperty ;
+  rdfs:domain <SemanticMesh> ;
+  rdfs:range xsd:anyURI ;
+  rdfs:label "mesh base" ;
+  rdfs:comment "A mesh's canonical BASE (publish location). Represented as a URI literal to avoid asserting anything about the denoted thing." .
+
+#################################################################
+# Knops + payload artifacts
+#################################################################
+
+<hasKnop> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <SemanticMesh> ;
+  rdfs:range <Knop> ;
+  rdfs:label "has knop"@en ;
+  rdfs:comment "Associates a SemanticMesh with a Knop that participates in its Semantic Flow surface. This is a semantic membership relation, not a filesystem directory listing, and can apply to meshes that exist only in memory."@en .
+
+<designatorPath> a owl:DatatypeProperty ;
+  rdfs:domain <Knop> ;
+  rdfs:range xsd:string ;
+  rdfs:label "designator path" ;
+  rdfs:comment "Relative mesh designator path for the Knop's associated Semantic Flow identifier, interpreted relative to the containing mesh's meshBase. Use no leading slash. The empty string denotes the mesh root designator. A trailing slash MAY be included if a mesh intentionally models a slash-terminated identifier IRI." .
+
+<Knop> a rdfs:Class ;
+  rdfs:subClassOf <SemanticFlowResource> ;
+  rdfs:label "Knop" ;
+  rdfs:comment "A mesh-managed support object and naming anchor associated one-to-one with a Semantic Flow identifier. A Knop carries the mesh-relative designatorPath from which that identifier IRI is formed in mesh context, and may host a primary payload artifact plus supporting artifacts." .
+
+<PayloadArtifact> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifact>, <SemanticFlowResource> ;
+  rdfs:label "Payload artifact" ;
+  rdfs:comment "A DigitalArtifact used as the primary payload hosted by a Knop." .
+
+<hasPayloadArtifact> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <Knop> ;
+  rdfs:range <PayloadArtifact> ;
+  rdfs:label "has payload artifact" ;
+  rdfs:comment "Links a Knop to its primary PayloadArtifact resource when the Knop carries a mesh-managed digital payload." .
+
+<preferredPayloadFileSlug> a owl:DatatypeProperty ;
+  rdfs:domain <PayloadArtifact> ;
+  rdfs:range xsd:string ;
+  rdfs:label "preferred payload file slug" ;
+  rdfs:comment "Mutable filename-stem preference for LocatedFiles (e.g., 'alice-bio'). Generators may ignore/sanitize it and must resolve collisions mechanically (e.g., suffix or hash). Mesh invariant: should avoid values that would result in a LocatedFile named 'index.html'." .
+
+
+#################################################################
+# Metadata artifacts
+#################################################################
+
+<KnopMetadata> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
+  rdfs:label "Knop metadata" ;
+  rdfs:comment "A DigitalArtifact RdfDocument used as metadata about a Knop as a mesh-managed support object." .
+
+<MeshMetadata> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
+  rdfs:label "Mesh metadata" ;
+  rdfs:comment "A DigitalArtifact RdfDocument used as metadata for a SemanticMesh." .
+
+<hasKnopMetadata> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <Knop> ;
+  rdfs:range <KnopMetadata> ;
+  rdfs:label "has knop metadata" ;
+  rdfs:comment "Links a Knop to its primary KnopMetadata DigitalArtifact resource (if present)." .
+
+<hasMeshMetadata> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <SemanticMesh> ;
+  rdfs:range <MeshMetadata> ;
+  rdfs:label "has mesh metadata" ;
+  rdfs:comment "Links a SemanticMesh to its primary MeshMetadata DigitalArtifact resource (if present)." .
+
+#################################################################
+# Inventory artifacts
+#################################################################
+
+<MeshInventory> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
+  rdfs:label "Mesh inventory" ;
+  rdfs:comment "A DigitalArtifact RdfDocument used as inventory for a SemanticMesh." .
+
+<KnopInventory> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
+  rdfs:label "Knop inventory" ;
+  rdfs:comment "A DigitalArtifact RdfDocument used as inventory for a Knop." .
+
+<hasMeshInventory> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <SemanticMesh> ;
+  rdfs:range <MeshInventory> ;
+  rdfs:label "has mesh inventory" ;
+  rdfs:comment "Links a SemanticMesh to its MeshInventory resource." .
+
+<hasKnopInventory> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <Knop> ;
+  rdfs:range <KnopInventory> ;
+  rdfs:label "has knop inventory" ;
+  rdfs:comment "Links a Knop to its KnopInventory resource." .
+
+#################################################################
+# Reference catalog artifacts
+#################################################################
+
+<ReferenceCatalog> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
+  rdfs:label "Reference catalog" ;
+  rdfs:comment "A DigitalArtifact RdfDocument used to catalog ReferenceLinks about the resource identified by a Knop or about a SemanticMesh as a managed subject. ReferenceCatalog is intentionally narrow: it is for ReferenceLink relators, not for arbitrary descriptive RDF." .
+
+<hasReferenceCatalog> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:range <ReferenceCatalog> ;
+  rdfs:label "has reference catalog" ;
+  rdfs:comment "Links a Knop or SemanticMesh to its single primary ReferenceCatalog resource when present. Owner constraints are enforced in SHACL rather than through a shared superclass." .
+
+#################################################################
+# Source registry artifacts
+#################################################################
+
+<KnopSourceRegistry> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
+  rdfs:label "Knop source registry" ;
+  rdfs:comment "A Knop-owned DigitalArtifact RdfDocument used to catalog source bindings for artifacts or resources associated with the Knop, including materialized payload sources and extraction provenance. A source registry is provenance about source bytes and resolution, not operational mesh configuration." .
+
+<hasKnopSourceRegistry> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <Knop> ;
+  rdfs:range <KnopSourceRegistry> ;
+  rdfs:label "has Knop source registry" ;
+  rdfs:comment "Links a Knop to its single primary KnopSourceRegistry resource when present." .
+
+<hasSourceBinding> a owl:ObjectProperty ;
+  rdfs:domain <KnopSourceRegistry> ;
+  rdfs:range <ArtifactResolutionTarget> ;
+  rdfs:label "has source binding" ;
+  rdfs:comment "Links a KnopSourceRegistry to an ArtifactResolutionTarget that records a source binding for an artifact or resource associated with the Knop." .
+
+#################################################################
+# Resource page definition artifacts and helpers
+#################################################################
+
+<ResourcePageDefinition> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
+  rdfs:label "Resource page definition" ;
+  rdfs:comment "A DigitalArtifact RdfDocument used as the authoritative knop-owned definition artifact for a generated resource page. It describes page regions, page sources, and related composition policy without making the identified resource itself a payload-bearing artifact." .
+
+<KnopAssetBundle> a rdfs:Class ;
+  rdfs:label "Knop asset bundle" ;
+  rdfs:comment "A bounded helper boundary for knop-owned support assets such as '_knop/_assets'. It does not by itself imply that each contained file is a governed artifact or a KnopInventory entry." .
+
+<ArtifactResolutionTarget> a rdfs:Class ;
+  rdfs:label "Artifact resolution target" ;
+  rdfs:comment "A policy-bearing relator that identifies bytes for an application concern by naming a target artifact, a mesh-local file path string, a specific LocatedFile, or another explicit packaged/distributed target together with optional requested state, mode, and fallback policy. At least one concrete target should normally be provided, but this ontology does not enforce that cardinality directly." .
+
+<RepositorySourceLocator> a rdfs:Class ;
+  rdfs:label "Repository source locator" ;
+  rdfs:comment "A durable locator for bytes or a tree path in a version-control repository. It records repository identity, ref or commit coordinates, and a repository-relative path without implying a local checkout path or granting runtime access. Content digests may be expressed with hasContentDigest on this locator or expectsContentDigest on the ArtifactResolutionTarget that uses it." .
+
+<ExtractionSource> a rdfs:Class ;
+  rdfs:subClassOf <ArtifactResolutionTarget> ;
+  rdfs:label "Extraction source" ;
+  rdfs:comment "An artifact-resolution target that identifies the RDF document bytes from which a Knop-managed resource was extracted or first grounded. ExtractionSource records are normally carried in the KnopSourceRegistry under '_knop/_sources' and linked from the Knop with hasExtractionSource." .
+
+<hasExtractionSource> a owl:ObjectProperty ;
+  rdfs:domain <Knop> ;
+  rdfs:range <ExtractionSource> ;
+  rdfs:label "has extraction source" ;
+  rdfs:comment "Links a Knop to the artifact-resolution target that identifies the source RDF document bytes for the resource managed by that Knop." .
+
+<ArtifactResolutionMode> a rdfs:Class ;
+  rdfs:label "Artifact resolution mode" ;
+  rdfs:comment "A controlled vocabulary describing whether an ArtifactResolutionTarget is pinned to an explicitly requested state or follows the current/default artifact surface." .
+
+<artifactResolutionMode_pinned> a <ArtifactResolutionMode> ;
+  rdfs:label "Pinned" ;
+  rdfs:comment "The ArtifactResolutionTarget is pinned to explicitly requested target coordinates when provided." .
+
+<artifactResolutionMode_current> a <ArtifactResolutionMode> ;
+  rdfs:label "Current" ;
+  rdfs:comment "The ArtifactResolutionTarget should follow the current/default artifact surface rather than pinning a specific state." .
+
+<ArtifactResolutionFallbackPolicy> a rdfs:Class ;
+  rdfs:label "Artifact resolution fallback policy" ;
+  rdfs:comment "A controlled vocabulary describing what fallback, if any, is acceptable when a requested artifact-resolution target cannot be resolved exactly." .
+
+<artifactResolutionFallbackPolicy_exactOnly> a <ArtifactResolutionFallbackPolicy> ;
+  rdfs:label "Exact only" ;
+  rdfs:comment "Only the exact requested target is acceptable; otherwise resolution fails." .
+
+<artifactResolutionFallbackPolicy_acceptLatestInRequestedHistory> a <ArtifactResolutionFallbackPolicy> ;
+  rdfs:label "Accept latest in requested history" ;
+  rdfs:comment "If an exact requested state cannot be resolved, the latest available HistoricalState in the requested ArtifactHistory is acceptable." .
+
+<ResourcePageRegion> a rdfs:Class ;
+  rdfs:label "Resource page region" ;
+  rdfs:comment "A structural content region described by a ResourcePageDefinition. Use this for page-content composition, not for template-slot wiring or browser chrome concerns." .
+
+<ResourcePageSource> a rdfs:Class ;
+  rdfs:subClassOf <ArtifactResolutionTarget> ;
+  rdfs:label "Resource page source" ;
+  rdfs:comment "A page-specific ArtifactResolutionTarget used as a per-region source binding for resource-page composition. It uses the generic artifact-resolution target/history/state/mode/fallback properties directly." .
+
+<hasResourcePageDefinition> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <Knop> ;
+  rdfs:range <ResourcePageDefinition> ;
+  rdfs:label "has resource page definition" ;
+  rdfs:comment "Links a Knop to its authoritative ResourcePageDefinition artifact when customizable identifier-page behavior is explicitly modeled." .
+
+<hasKnopAssetBundle> a owl:ObjectProperty ;
+  rdfs:domain <Knop> ;
+  rdfs:range <KnopAssetBundle> ;
+  rdfs:label "has knop asset bundle" ;
+  rdfs:comment "Links a Knop to its bounded local support-asset area, such as '_knop/_assets'." .
+
+<targetLocalRelativePath> a owl:DatatypeProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range xsd:string ;
+  rdfs:label "target local relative path" ;
+  rdfs:comment "A local relative path resolved from the current mesh root that names an unmanaged local source target and should be resolved directly rather than through artifact history/state lookup. Values should remain relative; '../' segments may be allowed by active config, but absolute host paths should not be persisted here." .
+
+<targetAccessUrl> a owl:DatatypeProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range xsd:anyURI ;
+  rdfs:label "target access URL" ;
+  rdfs:comment "An access URL for the target bytes of an ArtifactResolutionTarget when those bytes may be fetched or streamed from a remote or otherwise non-local location. This does not by itself imply that a runtime may use network access; that remains an operational-policy question. When targetLocalRelativePath, hasTargetArtifact, hasTargetLocatedFile, or other explicit target locators are also asserted, all declared target locators SHOULD identify the same target bytes." .
+
+<hasTargetRepositorySource> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range <RepositorySourceLocator> ;
+  rdfs:label "has target repository source" ;
+  rdfs:comment "Relates an ArtifactResolutionTarget to a version-control repository locator for the bytes or tree path it should resolve. Runtime policy decides whether and how that locator may be fetched or mapped to a local checkout." .
+
+<sourceRepositoryUrl> a owl:DatatypeProperty ;
+  rdfs:domain <RepositorySourceLocator> ;
+  rdfs:range xsd:anyURI ;
+  rdfs:label "source repository URL" ;
+  rdfs:comment "Canonical or preferred repository URL for a RepositorySourceLocator. This names repository provenance and does not by itself authorize network access." .
+
+<sourceRepositoryRef> a owl:DatatypeProperty ;
+  rdfs:domain <RepositorySourceLocator> ;
+  rdfs:range xsd:string ;
+  rdfs:label "source repository ref" ;
+  rdfs:comment "A branch, tag, symbolic ref, commit expression, or other version-control ref used to resolve the repository source. Mutable refs SHOULD be paired with a resolved sourceRepositoryCommit or content digest when deterministic replay matters." .
+
+<sourceRepositoryCommit> a owl:DatatypeProperty ;
+  rdfs:domain <RepositorySourceLocator> ;
+  rdfs:range xsd:string ;
+  rdfs:label "source repository commit" ;
+  rdfs:comment "Resolved immutable commit identifier for the sourceRepositoryRef when known. The lexical form is version-control-system specific, such as a Git object ID." .
+
+<sourceRepositoryPath> a owl:DatatypeProperty ;
+  rdfs:domain <RepositorySourceLocator> ;
+  rdfs:range xsd:string ;
+  rdfs:label "source repository path" ;
+  rdfs:comment "Path to the source bytes or tree within the repository ref, written relative to the repository root. Values should not be absolute host paths; use '.' for the repository root when the whole tree is the source." .
+
+<hasPageRegion> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePageDefinition> ;
+  rdfs:range <ResourcePageRegion> ;
+  rdfs:label "has page region" ;
+  rdfs:comment "Relates a ResourcePageDefinition to one of its authored content regions." .
+
+<regionKey> a owl:DatatypeProperty ;
+  rdfs:domain <ResourcePageRegion> ;
+  rdfs:range xsd:string ;
+  rdfs:label "region key" ;
+  rdfs:comment "A stable application-facing key for a ResourcePageRegion such as 'main' or 'sidebar'." .
+
+<regionOrder> a owl:DatatypeProperty ;
+  rdfs:domain <ResourcePageRegion> ;
+  rdfs:range xsd:nonNegativeInteger ;
+  rdfs:label "region order" ;
+  rdfs:comment "Optional presentation order hint for ResourcePageRegion instances when deterministic region sequencing is needed." .
+
+<hasResourcePageSource> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePageRegion> ;
+  rdfs:range <ResourcePageSource> ;
+  rdfs:label "has resource page source" ;
+  rdfs:comment "Relates a ResourcePageRegion to one of its source bindings." .
+
+<sourceOrder> a owl:DatatypeProperty ;
+  rdfs:domain <ResourcePageSource> ;
+  rdfs:range xsd:nonNegativeInteger ;
+  rdfs:label "source order" ;
+  rdfs:comment "Optional order hint for ResourcePageSource instances when a region intentionally composes multiple ordered sources." .
+
+<hasTargetArtifact> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range <DigitalArtifact> ;
+  rdfs:label "has target artifact" ;
+  rdfs:comment "Relates an ArtifactResolutionTarget to a DigitalArtifact whose bytes should be resolved, subject to any requested state, mode, and fallback policy." .
+
+<hasTargetLocatedFile> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range <LocatedFile> ;
+  rdfs:label "has target located file" ;
+  rdfs:comment "Relates an ArtifactResolutionTarget directly to a specific LocatedFile when resolution should follow that retrievable bytes identity without requiring an artifact-level target." .
+
+<hasTargetDistribution> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range dcat:Distribution ;
+  rdfs:label "has target distribution" ;
+  rdfs:comment "Relates an ArtifactResolutionTarget to a Distribution describing how explicitly packaged target bytes are accessed." .
+
+<hasRequestedTargetHistory> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range <ArtifactHistory> ;
+  rdfs:label "has requested target history" ;
+  rdfs:comment "Relates an ArtifactResolutionTarget to the ArtifactHistory it requests when resolution should stay within a specific history boundary." .
+
+<hasRequestedTargetState> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range <HistoricalState> ;
+  rdfs:label "has requested target state" ;
+  rdfs:comment "Relates an ArtifactResolutionTarget to an explicitly requested HistoricalState. This names the requested target, not a runtime-resolved outcome." .
+
+<hasArtifactResolutionMode> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range <ArtifactResolutionMode> ;
+  rdfs:label "has artifact resolution mode" ;
+  rdfs:comment "Assigns an ArtifactResolutionMode to an ArtifactResolutionTarget." .
+
+<hasArtifactResolutionFallbackPolicy> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range <ArtifactResolutionFallbackPolicy> ;
+  rdfs:label "has artifact resolution fallback policy" ;
+  rdfs:comment "Assigns an ArtifactResolutionFallbackPolicy to an ArtifactResolutionTarget." .
+
+<hasObservedSourceState> a owl:ObjectProperty ;
+  rdfs:domain <ExtractionSource> ;
+  rdfs:range <HistoricalState> ;
+  rdfs:label "has observed source state" ;
+  rdfs:comment "Relates an ExtractionSource to the concrete HistoricalState observed while resolving the source bytes. This records observed evidence and may be more specific than the requested target coordinates." .
+
+<hasObservedSourceManifestation> a owl:ObjectProperty ;
+  rdfs:domain <ExtractionSource> ;
+  rdfs:range <ArtifactManifestation> ;
+  rdfs:label "has observed source manifestation" ;
+  rdfs:comment "Relates an ExtractionSource to the concrete ArtifactManifestation observed while resolving the source bytes." .
+
+<hasObservedSourceLocatedFile> a owl:ObjectProperty ;
+  rdfs:domain <ExtractionSource> ;
+  rdfs:range <LocatedFile> ;
+  rdfs:label "has observed source located file" ;
+  rdfs:comment "Relates an ExtractionSource to the concrete LocatedFile resource observed while resolving the source bytes. Use observedSourceLocalRelativePath for local checkout paths that are not modeled as mesh LocatedFile resources." .
+
+<observedSourceLocalRelativePath> a owl:DatatypeProperty ;
+  rdfs:domain <ExtractionSource> ;
+  rdfs:range xsd:string ;
+  rdfs:label "observed source local relative path" ;
+  rdfs:comment "A local relative path for source bytes observed while resolving an ExtractionSource when those bytes are not modeled as a mesh LocatedFile resource. Values should remain relative to the active local workspace or mesh root policy; absolute host paths should not be persisted here." .
+
+<observedSourceDigest> a owl:DatatypeProperty ;
+  rdfs:domain <ExtractionSource> ;
+  rdfs:range xsd:string ;
+  rdfs:label "observed source digest" ;
+  rdfs:comment "Digest of the concrete source bytes observed while resolving an ExtractionSource. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'." .
+
+<observedAt> a owl:DatatypeProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range xsd:dateTime ;
+  rdfs:label "observed at" ;
+  rdfs:comment "Timestamp for when source or target bytes were observed while resolving an ArtifactResolutionTarget. Prefer durable state, manifestation, located-file, and digest evidence when available; use a timestamp as supplemental evidence or fallback when byte identity cannot be made durable." .
+
+<expectsContentDigest> a owl:DatatypeProperty ;
+  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:range xsd:string ;
+  rdfs:label "expects content digest" ;
+  rdfs:comment "Digest expected after resolving an ArtifactResolutionTarget. Resolution should verify resolved bytes or canonical representations against this value before using them when policy requires a strong pin. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'." .

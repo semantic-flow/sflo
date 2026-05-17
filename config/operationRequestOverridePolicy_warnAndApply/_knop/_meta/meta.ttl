@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/operationRequestOverridePolicy_warnAndApply/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/operationRequestOverridePolicy_warnAndApply" ;
+  sflo:hasWorkingKnopInventoryFile <config/operationRequestOverridePolicy_warnAndApply/_knop/_inventory/inventory.ttl> .

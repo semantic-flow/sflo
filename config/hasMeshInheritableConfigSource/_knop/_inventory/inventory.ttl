@@ -1,0 +1,40 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<config/hasMeshInheritableConfigSource/_knop> a sflo:Knop ;
+  sflo:hasKnopMetadata <config/hasMeshInheritableConfigSource/_knop/_meta> ;
+  sflo:hasKnopInventory <config/hasMeshInheritableConfigSource/_knop/_inventory> ;
+  sflo:hasKnopSourceRegistry <config/hasMeshInheritableConfigSource/_knop/_sources> ;
+  sflo:hasExtractionSource <config/hasMeshInheritableConfigSource/_knop/_sources#extraction-source> ;
+  sflo:hasReferenceCatalog <config/hasMeshInheritableConfigSource/_knop/_references> ;
+  sflo:hasWorkingKnopInventoryFile <config/hasMeshInheritableConfigSource/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/hasMeshInheritableConfigSource/_knop/index.html> .
+
+<config/hasMeshInheritableConfigSource/_knop/_meta> a sflo:KnopMetadata, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasMeshInheritableConfigSource/_knop/_meta/meta.ttl> ;
+  sflo:hasResourcePage <config/hasMeshInheritableConfigSource/_knop/_meta/index.html> .
+
+<config/hasMeshInheritableConfigSource/_knop/_inventory> a sflo:KnopInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasMeshInheritableConfigSource/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/hasMeshInheritableConfigSource/_knop/_inventory/index.html> .
+
+<config/hasMeshInheritableConfigSource/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasMeshInheritableConfigSource/_knop/_sources/sources.ttl> .
+
+<config/hasMeshInheritableConfigSource/_knop/_meta/meta.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasMeshInheritableConfigSource/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasMeshInheritableConfigSource/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasMeshInheritableConfigSource/_knop/_references> a sflo:ReferenceCatalog, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasMeshInheritableConfigSource/_knop/_references/references.ttl> .
+
+<config/hasMeshInheritableConfigSource/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasMeshInheritableConfigSource/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/hasMeshInheritableConfigSource/_knop/_meta/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/hasMeshInheritableConfigSource/_knop/_inventory/index.html> a sflo:ResourcePage, sflo:LocatedFile .

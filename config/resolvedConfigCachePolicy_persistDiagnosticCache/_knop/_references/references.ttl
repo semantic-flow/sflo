@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/resolvedConfigCachePolicy_persistDiagnosticCache> sflo:hasReferenceLink <config/resolvedConfigCachePolicy_persistDiagnosticCache/_knop/_references#reference001> .
+
+<config/resolvedConfigCachePolicy_persistDiagnosticCache/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/resolvedConfigCachePolicy_persistDiagnosticCache> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

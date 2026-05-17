@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/remoteLocatorKind_targetAccessUrl> sflo:hasReferenceLink <config/remoteLocatorKind_targetAccessUrl/_knop/_references#reference001> .
+
+<config/remoteLocatorKind_targetAccessUrl/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/remoteLocatorKind_targetAccessUrl> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

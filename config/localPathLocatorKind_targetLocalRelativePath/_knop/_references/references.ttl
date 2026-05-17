@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/localPathLocatorKind_targetLocalRelativePath> sflo:hasReferenceLink <config/localPathLocatorKind_targetLocalRelativePath/_knop/_references#reference001> .
+
+<config/localPathLocatorKind_targetLocalRelativePath/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/localPathLocatorKind_targetLocalRelativePath> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

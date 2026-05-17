@@ -1,0 +1,70 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<config/_knop> a sflo:Knop ;
+  sflo:hasKnopMetadata <config/_knop/_meta> ;
+  sflo:hasKnopInventory <config/_knop/_inventory> ;
+  sflo:hasKnopSourceRegistry <config/_knop/_sources> ;
+  sflo:hasWorkingKnopInventoryFile <config/_knop/_inventory/inventory.ttl> ;
+  sflo:hasPayloadArtifact <config> ;
+  sflo:hasResourcePage <config/_knop/index.html> .
+
+<config> a sflo:PayloadArtifact, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasArtifactHistory <config/releases> ;
+  sflo:currentArtifactHistory <config/releases> ;
+  sflo:nextHistoryOrdinal "2"^^xsd:nonNegativeInteger ;
+  sflo:hasWorkingLocatedFile <semantic-flow-config-ontology.ttl> ;
+  sflo:hasResourcePage <config/index.html> .
+
+<config/releases> a sflo:ArtifactHistory ;
+  sflo:historyOrdinal "1"^^xsd:nonNegativeInteger ;
+  sflo:hasHistoricalState <config/releases/v0.1.0> ;
+  sflo:latestHistoricalState <config/releases/v0.1.0> ;
+  sflo:nextStateOrdinal "2"^^xsd:nonNegativeInteger ;
+  sflo:hasResourcePage <config/releases/index.html> .
+
+<config/releases/v0.1.0> a sflo:HistoricalState ;
+  sflo:stateOrdinal "1"^^xsd:nonNegativeInteger ;
+  sflo:hasManifestation <config/releases/v0.1.0/ttl> ;
+  sflo:locatedFileForState <config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> ;
+  sflo:hasResourcePage <config/releases/v0.1.0/index.html> .
+
+<config/releases/v0.1.0/ttl> a sflo:ArtifactManifestation, sflo:RdfDocument ;
+  sflo:locatedFileForManifestation <config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> ;
+  sflo:hasResourcePage <config/releases/v0.1.0/ttl/index.html> .
+
+<config/_knop/_meta> a sflo:KnopMetadata, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/_knop/_meta/meta.ttl> ;
+  sflo:hasResourcePage <config/_knop/_meta/index.html> .
+
+<config/_knop/_inventory> a sflo:KnopInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/_knop/_inventory/index.html> .
+
+<config/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/_knop/_sources/sources.ttl> .
+
+<config/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/_knop/_meta/meta.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<semantic-flow-config-ontology.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/releases/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/releases/v0.1.0/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/releases/v0.1.0/ttl/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/_knop/_meta/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/_knop/_inventory/index.html> a sflo:ResourcePage, sflo:LocatedFile .

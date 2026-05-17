@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/ConfigResolutionConfig> sflo:hasReferenceLink <config/ConfigResolutionConfig/_knop/_references#reference001> .
+
+<config/ConfigResolutionConfig/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/ConfigResolutionConfig> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

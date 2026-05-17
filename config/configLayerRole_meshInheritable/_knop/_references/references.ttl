@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/configLayerRole_meshInheritable> sflo:hasReferenceLink <config/configLayerRole_meshInheritable/_knop/_references#reference001> .
+
+<config/configLayerRole_meshInheritable/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/configLayerRole_meshInheritable> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

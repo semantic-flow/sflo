@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/configInheritancePolicy_offerDescendantsOnly> sflo:hasReferenceLink <config/configInheritancePolicy_offerDescendantsOnly/_knop/_references#reference001> .
+
+<config/configInheritancePolicy_offerDescendantsOnly/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/configInheritancePolicy_offerDescendantsOnly> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

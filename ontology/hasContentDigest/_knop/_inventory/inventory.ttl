@@ -1,0 +1,40 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<ontology/hasContentDigest/_knop> a sflo:Knop ;
+  sflo:hasKnopMetadata <ontology/hasContentDigest/_knop/_meta> ;
+  sflo:hasKnopInventory <ontology/hasContentDigest/_knop/_inventory> ;
+  sflo:hasKnopSourceRegistry <ontology/hasContentDigest/_knop/_sources> ;
+  sflo:hasExtractionSource <ontology/hasContentDigest/_knop/_sources#extraction-source> ;
+  sflo:hasReferenceCatalog <ontology/hasContentDigest/_knop/_references> ;
+  sflo:hasWorkingKnopInventoryFile <ontology/hasContentDigest/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <ontology/hasContentDigest/_knop/index.html> .
+
+<ontology/hasContentDigest/_knop/_meta> a sflo:KnopMetadata, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/hasContentDigest/_knop/_meta/meta.ttl> ;
+  sflo:hasResourcePage <ontology/hasContentDigest/_knop/_meta/index.html> .
+
+<ontology/hasContentDigest/_knop/_inventory> a sflo:KnopInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/hasContentDigest/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <ontology/hasContentDigest/_knop/_inventory/index.html> .
+
+<ontology/hasContentDigest/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/hasContentDigest/_knop/_sources/sources.ttl> .
+
+<ontology/hasContentDigest/_knop/_meta/meta.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/hasContentDigest/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/hasContentDigest/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/hasContentDigest/_knop/_references> a sflo:ReferenceCatalog, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/hasContentDigest/_knop/_references/references.ttl> .
+
+<ontology/hasContentDigest/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/hasContentDigest/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/hasContentDigest/_knop/_meta/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/hasContentDigest/_knop/_inventory/index.html> a sflo:ResourcePage, sflo:LocatedFile .

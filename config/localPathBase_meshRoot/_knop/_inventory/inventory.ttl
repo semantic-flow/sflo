@@ -1,0 +1,40 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<config/localPathBase_meshRoot/_knop> a sflo:Knop ;
+  sflo:hasKnopMetadata <config/localPathBase_meshRoot/_knop/_meta> ;
+  sflo:hasKnopInventory <config/localPathBase_meshRoot/_knop/_inventory> ;
+  sflo:hasKnopSourceRegistry <config/localPathBase_meshRoot/_knop/_sources> ;
+  sflo:hasExtractionSource <config/localPathBase_meshRoot/_knop/_sources#extraction-source> ;
+  sflo:hasReferenceCatalog <config/localPathBase_meshRoot/_knop/_references> ;
+  sflo:hasWorkingKnopInventoryFile <config/localPathBase_meshRoot/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/localPathBase_meshRoot/_knop/index.html> .
+
+<config/localPathBase_meshRoot/_knop/_meta> a sflo:KnopMetadata, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/localPathBase_meshRoot/_knop/_meta/meta.ttl> ;
+  sflo:hasResourcePage <config/localPathBase_meshRoot/_knop/_meta/index.html> .
+
+<config/localPathBase_meshRoot/_knop/_inventory> a sflo:KnopInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/localPathBase_meshRoot/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/localPathBase_meshRoot/_knop/_inventory/index.html> .
+
+<config/localPathBase_meshRoot/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/localPathBase_meshRoot/_knop/_sources/sources.ttl> .
+
+<config/localPathBase_meshRoot/_knop/_meta/meta.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/localPathBase_meshRoot/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/localPathBase_meshRoot/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/localPathBase_meshRoot/_knop/_references> a sflo:ReferenceCatalog, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/localPathBase_meshRoot/_knop/_references/references.ttl> .
+
+<config/localPathBase_meshRoot/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/localPathBase_meshRoot/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/localPathBase_meshRoot/_knop/_meta/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/localPathBase_meshRoot/_knop/_inventory/index.html> a sflo:ResourcePage, sflo:LocatedFile .

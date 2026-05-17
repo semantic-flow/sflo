@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/shacl/CurrentArtifactHistoryIsMemberShape> sflo:hasReferenceLink <ontology/shacl/CurrentArtifactHistoryIsMemberShape/_knop/_references#reference001> .
+
+<ontology/shacl/CurrentArtifactHistoryIsMemberShape/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <ontology/shacl/CurrentArtifactHistoryIsMemberShape> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <ontology/shacl> .

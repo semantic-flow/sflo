@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/hasOperationRequestOverridePolicy> sflo:hasReferenceLink <config/hasOperationRequestOverridePolicy/_knop/_references#reference001> .
+
+<config/hasOperationRequestOverridePolicy/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/hasOperationRequestOverridePolicy> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

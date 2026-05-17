@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sflo Semantic Flow Core Ontology</title>
+  <link rel="canonical" href="https://semantic-flow.github.io/sflo/ontology">
+  <style>
+    :root { min-height: 100%; color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f6f7f4; color: #20231f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; background: linear-gradient(180deg, #f6f7f4 0%, #ebece7 100%); }
+    a { color: #1f5f85; text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; }
+    main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 16px 0 42px; flex: 1 0 auto; }
+    .wf-shell { display: grid; gap: 18px; min-width: 0; }
+    .wf-shell > * { min-width: 0; }
+    .wf-masthead { min-width: 0; }
+    .wf-page-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 4px; min-width: 0; }
+    .wf-eyebrow { margin: 0; color: #5e675d; font-size: 0.82rem; line-height: 1.2; letter-spacing: 0; font-weight: 700; }
+    .wf-breadcrumbs { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+    .wf-breadcrumbs a { color: inherit; text-decoration-color: rgba(94, 103, 93, 0.45); }
+    .wf-mesh-favicon { flex: 0 0 auto; width: 32px; height: 32px; object-fit: contain; }
+    .wf-hero { border-top: 5px solid #435247; padding: 26px 0 12px; }
+    h1 { margin: 0; overflow-wrap: anywhere; font-size: clamp(1.7rem, 4vw, 2.7rem); line-height: 1.04; letter-spacing: 0; }
+    .wf-classes { margin: 8px 0 0; color: #687167; font-style: italic; }
+    .wf-classes a { color: inherit; text-decoration: underline; text-decoration-color: rgba(104, 113, 103, 0.34); text-decoration-thickness: 0.06em; text-underline-offset: 0.18em; }
+    .wf-summary { max-width: 820px; margin: 14px 0 0; color: #3f463f; font-size: 1.05rem; line-height: 1.6; }
+    .wf-metadata { width: 100%; margin-top: 24px; border-collapse: collapse; table-layout: fixed; border-top: 1px solid #cdd2ca; border-bottom: 1px solid #cdd2ca; }
+    .wf-metadata th, .wf-metadata td { padding: 10px 12px; border-top: 1px solid #e0e4dd; text-align: left; vertical-align: top; }
+    .wf-metadata tr:first-child th, .wf-metadata tr:first-child td { border-top: 0; }
+    .wf-metadata th { width: 180px; color: #4f594f; font-size: 0.78rem; line-height: 1.35; text-transform: uppercase; letter-spacing: 0; overflow-wrap: anywhere; word-break: break-word; }
+    .wf-metadata td { min-width: 0; overflow-wrap: anywhere; }
+    .wf-hero-metadata col.wf-metadata-key { width: 180px; }
+    .wf-child-identifiers { display: flex; flex-wrap: wrap; gap: 5px; align-items: baseline; min-width: 0; max-width: 100%; }
+    .wf-child-identifier { display: inline-block; padding: 0.08rem 0.36rem; border: 1px solid #cdd8cf; border-radius: 2px; background: #eef3ef; text-decoration: none; white-space: nowrap; }
+    .wf-child-identifier:hover, .wf-child-identifier:focus { background: #e0ebe4; border-color: #b8c8bc; }
+    .wf-child-identifiers-more { display: inline-block; max-width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; }
+    .wf-child-identifiers-more[open] { flex: 1 1 100%; width: 100%; }
+    .wf-child-identifiers-more > summary { flex: 0 0 auto; display: inline-block; padding: 0.08rem 0.36rem; border: 1px solid #cdd8cf; border-radius: 2px; background: #eef3ef; color: #1f5f85; cursor: pointer; line-height: inherit; }
+    .wf-child-identifiers-more[open] > summary { margin-bottom: 5px; }
+    .wf-child-identifiers-overflow { display: flex; flex-wrap: wrap; gap: 5px; align-items: baseline; min-width: 0; max-width: 100%; }
+    .wf-child-identifiers-more > summary::-webkit-details-marker { display: none; }
+    .wf-child-identifiers-more > summary::marker { content: ""; }
+    .wf-source-summary { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; min-width: 0; }
+    .wf-source-chain { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.28rem; max-width: 100%; padding: 0.16rem 0.22rem 0.16rem 0.5rem; border: 1px solid #c3d1c7; border-radius: 5px; background: #eef3ef; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.48); }
+    .wf-source-chain a { display: inline-flex; align-items: center; max-width: 100%; min-width: 0; text-decoration: none; white-space: nowrap; border-radius: 3px; }
+    .wf-source-root { font-weight: 750; }
+    .wf-source-version-chain { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.22rem; max-width: 100%; min-width: 0; padding: 0.12rem 0.14rem 0.12rem 0.38rem; border: 1px solid #bfd0c4; border-radius: 4px; background: #dfe9e3; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.36); }
+    .wf-source-version-history { font-weight: 650; }
+    .wf-source-version { padding: 0.06rem 0.34rem; border: 1px solid #bdcec3; background: #f8fbf8; font-weight: 650; }
+    .wf-source-chain a:hover, .wf-source-chain a:focus { background: #d2e0d7; outline: 0; }
+    .wf-source-version:hover, .wf-source-version:focus { background: #edf5ef; }
+    .wf-term { cursor: help; border-bottom: 1px dotted currentColor; }
+    .wf-term-link { color: inherit; border-bottom: 0; text-decoration: underline; text-decoration-color: rgba(79, 89, 79, 0.35); text-decoration-thickness: 0.06em; text-underline-offset: 0.18em; }
+    .wf-term-link:hover, .wf-term-link:focus { text-decoration-color: currentColor; }
+    .wf-date-tip { position: relative; display: inline-block; }
+    .wf-date-tip::after { content: attr(data-tooltip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); opacity: 0; pointer-events: none; background: rgba(27, 32, 27, 0.94); color: #fff; border-radius: 5px; padding: 5px 7px; font-size: 0.78rem; white-space: nowrap; transition: opacity 120ms ease; }
+    .wf-date-tip:hover::after, .wf-date-tip:focus::after { opacity: 1; }
+    .wf-section, .wf-source { margin-top: 24px; min-width: 0; }
+    h2 { margin: 0 0 12px; font-size: 1rem; line-height: 1.25; letter-spacing: 0; color: #2f382f; }
+    ul { margin: 0; padding-left: 1.2rem; }
+    li { margin: 0.45rem 0; line-height: 1.45; }
+    code, pre { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    code { background: #e9ece6; border-radius: 4px; padding: 0.12rem 0.25rem; }
+    details { border: 1px solid #c9cec7; border-radius: 8px; background: #fff; min-width: 0; }
+    details + details { margin-top: 12px; }
+    summary { cursor: pointer; padding: 12px 14px; font-weight: 750; }
+    .wf-children { padding-bottom: 12px; }
+    .wf-children .wf-metadata { margin-top: 0; border-bottom: 0; }
+    .wf-properties { padding-bottom: 12px; }
+    .wf-properties .wf-metadata { margin-top: 0; border-bottom: 0; }
+    .wf-properties .wf-metadata th, .wf-blank-nodes .wf-metadata th { text-transform: none; }
+    .wf-blank-nodes { padding-bottom: 12px; }
+    .wf-blank-nodes .wf-metadata { margin-top: 0; border-bottom: 0; }
+    .wf-blank-node-code { max-height: 24rem; padding: 12px; border: 1px solid #d7dcd4; border-radius: 6px; font-size: 0.82rem; }
+    .wf-references { padding-bottom: 12px; }
+    .wf-reference-groups { display: grid; gap: 8px; padding: 0 14px 4px; }
+    .wf-reference-group { background: #f8faf7; border-color: #d5dbd3; }
+    .wf-reference-group ul { padding: 0 14px 12px 1.6rem; }
+    .wf-history { padding-bottom: 12px; }
+    .wf-history-tree { display: grid; gap: 10px; padding: 0 14px 4px; }
+    .wf-history-node { border: 1px solid #d5dbd3; border-radius: 8px; padding: 10px; }
+    .wf-history-node + .wf-history-node, .wf-history-node .wf-history-node { margin-top: 8px; }
+    .wf-history-node--history { background: #f8faf7; }
+    .wf-history-node--state { background: #eef3ef; }
+    .wf-history-node--manifestation { background: #e7eee9; }
+    .wf-history-node--file { background: #dfe8e2; }
+    .wf-history-node-header { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+    .wf-history-node > summary.wf-history-node-header { display: list-item; padding: 0; }
+    .wf-history-class { color: #687167; font-style: italic; font-size: 0.85rem; }
+    .wf-history-file-iri { font-size: 0.82rem; overflow-wrap: anywhere; }
+    .wf-history-gap { display: flex; align-items: center; justify-content: center; min-height: 28px; color: #687167; font-size: 1.15rem; line-height: 1; }
+    .wf-source-meta { display: flex; flex-wrap: wrap; gap: 10px; padding: 0 14px 12px; color: #596259; font-size: 0.88rem; }
+    pre { margin: 0; width: 100%; max-width: 100%; max-height: 64vh; overflow: auto; border-top: 1px solid #d7dcd4; background: #0d1117; color: #e6edf3; padding: 16px; font-size: 0.86rem; line-height: 1.55; tab-size: 2; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; }
+    pre code { display: block; min-width: 0; background: transparent; color: inherit; border-radius: 0; padding: 0; white-space: inherit; overflow-wrap: inherit; word-break: inherit; }
+    pre code span { overflow-wrap: inherit; word-break: inherit; }
+    .wf-generated { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 8px 0 32px; text-align: center; color: rgba(49, 57, 49, 0.42); font-size: 0.78rem; flex: 0 0 auto; }
+    .wf-generated a { color: inherit; font-weight: 700; }
+  </style>
+  <script>
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (canonicalLink && location.pathname.endsWith("/") && !location.search && !location.hash) {
+      const canonicalUrl = new URL(canonicalLink.href);
+      if (canonicalUrl.origin === location.origin && canonicalUrl.pathname === location.pathname.slice(0, -1)) {
+        history.replaceState(null, "", canonicalUrl.pathname);
+      }
+    }
+  </script>
+</head>
+<body>
+  <main>
+    <article class="wf-shell">
+      <header class="wf-masthead">
+        <div class="wf-page-header">
+          <nav class="wf-eyebrow wf-breadcrumbs" aria-label="Breadcrumb">
+<a href="/sflo">sflo</a> <span aria-hidden="true">/</span> <span aria-current="page">ontology</span>
+          </nav>
+
+        </div>
+        <div class="wf-hero">
+        <h1>Semantic Flow Core Ontology</h1>
+        <p class="wf-classes">a <a href="http://www.w3.org/2002/07/owl#Ontology">owl:Ontology</a></p>
+        <p class="wf-summary">The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes.</p>
+        <table class="wf-metadata wf-hero-metadata">
+          <colgroup>
+            <col class="wf-metadata-key">
+            <col>
+            <col class="wf-metadata-key">
+            <col>
+          </colgroup>
+          <tbody>
+          <tr><th scope="row">Canonical IRI</th><td colspan="3"><span>https://semantic-flow.github.io/sflo/ontology</span></td></tr>
+          </tbody>
+        </table>
+
+        </div>
+      </header>
+    <section class="wf-section">
+      <details class="wf-children" open>
+        <summary>Children</summary>
+        <table class="wf-metadata">
+          <tbody>
+          <tr><th scope="row">Classes</th><td><div class="wf-child-identifiers"><nobr><a class="wf-child-identifier" href="/sflo/ontology/ArtifactHistory">ArtifactHistory</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ArtifactManifestation">ArtifactManifestation</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ArtifactResolutionFallbackPolicy">ArtifactResolutionFallbackPolicy</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ArtifactResolutionMode">ArtifactResolutionMode</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ArtifactResolutionTarget">ArtifactResolutionTarget</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/DigitalArtifact">DigitalArtifact</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/DigitalArtifactFacet">DigitalArtifactFacet</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ExtractionSource">ExtractionSource</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/HistoricalState">HistoricalState</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/Knop">Knop</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/KnopAssetBundle">KnopAssetBundle</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/KnopInventory">KnopInventory</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/KnopMetadata">KnopMetadata</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/KnopSourceRegistry">KnopSourceRegistry</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/LocatedFile">LocatedFile</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/MeshInventory">MeshInventory</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/MeshMetadata">MeshMetadata</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/PayloadArtifact">PayloadArtifact</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/RdfDocument">RdfDocument</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ReferenceCatalog">ReferenceCatalog</a></nobr><details class="wf-child-identifiers-more"><summary title="Show 9 more child identifiers">...</summary><div class="wf-child-identifiers-overflow"><nobr><a class="wf-child-identifier" href="/sflo/ontology/ReferenceLink">ReferenceLink</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ReferenceRole">ReferenceRole</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/RepositorySourceLocator">RepositorySourceLocator</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ResourcePage">ResourcePage</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ResourcePageDefinition">ResourcePageDefinition</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ResourcePageRegion">ResourcePageRegion</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/ResourcePageSource">ResourcePageSource</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/SemanticFlowResource">SemanticFlowResource</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/SemanticMesh">SemanticMesh</a></nobr></div></details></div></td></tr>
+          <tr><th scope="row">Object Properties</th><td><div class="wf-child-identifiers"><nobr><a class="wf-child-identifier" href="/sflo/ontology/compatibleWith">compatibleWith</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/currentArtifactHistory">currentArtifactHistory</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasArtifactHistory">hasArtifactHistory</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasArtifactResolutionFallbackPolicy">hasArtifactResolutionFallbackPolicy</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasArtifactResolutionMode">hasArtifactResolutionMode</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasExtractionSource">hasExtractionSource</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasHistoricalState">hasHistoricalState</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasKnop">hasKnop</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasKnopAssetBundle">hasKnopAssetBundle</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasKnopInventory">hasKnopInventory</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasKnopMetadata">hasKnopMetadata</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasKnopSourceRegistry">hasKnopSourceRegistry</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasManifestation">hasManifestation</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasMeshInventory">hasMeshInventory</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasMeshMetadata">hasMeshMetadata</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasObservedSourceLocatedFile">hasObservedSourceLocatedFile</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasObservedSourceManifestation">hasObservedSourceManifestation</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasObservedSourceState">hasObservedSourceState</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasPageRegion">hasPageRegion</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasPayloadArtifact">hasPayloadArtifact</a></nobr><details class="wf-child-identifiers-more"><summary title="Show 26 more child identifiers">...</summary><div class="wf-child-identifiers-overflow"><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasReferenceCatalog">hasReferenceCatalog</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasReferenceLink">hasReferenceLink</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasReferenceRole">hasReferenceRole</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasRequestedTargetHistory">hasRequestedTargetHistory</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasRequestedTargetState">hasRequestedTargetState</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasResourcePage">hasResourcePage</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasResourcePageDefinition">hasResourcePageDefinition</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasResourcePageSource">hasResourcePageSource</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasSourceBinding">hasSourceBinding</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasTargetArtifact">hasTargetArtifact</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasTargetDistribution">hasTargetDistribution</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasTargetLocatedFile">hasTargetLocatedFile</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasTargetRepositorySource">hasTargetRepositorySource</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasWorkingKnopInventoryFile">hasWorkingKnopInventoryFile</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasWorkingLocatedFile">hasWorkingLocatedFile</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasWorkingMeshInventoryFile">hasWorkingMeshInventoryFile</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/latestHistoricalState">latestHistoricalState</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/locatedFileForArtifact">locatedFileForArtifact</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/locatedFileForManifestation">locatedFileForManifestation</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/locatedFileForState">locatedFileForState</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/locatesManifestation">locatesManifestation</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/previousHistoricalState">previousHistoricalState</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/referenceLinkFor">referenceLinkFor</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/referenceTarget">referenceTarget</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/referenceTargetState">referenceTargetState</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/verifiedBy">verifiedBy</a></nobr></div></details></div></td></tr>
+          <tr><th scope="row">Datatype Properties</th><td><div class="wf-child-identifiers"><nobr><a class="wf-child-identifier" href="/sflo/ontology/designatorPath">designatorPath</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/expectsContentDigest">expectsContentDigest</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/hasContentDigest">hasContentDigest</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/historyOrdinal">historyOrdinal</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/meshBase">meshBase</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/nextHistoryOrdinal">nextHistoryOrdinal</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/nextStateOrdinal">nextStateOrdinal</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/observedAt">observedAt</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/observedSourceDigest">observedSourceDigest</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/observedSourceLocalRelativePath">observedSourceLocalRelativePath</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/preferredPayloadFileSlug">preferredPayloadFileSlug</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/referenceUriLiteral">referenceUriLiteral</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/regionKey">regionKey</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/regionOrder">regionOrder</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/sourceOrder">sourceOrder</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/sourceRepositoryCommit">sourceRepositoryCommit</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/sourceRepositoryPath">sourceRepositoryPath</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/sourceRepositoryRef">sourceRepositoryRef</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/sourceRepositoryUrl">sourceRepositoryUrl</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/stateOrdinal">stateOrdinal</a></nobr><details class="wf-child-identifiers-more"><summary title="Show 5 more child identifiers">...</summary><div class="wf-child-identifiers-overflow"><nobr><a class="wf-child-identifier" href="/sflo/ontology/targetAccessUrl">targetAccessUrl</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/targetLocalRelativePath">targetLocalRelativePath</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/verifiedAt">verifiedAt</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/workingAccessUrl">workingAccessUrl</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/workingLocalRelativePath">workingLocalRelativePath</a></nobr></div></details></div></td></tr>
+          <tr><th scope="row">Individuals</th><td><div class="wf-child-identifiers"><nobr><a class="wf-child-identifier" href="/sflo/ontology/artifactResolutionFallbackPolicy_acceptLatestInRequestedHistory">artifactResolutionFallbackPolicy_acceptLatestInRequestedHistory</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/artifactResolutionFallbackPolicy_exactOnly">artifactResolutionFallbackPolicy_exactOnly</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/artifactResolutionMode_current">artifactResolutionMode_current</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/artifactResolutionMode_pinned">artifactResolutionMode_pinned</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/referenceRole_canonical">referenceRole_canonical</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/referenceRole_deprecated">referenceRole_deprecated</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/referenceRole_supplemental">referenceRole_supplemental</a></nobr><nobr><a class="wf-child-identifier" href="/sflo/ontology/shacl">shacl</a></nobr></div></td></tr>
+          </tbody>
+        </table>
+      </details>
+    </section>
+    <section class="wf-section">
+      <details class="wf-properties" open>
+        <summary>Properties</summary>
+        <table class="wf-metadata">
+          <tbody>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://purl.org/dc/terms/creator" title="http://purl.org/dc/terms/creator">dcterms:creator</a></th><td><a href="https://djradon.github.io/ns/dave-richardson">dave-richardson</a></td></tr>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://purl.org/dc/terms/description" title="http://purl.org/dc/terms/description">dcterms:description</a></th><td><span>The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes.</span></td></tr>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://purl.org/dc/terms/hasVersion" title="http://purl.org/dc/terms/hasVersion">dcterms:hasVersion</a></th><td><a href="https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0">sflo:releases/v0.1.0</a></td></tr>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://purl.org/dc/terms/modified" title="http://purl.org/dc/terms/modified">dcterms:modified</a></th><td><span>2026-05-17</span></td></tr>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://purl.org/dc/terms/title" title="http://purl.org/dc/terms/title">dcterms:title</a></th><td><span>Semantic Flow Core Ontology</span></td></tr>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/2002/07/owl#versionInfo" title="http://www.w3.org/2002/07/owl#versionInfo">owl:versionInfo</a></th><td><span>0.1.0</span></td></tr>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/2002/07/owl#versionIRI" title="http://www.w3.org/2002/07/owl#versionIRI">owl:versionIRI</a></th><td><a href="https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-core-ontology.ttl">semantic-flow-core-ontology.ttl</a></td></tr>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" title="http://www.w3.org/1999/02/22-rdf-syntax-ns#type">rdf:type</a></th><td><a href="http://www.w3.org/2002/07/owl#Ontology">owl:Ontology</a></td></tr>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://purl.org/vocab/vann/preferredNamespacePrefix" title="http://purl.org/vocab/vann/preferredNamespacePrefix">vann:preferredNamespacePrefix</a></th><td><span>sflo</span></td></tr>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://purl.org/vocab/vann/preferredNamespaceUri" title="http://purl.org/vocab/vann/preferredNamespaceUri">vann:preferredNamespaceUri</a></th><td><a href="https://semantic-flow.github.io/sflo/ontology/">https://semantic-flow.github.io/sflo/ontology/</a></td></tr>
+          </tbody>
+        </table>
+      </details>
+    </section>
+
+    <section class="wf-source">
+      <details open>
+        <summary>Current working file</summary>
+        <div class="wf-source-meta">
+          <span>semantic-flow-core-ontology.ttl</span>
+          <a href="/sflo/semantic-flow-core-ontology.ttl">Raw file</a>
+        </div>
+<pre class="shiki github-dark-default" style="background-color:#0d1117;color:#e6edf3" tabindex="0"><code><span class="line"><span style="color:#FF7B72">@base </span><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix owl:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/2002/07/owl#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix rdf:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/1999/02/22-rdf-syntax-ns#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix rdfs:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/2000/01/rdf-schema#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix xsd:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/2001/XMLSchema#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix dcterms:</span><span style="color:#FFA657"> &#x3C;http://purl.org/dc/terms/></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix dcat:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/ns/dcat#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix sh:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/ns/shacl#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix schema:</span><span style="color:#FFA657"> &#x3C;https://schema.org/></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix vann:</span><span style="color:#FFA657"> &#x3C;http://purl.org/vocab/vann/></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix prov:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/ns/prov#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">Ontology</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">title</span><span style="color:#A5D6FF"> "Semantic Flow Core Ontology"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">description</span><span style="color:#A5D6FF"> "The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes."</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">creator</span><span style="color:#FFA657"> &#x3C;https://djradon.github.io/ns/dave-richardson></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">hasVersion</span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">modified</span><span style="color:#A5D6FF"> "2026-05-17"</span><span style="color:#E6EDF3">^^</span><span style="color:#FF7B72">xsd:</span><span style="color:#79C0FF">date</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  owl:</span><span style="color:#79C0FF">versionIRI</span><span style="color:#FFA657"> &#x3C;https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-core-ontology.ttl></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  owl:</span><span style="color:#79C0FF">versionInfo</span><span style="color:#A5D6FF"> "0.1.0"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  vann:</span><span style="color:#79C0FF">preferredNamespacePrefix</span><span style="color:#A5D6FF"> "sflo"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  vann:</span><span style="color:#79C0FF">preferredNamespaceUri</span><span style="color:#A5D6FF"> "https://semantic-flow.github.io/sflo/ontology/"</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0></span></span>
+<span class="line"><span style="color:#FF7B72">  a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">Ontology</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;HistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">isVersionOf</span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">issued</span><span style="color:#A5D6FF"> "2026-05-17"</span><span style="color:#E6EDF3">^^</span><span style="color:#FF7B72">xsd:</span><span style="color:#79C0FF">date</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  owl:</span><span style="color:#79C0FF">versionInfo</span><span style="color:#A5D6FF"> "0.1.0"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  schema:</span><span style="color:#79C0FF">contentUrl</span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FFA657">  &#x3C;hasManifestation></span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl></span></span>
+<span class="line"><span style="color:#FF7B72">  dcat:</span><span style="color:#79C0FF">downloadURL</span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># General-purpose vocabulary</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># DigitalArtifact</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;DigitalArtifact></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FF7B72"> dcat:</span><span style="color:#79C0FF">Dataset</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Digital artifact"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A digital artifact considered as the governing artifact-level resource across its states, manifestations, and retrievable files. In the current Semantic Flow model, payload, metadata, and inventory roles classify DigitalArtifacts directly."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ArtifactHistory></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Artifact history"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "An explicit history-lineage resource for a DigitalArtifact. It groups published HistoricalStates, carries lineage-level operational metadata such as ordinals, and may have its own ResourcePage."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;DigitalArtifactFacet></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Digital artifact facet"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A Semantic Flow facet of a DigitalArtifact."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Artifact facet types</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Core artifact model (DigitalArtifact / ArtifactHistory / HistoricalState / ArtifactManifestation / LocatedFile)</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;HistoricalState></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifactFacet></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Historical state"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "An immutable snapshot facet for a DigitalArtifact, normally organized within an ArtifactHistory."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ArtifactManifestation></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifactFacet></span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">dcat:</span><span style="color:#79C0FF">Distribution</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Artifact manifestation"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A concrete artifact manifestation: a specific variant (e.g., Markdown vs PDF, Turtle vs JSON-LD, zipped vs unzipped, or distinct build/canonicalization choices) whose bytes may be served from one or more LocatedFiles. ArtifactManifestations are typically linked from HistoricalStates, but may also be linked directly from a DigitalArtifact in sparse cases where no HistoricalState is materialized."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;LocatedFile></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifactFacet></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Located file"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A retrievable bytes identity (typically with an extension). A LocatedFile may be used as a facet of broader artifacts (ArtifactManifestation, HistoricalState, DigitalArtifact) and may also stand alone in external or partially modeled cases."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Core structural relations</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasHistoricalState></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactHistory></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;HistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has historical state"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ArtifactHistory to one of its published HistoricalStates."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasArtifactHistory></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">hasPart</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ArtifactHistory></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has artifact history"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates a DigitalArtifact to one of its explicit ArtifactHistory resources."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;currentArtifactHistory></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">owl:</span><span style="color:#79C0FF">FunctionalProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FFA657"> &#x3C;hasArtifactHistory></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ArtifactHistory></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "current artifact history"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Convenience pointer from a DigitalArtifact to its current/default explicit ArtifactHistory. When explicit histories are in use, this is the normative target for subsequent weave/version operations."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;previousHistoricalState></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">owl:</span><span style="color:#79C0FF">FunctionalProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> prov:</span><span style="color:#79C0FF">wasRevisionOf</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;HistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;HistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "previous historical state"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a HistoricalState to the immediately preceding HistoricalState in its published revision lineage."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;latestHistoricalState></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FFA657"> &#x3C;hasHistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">FunctionalProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactHistory></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;HistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "latest historical state"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Operational metadata convenience pointer from an ArtifactHistory to its most recently published HistoricalState. MUST NOT be asserted into immutable historical snapshots/distributions."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;historyOrdinal></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactHistory></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">nonNegativeInteger</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "history ordinal"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Machine-oriented ordinal for a numbered default ArtifactHistory resource such as '_history001'."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;stateOrdinal></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;HistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">nonNegativeInteger</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "state ordinal"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Machine-oriented ordinal for a numbered default HistoricalState resource such as '_s0001' within its ArtifactHistory."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;nextHistoryOrdinal></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">nonNegativeInteger</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "next history ordinal"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Next auto-issued ordinal for generated default ArtifactHistory resources such as '_history001'. When present, it SHOULD reflect the next unused historyOrdinal for this DigitalArtifact."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;nextStateOrdinal></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactHistory></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">nonNegativeInteger</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "next state ordinal"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Next auto-issued ordinal for generated default HistoricalState resources such as '_s0001' within an ArtifactHistory."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasManifestation></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcat:</span><span style="color:#79C0FF">distribution</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ArtifactManifestation></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has manifestation"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates a DigitalArtifact or DigitalArtifactFacet to one of its ArtifactManifestations. In the current core model this is used primarily from HistoricalState and optionally from DigitalArtifact in sparse cases."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasWorkingLocatedFile></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;LocatedFile></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has working located file"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates a DigitalArtifact directly to its working LocatedFile when a mesh wants sparse authoring support without materializing working/current state resources. When workingLocalRelativePath is also asserted and the LocatedFile denotes a mesh-addressable local file, the two SHOULD identify the same current bytes."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;workingLocalRelativePath></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "working local relative path"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A local relative path for the current working bytes of a DigitalArtifact. The value is resolved relative to the current mesh root, may include '../' segments when allowed by active config, and does not by itself imply a mesh-addressable LocatedFile or public IRI. Absolute host paths should not be persisted here. When hasWorkingLocatedFile is also asserted and denotes a mesh-addressable local file, the two SHOULD identify the same current bytes."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;workingAccessUrl></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">anyURI</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "working access URL"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A current access URL for the working bytes of a DigitalArtifact when those bytes may be fetched or streamed from a remote or otherwise non-local location. This does not by itself imply that a runtime may use network access; that remains an operational-policy question. When workingLocalRelativePath, hasWorkingLocatedFile, or both are also asserted, all declared current-byte locators SHOULD identify the same current bytes."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasWorkingMeshInventoryFile></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;SemanticMesh></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;LocatedFile></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has working mesh inventory file"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Convenience shortcut from a SemanticMesh directly to the current working LocatedFile of its mesh inventory document."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasWorkingKnopInventoryFile></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;Knop></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;LocatedFile></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has working Knop inventory file"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Convenience shortcut from a Knop directly to the current working LocatedFile of its Knop inventory document."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasContentDigest></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Resource</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has content digest"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A digest for the byte stream or canonical representation of a byte-bearing resource such as a LocatedFile, ArtifactManifestation, or HistoricalState. Literal values SHOULD include the algorithm, for example 'sha256:&#x3C;hex>'. RDF graph artifacts SHOULD make clear which serialization bytes or canonicalization profile were hashed."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;locatedFileForManifestation></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcat:</span><span style="color:#79C0FF">downloadURL</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactManifestation></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;LocatedFile></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  owl:</span><span style="color:#79C0FF">inverseOf</span><span style="color:#FFA657"> &#x3C;locatesManifestation></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "located file for manifestation"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ArtifactManifestation to one or more LocatedFiles that provide retrievable bytes for that manifestation."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;locatesManifestation></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;LocatedFile></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ArtifactManifestation></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  owl:</span><span style="color:#79C0FF">inverseOf</span><span style="color:#FFA657"> &#x3C;locatedFileForManifestation></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "locates manifestation"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Navigation: links a LocatedFile to an ArtifactManifestation whose bytes it provides."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Optional skip-links (sparse shortcuts)</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;locatedFileForState></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;HistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;LocatedFile></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "located file for state"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Optional shortcut relating a HistoricalState directly to a LocatedFile. When present in mesh-managed data, it SHOULD be consistent with the chain: hasManifestation / locatedFileForManifestation."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;locatedFileForArtifact></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;LocatedFile></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "located file for artifact"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates a DigitalArtifact directly to one or more LocatedFiles that provide bytes for that artifact when a mesh wants a sparse file shortcut without materializing HistoricalState or ArtifactManifestation resources. Use locatedFileForManifestation when the file is tied to a specific ArtifactManifestation."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Content kinds</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;RdfDocument></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "RDF document"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A content-kind classification for resources whose content is at least one RDF graph. It may be applied selectively to a DigitalArtifact or to a specific DigitalArtifactFacet such as an ArtifactManifestation or LocatedFile."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Compatibility</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;compatibleWith></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Resource</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Resource</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "compatible with"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates a resource to another resource it is intended to interoperate with or conform to."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Web presentation</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ResourcePage></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;LocatedFile></span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">schema:</span><span style="color:#79C0FF">WebPage</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Resource page file"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "An HTML page that presents a resource. By convention, resource pages are located at a reserved 'index.html' located-file name. Mesh layout invariant: reserve 'index.html' for ResourcePages; other artifact facets SHOULD NOT use 'index.html' as their identifier token."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasResourcePage></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Resource</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ResourcePage></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has resource page file"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Associates any resource with a human-readable presentation page."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Reference data</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ReferenceLink></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Reference link"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A relator describing a reference-data link from a resource to a specific reference data source, including role metadata."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ReferenceRole></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Reference role"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A controlled vocabulary of roles describing how a ReferenceLink should be used."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;referenceRole_canonical></span><span style="color:#FF7B72"> a</span><span style="color:#FFA657"> &#x3C;ReferenceRole></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Canonical"</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;referenceRole_supplemental></span><span style="color:#FF7B72"> a</span><span style="color:#FFA657"> &#x3C;ReferenceRole></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Supplemental"</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;referenceRole_deprecated></span><span style="color:#FF7B72"> a</span><span style="color:#FFA657"> &#x3C;ReferenceRole></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Deprecated"</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasReferenceLink></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Resource</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ReferenceLink></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  owl:</span><span style="color:#79C0FF">inverseOf</span><span style="color:#FFA657"> &#x3C;referenceLinkFor></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has reference link"</span><span style="color:#E6EDF3">@</span><span style="color:#FFA657">en</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Associates a resource with a ReferenceLink that provides external or supporting reference information about it."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;referenceLinkFor></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ReferenceLink></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Resource</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  owl:</span><span style="color:#79C0FF">inverseOf</span><span style="color:#FFA657"> &#x3C;hasReferenceLink></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "reference link for"</span><span style="color:#E6EDF3">@</span><span style="color:#FFA657">en</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Identifies the resource that a ReferenceLink is about."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasReferenceRole></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ReferenceLink></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ReferenceRole></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has reference role"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Assigns one or more ReferenceRoles to this ReferenceLink, indicating how the reference data should be used."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;referenceTarget></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ReferenceLink></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Resource</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "reference target"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "If present, the reference target is a resource used as a reference-data identifier."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;referenceTargetState></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FFA657"> &#x3C;referenceTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ReferenceLink></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;HistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "reference target state"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "If present, the reference target is specifically a HistoricalState rather than a broader artifact/resource identity."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;referenceUriLiteral></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ReferenceLink></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">anyURI</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "reference URI literal"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "If present, a retrievable location for reference data (without asserting denotation). May be used alongside referenceTarget or alone."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;verifiedAt></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ReferenceLink></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">dateTimeStamp</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "last verified at"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Most recent verification timestamp for this reference link."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;verifiedBy></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ReferenceLink></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">Agent</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "last verified by"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Agent responsible for the most recent verification of this reference link."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Semantic Flow resources</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;SemanticFlowResource></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Semantic Flow resource"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A constituent of a SemanticMesh modeled using Semantic Flow conventions (SemanticMesh, Knop, ArtifactHistory, and mesh-hosted artifacts such as payload, metadata, and inventory)."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Semantic Meshes</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;SemanticMesh></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Semantic Mesh"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A namespace region, conventionally exposed via a reserved _mesh/ handle and, in filesystem-backed serializations, represented by a filesystem region, that has Semantic Flow resources and other supporting resources."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;meshBase></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;SemanticMesh></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">anyURI</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "mesh base"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A mesh's canonical BASE (publish location). Represented as a URI literal to avoid asserting anything about the denoted thing."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Knops + payload artifacts</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasKnop></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">hasPart</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;SemanticMesh></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;Knop></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has knop"</span><span style="color:#E6EDF3">@</span><span style="color:#FFA657">en</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Associates a SemanticMesh with a Knop that participates in its Semantic Flow surface. This is a semantic membership relation, not a filesystem directory listing, and can apply to meshes that exist only in memory."</span><span style="color:#E6EDF3">@</span><span style="color:#FFA657">en</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;designatorPath></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;Knop></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "designator path"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relative mesh designator path for the Knop's associated Semantic Flow identifier, interpreted relative to the containing mesh's meshBase. Use no leading slash. The empty string denotes the mesh root designator. A trailing slash MAY be included if a mesh intentionally models a slash-terminated identifier IRI."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;Knop></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Knop"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A mesh-managed support object and naming anchor associated one-to-one with a Semantic Flow identifier. A Knop carries the mesh-relative designatorPath from which that identifier IRI is formed in mesh context, and may host a primary payload artifact plus supporting artifacts."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;PayloadArtifact></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Payload artifact"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A DigitalArtifact used as the primary payload hosted by a Knop."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasPayloadArtifact></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">hasPart</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;Knop></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;PayloadArtifact></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has payload artifact"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a Knop to its primary PayloadArtifact resource when the Knop carries a mesh-managed digital payload."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;preferredPayloadFileSlug></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;PayloadArtifact></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "preferred payload file slug"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Mutable filename-stem preference for LocatedFiles (e.g., 'alice-bio'). Generators may ignore/sanitize it and must resolve collisions mechanically (e.g., suffix or hash). Mesh invariant: should avoid values that would result in a LocatedFile named 'index.html'."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Metadata artifacts</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;KnopMetadata></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;RdfDocument></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Knop metadata"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A DigitalArtifact RdfDocument used as metadata about a Knop as a mesh-managed support object."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;MeshMetadata></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;RdfDocument></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Mesh metadata"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A DigitalArtifact RdfDocument used as metadata for a SemanticMesh."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasKnopMetadata></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">hasPart</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;Knop></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;KnopMetadata></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has knop metadata"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a Knop to its primary KnopMetadata DigitalArtifact resource (if present)."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasMeshMetadata></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">hasPart</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;SemanticMesh></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;MeshMetadata></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has mesh metadata"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a SemanticMesh to its primary MeshMetadata DigitalArtifact resource (if present)."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Inventory artifacts</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;MeshInventory></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;RdfDocument></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Mesh inventory"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A DigitalArtifact RdfDocument used as inventory for a SemanticMesh."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;KnopInventory></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;RdfDocument></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Knop inventory"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A DigitalArtifact RdfDocument used as inventory for a Knop."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasMeshInventory></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">hasPart</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;SemanticMesh></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;MeshInventory></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has mesh inventory"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a SemanticMesh to its MeshInventory resource."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasKnopInventory></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">hasPart</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;Knop></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;KnopInventory></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has knop inventory"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a Knop to its KnopInventory resource."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Reference catalog artifacts</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ReferenceCatalog></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;RdfDocument></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Reference catalog"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A DigitalArtifact RdfDocument used to catalog ReferenceLinks about the resource identified by a Knop or about a SemanticMesh as a managed subject. ReferenceCatalog is intentionally narrow: it is for ReferenceLink relators, not for arbitrary descriptive RDF."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasReferenceCatalog></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">hasPart</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ReferenceCatalog></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has reference catalog"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a Knop or SemanticMesh to its single primary ReferenceCatalog resource when present. Owner constraints are enforced in SHACL rather than through a shared superclass."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Source registry artifacts</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;KnopSourceRegistry></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;RdfDocument></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Knop source registry"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A Knop-owned DigitalArtifact RdfDocument used to catalog source bindings for artifacts or resources associated with the Knop, including materialized payload sources and extraction provenance. A source registry is provenance about source bytes and resolution, not operational mesh configuration."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasKnopSourceRegistry></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">hasPart</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;Knop></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;KnopSourceRegistry></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has Knop source registry"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a Knop to its single primary KnopSourceRegistry resource when present."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasSourceBinding></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;KnopSourceRegistry></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has source binding"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a KnopSourceRegistry to an ArtifactResolutionTarget that records a source binding for an artifact or resource associated with the Knop."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"><span style="color:#8B949E"># Resource page definition artifacts and helpers</span></span>
+<span class="line"><span style="color:#8B949E">#################################################################</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ResourcePageDefinition></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;RdfDocument></span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">&#x3C;SemanticFlowResource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Resource page definition"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A DigitalArtifact RdfDocument used as the authoritative knop-owned definition artifact for a generated resource page. It describes page regions, page sources, and related composition policy without making the identified resource itself a payload-bearing artifact."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;KnopAssetBundle></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Knop asset bundle"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A bounded helper boundary for knop-owned support assets such as '_knop/_assets'. It does not by itself imply that each contained file is a governed artifact or a KnopInventory entry."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ArtifactResolutionTarget></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Artifact resolution target"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A policy-bearing relator that identifies bytes for an application concern by naming a target artifact, a mesh-local file path string, a specific LocatedFile, or another explicit packaged/distributed target together with optional requested state, mode, and fallback policy. At least one concrete target should normally be provided, but this ontology does not enforce that cardinality directly."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;RepositorySourceLocator></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Repository source locator"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A durable locator for bytes or a tree path in a version-control repository. It records repository identity, ref or commit coordinates, and a repository-relative path without implying a local checkout path or granting runtime access. Content digests may be expressed with hasContentDigest on this locator or expectsContentDigest on the ArtifactResolutionTarget that uses it."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ExtractionSource></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Extraction source"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "An artifact-resolution target that identifies the RDF document bytes from which a Knop-managed resource was extracted or first grounded. ExtractionSource records are normally carried in the KnopSourceRegistry under '_knop/_sources' and linked from the Knop with hasExtractionSource."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasExtractionSource></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;Knop></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ExtractionSource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has extraction source"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a Knop to the artifact-resolution target that identifies the source RDF document bytes for the resource managed by that Knop."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ArtifactResolutionMode></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Artifact resolution mode"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A controlled vocabulary describing whether an ArtifactResolutionTarget is pinned to an explicitly requested state or follows the current/default artifact surface."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;artifactResolutionMode_pinned></span><span style="color:#FF7B72"> a</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionMode></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Pinned"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "The ArtifactResolutionTarget is pinned to explicitly requested target coordinates when provided."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;artifactResolutionMode_current></span><span style="color:#FF7B72"> a</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionMode></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Current"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "The ArtifactResolutionTarget should follow the current/default artifact surface rather than pinning a specific state."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ArtifactResolutionFallbackPolicy></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Artifact resolution fallback policy"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A controlled vocabulary describing what fallback, if any, is acceptable when a requested artifact-resolution target cannot be resolved exactly."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;artifactResolutionFallbackPolicy_exactOnly></span><span style="color:#FF7B72"> a</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionFallbackPolicy></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Exact only"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Only the exact requested target is acceptable; otherwise resolution fails."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;artifactResolutionFallbackPolicy_acceptLatestInRequestedHistory></span><span style="color:#FF7B72"> a</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionFallbackPolicy></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Accept latest in requested history"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "If an exact requested state cannot be resolved, the latest available HistoricalState in the requested ArtifactHistory is acceptable."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ResourcePageRegion></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Resource page region"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A structural content region described by a ResourcePageDefinition. Use this for page-content composition, not for template-slot wiring or browser chrome concerns."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;ResourcePageSource></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> rdfs:</span><span style="color:#79C0FF">Class</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subClassOf</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Resource page source"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A page-specific ArtifactResolutionTarget used as a per-region source binding for resource-page composition. It uses the generic artifact-resolution target/history/state/mode/fallback properties directly."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasResourcePageDefinition></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">subPropertyOf</span><span style="color:#FF7B72"> dcterms:</span><span style="color:#79C0FF">hasPart</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;Knop></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ResourcePageDefinition></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has resource page definition"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a Knop to its authoritative ResourcePageDefinition artifact when customizable identifier-page behavior is explicitly modeled."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasKnopAssetBundle></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;Knop></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;KnopAssetBundle></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has knop asset bundle"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Links a Knop to its bounded local support-asset area, such as '_knop/_assets'."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;targetLocalRelativePath></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "target local relative path"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A local relative path resolved from the current mesh root that names an unmanaged local source target and should be resolved directly rather than through artifact history/state lookup. Values should remain relative; '../' segments may be allowed by active config, but absolute host paths should not be persisted here."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;targetAccessUrl></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">anyURI</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "target access URL"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "An access URL for the target bytes of an ArtifactResolutionTarget when those bytes may be fetched or streamed from a remote or otherwise non-local location. This does not by itself imply that a runtime may use network access; that remains an operational-policy question. When targetLocalRelativePath, hasTargetArtifact, hasTargetLocatedFile, or other explicit target locators are also asserted, all declared target locators SHOULD identify the same target bytes."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasTargetRepositorySource></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;RepositorySourceLocator></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has target repository source"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ArtifactResolutionTarget to a version-control repository locator for the bytes or tree path it should resolve. Runtime policy decides whether and how that locator may be fetched or mapped to a local checkout."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;sourceRepositoryUrl></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;RepositorySourceLocator></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">anyURI</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "source repository URL"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Canonical or preferred repository URL for a RepositorySourceLocator. This names repository provenance and does not by itself authorize network access."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;sourceRepositoryRef></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;RepositorySourceLocator></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "source repository ref"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A branch, tag, symbolic ref, commit expression, or other version-control ref used to resolve the repository source. Mutable refs SHOULD be paired with a resolved sourceRepositoryCommit or content digest when deterministic replay matters."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;sourceRepositoryCommit></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;RepositorySourceLocator></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "source repository commit"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Resolved immutable commit identifier for the sourceRepositoryRef when known. The lexical form is version-control-system specific, such as a Git object ID."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;sourceRepositoryPath></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;RepositorySourceLocator></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "source repository path"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Path to the source bytes or tree within the repository ref, written relative to the repository root. Values should not be absolute host paths; use '.' for the repository root when the whole tree is the source."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasPageRegion></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ResourcePageDefinition></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ResourcePageRegion></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has page region"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates a ResourcePageDefinition to one of its authored content regions."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;regionKey></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ResourcePageRegion></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "region key"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A stable application-facing key for a ResourcePageRegion such as 'main' or 'sidebar'."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;regionOrder></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ResourcePageRegion></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">nonNegativeInteger</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "region order"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Optional presentation order hint for ResourcePageRegion instances when deterministic region sequencing is needed."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasResourcePageSource></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ResourcePageRegion></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ResourcePageSource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has resource page source"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates a ResourcePageRegion to one of its source bindings."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;sourceOrder></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ResourcePageSource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">nonNegativeInteger</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "source order"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Optional order hint for ResourcePageSource instances when a region intentionally composes multiple ordered sources."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasTargetArtifact></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;DigitalArtifact></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has target artifact"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ArtifactResolutionTarget to a DigitalArtifact whose bytes should be resolved, subject to any requested state, mode, and fallback policy."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasTargetLocatedFile></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;LocatedFile></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has target located file"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ArtifactResolutionTarget directly to a specific LocatedFile when resolution should follow that retrievable bytes identity without requiring an artifact-level target."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasTargetDistribution></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> dcat:</span><span style="color:#79C0FF">Distribution</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has target distribution"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ArtifactResolutionTarget to a Distribution describing how explicitly packaged target bytes are accessed."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasRequestedTargetHistory></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ArtifactHistory></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has requested target history"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ArtifactResolutionTarget to the ArtifactHistory it requests when resolution should stay within a specific history boundary."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasRequestedTargetState></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;HistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has requested target state"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ArtifactResolutionTarget to an explicitly requested HistoricalState. This names the requested target, not a runtime-resolved outcome."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasArtifactResolutionMode></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionMode></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has artifact resolution mode"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Assigns an ArtifactResolutionMode to an ArtifactResolutionTarget."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasArtifactResolutionFallbackPolicy></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionFallbackPolicy></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has artifact resolution fallback policy"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Assigns an ArtifactResolutionFallbackPolicy to an ArtifactResolutionTarget."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasObservedSourceState></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ExtractionSource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;HistoricalState></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has observed source state"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ExtractionSource to the concrete HistoricalState observed while resolving the source bytes. This records observed evidence and may be more specific than the requested target coordinates."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasObservedSourceManifestation></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ExtractionSource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;ArtifactManifestation></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has observed source manifestation"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ExtractionSource to the concrete ArtifactManifestation observed while resolving the source bytes."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;hasObservedSourceLocatedFile></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">ObjectProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ExtractionSource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FFA657"> &#x3C;LocatedFile></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "has observed source located file"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Relates an ExtractionSource to the concrete LocatedFile resource observed while resolving the source bytes. Use observedSourceLocalRelativePath for local checkout paths that are not modeled as mesh LocatedFile resources."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;observedSourceLocalRelativePath></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ExtractionSource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "observed source local relative path"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A local relative path for source bytes observed while resolving an ExtractionSource when those bytes are not modeled as a mesh LocatedFile resource. Values should remain relative to the active local workspace or mesh root policy; absolute host paths should not be persisted here."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;observedSourceDigest></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ExtractionSource></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "observed source digest"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Digest of the concrete source bytes observed while resolving an ExtractionSource. Literal values SHOULD include the algorithm, for example 'sha256:&#x3C;hex>'."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;observedAt></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">dateTime</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "observed at"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Timestamp for when source or target bytes were observed while resolving an ArtifactResolutionTarget. Prefer durable state, manifestation, located-file, and digest evidence when available; use a timestamp as supplemental evidence or fallback when byte identity cannot be made durable."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;expectsContentDigest></span><span style="color:#FF7B72"> a</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">DatatypeProperty</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">domain</span><span style="color:#FFA657"> &#x3C;ArtifactResolutionTarget></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">range</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "expects content digest"</span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Digest expected after resolving an ArtifactResolutionTarget. Resolution should verify resolved bytes or canonical representations against this value before using them when policy requires a strong pin. Literal values SHOULD include the algorithm, for example 'sha256:&#x3C;hex>'."</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span></code></pre>
+      </details>
+    </section>    <section class="wf-section">
+      <details class="wf-history">
+        <summary>History</summary>
+        <div class="wf-history-tree">
+          <details class="wf-history-node wf-history-node--history" open>
+            <summary class="wf-history-node-header"><a href="/sflo/ontology/releases">ontology/releases</a></summary>
+            <details class="wf-history-node wf-history-node--state" open>
+              <summary class="wf-history-node-header"><a href="/sflo/ontology/releases/v0.1.0">v0.1.0</a></summary>
+              <details class="wf-history-node wf-history-node--manifestation" open>
+                <summary class="wf-history-node-header"><a href="/sflo/ontology/releases/v0.1.0/ttl">ttl</a></summary>
+                <div class="wf-history-node wf-history-node--file">
+                  <div class="wf-history-node-header"><a href="/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl" class="wf-history-file-iri">https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl</a></div>
+                </div>
+              </details>
+            </details>
+          </details>
+        </div>
+      </details>
+    </section>
+
+    </article>
+  </main>
+  <footer class="wf-generated">
+    Generated on <span class="wf-term wf-date-tip" tabindex="0" title="2026-05-17T20:21:53.303Z" data-tooltip="2026-05-17T20:21:53.303Z">May 17, 2026</span> by <a href="https://github.com/semantic-flow/weave/">Weave</a>
+  </footer>
+</body>
+</html>

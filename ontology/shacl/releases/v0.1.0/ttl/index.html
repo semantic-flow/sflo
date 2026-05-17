@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sflo ttl</title>
+  <link rel="canonical" href="https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl">
+  <style>
+    :root { min-height: 100%; color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f6f7f4; color: #20231f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; background: linear-gradient(180deg, #f6f7f4 0%, #ebece7 100%); }
+    a { color: #1f5f85; text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; }
+    main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 16px 0 42px; flex: 1 0 auto; }
+    .wf-shell { display: grid; gap: 18px; min-width: 0; }
+    .wf-shell > * { min-width: 0; }
+    .wf-masthead { min-width: 0; }
+    .wf-page-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 4px; min-width: 0; }
+    .wf-eyebrow { margin: 0; color: #5e675d; font-size: 0.82rem; line-height: 1.2; letter-spacing: 0; font-weight: 700; }
+    .wf-breadcrumbs { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+    .wf-breadcrumbs a { color: inherit; text-decoration-color: rgba(94, 103, 93, 0.45); }
+    .wf-mesh-favicon { flex: 0 0 auto; width: 32px; height: 32px; object-fit: contain; }
+    .wf-hero { border-top: 5px solid #435247; padding: 26px 0 12px; }
+    h1 { margin: 0; overflow-wrap: anywhere; font-size: clamp(1.7rem, 4vw, 2.7rem); line-height: 1.04; letter-spacing: 0; }
+    .wf-classes { margin: 8px 0 0; color: #687167; font-style: italic; }
+    .wf-classes a { color: inherit; text-decoration: underline; text-decoration-color: rgba(104, 113, 103, 0.34); text-decoration-thickness: 0.06em; text-underline-offset: 0.18em; }
+    .wf-summary { max-width: 820px; margin: 14px 0 0; color: #3f463f; font-size: 1.05rem; line-height: 1.6; }
+    .wf-metadata { width: 100%; margin-top: 24px; border-collapse: collapse; table-layout: fixed; border-top: 1px solid #cdd2ca; border-bottom: 1px solid #cdd2ca; }
+    .wf-metadata th, .wf-metadata td { padding: 10px 12px; border-top: 1px solid #e0e4dd; text-align: left; vertical-align: top; }
+    .wf-metadata tr:first-child th, .wf-metadata tr:first-child td { border-top: 0; }
+    .wf-metadata th { width: 180px; color: #4f594f; font-size: 0.78rem; line-height: 1.35; text-transform: uppercase; letter-spacing: 0; overflow-wrap: anywhere; word-break: break-word; }
+    .wf-metadata td { min-width: 0; overflow-wrap: anywhere; }
+    .wf-hero-metadata col.wf-metadata-key { width: 180px; }
+    .wf-child-identifiers { display: flex; flex-wrap: wrap; gap: 5px; align-items: baseline; min-width: 0; max-width: 100%; }
+    .wf-child-identifier { display: inline-block; padding: 0.08rem 0.36rem; border: 1px solid #cdd8cf; border-radius: 2px; background: #eef3ef; text-decoration: none; white-space: nowrap; }
+    .wf-child-identifier:hover, .wf-child-identifier:focus { background: #e0ebe4; border-color: #b8c8bc; }
+    .wf-child-identifiers-more { display: inline-block; max-width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; }
+    .wf-child-identifiers-more[open] { flex: 1 1 100%; width: 100%; }
+    .wf-child-identifiers-more > summary { flex: 0 0 auto; display: inline-block; padding: 0.08rem 0.36rem; border: 1px solid #cdd8cf; border-radius: 2px; background: #eef3ef; color: #1f5f85; cursor: pointer; line-height: inherit; }
+    .wf-child-identifiers-more[open] > summary { margin-bottom: 5px; }
+    .wf-child-identifiers-overflow { display: flex; flex-wrap: wrap; gap: 5px; align-items: baseline; min-width: 0; max-width: 100%; }
+    .wf-child-identifiers-more > summary::-webkit-details-marker { display: none; }
+    .wf-child-identifiers-more > summary::marker { content: ""; }
+    .wf-source-summary { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; min-width: 0; }
+    .wf-source-chain { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.28rem; max-width: 100%; padding: 0.16rem 0.22rem 0.16rem 0.5rem; border: 1px solid #c3d1c7; border-radius: 5px; background: #eef3ef; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.48); }
+    .wf-source-chain a { display: inline-flex; align-items: center; max-width: 100%; min-width: 0; text-decoration: none; white-space: nowrap; border-radius: 3px; }
+    .wf-source-root { font-weight: 750; }
+    .wf-source-version-chain { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.22rem; max-width: 100%; min-width: 0; padding: 0.12rem 0.14rem 0.12rem 0.38rem; border: 1px solid #bfd0c4; border-radius: 4px; background: #dfe9e3; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.36); }
+    .wf-source-version-history { font-weight: 650; }
+    .wf-source-version { padding: 0.06rem 0.34rem; border: 1px solid #bdcec3; background: #f8fbf8; font-weight: 650; }
+    .wf-source-chain a:hover, .wf-source-chain a:focus { background: #d2e0d7; outline: 0; }
+    .wf-source-version:hover, .wf-source-version:focus { background: #edf5ef; }
+    .wf-term { cursor: help; border-bottom: 1px dotted currentColor; }
+    .wf-term-link { color: inherit; border-bottom: 0; text-decoration: underline; text-decoration-color: rgba(79, 89, 79, 0.35); text-decoration-thickness: 0.06em; text-underline-offset: 0.18em; }
+    .wf-term-link:hover, .wf-term-link:focus { text-decoration-color: currentColor; }
+    .wf-date-tip { position: relative; display: inline-block; }
+    .wf-date-tip::after { content: attr(data-tooltip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); opacity: 0; pointer-events: none; background: rgba(27, 32, 27, 0.94); color: #fff; border-radius: 5px; padding: 5px 7px; font-size: 0.78rem; white-space: nowrap; transition: opacity 120ms ease; }
+    .wf-date-tip:hover::after, .wf-date-tip:focus::after { opacity: 1; }
+    .wf-section, .wf-source { margin-top: 24px; min-width: 0; }
+    h2 { margin: 0 0 12px; font-size: 1rem; line-height: 1.25; letter-spacing: 0; color: #2f382f; }
+    ul { margin: 0; padding-left: 1.2rem; }
+    li { margin: 0.45rem 0; line-height: 1.45; }
+    code, pre { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    code { background: #e9ece6; border-radius: 4px; padding: 0.12rem 0.25rem; }
+    details { border: 1px solid #c9cec7; border-radius: 8px; background: #fff; min-width: 0; }
+    details + details { margin-top: 12px; }
+    summary { cursor: pointer; padding: 12px 14px; font-weight: 750; }
+    .wf-children { padding-bottom: 12px; }
+    .wf-children .wf-metadata { margin-top: 0; border-bottom: 0; }
+    .wf-properties { padding-bottom: 12px; }
+    .wf-properties .wf-metadata { margin-top: 0; border-bottom: 0; }
+    .wf-properties .wf-metadata th, .wf-blank-nodes .wf-metadata th { text-transform: none; }
+    .wf-blank-nodes { padding-bottom: 12px; }
+    .wf-blank-nodes .wf-metadata { margin-top: 0; border-bottom: 0; }
+    .wf-blank-node-code { max-height: 24rem; padding: 12px; border: 1px solid #d7dcd4; border-radius: 6px; font-size: 0.82rem; }
+    .wf-references { padding-bottom: 12px; }
+    .wf-reference-groups { display: grid; gap: 8px; padding: 0 14px 4px; }
+    .wf-reference-group { background: #f8faf7; border-color: #d5dbd3; }
+    .wf-reference-group ul { padding: 0 14px 12px 1.6rem; }
+    .wf-history { padding-bottom: 12px; }
+    .wf-history-tree { display: grid; gap: 10px; padding: 0 14px 4px; }
+    .wf-history-node { border: 1px solid #d5dbd3; border-radius: 8px; padding: 10px; }
+    .wf-history-node + .wf-history-node, .wf-history-node .wf-history-node { margin-top: 8px; }
+    .wf-history-node--history { background: #f8faf7; }
+    .wf-history-node--state { background: #eef3ef; }
+    .wf-history-node--manifestation { background: #e7eee9; }
+    .wf-history-node--file { background: #dfe8e2; }
+    .wf-history-node-header { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+    .wf-history-node > summary.wf-history-node-header { display: list-item; padding: 0; }
+    .wf-history-class { color: #687167; font-style: italic; font-size: 0.85rem; }
+    .wf-history-file-iri { font-size: 0.82rem; overflow-wrap: anywhere; }
+    .wf-history-gap { display: flex; align-items: center; justify-content: center; min-height: 28px; color: #687167; font-size: 1.15rem; line-height: 1; }
+    .wf-source-meta { display: flex; flex-wrap: wrap; gap: 10px; padding: 0 14px 12px; color: #596259; font-size: 0.88rem; }
+    pre { margin: 0; width: 100%; max-width: 100%; max-height: 64vh; overflow: auto; border-top: 1px solid #d7dcd4; background: #0d1117; color: #e6edf3; padding: 16px; font-size: 0.86rem; line-height: 1.55; tab-size: 2; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; }
+    pre code { display: block; min-width: 0; background: transparent; color: inherit; border-radius: 0; padding: 0; white-space: inherit; overflow-wrap: inherit; word-break: inherit; }
+    pre code span { overflow-wrap: inherit; word-break: inherit; }
+    .wf-generated { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 8px 0 32px; text-align: center; color: rgba(49, 57, 49, 0.42); font-size: 0.78rem; flex: 0 0 auto; }
+    .wf-generated a { color: inherit; font-weight: 700; }
+  </style>
+  <script>
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (canonicalLink && location.pathname.endsWith("/") && !location.search && !location.hash) {
+      const canonicalUrl = new URL(canonicalLink.href);
+      if (canonicalUrl.origin === location.origin && canonicalUrl.pathname === location.pathname.slice(0, -1)) {
+        history.replaceState(null, "", canonicalUrl.pathname);
+      }
+    }
+  </script>
+</head>
+<body>
+  <main>
+    <article class="wf-shell">
+      <header class="wf-masthead">
+        <div class="wf-page-header">
+          <nav class="wf-eyebrow wf-breadcrumbs" aria-label="Breadcrumb">
+<a href="/sflo">sflo</a> <span aria-hidden="true">/</span> <a href="/sflo/ontology">ontology</a> <span aria-hidden="true">/</span> <a href="/sflo/ontology/shacl">shacl</a> <span aria-hidden="true">/</span> <a href="/sflo/ontology/shacl/releases">releases</a> <span aria-hidden="true">/</span> <a href="/sflo/ontology/shacl/releases/v0.1.0">v0.1.0</a> <span aria-hidden="true">/</span> <span aria-current="page">ttl</span>
+          </nav>
+
+        </div>
+        <div class="wf-hero">
+        <h1>ttl</h1>
+        <p class="wf-classes">a <a href="https://semantic-flow.github.io/sflo/ontology/ArtifactManifestation">sflo:ArtifactManifestation</a></p>
+        <p class="wf-summary">Artifact manifestation for the v0.1.0 historical state</p>
+        <table class="wf-metadata wf-hero-metadata">
+          <colgroup>
+            <col class="wf-metadata-key">
+            <col>
+            <col class="wf-metadata-key">
+            <col>
+          </colgroup>
+          <tbody>
+          <tr><th scope="row">Canonical IRI</th><td colspan="3"><span>https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl</span></td></tr>
+          </tbody>
+        </table>
+
+        </div>
+      </header>
+    <section class="wf-section">
+      <details class="wf-properties" open>
+        <summary>Properties</summary>
+        <table class="wf-metadata">
+          <tbody>
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/ns/dcat#downloadURL" title="http://www.w3.org/ns/dcat#downloadURL">dcat:downloadURL</a></th><td><a href="https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl">sflo:shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl</a></td></tr>
+          </tbody>
+        </table>
+      </details>
+    </section>
+
+    <section class="wf-source">
+      <details open>
+        <summary>Historical manifestation file</summary>
+        <div class="wf-source-meta">
+          <span>ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl</span>
+          <a href="/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl">Raw file</a>
+        </div>
+<pre class="shiki github-dark-default" style="background-color:#0d1117;color:#e6edf3" tabindex="0"><code><span class="line"><span style="color:#FF7B72">@base </span><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix dcat:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/ns/dcat#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix dcterms:</span><span style="color:#FFA657"> &#x3C;http://purl.org/dc/terms/></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix owl:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/2002/07/owl#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix rdf:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/1999/02/22-rdf-syntax-ns#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix rdfs:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/2000/01/rdf-schema#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix schema:</span><span style="color:#FFA657"> &#x3C;https://schema.org/></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix sflo:</span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix sh:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/ns/shacl#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix vann:</span><span style="color:#FFA657"> &#x3C;http://purl.org/vocab/vann/></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"><span style="color:#FF7B72">@prefix xsd:</span><span style="color:#FFA657"> &#x3C;http://www.w3.org/2001/XMLSchema#></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl></span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">title</span><span style="color:#A5D6FF"> "Semantic Flow Core SHACL Shapes"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">Ontology</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">description</span><span style="color:#A5D6FF"> "SHACL shapes for validating Semantic Flow data structures and operational invariants."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">creator</span><span style="color:#FFA657"> &#x3C;https://djradon.github.io/ns/dave-richardson></span><span style="color:#E6EDF3"> ;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">hasVersion</span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0></span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">modified</span><span style="color:#A5D6FF"> "2026-05-17"</span><span style="color:#E6EDF3">^^</span><span style="color:#FF7B72">xsd:</span><span style="color:#79C0FF">date</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  vann:</span><span style="color:#79C0FF">preferredNamespacePrefix</span><span style="color:#A5D6FF"> "sflo-shacl"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  vann:</span><span style="color:#79C0FF">preferredNamespaceUri</span><span style="color:#A5D6FF"> "https://semantic-flow.github.io/sflo/ontology/shacl/"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  owl:</span><span style="color:#79C0FF">versionIRI</span><span style="color:#FFA657"> &#x3C;https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-core-shacl.ttl></span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  owl:</span><span style="color:#79C0FF">versionInfo</span><span style="color:#A5D6FF"> "0.1.0"</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> owl:</span><span style="color:#79C0FF">Ontology</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">sflo:</span><span style="color:#79C0FF">HistoricalState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">isVersionOf</span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology/shacl></span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  dcterms:</span><span style="color:#79C0FF">issued</span><span style="color:#A5D6FF"> "2026-05-17"</span><span style="color:#E6EDF3">^^</span><span style="color:#FF7B72">xsd:</span><span style="color:#79C0FF">date</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  owl:</span><span style="color:#79C0FF">versionInfo</span><span style="color:#A5D6FF"> "0.1.0"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  schema:</span><span style="color:#79C0FF">contentUrl</span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl></span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sflo:</span><span style="color:#79C0FF">hasManifestation</span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl></span></span>
+<span class="line"><span style="color:#FF7B72">  dcat:</span><span style="color:#79C0FF">downloadURL</span><span style="color:#FFA657"> &#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl></span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceLinkShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A ReferenceLink must identify the thing it is about."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "ReferenceLink basics"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">HistoricalState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:referenceTargetState should be a single IRI typed sflo:HistoricalState."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">referenceTargetState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Info</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">anyURI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:referenceUriLiteral must be xsd:anyURI."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">referenceUriLiteral</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Info</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A ReferenceLink SHOULD have at least one sflo:hasReferenceRole."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasReferenceRole</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A ReferenceLink MUST have exactly one sflo:referenceLinkFor."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">referenceLinkFor</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ReferenceLink</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceLinkForNotKnopShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Reference links must be about the referent or mesh subject, not about the Knop support object itself."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "ReferenceLink subject must not be a Knop"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">sparql</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">SPARQLConstraint</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "sflo:referenceLinkFor MUST identify the actual subject resource, not a sflo:Knop support object."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">select</span><span style="color:#A5D6FF"> "PREFIX sflo: &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">SELECT $this WHERE {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  $this sflo:referenceLinkFor ?target .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  ?target a sflo:Knop .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ReferenceLink</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceCatalogOwnerShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Only Knops and SemanticMeshes may own a ReferenceCatalog in this version of the model."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "ReferenceCatalog owner constraints"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ReferenceCatalog</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "An owner may have at most one sflo:hasReferenceCatalog value, and it must be an IRI typed sflo:ReferenceCatalog."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasReferenceCatalog</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">sparql</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">SPARQLConstraint</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "Only sflo:Knop or sflo:SemanticMesh resources may own a sflo:hasReferenceCatalog in this version of the model."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">select</span><span style="color:#A5D6FF"> "PREFIX sflo: &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">SELECT DISTINCT $this WHERE {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  $this sflo:hasReferenceCatalog ?catalog .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  FILTER NOT EXISTS { $this a sflo:Knop }</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  FILTER NOT EXISTS { $this a sflo:SemanticMesh }</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetSubjectsOf</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasReferenceCatalog</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceRegistryShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A KnopSourceRegistry catalogs source bindings and extraction provenance for one Knop."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "KnopSourceRegistry"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ArtifactResolutionTarget</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A KnopSourceRegistry MUST have at least one sflo:hasSourceBinding value typed sflo:ArtifactResolutionTarget."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasSourceBinding</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">KnopSourceRegistry</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceRegistryAttachmentShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Only Knops may own a KnopSourceRegistry in this version of the model."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "KnopSourceRegistry owner constraints"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">KnopSourceRegistry</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A Knop may have at most one sflo:hasKnopSourceRegistry value, and it must be an IRI typed sflo:KnopSourceRegistry."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasKnopSourceRegistry</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">sparql</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">SPARQLConstraint</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "Only sflo:Knop resources may own a sflo:hasKnopSourceRegistry in this version of the model."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">select</span><span style="color:#A5D6FF"> "PREFIX sflo: &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">SELECT DISTINCT $this WHERE {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  $this sflo:hasKnopSourceRegistry ?registry .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  FILTER NOT EXISTS { $this a sflo:Knop }</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetSubjectsOf</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasKnopSourceRegistry</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceBindingShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A repository-backed source binding carried by a KnopSourceRegistry records the materialized target artifact and its repository source locator."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Repository-backed Knop source binding"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A repository-backed Knop source binding MUST identify exactly one sflo:hasTargetArtifact IRI."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasTargetArtifact</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A repository-backed Knop source binding MUST declare exactly one sflo:targetLocalRelativePath string literal."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">targetLocalRelativePath</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A repository-backed Knop source binding MUST declare exactly one sflo:expectsContentDigest string literal."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">expectsContentDigest</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">RepositorySourceLocator</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A repository-backed Knop source binding MUST identify exactly one sflo:hasTargetRepositorySource value typed sflo:RepositorySourceLocator."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">BlankNodeOrIRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasTargetRepositorySource</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetSubjectsOf</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasTargetRepositorySource</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/RepositorySourceLocatorShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A repository source locator records durable repository coordinates for bytes or a tree path without implying local checkout access."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "RepositorySourceLocator"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A RepositorySourceLocator MUST declare exactly one sflo:sourceRepositoryUrl literal."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Literal</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">sourceRepositoryUrl</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A RepositorySourceLocator MUST declare exactly one sflo:sourceRepositoryRef string literal."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">sourceRepositoryRef</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:sourceRepositoryCommit MUST be a single string literal."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">sourceRepositoryCommit</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A RepositorySourceLocator MUST declare exactly one sflo:sourceRepositoryPath string literal."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">sourceRepositoryPath</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">RepositorySourceLocator</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/PreviousHistoricalStateShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "previousHistoricalState is optional but, if present, must point to exactly one HistoricalState (the immediately preceding published state)."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "HistoricalState revision linkage"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">HistoricalState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "sflo:previousHistoricalState must have at most one value, and it must be an IRI typed sflo:HistoricalState."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">previousHistoricalState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetSubjectsOf</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">previousHistoricalState</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/PreviousHistoricalStateNotSelfShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Disallow self-links in the published revision chain."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "previousHistoricalState must not be self"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">sparql</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">SPARQLConstraint</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A HistoricalState MUST NOT have itself as sflo:previousHistoricalState."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">select</span><span style="color:#A5D6FF"> "PREFIX sflo: &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">SELECT $this WHERE {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  $this sflo:previousHistoricalState $this .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetSubjectsOf</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">previousHistoricalState</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/PreferredPayloadFileSlugShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Validates sflo:preferredPayloadFileSlug token constraints (filename stem preference)."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "preferredPayloadFileSlug"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:preferredPayloadFileSlug SHOULD be a portable filename stem token (ASCII letters/digits with . _ -)."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">preferredPayloadFileSlug</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">pattern</span><span style="color:#A5D6FF"> "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?$"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:preferredPayloadFileSlug MUST be a single xsd:string."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">preferredPayloadFileSlug</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">PayloadArtifact</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/PreferredPayloadFileSlugIndexBanShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Best-effort guardrail to prevent generating index.html unintentionally."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "preferredPayloadFileSlug should avoid index"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">sparql</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">SPARQLConstraint</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "sflo:preferredPayloadFileSlug SHOULD NOT be 'index' or 'index.html' (index.html is reserved for ResourcePage files)."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">select</span><span style="color:#A5D6FF"> "PREFIX sflo: &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">SELECT $this WHERE {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  $this sflo:preferredPayloadFileSlug ?s .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  BIND(LCASE(STR(?s)) AS ?lc)</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  FILTER(?lc = </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">index</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF"> || ?lc = </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">index.html</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">)</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetSubjectsOf</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">preferredPayloadFileSlug</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/MeshSlotsShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Operational slot expectations for common SemanticMesh-associated artifacts."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "SemanticMesh slots"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ReferenceCatalog</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, a SemanticMesh may have at most one sflo:hasReferenceCatalog, and it must be an IRI typed sflo:ReferenceCatalog."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasReferenceCatalog</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">LocatedFile</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, a SemanticMesh may have at most one sflo:hasWorkingMeshInventoryFile, and it must be an IRI typed sflo:LocatedFile."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasWorkingMeshInventoryFile</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A SemanticMesh MUST have exactly one sflo:hasMeshMetadata value typed sflo:MeshMetadata."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasMeshMetadata</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedMaxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedMinCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedValueShape</span><span style="color:#E6EDF3"> [ </span><span style="color:#FF7B72">sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">MeshMetadata</span><span style="color:#E6EDF3"> ];</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A SemanticMesh MUST have exactly one sflo:hasMeshInventory value typed sflo:MeshInventory."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasMeshInventory</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedMaxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedMinCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedValueShape</span><span style="color:#E6EDF3"> [ </span><span style="color:#FF7B72">sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">MeshInventory</span><span style="color:#E6EDF3"> ];</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">SemanticMesh</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/MeshBaseShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Ensures a SemanticMesh typically declares a canonical meshBase URI literal."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "SemanticMesh base sanity"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">anyURI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A SemanticMesh SHOULD declare exactly one sflo:meshBase (xsd:anyURI)."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">meshBase</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">SemanticMesh</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/LocatedFileForStateConsistencyShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "If locatedFileForState is used as a shortcut, it should align with hasManifestation/locatedFileForManifestation."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "locatedFileForState consistency"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">sparql</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">SPARQLConstraint</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If a HistoricalState uses sflo:locatedFileForState ?lf, there SHOULD exist an ArtifactManifestation ?m such that ($this sflo:hasManifestation ?m) and (?m sflo:locatedFileForManifestation ?lf)."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">select</span><span style="color:#A5D6FF"> "PREFIX sflo: &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">SELECT $this WHERE {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  $this sflo:locatedFileForState ?lf .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  FILTER NOT EXISTS {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">    $this sflo:hasManifestation ?m .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">    ?m sflo:locatedFileForManifestation ?lf .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  }</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetSubjectsOf</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">locatedFileForState</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/ContentDigestLiteralShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Content digests are compact algorithm-qualified strings such as sha256:&#x3C;hex>. This shape checks the literal form only; byte retrieval, canonicalization, and cryptographic verification are runtime responsibilities."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "content digest literal"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "sflo:hasContentDigest values MUST be xsd:string literals."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasContentDigest</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "sflo:hasContentDigest values SHOULD include an algorithm prefix followed by ':', for example sha256:&#x3C;hex>."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasContentDigest</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">pattern</span><span style="color:#A5D6FF"> "^[A-Za-z][A-Za-z0-9+._-]*:.+$"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetSubjectsOf</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasContentDigest</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/ExpectedContentDigestShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "ArtifactResolutionTargets may carry a single expected digest used by runtime resolution to verify fetched or loaded target bytes before use."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "expected content digest"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "sflo:expectsContentDigest values MUST be a single xsd:string literal."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">expectsContentDigest</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "sflo:expectsContentDigest values SHOULD include an algorithm prefix followed by ':', for example sha256:&#x3C;hex>."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">expectsContentDigest</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">pattern</span><span style="color:#A5D6FF"> "^[A-Za-z][A-Za-z0-9+._-]*:.+$"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">sparql</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">SPARQLConstraint</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "sflo:expectsContentDigest SHOULD be used on resources typed sflo:ArtifactResolutionTarget or a subclass such as sflo:ExtractionSource."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">select</span><span style="color:#A5D6FF"> "PREFIX rdfs: &#x3C;http://www.w3.org/2000/01/rdf-schema#></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">PREFIX sflo: &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">SELECT $this WHERE {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  $this sflo:expectsContentDigest ?digest .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  FILTER NOT EXISTS { $this a/rdfs:subClassOf* sflo:ArtifactResolutionTarget }</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetSubjectsOf</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">expectsContentDigest</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/LatestHistoricalStateIsMemberShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "If latestHistoricalState is asserted, it must also be asserted as a hasHistoricalState of the same ArtifactHistory."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "latestHistoricalState must be among hasHistoricalState"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">sparql</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">SPARQLConstraint</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If an ArtifactHistory has sflo:latestHistoricalState, that value MUST also appear among sflo:hasHistoricalState values."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">select</span><span style="color:#A5D6FF"> "PREFIX sflo: &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">SELECT $this WHERE {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  $this sflo:latestHistoricalState ?s .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  FILTER NOT EXISTS { $this sflo:hasHistoricalState ?s }</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ArtifactHistory</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/KnopSlotsShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Operational slot expectations for common Knop-associated artifacts."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Knop slots"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">KnopSourceRegistry</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, a Knop may have at most one sflo:hasKnopSourceRegistry, and it must be an IRI typed sflo:KnopSourceRegistry."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasKnopSourceRegistry</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ExtractionSource</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, a Knop may have at most one sflo:hasExtractionSource value, and it must be an IRI typed sflo:ExtractionSource."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasExtractionSource</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ReferenceCatalog</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, a Knop may have at most one sflo:hasReferenceCatalog, and it must be an IRI typed sflo:ReferenceCatalog."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasReferenceCatalog</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">LocatedFile</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, a Knop may have at most one sflo:hasWorkingKnopInventoryFile, and it must be an IRI typed sflo:LocatedFile."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasWorkingKnopInventoryFile</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A Knop MUST have exactly one sflo:hasKnopInventory value typed sflo:KnopInventory."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasKnopInventory</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedMaxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedMinCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedValueShape</span><span style="color:#E6EDF3"> [ </span><span style="color:#FF7B72">sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">KnopInventory</span><span style="color:#E6EDF3"> ];</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A Knop MUST have exactly one sflo:hasKnopMetadata value typed sflo:KnopMetadata."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasKnopMetadata</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedMaxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedMinCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedValueShape</span><span style="color:#E6EDF3"> [ </span><span style="color:#FF7B72">sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">KnopMetadata</span><span style="color:#E6EDF3"> ];</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">Knop</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/KnopPayloadArtifactShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "A Knop may have at most one primary payload resource typed sflo:PayloadArtifact."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Knop payload artifact"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A Knop may have at most one sflo:hasPayloadArtifact value typed sflo:PayloadArtifact."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasPayloadArtifact</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedMaxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">qualifiedValueShape</span><span style="color:#E6EDF3"> [ </span><span style="color:#FF7B72">sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">PayloadArtifact</span><span style="color:#E6EDF3"> ];</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">Knop</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/KnopDesignatorPathShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Each Knop must declare exactly one mesh-relative designatorPath."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "Knop designatorPath"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A Knop MUST declare exactly one sflo:designatorPath (xsd:string)."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">designatorPath</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">Knop</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/HistoricalStateHasManifestationShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "HistoricalStates are content-bearing; they should usually have at least one ArtifactManifestation realization."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "HistoricalState realization presence"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ArtifactManifestation</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A HistoricalState SHOULD have at least one sflo:hasManifestation (IRI) typed sflo:ArtifactManifestation."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasManifestation</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">nonNegativeInteger</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:stateOrdinal SHOULD be a single xsd:nonNegativeInteger."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">stateOrdinal</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">HistoricalState</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/ExtractionSourceShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "An ExtractionSource identifies the RDF artifact state used to ground an extracted Knop-managed resource."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "ExtractionSource basics"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ArtifactResolutionMode</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "An ExtractionSource MUST identify exactly one sflo:hasArtifactResolutionMode value typed sflo:ArtifactResolutionMode."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasArtifactResolutionMode</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">HistoricalState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:hasRequestedTargetState should be a single IRI typed sflo:HistoricalState."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasRequestedTargetState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">RdfDocument</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "An ExtractionSource MUST identify exactly one target artifact, and that artifact must be an IRI typed sflo:RdfDocument."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasTargetArtifact</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">HistoricalState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:hasObservedSourceState should be a single IRI typed sflo:HistoricalState."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasObservedSourceState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ArtifactManifestation</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:hasObservedSourceManifestation should be a single IRI typed sflo:ArtifactManifestation."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasObservedSourceManifestation</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">LocatedFile</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:hasObservedSourceLocatedFile should be a single IRI typed sflo:LocatedFile."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasObservedSourceLocatedFile</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:observedSourceLocalRelativePath should be a single local relative path literal."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">observedSourceLocalRelativePath</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">string</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:observedSourceDigest should be a single digest literal."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">observedSourceDigest</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ExtractionSource</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/DigitalArtifactHistoryShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "DigitalArtifacts may point to explicit ArtifactHistory resources, may designate one current ArtifactHistory, may track the nextHistoryOrdinal for default history allocation, and may have at most one working LocatedFile."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "DigitalArtifact history and working surface"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">LocatedFile</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "A DigitalArtifact may have at most one sflo:hasWorkingLocatedFile, and it must be an IRI typed sflo:LocatedFile."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasWorkingLocatedFile</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">nonNegativeInteger</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:nextHistoryOrdinal SHOULD be a single xsd:nonNegativeInteger."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">nextHistoryOrdinal</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ArtifactHistory</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:currentArtifactHistory must be a single IRI typed sflo:ArtifactHistory."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">currentArtifactHistory</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ArtifactHistory</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, values of sflo:hasArtifactHistory must be IRIs typed sflo:ArtifactHistory."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasArtifactHistory</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Info</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">LocatedFile</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, values of sflo:locatedFileForArtifact must be IRIs typed sflo:LocatedFile."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">locatedFileForArtifact</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Info</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">DigitalArtifact</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/CurrentArtifactHistoryIsMemberShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "If currentArtifactHistory is asserted, it must also be asserted as a hasArtifactHistory of the same DigitalArtifact."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "currentArtifactHistory must be among hasArtifactHistory"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">sparql</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">SPARQLConstraint</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If a DigitalArtifact has sflo:currentArtifactHistory, that value MUST also appear among sflo:hasArtifactHistory values."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">select</span><span style="color:#A5D6FF"> "PREFIX sflo: &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">SELECT $this WHERE {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  $this sflo:currentArtifactHistory ?h .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  FILTER NOT EXISTS { $this sflo:hasArtifactHistory ?h }</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Violation</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">DigitalArtifact</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactManifestationLocatedFileShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "Many meshes expect ArtifactManifestations to have at least one LocatedFile. Warning because some manifestation identities may be non-locatable."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "ArtifactManifestation should be locatable (usually)"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">LocatedFile</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "An ArtifactManifestation SHOULD have at least one sflo:locatedFileForManifestation (IRI) typed sflo:LocatedFile."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">minCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">locatedFileForManifestation</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ArtifactManifestation</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactHistoryShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "ArtifactHistory resources may point to published HistoricalStates, designate one latest HistoricalState, and carry history-local ordinal metadata."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "ArtifactHistory structure"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">nonNegativeInteger</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:nextStateOrdinal SHOULD be a single xsd:nonNegativeInteger."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">nextStateOrdinal</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">datatype</span><span style="color:#FF7B72"> xsd:</span><span style="color:#79C0FF">nonNegativeInteger</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:historyOrdinal SHOULD be a single xsd:nonNegativeInteger."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">historyOrdinal</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">HistoricalState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">maxCount</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, sflo:latestHistoricalState must be a single IRI typed sflo:HistoricalState."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">latestHistoricalState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Info</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">property</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">class</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">HistoricalState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If present, values of sflo:hasHistoricalState must be IRIs typed sflo:HistoricalState."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">nodeKind</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">IRI</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">path</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">hasHistoricalState</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Info</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">ArtifactHistory</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">&#x3C;https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactHasCurrentHistoryShape></span></span>
+<span class="line"><span style="color:#FF7B72">  rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">NodeShape</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">comment</span><span style="color:#A5D6FF"> "If a DigitalArtifact explicitly tracks ArtifactHistory resources, it should usually identify one as the current/default history."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  rdfs:</span><span style="color:#79C0FF">label</span><span style="color:#A5D6FF"> "currentArtifactHistory should usually be present when histories exist"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">sparql</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FF7B72">    rdf:</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">SPARQLConstraint</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">message</span><span style="color:#A5D6FF"> "If a DigitalArtifact has explicit sflo:hasArtifactHistory values, it SHOULD also identify one sflo:currentArtifactHistory."</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">select</span><span style="color:#A5D6FF"> "PREFIX sflo: &#x3C;https://semantic-flow.github.io/sflo/ontology/></span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">SELECT DISTINCT $this WHERE {</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  $this sflo:hasArtifactHistory ?h .</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">  FILTER NOT EXISTS { $this sflo:currentArtifactHistory ?current }</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">    sh:</span><span style="color:#79C0FF">severity</span><span style="color:#FF7B72"> sh:</span><span style="color:#79C0FF">Warning</span></span>
+<span class="line"><span style="color:#E6EDF3">  ];</span></span>
+<span class="line"><span style="color:#FF7B72">  sh:</span><span style="color:#79C0FF">targetClass</span><span style="color:#FF7B72"> sflo:</span><span style="color:#79C0FF">DigitalArtifact</span><span style="color:#E6EDF3"> .</span></span>
+<span class="line"></span></code></pre>
+      </details>
+    </section>    <section class="wf-section">
+      <details class="wf-history">
+        <summary>Located Files</summary>
+        <div class="wf-history-tree">
+          <div class="wf-history-node wf-history-node--file">
+            <div class="wf-history-node-header"><a href="/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl" class="wf-history-file-iri">https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl</a></div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    </article>
+  </main>
+  <footer class="wf-generated">
+    Generated on <span class="wf-term wf-date-tip" tabindex="0" title="2026-05-17T20:21:53.303Z" data-tooltip="2026-05-17T20:21:53.303Z">May 17, 2026</span> by <a href="https://github.com/semantic-flow/weave/">Weave</a>
+  </footer>
+</body>
+</html>

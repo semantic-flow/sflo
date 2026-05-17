@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/shacl/ReferenceLinkForNotKnopShape/_knop> a sflo:Knop ;
+  sflo:designatorPath "ontology/shacl/ReferenceLinkForNotKnopShape" ;
+  sflo:hasWorkingKnopInventoryFile <ontology/shacl/ReferenceLinkForNotKnopShape/_knop/_inventory/inventory.ttl> .

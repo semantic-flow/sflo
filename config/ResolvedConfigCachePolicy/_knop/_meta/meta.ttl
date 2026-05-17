@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/ResolvedConfigCachePolicy/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/ResolvedConfigCachePolicy" ;
+  sflo:hasWorkingKnopInventoryFile <config/ResolvedConfigCachePolicy/_knop/_inventory/inventory.ttl> .

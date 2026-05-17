@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/historyTrackingPolicy_metadataOnly> sflo:hasReferenceLink <config/historyTrackingPolicy_metadataOnly/_knop/_references#reference001> .
+
+<config/historyTrackingPolicy_metadataOnly/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/historyTrackingPolicy_metadataOnly> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/artifactRole_runtimeMeta/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/artifactRole_runtimeMeta" ;
+  sflo:hasWorkingKnopInventoryFile <config/artifactRole_runtimeMeta/_knop/_inventory/inventory.ttl> .

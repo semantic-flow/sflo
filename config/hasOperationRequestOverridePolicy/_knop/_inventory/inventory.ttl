@@ -1,0 +1,40 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<config/hasOperationRequestOverridePolicy/_knop> a sflo:Knop ;
+  sflo:hasKnopMetadata <config/hasOperationRequestOverridePolicy/_knop/_meta> ;
+  sflo:hasKnopInventory <config/hasOperationRequestOverridePolicy/_knop/_inventory> ;
+  sflo:hasKnopSourceRegistry <config/hasOperationRequestOverridePolicy/_knop/_sources> ;
+  sflo:hasExtractionSource <config/hasOperationRequestOverridePolicy/_knop/_sources#extraction-source> ;
+  sflo:hasReferenceCatalog <config/hasOperationRequestOverridePolicy/_knop/_references> ;
+  sflo:hasWorkingKnopInventoryFile <config/hasOperationRequestOverridePolicy/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/hasOperationRequestOverridePolicy/_knop/index.html> .
+
+<config/hasOperationRequestOverridePolicy/_knop/_meta> a sflo:KnopMetadata, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasOperationRequestOverridePolicy/_knop/_meta/meta.ttl> ;
+  sflo:hasResourcePage <config/hasOperationRequestOverridePolicy/_knop/_meta/index.html> .
+
+<config/hasOperationRequestOverridePolicy/_knop/_inventory> a sflo:KnopInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasOperationRequestOverridePolicy/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/hasOperationRequestOverridePolicy/_knop/_inventory/index.html> .
+
+<config/hasOperationRequestOverridePolicy/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasOperationRequestOverridePolicy/_knop/_sources/sources.ttl> .
+
+<config/hasOperationRequestOverridePolicy/_knop/_meta/meta.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasOperationRequestOverridePolicy/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasOperationRequestOverridePolicy/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasOperationRequestOverridePolicy/_knop/_references> a sflo:ReferenceCatalog, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasOperationRequestOverridePolicy/_knop/_references/references.ttl> .
+
+<config/hasOperationRequestOverridePolicy/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasOperationRequestOverridePolicy/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/hasOperationRequestOverridePolicy/_knop/_meta/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/hasOperationRequestOverridePolicy/_knop/_inventory/index.html> a sflo:ResourcePage, sflo:LocatedFile .

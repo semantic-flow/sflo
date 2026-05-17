@@ -1,0 +1,40 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<ontology/ExtractionSource/_knop> a sflo:Knop ;
+  sflo:hasKnopMetadata <ontology/ExtractionSource/_knop/_meta> ;
+  sflo:hasKnopInventory <ontology/ExtractionSource/_knop/_inventory> ;
+  sflo:hasKnopSourceRegistry <ontology/ExtractionSource/_knop/_sources> ;
+  sflo:hasExtractionSource <ontology/ExtractionSource/_knop/_sources#extraction-source> ;
+  sflo:hasReferenceCatalog <ontology/ExtractionSource/_knop/_references> ;
+  sflo:hasWorkingKnopInventoryFile <ontology/ExtractionSource/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <ontology/ExtractionSource/_knop/index.html> .
+
+<ontology/ExtractionSource/_knop/_meta> a sflo:KnopMetadata, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/ExtractionSource/_knop/_meta/meta.ttl> ;
+  sflo:hasResourcePage <ontology/ExtractionSource/_knop/_meta/index.html> .
+
+<ontology/ExtractionSource/_knop/_inventory> a sflo:KnopInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/ExtractionSource/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <ontology/ExtractionSource/_knop/_inventory/index.html> .
+
+<ontology/ExtractionSource/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/ExtractionSource/_knop/_sources/sources.ttl> .
+
+<ontology/ExtractionSource/_knop/_meta/meta.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/ExtractionSource/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/ExtractionSource/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/ExtractionSource/_knop/_references> a sflo:ReferenceCatalog, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/ExtractionSource/_knop/_references/references.ttl> .
+
+<ontology/ExtractionSource/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/ExtractionSource/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/ExtractionSource/_knop/_meta/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/ExtractionSource/_knop/_inventory/index.html> a sflo:ResourcePage, sflo:LocatedFile .

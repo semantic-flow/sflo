@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/historyNamingPolicy_ordinal/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/historyNamingPolicy_ordinal" ;
+  sflo:hasWorkingKnopInventoryFile <config/historyNamingPolicy_ordinal/_knop/_inventory/inventory.ttl> .

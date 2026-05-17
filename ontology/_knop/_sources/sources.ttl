@@ -1,0 +1,21 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/_knop/_sources/sources.ttl> ;
+  sflo:hasSourceBinding <ontology/_knop/_sources#branch-source-ontology> .
+
+<ontology/_knop/_sources#branch-source-ontology> a sflo:ArtifactResolutionTarget ;
+  sflo:hasTargetArtifact <https://semantic-flow.github.io/sflo/ontology> ;
+  sflo:targetLocalRelativePath "semantic-flow-core-ontology.ttl" ;
+  sflo:expectsContentDigest "sha256:7e95093ea15dc6f56dffa1db94243f60b76051a07cd78aa788d4d00e39abdfea" ;
+  sflo:hasTargetRepositorySource [
+    a sflo:RepositorySourceLocator ;
+    sflo:sourceRepositoryUrl "https://github.com/semantic-flow/sflo.git" ;
+    sflo:sourceRepositoryRef "v0.1.0" ;
+    sflo:sourceRepositoryCommit "2946af7d76fd831fc5ee069ae0b0f22a525f7e13" ;
+    sflo:sourceRepositoryPath "semantic-flow-core-ontology.ttl" ;
+    sflo:hasContentDigest "sha256:7e95093ea15dc6f56dffa1db94243f60b76051a07cd78aa788d4d00e39abdfea"
+  ] .
+
+<ontology/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .

@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/stateNamingPolicy_semver/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/stateNamingPolicy_semver" ;
+  sflo:hasWorkingKnopInventoryFile <config/stateNamingPolicy_semver/_knop/_inventory/inventory.ttl> .

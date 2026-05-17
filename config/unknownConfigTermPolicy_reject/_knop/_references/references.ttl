@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/unknownConfigTermPolicy_reject> sflo:hasReferenceLink <config/unknownConfigTermPolicy_reject/_knop/_references#reference001> .
+
+<config/unknownConfigTermPolicy_reject/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/unknownConfigTermPolicy_reject> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

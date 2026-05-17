@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/artifactResolutionFallbackPolicy_acceptLatestInRequestedHistory> sflo:hasReferenceLink <ontology/artifactResolutionFallbackPolicy_acceptLatestInRequestedHistory/_knop/_references#reference001> .
+
+<ontology/artifactResolutionFallbackPolicy_acceptLatestInRequestedHistory/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <ontology/artifactResolutionFallbackPolicy_acceptLatestInRequestedHistory> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <ontology> .

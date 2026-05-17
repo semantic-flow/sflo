@@ -1,0 +1,40 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop> a sflo:Knop ;
+  sflo:hasKnopMetadata <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_meta> ;
+  sflo:hasKnopInventory <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_inventory> ;
+  sflo:hasKnopSourceRegistry <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_sources> ;
+  sflo:hasExtractionSource <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_sources#extraction-source> ;
+  sflo:hasReferenceCatalog <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_references> ;
+  sflo:hasWorkingKnopInventoryFile <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <ontology/shacl/PreferredPayloadFileSlugShape/_knop/index.html> .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_meta> a sflo:KnopMetadata, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_meta/meta.ttl> ;
+  sflo:hasResourcePage <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_meta/index.html> .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_inventory> a sflo:KnopInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_inventory/index.html> .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_sources/sources.ttl> .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_meta/meta.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_references> a sflo:ReferenceCatalog, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_references/references.ttl> .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_meta/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_inventory/index.html> a sflo:ResourcePage, sflo:LocatedFile .

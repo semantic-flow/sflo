@@ -1,0 +1,9 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/stateNamingPolicy_semver> sflo:hasReferenceLink <config/stateNamingPolicy_semver/_knop/_references#reference001> .
+
+<config/stateNamingPolicy_semver/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/stateNamingPolicy_semver> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:referenceTarget <config> .

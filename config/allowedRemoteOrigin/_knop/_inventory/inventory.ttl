@@ -1,0 +1,40 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<config/allowedRemoteOrigin/_knop> a sflo:Knop ;
+  sflo:hasKnopMetadata <config/allowedRemoteOrigin/_knop/_meta> ;
+  sflo:hasKnopInventory <config/allowedRemoteOrigin/_knop/_inventory> ;
+  sflo:hasKnopSourceRegistry <config/allowedRemoteOrigin/_knop/_sources> ;
+  sflo:hasExtractionSource <config/allowedRemoteOrigin/_knop/_sources#extraction-source> ;
+  sflo:hasReferenceCatalog <config/allowedRemoteOrigin/_knop/_references> ;
+  sflo:hasWorkingKnopInventoryFile <config/allowedRemoteOrigin/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/allowedRemoteOrigin/_knop/index.html> .
+
+<config/allowedRemoteOrigin/_knop/_meta> a sflo:KnopMetadata, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/allowedRemoteOrigin/_knop/_meta/meta.ttl> ;
+  sflo:hasResourcePage <config/allowedRemoteOrigin/_knop/_meta/index.html> .
+
+<config/allowedRemoteOrigin/_knop/_inventory> a sflo:KnopInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/allowedRemoteOrigin/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/allowedRemoteOrigin/_knop/_inventory/index.html> .
+
+<config/allowedRemoteOrigin/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/allowedRemoteOrigin/_knop/_sources/sources.ttl> .
+
+<config/allowedRemoteOrigin/_knop/_meta/meta.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/allowedRemoteOrigin/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/allowedRemoteOrigin/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/allowedRemoteOrigin/_knop/_references> a sflo:ReferenceCatalog, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/allowedRemoteOrigin/_knop/_references/references.ttl> .
+
+<config/allowedRemoteOrigin/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/allowedRemoteOrigin/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/allowedRemoteOrigin/_knop/_meta/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/allowedRemoteOrigin/_knop/_inventory/index.html> a sflo:ResourcePage, sflo:LocatedFile .
