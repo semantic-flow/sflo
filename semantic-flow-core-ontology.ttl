@@ -184,11 +184,11 @@
   rdfs:label "has working Knop inventory file" ;
   rdfs:comment "Convenience shortcut from a Knop directly to the current working LocatedFile of its Knop inventory document." .
 
-<locatedFileForArtifact> a owl:ObjectProperty ;
-  rdfs:domain <DigitalArtifact> ;
-  rdfs:range <LocatedFile> ;
-  rdfs:label "located file for artifact" ;
-  rdfs:comment "Relates a DigitalArtifact directly to one or more LocatedFiles that provide bytes for that artifact when a mesh wants a sparse file shortcut without materializing HistoricalState or ArtifactManifestation resources. Use locatedFileForManifestation when the file is tied to a specific ArtifactManifestation." .
+<hasContentDigest> a owl:DatatypeProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range xsd:string ;
+  rdfs:label "has content digest" ;
+  rdfs:comment "A digest for the byte stream or canonical representation of a byte-bearing resource such as a LocatedFile, ArtifactManifestation, or HistoricalState. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'. RDF graph artifacts SHOULD make clear which serialization bytes or canonicalization profile were hashed." .
 
 <locatedFileForManifestation> a owl:ObjectProperty ;
   rdfs:subPropertyOf dcat:downloadURL ;
@@ -205,14 +205,9 @@
   rdfs:label "locates manifestation" ;
   rdfs:comment "Navigation: links a LocatedFile to an ArtifactManifestation whose bytes it provides." .
 
-<hasContentDigest> a owl:DatatypeProperty ;
-  rdfs:domain rdfs:Resource ;
-  rdfs:range xsd:string ;
-  rdfs:label "has content digest" ;
-  rdfs:comment "A digest for the byte stream or canonical representation of a byte-bearing resource such as a LocatedFile, ArtifactManifestation, or HistoricalState. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'. RDF graph artifacts SHOULD make clear which serialization bytes or canonicalization profile were hashed." .
 
 #################################################################
-# Optional skip-links (structural narrowing shortcuts)
+# Optional skip-links (sparse shortcuts)
 #################################################################
 
 <locatedFileForState> a owl:ObjectProperty ;
@@ -220,6 +215,14 @@
   rdfs:range <LocatedFile> ;
   rdfs:label "located file for state" ;
   rdfs:comment "Optional shortcut relating a HistoricalState directly to a LocatedFile. When present in mesh-managed data, it SHOULD be consistent with the chain: hasManifestation / locatedFileForManifestation." .
+
+<locatedFileForArtifact> a owl:ObjectProperty ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:range <LocatedFile> ;
+  rdfs:label "located file for artifact" ;
+  rdfs:comment "Relates a DigitalArtifact directly to one or more LocatedFiles that provide bytes for that artifact when a mesh wants a sparse file shortcut without materializing HistoricalState or ArtifactManifestation resources. Use locatedFileForManifestation when the file is tied to a specific ArtifactManifestation." .
+
+
 
 #################################################################
 # Content kinds
