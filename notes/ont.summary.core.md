@@ -77,7 +77,7 @@ Sparse cases are explicitly supported:
 - a `DigitalArtifact` may link directly to an `ArtifactManifestation` when no explicit `ArtifactHistory` / `HistoricalState` structure is materialized
 - a `SemanticMesh` or `Knop` may point directly to its current inventory file via `hasWorkingMeshInventoryFile` or `hasWorkingKnopInventoryFile` without restating inventory-artifact structure in metadata documents
 
-Use the explicit structural relations `hasArtifactHistory`, `hasHistoricalState`, `hasManifestation`, `hasLocatedFile`, and `hasWorkingLocatedFile` for artifact/facet structure. Use `workingLocalRelativePath` as the local runtime current-byte locator when present, `workingAccessUrl` as the remote/external current-byte locator when present and operationally allowed, and treat `hasWorkingMeshInventoryFile` and `hasWorkingKnopInventoryFile` only as owner-level shortcuts to current inventory files.
+Use the explicit structural relations `hasArtifactHistory`, `hasHistoricalState`, `hasManifestation`, `locatedFileForManifestation`, `locatedFileForState`, `locatedFileForArtifact`, and `hasWorkingLocatedFile` for artifact/facet structure and sparse shortcuts. Use `workingLocalRelativePath` as the local runtime current-byte locator when present, `workingAccessUrl` as the remote/external current-byte locator when present and operationally allowed, and treat `hasWorkingMeshInventoryFile` and `hasWorkingKnopInventoryFile` only as owner-level shortcuts to current inventory files.
 
 ## Mesh Structure
 
@@ -128,7 +128,9 @@ Substantive RDF about a referent should normally live in a payload artifact or d
 - `workingLocalRelativePath` is the operational local-path hook for current working bytes and may be present even when no mesh-addressable `LocatedFile` is asserted.
 - `workingAccessUrl` is the operational remote/external current-byte hook when a runtime is allowed to fetch the current bytes without first importing them.
 - `hasWorkingMeshInventoryFile` and `hasWorkingKnopInventoryFile` are owner-level shortcuts to current inventory files.
-- `locatedFileForState` is an optional shortcut that should agree with `hasManifestation / hasLocatedFile`.
+- `locatedFileForArtifact` is a direct `DigitalArtifact -> LocatedFile` shortcut for sparse file identity.
+- `locatedFileForManifestation` is the `ArtifactManifestation -> LocatedFile` link for concrete manifestation bytes.
+- `locatedFileForState` is an optional shortcut that should agree with `hasManifestation / locatedFileForManifestation`.
 
 ## Other Important Vocabulary
 

@@ -19,7 +19,7 @@
   owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-ontology.ttl> ;
   owl:versionInfo "0.1.0" ;
   vann:preferredNamespacePrefix "sflo" ;
-  vann:preferredNamespaceUri <https://semantic-flow.github.io/ontology/core/> .
+  vann:preferredNamespaceUri "https://semantic-flow.github.io/ontology/core/" .
 
 <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0>
   a owl:Ontology ;
@@ -31,8 +31,11 @@
 <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl>
   a <ArtifactManifestation> ;
   dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-ontology.ttl> ;
-  dcat:downloadURL <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl> ;
+  <locatedFileForManifestation> <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl> ;
   dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
+
+<https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl>
+  a <LocatedFile>, <RdfDocument> .
 
 #################################################################
 #################################################################
@@ -181,18 +184,24 @@
   rdfs:label "has working Knop inventory file" ;
   rdfs:comment "Convenience shortcut from a Knop directly to the current working LocatedFile of its Knop inventory document." .
 
-<hasLocatedFile> a owl:ObjectProperty ;
+<locatedFileForArtifact> a owl:ObjectProperty ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:range <LocatedFile> ;
+  rdfs:label "located file for artifact" ;
+  rdfs:comment "Relates a DigitalArtifact directly to one or more LocatedFiles that provide bytes for that artifact when a mesh wants a sparse file shortcut without materializing HistoricalState or ArtifactManifestation resources. Use locatedFileForManifestation when the file is tied to a specific ArtifactManifestation." .
+
+<locatedFileForManifestation> a owl:ObjectProperty ;
   rdfs:subPropertyOf dcat:downloadURL ;
   rdfs:domain <ArtifactManifestation> ;
   rdfs:range <LocatedFile> ;
   owl:inverseOf <locatesManifestation> ;
-  rdfs:label "has located file" ;
-  rdfs:comment "Relates an ArtifactManifestation to one or more LocatedFiles that provide retrievable bytes." .
+  rdfs:label "located file for manifestation" ;
+  rdfs:comment "Relates an ArtifactManifestation to one or more LocatedFiles that provide retrievable bytes for that manifestation." .
 
 <locatesManifestation> a owl:ObjectProperty ;
   rdfs:domain <LocatedFile> ;
   rdfs:range <ArtifactManifestation> ;
-  owl:inverseOf <hasLocatedFile> ;
+  owl:inverseOf <locatedFileForManifestation> ;
   rdfs:label "locates manifestation" ;
   rdfs:comment "Navigation: links a LocatedFile to an ArtifactManifestation whose bytes it provides." .
 
@@ -210,7 +219,7 @@
   rdfs:domain <HistoricalState> ;
   rdfs:range <LocatedFile> ;
   rdfs:label "located file for state" ;
-  rdfs:comment "Optional shortcut relating a HistoricalState directly to a LocatedFile. When present in mesh-managed data, it SHOULD be consistent with the chain: hasManifestation / hasLocatedFile." .
+  rdfs:comment "Optional shortcut relating a HistoricalState directly to a LocatedFile. When present in mesh-managed data, it SHOULD be consistent with the chain: hasManifestation / locatedFileForManifestation." .
 
 #################################################################
 # Content kinds

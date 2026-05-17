@@ -10,6 +10,19 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-05-16: Separate sparse artifact file links from manifestation file links
+
+- Status: Active
+- Decision: Keep `locatedFileForArtifact` as a direct `DigitalArtifact -> LocatedFile` shortcut for sparse artifact/file identity, and introduce `locatedFileForManifestation` for `ArtifactManifestation -> LocatedFile` links. Keep `locatedFileForState` as the `HistoricalState -> LocatedFile` shortcut and require it to agree with `hasManifestation / locatedFileForManifestation` when both are present.
+- References: [[ont.summary.core]], [[ont.use-case.dereferenceable-ontology]]
+- Why:
+  - some digital artifacts need to identify retrievable bytes without materializing states or manifestations
+  - manifestation-to-file links should not force `ArtifactManifestation` to be inferred as a `DigitalArtifact`
+  - the property names now distinguish sparse artifact shortcuts from facet narrowing shortcuts
+- Notes:
+  - `locatedFileForManifestation` is intentionally not modeled as a subproperty of `locatedFileForArtifact`
+  - extraction tools should not create Knops for resources typed `LocatedFile`
+
 ### 2026-05-16: Carry extraction provenance in Knop source registries
 
 - Status: Active
@@ -222,7 +235,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 ### 2026-03-18: Prefer explicit structural relations over a generic facet lattice
 
-- Decision: Use explicit structural relations such as `hasHistoricalState`, `hasManifestation`, `hasLocatedFile`, `hasWorkingLocatedFile`, and optional `locatedFileForState`; do not keep `narrowerFacet` / `broaderFacet` in the active core.
+- Decision: Use explicit structural relations such as `hasHistoricalState`, `hasManifestation`, `locatedFileForArtifact`, `hasWorkingLocatedFile`, and optional `locatedFileForState`; do not keep `narrowerFacet` / `broaderFacet` in the active core.
 - Why:
   - the generic facet lattice was becoming more confusing than helpful
   - the important model structure is specific and directional

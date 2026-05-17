@@ -24,8 +24,12 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl>
   rdf:type sflo:ArtifactManifestation;
-  dcat:downloadURL <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl> , <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-shacl.ttl>;
+  sflo:locatedFileForManifestation <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl>;
+  dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-shacl.ttl>;
   dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl>
+  rdf:type sflo:LocatedFile, sflo:RdfDocument .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0>
   rdf:type owl:Ontology;
@@ -321,12 +325,12 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/LocatedFileForStateConsistencyShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "If locatedFileForState is used as a shortcut, it should align with hasManifestation/hasLocatedFile.";
+  rdfs:comment "If locatedFileForState is used as a shortcut, it should align with hasManifestation/locatedFileForManifestation.";
   rdfs:label "locatedFileForState consistency";
   sh:sparql [
     rdf:type sh:SPARQLConstraint;
-    sh:message "If a HistoricalState uses sflo:locatedFileForState ?lf, there SHOULD exist an ArtifactManifestation ?m such that ($this sflo:hasManifestation ?m) and (?m sflo:hasLocatedFile ?lf).";
-    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:locatedFileForState ?lf .\n  FILTER NOT EXISTS {\n    $this sflo:hasManifestation ?m .\n    ?m sflo:hasLocatedFile ?lf .\n  }\n}";
+    sh:message "If a HistoricalState uses sflo:locatedFileForState ?lf, there SHOULD exist an ArtifactManifestation ?m such that ($this sflo:hasManifestation ?m) and (?m sflo:locatedFileForManifestation ?lf).";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:locatedFileForState ?lf .\n  FILTER NOT EXISTS {\n    $this sflo:hasManifestation ?m .\n    ?m sflo:locatedFileForManifestation ?lf .\n  }\n}";
     sh:severity sh:Warning
   ];
   sh:targetSubjectsOf sflo:locatedFileForState .
@@ -592,6 +596,13 @@
     sh:path sflo:hasArtifactHistory;
     sh:severity sh:Info
   ];
+  sh:property [
+    sh:class sflo:LocatedFile;
+    sh:message "If present, values of sflo:locatedFileForArtifact must be IRIs typed sflo:LocatedFile.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:locatedFileForArtifact;
+    sh:severity sh:Info
+  ];
   sh:targetClass sflo:DigitalArtifact .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/CurrentArtifactHistoryIsMemberShape>
@@ -612,10 +623,10 @@
   rdfs:label "ArtifactManifestation should be locatable (usually)";
   sh:property [
     sh:class sflo:LocatedFile;
-    sh:message "An ArtifactManifestation SHOULD have at least one sflo:hasLocatedFile (IRI) typed sflo:LocatedFile.";
+    sh:message "An ArtifactManifestation SHOULD have at least one sflo:locatedFileForManifestation (IRI) typed sflo:LocatedFile.";
     sh:minCount 1;
     sh:nodeKind sh:IRI;
-    sh:path sflo:hasLocatedFile;
+    sh:path sflo:locatedFileForManifestation;
     sh:severity sh:Warning
   ];
   sh:targetClass sflo:ArtifactManifestation .

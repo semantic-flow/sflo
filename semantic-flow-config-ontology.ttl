@@ -16,7 +16,7 @@
   owl:versionInfo "0.1.0" ;
   owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-config-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfcfg" ;
-  vann:preferredNamespaceUri <https://semantic-flow.github.io/sflo/config/> .
+  vann:preferredNamespaceUri "https://semantic-flow.github.io/sflo/config/" .
 
 <https://semantic-flow.github.io/sflo/config/releases/v0.1.0>
   a owl:Ontology ;
@@ -28,8 +28,11 @@
 <https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl>
   a sflo:ArtifactManifestation ;
   dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-config-ontology.ttl> ;
-  dcat:downloadURL <https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> ;
+  sflo:locatedFileForManifestation <https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> ;
   dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
+
+<https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl>
+  a sflo:LocatedFile, sflo:RdfDocument .
 
 #################################################################
 #################################################################
