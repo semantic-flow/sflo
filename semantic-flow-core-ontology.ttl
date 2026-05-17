@@ -14,23 +14,23 @@
   dcterms:title "Semantic Flow Core Ontology" ;
   dcterms:description "The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/release/v0.1.0> ;
+  dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0> ;
   dcterms:modified "2026-05-17"^^xsd:date ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-core-ontology.ttl> ;
   owl:versionInfo "0.1.0" ;
   vann:preferredNamespacePrefix "sflo" ;
   vann:preferredNamespaceUri "https://semantic-flow.github.io/sflo/ontology/" .
 
-<https://semantic-flow.github.io/sflo/ontology/release/v0.1.0>
+<https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0>
   a owl:Ontology, <HistoricalState> ;
   dcterms:isVersionOf <https://semantic-flow.github.io/sflo/ontology> ;
   dcterms:issued "2026-05-17"^^xsd:date ;
   owl:versionInfo "0.1.0" ;
-  schema:contentUrl <https://semantic-flow.github.io/sflo/ontology/release/v0.1.0/ttl/semantic-flow-core-ontology.ttl> ;
-  <hasManifestation> <https://semantic-flow.github.io/sflo/ontology/release/v0.1.0/ttl> .
+  schema:contentUrl <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl> ;
+  <hasManifestation> <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl> .
 
-<https://semantic-flow.github.io/sflo/ontology/release/v0.1.0/ttl>
-  dcat:downloadURL <https://semantic-flow.github.io/sflo/ontology/release/v0.1.0/ttl/semantic-flow-core-ontology.ttl> .
+<https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl>
+  dcat:downloadURL <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl> .
 
 #################################################################
 #################################################################
