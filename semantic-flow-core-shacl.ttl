@@ -15,28 +15,23 @@
   rdf:type owl:Ontology;
   dcterms:description "SHACL shapes for validating Semantic Flow data structures and operational invariants.";
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0>;
-  dcterms:modified "2026-05-13"^^xsd:date;
+  dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/shacl/release/v0.1.0>;
+  dcterms:modified "2026-05-17"^^xsd:date;
   vann:preferredNamespacePrefix "sflo-shacl";
   vann:preferredNamespaceUri "https://semantic-flow.github.io/sflo/ontology/shacl/";
-  owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-shacl.ttl>;
+  owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-core-shacl.ttl>;
   owl:versionInfo "0.1.0" .
 
-<https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl>
-  rdf:type sflo:ArtifactManifestation;
-  sflo:locatedFileForManifestation <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl>;
-  dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-core-shacl.ttl>;
-  dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
-
-<https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl>
-  rdf:type sflo:LocatedFile, sflo:RdfDocument .
-
-<https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0>
-  rdf:type owl:Ontology;
+<https://semantic-flow.github.io/sflo/ontology/shacl/release/v0.1.0>
+  rdf:type owl:Ontology, sflo:HistoricalState;
   dcterms:isVersionOf <https://semantic-flow.github.io/sflo/ontology/shacl>;
-  dcterms:issued "2026-05-06"^^xsd:date;
+  dcterms:issued "2026-05-17"^^xsd:date;
   owl:versionInfo "0.1.0";
-  sflo:hasManifestation <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl> .
+  schema:contentUrl <https://semantic-flow.github.io/sflo/ontology/shacl/release/v0.1.0/ttl/semantic-flow-core-shacl.ttl>;
+  sflo:hasManifestation <https://semantic-flow.github.io/sflo/ontology/shacl/release/v0.1.0/ttl> .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/release/v0.1.0/ttl>
+  dcat:downloadURL <https://semantic-flow.github.io/sflo/ontology/shacl/release/v0.1.0/ttl/semantic-flow-core-shacl.ttl> .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceLinkShape>
   rdf:type sh:NodeShape;

@@ -5,6 +5,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix schema: <https://schema.org/> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
@@ -16,25 +17,20 @@
   dcterms:hasVersion <https://semantic-flow.github.io/ontology/prov/releases/v0.1.0> ;
   dcterms:modified "2026-05-06"^^xsd:date ;
   owl:versionInfo "0.1.0" ;
-  owl:versionIRI <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-prov-ontology.ttl> ;
+  owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-prov-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfprov" ;
   vann:preferredNamespaceUri "https://semantic-flow.github.io/ontology/prov/" .
 
 <https://semantic-flow.github.io/ontology/prov/releases/v0.1.0>
-  a owl:Ontology ;
+  a owl:Ontology, sflo:HistoricalState ;
   dcterms:isVersionOf <https://semantic-flow.github.io/ontology/prov> ;
   dcterms:issued "2026-05-06"^^xsd:date ;
   owl:versionInfo "0.1.0" ;
+  schema:contentUrl <https://semantic-flow.github.io/ontology/prov/releases/v0.1.0/ttl/semantic-flow-prov-ontology.ttl> ;
   sflo:hasManifestation <https://semantic-flow.github.io/ontology/prov/releases/v0.1.0/ttl> .
 
 <https://semantic-flow.github.io/ontology/prov/releases/v0.1.0/ttl>
-  a sflo:ArtifactManifestation ;
-  dcat:downloadURL <https://github.com/semantic-flow/ontology/raw/v0.1.0/semantic-flow-prov-ontology.ttl> ;
-  sflo:locatedFileForManifestation <https://semantic-flow.github.io/ontology/prov/releases/v0.1.0/ttl/semantic-flow-prov-ontology.ttl> ;
-  dcat:mediaType <https://www.iana.org/assignments/media-types/text/turtle> .
-
-<https://semantic-flow.github.io/ontology/prov/releases/v0.1.0/ttl/semantic-flow-prov-ontology.ttl>
-  a sflo:LocatedFile, sflo:RdfDocument .
+  dcat:downloadURL <https://semantic-flow.github.io/ontology/prov/releases/v0.1.0/ttl/semantic-flow-prov-ontology.ttl> .
 
 #################################################################
 #################################################################
