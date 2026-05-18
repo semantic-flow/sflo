@@ -13,7 +13,7 @@
   dcterms:description "Vocabulary for Semantic Flow configuration resources, authored config attachment, resolver policy, derived resolved-config records, operational runtime-resolution policy, and resource-page presentation configuration. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcterms:hasVersion <https://semantic-flow.github.io/sflo/config/releases/v0.1.0> ;
-  dcterms:modified "2026-05-17"^^xsd:date ;
+  dcterms:modified "2026-05-18"^^xsd:date ;
   owl:versionInfo "0.1.0" ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-config-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfcfg" ;
@@ -65,6 +65,24 @@
   rdfs:subClassOf <Config> ;
   rdfs:label "Mesh config" ;
   rdfs:comment "A portable Config intended to travel with a Semantic Mesh, conventionally under mesh-owned config support such as _mesh/_config. MeshConfig may describe expected mesh behavior, config attachments, and local project layout, but it is not by itself host trust policy and must not grant arbitrary host access outside the active runtime trust boundary." .
+
+<PublicationProfile> a rdfs:Class ;
+  rdfs:label "Publication profile" ;
+  rdfs:comment "A controlled vocabulary of static-publication host profiles that can affect portable publication-surface files and validation expectations. Request-time values such as auto are resolution modes, not persisted PublicationProfile values; MeshConfig should record the resolved concrete profile such as none or GitHub Pages." .
+
+<publicationProfile_none> a <PublicationProfile> ;
+  rdfs:label "none" ;
+  rdfs:comment "No static-publication host profile is selected for the mesh." .
+
+<publicationProfile_githubPages> a <PublicationProfile> ;
+  rdfs:label "GitHub Pages" ;
+  rdfs:comment "The mesh publication surface targets GitHub Pages behavior, including host controls such as .nojekyll and optional CNAME when configured." .
+
+<hasPublicationProfile> a owl:ObjectProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range <PublicationProfile> ;
+  rdfs:label "has publication profile" ;
+  rdfs:comment "Associates a Config, especially MeshConfig, with the resolved static-publication host profile for the mesh. Persist the concrete resolved profile rather than a request-time auto value so later operations do not need to re-infer host behavior from meshBase." .
 
 <OperationalConfig> a rdfs:Class ;
   rdfs:subClassOf <Config> ;
