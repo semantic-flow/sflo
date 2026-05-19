@@ -519,15 +519,6 @@
   rdfs:label "Artifact resolution mode" ;
   rdfs:comment "A controlled vocabulary describing how an ArtifactResolutionTarget resolves target bytes when the target coordinates alone do not already fix byte identity. Exact coordinates such as a requested HistoricalState, LocatedFile, manifestation/distribution, commit, or digest are exact by default. A requested ArtifactHistory resolves to the latest HistoricalState in that history by default." .
 
-<artifactResolutionMode_pinned> a <ArtifactResolutionMode> ;
-  rdfs:label "Pinned" ;
-  rdfs:comment "Legacy explicit exactness hint. Exact target coordinates such as a requested HistoricalState, LocatedFile, manifestation/distribution, commit, or digest already pin byte identity by default; prefer using those coordinates directly." .
-
-<artifactResolutionMode_current> a <ArtifactResolutionMode> ;
-  owl:deprecated true ;
-  rdfs:label "Current" ;
-  rdfs:comment "Legacy ambiguous mode that may mean mutable working bytes or latest settled state. Prefer artifactResolutionMode_working for mutable working/source bytes and artifactResolutionMode_latestState for the latest settled HistoricalState." .
-
 <artifactResolutionMode_working> a <ArtifactResolutionMode> ;
   rdfs:label "Working" ;
   rdfs:comment "Resolve mutable working/source bytes under active operational policy, such as workingLocalRelativePath, hasWorkingLocatedFile, workingAccessUrl, targetLocalRelativePath, or a policy-approved repository/ref/path locator. Working resolution is intentionally not an immutable identity unless paired with commit, state, located-file, or digest evidence." .

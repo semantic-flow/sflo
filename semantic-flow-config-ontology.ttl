@@ -179,7 +179,7 @@
   rdfs:domain rdfs:Resource ;
   rdfs:range sflo:ArtifactResolutionTarget ;
   rdfs:label "has config source" ;
-  rdfs:comment "Associates a config layer, config-bearing resource, or authored config attachment with an ArtifactResolutionTarget that resolves a ConfigArtifact or config bytes. Reuse core artifact-resolution target properties for current versus pinned behavior, requested state, fallback policy, and expected content digest." .
+  rdfs:comment "Associates a config layer, config-bearing resource, or authored config attachment with an ArtifactResolutionTarget that resolves a ConfigArtifact or config bytes. Reuse core artifact-resolution target properties for working, latest-state, exact target, fallback policy, and expected content digest behavior." .
 
 <hasMeshConfigSource> a owl:ObjectProperty ;
   rdfs:subPropertyOf <hasConfigSource> ;

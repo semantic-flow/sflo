@@ -104,13 +104,13 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 - References: [[wd.task.2026.2026-05-03-term-extraction]], [[wd.task.2026.2026-05-02-fantasy-rules-sidecar]], [[sf.spec.2026-04-05-extract-behavior]]
 - Why:
   - Extraction source binding is not a `ReferenceLink`; it is operational provenance for the extracted identifier surface and should sit with the Knop inventory that already carries current support artifact state.
-  - Reusing the generic artifact-resolution properties keeps pinned and current source resolution explicit while leaving broader enumeration value normalization for a separate ontology task.
+  - Reusing the generic artifact-resolution properties keeps working and exact source resolution explicit while leaving broader enumeration value normalization for a separate ontology task.
   - Hash-fragment inventory IRIs are acceptable here as long as generated inventory resource pages preserve a named section for dereferenceability.
   - per-source requested state and fallback policy affect runtime resolution semantics and therefore belong in core rather than being left to ad hoc conventions
   - template/chrome policy is related, but should remain separate from page-content composition
 - Notes:
   - prefer `ResourcePageRegion` over `Slot` in core
-  - `accept` belongs to fallback policy, not to the pinned-vs-current source mode axis
+  - `accept` belongs to fallback policy, not to the working-vs-exact source mode axis
   - `ResourcePageSource` remains useful as a page-specific relator even though the generic pattern is now captured by `ArtifactResolutionTarget`
   - `hasTargetArtifact` is optional when `targetLocalRelativePath`, `targetAccessUrl`, or a direct `hasTargetLocatedFile` is sufficient to identify the bytes that should be resolved
   - `workingLocalRelativePath` is the operational local current-byte locator for a `DigitalArtifact`; `workingAccessUrl` is the operational remote/external current-byte locator; `hasWorkingLocatedFile` remains the semantic `LocatedFile` facet hook
