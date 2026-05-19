@@ -13,7 +13,7 @@ created: 1779073532998
 - Specify two GitHub Actions workflows: one to re-generate ResourcePages from the current mesh, and one to run SFLO release validation.
 - Keep weave validation distinct from SFLO release validation.
 - Avoid re-weaving or versioning ontology payloads as a side effect of ResourcePage regeneration.
-- Keep the task open until prepare/publication symmetry is far enough along for automated publication to be boring.
+- Keep the task open until detached publication source binding is far enough along for automated publication to be boring.
 - Give the job and prov ontologies consistent namespaces and metadata.
 
 ## Summary
@@ -25,7 +25,7 @@ There should be two actions:
 - Re-generate Resource Pages: optionally run `weave validate`, then regenerate ResourcePages from the current mesh state. This action does not run payload weaving, does not version payloads, and does not decide whether ontology source files have changed.
 - Release: run SFLO release validation over source Turtle, release notes, version metadata, and publication expectations. This action does not generate pages by default, but can expose a checkbox/input to generate after release validation passes.
 
-Because the first action re-renders existing mesh state instead of appending payload states, it is not blocked on append-onlyish inventory work. The bigger sequencing concern is still prepare/publication symmetry: before we wire publication commits into Actions, Weave should stop treating branch-published meshes as a special `prepare gh-pages` command shape. See [[wa.task.2026.2026-05-18_0627-remove-prepare]] and [[wa.task.2026.2026-05-17_2206-prepare-symmetry]].
+Because the first action re-renders existing mesh state instead of appending payload states, it is not blocked on append-onlyish inventory work. The bigger sequencing concern is now repository-backed detached-source integration: before we wire payload publication commits into Actions, Weave needs the generic `integrate` source-binding path that can bind source checkout bytes into a detached publication mesh without copying them. See [[wa.task.2026.2026-05-18_0627-remove-prepare]] and [[wa.task.2026.2026-05-17_2206-prepare-symmetry]].
 
 ## Discussion
 
@@ -34,7 +34,8 @@ Because the first action re-renders existing mesh state instead of appending pay
 - [[ont.dev.release-runbook]] documents source release checks, Turtle validation, version metadata checks, tagging, Pages publication, and post-publish checks.
 - [[ont.release-notes.v0.1.0]] documents the first tagged ontology release and the current Pages publication boundary.
 - The Weave CLI docs now distinguish in-place sidecar meshes from detached publication roots in [[wu.cli-reference]].
-- Weave has separate commands for validation, generation, and versioning, even though the branch-published publication path still needs cleanup.
+- Weave has separate commands for validation, generation, and versioning.
+- `weave prepare gh-pages` has been removed rather than deprecated; detached publication roots should use composed mesh operations.
 
 ### Action: Re-generate Resource Pages
 
@@ -49,7 +50,7 @@ The operation should be conceptually:
 - optionally run `weave validate`;
 - run ResourcePage generation for the configured mesh/publication root;
 - report whether generated files changed;
-- optionally commit or open a PR only after the publication symmetry task has settled the safe command path.
+- optionally commit or open a PR only after the publication source-binding task has settled the safe command path.
 
 This action should not call top-level `weave`, should not call `weave version`, and should not infer "expected semantic change" from source-file dirtiness. If working ontology files do not match the latest woven payload states, that may be reported by a future informational check, but it should not block ordinary page regeneration by default.
 
@@ -72,12 +73,14 @@ The release action should not generate pages by default. That keeps release vali
 
 There are two different validations here:
 
-- Weave validation checks the mesh and generated/current Semantic Flow surfaces: RDF graph integrity, local-path leakage, stale generated output where applicable, source binding consistency, and publication-root invariants.
+- Weave validation checks the mesh and generated/current Semantic Flow surfaces: RDF graph integrity, local-path leakage, source binding consistency, host-preset readiness, and publication-root invariants that have precise enough hooks to check.
 - SFLO release validation checks the ontology release itself: Turtle validity, version metadata, release notes, namespace policy, expected source payloads, and tag/version consistency.
 
 ### What Is Not Settled
 
-The release runbook still has to describe current commands rather than the ideal release command. For v0.1.0, branch-published payload setup still leans on `prepare gh-pages`; that is acceptable for a manual runbook but too asymmetric for durable CI design.
+The release runbook still has to describe current commands rather than the ideal release command. `prepare gh-pages` is gone, so the manual runbook now documents validation and ResourcePage generation for an existing publication mesh, plus explicit mesh creation when a local publication worktree is new.
+
+What is still missing is the durable detached-payload publication path: generic `integrate` must be able to bind source files from the SFLO checkout into the `gh-pages` mesh as repository-backed working, latest-state, or exact sources without importing/copying those files. Once that exists, the release runbook can describe explicit `integrate`, `weave set history`, `weave set next-state`, `weave version`, validation, and generation as the composed release sequence.
 
 An unconditional top-level `weave` is not safe as a release-action habit. Regenerating ResourcePages should be generation, not payload weaving. Creating a new payload state should be an explicit versioning operation, eventually controlled by the payload-focused `weave set history`, `weave set next-state`, and `weave version` surface described in [[wa.task.2026.2026-05-18_0627-remove-prepare]].
 
@@ -85,7 +88,7 @@ The GitHub Actions work should therefore be staged:
 
 - source validation and metadata checks can be automated first;
 - ResourcePage regeneration can be automated once the exact command path is stable;
-- automatic publication commits should wait for prepare/publication symmetry;
+- automatic payload publication commits should wait for detached-source integrate/source-binding support;
 - append-onlyish inventory is not a blocker for the ResourcePage regeneration action because that action should not append payload states.
 
 ## Open Issues
@@ -93,7 +96,7 @@ The GitHub Actions work should therefore be staged:
 - Should SFLO publish job/prov ontology IRIs under the existing `/sflo/` project Pages mesh, a separate project, or a top-level `https://semantic-flow.github.io/ontology/...` publication surface?
 - What exact workflow inputs should the ResourcePage action expose beyond `run_weave_validate`?
 - What exact workflow inputs should the release action expose beyond `generate_after_validation`?
-- Should either action commit directly to `gh-pages`, open a PR, or only upload an artifact until the publication symmetry work is done?
+- Should either action commit directly to `gh-pages`, open a PR, or only upload an artifact until the detached-source integration work is done?
 - Should the release action validate only source Turtle, or also fetch and validate published Pages Turtle after deployment?
 - Should source-vs-latest-woven drift be reported as an informational release check, a warning, or left out for now?
 
@@ -108,9 +111,11 @@ The GitHub Actions work should therefore be staged:
 - The release action may offer a checkbox/input to generate pages after release validation passes.
 - Keep weave validation and SFLO release validation separate in docs, workflow names, and failure messages.
 - Do not add an unconditional top-level `weave` step to release automation.
+- Do not use or document `weave prepare gh-pages`; it has been removed rather than deprecated.
+- Treat detached payload publication as blocked on generic source-binding `integrate`, not on a special branch-publishing command.
 - Use plural `releases` for release ArtifactHistory paths.
 - Treat job/prov as source-tagged for v0.1.0 until their public IRI publication topology is settled.
-- Do not treat append-onlyish inventory as a blocker for ResourcePage regeneration; do treat prepare/publication symmetry as a blocker before automated publication commits.
+- Do not treat append-onlyish inventory as a blocker for ResourcePage regeneration; do treat detached-source integration as a blocker before automated payload publication commits.
 
 ## Contract Changes
 
@@ -135,7 +140,7 @@ The GitHub Actions work should therefore be staged:
 - Do not solve all GitHub Pages publication topology questions in the runbook note itself.
 - Do not move or rename this task note until the human explicitly asks.
 - Do not add compatibility shims for pre-v1 generated mesh shapes just to make release automation easier.
-- Do not make the SFLO release action push publication changes until the prepare/publication contract is trustworthy.
+- Do not make the SFLO release action push payload publication changes until the detached-source integration contract is trustworthy.
 - Do not make ResourcePage regeneration imply payload versioning.
 
 ## Implementation Plan
@@ -143,10 +148,10 @@ The GitHub Actions work should therefore be staged:
 - [x] Add the durable manual release runbook in [[ont.dev.release-runbook]].
 - [x] Add v0.1.0 release notes in [[ont.release-notes.v0.1.0]].
 - [x] Document the current Pages publication boundary for v0.1.0.
-- [x] Clarify in Weave CLI docs that `prepare gh-pages` is detached-publication-root orchestration and currently one source payload per invocation.
+- [x] Remove `prepare gh-pages` from Weave CLI docs and describe detached publication roots as composed mesh operations with a remaining source-binding gap.
 - [ ] Decide the public topology for job/prov ontology IRIs.
 - [ ] Finish or unblock [[wa.task.2026.2026-05-18_0627-remove-prepare]] and [[wa.task.2026.2026-05-17_2206-prepare-symmetry]] enough that branch-published meshes use the same conceptual operations as sidecar meshes.
-- [ ] Update [[ont.dev.release-runbook]] to reflect the two-action model.
+- [x] Update [[ont.dev.release-runbook]] to remove `prepare gh-pages`, document validation/generation for existing publication meshes, and call out the detached-source integration blocker.
 - [ ] Add an SFLO release-validation script or command covering source Turtle, release metadata, release notes, namespace policy, and tag/version consistency.
 - [ ] Add a GitHub Actions workflow for "Re-generate Resource Pages" with a `run_weave_validate` input.
 - [ ] Add a GitHub Actions workflow for "Release" with a `generate_after_validation` input.

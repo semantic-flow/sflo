@@ -113,25 +113,28 @@ Use the Weave CLI from an installed release or a local Weave checkout. Keep runt
 export WEAVE_LOG_DIR=/tmp/weave-logs
 ```
 
-`weave prepare gh-pages` is the publication-root preparation step. It bootstraps the publication mesh when needed and runs the underlying `weave` operation for support pages or materialized source payloads when that work is needed. Do not add a separate unconditional `weave` step to the release action until Weave has an explicit dry-run/planner contract for top-level `weave` or generated ResourcePages become stable no-op writes; today an extra `weave` can rewrite generated HTML pages even when no new histories are created.
+`weave prepare gh-pages` has been removed. A Pages publication run is composed from ordinary mesh operations: create or open the publication mesh, validate it, generate ResourcePages from the current mesh state, and then review/commit the publication worktree when that is the intended release output.
 
-For a dry run, prepare each published payload from the source checkout into the `gh-pages` publication worktree. The command below shows the pattern; repeat it for each payload that should be public on the Pages mesh:
+For a new local publication worktree, bootstrap the mesh support surface explicitly:
 
 ```sh
-weave prepare gh-pages \
-  --dry-run \
-  --source-root . \
-  --publish-root ../sflo-gh-pages \
+weave mesh create \
+  --workspace ../sflo-gh-pages \
   --mesh-base 'https://semantic-flow.github.io/sflo/' \
-  --source-repository-url 'https://github.com/semantic-flow/sflo.git' \
-  --source-ref v0.1.0 \
-  --source-commit "$(git rev-parse v0.1.0)" \
-  --source-path semantic-flow-core-ontology.ttl \
-  --designator-path ontology \
-  --payload-history-segment releases \
-  --payload-state-segment v0.1.0 \
-  --payload-manifestation-segment ttl
+  --publication-profile github-pages
 ```
+
+The GitHub Pages publication profile currently only handles the host preset needed for Pages, such as `.nojekyll`. Weave does not create or manage `CNAME`; custom-domain files remain human-owned.
+
+For an existing publication mesh, validate and regenerate pages from the current mesh state:
+
+```sh
+weave validate mesh --mesh-root ../sflo-gh-pages
+weave validate publication --mesh-root ../sflo-gh-pages
+weave generate --mesh-root ../sflo-gh-pages
+```
+
+This regeneration path must not be confused with payload versioning. It re-renders ResourcePages and other generated publication surfaces from already governed state. It does not copy source Turtle files, fetch source repositories, or append ontology payload states.
 
 For v0.1.0, the Pages publication surface included:
 
@@ -141,30 +144,15 @@ For v0.1.0, the Pages publication surface included:
 
 The source tag also contains `semantic-flow-job-ontology.ttl` and `semantic-flow-prov-ontology.ttl`, but those files use `https://semantic-flow.github.io/ontology/job/` and `https://semantic-flow.github.io/ontology/prov/` namespaces rather than the `/sflo/` project Pages base. Do not list those as project-page-published artifacts until their publication topology is explicitly settled.
 
-Once the dry run is clean, rerun without `--dry-run` and with `--commit` if Weave should create the local `gh-pages` commit:
+Publishing a new versioned ontology payload into a detached `gh-pages` worktree still depends on the generic `integrate` source-binding work in Weave. The replacement path should bind source checkout bytes as repository-backed working, latest-state, or exact sources without copying them into the publication mesh, then run explicit payload versioning and generation. Until that source-binding surface exists, do not rebuild CI around a local copy/import workaround or a removed `prepare` wrapper.
 
-```sh
-weave prepare gh-pages \
-  --source-root . \
-  --publish-root ../sflo-gh-pages \
-  --mesh-base 'https://semantic-flow.github.io/sflo/' \
-  --source-repository-url 'https://github.com/semantic-flow/sflo.git' \
-  --source-ref v0.1.0 \
-  --source-commit "$(git rev-parse v0.1.0)" \
-  --source-path semantic-flow-core-ontology.ttl \
-  --designator-path ontology \
-  --payload-history-segment releases \
-  --payload-state-segment v0.1.0 \
-  --payload-manifestation-segment ttl \
-  --commit \
-  --commit-message 'Publish Semantic Flow ontology v0.1.0'
-```
-
-Inspect and push the publication branch:
+After generation or manual publication edits, inspect the publication branch and commit/push only when the status shows intentional changes:
 
 ```sh
 git -C ../sflo-gh-pages status --short
 git -C ../sflo-gh-pages log --oneline --decorate --max-count=3
+git -C ../sflo-gh-pages add .
+git -C ../sflo-gh-pages commit -m 'Publish Semantic Flow ontology v0.1.0'
 git -C ../sflo-gh-pages push origin gh-pages
 ```
 

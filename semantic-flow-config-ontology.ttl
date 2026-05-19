@@ -433,16 +433,16 @@
   rdfs:label "has default manifestation segment hint" .
 
 <hasNextHistorySegmentHint> a owl:DatatypeProperty ;
-  rdfs:domain <Config> ;
+  rdfs:domain sflo:DigitalArtifact ;
   rdfs:range xsd:string ;
   rdfs:label "has next history segment hint" ;
-  rdfs:comment "Optional hint for the next history segment. This must not be treated as the authoritative sflo:nextHistoryOrdinal counter." .
+  rdfs:comment "Optional operational hint for the next history segment to use when explicitly versioning a DigitalArtifact. This is current/progression metadata and must not be treated as the authoritative sflo:nextHistoryOrdinal counter." .
 
 <hasNextStateSegmentHint> a owl:DatatypeProperty ;
-  rdfs:domain <Config> ;
+  rdfs:domain sflo:ArtifactHistory ;
   rdfs:range xsd:string ;
   rdfs:label "has next state segment hint" ;
-  rdfs:comment "Optional hint for the next state segment. This must not be treated as the authoritative sflo:nextStateOrdinal counter." .
+  rdfs:comment "Optional operational hint for the next state segment to use when explicitly versioning an ArtifactHistory. This is current/progression metadata and must not be asserted into immutable historical snapshots/distributions or treated as the authoritative sflo:nextStateOrdinal counter." .
 
 #################################################################
 #################################################################
