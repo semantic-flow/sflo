@@ -76,7 +76,7 @@
 
 <publicationProfile_githubPages> a <PublicationProfile> ;
   rdfs:label "GitHub Pages" ;
-  rdfs:comment "The mesh publication surface targets GitHub Pages behavior, including host controls such as .nojekyll and optional CNAME when configured." .
+  rdfs:comment "The mesh publication surface targets GitHub Pages behavior, including host controls such as .nojekyll." .
 
 <hasPublicationProfile> a owl:ObjectProperty ;
   rdfs:domain <Config> ;
