@@ -16,7 +16,7 @@
   dcterms:description "SHACL shapes for validating Semantic Flow data structures and operational invariants.";
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0>;
-  dcterms:modified "2026-05-17"^^xsd:date;
+  dcterms:modified "2026-05-19"^^xsd:date;
   vann:preferredNamespacePrefix "sflo-shacl";
   vann:preferredNamespaceUri "https://semantic-flow.github.io/sflo/ontology/shacl/";
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-core-shacl.ttl>;
@@ -135,7 +135,7 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceBindingShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "A repository-backed source binding carried by a KnopSourceRegistry records the materialized target artifact and its repository source locator.";
+  rdfs:comment "A repository-backed source binding carried by a KnopSourceRegistry records the target artifact and its repository source locator. Exact replay evidence such as a commit or digest is strongly recommended, but working/ref-following bindings are valid when operational policy allows them.";
   rdfs:label "Repository-backed Knop source binding";
   sh:property [
     sh:maxCount 1;
@@ -156,10 +156,9 @@
   sh:property [
     sh:datatype xsd:string;
     sh:maxCount 1;
-    sh:message "A repository-backed Knop source binding MUST declare exactly one sflo:expectsContentDigest string literal.";
-    sh:minCount 1;
+    sh:message "A repository-backed Knop source binding SHOULD declare sflo:expectsContentDigest when deterministic byte replay matters.";
     sh:path sflo:expectsContentDigest;
-    sh:severity sh:Violation
+    sh:severity sh:Warning
   ];
   sh:property [
     sh:class sflo:RepositorySourceLocator;
@@ -170,7 +169,41 @@
     sh:path sflo:hasTargetRepositorySource;
     sh:severity sh:Violation
   ];
+  sh:property [
+    sh:class sflo:ArtifactResolutionMode;
+    sh:maxCount 1;
+    sh:message "A repository-backed Knop source binding SHOULD declare one sflo:hasArtifactResolutionMode value typed sflo:ArtifactResolutionMode.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasArtifactResolutionMode;
+    sh:severity sh:Warning
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A repository-backed source binding SHOULD include sourceRepositoryCommit, expectsContentDigest, or hasContentDigest evidence when deterministic replay matters.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasTargetRepositorySource ?locator .\n  FILTER NOT EXISTS { ?locator sflo:sourceRepositoryCommit ?commit }\n  FILTER NOT EXISTS { $this sflo:expectsContentDigest ?digest }\n  FILTER NOT EXISTS { ?locator sflo:hasContentDigest ?locatorDigest }\n}";
+    sh:severity sh:Warning
+  ];
   sh:targetSubjectsOf sflo:hasTargetRepositorySource .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/LocalWorkingSourceBindingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A local working source binding uses targetLocalRelativePath directly, without a repository source locator. It is mutable working-byte resolution unless exact state, located-file, or digest evidence says otherwise.";
+  rdfs:label "Local working source binding";
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A local working source binding MUST declare at most one sflo:targetLocalRelativePath string literal.";
+    sh:path sflo:targetLocalRelativePath;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A local working source binding SHOULD declare sflo:hasArtifactResolutionMode, normally sflo:artifactResolutionMode_working, unless exact target coordinates make the mode obvious.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:targetLocalRelativePath ?path .\n  FILTER NOT EXISTS { $this sflo:hasTargetRepositorySource ?repo }\n  FILTER NOT EXISTS { $this sflo:hasArtifactResolutionMode ?mode }\n  FILTER NOT EXISTS { $this sflo:hasRequestedTargetState ?state }\n  FILTER NOT EXISTS { $this sflo:hasTargetLocatedFile ?file }\n  FILTER NOT EXISTS { $this sflo:expectsContentDigest ?digest }\n}";
+    sh:severity sh:Warning
+  ];
+  sh:targetSubjectsOf sflo:targetLocalRelativePath .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/RepositorySourceLocatorShape>
   rdf:type sh:NodeShape;
@@ -373,6 +406,38 @@
   ];
   sh:targetSubjectsOf sflo:expectsContentDigest .
 
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactResolutionModeUsageShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "ArtifactResolutionMode usage checks distinguish mutable working-byte resolution from latest settled state resolution and legacy ambiguous current-mode usage.";
+  rdfs:label "ArtifactResolutionMode usage";
+  sh:property [
+    sh:class sflo:ArtifactResolutionMode;
+    sh:maxCount 1;
+    sh:message "If present, sflo:hasArtifactResolutionMode MUST be a single IRI typed sflo:ArtifactResolutionMode.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasArtifactResolutionMode;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "sflo:artifactResolutionMode_current is legacy and ambiguous; prefer sflo:artifactResolutionMode_working or sflo:artifactResolutionMode_latestState.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasArtifactResolutionMode sflo:artifactResolutionMode_current .\n}";
+    sh:severity sh:Warning
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "sflo:artifactResolutionMode_working SHOULD NOT be combined with an exact sflo:hasRequestedTargetState; exact state coordinates are settled-byte resolution.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasArtifactResolutionMode sflo:artifactResolutionMode_working ;\n        sflo:hasRequestedTargetState ?state .\n}";
+    sh:severity sh:Warning
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "sflo:artifactResolutionMode_latestState SHOULD NOT be combined with an exact sflo:hasRequestedTargetState; the requested state is already exact.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasArtifactResolutionMode sflo:artifactResolutionMode_latestState ;\n        sflo:hasRequestedTargetState ?state .\n}";
+    sh:severity sh:Info
+  ];
+  sh:targetSubjectsOf sflo:hasArtifactResolutionMode .
+
 <https://semantic-flow.github.io/sflo/ontology/shacl/LatestHistoricalStateIsMemberShape>
   rdf:type sh:NodeShape;
   rdfs:comment "If latestHistoricalState is asserted, it must also be asserted as a hasHistoricalState of the same ArtifactHistory.";
@@ -494,11 +559,11 @@
   sh:property [
     sh:class sflo:ArtifactResolutionMode;
     sh:maxCount 1;
-    sh:message "An ExtractionSource MUST identify exactly one sflo:hasArtifactResolutionMode value typed sflo:ArtifactResolutionMode.";
+    sh:message "An ExtractionSource SHOULD identify one sflo:hasArtifactResolutionMode value typed sflo:ArtifactResolutionMode.";
     sh:minCount 1;
     sh:nodeKind sh:IRI;
     sh:path sflo:hasArtifactResolutionMode;
-    sh:severity sh:Violation
+    sh:severity sh:Warning
   ];
   sh:property [
     sh:class sflo:HistoricalState;

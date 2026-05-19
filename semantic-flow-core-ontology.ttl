@@ -15,7 +15,7 @@
   dcterms:description "The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0> ;
-  dcterms:modified "2026-05-17"^^xsd:date ;
+  dcterms:modified "2026-05-19"^^xsd:date ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-core-ontology.ttl> ;
   owl:versionInfo "0.1.0" ;
   vann:preferredNamespacePrefix "sflo" ;
@@ -517,15 +517,24 @@
 
 <ArtifactResolutionMode> a rdfs:Class ;
   rdfs:label "Artifact resolution mode" ;
-  rdfs:comment "A controlled vocabulary describing whether an ArtifactResolutionTarget is pinned to an explicitly requested state or follows the current/default artifact surface." .
+  rdfs:comment "A controlled vocabulary describing how an ArtifactResolutionTarget resolves target bytes when the target coordinates alone do not already fix byte identity. Exact coordinates such as a requested HistoricalState, LocatedFile, manifestation/distribution, commit, or digest are exact by default. A requested ArtifactHistory resolves to the latest HistoricalState in that history by default." .
 
 <artifactResolutionMode_pinned> a <ArtifactResolutionMode> ;
   rdfs:label "Pinned" ;
-  rdfs:comment "The ArtifactResolutionTarget is pinned to explicitly requested target coordinates when provided." .
+  rdfs:comment "Legacy explicit exactness hint. Exact target coordinates such as a requested HistoricalState, LocatedFile, manifestation/distribution, commit, or digest already pin byte identity by default; prefer using those coordinates directly." .
 
 <artifactResolutionMode_current> a <ArtifactResolutionMode> ;
+  owl:deprecated true ;
   rdfs:label "Current" ;
-  rdfs:comment "The ArtifactResolutionTarget should follow the current/default artifact surface rather than pinning a specific state." .
+  rdfs:comment "Legacy ambiguous mode that may mean mutable working bytes or latest settled state. Prefer artifactResolutionMode_working for mutable working/source bytes and artifactResolutionMode_latestState for the latest settled HistoricalState." .
+
+<artifactResolutionMode_working> a <ArtifactResolutionMode> ;
+  rdfs:label "Working" ;
+  rdfs:comment "Resolve mutable working/source bytes under active operational policy, such as workingLocalRelativePath, hasWorkingLocatedFile, workingAccessUrl, targetLocalRelativePath, or a policy-approved repository/ref/path locator. Working resolution is intentionally not an immutable identity unless paired with commit, state, located-file, or digest evidence." .
+
+<artifactResolutionMode_latestState> a <ArtifactResolutionMode> ;
+  rdfs:label "Latest state" ;
+  rdfs:comment "Resolve the latest settled HistoricalState for the target artifact. When hasRequestedTargetHistory is present, the search is bounded to that ArtifactHistory; otherwise the implementation may use the artifact's current/default history or the latest state across known histories according to its policy." .
 
 <ArtifactResolutionFallbackPolicy> a rdfs:Class ;
   rdfs:label "Artifact resolution fallback policy" ;
@@ -655,13 +664,13 @@
   rdfs:domain <ArtifactResolutionTarget> ;
   rdfs:range <ArtifactHistory> ;
   rdfs:label "has requested target history" ;
-  rdfs:comment "Relates an ArtifactResolutionTarget to the ArtifactHistory it requests when resolution should stay within a specific history boundary." .
+  rdfs:comment "Relates an ArtifactResolutionTarget to the ArtifactHistory it requests when resolution should stay within a specific history boundary. Unless hasRequestedTargetState or another exact coordinate is supplied, this requests the latest HistoricalState in that history." .
 
 <hasRequestedTargetState> a owl:ObjectProperty ;
   rdfs:domain <ArtifactResolutionTarget> ;
   rdfs:range <HistoricalState> ;
   rdfs:label "has requested target state" ;
-  rdfs:comment "Relates an ArtifactResolutionTarget to an explicitly requested HistoricalState. This names the requested target, not a runtime-resolved outcome." .
+  rdfs:comment "Relates an ArtifactResolutionTarget to an explicitly requested HistoricalState. This names an exact settled target by default, not a mutable working surface and not merely a runtime-resolved outcome." .
 
 <hasArtifactResolutionMode> a owl:ObjectProperty ;
   rdfs:domain <ArtifactResolutionTarget> ;
