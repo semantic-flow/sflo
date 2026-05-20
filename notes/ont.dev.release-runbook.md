@@ -56,6 +56,14 @@ git diff --stat
 git diff
 ```
 
+After choosing the release version and issue date, update deterministic source metadata:
+
+```sh
+deno task release:set-version -- --version 0.1.0 --issued 2026-05-17
+```
+
+This command only updates release metadata in the active Turtle files. It does not create release notes, create tags, commit, push, generate Pages output, or infer release intent from source changes.
+
 Check version metadata:
 
 ```sh

@@ -25,6 +25,27 @@ Deno.test("release validation can pin the expected release version", async () =>
       error.includes("release metadata declares 0.1.0")
     ),
   );
+  assert(
+    result.errors.some((error) =>
+      error.includes(
+        'semantic-flow-core-ontology.ttl: expected owl:versionInfo literal "9.9.9"',
+      )
+    ),
+  );
+  assert(
+    result.errors.some((error) =>
+      error.includes(
+        "semantic-flow-core-ontology.ttl: expected dcterms:hasVersion to be <https://semantic-flow.github.io/sflo/ontology/releases/v9.9.9>",
+      )
+    ),
+  );
+  assert(
+    result.errors.some((error) =>
+      error.includes(
+        "semantic-flow-config-ontology.ttl: expected exactly one schema:contentUrl on https://semantic-flow.github.io/sflo/config/releases/v9.9.9",
+      )
+    ),
+  );
 });
 
 Deno.test("release validation can require the release tag to point at HEAD", async () => {
@@ -49,7 +70,7 @@ Deno.test("release validation can require the release tag to point at HEAD", asy
 
 Deno.test("release validation argument parser supports version and tag flags", () => {
   assertEquals(
-    parseReleaseValidateArgs(["--version", "0.1.1", "--require-tag"]),
+    parseReleaseValidateArgs(["--", "--version", "0.1.1", "--require-tag"]),
     {
       expectedVersion: "0.1.1",
       requireTag: true,
