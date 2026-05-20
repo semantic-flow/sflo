@@ -1,11 +1,12 @@
 {
   "tasks": {
-    "fmt": "deno fmt deno.json tests",
-    "fmt:check": "deno fmt --check deno.json tests",
-    "lint": "deno lint tests",
-    "check": "deno check tests/**/*.ts",
+    "fmt": "deno fmt deno.json scripts tests",
+    "fmt:check": "deno fmt --check deno.json scripts tests",
+    "lint": "deno lint scripts tests",
+    "check": "deno check scripts/**/*.ts tests/**/*.ts",
     "test": "deno test --allow-read --allow-env=READABLE_STREAM tests",
-    "ci": "deno task fmt:check && deno task lint && deno task check && deno task test"
+    "release:validate": "deno run --allow-read --allow-run=git --allow-env=READABLE_STREAM scripts/release_validate.ts",
+    "ci": "deno task fmt:check && deno task lint && deno task check && deno task test && deno task release:validate"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",

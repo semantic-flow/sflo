@@ -60,6 +60,7 @@ Check version metadata:
 
 ```sh
 rg 'versionInfo|hasVersion|versionIRI|contentUrl|downloadURL|releases/v0\.1\.0' semantic-flow-*.ttl
+deno task release:validate -- --version 0.1.0
 ```
 
 Run the sflo-owned Deno guardrails for active ontology and SHACL files:
@@ -109,6 +110,7 @@ After pushing, confirm the tag resolves to the intended commit:
 ```sh
 git rev-parse v0.1.0
 git ls-remote --tags origin v0.1.0
+deno task release:validate -- --version 0.1.0 --require-tag
 ```
 
 ## Pages Publication
