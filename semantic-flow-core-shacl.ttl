@@ -242,6 +242,79 @@
   ];
   sh:targetClass sflo:RepositorySourceLocator .
 
+<https://semantic-flow.github.io/sflo/ontology/shacl/RepositorySourceFloatingLocatorShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A floating repository source locator records durable repository identity and a path from the repository root for mutable working bytes. It deliberately omits ref, commit, digest, and local checkout path evidence.";
+  rdfs:label "RepositorySourceFloatingLocator";
+  sh:property [
+    sh:maxCount 1;
+    sh:message "A RepositorySourceFloatingLocator MUST declare exactly one sflo:sourceRepositoryUrl literal.";
+    sh:minCount 1;
+    sh:nodeKind sh:Literal;
+    sh:path sflo:sourceRepositoryUrl;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A RepositorySourceFloatingLocator MUST declare exactly one sflo:sourceRepositoryPathFromRoot string literal.";
+    sh:minCount 1;
+    sh:path sflo:sourceRepositoryPathFromRoot;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:sourceRepositoryRef; floating working sources use the currently checked-out ref from operational resolution.";
+    sh:path sflo:sourceRepositoryRef;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:sourceRepositoryCommit; commit-pinned source resolution should use RepositorySourceLocator.";
+    sh:path sflo:sourceRepositoryCommit;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:hasContentDigest; digest-pinned source resolution should use exact repository source evidence.";
+    sh:path sflo:hasContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:RepositorySourceFloatingLocator .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/FloatingRepositorySourceBindingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A branch-based mesh floating source binding resolves mutable working bytes from a repository checkout selected by operational policy. It should not persist host-local source paths.";
+  rdfs:label "Floating repository source binding";
+  sh:property [
+    sh:class sflo:RepositorySourceFloatingLocator;
+    sh:maxCount 1;
+    sh:message "A floating repository source binding MUST identify exactly one sflo:hasRepositorySourceFloatingLocator value typed sflo:RepositorySourceFloatingLocator.";
+    sh:minCount 1;
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sflo:hasRepositorySourceFloatingLocator;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A floating repository source binding MUST NOT declare sflo:targetLocalRelativePath.";
+    sh:path sflo:targetLocalRelativePath;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A floating repository source binding MUST NOT declare sflo:workingLocalRelativePath.";
+    sh:path sflo:workingLocalRelativePath;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A floating repository source binding MUST NOT declare sflo:hasWorkingLocatedFile.";
+    sh:path sflo:hasWorkingLocatedFile;
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:hasRepositorySourceFloatingLocator .
+
 <https://semantic-flow.github.io/sflo/ontology/shacl/PreviousHistoricalStateShape>
   rdf:type sh:NodeShape;
   rdfs:comment "previousHistoricalState is optional but, if present, must point to exactly one HistoricalState (the immediately preceding published state).";

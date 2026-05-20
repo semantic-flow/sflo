@@ -504,6 +504,10 @@
   rdfs:label "Repository source locator" ;
   rdfs:comment "A durable locator for bytes or a tree path in a version-control repository. It records repository identity, ref or commit coordinates, and a repository-relative path without implying a local checkout path or granting runtime access. Content digests may be expressed with hasContentDigest on this locator or expectsContentDigest on the ArtifactResolutionTarget that uses it." .
 
+<RepositorySourceFloatingLocator> a rdfs:Class ;
+  rdfs:label "Repository source floating locator" ;
+  rdfs:comment "A durable locator for mutable working bytes in a version-control repository checkout. It records repository identity and a path from the repository root, but deliberately omits branch, ref, commit, digest, and local checkout path evidence. Runtime operational policy maps the repository identity to a local checkout and reads the currently checked-out bytes." .
+
 <ExtractionSource> a rdfs:Class ;
   rdfs:subClassOf <ArtifactResolutionTarget> ;
   rdfs:label "Extraction source" ;
@@ -579,11 +583,15 @@
   rdfs:label "has target repository source" ;
   rdfs:comment "Relates an ArtifactResolutionTarget to a version-control repository locator for the bytes or tree path it should resolve. Runtime policy decides whether and how that locator may be fetched or mapped to a local checkout." .
 
+<hasRepositorySourceFloatingLocator> a owl:ObjectProperty ;
+  rdfs:range <RepositorySourceFloatingLocator> ;
+  rdfs:label "has repository source floating locator" ;
+  rdfs:comment "Relates an artifact or ArtifactResolutionTarget to a floating repository source locator for mutable working bytes. This is intended for branch-published meshes whose source bytes live in a separately materialized repository checkout. The local checkout path is resolved operationally and is not persisted in the mesh." .
+
 <sourceRepositoryUrl> a owl:DatatypeProperty ;
-  rdfs:domain <RepositorySourceLocator> ;
   rdfs:range xsd:anyURI ;
   rdfs:label "source repository URL" ;
-  rdfs:comment "Canonical or preferred repository URL for a RepositorySourceLocator. This names repository provenance and does not by itself authorize network access." .
+  rdfs:comment "Canonical or preferred repository URL for a repository source locator. This names repository provenance and does not by itself authorize network access." .
 
 <sourceRepositoryRef> a owl:DatatypeProperty ;
   rdfs:domain <RepositorySourceLocator> ;
@@ -602,6 +610,12 @@
   rdfs:range xsd:string ;
   rdfs:label "source repository path" ;
   rdfs:comment "Path to the source bytes or tree within the repository ref, written relative to the repository root. Values should not be absolute host paths; use '.' for the repository root when the whole tree is the source." .
+
+<sourceRepositoryPathFromRoot> a owl:DatatypeProperty ;
+  rdfs:domain <RepositorySourceFloatingLocator> ;
+  rdfs:range xsd:string ;
+  rdfs:label "source repository path from root" ;
+  rdfs:comment "Path to mutable working source bytes written from the repository root of a RepositorySourceFloatingLocator. Values should identify a repository-contained file path and should not be absolute host paths." .
 
 <hasPageRegion> a owl:ObjectProperty ;
   rdfs:domain <ResourcePageDefinition> ;
