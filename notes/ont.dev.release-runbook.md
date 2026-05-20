@@ -62,6 +62,12 @@ Check version metadata:
 rg 'versionInfo|hasVersion|versionIRI|contentUrl|downloadURL|releases/v0\.1\.0' semantic-flow-*.ttl
 ```
 
+Run the sflo-owned Deno guardrails for active ontology and SHACL files:
+
+```sh
+deno task ci
+```
+
 Validate Turtle syntax:
 
 ```sh

@@ -2,7 +2,7 @@
 id: 1ybtxdxkle2ln2uh0r63j5w
 title: 2026 03 24 Integration Support
 desc: ''
-updated: 1774411739870
+updated: 1779246543364
 created: 1774411739870
 ---
 
@@ -15,6 +15,8 @@ This should be treated as related to config, but not collapsed into the presenta
 Integration-oriented config can still live in the same ontology as presentation config for now. What is deferred here is the richer modeling of integration support itself.
 
 The [March 14 `weave integrate` discussion](../../sflo-dendron-notes/sflo.conv.2026.2026-03-14_0958-existing-solutions-that-could-be-extended-with-weave-codex.md) is the main immediate design anchor.
+
+Integration should be able to target arbitrary tags/commits/refs to get a historical version mapped to a particular ArtifactHistory and HistoricalState, repeatedly if necessary, so that a mesh can be regenerated/recomposed piecemeal with particular committed versions of a DigitalArtifact mapped to histories and states. 
 
 ## Current Status
 

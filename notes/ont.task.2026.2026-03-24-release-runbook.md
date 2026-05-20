@@ -37,6 +37,7 @@ Because the first action re-renders existing mesh state instead of appending pay
 - The Weave CLI docs now distinguish in-place sidecar meshes from detached publication roots in [[wu.cli-reference]].
 - Weave has separate commands for validation, generation, and versioning.
 - `weave prepare gh-pages` has been removed rather than deprecated; detached publication roots should use composed mesh operations.
+- The first sflo-owned Deno guardrail harness now runs RDF parseability, duplicate-triple, config namespace, retired-term, and selected SHACL source-binding checks, and [[ont.dev.release-runbook]] now includes `deno task ci` as a release preflight command.
 
 ### Action: Re-generate Resource Pages
 
@@ -129,7 +130,8 @@ The GitHub Actions work should therefore be staged:
 
 ## Testing
 
-- For current documentation-only work, run `git diff --check`.
+- For documentation-only work, run `git diff --check`.
+- For the current Deno harness slice, run `deno task ci` in sflo.
 - Before closing this task, add release-validation coverage for active Turtle files and release metadata.
 - Before closing this task, add ResourcePage-action coverage that proves the action runs validation/generation without appending payload states.
 - Before closing this task, add coverage for the `run_weave_validate` input.
