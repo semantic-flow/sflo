@@ -911,3 +911,30 @@
     sh:severity sh:Violation
   ];
   sh:targetClass sfcfg:ResourcePagePanelSelection .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ResourcePageDefinitionPresentationConfigShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A ResourcePageDefinition may opt into adjacent presentation config and selected generated ResourcePage panels.";
+  rdfs:label "ResourcePageDefinition presentation config";
+  sh:property [
+    sh:class sfcfg:ResourcePagePresentationConfig;
+    sh:maxCount 1;
+    sh:message "If present, sfcfg:hasResourcePagePresentationConfig must be a single IRI typed sfcfg:ResourcePagePresentationConfig.";
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasResourcePagePresentationConfig;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePagePanelSelection;
+    sh:message "If present, sfcfg:hasGeneratedResourcePagePanelSelection values must be IRIs typed sfcfg:ResourcePagePanelSelection.";
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasGeneratedResourcePagePanelSelection;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A ResourcePageDefinition with sfcfg:hasGeneratedResourcePagePanelSelection MUST also declare sfcfg:hasResourcePagePresentationConfig.";
+    sh:select "PREFIX sfcfg: <https://semantic-flow.github.io/sflo/config/>\nSELECT $this WHERE {\n  $this sfcfg:hasGeneratedResourcePagePanelSelection ?selection .\n  FILTER NOT EXISTS { $this sfcfg:hasResourcePagePresentationConfig ?config }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ResourcePageDefinition .

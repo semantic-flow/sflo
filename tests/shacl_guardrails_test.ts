@@ -24,6 +24,8 @@ const SHAPES = {
     `${SFLO_SHACL_NAMESPACE}ResourcePagePresentationConfigShape`,
   ResourcePagePanelSelection:
     `${SFLO_SHACL_NAMESPACE}ResourcePagePanelSelectionShape`,
+  ResourcePageDefinitionPresentationConfig:
+    `${SFLO_SHACL_NAMESPACE}ResourcePageDefinitionPresentationConfigShape`,
 } as const;
 
 const TERMS = {
@@ -31,6 +33,7 @@ const TERMS = {
   LocalPathAccessRule: `${SFCFG_NAMESPACE}LocalPathAccessRule`,
   PublicationProfile: `${SFCFG_NAMESPACE}PublicationProfile`,
   RemoteAccessRule: `${SFCFG_NAMESPACE}RemoteAccessRule`,
+  ResourcePageDefinition: `${SFLO_NAMESPACE}ResourcePageDefinition`,
   ResourcePagePresentationConfig:
     `${SFCFG_NAMESPACE}ResourcePagePresentationConfig`,
   ResourcePagePanelSelection: `${SFCFG_NAMESPACE}ResourcePagePanelSelection`,
@@ -40,8 +43,12 @@ const TERMS = {
     `${SFLO_NAMESPACE}artifactResolutionMode_working`,
   hasInnerResourcePageTemplate:
     `${SFCFG_NAMESPACE}hasInnerResourcePageTemplate`,
+  hasGeneratedResourcePagePanelSelection:
+    `${SFCFG_NAMESPACE}hasGeneratedResourcePagePanelSelection`,
   hasPanelDataRequirement: `${SFCFG_NAMESPACE}hasPanelDataRequirement`,
   hasPanelInclusionPolicy: `${SFCFG_NAMESPACE}hasPanelInclusionPolicy`,
+  hasResourcePagePresentationConfig:
+    `${SFCFG_NAMESPACE}hasResourcePagePresentationConfig`,
   hasResourcePagePanel: `${SFCFG_NAMESPACE}hasResourcePagePanel`,
   hasResourcePagePanelSelection:
     `${SFCFG_NAMESPACE}hasResourcePagePanelSelection`,
@@ -63,6 +70,7 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
   assertNodeShape(quads, SHAPES.ArtifactResolutionModeUsage);
   assertNodeShape(quads, SHAPES.ResourcePagePresentationConfig);
   assertNodeShape(quads, SHAPES.ResourcePagePanelSelection);
+  assertNodeShape(quads, SHAPES.ResourcePageDefinitionPresentationConfig);
 
   assert(
     hasTriple(
@@ -155,6 +163,25 @@ Deno.test("ResourcePage presentation SHACL declares required config and panel se
     SHAPES.ResourcePagePanelSelection,
     TERMS.hasPanelDataRequirement,
   );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ResourcePageDefinitionPresentationConfig,
+      SH.targetClass,
+      TERMS.ResourcePageDefinition,
+    ),
+    "ResourcePageDefinition presentation shape should target ResourcePageDefinition",
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ResourcePageDefinitionPresentationConfig,
+    TERMS.hasResourcePagePresentationConfig,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ResourcePageDefinitionPresentationConfig,
+    TERMS.hasGeneratedResourcePagePanelSelection,
+  );
 });
 
 Deno.test("config ontology carries publication, local access, and resource-page config vocabulary", async () => {
@@ -236,12 +263,7 @@ function assertRequiredProperty(
   shape: string,
   path: string,
 ): void {
-  const propertyShapes = objectsFor(quads, shape, SH.property);
-  const propertyShape = propertyShapes.find((candidate) =>
-    objectsFor(quads, candidate.value, SH.path).some((term) =>
-      term.value === path
-    )
-  );
+  const propertyShape = findPropertyShape(quads, shape, path);
   assert(
     propertyShape,
     `${shape} should declare a property shape for ${path}`,
@@ -251,6 +273,29 @@ function assertRequiredProperty(
       term.value === "1"
     ),
     `${shape} ${path} property shape should require at least one value`,
+  );
+}
+
+function assertOptionalProperty(
+  quads: readonly Quad[],
+  shape: string,
+  path: string,
+): void {
+  assert(
+    findPropertyShape(quads, shape, path),
+    `${shape} should declare a property shape for ${path}`,
+  );
+}
+
+function findPropertyShape(
+  quads: readonly Quad[],
+  shape: string,
+  path: string,
+): Term | undefined {
+  return objectsFor(quads, shape, SH.property).find((candidate) =>
+    objectsFor(quads, candidate.value, SH.path).some((term) =>
+      term.value === path
+    )
   );
 }
 

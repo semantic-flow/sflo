@@ -971,6 +971,12 @@
   rdfs:range <ResourcePagePanelSelection> ;
   rdfs:label "has ResourcePage panel selection" .
 
+<hasGeneratedResourcePagePanelSelection> a owl:ObjectProperty ;
+  rdfs:domain sflo:ResourcePageDefinition ;
+  rdfs:range <ResourcePagePanelSelection> ;
+  rdfs:label "has generated ResourcePage panel selection" ;
+  rdfs:comment "Allows an authored ResourcePageDefinition to opt into selected generated/code-backed ResourcePage panels in addition to authored page regions. Runtime should render authored regions before these generated panels unless a later explicit ordering model says otherwise." .
+
 <hasResourcePagePanel> a owl:ObjectProperty ;
   rdfs:domain <ResourcePagePanelSelection> ;
   rdfs:range <ResourcePagePanel> ;
