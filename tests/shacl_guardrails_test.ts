@@ -15,9 +15,15 @@ import {
 const CORE_SHACL_FILE = "semantic-flow-core-shacl.ttl";
 
 const SHAPES = {
+  ArtifactResolutionObservation:
+    `${SFLO_SHACL_NAMESPACE}ArtifactResolutionObservationShape`,
+  ArtifactResolutionObservationLink:
+    `${SFLO_SHACL_NAMESPACE}ArtifactResolutionObservationLinkShape`,
   KnopSourceBinding: `${SFLO_SHACL_NAMESPACE}KnopSourceBindingShape`,
   LocalWorkingSourceBinding:
     `${SFLO_SHACL_NAMESPACE}LocalWorkingSourceBindingShape`,
+  ReferenceLink: `${SFLO_SHACL_NAMESPACE}ReferenceLinkShape`,
+  ReferenceSource: `${SFLO_SHACL_NAMESPACE}ReferenceSourceShape`,
   ArtifactResolutionModeUsage:
     `${SFLO_SHACL_NAMESPACE}ArtifactResolutionModeUsageShape`,
   ResourcePagePresentationConfig:
@@ -47,6 +53,8 @@ const TERMS = {
     `${SFCFG_NAMESPACE}hasGeneratedResourcePagePanelSelection`,
   hasPanelDataRequirement: `${SFCFG_NAMESPACE}hasPanelDataRequirement`,
   hasPanelInclusionPolicy: `${SFCFG_NAMESPACE}hasPanelInclusionPolicy`,
+  hasReferenceSource: `${SFLO_NAMESPACE}hasReferenceSource`,
+  hasResolutionObservation: `${SFLO_NAMESPACE}hasResolutionObservation`,
   hasResourcePagePresentationConfig:
     `${SFCFG_NAMESPACE}hasResourcePagePresentationConfig`,
   hasResourcePagePanel: `${SFCFG_NAMESPACE}hasResourcePagePanel`,
@@ -57,7 +65,13 @@ const TERMS = {
     `${SFCFG_NAMESPACE}hasOuterResourcePageTemplate`,
   hasArtifactResolutionMode: `${SFLO_NAMESPACE}hasArtifactResolutionMode`,
   hasRequestedTargetState: `${SFLO_NAMESPACE}hasRequestedTargetState`,
+  hasTargetArtifact: `${SFLO_NAMESPACE}hasTargetArtifact`,
   hasTargetRepositorySource: `${SFLO_NAMESPACE}hasTargetRepositorySource`,
+  observedContentDigest: `${SFLO_NAMESPACE}observedContentDigest`,
+  observedAt: `${SFLO_NAMESPACE}observedAt`,
+  ReferenceSource: `${SFLO_NAMESPACE}ReferenceSource`,
+  ArtifactResolutionObservation:
+    `${SFLO_NAMESPACE}ArtifactResolutionObservation`,
   panelOrder: `${SFCFG_NAMESPACE}panelOrder`,
   targetLocalRelativePath: `${SFLO_NAMESPACE}targetLocalRelativePath`,
 } as const;
@@ -65,6 +79,10 @@ const TERMS = {
 Deno.test("core SHACL declares key source-binding and resolution-mode shapes", async () => {
   const quads = await parseRepoTurtle(CORE_SHACL_FILE);
 
+  assertNodeShape(quads, SHAPES.ReferenceLink);
+  assertNodeShape(quads, SHAPES.ReferenceSource);
+  assertNodeShape(quads, SHAPES.ArtifactResolutionObservation);
+  assertNodeShape(quads, SHAPES.ArtifactResolutionObservationLink);
   assertNodeShape(quads, SHAPES.KnopSourceBinding);
   assertNodeShape(quads, SHAPES.LocalWorkingSourceBinding);
   assertNodeShape(quads, SHAPES.ArtifactResolutionModeUsage);
@@ -98,6 +116,63 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
       TERMS.hasArtifactResolutionMode,
     ),
     "ArtifactResolutionMode usage shape should target sflo:hasArtifactResolutionMode subjects",
+  );
+});
+
+Deno.test("ReferenceLink SHACL requires exactly one ReferenceSource", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ReferenceLink,
+      SH.targetClass,
+      `${SFLO_NAMESPACE}ReferenceLink`,
+    ),
+    "ReferenceLink shape should target ReferenceLink",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ReferenceLink,
+    TERMS.hasReferenceSource,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ReferenceSource,
+    TERMS.hasTargetArtifact,
+  );
+});
+
+Deno.test("ArtifactResolutionObservation SHACL declares observation evidence constraints", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ArtifactResolutionObservation,
+      SH.targetClass,
+      TERMS.ArtifactResolutionObservation,
+    ),
+    "ArtifactResolutionObservation shape should target ArtifactResolutionObservation",
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ArtifactResolutionObservation,
+    TERMS.observedContentDigest,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ArtifactResolutionObservation,
+    TERMS.observedAt,
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ArtifactResolutionObservationLink,
+      SH.targetSubjectsOf,
+      TERMS.hasResolutionObservation,
+    ),
+    "ArtifactResolutionObservationLink shape should target hasResolutionObservation subjects",
   );
 });
 

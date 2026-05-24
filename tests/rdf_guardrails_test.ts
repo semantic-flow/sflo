@@ -8,6 +8,11 @@ import {
   termKey,
 } from "./helpers/rdf.ts";
 
+const RDFS = {
+  Class: "http://www.w3.org/2000/01/rdf-schema#Class",
+  subClassOf: "http://www.w3.org/2000/01/rdf-schema#subClassOf",
+} as const;
+
 const ACTIVE_RDF_FILES = [
   "semantic-flow-core-ontology.ttl",
   "semantic-flow-core-shacl.ttl",
@@ -121,4 +126,85 @@ Deno.test("old config names and boolean policy switches stay retired", async () 
       );
     }
   }
+});
+
+Deno.test("old ReferenceLink and observed-source vocabulary stay retired", async () => {
+  const retiredFragments = [
+    "sflo:referenceTarget",
+    "<referenceTarget>",
+    `${SFLO_NAMESPACE}referenceTarget`,
+    "sflo:referenceTargetState",
+    "<referenceTargetState>",
+    `${SFLO_NAMESPACE}referenceTargetState`,
+    "sflo:referenceUriLiteral",
+    "<referenceUriLiteral>",
+    `${SFLO_NAMESPACE}referenceUriLiteral`,
+    "sflo:hasObservedSourceState",
+    "<hasObservedSourceState>",
+    `${SFLO_NAMESPACE}hasObservedSourceState`,
+    "sflo:hasObservedSourceManifestation",
+    "<hasObservedSourceManifestation>",
+    `${SFLO_NAMESPACE}hasObservedSourceManifestation`,
+    "sflo:hasObservedSourceLocatedFile",
+    "<hasObservedSourceLocatedFile>",
+    `${SFLO_NAMESPACE}hasObservedSourceLocatedFile`,
+    "sflo:observedSourceLocalRelativePath",
+    "<observedSourceLocalRelativePath>",
+    `${SFLO_NAMESPACE}observedSourceLocalRelativePath`,
+    "sflo:observedSourceDigest",
+    "<observedSourceDigest>",
+    `${SFLO_NAMESPACE}observedSourceDigest`,
+  ] as const;
+
+  for (
+    const relativePath of [
+      "semantic-flow-core-ontology.ttl",
+      "semantic-flow-core-shacl.ttl",
+    ] as const
+  ) {
+    const contents = await readRepoFile(relativePath);
+    for (const retiredFragment of retiredFragments) {
+      assertFalse(
+        contents.includes(retiredFragment),
+        `${relativePath} still contains retired vocabulary ${retiredFragment}`,
+      );
+    }
+  }
+});
+
+Deno.test("core ontology declares shared artifact-resolution source and observation classes", async () => {
+  const quads = await parseRepoTurtle("semantic-flow-core-ontology.ttl");
+
+  const artifactResolutionTarget =
+    `${SFLO_NAMESPACE}ArtifactResolutionTarget`;
+
+  for (
+    const sourceClass of [
+      "ExtractionSource",
+      "ReferenceSource",
+      "ResourcePageSource",
+      "ImportSource",
+      "IntegrationSource",
+    ]
+  ) {
+    assert(
+      quads.some((quad) =>
+        quad.subject.value === `${SFLO_NAMESPACE}${sourceClass}` &&
+        quad.predicate.value === RDFS.subClassOf &&
+        quad.object.value === artifactResolutionTarget
+      ),
+      `${sourceClass} should subclass ArtifactResolutionTarget`,
+    );
+  }
+
+  assert(
+    quads.some((quad) =>
+      quad.subject.value ===
+        `${SFLO_NAMESPACE}ArtifactResolutionObservation` &&
+      quad.predicate.value ===
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" &&
+      quad.object.value === RDFS.Class
+    ),
+    "ArtifactResolutionObservation should be declared as an rdfs:Class",
+  );
 });

@@ -36,21 +36,16 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceLinkShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "A ReferenceLink must identify the thing it is about.";
+  rdfs:comment "A ReferenceLink must identify the thing it is about and the RDF reference source it uses.";
   rdfs:label "ReferenceLink basics";
   sh:property [
-    sh:class sflo:HistoricalState;
+    sh:class sflo:ReferenceSource;
     sh:maxCount 1;
-    sh:message "If present, sflo:referenceTargetState should be a single IRI typed sflo:HistoricalState.";
+    sh:message "A ReferenceLink MUST have exactly one sflo:hasReferenceSource value typed sflo:ReferenceSource.";
+    sh:minCount 1;
     sh:nodeKind sh:IRI;
-    sh:path sflo:referenceTargetState;
-    sh:severity sh:Info
-  ];
-  sh:property [
-    sh:datatype xsd:anyURI;
-    sh:message "If present, sflo:referenceUriLiteral must be xsd:anyURI.";
-    sh:path sflo:referenceUriLiteral;
-    sh:severity sh:Info
+    sh:path sflo:hasReferenceSource;
+    sh:severity sh:Violation
   ];
   sh:property [
     sh:message "A ReferenceLink SHOULD have at least one sflo:hasReferenceRole.";
@@ -67,6 +62,20 @@
     sh:severity sh:Violation
   ];
   sh:targetClass sflo:ReferenceLink .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceSourceShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A ReferenceSource identifies RDF data used by a ReferenceLink.";
+  rdfs:label "ReferenceSource basics";
+  sh:property [
+    sh:class sflo:RdfDocument;
+    sh:maxCount 1;
+    sh:message "If present, a ReferenceSource sflo:hasTargetArtifact value MUST be an IRI typed sflo:RdfDocument.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasTargetArtifact;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ReferenceSource .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceLinkForNotKnopShape>
   rdf:type sh:NodeShape;
@@ -474,11 +483,88 @@
   ];
   sh:sparql [
     rdf:type sh:SPARQLConstraint;
-    sh:message "sflo:expectsContentDigest SHOULD be used on resources typed sflo:ArtifactResolutionTarget or a subclass such as sflo:ExtractionSource.";
+    sh:message "sflo:expectsContentDigest SHOULD be used on resources typed sflo:ArtifactResolutionTarget or a subclass such as sflo:ExtractionSource, sflo:ReferenceSource, sflo:ImportSource, or sflo:IntegrationSource.";
     sh:select "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:expectsContentDigest ?digest .\n  FILTER NOT EXISTS { $this a/rdfs:subClassOf* sflo:ArtifactResolutionTarget }\n}";
     sh:severity sh:Warning
   ];
   sh:targetSubjectsOf sflo:expectsContentDigest .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactResolutionObservationLinkShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "ArtifactResolutionTargets may link to explicit observation records when an operation intentionally records resolved evidence.";
+  rdfs:label "ArtifactResolutionTarget observations";
+  sh:property [
+    sh:class sflo:ArtifactResolutionObservation;
+    sh:message "sflo:hasResolutionObservation values MUST be IRIs typed sflo:ArtifactResolutionObservation.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasResolutionObservation;
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:hasResolutionObservation .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactResolutionObservationShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "An ArtifactResolutionObservation records evidence observed during one artifact-resolution event.";
+  rdfs:label "ArtifactResolutionObservation";
+  sh:property [
+    sh:class sflo:HistoricalState;
+    sh:maxCount 1;
+    sh:message "If present, sflo:hasObservedTargetState MUST be a single IRI typed sflo:HistoricalState.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasObservedTargetState;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sflo:ArtifactManifestation;
+    sh:maxCount 1;
+    sh:message "If present, sflo:hasObservedTargetManifestation MUST be a single IRI typed sflo:ArtifactManifestation.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasObservedTargetManifestation;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sflo:LocatedFile;
+    sh:maxCount 1;
+    sh:message "If present, sflo:hasObservedTargetLocatedFile MUST be a single IRI typed sflo:LocatedFile.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasObservedTargetLocatedFile;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "If present, sflo:observedTargetLocalRelativePath MUST be a single local relative path literal.";
+    sh:path sflo:observedTargetLocalRelativePath;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:message "sflo:observedContentDigest values MUST be xsd:string literals.";
+    sh:path sflo:observedContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:message "sflo:observedContentDigest values SHOULD include an algorithm prefix followed by ':', for example sha256:<hex>.";
+    sh:path sflo:observedContentDigest;
+    sh:pattern "^[A-Za-z][A-Za-z0-9+._-]*:.+$";
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:datatype xsd:dateTime;
+    sh:maxCount 1;
+    sh:message "If present, sflo:observedAt MUST be a single xsd:dateTime literal.";
+    sh:path sflo:observedAt;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class dcterms:Agent;
+    sh:maxCount 1;
+    sh:message "If present, sflo:observedBy MUST be a single IRI or blank node typed dcterms:Agent.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sflo:observedBy;
+    sh:severity sh:Warning
+  ];
+  sh:targetClass sflo:ArtifactResolutionObservation .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactResolutionModeUsageShape>
   rdf:type sh:NodeShape;
@@ -654,44 +740,6 @@
     sh:nodeKind sh:IRI;
     sh:path sflo:hasTargetArtifact;
     sh:severity sh:Violation
-  ];
-  sh:property [
-    sh:class sflo:HistoricalState;
-    sh:maxCount 1;
-    sh:message "If present, sflo:hasObservedSourceState should be a single IRI typed sflo:HistoricalState.";
-    sh:nodeKind sh:IRI;
-    sh:path sflo:hasObservedSourceState;
-    sh:severity sh:Warning
-  ];
-  sh:property [
-    sh:class sflo:ArtifactManifestation;
-    sh:maxCount 1;
-    sh:message "If present, sflo:hasObservedSourceManifestation should be a single IRI typed sflo:ArtifactManifestation.";
-    sh:nodeKind sh:IRI;
-    sh:path sflo:hasObservedSourceManifestation;
-    sh:severity sh:Warning
-  ];
-  sh:property [
-    sh:class sflo:LocatedFile;
-    sh:maxCount 1;
-    sh:message "If present, sflo:hasObservedSourceLocatedFile should be a single IRI typed sflo:LocatedFile.";
-    sh:nodeKind sh:IRI;
-    sh:path sflo:hasObservedSourceLocatedFile;
-    sh:severity sh:Warning
-  ];
-  sh:property [
-    sh:datatype xsd:string;
-    sh:maxCount 1;
-    sh:message "If present, sflo:observedSourceLocalRelativePath should be a single local relative path literal.";
-    sh:path sflo:observedSourceLocalRelativePath;
-    sh:severity sh:Warning
-  ];
-  sh:property [
-    sh:datatype xsd:string;
-    sh:maxCount 1;
-    sh:message "If present, sflo:observedSourceDigest should be a single digest literal.";
-    sh:path sflo:observedSourceDigest;
-    sh:severity sh:Warning
   ];
   sh:targetClass sflo:ExtractionSource .
 
