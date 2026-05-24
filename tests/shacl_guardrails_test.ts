@@ -20,6 +20,10 @@ const SHAPES = {
     `${SFLO_SHACL_NAMESPACE}LocalWorkingSourceBindingShape`,
   ArtifactResolutionModeUsage:
     `${SFLO_SHACL_NAMESPACE}ArtifactResolutionModeUsageShape`,
+  ResourcePagePresentationConfig:
+    `${SFLO_SHACL_NAMESPACE}ResourcePagePresentationConfigShape`,
+  ResourcePagePanelSelection:
+    `${SFLO_SHACL_NAMESPACE}ResourcePagePanelSelectionShape`,
 } as const;
 
 const TERMS = {
@@ -29,13 +33,25 @@ const TERMS = {
   RemoteAccessRule: `${SFCFG_NAMESPACE}RemoteAccessRule`,
   ResourcePagePresentationConfig:
     `${SFCFG_NAMESPACE}ResourcePagePresentationConfig`,
+  ResourcePagePanelSelection: `${SFCFG_NAMESPACE}ResourcePagePanelSelection`,
   artifactResolutionModeLatestState:
     `${SFLO_NAMESPACE}artifactResolutionMode_latestState`,
   artifactResolutionModeWorking:
     `${SFLO_NAMESPACE}artifactResolutionMode_working`,
+  hasInnerResourcePageTemplate:
+    `${SFCFG_NAMESPACE}hasInnerResourcePageTemplate`,
+  hasPanelDataRequirement: `${SFCFG_NAMESPACE}hasPanelDataRequirement`,
+  hasPanelInclusionPolicy: `${SFCFG_NAMESPACE}hasPanelInclusionPolicy`,
+  hasResourcePagePanel: `${SFCFG_NAMESPACE}hasResourcePagePanel`,
+  hasResourcePagePanelSelection:
+    `${SFCFG_NAMESPACE}hasResourcePagePanelSelection`,
+  hasResourcePageStylesheet: `${SFCFG_NAMESPACE}hasResourcePageStylesheet`,
+  hasOuterResourcePageTemplate:
+    `${SFCFG_NAMESPACE}hasOuterResourcePageTemplate`,
   hasArtifactResolutionMode: `${SFLO_NAMESPACE}hasArtifactResolutionMode`,
   hasRequestedTargetState: `${SFLO_NAMESPACE}hasRequestedTargetState`,
   hasTargetRepositorySource: `${SFLO_NAMESPACE}hasTargetRepositorySource`,
+  panelOrder: `${SFCFG_NAMESPACE}panelOrder`,
   targetLocalRelativePath: `${SFLO_NAMESPACE}targetLocalRelativePath`,
 } as const;
 
@@ -45,6 +61,8 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
   assertNodeShape(quads, SHAPES.KnopSourceBinding);
   assertNodeShape(quads, SHAPES.LocalWorkingSourceBinding);
   assertNodeShape(quads, SHAPES.ArtifactResolutionModeUsage);
+  assertNodeShape(quads, SHAPES.ResourcePagePresentationConfig);
+  assertNodeShape(quads, SHAPES.ResourcePagePanelSelection);
 
   assert(
     hasTriple(
@@ -72,6 +90,70 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
       TERMS.hasArtifactResolutionMode,
     ),
     "ArtifactResolutionMode usage shape should target sflo:hasArtifactResolutionMode subjects",
+  );
+});
+
+Deno.test("ResourcePage presentation SHACL declares required config and panel selection constraints", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ResourcePagePresentationConfig,
+      SH.targetClass,
+      TERMS.ResourcePagePresentationConfig,
+    ),
+    "ResourcePagePresentationConfig shape should target ResourcePagePresentationConfig",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasOuterResourcePageTemplate,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasInnerResourcePageTemplate,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasResourcePageStylesheet,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasResourcePagePanelSelection,
+  );
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ResourcePagePanelSelection,
+      SH.targetClass,
+      TERMS.ResourcePagePanelSelection,
+    ),
+    "ResourcePagePanelSelection shape should target ResourcePagePanelSelection",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.hasResourcePagePanel,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.panelOrder,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.hasPanelInclusionPolicy,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.hasPanelDataRequirement,
   );
 });
 
@@ -146,6 +228,29 @@ function assertNodeShape(quads: readonly Quad[], subject: string): void {
   assert(
     hasTriple(quads, subject, RDF.type, SH.NodeShape),
     `${subject} should be declared as a sh:NodeShape`,
+  );
+}
+
+function assertRequiredProperty(
+  quads: readonly Quad[],
+  shape: string,
+  path: string,
+): void {
+  const propertyShapes = objectsFor(quads, shape, SH.property);
+  const propertyShape = propertyShapes.find((candidate) =>
+    objectsFor(quads, candidate.value, SH.path).some((term) =>
+      term.value === path
+    )
+  );
+  assert(
+    propertyShape,
+    `${shape} should declare a property shape for ${path}`,
+  );
+  assert(
+    objectsFor(quads, propertyShape.value, SH.minCount).some((term) =>
+      term.value === "1"
+    ),
+    `${shape} ${path} property shape should require at least one value`,
   );
 }
 

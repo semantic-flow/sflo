@@ -5,6 +5,7 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <https://schema.org/> .
+@prefix sfcfg: <https://semantic-flow.github.io/sflo/config/> .
 @prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
@@ -809,3 +810,104 @@
     sh:severity sh:Warning
   ];
   sh:targetClass sflo:DigitalArtifact .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ResourcePagePresentationConfigShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A ResourcePagePresentationConfig names the built-in or governed presentation assets and panel selections that a renderer can resolve.";
+  rdfs:label "ResourcePagePresentationConfig structure";
+  sh:property [
+    sh:class sfcfg:OuterResourcePageTemplate;
+    sh:maxCount 1;
+    sh:message "A ResourcePagePresentationConfig MUST have exactly one sfcfg:hasOuterResourcePageTemplate value typed sfcfg:OuterResourcePageTemplate.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasOuterResourcePageTemplate;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:InnerResourcePageTemplate;
+    sh:maxCount 1;
+    sh:message "A ResourcePagePresentationConfig MUST have exactly one sfcfg:hasInnerResourcePageTemplate value typed sfcfg:InnerResourcePageTemplate.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasInnerResourcePageTemplate;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePageStylesheet;
+    sh:message "A ResourcePagePresentationConfig SHOULD have at least one sfcfg:hasResourcePageStylesheet value typed sfcfg:ResourcePageStylesheet.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasResourcePageStylesheet;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePagePanelSelection;
+    sh:message "A ResourcePagePresentationConfig SHOULD have at least one sfcfg:hasResourcePagePanelSelection value typed sfcfg:ResourcePagePanelSelection.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasResourcePagePanelSelection;
+    sh:severity sh:Warning
+  ];
+  sh:targetClass sfcfg:ResourcePagePresentationConfig .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ResourcePagePanelSelectionShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A ResourcePagePanelSelection selects one known panel and constrains when that code-backed panel applies.";
+  rdfs:label "ResourcePagePanelSelection structure";
+  sh:property [
+    sh:class sfcfg:ResourcePagePanel;
+    sh:maxCount 1;
+    sh:message "A ResourcePagePanelSelection MUST have exactly one sfcfg:hasResourcePagePanel value typed sfcfg:ResourcePagePanel.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasResourcePagePanel;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:nonNegativeInteger;
+    sh:maxCount 1;
+    sh:message "A ResourcePagePanelSelection MUST have exactly one non-negative sfcfg:panelOrder value.";
+    sh:minCount 1;
+    sh:path sfcfg:panelOrder;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePagePanelInclusionPolicy;
+    sh:maxCount 1;
+    sh:message "A ResourcePagePanelSelection MUST have exactly one sfcfg:hasPanelInclusionPolicy value typed sfcfg:ResourcePagePanelInclusionPolicy.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasPanelInclusionPolicy;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePageKind;
+    sh:message "If present, sfcfg:hasPanelTargetPageKind values must be IRIs typed sfcfg:ResourcePageKind.";
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasPanelTargetPageKind;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class rdfs:Class;
+    sh:message "If present, sfcfg:hasPanelTargetClass values must be IRIs typed rdfs:Class.";
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasPanelTargetClass;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ArtifactRole;
+    sh:message "If present, sfcfg:hasPanelTargetArtifactRole values must be IRIs typed sfcfg:ArtifactRole.";
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasPanelTargetArtifactRole;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePagePanelDataRequirement;
+    sh:message "A ResourcePagePanelSelection MUST have at least one sfcfg:hasPanelDataRequirement value typed sfcfg:ResourcePagePanelDataRequirement.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasPanelDataRequirement;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:ResourcePagePanelSelection .
