@@ -1,0 +1,12 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/artifactResolutionMode_working> sflo:hasReferenceLink <ontology/artifactResolutionMode_working/_knop/_references#reference001> .
+
+<ontology/artifactResolutionMode_working/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <ontology/artifactResolutionMode_working> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:hasReferenceSource <ontology/artifactResolutionMode_working/_knop/_references#reference001-source> .
+
+<ontology/artifactResolutionMode_working/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <ontology> .

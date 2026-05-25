@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/remoteLocatorKind_workingAccessUrl/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/remoteLocatorKind_workingAccessUrl" ;
+  sflo:hasWorkingKnopInventoryFile <config/remoteLocatorKind_workingAccessUrl/_knop/_inventory/inventory.ttl> .

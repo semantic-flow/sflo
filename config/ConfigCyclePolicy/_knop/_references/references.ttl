@@ -6,4 +6,7 @@
 <config/ConfigCyclePolicy/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/ConfigCyclePolicy> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/ConfigCyclePolicy/_knop/_references#reference001-source> .
+
+<config/ConfigCyclePolicy/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

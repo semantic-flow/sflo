@@ -7,11 +7,13 @@
 
 <ontology/hasKnopInventory/_knop/_sources#extraction-source> a sflo:ExtractionSource ;
   sflo:hasTargetArtifact <ontology> ;
-  sflo:hasRequestedTargetState <ontology/releases/v0.1.0> ;
-  sflo:hasArtifactResolutionMode <https://semantic-flow.github.io/sflo/ontology/artifactResolutionMode_pinned> ;
-  sflo:hasObservedSourceState <ontology/releases/v0.1.0> ;
-  sflo:hasObservedSourceManifestation <ontology/releases/v0.1.0/ttl> ;
-  sflo:hasObservedSourceLocatedFile <ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl> ;
-  sflo:observedSourceDigest "sha256:7e95093ea15dc6f56dffa1db94243f60b76051a07cd78aa788d4d00e39abdfea" .
+  sflo:hasRequestedTargetState <ontology/releases/v0.2.0> ;
+  sflo:hasResolutionObservation <ontology/hasKnopInventory/_knop/_sources#extraction-source-observation-001> .
+
+<ontology/hasKnopInventory/_knop/_sources#extraction-source-observation-001> a sflo:ArtifactResolutionObservation ;
+  sflo:hasObservedTargetState <ontology/releases/v0.2.0> ;
+  sflo:hasObservedTargetManifestation <ontology/releases/v0.2.0/ttl> ;
+  sflo:hasObservedTargetLocatedFile <ontology/releases/v0.2.0/ttl/semantic-flow-core-ontology.ttl> ;
+  sflo:observedContentDigest "sha256:94ea9f2f3ff24bff863aa1644460a1316663393a6687e8aab7e88d5da4bb417a" .
 
 <ontology/hasKnopInventory/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .

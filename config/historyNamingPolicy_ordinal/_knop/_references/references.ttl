@@ -6,4 +6,7 @@
 <config/historyNamingPolicy_ordinal/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/historyNamingPolicy_ordinal> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/historyNamingPolicy_ordinal/_knop/_references#reference001-source> .
+
+<config/historyNamingPolicy_ordinal/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

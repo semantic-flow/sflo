@@ -1,0 +1,12 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/publicationProfile_githubPages> sflo:hasReferenceLink <config/publicationProfile_githubPages/_knop/_references#reference001> .
+
+<config/publicationProfile_githubPages/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/publicationProfile_githubPages> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:hasReferenceSource <config/publicationProfile_githubPages/_knop/_references#reference001-source> .
+
+<config/publicationProfile_githubPages/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

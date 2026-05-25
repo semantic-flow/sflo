@@ -6,4 +6,7 @@
 <config/allowedRemoteOrigin/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/allowedRemoteOrigin> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/allowedRemoteOrigin/_knop/_references#reference001-source> .
+
+<config/allowedRemoteOrigin/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

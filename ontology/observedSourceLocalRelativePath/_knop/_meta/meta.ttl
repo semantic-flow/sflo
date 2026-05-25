@@ -1,6 +1,0 @@
-@base <https://semantic-flow.github.io/sflo/> .
-@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
-
-<ontology/observedSourceLocalRelativePath/_knop> a sflo:Knop ;
-  sflo:designatorPath "ontology/observedSourceLocalRelativePath" ;
-  sflo:hasWorkingKnopInventoryFile <ontology/observedSourceLocalRelativePath/_knop/_inventory/inventory.ttl> .

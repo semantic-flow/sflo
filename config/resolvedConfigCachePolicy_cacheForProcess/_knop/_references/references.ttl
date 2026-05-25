@@ -6,4 +6,7 @@
 <config/resolvedConfigCachePolicy_cacheForProcess/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/resolvedConfigCachePolicy_cacheForProcess> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/resolvedConfigCachePolicy_cacheForProcess/_knop/_references#reference001-source> .
+
+<config/resolvedConfigCachePolicy_cacheForProcess/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

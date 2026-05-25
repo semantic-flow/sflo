@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/hasMeshInheritableConfigSource/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/hasMeshInheritableConfigSource" ;
+  sflo:hasWorkingKnopInventoryFile <config/hasMeshInheritableConfigSource/_knop/_inventory/inventory.ttl> .

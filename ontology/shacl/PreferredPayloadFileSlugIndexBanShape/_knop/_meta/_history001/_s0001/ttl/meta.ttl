@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/shacl/PreferredPayloadFileSlugIndexBanShape/_knop> a sflo:Knop ;
+  sflo:designatorPath "ontology/shacl/PreferredPayloadFileSlugIndexBanShape" ;
+  sflo:hasWorkingKnopInventoryFile <ontology/shacl/PreferredPayloadFileSlugIndexBanShape/_knop/_inventory/inventory.ttl> .

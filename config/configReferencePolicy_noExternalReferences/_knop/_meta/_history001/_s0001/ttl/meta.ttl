@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/configReferencePolicy_noExternalReferences/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/configReferencePolicy_noExternalReferences" ;
+  sflo:hasWorkingKnopInventoryFile <config/configReferencePolicy_noExternalReferences/_knop/_inventory/inventory.ttl> .

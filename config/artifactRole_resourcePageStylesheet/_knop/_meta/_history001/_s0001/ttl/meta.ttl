@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/artifactRole_resourcePageStylesheet/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/artifactRole_resourcePageStylesheet" ;
+  sflo:hasWorkingKnopInventoryFile <config/artifactRole_resourcePageStylesheet/_knop/_inventory/inventory.ttl> .

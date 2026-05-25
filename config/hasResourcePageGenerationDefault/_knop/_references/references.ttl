@@ -6,4 +6,7 @@
 <config/hasResourcePageGenerationDefault/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/hasResourcePageGenerationDefault> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/hasResourcePageGenerationDefault/_knop/_references#reference001-source> .
+
+<config/hasResourcePageGenerationDefault/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

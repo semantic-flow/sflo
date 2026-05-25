@@ -7,11 +7,13 @@
 
 <config/hasResourcePageStylesheet/_knop/_sources#extraction-source> a sflo:ExtractionSource ;
   sflo:hasTargetArtifact <config> ;
-  sflo:hasRequestedTargetState <config/releases/v0.1.0> ;
-  sflo:hasArtifactResolutionMode <https://semantic-flow.github.io/sflo/ontology/artifactResolutionMode_pinned> ;
-  sflo:hasObservedSourceState <config/releases/v0.1.0> ;
-  sflo:hasObservedSourceManifestation <config/releases/v0.1.0/ttl> ;
-  sflo:hasObservedSourceLocatedFile <config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> ;
-  sflo:observedSourceDigest "sha256:6dcdf2332abcc6900638c91d9a758315b93c1703dd1adc0bf5e62245e2f80f95" .
+  sflo:hasRequestedTargetState <config/releases/v0.2.0> ;
+  sflo:hasResolutionObservation <config/hasResourcePageStylesheet/_knop/_sources#extraction-source-observation-001> .
+
+<config/hasResourcePageStylesheet/_knop/_sources#extraction-source-observation-001> a sflo:ArtifactResolutionObservation ;
+  sflo:hasObservedTargetState <config/releases/v0.2.0> ;
+  sflo:hasObservedTargetManifestation <config/releases/v0.2.0/ttl> ;
+  sflo:hasObservedTargetLocatedFile <config/releases/v0.2.0/ttl/semantic-flow-config-ontology.ttl> ;
+  sflo:observedContentDigest "sha256:5bfca0052b3611b0066ab95182f5d752d014e4e77af7f393f280495bd4932289" .
 
 <config/hasResourcePageStylesheet/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .

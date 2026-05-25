@@ -6,4 +6,7 @@
 <config/resolvedConfigCachePolicy_persistDiagnosticCache/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/resolvedConfigCachePolicy_persistDiagnosticCache> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/resolvedConfigCachePolicy_persistDiagnosticCache/_knop/_references#reference001-source> .
+
+<config/resolvedConfigCachePolicy_persistDiagnosticCache/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

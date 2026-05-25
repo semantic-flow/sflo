@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/ResourcePagePanelInclusionPolicy/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/ResourcePagePanelInclusionPolicy" ;
+  sflo:hasWorkingKnopInventoryFile <config/ResourcePagePanelInclusionPolicy/_knop/_inventory/inventory.ttl> .

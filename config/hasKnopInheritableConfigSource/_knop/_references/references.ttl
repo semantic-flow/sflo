@@ -6,4 +6,7 @@
 <config/hasKnopInheritableConfigSource/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/hasKnopInheritableConfigSource> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/hasKnopInheritableConfigSource/_knop/_references#reference001-source> .
+
+<config/hasKnopInheritableConfigSource/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

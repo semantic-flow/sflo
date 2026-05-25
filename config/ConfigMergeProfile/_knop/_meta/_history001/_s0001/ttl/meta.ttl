@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/ConfigMergeProfile/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/ConfigMergeProfile" ;
+  sflo:hasWorkingKnopInventoryFile <config/ConfigMergeProfile/_knop/_inventory/inventory.ttl> .

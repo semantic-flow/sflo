@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>sflo ExtractionSource basics</title>
+  <title>sflo ExtractionSourceShape</title>
   <link rel="canonical" href="https://semantic-flow.github.io/sflo/ontology/shacl/ExtractionSourceShape">
+  <link rel="icon" href="/sflo/favicon.ico">
   <style>
     :root { min-height: 100%; color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f6f7f4; color: #20231f; }
     * { box-sizing: border-box; }
@@ -96,6 +97,7 @@
     .wf-generated { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 8px 0 32px; text-align: center; color: rgba(49, 57, 49, 0.42); font-size: 0.78rem; flex: 0 0 auto; }
     .wf-generated a { color: inherit; font-weight: 700; }
   </style>
+
   <script>
     const canonicalLink = document.querySelector('link[rel="canonical"]');
     if (canonicalLink && location.pathname.endsWith("/") && !location.search && !location.hash) {
@@ -114,10 +116,10 @@
           <nav class="wf-eyebrow wf-breadcrumbs" aria-label="Breadcrumb">
 <a href="/sflo">sflo</a> <span aria-hidden="true">/</span> <a href="/sflo/ontology">ontology</a> <span aria-hidden="true">/</span> <a href="/sflo/ontology/shacl">shacl</a> <span aria-hidden="true">/</span> <span aria-current="page">ExtractionSourceShape</span>
           </nav>
-
+          <img class="wf-mesh-favicon" src="/sflo/favicon.ico" alt="">
         </div>
         <div class="wf-hero">
-        <h1>ExtractionSource basics</h1>
+        <h1>ExtractionSourceShape</h1>
         <p class="wf-classes">a <a href="http://www.w3.org/ns/shacl#NodeShape">sh:NodeShape</a></p>
         <p class="wf-summary">An ExtractionSource identifies the RDF artifact state used to ground an extracted Knop-managed resource.</p>
         <table class="wf-metadata wf-hero-metadata">
@@ -129,7 +131,7 @@
           </colgroup>
           <tbody>
           <tr><th scope="row">Canonical IRI</th><td colspan="3"><span>https://semantic-flow.github.io/sflo/ontology/shacl/ExtractionSourceShape</span></td></tr>
-          <tr class="wf-source-metadata-row"><th scope="row">Source</th><td colspan="3"><div class="wf-source-summary"><span class="wf-source-chain"><a class="wf-source-root" href="/sflo/ontology/shacl">ontology/shacl</a><span class="wf-source-version-chain"><a class="wf-source-version-history" href="/sflo/ontology/shacl/releases">releases</a><a class="wf-source-version" href="/sflo/ontology/shacl/releases/v0.1.0">v0.1.0</a></span></span></div></td></tr>
+          <tr class="wf-source-metadata-row"><th scope="row">Source</th><td colspan="3"><div class="wf-source-summary"><span class="wf-source-chain"><a class="wf-source-root" href="/sflo/ontology/shacl">ontology/shacl</a><span class="wf-source-version-chain"><a class="wf-source-version-history" href="/sflo/ontology/shacl/releases">releases</a><a class="wf-source-version" href="/sflo/ontology/shacl/releases/v0.2.0">v0.2.0</a></span></span></div></td></tr>
           </tbody>
         </table>
 
@@ -153,36 +155,17 @@
         <summary>Blank Nodes</summary>
         <table class="wf-metadata">
           <tbody>
-          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/ns/shacl#property" title="http://www.w3.org/ns/shacl#property">sh:property</a></th><td><pre class="wf-blank-node-code"><code>  sh:class sflo:ArtifactManifestation;
-  sh:maxCount &quot;1&quot;^^xsd:integer;
-  sh:message &quot;If present, sflo:hasObservedSourceManifestation should be a single IRI typed sflo:ArtifactManifestation.&quot;;
-  sh:nodeKind sh:IRI;
-  sh:path sflo:hasObservedSourceManifestation;
-  sh:severity sh:Warning.</code></pre></td></tr>
           <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/ns/shacl#property" title="http://www.w3.org/ns/shacl#property">sh:property</a></th><td><pre class="wf-blank-node-code"><code>  sh:class sflo:ArtifactResolutionMode;
   sh:maxCount &quot;1&quot;^^xsd:integer;
-  sh:message &quot;An ExtractionSource MUST identify exactly one sflo:hasArtifactResolutionMode value typed sflo:ArtifactResolutionMode.&quot;;
-  sh:minCount &quot;1&quot;^^xsd:integer;
+  sh:message &quot;If present, an ExtractionSource sflo:hasArtifactResolutionMode value MUST be typed sflo:ArtifactResolutionMode.&quot;;
   sh:nodeKind sh:IRI;
   sh:path sflo:hasArtifactResolutionMode;
   sh:severity sh:Violation.</code></pre></td></tr>
           <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/ns/shacl#property" title="http://www.w3.org/ns/shacl#property">sh:property</a></th><td><pre class="wf-blank-node-code"><code>  sh:class sflo:HistoricalState;
   sh:maxCount &quot;1&quot;^^xsd:integer;
-  sh:message &quot;If present, sflo:hasObservedSourceState should be a single IRI typed sflo:HistoricalState.&quot;;
-  sh:nodeKind sh:IRI;
-  sh:path sflo:hasObservedSourceState;
-  sh:severity sh:Warning.</code></pre></td></tr>
-          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/ns/shacl#property" title="http://www.w3.org/ns/shacl#property">sh:property</a></th><td><pre class="wf-blank-node-code"><code>  sh:class sflo:HistoricalState;
-  sh:maxCount &quot;1&quot;^^xsd:integer;
   sh:message &quot;If present, sflo:hasRequestedTargetState should be a single IRI typed sflo:HistoricalState.&quot;;
   sh:nodeKind sh:IRI;
   sh:path sflo:hasRequestedTargetState;
-  sh:severity sh:Warning.</code></pre></td></tr>
-          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/ns/shacl#property" title="http://www.w3.org/ns/shacl#property">sh:property</a></th><td><pre class="wf-blank-node-code"><code>  sh:class sflo:LocatedFile;
-  sh:maxCount &quot;1&quot;^^xsd:integer;
-  sh:message &quot;If present, sflo:hasObservedSourceLocatedFile should be a single IRI typed sflo:LocatedFile.&quot;;
-  sh:nodeKind sh:IRI;
-  sh:path sflo:hasObservedSourceLocatedFile;
   sh:severity sh:Warning.</code></pre></td></tr>
           <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/ns/shacl#property" title="http://www.w3.org/ns/shacl#property">sh:property</a></th><td><pre class="wf-blank-node-code"><code>  sh:class sflo:RdfDocument;
   sh:maxCount &quot;1&quot;^^xsd:integer;
@@ -191,15 +174,9 @@
   sh:nodeKind sh:IRI;
   sh:path sflo:hasTargetArtifact;
   sh:severity sh:Violation.</code></pre></td></tr>
-          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/ns/shacl#property" title="http://www.w3.org/ns/shacl#property">sh:property</a></th><td><pre class="wf-blank-node-code"><code>  sh:datatype xsd:string;
-  sh:maxCount &quot;1&quot;^^xsd:integer;
-  sh:message &quot;If present, sflo:observedSourceDigest should be a single digest literal.&quot;;
-  sh:path sflo:observedSourceDigest;
-  sh:severity sh:Warning.</code></pre></td></tr>
-          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/ns/shacl#property" title="http://www.w3.org/ns/shacl#property">sh:property</a></th><td><pre class="wf-blank-node-code"><code>  sh:datatype xsd:string;
-  sh:maxCount &quot;1&quot;^^xsd:integer;
-  sh:message &quot;If present, sflo:observedSourceLocalRelativePath should be a single local relative path literal.&quot;;
-  sh:path sflo:observedSourceLocalRelativePath;
+          <tr><th scope="row"><a class="wf-term wf-term-link" href="http://www.w3.org/ns/shacl#sparql" title="http://www.w3.org/ns/shacl#sparql">sh:sparql</a></th><td><pre class="wf-blank-node-code"><code>  rdf:type sh:SPARQLConstraint;
+  sh:message &quot;An ExtractionSource SHOULD declare sflo:hasArtifactResolutionMode unless exact target coordinates make the source state obvious.&quot;;
+  sh:select &quot;PREFIX sflo: &lt;https://semantic-flow.github.io/sflo/ontology/&gt;\nSELECT $this WHERE {\n  $this a sflo:ExtractionSource .\n  FILTER NOT EXISTS { $this sflo:hasArtifactResolutionMode ?mode }\n  FILTER NOT EXISTS { $this sflo:hasRequestedTargetState ?state }\n  FILTER NOT EXISTS { $this sflo:hasTargetLocatedFile ?file }\n  FILTER NOT EXISTS { $this sflo:expectsContentDigest ?digest }\n}&quot;;
   sh:severity sh:Warning.</code></pre></td></tr>
           </tbody>
         </table>
@@ -218,11 +195,21 @@
         </div>
       </details>
     </section>
+      <details class="wf-semantic-flow-metadata">
+        <summary>Semantic Flow metadata</summary>
+        <table class="wf-metadata">
+          <tbody>
+          <tr><th scope="row">Knop</th><td><a href="/sflo/ontology/shacl/ExtractionSourceShape/_knop">ontology/shacl/ExtractionSourceShape/_knop</a></td></tr>
+          <tr><th scope="row">Extraction Source</th><td><a href="/sflo/ontology/shacl">ontology/shacl</a></td></tr>
+          <tr><th scope="row">Extraction Source State</th><td><a href="/sflo/ontology/shacl/releases/v0.2.0">ontology/shacl/releases/v0.2.0</a></td></tr>
+          </tbody>
+        </table>
+      </details>
 
     </article>
   </main>
   <footer class="wf-generated">
-    Generated on <span class="wf-term wf-date-tip" tabindex="0" title="2026-05-17T20:21:53.303Z" data-tooltip="2026-05-17T20:21:53.303Z">May 17, 2026</span> by <a href="https://github.com/semantic-flow/weave/">Weave</a>
+    Generated on <span class="wf-term wf-date-tip" tabindex="0" title="2026-05-25T06:58:50.083Z" data-tooltip="2026-05-25T06:58:50.083Z">May 25, 2026</span> by <a href="https://github.com/semantic-flow/weave/">Weave</a>
   </footer>
 </body>
 </html>

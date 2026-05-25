@@ -6,4 +6,7 @@
 <config/hasLocalPathBase/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/hasLocalPathBase> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/hasLocalPathBase/_knop/_references#reference001-source> .
+
+<config/hasLocalPathBase/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

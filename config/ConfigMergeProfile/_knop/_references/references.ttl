@@ -6,4 +6,7 @@
 <config/ConfigMergeProfile/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/ConfigMergeProfile> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/ConfigMergeProfile/_knop/_references#reference001-source> .
+
+<config/ConfigMergeProfile/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

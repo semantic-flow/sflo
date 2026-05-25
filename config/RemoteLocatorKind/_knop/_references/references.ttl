@@ -6,4 +6,7 @@
 <config/RemoteLocatorKind/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/RemoteLocatorKind> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/RemoteLocatorKind/_knop/_references#reference001-source> .
+
+<config/RemoteLocatorKind/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/artifactResolutionFallbackPolicy_exactOnly/_knop> a sflo:Knop ;
+  sflo:designatorPath "ontology/artifactResolutionFallbackPolicy_exactOnly" ;
+  sflo:hasWorkingKnopInventoryFile <ontology/artifactResolutionFallbackPolicy_exactOnly/_knop/_inventory/inventory.ttl> .

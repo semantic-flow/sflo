@@ -8,4 +8,10 @@
 
 <_mesh/_meta> a sflo:MeshMetadata, sflo:DigitalArtifact, sflo:RdfDocument .
 
-<_mesh/_inventory> a sflo:MeshInventory, sflo:DigitalArtifact, sflo:RdfDocument .
+<_mesh/_inventory> a sflo:MeshInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:currentArtifactHistory <_mesh/_inventory/_history001> ;
+  sflo:nextHistoryOrdinal "2"^^xsd:nonNegativeInteger .
+
+<_mesh/_inventory/_history001> a sflo:ArtifactHistory ;
+  sflo:latestHistoricalState <_mesh/_inventory/_history001/_s0380> ;
+  sflo:nextStateOrdinal "381"^^xsd:nonNegativeInteger .

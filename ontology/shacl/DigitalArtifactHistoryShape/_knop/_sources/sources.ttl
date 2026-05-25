@@ -7,11 +7,13 @@
 
 <ontology/shacl/DigitalArtifactHistoryShape/_knop/_sources#extraction-source> a sflo:ExtractionSource ;
   sflo:hasTargetArtifact <ontology/shacl> ;
-  sflo:hasRequestedTargetState <ontology/shacl/releases/v0.1.0> ;
-  sflo:hasArtifactResolutionMode <https://semantic-flow.github.io/sflo/ontology/artifactResolutionMode_pinned> ;
-  sflo:hasObservedSourceState <ontology/shacl/releases/v0.1.0> ;
-  sflo:hasObservedSourceManifestation <ontology/shacl/releases/v0.1.0/ttl> ;
-  sflo:hasObservedSourceLocatedFile <ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl> ;
-  sflo:observedSourceDigest "sha256:ef9f695082c9d8c57832fa686fe0e84fa98c75fdb7144eb34ac92e2e2ce16717" .
+  sflo:hasRequestedTargetState <ontology/shacl/releases/v0.2.0> ;
+  sflo:hasResolutionObservation <ontology/shacl/DigitalArtifactHistoryShape/_knop/_sources#extraction-source-observation-001> .
+
+<ontology/shacl/DigitalArtifactHistoryShape/_knop/_sources#extraction-source-observation-001> a sflo:ArtifactResolutionObservation ;
+  sflo:hasObservedTargetState <ontology/shacl/releases/v0.2.0> ;
+  sflo:hasObservedTargetManifestation <ontology/shacl/releases/v0.2.0/ttl> ;
+  sflo:hasObservedTargetLocatedFile <ontology/shacl/releases/v0.2.0/ttl/semantic-flow-core-shacl.ttl> ;
+  sflo:observedContentDigest "sha256:4ab894b0aa2d883fce2ff6e9239d2fd7a315d15520463ffef44b3cbb156013b6" .
 
 <ontology/shacl/DigitalArtifactHistoryShape/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .

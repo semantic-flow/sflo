@@ -6,4 +6,7 @@
 <ontology/KnopMetadata/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <ontology/KnopMetadata> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <ontology> .
+  sflo:hasReferenceSource <ontology/KnopMetadata/_knop/_references#reference001-source> .
+
+<ontology/KnopMetadata/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <ontology> .

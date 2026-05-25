@@ -6,4 +6,7 @@
 <config/hasConfigResolutionRecord/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/hasConfigResolutionRecord> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/hasConfigResolutionRecord/_knop/_references#reference001-source> .
+
+<config/hasConfigResolutionRecord/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

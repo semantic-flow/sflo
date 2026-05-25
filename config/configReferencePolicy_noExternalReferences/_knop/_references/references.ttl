@@ -6,4 +6,7 @@
 <config/configReferencePolicy_noExternalReferences/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/configReferencePolicy_noExternalReferences> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/configReferencePolicy_noExternalReferences/_knop/_references#reference001-source> .
+
+<config/configReferencePolicy_noExternalReferences/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

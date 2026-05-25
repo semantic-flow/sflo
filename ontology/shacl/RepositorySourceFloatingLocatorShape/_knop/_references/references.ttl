@@ -1,0 +1,12 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/shacl/RepositorySourceFloatingLocatorShape> sflo:hasReferenceLink <ontology/shacl/RepositorySourceFloatingLocatorShape/_knop/_references#reference001> .
+
+<ontology/shacl/RepositorySourceFloatingLocatorShape/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <ontology/shacl/RepositorySourceFloatingLocatorShape> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:hasReferenceSource <ontology/shacl/RepositorySourceFloatingLocatorShape/_knop/_references#reference001-source> .
+
+<ontology/shacl/RepositorySourceFloatingLocatorShape/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <ontology/shacl> .

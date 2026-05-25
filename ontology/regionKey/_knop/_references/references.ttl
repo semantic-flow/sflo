@@ -6,4 +6,7 @@
 <ontology/regionKey/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <ontology/regionKey> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <ontology> .
+  sflo:hasReferenceSource <ontology/regionKey/_knop/_references#reference001-source> .
+
+<ontology/regionKey/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <ontology> .

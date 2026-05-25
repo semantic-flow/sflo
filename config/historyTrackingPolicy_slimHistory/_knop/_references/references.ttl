@@ -6,4 +6,7 @@
 <config/historyTrackingPolicy_slimHistory/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/historyTrackingPolicy_slimHistory> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/historyTrackingPolicy_slimHistory/_knop/_references#reference001-source> .
+
+<config/historyTrackingPolicy_slimHistory/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .

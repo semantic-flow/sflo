@@ -6,4 +6,7 @@
 <config/operationRequestOverridePolicy_warnAndApply/_knop/_references#reference001> a sflo:ReferenceLink ;
   sflo:referenceLinkFor <config/operationRequestOverridePolicy_warnAndApply> ;
   sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
-  sflo:referenceTarget <config> .
+  sflo:hasReferenceSource <config/operationRequestOverridePolicy_warnAndApply/_knop/_references#reference001-source> .
+
+<config/operationRequestOverridePolicy_warnAndApply/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <config> .
