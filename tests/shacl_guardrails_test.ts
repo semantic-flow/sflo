@@ -15,11 +15,23 @@ import {
 const CORE_SHACL_FILE = "semantic-flow-core-shacl.ttl";
 
 const SHAPES = {
+  ArtifactResolutionObservation:
+    `${SFLO_SHACL_NAMESPACE}ArtifactResolutionObservationShape`,
+  ArtifactResolutionObservationLink:
+    `${SFLO_SHACL_NAMESPACE}ArtifactResolutionObservationLinkShape`,
   KnopSourceBinding: `${SFLO_SHACL_NAMESPACE}KnopSourceBindingShape`,
   LocalWorkingSourceBinding:
     `${SFLO_SHACL_NAMESPACE}LocalWorkingSourceBindingShape`,
+  ReferenceLink: `${SFLO_SHACL_NAMESPACE}ReferenceLinkShape`,
+  ReferenceSource: `${SFLO_SHACL_NAMESPACE}ReferenceSourceShape`,
   ArtifactResolutionModeUsage:
     `${SFLO_SHACL_NAMESPACE}ArtifactResolutionModeUsageShape`,
+  ResourcePagePresentationConfig:
+    `${SFLO_SHACL_NAMESPACE}ResourcePagePresentationConfigShape`,
+  ResourcePagePanelSelection:
+    `${SFLO_SHACL_NAMESPACE}ResourcePagePanelSelectionShape`,
+  ResourcePageDefinitionPresentationConfig:
+    `${SFLO_SHACL_NAMESPACE}ResourcePageDefinitionPresentationConfigShape`,
 } as const;
 
 const TERMS = {
@@ -27,24 +39,56 @@ const TERMS = {
   LocalPathAccessRule: `${SFCFG_NAMESPACE}LocalPathAccessRule`,
   PublicationProfile: `${SFCFG_NAMESPACE}PublicationProfile`,
   RemoteAccessRule: `${SFCFG_NAMESPACE}RemoteAccessRule`,
+  ResourcePageDefinition: `${SFLO_NAMESPACE}ResourcePageDefinition`,
   ResourcePagePresentationConfig:
     `${SFCFG_NAMESPACE}ResourcePagePresentationConfig`,
+  ResourcePagePanelSelection: `${SFCFG_NAMESPACE}ResourcePagePanelSelection`,
   artifactResolutionModeLatestState:
     `${SFLO_NAMESPACE}artifactResolutionMode_latestState`,
   artifactResolutionModeWorking:
     `${SFLO_NAMESPACE}artifactResolutionMode_working`,
+  hasInnerResourcePageTemplate:
+    `${SFCFG_NAMESPACE}hasInnerResourcePageTemplate`,
+  hasGeneratedResourcePagePanelSelection:
+    `${SFCFG_NAMESPACE}hasGeneratedResourcePagePanelSelection`,
+  hasPanelDataRequirement: `${SFCFG_NAMESPACE}hasPanelDataRequirement`,
+  hasPanelInclusionPolicy: `${SFCFG_NAMESPACE}hasPanelInclusionPolicy`,
+  hasReferenceSource: `${SFLO_NAMESPACE}hasReferenceSource`,
+  hasResolutionObservation: `${SFLO_NAMESPACE}hasResolutionObservation`,
+  hasResourcePagePresentationConfig:
+    `${SFCFG_NAMESPACE}hasResourcePagePresentationConfig`,
+  hasResourcePagePanel: `${SFCFG_NAMESPACE}hasResourcePagePanel`,
+  hasResourcePagePanelSelection:
+    `${SFCFG_NAMESPACE}hasResourcePagePanelSelection`,
+  hasResourcePageStylesheet: `${SFCFG_NAMESPACE}hasResourcePageStylesheet`,
+  hasOuterResourcePageTemplate:
+    `${SFCFG_NAMESPACE}hasOuterResourcePageTemplate`,
   hasArtifactResolutionMode: `${SFLO_NAMESPACE}hasArtifactResolutionMode`,
   hasRequestedTargetState: `${SFLO_NAMESPACE}hasRequestedTargetState`,
+  hasTargetArtifact: `${SFLO_NAMESPACE}hasTargetArtifact`,
   hasTargetRepositorySource: `${SFLO_NAMESPACE}hasTargetRepositorySource`,
+  observedContentDigest: `${SFLO_NAMESPACE}observedContentDigest`,
+  observedAt: `${SFLO_NAMESPACE}observedAt`,
+  ReferenceSource: `${SFLO_NAMESPACE}ReferenceSource`,
+  ArtifactResolutionObservation:
+    `${SFLO_NAMESPACE}ArtifactResolutionObservation`,
+  panelOrder: `${SFCFG_NAMESPACE}panelOrder`,
   targetLocalRelativePath: `${SFLO_NAMESPACE}targetLocalRelativePath`,
 } as const;
 
 Deno.test("core SHACL declares key source-binding and resolution-mode shapes", async () => {
   const quads = await parseRepoTurtle(CORE_SHACL_FILE);
 
+  assertNodeShape(quads, SHAPES.ReferenceLink);
+  assertNodeShape(quads, SHAPES.ReferenceSource);
+  assertNodeShape(quads, SHAPES.ArtifactResolutionObservation);
+  assertNodeShape(quads, SHAPES.ArtifactResolutionObservationLink);
   assertNodeShape(quads, SHAPES.KnopSourceBinding);
   assertNodeShape(quads, SHAPES.LocalWorkingSourceBinding);
   assertNodeShape(quads, SHAPES.ArtifactResolutionModeUsage);
+  assertNodeShape(quads, SHAPES.ResourcePagePresentationConfig);
+  assertNodeShape(quads, SHAPES.ResourcePagePanelSelection);
+  assertNodeShape(quads, SHAPES.ResourcePageDefinitionPresentationConfig);
 
   assert(
     hasTriple(
@@ -72,6 +116,200 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
       TERMS.hasArtifactResolutionMode,
     ),
     "ArtifactResolutionMode usage shape should target sflo:hasArtifactResolutionMode subjects",
+  );
+});
+
+Deno.test("ReferenceLink SHACL requires exactly one ReferenceSource", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ReferenceLink,
+      SH.targetClass,
+      `${SFLO_NAMESPACE}ReferenceLink`,
+    ),
+    "ReferenceLink shape should target ReferenceLink",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ReferenceLink,
+    TERMS.hasReferenceSource,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ReferenceLink,
+    TERMS.hasReferenceSource,
+    1,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ReferenceSource,
+    TERMS.hasTargetArtifact,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ReferenceSource,
+    TERMS.hasTargetArtifact,
+    1,
+  );
+});
+
+Deno.test("ArtifactResolutionObservation SHACL declares observation evidence constraints", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ArtifactResolutionObservation,
+      SH.targetClass,
+      TERMS.ArtifactResolutionObservation,
+    ),
+    "ArtifactResolutionObservation shape should target ArtifactResolutionObservation",
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ArtifactResolutionObservation,
+    TERMS.observedContentDigest,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ArtifactResolutionObservation,
+    TERMS.observedAt,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ArtifactResolutionObservation,
+    TERMS.observedAt,
+    1,
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ArtifactResolutionObservationLink,
+      SH.targetSubjectsOf,
+      TERMS.hasResolutionObservation,
+    ),
+    "ArtifactResolutionObservationLink shape should target hasResolutionObservation subjects",
+  );
+});
+
+Deno.test("ResourcePage presentation SHACL declares required config and panel selection constraints", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ResourcePagePresentationConfig,
+      SH.targetClass,
+      TERMS.ResourcePagePresentationConfig,
+    ),
+    "ResourcePagePresentationConfig shape should target ResourcePagePresentationConfig",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasOuterResourcePageTemplate,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasOuterResourcePageTemplate,
+    1,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasInnerResourcePageTemplate,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasInnerResourcePageTemplate,
+    1,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasResourcePageStylesheet,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasResourcePagePanelSelection,
+  );
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ResourcePagePanelSelection,
+      SH.targetClass,
+      TERMS.ResourcePagePanelSelection,
+    ),
+    "ResourcePagePanelSelection shape should target ResourcePagePanelSelection",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.hasResourcePagePanel,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.hasResourcePagePanel,
+    1,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.panelOrder,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.panelOrder,
+    1,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.hasPanelInclusionPolicy,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.hasPanelInclusionPolicy,
+    1,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.hasPanelDataRequirement,
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ResourcePageDefinitionPresentationConfig,
+      SH.targetClass,
+      TERMS.ResourcePageDefinition,
+    ),
+    "ResourcePageDefinition presentation shape should target ResourcePageDefinition",
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ResourcePageDefinitionPresentationConfig,
+    TERMS.hasResourcePagePresentationConfig,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePageDefinitionPresentationConfig,
+    TERMS.hasResourcePagePresentationConfig,
+    1,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ResourcePageDefinitionPresentationConfig,
+    TERMS.hasGeneratedResourcePagePanelSelection,
   );
 });
 
@@ -146,6 +384,64 @@ function assertNodeShape(quads: readonly Quad[], subject: string): void {
   assert(
     hasTriple(quads, subject, RDF.type, SH.NodeShape),
     `${subject} should be declared as a sh:NodeShape`,
+  );
+}
+
+function assertRequiredProperty(
+  quads: readonly Quad[],
+  shape: string,
+  path: string,
+): void {
+  const propertyShape = findPropertyShape(quads, shape, path);
+  assert(
+    propertyShape,
+    `${shape} should declare a property shape for ${path}`,
+  );
+  assert(
+    objectsFor(quads, propertyShape.value, SH.minCount).some((term) =>
+      term.value === "1"
+    ),
+    `${shape} ${path} property shape should require at least one value`,
+  );
+}
+
+function assertOptionalProperty(
+  quads: readonly Quad[],
+  shape: string,
+  path: string,
+): void {
+  assert(
+    findPropertyShape(quads, shape, path),
+    `${shape} should declare a property shape for ${path}`,
+  );
+}
+
+function assertPropertyMaxCount(
+  quads: readonly Quad[],
+  shape: string,
+  path: string,
+  maxCount: number,
+): void {
+  const propertyShape = findPropertyShape(quads, shape, path);
+  assert(
+    propertyShape,
+    `${shape} should declare a property shape for ${path}`,
+  );
+  assert(
+    hasTriple(quads, propertyShape.value, SH.maxCount, String(maxCount)),
+    `${shape} ${path} property shape should allow at most ${maxCount} value`,
+  );
+}
+
+function findPropertyShape(
+  quads: readonly Quad[],
+  shape: string,
+  path: string,
+): Term | undefined {
+  return objectsFor(quads, shape, SH.property).find((candidate) =>
+    objectsFor(quads, candidate.value, SH.path).some((term) =>
+      term.value === path
+    )
   );
 }
 

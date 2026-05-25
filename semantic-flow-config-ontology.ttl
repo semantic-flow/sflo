@@ -12,23 +12,23 @@
   dcterms:title "Semantic Flow Config Ontology" ;
   dcterms:description "Vocabulary for Semantic Flow configuration resources, authored config attachment, resolver policy, derived resolved-config records, operational runtime-resolution policy, and resource-page presentation configuration. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/sflo/config/releases/v0.1.0> ;
+  dcterms:hasVersion <https://semantic-flow.github.io/sflo/config/releases/v0.2.0> ;
   dcterms:modified "2026-05-18"^^xsd:date ;
-  owl:versionInfo "0.1.0" ;
-  owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.1.0/semantic-flow-config-ontology.ttl> ;
+  owl:versionInfo "0.2.0" ;
+  owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.2.0/semantic-flow-config-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfcfg" ;
   vann:preferredNamespaceUri "https://semantic-flow.github.io/sflo/config/" .
 
-<https://semantic-flow.github.io/sflo/config/releases/v0.1.0>
+<https://semantic-flow.github.io/sflo/config/releases/v0.2.0>
   a owl:Ontology, sflo:HistoricalState ;
   dcterms:isVersionOf <https://semantic-flow.github.io/sflo/config> ;
-  dcterms:issued "2026-05-17"^^xsd:date ;
-  owl:versionInfo "0.1.0" ;
-  schema:contentUrl <https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> ;
-  sflo:hasManifestation <https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl> .
+  dcterms:issued "2026-05-24"^^xsd:date ;
+  owl:versionInfo "0.2.0" ;
+  schema:contentUrl <https://semantic-flow.github.io/sflo/config/releases/v0.2.0/ttl/semantic-flow-config-ontology.ttl> ;
+  sflo:hasManifestation <https://semantic-flow.github.io/sflo/config/releases/v0.2.0/ttl> .
 
-<https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl>
-  dcat:downloadURL <https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl> .
+<https://semantic-flow.github.io/sflo/config/releases/v0.2.0/ttl>
+  dcat:downloadURL <https://semantic-flow.github.io/sflo/config/releases/v0.2.0/ttl/semantic-flow-config-ontology.ttl> .
 
 #################################################################
 #################################################################
@@ -893,6 +893,125 @@
   rdfs:domain <ResourcePagePresentationConfig> ;
   rdfs:range <ResourcePageStylesheet> ;
   rdfs:label "has ResourcePage stylesheet" .
+
+<hasDefaultResourcePagePresentationConfig> a owl:ObjectProperty ;
+  rdfs:subPropertyOf <hasConfig> ;
+  rdfs:domain <Config> ;
+  rdfs:range <ResourcePagePresentationConfig> ;
+  rdfs:label "has default ResourcePage presentation config" ;
+  rdfs:comment "Associates an application, mesh, Knop, or reusable Config with the default ResourcePage presentation profile to use when no nearer presentation config applies." .
+
+<ResourcePagePanel> a rdfs:Class ;
+  rdfs:label "ResourcePage panel" ;
+  rdfs:comment "A reusable structured ResourcePage component, such as children, references, history, raw source, or Semantic Flow metadata. Panel identities select code-backed structured components; arbitrary external panel renderers are out of scope for the first presentation-config model." .
+
+<ResourcePagePanelSelection> a rdfs:Class ;
+  rdfs:label "ResourcePage panel selection" ;
+  rdfs:comment "A named presentation-profile component that selects a ResourcePagePanel together with ordering, inclusion policy, targeting, and data-availability constraints." .
+
+<ResourcePagePanelInclusionPolicy> a rdfs:Class ;
+  rdfs:label "ResourcePage panel inclusion policy" .
+
+<panelInclusionPolicy_auto> a <ResourcePagePanelInclusionPolicy> ;
+  rdfs:label "auto" ;
+  rdfs:comment "Include the panel when it is selected, targeted to the page, and the runtime has the required panel data." .
+
+<ResourcePageKind> a rdfs:Class ;
+  rdfs:label "ResourcePage kind" ;
+  rdfs:comment "A controlled vocabulary for targeting presentation rules to runtime ResourcePage document kinds." .
+
+<resourcePageKind_identifier> a <ResourcePageKind> ;
+  rdfs:label "identifier ResourcePage" .
+
+<resourcePageKind_knop> a <ResourcePageKind> ;
+  rdfs:label "Knop ResourcePage" .
+
+<resourcePageKind_simple> a <ResourcePageKind> ;
+  rdfs:label "simple ResourcePage" .
+
+<resourcePageKind_referenceCatalog> a <ResourcePageKind> ;
+  rdfs:label "ReferenceCatalog ResourcePage" .
+
+<ResourcePagePanelDataRequirement> a rdfs:Class ;
+  rdfs:label "ResourcePage panel data requirement" ;
+  rdfs:comment "A controlled vocabulary describing the structured runtime data a selected code-backed panel needs before it can render." .
+
+<panelDataRequirement_children> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "children" .
+
+<panelDataRequirement_rdfProperties> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "RDF properties" .
+
+<panelDataRequirement_blankNodes> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "blank nodes" .
+
+<panelDataRequirement_references> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "references" .
+
+<panelDataRequirement_currentReferenceLinks> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "current reference links" .
+
+<panelDataRequirement_knopArtifacts> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "Knop artifacts" .
+
+<panelDataRequirement_factSections> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "fact sections" .
+
+<panelDataRequirement_rawSource> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "raw source" .
+
+<panelDataRequirement_history> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "history" .
+
+<panelDataRequirement_semanticFlowMetadataOptIn> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "Semantic Flow metadata opt-in" .
+
+<hasResourcePagePanelSelection> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePagePresentationConfig> ;
+  rdfs:range <ResourcePagePanelSelection> ;
+  rdfs:label "has ResourcePage panel selection" .
+
+<hasGeneratedResourcePagePanelSelection> a owl:ObjectProperty ;
+  rdfs:domain sflo:ResourcePageDefinition ;
+  rdfs:range <ResourcePagePanelSelection> ;
+  rdfs:label "has generated ResourcePage panel selection" ;
+  rdfs:comment "Allows an authored ResourcePageDefinition to opt into selected generated/code-backed ResourcePage panels in addition to authored page regions. Runtime should render authored regions before these generated panels unless a later explicit ordering model says otherwise." .
+
+<hasResourcePagePanel> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePagePanelSelection> ;
+  rdfs:range <ResourcePagePanel> ;
+  rdfs:label "has ResourcePage panel" .
+
+<panelOrder> a owl:DatatypeProperty ;
+  rdfs:domain <ResourcePagePanelSelection> ;
+  rdfs:range xsd:nonNegativeInteger ;
+  rdfs:label "panel order" ;
+  rdfs:comment "A deterministic sort key for selected ResourcePage panels. Ties are resolved by config precedence and then selection IRI." .
+
+<hasPanelInclusionPolicy> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePagePanelSelection> ;
+  rdfs:range <ResourcePagePanelInclusionPolicy> ;
+  rdfs:label "has panel inclusion policy" .
+
+<hasPanelTargetPageKind> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePagePanelSelection> ;
+  rdfs:range <ResourcePageKind> ;
+  rdfs:label "has panel target page kind" .
+
+<hasPanelTargetClass> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePagePanelSelection> ;
+  rdfs:range rdfs:Class ;
+  rdfs:label "has panel target class" .
+
+<hasPanelTargetArtifactRole> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePagePanelSelection> ;
+  rdfs:range <ArtifactRole> ;
+  rdfs:label "has panel target artifact role" .
+
+<hasPanelDataRequirement> a owl:ObjectProperty ;
+  rdfs:domain <ResourcePagePanelSelection> ;
+  rdfs:range <ResourcePagePanelDataRequirement> ;
+  rdfs:label "has panel data requirement" .
 
 <renderedAt> a owl:DatatypeProperty ;
   rdfs:domain <ResourcePageRenderRecord> ;

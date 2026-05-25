@@ -1,5 +1,11 @@
 import { fromFileUrl, join } from "@std/path";
 import { Parser, type Quad, type Term } from "n3";
+import {
+  ACTIVE_RELEASE_FILES,
+  isSemver,
+  type ReleaseFileDescriptor,
+  releaseIris,
+} from "./release_metadata.ts";
 
 const REPO_ROOT = fromFileUrl(new URL("../", import.meta.url));
 
@@ -44,44 +50,6 @@ const SFLO = {
     "https://semantic-flow.github.io/sflo/ontology/hasManifestation",
 } as const;
 
-const ACTIVE_RELEASE_FILES = [
-  {
-    file: "semantic-flow-core-ontology.ttl",
-    ontologyIri: "https://semantic-flow.github.io/sflo/ontology",
-    namespaceUri: "https://semantic-flow.github.io/sflo/ontology/",
-    prefix: "sflo",
-    pagesPublished: true,
-  },
-  {
-    file: "semantic-flow-core-shacl.ttl",
-    ontologyIri: "https://semantic-flow.github.io/sflo/ontology/shacl",
-    namespaceUri: "https://semantic-flow.github.io/sflo/ontology/shacl/",
-    prefix: "sflo-shacl",
-    pagesPublished: true,
-  },
-  {
-    file: "semantic-flow-config-ontology.ttl",
-    ontologyIri: "https://semantic-flow.github.io/sflo/config",
-    namespaceUri: "https://semantic-flow.github.io/sflo/config/",
-    prefix: "sfcfg",
-    pagesPublished: true,
-  },
-  {
-    file: "semantic-flow-job-ontology.ttl",
-    ontologyIri: "https://semantic-flow.github.io/ontology/job",
-    namespaceUri: "https://semantic-flow.github.io/ontology/job/",
-    prefix: "sfjob",
-    pagesPublished: false,
-  },
-  {
-    file: "semantic-flow-prov-ontology.ttl",
-    ontologyIri: "https://semantic-flow.github.io/ontology/prov",
-    namespaceUri: "https://semantic-flow.github.io/ontology/prov/",
-    prefix: "sfprov",
-    pagesPublished: false,
-  },
-] as const;
-
 export interface ReleaseValidationOptions {
   expectedVersion?: string;
   requireTag?: boolean;
@@ -102,7 +70,7 @@ type GitRunner = (
 
 interface ParsedReleaseFile {
   contents: string;
-  descriptor: typeof ACTIVE_RELEASE_FILES[number];
+  descriptor: ReleaseFileDescriptor;
   quads: readonly Quad[];
 }
 
@@ -113,6 +81,14 @@ export async function validateRelease(
   const errors: string[] = [];
   const warnings: string[] = [];
   const parsedFiles: ParsedReleaseFile[] = [];
+  const expectedVersion = options.expectedVersion;
+
+  if (expectedVersion && !isSemver(expectedVersion)) {
+    return {
+      errors: [`--version must be SemVer-shaped, got ${expectedVersion}`],
+      warnings,
+    };
+  }
 
   for (const descriptor of ACTIVE_RELEASE_FILES) {
     try {
@@ -131,7 +107,7 @@ export async function validateRelease(
   const versions = new Set<string>();
 
   for (const parsedFile of parsedFiles) {
-    const version = validateReleaseFile(parsedFile, errors);
+    const version = validateReleaseFile(parsedFile, errors, expectedVersion);
     if (version) {
       versions.add(version);
     }
@@ -146,18 +122,13 @@ export async function validateRelease(
     );
   }
 
-  if (options.expectedVersion) {
-    if (!isSemver(options.expectedVersion)) {
+  if (expectedVersion) {
+    if (version && version !== expectedVersion) {
       errors.push(
-        `--version must be SemVer-shaped, got ${options.expectedVersion}`,
+        `release metadata declares ${version}, but --version requested ${expectedVersion}`,
       );
     }
-    if (version && version !== options.expectedVersion) {
-      errors.push(
-        `release metadata declares ${version}, but --version requested ${options.expectedVersion}`,
-      );
-    }
-    version = options.expectedVersion;
+    version = expectedVersion;
   }
 
   if (version) {
@@ -177,6 +148,10 @@ export function parseReleaseValidateArgs(args: readonly string[]): {
 
   for (let index = 0; index < args.length; index++) {
     const arg = args[index];
+
+    if (arg === "--") {
+      continue;
+    }
 
     if (arg === "--require-tag") {
       requireTag = true;
@@ -234,10 +209,11 @@ async function validateReleaseNotes(
       continue;
     }
 
-    const contentUrl =
-      `${descriptor.ontologyIri}/releases/v${version}/ttl/${descriptor.file}`;
-    if (!contents.includes(contentUrl)) {
-      errors.push(`${notePath}: should list published payload ${contentUrl}`);
+    const { releasePayloadIri } = releaseIris(descriptor, version);
+    if (!contents.includes(releasePayloadIri)) {
+      errors.push(
+        `${notePath}: should list published payload ${releasePayloadIri}`,
+      );
     }
   }
 }
@@ -280,6 +256,7 @@ async function validateTagPolicy(
 function validateReleaseFile(
   parsedFile: ParsedReleaseFile,
   errors: string[],
+  expectedVersion?: string,
 ): string | undefined {
   const { contents, descriptor, quads } = parsedFile;
   const { file, namespaceUri, ontologyIri, prefix } = descriptor;
@@ -293,7 +270,9 @@ function validateReleaseFile(
     subject,
     OWL.versionInfo,
     errors,
-    { expectedLiteral: true },
+    expectedVersion
+      ? { expectedLiteralValue: expectedVersion }
+      : { expectedLiteral: true },
   );
   const version = versionInfo?.value;
 
@@ -302,11 +281,15 @@ function validateReleaseFile(
     return version;
   }
 
-  const releaseIri = `${ontologyIri}/releases/v${version}`;
-  const manifestationIri = `${releaseIri}/ttl`;
-  const releasePayloadIri = `${manifestationIri}/${file}`;
-  const versionIri =
-    `https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v${version}/${file}`;
+  const validationVersion = expectedVersion && isSemver(expectedVersion)
+    ? expectedVersion
+    : version;
+  const {
+    manifestationIri,
+    releaseIri,
+    releasePayloadIri,
+    versionIri,
+  } = releaseIris(descriptor, validationVersion);
 
   requireSingleObject(quads, file, subject, DCTERMS.hasVersion, errors, {
     expectedNamedNode: releaseIri,
@@ -344,7 +327,7 @@ function validateReleaseFile(
     expectedNamedNode: ontologyIri,
   });
   requireSingleObject(quads, file, releaseIri, OWL.versionInfo, errors, {
-    expectedLiteralValue: version,
+    expectedLiteralValue: validationVersion,
   });
   requireSingleObject(quads, file, releaseIri, SCHEMA.contentUrl, errors, {
     expectedNamedNode: releasePayloadIri,
@@ -500,10 +483,6 @@ async function runGitCommand(
 
 function quadTerms(quad: Quad): readonly Term[] {
   return [quad.subject, quad.predicate, quad.object, quad.graph];
-}
-
-function isSemver(value: string): boolean {
-  return /^\d+\.\d+\.\d+$/.test(value);
 }
 
 function compactIri(value: string): string {

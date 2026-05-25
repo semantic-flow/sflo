@@ -40,7 +40,7 @@ Use `designatorPath` when you mean the modeled mesh-relative naming value on a `
 Use `designator` only as informal prose shorthand for that value.
 Use `Semantic Flow identifier` when you mean the full IRI formed from a mesh base plus a `Knop`'s `designatorPath`.
 
-For detailed `ReferenceCatalog` / `ReferenceLink` serialization and dereferenceability rules, see [ont.reference-links.md](./ont.reference-links.md).
+For detailed `ReferenceCatalog` / `ReferenceLink` serialization and dereferenceability rules, see [[ont.reference-links]].
 
 ### Canonical URLs On Static Hosts
 
@@ -141,20 +141,25 @@ Substantive RDF about a referent should normally live in a payload artifact or d
 - `ResourcePageDefinition` is a separate artifact-level control resource for customized identifier-page composition; it is not the same thing as the generated HTML `ResourcePage`
 - `KnopAssetBundle` is a bounded helper structure for local `_knop/_assets` modeling and does not by itself imply governed artifacts or recursive inventory capture
 - `KnopSourceRegistry` is a Knop-owned support artifact for source bindings, conventionally materialized under `_knop/_sources`; it records materialization sources and extraction provenance rather than operational mesh configuration or descriptive payload facts
-- `ArtifactResolutionTarget` is the generic policy-bearing relator for application concerns that need to resolve bytes from an artifact, a direct mesh-local path string, a direct access URL, a specific `LocatedFile`, or another explicit packaged target together with optional history/state/mode/fallback inputs
+- `ArtifactResolutionTarget` is the generic policy-bearing relator for application concerns that need to resolve bytes from an artifact, a direct mesh-local path string, a direct access URL, a specific `LocatedFile`, or another explicit packaged target together with optional history/state/mode/fallback inputs; it carries requested coordinates and expectations, not observed evidence directly
+- `ArtifactResolutionObservation` is the relator for observed resolution evidence such as observed state, manifestation, located file, local path, content digest, timestamp, and observer; targets link to observations with `hasResolutionObservation` when an operation intentionally records evidence
 - `ExtractionSource` specializes `ArtifactResolutionTarget` for the source RDF document bytes from which a Knop-managed resource was extracted or first grounded; Knops link to it with `hasExtractionSource`, usually as a source-registry fragment such as `D/_knop/_sources#extraction-source`
+- `ReferenceSource` specializes `ArtifactResolutionTarget` for RDF reference data used by a `ReferenceLink`; it normally lives in the `ReferenceCatalog` beside the owning link
+- `ImportSource` specializes `ArtifactResolutionTarget` for source bytes actively acquired and copied into a governed local working surface by import
+- `IntegrationSource` specializes `ArtifactResolutionTarget` for existing source bytes registered where they already live by integrate
 - `ResourcePageRegion` and `ResourcePageSource` describe page-content composition in core; `ResourcePageSource` specializes `ArtifactResolutionTarget` and uses the generic target/history/state/mode/fallback properties directly while template/chrome policy remains a separate config concern
-- `ReferenceLink` may target either a broad resource identity through `referenceTarget` or a version-pinned state through `referenceTargetState`.
+- `ReferenceLink` is a curated RDF reference-data relator about the resource named by `referenceLinkFor`; it points to exactly one `ReferenceSource` with `hasReferenceSource`, and that source uses generic target coordinates such as `hasTargetArtifact` and `hasRequestedTargetState`
 - `designatorPath` is the mesh-relative path-like naming value carried by a `Knop`; it is not a generic path property for every `SemanticFlowResource`.
 - a `Semantic Flow identifier` is the public IRI formed from `meshBase + Knop.designatorPath`; support resources in the mesh may still have ordinary IRIs without thereby being Semantic Flow identifiers.
 - `preferredPayloadFileSlug` is the mutable filename preference.
 
 Source registries are the current home for two related but distinct records:
 
-- repository-backed materialization bindings, where an `ArtifactResolutionTarget` records the target artifact plus repository URL, ref, resolved commit, repository-relative path, and byte digest for the source that was copied into the mesh
-- extraction provenance, where an `ExtractionSource` records the source artifact coordinates used to ground an extracted Knop, the resolution mode, the observed state/manifestation/located file when those are available, an observed digest, and at most a local relative path fallback when no durable located file is modeled
+- integration bindings, where an `IntegrationSource` records existing source bytes where they already live, such as repository URL, ref, resolved commit, repository-relative path, local relative path, or byte digest expectations
+- import bindings, where an `ImportSource` records source bytes actively acquired and copied into a governed working surface
+- extraction provenance, where an `ExtractionSource` records the source artifact coordinates used to ground an extracted Knop and links to `ArtifactResolutionObservation` records for observed state, manifestation, located file, local path, digest, timestamp, or observer evidence when intentionally recorded
 
-These records are not curated references. Use `ReferenceCatalog` / `ReferenceLink` when the mesh wants to say that one resource intentionally references another. Use `_knop/_sources` when the mesh needs to explain where carried bytes or extracted-term evidence came from. Inventory-rooted extraction-source detail blocks are historical only; current serialization keeps the details in `_knop/_sources/sources.ttl` and lets the Knop inventory point to that registry and to the primary extraction source.
+These records are not curated references. Use `ReferenceCatalog` / `ReferenceLink` / `ReferenceSource` when the mesh wants to say that one resource intentionally references RDF data about it. Use `_knop/_sources` when the mesh needs to explain where carried bytes or extracted-term evidence came from. Inventory-rooted extraction-source detail blocks are historical only; current serialization keeps the details in `_knop/_sources/sources.ttl` and lets the Knop inventory point to that registry and to the primary extraction source.
 
 ## Things To Not Reintroduce
 

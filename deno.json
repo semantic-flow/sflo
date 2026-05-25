@@ -4,7 +4,8 @@
     "fmt:check": "deno fmt --check deno.json scripts tests",
     "lint": "deno lint scripts tests",
     "check": "deno check scripts/**/*.ts tests/**/*.ts",
-    "test": "deno test --allow-read --allow-env=READABLE_STREAM tests",
+    "test": "deno test --allow-read --allow-write --allow-env=READABLE_STREAM tests",
+    "release:set-version": "deno run --allow-read --allow-write scripts/release_set_version.ts",
     "release:validate": "deno run --allow-read --allow-run=git --allow-env=READABLE_STREAM scripts/release_validate.ts",
     "ci": "deno task fmt:check && deno task lint && deno task check && deno task test && deno task release:validate"
   },

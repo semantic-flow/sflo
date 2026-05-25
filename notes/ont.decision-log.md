@@ -10,6 +10,24 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-05-24: Separate resolution targets from resolution observations and clarify reference sources
+
+- Status: Active
+- Decision: Keep `ArtifactResolutionTarget` as the requested-coordinate / resolution-policy relator, and add `ArtifactResolutionObservation` for observed resolution evidence. Add `ReferenceSource`, `ImportSource`, and `IntegrationSource` as `ArtifactResolutionTarget` subclasses alongside existing `ExtractionSource` and `ResourcePageSource`. Replace direct `ReferenceLink` target vocabulary with `hasReferenceSource`; remove `referenceTarget`, `referenceTargetState`, `referenceUriLiteral`, and extraction-scoped observed-source properties from the live model.
+- References: [[ont.summary.core]], [[ont.reference-links]], [[ont.task.2026.2026-05-24_1256-artifact-resolution-observations]], [[wa.task.2026.2026-05-22_1128-referencelink-clarification]]
+- Why:
+  - requested coordinates and observations have different lifecycles: coordinates are source-binding policy, while observations are appendable evidence records
+  - extraction-specific observed evidence would become increasingly awkward as import, integrate, reference, and page-source resolution all need the same evidence pattern
+  - `referenceTarget` was misleading because the target of the reference relation is already named by `referenceLinkFor`; the RDF data being read is a source
+  - `ReferenceLink` should remain the semantic curated-reference relator, while `ReferenceSource` carries byte-resolution coordinates
+  - import and integrate are distinct application concerns and should not be hidden behind bare `ArtifactResolutionTarget` bindings
+- Notes:
+  - `ReferenceLink` remains RDF-reference-data-only in this slice; do not rename it to `RdfReferenceLink`
+  - use `hasReferenceSource` from `ReferenceLink` to exactly one `ReferenceSource` in the first slice
+  - use `hasResolutionObservation` from an `ArtifactResolutionTarget` subclass to one or more `ArtifactResolutionObservation` records when an operation intentionally records evidence
+  - keep `expectsContentDigest` on `ArtifactResolutionTarget`, but record observed byte identity as `observedContentDigest` on observations
+  - ordinary runtime reads and page generation should not mutate RDF merely by resolving source bytes
+
 ### 2026-05-16: Separate sparse artifact file links from manifestation file links
 
 - Status: Active

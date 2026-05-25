@@ -39,6 +39,7 @@ Because the first action re-renders existing mesh state instead of appending pay
 - `weave prepare gh-pages` has been removed rather than deprecated; detached publication roots should use composed mesh operations.
 - The first sflo-owned Deno guardrail harness now runs RDF parseability, duplicate-triple, config namespace, retired-term, and selected SHACL source-binding checks, and [[ont.dev.release-runbook]] now includes `deno task ci` as a release preflight command.
 - SFLO now has `deno task release:validate`, which checks active source Turtle release metadata, namespace policy, release notes, version URLs, and optional tag-at-HEAD consistency with `--require-tag`.
+- SFLO now has `deno task release:set-version`, which rewrites deterministic release metadata in the active Turtle files for an explicit version and issue date without creating tags, commits, release notes, or Pages output.
 
 ### Action: Re-generate Resource Pages
 
@@ -133,6 +134,7 @@ The GitHub Actions work should therefore be staged:
 
 - For documentation-only work, run `git diff --check`.
 - For the current Deno harness slice, run `deno task ci` in sflo.
+- To prepare source Turtle metadata for a chosen release, run `deno task release:set-version -- --version <version> --issued <yyyy-mm-dd>`, then validate it.
 - For source release validation only, run `deno task release:validate -- --version <version>`; after the tag exists locally, add `--require-tag`.
 - [x] Before closing this task, add release-validation coverage for active Turtle files and release metadata.
 - Before closing this task, add ResourcePage-action coverage that proves the action runs validation/generation without appending payload states.
@@ -158,6 +160,7 @@ The GitHub Actions work should therefore be staged:
 - [ ] Finish or unblock [[wa.task.2026.2026-05-18_0627-remove-prepare]] and [[wa.task.2026.2026-05-17_2206-prepare-symmetry]] enough that branch-published meshes use the same conceptual operations as sidecar meshes.
 - [x] Update [[ont.dev.release-runbook]] to remove `prepare gh-pages`, document validation/generation for existing publication meshes, and call out the detached-source integration path.
 - [x] Add an SFLO release-validation script or command covering source Turtle, release metadata, release notes, namespace policy, and tag/version consistency.
+- [x] Add an SFLO release metadata setter for deterministic Turtle version, release IRI, tag URL, payload URL, and issued-date updates.
 - [ ] Add a GitHub Actions workflow for "Re-generate Resource Pages" with a `run_weave_validate` input.
 - [ ] Add a GitHub Actions workflow for "Release" with a `generate_after_validation` input.
 - [ ] Add a publication dry-run/reporting step once the publication command path is stable.

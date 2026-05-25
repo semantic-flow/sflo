@@ -10,17 +10,33 @@ created: 1775175668572
 
 This note captures the current serialization and generation rules for `ReferenceCatalog` and `ReferenceLink`.
 
-Use it as the detailed companion to [ont.summary.core.md](./ont.summary.core.md). The summary note should stay compact; the path, fragment-IRI, and dereferenceability rules belong here.
+Use it as the detailed companion to [[ont.summary.core]]. The summary note should stay compact; the path, fragment-IRI, and dereferenceability rules belong here.
 
 ## Core Model
 
 - `ReferenceCatalog` is a narrow support artifact for managed `ReferenceLink` relators.
 - A `ReferenceCatalog` is owned by a `Knop` or `SemanticMesh`, but its contents are about the referent or mesh subject rather than about the support object as such.
 - `referenceLinkFor` points to the actual subject resource, not to a `Knop`.
-- `referenceTarget` points to a broad resource identity.
-- `referenceTargetState` may be used when a link should pin to a specific `HistoricalState`.
+- `hasReferenceSource` points to the `ReferenceSource` that identifies the RDF reference data used by the link.
+- `ReferenceSource` is an `ArtifactResolutionTarget` subclass. It uses generic target-resolution vocabulary such as `hasTargetArtifact`, `hasRequestedTargetState`, `targetAccessUrl`, and repository locator properties.
+- A first-slice `ReferenceSource` that uses `hasTargetArtifact` should target an `RdfDocument`. Non-RDF content such as Markdown page prose does not belong in `ReferenceLink`.
 
 `verifiedAt` and `verifiedBy` remain latest-verification convenience fields on `ReferenceLink`. They do not yet imply a separate verification object model.
+
+If source verification is intentionally recorded, the `ReferenceSource` should link to an `ArtifactResolutionObservation` with `hasResolutionObservation`. Ordinary page generation or source reads should not append observation records merely because bytes were resolved.
+
+Example:
+
+```turtle
+<alice/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <alice> ;
+  sflo:hasReferenceRole sflo:referenceRole_canonical ;
+  sflo:hasReferenceSource <alice/_knop/_references#reference001-source> .
+
+<alice/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:hasTargetArtifact <alice/bio> ;
+  sflo:hasRequestedTargetState <alice/bio/_history001/_s0002> .
+```
 
 ## Serialization Direction
 
@@ -45,6 +61,7 @@ This keeps `ReferenceCatalog` aligned with other support artifacts such as `_met
 For example:
 
 - `<alice/_knop/_references#reference001>`
+- `<alice/_knop/_references#reference001-source>` for the companion `ReferenceSource`
 
 Use the same mesh-root `@base` everywhere in the mesh or sub-mesh, and write the full mesh-root-relative fragment IRI explicitly. Do not use bare `<#reference001>` in historical snapshots, because that would re-root the identity to the snapshot document instead of preserving the stable catalog-fragment IRI.
 
@@ -82,5 +99,7 @@ If historical link-name collisions are detected while scanning current plus prio
 ## Scope Boundaries
 
 - `ReferenceCatalog` is for `ReferenceLink` relators only.
+- `ReferenceLink` is for curated RDF reference data; do not use it for page prose, Markdown imports, image assets, or generic source provenance.
+- `ReferenceSource` helper nodes may live in the same catalog because they are immediate source bindings for the links.
 - Broader descriptive RDF about the referent should normally live in a payload artifact or dataset.
 - This note does not broaden `ReferenceCatalog` to cover `owl:sameAs` or arbitrary referent description.
