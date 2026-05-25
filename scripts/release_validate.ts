@@ -81,6 +81,14 @@ export async function validateRelease(
   const errors: string[] = [];
   const warnings: string[] = [];
   const parsedFiles: ParsedReleaseFile[] = [];
+  const expectedVersion = options.expectedVersion;
+
+  if (expectedVersion && !isSemver(expectedVersion)) {
+    return {
+      errors: [`--version must be SemVer-shaped, got ${expectedVersion}`],
+      warnings,
+    };
+  }
 
   for (const descriptor of ACTIVE_RELEASE_FILES) {
     try {
@@ -97,8 +105,6 @@ export async function validateRelease(
   }
 
   const versions = new Set<string>();
-
-  const expectedVersion = options.expectedVersion;
 
   for (const parsedFile of parsedFiles) {
     const version = validateReleaseFile(parsedFile, errors, expectedVersion);
@@ -117,11 +123,6 @@ export async function validateRelease(
   }
 
   if (expectedVersion) {
-    if (!isSemver(expectedVersion)) {
-      errors.push(
-        `--version must be SemVer-shaped, got ${expectedVersion}`,
-      );
-    }
     if (version && version !== expectedVersion) {
       errors.push(
         `release metadata declares ${version}, but --version requested ${expectedVersion}`,

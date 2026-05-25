@@ -74,6 +74,17 @@ Deno.test("release validation can require the release tag to point at HEAD", asy
   ]);
 });
 
+Deno.test("release validation rejects invalid expected version without cascading errors", async () => {
+  const result = await validateRelease({
+    expectedVersion: "not-a-version",
+    root: REPO_ROOT,
+  });
+
+  assertEquals(result.errors, [
+    "--version must be SemVer-shaped, got not-a-version",
+  ]);
+});
+
 Deno.test("release validation argument parser supports version and tag flags", () => {
   assertEquals(
     parseReleaseValidateArgs(["--", "--version", "0.1.1", "--require-tag"]),

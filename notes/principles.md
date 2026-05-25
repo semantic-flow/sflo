@@ -2,7 +2,7 @@
 id: p9f3gmbx90yp2trxcvrz8pe
 title: Principles
 desc: ''
-updated: 1779667598785
+updated: 1779677678383
 created: 1773878299267
 ---
 
@@ -25,4 +25,4 @@ Ideally, once minted, states don't change. Excpetions for privacy/security conce
 
 ## Avoid local path leakage into published meshes
 
-Maybe it's occasionally avoidable when working files are outside the repo, but ArtifactResolutionTargets should be URLs or repo targets, as local path relations aren't consistent between devices. th
+Maybe it's occasionally avoidable when working files are outside the repo, but ArtifactResolutionTargets work better as URLs or repo targets, since local path relations aren't consistent between devices.

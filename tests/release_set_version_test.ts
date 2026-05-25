@@ -6,6 +6,7 @@ import {
 } from "../scripts/release_set_version.ts";
 import {
   ACTIVE_RELEASE_FILES,
+  isDate,
   releaseIris,
 } from "../scripts/release_metadata.ts";
 import { validateRelease } from "../scripts/release_validate.ts";
@@ -87,6 +88,15 @@ Deno.test("release set-version argument parser supports task separators", () => 
       version: "0.1.1",
     },
   );
+});
+
+Deno.test("release date validation rejects impossible calendar dates", () => {
+  assertEquals(isDate("2026-02-28"), true);
+  assertEquals(isDate("2024-02-29"), true);
+  assertEquals(isDate("2026-02-29"), false);
+  assertEquals(isDate("2026-02-31"), false);
+  assertEquals(isDate("2026-13-01"), false);
+  assertEquals(isDate("2026-00-01"), false);
 });
 
 async function copyReleaseFixture(targetVersion: string): Promise<string> {
