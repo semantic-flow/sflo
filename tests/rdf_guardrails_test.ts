@@ -175,8 +175,7 @@ Deno.test("old ReferenceLink and observed-source vocabulary stay retired", async
 Deno.test("core ontology declares shared artifact-resolution source and observation classes", async () => {
   const quads = await parseRepoTurtle("semantic-flow-core-ontology.ttl");
 
-  const artifactResolutionTarget =
-    `${SFLO_NAMESPACE}ArtifactResolutionTarget`;
+  const artifactResolutionTarget = `${SFLO_NAMESPACE}ArtifactResolutionTarget`;
 
   for (
     const sourceClass of [
