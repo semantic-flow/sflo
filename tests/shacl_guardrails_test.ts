@@ -136,10 +136,22 @@ Deno.test("ReferenceLink SHACL requires exactly one ReferenceSource", async () =
     SHAPES.ReferenceLink,
     TERMS.hasReferenceSource,
   );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ReferenceLink,
+    TERMS.hasReferenceSource,
+    1,
+  );
   assertOptionalProperty(
     quads,
     SHAPES.ReferenceSource,
     TERMS.hasTargetArtifact,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ReferenceSource,
+    TERMS.hasTargetArtifact,
+    1,
   );
 });
 
@@ -164,6 +176,12 @@ Deno.test("ArtifactResolutionObservation SHACL declares observation evidence con
     quads,
     SHAPES.ArtifactResolutionObservation,
     TERMS.observedAt,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ArtifactResolutionObservation,
+    TERMS.observedAt,
+    1,
   );
   assert(
     hasTriple(
@@ -193,10 +211,22 @@ Deno.test("ResourcePage presentation SHACL declares required config and panel se
     SHAPES.ResourcePagePresentationConfig,
     TERMS.hasOuterResourcePageTemplate,
   );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasOuterResourcePageTemplate,
+    1,
+  );
   assertRequiredProperty(
     quads,
     SHAPES.ResourcePagePresentationConfig,
     TERMS.hasInnerResourcePageTemplate,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePagePresentationConfig,
+    TERMS.hasInnerResourcePageTemplate,
+    1,
   );
   assertRequiredProperty(
     quads,
@@ -223,15 +253,33 @@ Deno.test("ResourcePage presentation SHACL declares required config and panel se
     SHAPES.ResourcePagePanelSelection,
     TERMS.hasResourcePagePanel,
   );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.hasResourcePagePanel,
+    1,
+  );
   assertRequiredProperty(
     quads,
     SHAPES.ResourcePagePanelSelection,
     TERMS.panelOrder,
   );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.panelOrder,
+    1,
+  );
   assertRequiredProperty(
     quads,
     SHAPES.ResourcePagePanelSelection,
     TERMS.hasPanelInclusionPolicy,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePagePanelSelection,
+    TERMS.hasPanelInclusionPolicy,
+    1,
   );
   assertRequiredProperty(
     quads,
@@ -251,6 +299,12 @@ Deno.test("ResourcePage presentation SHACL declares required config and panel se
     quads,
     SHAPES.ResourcePageDefinitionPresentationConfig,
     TERMS.hasResourcePagePresentationConfig,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ResourcePageDefinitionPresentationConfig,
+    TERMS.hasResourcePagePresentationConfig,
+    1,
   );
   assertOptionalProperty(
     quads,
@@ -359,6 +413,23 @@ function assertOptionalProperty(
   assert(
     findPropertyShape(quads, shape, path),
     `${shape} should declare a property shape for ${path}`,
+  );
+}
+
+function assertPropertyMaxCount(
+  quads: readonly Quad[],
+  shape: string,
+  path: string,
+  maxCount: number,
+): void {
+  const propertyShape = findPropertyShape(quads, shape, path);
+  assert(
+    propertyShape,
+    `${shape} should declare a property shape for ${path}`,
+  );
+  assert(
+    hasTriple(quads, propertyShape.value, SH.maxCount, String(maxCount)),
+    `${shape} ${path} property shape should allow at most ${maxCount} value`,
   );
 }
 
