@@ -71,4 +71,4 @@ In hierarchy-backed serializations, non-file referents may still be served from 
 
 - [[ont.summary.core]]
 - [[ont.use-case.biographical-data-publishing]]
-- [[principles]]
+- [[sf.principles]]
