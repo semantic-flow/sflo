@@ -261,9 +261,9 @@
   rdfs:comment "A relator describing a curated RDF reference-data link about a resource, including role metadata and a source binding for the RDF data that supports or describes the resource." .
 
 <ReferenceSource> a rdfs:Class ;
-  rdfs:subClassOf <ArtifactResolutionTarget> ;
+  rdfs:subClassOf <ArtifactResolutionSpec> ;
   rdfs:label "Reference source" ;
-  rdfs:comment "An artifact-resolution target that identifies RDF reference-data bytes used by a ReferenceLink. ReferenceSource records are normally carried in the ReferenceCatalog beside their owning ReferenceLink." .
+  rdfs:comment "An artifact-resolution spec that identifies RDF reference-data bytes used by a ReferenceLink. ReferenceSource records are normally carried in the ReferenceCatalog beside their owning ReferenceLink." .
 
 <ReferenceRole> a rdfs:Class ;
   rdfs:label "Reference role" ;
@@ -471,9 +471,9 @@
 
 <hasSourceBinding> a owl:ObjectProperty ;
   rdfs:domain <KnopSourceRegistry> ;
-  rdfs:range <ArtifactResolutionTarget> ;
+  rdfs:range <ArtifactResolutionSpec> ;
   rdfs:label "has source binding" ;
-  rdfs:comment "Links a KnopSourceRegistry to an ArtifactResolutionTarget that records a source binding for an artifact or resource associated with the Knop." .
+  rdfs:comment "Links a KnopSourceRegistry to an ArtifactResolutionSpec that records a source binding for an artifact or resource associated with the Knop." .
 
 #################################################################
 # Resource page definition artifacts and helpers
@@ -488,46 +488,46 @@
   rdfs:label "Knop asset bundle" ;
   rdfs:comment "A bounded helper boundary for knop-owned support assets such as '_knop/_assets'. It does not by itself imply that each contained file is a governed artifact or a KnopInventory entry." .
 
-<ArtifactResolutionTarget> a rdfs:Class ;
-  rdfs:label "Artifact resolution target" ;
-  rdfs:comment "A policy-bearing relator that identifies bytes for an application concern by naming a target artifact, a mesh-local file path string, a specific LocatedFile, or another explicit packaged/distributed target together with optional requested state, mode, and fallback policy. At least one concrete target should normally be provided, but this ontology does not enforce that cardinality directly." .
+<ArtifactResolutionSpec> a rdfs:Class ;
+  rdfs:label "Artifact resolution spec" ;
+  rdfs:comment "A relator/specification that identifies bytes for an application concern by naming a target artifact, a mesh-local file path string, a specific LocatedFile, or another explicit packaged target together with optional requested state, mode, expected digest, fallback spec, and observations. At least one concrete target should normally be provided, but this ontology does not enforce that cardinality directly." .
 
 <ArtifactResolutionObservation> a rdfs:Class ;
   rdfs:label "Artifact resolution observation" ;
-  rdfs:comment "A relator recording evidence observed during a specific artifact-resolution event, such as the resolved state, manifestation, located file, local path, digest, timestamp, and observer. Observations are appendable evidence records and should not be written merely because a runtime reads target bytes." .
+  rdfs:comment "A relator recording evidence observed during a specific artifact-resolution event. Concrete resolved coordinates are recorded through observedArtifactResolutionSpec; event and byte evidence such as digest, timestamp, and observer remain on the observation. Observations are appendable evidence records and should not be written merely because a runtime reads target bytes." .
 
 <RepositorySourceLocator> a rdfs:Class ;
   rdfs:label "Repository source locator" ;
-  rdfs:comment "A durable locator for bytes or a tree path in a version-control repository. It records repository identity, ref or commit coordinates, and a repository-relative path without implying a local checkout path or granting runtime access. Content digests may be expressed with hasContentDigest on this locator or expectsContentDigest on the ArtifactResolutionTarget that uses it." .
+  rdfs:comment "A durable locator for bytes or a tree path in a version-control repository. It records repository identity, ref or commit coordinates, and a repository-relative path without implying a local checkout path or granting runtime access. Content digests may be expressed with hasContentDigest on this locator or expectsContentDigest on the ArtifactResolutionSpec that uses it." .
 
 <RepositorySourceFloatingLocator> a rdfs:Class ;
   rdfs:label "Repository source floating locator" ;
   rdfs:comment "A durable locator for mutable working bytes in a version-control repository checkout. It records repository identity and a path from the repository root, but deliberately omits branch, ref, commit, digest, and local checkout path evidence. Runtime operational policy maps the repository identity to a local checkout and reads the currently checked-out bytes." .
 
 <ExtractionSource> a rdfs:Class ;
-  rdfs:subClassOf <ArtifactResolutionTarget> ;
+  rdfs:subClassOf <ArtifactResolutionSpec> ;
   rdfs:label "Extraction source" ;
-  rdfs:comment "An artifact-resolution target that identifies the RDF document bytes from which a Knop-managed resource was extracted or first grounded. ExtractionSource records are normally carried in the KnopSourceRegistry under '_knop/_sources' and linked from the Knop with hasExtractionSource." .
+  rdfs:comment "An artifact-resolution spec that identifies the RDF document bytes from which a Knop-managed resource was extracted or first grounded. ExtractionSource records are normally carried in the KnopSourceRegistry under '_knop/_sources' and linked from the Knop with hasExtractionSource." .
 
 <ImportSource> a rdfs:Class ;
-  rdfs:subClassOf <ArtifactResolutionTarget> ;
+  rdfs:subClassOf <ArtifactResolutionSpec> ;
   rdfs:label "Import source" ;
-  rdfs:comment "An artifact-resolution target that identifies source bytes actively acquired and copied into a governed local working surface by an import operation. ImportSource records are normally carried in the KnopSourceRegistry under '_knop/_sources' and linked from that registry with hasSourceBinding." .
+  rdfs:comment "An artifact-resolution spec that identifies source bytes actively acquired and copied into a governed local working surface by an import operation. ImportSource records are normally carried in the KnopSourceRegistry under '_knop/_sources' and linked from that registry with hasSourceBinding." .
 
 <IntegrationSource> a rdfs:Class ;
-  rdfs:subClassOf <ArtifactResolutionTarget> ;
+  rdfs:subClassOf <ArtifactResolutionSpec> ;
   rdfs:label "Integration source" ;
-  rdfs:comment "An artifact-resolution target that identifies existing source bytes registered where they already live by an integrate operation. IntegrationSource records are normally carried in the KnopSourceRegistry under '_knop/_sources' and linked from that registry with hasSourceBinding." .
+  rdfs:comment "An artifact-resolution spec that identifies existing source bytes registered where they already live by an integrate operation. IntegrationSource records are normally carried in the KnopSourceRegistry under '_knop/_sources' and linked from that registry with hasSourceBinding." .
 
 <hasExtractionSource> a owl:ObjectProperty ;
   rdfs:domain <Knop> ;
   rdfs:range <ExtractionSource> ;
   rdfs:label "has extraction source" ;
-  rdfs:comment "Links a Knop to the artifact-resolution target that identifies the source RDF document bytes for the resource managed by that Knop." .
+  rdfs:comment "Links a Knop to the artifact-resolution spec that identifies the source RDF document bytes for the resource managed by that Knop." .
 
 <ArtifactResolutionMode> a rdfs:Class ;
   rdfs:label "Artifact resolution mode" ;
-  rdfs:comment "A controlled vocabulary describing how an ArtifactResolutionTarget resolves target bytes when the target coordinates alone do not already fix byte identity. Exact coordinates such as a requested HistoricalState, LocatedFile, manifestation/distribution, commit, or digest are exact by default. A requested ArtifactHistory resolves to the latest HistoricalState in that history by default." .
+  rdfs:comment "A controlled vocabulary describing how an ArtifactResolutionSpec resolves target bytes when the target coordinates alone do not already fix byte identity. Exact coordinates such as a target HistoricalState, LocatedFile, manifestation, commit, or digest are exact by default. A targeted ArtifactHistory resolves to the latest HistoricalState in that history by default." .
 
 <artifactResolutionMode_working> a <ArtifactResolutionMode> ;
   rdfs:label "Working" ;
@@ -535,28 +535,16 @@
 
 <artifactResolutionMode_latestState> a <ArtifactResolutionMode> ;
   rdfs:label "Latest state" ;
-  rdfs:comment "Resolve the latest settled HistoricalState for the target artifact. When hasRequestedTargetHistory is present, the search is bounded to that ArtifactHistory; otherwise the implementation may use the artifact's current/default history or the latest state across known histories according to its policy." .
-
-<ArtifactResolutionFallbackPolicy> a rdfs:Class ;
-  rdfs:label "Artifact resolution fallback policy" ;
-  rdfs:comment "A controlled vocabulary describing what fallback, if any, is acceptable when a requested artifact-resolution target cannot be resolved exactly." .
-
-<artifactResolutionFallbackPolicy_exactOnly> a <ArtifactResolutionFallbackPolicy> ;
-  rdfs:label "Exact only" ;
-  rdfs:comment "Only the exact requested target is acceptable; otherwise resolution fails." .
-
-<artifactResolutionFallbackPolicy_acceptLatestInRequestedHistory> a <ArtifactResolutionFallbackPolicy> ;
-  rdfs:label "Accept latest in requested history" ;
-  rdfs:comment "If an exact requested state cannot be resolved, the latest available HistoricalState in the requested ArtifactHistory is acceptable." .
+  rdfs:comment "Resolve the latest settled HistoricalState for the target artifact. When targetArtifactHistory is present, the search is bounded to that ArtifactHistory; otherwise the implementation may use the artifact's current/default history or the latest state across known histories according to its policy." .
 
 <ResourcePageRegion> a rdfs:Class ;
   rdfs:label "Resource page region" ;
   rdfs:comment "A structural content region described by a ResourcePageDefinition. Use this for page-content composition, not for template-slot wiring or browser chrome concerns." .
 
 <ResourcePageSource> a rdfs:Class ;
-  rdfs:subClassOf <ArtifactResolutionTarget> ;
+  rdfs:subClassOf <ArtifactResolutionSpec> ;
   rdfs:label "Resource page source" ;
-  rdfs:comment "A page-specific ArtifactResolutionTarget used as a per-region source binding for resource-page composition. It uses the generic artifact-resolution target/history/state/mode/fallback properties directly." .
+  rdfs:comment "A page-specific ArtifactResolutionSpec used as a per-region source binding for resource-page composition. It uses the generic artifact-resolution target/history/state/mode/fallback properties directly." .
 
 <hasResourcePageDefinition> a owl:ObjectProperty ;
   rdfs:subPropertyOf dcterms:hasPart ;
@@ -572,27 +560,27 @@
   rdfs:comment "Links a Knop to its bounded local support-asset area, such as '_knop/_assets'." .
 
 <targetLocalRelativePath> a owl:DatatypeProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range xsd:string ;
   rdfs:label "target local relative path" ;
   rdfs:comment "A local relative path resolved from the current mesh root that names an unmanaged local source target and should be resolved directly rather than through artifact history/state lookup. Values should remain relative; '../' segments may be allowed by active config, but absolute host paths should not be persisted here." .
 
 <targetAccessUrl> a owl:DatatypeProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range xsd:anyURI ;
   rdfs:label "target access URL" ;
-  rdfs:comment "An access URL for the target bytes of an ArtifactResolutionTarget when those bytes may be fetched or streamed from a remote or otherwise non-local location. This does not by itself imply that a runtime may use network access; that remains an operational-policy question. When targetLocalRelativePath, hasTargetArtifact, hasTargetLocatedFile, or other explicit target locators are also asserted, all declared target locators SHOULD identify the same target bytes." .
+  rdfs:comment "An access URL for the target bytes of an ArtifactResolutionSpec when those bytes may be fetched or streamed from a remote or otherwise non-local location. This does not by itself imply that a runtime may use network access; that remains an operational-policy question. When targetLocalRelativePath, targetArtifact, targetLocatedFile, or other explicit target locators are also asserted, all declared target locators SHOULD identify the same target bytes." .
 
-<hasTargetRepositorySource> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
+<targetRepositorySource> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range <RepositorySourceLocator> ;
-  rdfs:label "has target repository source" ;
-  rdfs:comment "Relates an ArtifactResolutionTarget to a version-control repository locator for the bytes or tree path it should resolve. Runtime policy decides whether and how that locator may be fetched or mapped to a local checkout." .
+  rdfs:label "target repository source" ;
+  rdfs:comment "Relates an ArtifactResolutionSpec to a version-control repository locator for the bytes or tree path it should resolve. Runtime policy decides whether and how that locator may be fetched or mapped to a local checkout." .
 
 <hasRepositorySourceFloatingLocator> a owl:ObjectProperty ;
   rdfs:range <RepositorySourceFloatingLocator> ;
   rdfs:label "has repository source floating locator" ;
-  rdfs:comment "Relates an artifact or ArtifactResolutionTarget to a floating repository source locator for mutable working bytes. This is intended for branch-published meshes whose source bytes live in a separately materialized repository checkout. The local checkout path is resolved operationally and is not persisted in the mesh." .
+  rdfs:comment "Relates an artifact or ArtifactResolutionSpec to a floating repository source locator for mutable working bytes. This is intended for branch-published meshes whose source bytes live in a separately materialized repository checkout. The local checkout path is resolved operationally and is not persisted in the mesh." .
 
 <sourceRepositoryUrl> a owl:DatatypeProperty ;
   rdfs:range xsd:anyURI ;
@@ -653,83 +641,65 @@
   rdfs:label "source order" ;
   rdfs:comment "Optional order hint for ResourcePageSource instances when a region intentionally composes multiple ordered sources." .
 
-<hasTargetArtifact> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
+<targetArtifact> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range <DigitalArtifact> ;
-  rdfs:label "has target artifact" ;
-  rdfs:comment "Relates an ArtifactResolutionTarget to a DigitalArtifact whose bytes should be resolved, subject to any requested state, mode, and fallback policy." .
+  rdfs:label "target artifact" ;
+  rdfs:comment "Relates an ArtifactResolutionSpec to a DigitalArtifact whose bytes should be resolved, subject to any target state, mode, and fallback spec." .
 
-<hasTargetLocatedFile> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
+<targetLocatedFile> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range <LocatedFile> ;
-  rdfs:label "has target located file" ;
-  rdfs:comment "Relates an ArtifactResolutionTarget directly to a specific LocatedFile when resolution should follow that retrievable bytes identity without requiring an artifact-level target." .
+  rdfs:label "target located file" ;
+  rdfs:comment "Relates an ArtifactResolutionSpec directly to a specific LocatedFile when resolution should follow that retrievable bytes identity without requiring an artifact-level target." .
 
-<hasTargetDistribution> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
-  rdfs:range dcat:Distribution ;
-  rdfs:label "has target distribution" ;
-  rdfs:comment "Relates an ArtifactResolutionTarget to a Distribution describing how explicitly packaged target bytes are accessed." .
+<targetManifestation> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionSpec> ;
+  rdfs:range <ArtifactManifestation> ;
+  rdfs:label "target manifestation" ;
+  rdfs:comment "Relates an ArtifactResolutionSpec to an ArtifactManifestation describing explicitly packaged target bytes." .
 
-<hasRequestedTargetHistory> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
+<targetArtifactHistory> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range <ArtifactHistory> ;
-  rdfs:label "has requested target history" ;
-  rdfs:comment "Relates an ArtifactResolutionTarget to the ArtifactHistory it requests when resolution should stay within a specific history boundary. Unless hasRequestedTargetState or another exact coordinate is supplied, this requests the latest HistoricalState in that history." .
+  rdfs:label "target artifact history" ;
+  rdfs:comment "Relates an ArtifactResolutionSpec to the ArtifactHistory it targets when resolution should stay within a specific history boundary. Unless targetHistoricalState or another exact coordinate is supplied, this requests the latest HistoricalState in that history." .
 
-<hasRequestedTargetState> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
+<targetHistoricalState> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range <HistoricalState> ;
-  rdfs:label "has requested target state" ;
-  rdfs:comment "Relates an ArtifactResolutionTarget to an explicitly requested HistoricalState. This names an exact settled target by default, not a mutable working surface and not merely a runtime-resolved outcome." .
+  rdfs:label "target historical state" ;
+  rdfs:comment "Relates an ArtifactResolutionSpec to an explicitly targeted HistoricalState. This names an exact settled target by default, not a mutable working surface and not merely a runtime-resolved outcome." .
 
 <hasArtifactResolutionMode> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range <ArtifactResolutionMode> ;
   rdfs:label "has artifact resolution mode" ;
-  rdfs:comment "Assigns an ArtifactResolutionMode to an ArtifactResolutionTarget." .
+  rdfs:comment "Assigns an ArtifactResolutionMode to an ArtifactResolutionSpec." .
 
-<hasArtifactResolutionFallbackPolicy> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
-  rdfs:range <ArtifactResolutionFallbackPolicy> ;
-  rdfs:label "has artifact resolution fallback policy" ;
-  rdfs:comment "Assigns an ArtifactResolutionFallbackPolicy to an ArtifactResolutionTarget." .
+<hasFallbackArtifactResolutionSpec> a owl:ObjectProperty ;
+  rdfs:domain <ArtifactResolutionSpec> ;
+  rdfs:range <ArtifactResolutionSpec> ;
+  rdfs:label "has fallback artifact resolution spec" ;
+  rdfs:comment "Relates an ArtifactResolutionSpec to an alternate spec that may be used when the primary coordinates cannot be resolved exactly. First-pass SHACL allows at most one unordered fallback spec." .
 
 <hasResolutionObservation> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range <ArtifactResolutionObservation> ;
   rdfs:label "has resolution observation" ;
-  rdfs:comment "Relates an ArtifactResolutionTarget to an observed-resolution evidence record produced when an operation intentionally records what it resolved." .
+  rdfs:comment "Relates an ArtifactResolutionSpec to an observed-resolution evidence record produced when an operation intentionally records what it resolved." .
 
-<hasObservedTargetState> a owl:ObjectProperty ;
+<observedArtifactResolutionSpec> a owl:ObjectProperty ;
   rdfs:domain <ArtifactResolutionObservation> ;
-  rdfs:range <HistoricalState> ;
-  rdfs:label "has observed target state" ;
-  rdfs:comment "Relates an ArtifactResolutionObservation to the concrete HistoricalState observed while resolving target bytes. This records evidence and may be more specific than the requested target coordinates." .
-
-<hasObservedTargetManifestation> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionObservation> ;
-  rdfs:range <ArtifactManifestation> ;
-  rdfs:label "has observed target manifestation" ;
-  rdfs:comment "Relates an ArtifactResolutionObservation to the concrete ArtifactManifestation observed while resolving target bytes." .
-
-<hasObservedTargetLocatedFile> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactResolutionObservation> ;
-  rdfs:range <LocatedFile> ;
-  rdfs:label "has observed target located file" ;
-  rdfs:comment "Relates an ArtifactResolutionObservation to the concrete LocatedFile resource observed while resolving target bytes. Use observedTargetLocalRelativePath for local checkout paths that are not modeled as mesh LocatedFile resources." .
-
-<observedTargetLocalRelativePath> a owl:DatatypeProperty ;
-  rdfs:domain <ArtifactResolutionObservation> ;
-  rdfs:range xsd:string ;
-  rdfs:label "observed target local relative path" ;
-  rdfs:comment "A local relative path for bytes observed while resolving an ArtifactResolutionTarget when those bytes are not modeled as a mesh LocatedFile resource. Values should remain relative to the active local workspace or mesh root policy; absolute host paths should not be persisted here." .
+  rdfs:range <ArtifactResolutionSpec> ;
+  rdfs:label "observed artifact resolution spec" ;
+  rdfs:comment "Relates an ArtifactResolutionObservation to the concrete ArtifactResolutionSpec describing what was actually resolved." .
 
 <observedContentDigest> a owl:DatatypeProperty ;
   rdfs:domain <ArtifactResolutionObservation> ;
   rdfs:range xsd:string ;
   rdfs:label "observed content digest" ;
-  rdfs:comment "Digest of concrete bytes observed while resolving an ArtifactResolutionTarget. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'. Multiple values may be used for multiple digest algorithms." .
+  rdfs:comment "Digest of concrete bytes observed while resolving an ArtifactResolutionSpec. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'. Multiple values may be used for multiple digest algorithms." .
 
 <observedAt> a owl:DatatypeProperty ;
   rdfs:domain <ArtifactResolutionObservation> ;
@@ -744,7 +714,7 @@
   rdfs:comment "Agent responsible for recording an ArtifactResolutionObservation." .
 
 <expectsContentDigest> a owl:DatatypeProperty ;
-  rdfs:domain <ArtifactResolutionTarget> ;
+  rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range xsd:string ;
   rdfs:label "expects content digest" ;
-  rdfs:comment "Digest expected after resolving an ArtifactResolutionTarget. Resolution should verify resolved bytes or canonical representations against this value before using them when policy requires a strong pin. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'." .
+  rdfs:comment "Digest expected after resolving an ArtifactResolutionSpec. Resolution should verify resolved bytes or canonical representations against this value before using them when policy requires a strong pin. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'." .

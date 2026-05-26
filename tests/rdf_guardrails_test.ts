@@ -128,7 +128,7 @@ Deno.test("old config names and boolean policy switches stay retired", async () 
   }
 });
 
-Deno.test("old ReferenceLink and observed-source vocabulary stay retired", async () => {
+Deno.test("old ReferenceLink and artifact-resolution vocabulary stay retired", async () => {
   const retiredFragments = [
     "sflo:referenceTarget",
     "<referenceTarget>",
@@ -154,6 +154,45 @@ Deno.test("old ReferenceLink and observed-source vocabulary stay retired", async
     "sflo:observedSourceDigest",
     "<observedSourceDigest>",
     `${SFLO_NAMESPACE}observedSourceDigest`,
+    "sflo:ArtifactResolutionTarget",
+    "<ArtifactResolutionTarget>",
+    `${SFLO_NAMESPACE}ArtifactResolutionTarget`,
+    "sflo:hasTargetArtifact",
+    "<hasTargetArtifact>",
+    `${SFLO_NAMESPACE}hasTargetArtifact`,
+    "sflo:hasTargetLocatedFile",
+    "<hasTargetLocatedFile>",
+    `${SFLO_NAMESPACE}hasTargetLocatedFile`,
+    "sflo:hasTargetDistribution",
+    "<hasTargetDistribution>",
+    `${SFLO_NAMESPACE}hasTargetDistribution`,
+    "sflo:hasRequestedTargetHistory",
+    "<hasRequestedTargetHistory>",
+    `${SFLO_NAMESPACE}hasRequestedTargetHistory`,
+    "sflo:hasRequestedTargetState",
+    "<hasRequestedTargetState>",
+    `${SFLO_NAMESPACE}hasRequestedTargetState`,
+    "sflo:hasTargetRepositorySource",
+    "<hasTargetRepositorySource>",
+    `${SFLO_NAMESPACE}hasTargetRepositorySource`,
+    "sflo:ArtifactResolutionFallbackPolicy",
+    "<ArtifactResolutionFallbackPolicy>",
+    `${SFLO_NAMESPACE}ArtifactResolutionFallbackPolicy`,
+    "sflo:hasArtifactResolutionFallbackPolicy",
+    "<hasArtifactResolutionFallbackPolicy>",
+    `${SFLO_NAMESPACE}hasArtifactResolutionFallbackPolicy`,
+    "sflo:hasObservedTargetState",
+    "<hasObservedTargetState>",
+    `${SFLO_NAMESPACE}hasObservedTargetState`,
+    "sflo:hasObservedTargetManifestation",
+    "<hasObservedTargetManifestation>",
+    `${SFLO_NAMESPACE}hasObservedTargetManifestation`,
+    "sflo:hasObservedTargetLocatedFile",
+    "<hasObservedTargetLocatedFile>",
+    `${SFLO_NAMESPACE}hasObservedTargetLocatedFile`,
+    "sflo:observedTargetLocalRelativePath",
+    "<observedTargetLocalRelativePath>",
+    `${SFLO_NAMESPACE}observedTargetLocalRelativePath`,
   ] as const;
 
   for (
@@ -175,7 +214,7 @@ Deno.test("old ReferenceLink and observed-source vocabulary stay retired", async
 Deno.test("core ontology declares shared artifact-resolution source and observation classes", async () => {
   const quads = await parseRepoTurtle("semantic-flow-core-ontology.ttl");
 
-  const artifactResolutionTarget = `${SFLO_NAMESPACE}ArtifactResolutionTarget`;
+  const artifactResolutionSpec = `${SFLO_NAMESPACE}ArtifactResolutionSpec`;
 
   for (
     const sourceClass of [
@@ -190,9 +229,9 @@ Deno.test("core ontology declares shared artifact-resolution source and observat
       quads.some((quad) =>
         quad.subject.value === `${SFLO_NAMESPACE}${sourceClass}` &&
         quad.predicate.value === RDFS.subClassOf &&
-        quad.object.value === artifactResolutionTarget
+        quad.object.value === artifactResolutionSpec
       ),
-      `${sourceClass} should subclass ArtifactResolutionTarget`,
+      `${sourceClass} should subclass ArtifactResolutionSpec`,
     );
   }
 

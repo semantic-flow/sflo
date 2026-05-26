@@ -13,19 +13,19 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 ### 2026-05-24: Separate resolution targets from resolution observations and clarify reference sources
 
 - Status: Active
-- Decision: Keep `ArtifactResolutionTarget` as the requested-coordinate / resolution-policy relator, and add `ArtifactResolutionObservation` for observed resolution evidence. Add `ReferenceSource`, `ImportSource`, and `IntegrationSource` as `ArtifactResolutionTarget` subclasses alongside existing `ExtractionSource` and `ResourcePageSource`. Replace direct `ReferenceLink` target vocabulary with `hasReferenceSource`; remove `referenceTarget`, `referenceTargetState`, `referenceUriLiteral`, and extraction-scoped observed-source properties from the live model.
+- Decision: Keep `ArtifactResolutionSpec` as the requested-coordinate / resolution-policy relator, and add `ArtifactResolutionObservation` for observed resolution evidence. Add `ReferenceSource`, `ImportSource`, and `IntegrationSource` as `ArtifactResolutionSpec` subclasses alongside existing `ExtractionSource` and `ResourcePageSource`. Replace direct `ReferenceLink` target vocabulary with `hasReferenceSource`; remove `referenceTarget`, `referenceTargetState`, `referenceUriLiteral`, and extraction-scoped observed-source properties from the live model.
 - References: [[ont.summary.core]], [[ont.reference-links]], [[ont.task.2026.2026-05-24_1256-artifact-resolution-observations]], [[wa.task.2026.2026-05-22_1128-referencelink-clarification]]
 - Why:
   - requested coordinates and observations have different lifecycles: coordinates are source-binding policy, while observations are appendable evidence records
   - extraction-specific observed evidence would become increasingly awkward as import, integrate, reference, and page-source resolution all need the same evidence pattern
   - `referenceTarget` was misleading because the target of the reference relation is already named by `referenceLinkFor`; the RDF data being read is a source
   - `ReferenceLink` should remain the semantic curated-reference relator, while `ReferenceSource` carries byte-resolution coordinates
-  - import and integrate are distinct application concerns and should not be hidden behind bare `ArtifactResolutionTarget` bindings
+  - import and integrate are distinct application concerns and should not be hidden behind bare `ArtifactResolutionSpec` bindings
 - Notes:
   - `ReferenceLink` remains RDF-reference-data-only in this slice; do not rename it to `RdfReferenceLink`
   - use `hasReferenceSource` from `ReferenceLink` to exactly one `ReferenceSource` in the first slice
-  - use `hasResolutionObservation` from an `ArtifactResolutionTarget` subclass to one or more `ArtifactResolutionObservation` records when an operation intentionally records evidence
-  - keep `expectsContentDigest` on `ArtifactResolutionTarget`, but record observed byte identity as `observedContentDigest` on observations
+  - use `hasResolutionObservation` from an `ArtifactResolutionSpec` subclass to one or more `ArtifactResolutionObservation` records when an operation intentionally records evidence
+  - keep `expectsContentDigest` on `ArtifactResolutionSpec`, but record observed byte identity as `observedContentDigest` on observations
   - ordinary runtime reads and page generation should not mutate RDF merely by resolving source bytes
 
 ### 2026-05-16: Separate sparse artifact file links from manifestation file links
@@ -50,7 +50,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
   - extraction provenance is source provenance, and belongs with other source bindings rather than making KnopInventory carry bulky source records
   - source registries can carry both repository-backed payload source bindings and extraction-source bindings without making mesh config a provenance bucket
   - keeping the Knop-level `hasExtractionSource` pointer preserves the simple "what source grounds this extracted resource?" query shape
-  - repository-backed source-binding SHACL should apply only to bindings with `hasTargetRepositorySource`; not every `hasSourceBinding` relator is repository materialization
+  - repository-backed source-binding SHACL should apply only to bindings with `targetRepositorySource`; not every `hasSourceBinding` relator is repository materialization
 - Notes:
   - KnopInventory still links the source registry with `hasKnopSourceRegistry` and links the primary extraction source with `hasExtractionSource`
   - `_knop/_sources/sources.ttl` owns the `ExtractionSource` block and links it from the registry with `hasSourceBinding`
@@ -59,13 +59,13 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 ### 2026-05-15: Keep repository source provenance in Knop source registries
 
 - Status: Active
-- Decision: Add `KnopSourceRegistry` as a Knop-owned support artifact for source bindings about artifacts carried by or resources grounded through that Knop. Link it with `hasKnopSourceRegistry`, and let each registry point to `ArtifactResolutionTarget` relators through `hasSourceBinding`. Repository-backed bindings reuse the existing `RepositorySourceLocator`, digest, and target locator vocabulary.
+- Decision: Add `KnopSourceRegistry` as a Knop-owned support artifact for source bindings about artifacts carried by or resources grounded through that Knop. Link it with `hasKnopSourceRegistry`, and let each registry point to `ArtifactResolutionSpec` relators through `hasSourceBinding`. Repository-backed bindings reuse the existing `RepositorySourceLocator`, digest, and target locator vocabulary.
 - References: [[wd.task.2026.2026-05-15_1113-mesh-branch-fantasy-rules]], [[wd.task.2026.2026-05-13_1655-support-gh-pages-branch-based-deployments]]
 - Why:
   - source provenance for included artifacts belongs beside the target Knop rather than in `_mesh/_config/config.ttl`
   - mesh config should remain operational policy/configuration rather than growing into a provenance registry for every materialized artifact
   - a dedicated `_knop/_sources` artifact keeps inventory from carrying bulky repository binding details while still giving the registry a durable, dereferenceable home
-  - reusing `ArtifactResolutionTarget` keeps repository source bindings aligned with extraction and page-source resolution instead of inventing a branch-deploy-only relator
+  - reusing `ArtifactResolutionSpec` keeps repository source bindings aligned with extraction and page-source resolution instead of inventing a branch-deploy-only relator
 - Notes:
   - conventional serialization is `D/_knop/_sources/sources.ttl`, linked from the Knop inventory with `hasKnopSourceRegistry`
   - source binding IRIs may be registry-rooted fragments such as `D/_knop/_sources#branch-source-ontology`
@@ -103,10 +103,10 @@ Superseded decisions are intentionally retained for traceability. When a decisio
   - whole-root meshes where workspace root and mesh root are the same do not need a config artifact solely to record `"."`
   - local runtimes can use the recorded relationship as a portable boundary hint while still enforcing their active workspace boundary and explicit allow rules
 
-### 2026-04-11: Generalize page-source resolution around `ArtifactResolutionTarget`
+### 2026-04-11: Generalize page-source resolution around `ArtifactResolutionSpec`
 
 - Status: Active
-- Decision: Keep `ResourcePageDefinition` as the Knop-owned support artifact for customized identifier pages, but replace the earlier page-bundle helper model with a more general resolution model. Introduce `ArtifactResolutionTarget` as a generic policy-bearing relator for resolving bytes from either a `DigitalArtifact`, a direct mesh-local path string, a direct access URL, a direct `LocatedFile`, or another explicit packaged target. Keep `ResourcePageSource` as a page-specific subclass of `ArtifactResolutionTarget`, but have it use the generic target/history/state/mode/fallback properties directly rather than duplicating page-specific alias properties; use `targetLocalRelativePath` for unmanaged mesh-local file references; use `targetAccessUrl` for explicit remote/external target URLs when operational policy allows them; and use `KnopAssetBundle` only for the bounded `_knop/_assets` helper area. Leave template/chrome configuration for the separate config-ontology track.
+- Decision: Keep `ResourcePageDefinition` as the Knop-owned support artifact for customized identifier pages, but replace the earlier page-bundle helper model with a more general resolution model. Introduce `ArtifactResolutionSpec` as a generic policy-bearing relator for resolving bytes from either a `DigitalArtifact`, a direct mesh-local path string, a direct access URL, a direct `LocatedFile`, or another explicit packaged target. Keep `ResourcePageSource` as a page-specific subclass of `ArtifactResolutionSpec`, but have it use the generic target/history/state/mode/fallback properties directly rather than duplicating page-specific alias properties; use `targetLocalRelativePath` for unmanaged mesh-local file references; use `targetAccessUrl` for explicit remote/external target URLs when operational policy allows them; and use `KnopAssetBundle` only for the bounded `_knop/_assets` helper area. Leave template/chrome configuration for the separate config-ontology track.
 - References: [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[wa.cancelled.2026.2026-03-23-config-modernization]]
 - Why:
   - identifier-page customization needs an explicit control-plane artifact without pretending the identifier itself is a payload-bearing `DigitalArtifact`
@@ -118,7 +118,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 ### 2026-05-04: Model Extraction Source Binding As An Inventory Relator
 
 - Status: Superseded by 2026-05-16
-- Decision: Add `ExtractionSource` as an `ArtifactResolutionTarget` subclass for the RDF document bytes from which a Knop-managed resource was extracted or first grounded, and add `hasExtractionSource` from `Knop` to `ExtractionSource`. Use inventory-rooted fragment IRIs such as `D/_knop/_inventory#extraction-source` for the carried local extraction slices.
+- Decision: Add `ExtractionSource` as an `ArtifactResolutionSpec` subclass for the RDF document bytes from which a Knop-managed resource was extracted or first grounded, and add `hasExtractionSource` from `Knop` to `ExtractionSource`. Use inventory-rooted fragment IRIs such as `D/_knop/_inventory#extraction-source` for the carried local extraction slices.
 - References: [[wd.task.2026.2026-05-03-term-extraction]], [[wd.task.2026.2026-05-02-fantasy-rules-sidecar]], [[sf.spec.2026-04-05-extract-behavior]]
 - Why:
   - Extraction source binding is not a `ReferenceLink`; it is operational provenance for the extracted identifier surface and should sit with the Knop inventory that already carries current support artifact state.
@@ -129,8 +129,8 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 - Notes:
   - prefer `ResourcePageRegion` over `Slot` in core
   - `accept` belongs to fallback policy, not to the working-vs-exact source mode axis
-  - `ResourcePageSource` remains useful as a page-specific relator even though the generic pattern is now captured by `ArtifactResolutionTarget`
-  - `hasTargetArtifact` is optional when `targetLocalRelativePath`, `targetAccessUrl`, or a direct `hasTargetLocatedFile` is sufficient to identify the bytes that should be resolved
+  - `ResourcePageSource` remains useful as a page-specific relator even though the generic pattern is now captured by `ArtifactResolutionSpec`
+  - `targetArtifact` is optional when `targetLocalRelativePath`, `targetAccessUrl`, or a direct `targetLocatedFile` is sufficient to identify the bytes that should be resolved
   - `workingLocalRelativePath` is the operational local current-byte locator for a `DigitalArtifact`; `workingAccessUrl` is the operational remote/external current-byte locator; `hasWorkingLocatedFile` remains the semantic `LocatedFile` facet hook
   - when `workingLocalRelativePath`, `workingAccessUrl`, and `hasWorkingLocatedFile` are all present for the same current working surface, they should agree and mismatch should fail closed in operational profiles that rely on them
   - allowed-directory rules for `targetLocalRelativePath` and `workingLocalRelativePath` belong to host/runtime operational config rather than to core ontology
@@ -139,7 +139,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 ### 2026-04-09: Model customizable identifier pages with bounded page-definition helpers
 
-- Status: Superseded on 2026-04-11 by the `ArtifactResolutionTarget` decision
+- Status: Superseded on 2026-04-11 by the `ArtifactResolutionSpec` decision
 - Decision: Add `ResourcePageDefinition` to the live core model as a Knop-owned support artifact for customizable identifier pages. Model the local `_knop/_page` boundary with `ResourcePageBundle`, model member files with `ResourcePageBundleFile`, model `_knop/_page/_assets` with `ResourcePageAssetBundle`, and model authored content composition with `ResourcePageRegion` plus `ResourcePageSource`. Keep per-source requested state, source mode, and fallback policy in core, but leave template/chrome configuration for the separate config-ontology track.
 - References: [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[wa.cancelled.2026.2026-03-23-config-modernization]]
 - Why:

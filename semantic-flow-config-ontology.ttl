@@ -45,6 +45,11 @@
   rdfs:label "Config artifact" ;
   rdfs:comment "A named reusable Config that is also a mesh-manageable DigitalArtifact RdfDocument. Use when a config needs stable identity, revision history, working files, dereferenceability, or reuse across multiple configured resources." .
 
+<ConfigSource> a rdfs:Class ;
+  rdfs:subClassOf sflo:ArtifactResolutionSpec ;
+  rdfs:label "Config source" ;
+  rdfs:comment "An artifact-resolution spec for config bytes or a ConfigArtifact that should be resolved and parsed as authored Semantic Flow config. Attachment properties carry the config role; separate MeshConfigSource or KnopConfigSource subclasses are unnecessary unless later validation needs distinct source classes." .
+
 <ApplicationConfig> a rdfs:Class ;
   rdfs:subClassOf <Config> ;
   rdfs:label "Application config" ;
@@ -162,35 +167,35 @@
 
 <hasConfigSource> a owl:ObjectProperty ;
   rdfs:domain rdfs:Resource ;
-  rdfs:range sflo:ArtifactResolutionTarget ;
+  rdfs:range <ConfigSource> ;
   rdfs:label "has config source" ;
-  rdfs:comment "Associates a config layer, config-bearing resource, or authored config attachment with an ArtifactResolutionTarget that resolves a ConfigArtifact or config bytes. Reuse core artifact-resolution target properties for working, latest-state, exact target, fallback policy, and expected content digest behavior." .
+  rdfs:comment "Associates a config layer, config-bearing resource, or authored config attachment with a ConfigSource that resolves a ConfigArtifact or config bytes. Reuse core artifact-resolution spec properties for working, latest-state, exact target, fallback spec, and expected content digest behavior." .
 
 <hasMeshConfigSource> a owl:ObjectProperty ;
   rdfs:subPropertyOf <hasConfigSource> ;
   rdfs:domain sflo:SemanticMesh ;
-  rdfs:range sflo:ArtifactResolutionTarget ;
+  rdfs:range <ConfigSource> ;
   rdfs:label "has mesh config source" ;
-  rdfs:comment "Associates a SemanticMesh with a mesh-level config source, often a target pointing at _mesh/_config or a reusable ConfigArtifact." .
+  rdfs:comment "Associates a SemanticMesh with a mesh-level ConfigSource, often a spec pointing at _mesh/_config or a reusable ConfigArtifact." .
 
 <hasMeshInheritableConfigSource> a owl:ObjectProperty ;
   rdfs:subPropertyOf <hasConfigSource> ;
   rdfs:domain sflo:SemanticMesh ;
-  rdfs:range sflo:ArtifactResolutionTarget ;
+  rdfs:range <ConfigSource> ;
   rdfs:label "has mesh inheritable config source" ;
   rdfs:comment "Associates a SemanticMesh with a config source it offers to descendant scopes inside the mesh boundary." .
 
 <hasKnopLocalConfigSource> a owl:ObjectProperty ;
   rdfs:subPropertyOf <hasConfigSource> ;
   rdfs:domain sflo:Knop ;
-  rdfs:range sflo:ArtifactResolutionTarget ;
+  rdfs:range <ConfigSource> ;
   rdfs:label "has Knop local config source" ;
   rdfs:comment "Associates a Knop with a config source that applies locally to that Knop." .
 
 <hasKnopInheritableConfigSource> a owl:ObjectProperty ;
   rdfs:subPropertyOf <hasConfigSource> ;
   rdfs:domain sflo:Knop ;
-  rdfs:range sflo:ArtifactResolutionTarget ;
+  rdfs:range <ConfigSource> ;
   rdfs:label "has Knop inheritable config source" ;
   rdfs:comment "Associates a Knop with a config source it offers to descendants." .
 

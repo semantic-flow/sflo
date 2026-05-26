@@ -25,4 +25,4 @@ Ideally, once minted, states don't change. Excpetions for privacy/security conce
 
 ## Avoid local path leakage into published meshes
 
-Maybe it's occasionally avoidable when working files are outside the repo, but ArtifactResolutionTargets work better as URLs or repo targets, since local path relations aren't consistent between devices.
+Maybe it's occasionally avoidable when working files are outside the repo, but ArtifactResolutionSpecs work better as URLs or repo targets, since local path relations aren't consistent between devices.

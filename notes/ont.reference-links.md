@@ -18,8 +18,8 @@ Use it as the detailed companion to [[ont.summary.core]]. The summary note shoul
 - A `ReferenceCatalog` is owned by a `Knop` or `SemanticMesh`, but its contents are about the referent or mesh subject rather than about the support object as such.
 - `referenceLinkFor` points to the actual subject resource, not to a `Knop`.
 - `hasReferenceSource` points to the `ReferenceSource` that identifies the RDF reference data used by the link.
-- `ReferenceSource` is an `ArtifactResolutionTarget` subclass. It uses generic target-resolution vocabulary such as `hasTargetArtifact`, `hasRequestedTargetState`, `targetAccessUrl`, and repository locator properties.
-- A first-slice `ReferenceSource` that uses `hasTargetArtifact` should target an `RdfDocument`. Non-RDF content such as Markdown page prose does not belong in `ReferenceLink`.
+- `ReferenceSource` is an `ArtifactResolutionSpec` subclass. It uses generic target-resolution vocabulary such as `targetArtifact`, `targetHistoricalState`, `targetAccessUrl`, and repository locator properties.
+- A first-slice `ReferenceSource` that uses `targetArtifact` should target an `RdfDocument`. Non-RDF content such as Markdown page prose does not belong in `ReferenceLink`.
 
 `verifiedAt` and `verifiedBy` remain latest-verification convenience fields on `ReferenceLink`. They do not yet imply a separate verification object model.
 
@@ -34,8 +34,8 @@ Example:
   sflo:hasReferenceSource <alice/_knop/_references#reference001-source> .
 
 <alice/_knop/_references#reference001-source> a sflo:ReferenceSource ;
-  sflo:hasTargetArtifact <alice/bio> ;
-  sflo:hasRequestedTargetState <alice/bio/_history001/_s0002> .
+  sflo:targetArtifact <alice/bio> ;
+  sflo:targetHistoricalState <alice/bio/_history001/_s0002> .
 ```
 
 ## Serialization Direction
