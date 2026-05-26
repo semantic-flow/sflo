@@ -10,7 +10,7 @@
 
 <https://semantic-flow.github.io/sflo/config> a owl:Ontology ;
   dcterms:title "Semantic Flow Config Ontology" ;
-  dcterms:description "Vocabulary for Semantic Flow configuration resources, authored config attachment, resolver policy, derived resolved-config records, operational runtime-resolution policy, and resource-page presentation configuration. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
+  dcterms:description "Vocabulary for Semantic Flow configuration resources, authored config attachment, resolver policy, derived resolved-config records, and resource-page presentation policy. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcterms:hasVersion <https://semantic-flow.github.io/sflo/config/releases/v0.2.0> ;
   dcterms:modified "2026-05-18"^^xsd:date ;
@@ -54,7 +54,7 @@
   rdfs:domain <Config> ;
   rdfs:range <ConfigResolutionConfig> ;
   rdfs:label "has config resolution config" ;
-  rdfs:comment "Links an application, operational, or portable config to the ConfigResolutionConfig it includes, requests, or exposes. Portable uses remain subject to trusted bootstrap resolver policy and cannot expand their own trust boundary." .
+  rdfs:comment "Links a Config to the ConfigResolutionConfig it includes, requests, or exposes. Portable uses remain subject to trusted bootstrap resolver policy and cannot expand their own trust boundary." .
 
 <KnopConfig> a rdfs:Class ;
   rdfs:subClassOf <Config> ;
@@ -83,21 +83,6 @@
   rdfs:range <PublicationProfile> ;
   rdfs:label "has publication profile" ;
   rdfs:comment "Associates a Config, especially MeshConfig, with the resolved static-publication host profile for the mesh. Persist the concrete resolved profile rather than a request-time auto value so later operations do not need to re-infer host behavior from meshBase." .
-
-<OperationalConfig> a rdfs:Class ;
-  rdfs:subClassOf <Config> ;
-  rdfs:label "Operational config" ;
-  rdfs:comment "A trusted runtime input describing host/runtime policy rather than portable mesh-authored behavior. OperationalConfig gates resolution before portable mesh config participates; it is an input to config resolution, not the same thing as ResolvedConfig or an operation-specific effective config." .
-
-<WorkspaceOperationalConfig> a rdfs:Class ;
-  rdfs:subClassOf <OperationalConfig> ;
-  rdfs:label "Workspace operational config" ;
-  rdfs:comment "OperationalConfig discovered inside an active workspace boundary. It may describe project-local layout and narrow behavior within the runtime-approved workspace, but it cannot expand host access beyond that boundary by itself." .
-
-<HostLocalOperationalConfig> a rdfs:Class ;
-  rdfs:subClassOf <OperationalConfig> ;
-  rdfs:label "Host-local operational config" ;
-  rdfs:comment "OperationalConfig intended to remain user-, machine-, daemon-, or session-local. Use for host-local preferences and trust decisions such as extra-workspace local-directory allowances, remote-access allowances, or user-specific operational restrictions/extensions that should not travel with a mesh by default." .
 
 <hasConfig> a owl:ObjectProperty ;
   rdfs:domain rdfs:Resource ;
@@ -436,13 +421,13 @@
   rdfs:domain sflo:DigitalArtifact ;
   rdfs:range xsd:string ;
   rdfs:label "has next history segment hint" ;
-  rdfs:comment "Optional operational hint for the next history segment to use when explicitly versioning a DigitalArtifact. This is current/progression metadata and must not be treated as the authoritative sflo:nextHistoryOrdinal counter." .
+  rdfs:comment "Optional runtime hint for the next history segment to use when explicitly versioning a DigitalArtifact. This is current/progression metadata and must not be treated as the authoritative sflo:nextHistoryOrdinal counter." .
 
 <hasNextStateSegmentHint> a owl:DatatypeProperty ;
   rdfs:domain sflo:ArtifactHistory ;
   rdfs:range xsd:string ;
   rdfs:label "has next state segment hint" ;
-  rdfs:comment "Optional operational hint for the next state segment to use when explicitly versioning an ArtifactHistory. This is current/progression metadata and must not be asserted into immutable historical snapshots/distributions or treated as the authoritative sflo:nextStateOrdinal counter." .
+  rdfs:comment "Optional runtime hint for the next state segment to use when explicitly versioning an ArtifactHistory. This is current/progression metadata and must not be asserted into immutable historical snapshots/distributions or treated as the authoritative sflo:nextStateOrdinal counter." .
 
 #################################################################
 #################################################################
@@ -453,12 +438,12 @@
 <ConfigResolutionConfig> a rdfs:Class ;
   rdfs:subClassOf <Config> ;
   rdfs:label "Config resolution config" ;
-  rdfs:comment "Config for the resolver itself: discovery, trust caps, layer ordering, merge behavior, reusable config references, cycle handling, unknown-term behavior, and cache policy. Trusted bootstrap resolver policy must come from application defaults, explicit runtime input, host-local operational config, or daemon/session state; portable mesh config may only request or narrow behavior within the existing trust boundary." .
+  rdfs:comment "Config for the resolver itself: discovery, trust caps, layer ordering, merge behavior, reusable config references, cycle handling, unknown-term behavior, and cache policy. Trusted bootstrap resolver policy must come from application defaults, explicit runtime input, or implementation/service-specific authority; portable mesh config may only request or narrow behavior within the existing trust boundary." .
 
 <ResolvedConfig> a rdfs:Class ;
   rdfs:subClassOf <Config> ;
   rdfs:label "Resolved config" ;
-  rdfs:comment "Derived resolver output for a scope after application defaults, operational gates, config-resolution policy, authored mesh/Knop config, inherited config, reusable config artifacts, and validated request-level inputs have been applied. ResolvedConfig is output state, not trusted operational input and not authoritative authored mesh config." .
+  rdfs:comment "Derived resolver output for a scope after application defaults, runtime gates, config-resolution policy, authored mesh/Knop config, inherited config, reusable config artifacts, and validated request-level inputs have been applied. ResolvedConfig is output state, not trusted input and not authoritative authored mesh config." .
 
 <ConfigResolutionRecord> a rdfs:Class ;
   rdfs:label "Config resolution record" ;
@@ -480,12 +465,6 @@
 
 <configLayerRole_commandOverride> a <ConfigLayerRole> ;
   rdfs:label "command override" .
-
-<configLayerRole_machineLocalOperational> a <ConfigLayerRole> ;
-  rdfs:label "machine-local operational" .
-
-<configLayerRole_workspaceOperational> a <ConfigLayerRole> ;
-  rdfs:label "workspace operational" .
 
 <configLayerRole_meshLocal> a <ConfigLayerRole> ;
   rdfs:label "mesh local" .
@@ -514,7 +493,7 @@
 
 <ConfigMergeProfile> a rdfs:Class ;
   rdfs:label "Config merge profile" ;
-  rdfs:comment "A profile describing property-family merge behavior such as stricter-wins safety caps, nearest-scope defaults, additive values, required invariants, and operation-request overrides." .
+  rdfs:comment "A profile describing property-slot merge behavior such as stricter-wins safety caps, nearest-scope defaults, additive values, required invariants, and operation-request overrides." .
 
 <ConfigReferencePolicy> a rdfs:Class ;
   rdfs:label "Config reference policy" ;
@@ -596,7 +575,7 @@
 
 <PortableResolverHintPolicy> a rdfs:Class ;
   rdfs:label "Portable resolver hint policy" ;
-  rdfs:comment "A controlled vocabulary describing whether portable resolver hints are ignored or honored within trusted operational caps." .
+  rdfs:comment "A controlled vocabulary describing whether portable resolver hints are ignored or honored within trusted runtime caps." .
 
 <portableResolverHintPolicy_ignore> a <PortableResolverHintPolicy> ;
   rdfs:label "ignore" .
@@ -734,7 +713,7 @@
 
 #################################################################
 #################################################################
-# Operational runtime-resolution configuration
+# Portable mesh layout configuration
 #################################################################
 #################################################################
 
@@ -742,111 +721,17 @@
   rdfs:domain <Config> ;
   rdfs:range xsd:string ;
   rdfs:label "workspace root relative to mesh root" ;
-  rdfs:comment "A normalized relative path from the mesh root to the containing local workspace root, used by mesh-carried or workspace-local config to describe how the mesh is situated inside a larger project. This should not be interpreted as an absolute host path or as a broad access grant; local-path access still requires explicit LocalPathAccessRule entries and remains capped by the active runtime workspace boundary." .
-
-<LocalPathAccessRule> a rdfs:Class ;
-  rdfs:label "Local path access rule" ;
-  rdfs:comment "A rule describing when an operational local-path locator such as sflo:workingLocalRelativePath or sflo:targetLocalRelativePath may resolve outside the default runtime boundary. The first-pass model is deny-by-default: access is allowed only when at least one applicable LocalPathAccessRule matches and the active trust boundary permits it." .
-
-<LocalPathBase> a rdfs:Class ;
-  rdfs:label "Local path base" ;
-  rdfs:comment "A controlled vocabulary naming the base against which a LocalPathAccessRule pathPrefix should be interpreted." .
-
-<localPathBase_meshRoot> a <LocalPathBase> ;
-  rdfs:label "mesh root" ;
-  rdfs:comment "Interpret the pathPrefix relative to the current mesh root." .
-
-<localPathBase_userHome> a <LocalPathBase> ;
-  rdfs:label "user home" ;
-  rdfs:comment "Interpret the pathPrefix relative to the current user's home directory." .
-
-<localPathBase_absolutePath> a <LocalPathBase> ;
-  rdfs:label "absolute path" ;
-  rdfs:comment "Interpret the pathPrefix as an absolute host path prefix." .
-
-<LocalPathLocatorKind> a rdfs:Class ;
-  rdfs:label "Local path locator kind" ;
-  rdfs:comment "A controlled vocabulary naming which local-path locator kinds a LocalPathAccessRule applies to." .
-
-<localPathLocatorKind_workingLocalRelativePath> a <LocalPathLocatorKind> ;
-  rdfs:label "working local relative path" ;
-  rdfs:comment "Applies specifically to sflo:workingLocalRelativePath resolution." .
-
-<localPathLocatorKind_targetLocalRelativePath> a <LocalPathLocatorKind> ;
-  rdfs:label "target local relative path" ;
-  rdfs:comment "Applies specifically to sflo:targetLocalRelativePath resolution." .
-
-<RemoteAccessRule> a rdfs:Class ;
-  rdfs:label "Remote access rule" ;
-  rdfs:comment "A rule describing when a direct remote/external locator such as sflo:workingAccessUrl or sflo:targetAccessUrl may be followed. The first-pass model is deny-by-default: remote access is allowed only when at least one applicable RemoteAccessRule matches and the active trust boundary permits it." .
-
-<RemoteLocatorKind> a rdfs:Class ;
-  rdfs:label "Remote locator kind" ;
-  rdfs:comment "A controlled vocabulary naming which remote locator kinds a RemoteAccessRule applies to." .
-
-<remoteLocatorKind_workingAccessUrl> a <RemoteLocatorKind> ;
-  rdfs:label "working access URL" ;
-  rdfs:comment "Applies specifically to sflo:workingAccessUrl resolution." .
-
-<remoteLocatorKind_targetAccessUrl> a <RemoteLocatorKind> ;
-  rdfs:label "target access URL" ;
-  rdfs:comment "Applies specifically to sflo:targetAccessUrl resolution." .
-
-<hasLocalPathAccessRule> a owl:ObjectProperty ;
-  rdfs:domain <Config> ;
-  rdfs:range <LocalPathAccessRule> ;
-  rdfs:label "has local path access rule" ;
-  rdfs:comment "Associates a Config with one of its local-path access rules. Mesh-carried rules describe expected local-relative access and remain capped by runtime workspace boundaries; host-local operational rules may grant broader host-local trust. This ontology intentionally defines positive allow rules only; deny behavior is expressed by absence of a matching rule or by a stricter trust cap." .
-
-<hasRemoteAccessRule> a owl:ObjectProperty ;
-  rdfs:domain <Config> ;
-  rdfs:range <RemoteAccessRule> ;
-  rdfs:label "has remote access rule" ;
-  rdfs:comment "Associates a Config with one of its remote-access rules. Remote access remains operationally fail-closed unless the active runtime explicitly accepts the relevant config layer." .
-
-<hasLocalPathBase> a owl:ObjectProperty ;
-  rdfs:domain <LocalPathAccessRule> ;
-  rdfs:range <LocalPathBase> ;
-  rdfs:label "has local path base" .
-
-<hasLocalPathLocatorKind> a owl:ObjectProperty ;
-  rdfs:domain <LocalPathAccessRule> ;
-  rdfs:range <LocalPathLocatorKind> ;
-  rdfs:label "has local path locator kind" .
-
-<pathPrefix> a owl:DatatypeProperty ;
-  rdfs:domain <LocalPathAccessRule> ;
-  rdfs:range xsd:string ;
-  rdfs:label "path prefix" ;
-  rdfs:comment "A normalized path-prefix string interpreted relative to the rule's declared LocalPathBase. The first-pass model favors explicit path prefixes over regex or implicit base semantics." .
-
-<hasRemoteLocatorKind> a owl:ObjectProperty ;
-  rdfs:domain <RemoteAccessRule> ;
-  rdfs:range <RemoteLocatorKind> ;
-  rdfs:label "has remote locator kind" .
-
-<allowedRemoteScheme> a owl:DatatypeProperty ;
-  rdfs:domain <RemoteAccessRule> ;
-  rdfs:range xsd:string ;
-  rdfs:label "allowed remote scheme" ;
-  rdfs:comment "A URI scheme such as https that is allowed by a RemoteAccessRule." .
-
-<allowedRemoteOrigin> a owl:DatatypeProperty ;
-  rdfs:domain <RemoteAccessRule> ;
-  rdfs:range xsd:anyURI ;
-  rdfs:label "allowed remote origin" ;
-  rdfs:comment "An allowed remote origin or origin-like base URI for a RemoteAccessRule. Interpretation should stay conservative and fail closed when the runtime cannot determine that a candidate URL matches the configured origin boundary." .
+  rdfs:comment "A normalized relative path from the mesh root to the containing local workspace root, used by mesh-carried config to describe how the mesh is situated inside a larger project. This should not be interpreted as an absolute host path or as a broad access grant; host-local path and remote-access trust policy belongs to implementation- or service-specific runtime configuration." .
 
 #################################################################
 #################################################################
-# Resource-page presentation configuration
+# Resource-page presentation policy
 #################################################################
 #################################################################
 
-<ResourcePagePresentationConfig> a rdfs:Class ;
-  rdfs:subClassOf <Config> ;
-  rdfs:label "ResourcePage presentation config" ;
-  rdfs:comment "A Config describing presentation and chrome preferences adjacent to a ResourcePageDefinition. It names templates, stylesheets, and similar presentation artifacts, but does not encode authored content regions, source bindings, or source-resolution policy; those belong in the core ontology." .
+<ResourcePagePresentationPolicy> a rdfs:Class ;
+  rdfs:label "ResourcePage presentation policy" ;
+  rdfs:comment "A policy value describing ResourcePage presentation and chrome choices. It names templates, stylesheets, generated panel selections, and similar presentation artifacts, but does not encode authored content regions, source bindings, or source-resolution policy; those belong in the core ontology." .
 
 <ResourcePageTemplate> a rdfs:Class ;
   rdfs:subClassOf sflo:DigitalArtifact ;
@@ -870,36 +755,28 @@
 
 <ResourcePageRenderRecord> a rdfs:Class ;
   rdfs:label "ResourcePage render record" ;
-  rdfs:comment "Derived provenance for a ResourcePage generation or regeneration event, including source state, presentation config, renderer version, and relevant ResolvedConfig digest. These records are runtime/provenance artifacts only when deliberately materialized." .
+  rdfs:comment "Derived provenance for a ResourcePage generation or regeneration event, including source state, presentation policy, renderer version, and relevant ResolvedConfig digest. These records are runtime/provenance artifacts only when deliberately materialized." .
 
-<hasResourcePagePresentationConfig> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasConfig> ;
-  rdfs:domain sflo:ResourcePageDefinition ;
-  rdfs:range <ResourcePagePresentationConfig> ;
-  rdfs:label "has ResourcePage presentation config" ;
-  rdfs:comment "Associates a ResourcePageDefinition with adjacent presentation/chrome configuration. Broader defaults should layer through generic or role-specific config attachment rather than regex-based template mapping." .
+<hasResourcePagePresentationPolicy> a owl:ObjectProperty ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:range <ResourcePagePresentationPolicy> ;
+  rdfs:label "has ResourcePage presentation policy" ;
+  rdfs:comment "Associates a ResourcePageDefinition, policy definition, Config, or other applicable resource with a ResourcePage presentation policy. Whether the policy is local, inherited, or default behavior comes from config attachment and policy resolution rather than this property name." .
 
 <hasInnerResourcePageTemplate> a owl:ObjectProperty ;
-  rdfs:domain <ResourcePagePresentationConfig> ;
+  rdfs:domain <ResourcePagePresentationPolicy> ;
   rdfs:range <InnerResourcePageTemplate> ;
   rdfs:label "has inner ResourcePage template" .
 
 <hasOuterResourcePageTemplate> a owl:ObjectProperty ;
-  rdfs:domain <ResourcePagePresentationConfig> ;
+  rdfs:domain <ResourcePagePresentationPolicy> ;
   rdfs:range <OuterResourcePageTemplate> ;
   rdfs:label "has outer ResourcePage template" .
 
 <hasResourcePageStylesheet> a owl:ObjectProperty ;
-  rdfs:domain <ResourcePagePresentationConfig> ;
+  rdfs:domain <ResourcePagePresentationPolicy> ;
   rdfs:range <ResourcePageStylesheet> ;
   rdfs:label "has ResourcePage stylesheet" .
-
-<hasDefaultResourcePagePresentationConfig> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasConfig> ;
-  rdfs:domain <Config> ;
-  rdfs:range <ResourcePagePresentationConfig> ;
-  rdfs:label "has default ResourcePage presentation config" ;
-  rdfs:comment "Associates an application, mesh, Knop, or reusable Config with the default ResourcePage presentation profile to use when no nearer presentation config applies." .
 
 <ResourcePagePanel> a rdfs:Class ;
   rdfs:label "ResourcePage panel" ;
@@ -907,7 +784,7 @@
 
 <ResourcePagePanelSelection> a rdfs:Class ;
   rdfs:label "ResourcePage panel selection" ;
-  rdfs:comment "A named presentation-profile component that selects a ResourcePagePanel together with ordering, inclusion policy, targeting, and data-availability constraints." .
+  rdfs:comment "A named presentation-policy component that selects a ResourcePagePanel together with ordering, inclusion policy, targeting, and data-availability constraints." .
 
 <ResourcePagePanelInclusionPolicy> a rdfs:Class ;
   rdfs:label "ResourcePage panel inclusion policy" .
@@ -967,7 +844,7 @@
   rdfs:label "Semantic Flow metadata opt-in" .
 
 <hasResourcePagePanelSelection> a owl:ObjectProperty ;
-  rdfs:domain <ResourcePagePresentationConfig> ;
+  rdfs:domain <ResourcePagePresentationPolicy> ;
   rdfs:range <ResourcePagePanelSelection> ;
   rdfs:label "has ResourcePage panel selection" .
 
