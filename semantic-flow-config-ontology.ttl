@@ -13,7 +13,7 @@
   dcterms:description "Vocabulary for Semantic Flow configuration resources, authored config attachment, resolver policy, derived resolved-config records, and resource-page presentation policy. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcterms:hasVersion <https://semantic-flow.github.io/sflo/config/releases/v0.2.0> ;
-  dcterms:modified "2026-05-18"^^xsd:date ;
+  dcterms:modified "2026-05-26"^^xsd:date ;
   owl:versionInfo "0.2.0" ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.2.0/semantic-flow-config-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfcfg" ;
@@ -205,6 +205,62 @@
 #################################################################
 #################################################################
 
+<PolicyDefinition> a rdfs:Class ;
+  rdfs:label "Policy definition" ;
+  rdfs:comment "A reusable node that carries one or more supported policy-slot values, such as history tracking, ResourcePage generation, or ResourcePage presentation. Reuse does not define precedence; bindings attach definitions to explicit targets from a particular config layer and scope." .
+
+<PolicyBinding> a rdfs:Class ;
+  rdfs:label "Policy binding" ;
+  rdfs:comment "A config-layer assertion that binds a PolicyDefinition to an explicit PolicyTarget. Binding metadata such as priority belongs here rather than inside the reusable policy definition." .
+
+<PolicyTarget> a rdfs:Class ;
+  rdfs:label "Policy target" ;
+  rdfs:comment "An explicit selector for resources a policy binding covers. Missing selector fields do not imply wildcard behavior; broad matching must be represented by an explicit broad target class or value." .
+
+<ArtifactPolicyTarget> a rdfs:Class ;
+  rdfs:subClassOf <PolicyTarget> ;
+  rdfs:label "Artifact policy target" ;
+  rdfs:comment "A PolicyTarget for governed Semantic Flow DigitalArtifacts." .
+
+<AnyGovernedArtifactPolicyTarget> a rdfs:Class ;
+  rdfs:subClassOf <ArtifactPolicyTarget> ;
+  rdfs:label "any governed artifact policy target" ;
+  rdfs:comment "A broad artifact target that covers any Semantic Flow-managed DigitalArtifact governed by the config scope in which the binding participates." .
+
+<ArtifactRolePolicyTarget> a rdfs:Class ;
+  rdfs:subClassOf <ArtifactPolicyTarget> ;
+  rdfs:label "artifact role policy target" ;
+  rdfs:comment "An artifact target that covers governed DigitalArtifacts with a specific ArtifactRole." .
+
+<ExactArtifactPolicyTarget> a rdfs:Class ;
+  rdfs:subClassOf <ArtifactPolicyTarget> ;
+  rdfs:label "exact artifact policy target" ;
+  rdfs:comment "An artifact target that covers one exact governed sflo:DigitalArtifact in the config scope. It must not be used for merely referenced external artifacts or generated ResourcePage files." .
+
+<hasPolicyBinding> a owl:ObjectProperty ;
+  rdfs:domain <Config> ;
+  rdfs:range <PolicyBinding> ;
+  rdfs:label "has policy binding" ;
+  rdfs:comment "Associates a Config with a policy binding declared by that config source." .
+
+<bindsPolicy> a owl:ObjectProperty ;
+  rdfs:domain <PolicyBinding> ;
+  rdfs:range <PolicyDefinition> ;
+  rdfs:label "binds policy" ;
+  rdfs:comment "Identifies the reusable policy definition selected by a PolicyBinding." .
+
+<appliesToPolicyTarget> a owl:ObjectProperty ;
+  rdfs:domain <PolicyBinding> ;
+  rdfs:range <PolicyTarget> ;
+  rdfs:label "applies to policy target" ;
+  rdfs:comment "Identifies the explicit target selector covered by a PolicyBinding." .
+
+<policyPriority> a owl:DatatypeProperty ;
+  rdfs:domain <PolicyBinding> ;
+  rdfs:range xsd:integer ;
+  rdfs:label "policy priority" ;
+  rdfs:comment "Optional tie-breaker for policy bindings at the same layer, policy slot, and effective selector specificity. Omitted priority is interpreted as zero by the default resolver." .
+
 <ArtifactRole> a rdfs:Class ;
   rdfs:label "Artifact role" ;
   rdfs:comment "A controlled vocabulary of Semantic Flow artifact roles used when applying config defaults by role rather than by one exact artifact." .
@@ -242,15 +298,17 @@
 <artifactRole_runtimeMeta> a <ArtifactRole> ;
   rdfs:label "runtime metadata" .
 
-<ArtifactRolePolicy> a rdfs:Class ;
-  rdfs:label "Artifact role policy" ;
-  rdfs:comment "A policy node that applies one or more policy values to artifacts with a specific ArtifactRole." .
-
 <hasArtifactRole> a owl:ObjectProperty ;
-  rdfs:domain <ArtifactRolePolicy> ;
+  rdfs:domain <ArtifactRolePolicyTarget> ;
   rdfs:range <ArtifactRole> ;
   rdfs:label "has artifact role" ;
-  rdfs:comment "Identifies the ArtifactRole to which an ArtifactRolePolicy applies." .
+  rdfs:comment "Identifies the ArtifactRole to which an ArtifactRolePolicyTarget applies." .
+
+<targetsArtifact> a owl:ObjectProperty ;
+  rdfs:domain <ExactArtifactPolicyTarget> ;
+  rdfs:range sflo:DigitalArtifact ;
+  rdfs:label "targets artifact" ;
+  rdfs:comment "Identifies the exact governed sflo:DigitalArtifact selected by an ExactArtifactPolicyTarget." .
 
 <HistoryTrackingPolicy> a rdfs:Class ;
   rdfs:label "History tracking policy" ;
@@ -286,18 +344,6 @@
   rdfs:label "has history tracking policy" ;
   rdfs:comment "Assigns a HistoryTrackingPolicy to a config or role policy." .
 
-<hasDefaultHistoryTrackingPolicy> a owl:ObjectProperty ;
-  rdfs:domain <Config> ;
-  rdfs:range <HistoryTrackingPolicy> ;
-  rdfs:label "has default history tracking policy" ;
-  rdfs:comment "Declares the default HistoryTrackingPolicy used when no more specific artifact-role, scope, or artifact policy applies." .
-
-<hasHistoryTrackingDefault> a owl:ObjectProperty ;
-  rdfs:domain <Config> ;
-  rdfs:range <ArtifactRolePolicy> ;
-  rdfs:label "has history tracking default" ;
-  rdfs:comment "Associates a Config with an artifact-role-specific history tracking default." .
-
 <ResourcePageGenerationPolicy> a rdfs:Class ;
   rdfs:label "ResourcePage generation policy" ;
   rdfs:comment "A controlled vocabulary describing whether ResourcePage files should be generated independently of whether artifact history is tracked." .
@@ -319,18 +365,6 @@
   rdfs:range <ResourcePageGenerationPolicy> ;
   rdfs:label "has ResourcePage generation policy" ;
   rdfs:comment "Assigns a ResourcePageGenerationPolicy to a config or role policy. Suppressed pages should omit sflo:hasResourcePage rather than promising a page that policy says should not exist." .
-
-<hasDefaultResourcePageGenerationPolicy> a owl:ObjectProperty ;
-  rdfs:domain <Config> ;
-  rdfs:range <ResourcePageGenerationPolicy> ;
-  rdfs:label "has default ResourcePage generation policy" ;
-  rdfs:comment "Declares the default ResourcePageGenerationPolicy used when no more specific policy applies." .
-
-<hasResourcePageGenerationDefault> a owl:ObjectProperty ;
-  rdfs:domain <Config> ;
-  rdfs:range <ArtifactRolePolicy> ;
-  rdfs:label "has ResourcePage generation default" ;
-  rdfs:comment "Associates a Config with an artifact-role-specific ResourcePage generation default." .
 
 <ResourcePageRegenerationConfigPolicy> a rdfs:Class ;
   rdfs:label "ResourcePage regeneration config policy" ;
@@ -485,9 +519,6 @@
 
 <configLayerRole_knopInheritable> a <ConfigLayerRole> ;
   rdfs:label "Knop inheritable" .
-
-<configLayerRole_reusableConfig> a <ConfigLayerRole> ;
-  rdfs:label "reusable config" .
 
 <configLayerRole_resolvedRuntime> a <ConfigLayerRole> ;
   rdfs:label "resolved runtime" .
@@ -766,7 +797,7 @@
   rdfs:domain rdfs:Resource ;
   rdfs:range <ResourcePagePresentationPolicy> ;
   rdfs:label "has ResourcePage presentation policy" ;
-  rdfs:comment "Associates a ResourcePageDefinition, policy definition, Config, or other applicable resource with a ResourcePage presentation policy. Whether the policy is local, inherited, or default behavior comes from config attachment and policy resolution rather than this property name." .
+  rdfs:comment "Associates a policy definition, Config, or other applicable config-side resource with a ResourcePage presentation policy. Whether the policy is local, inherited, or default behavior comes from config attachment and policy resolution rather than this property name." .
 
 <hasInnerResourcePageTemplate> a owl:ObjectProperty ;
   rdfs:domain <ResourcePagePresentationPolicy> ;
@@ -845,8 +876,8 @@
 <panelDataRequirement_history> a <ResourcePagePanelDataRequirement> ;
   rdfs:label "history" .
 
-<panelDataRequirement_semanticFlowMetadataOptIn> a <ResourcePagePanelDataRequirement> ;
-  rdfs:label "Semantic Flow metadata opt-in" .
+<panelDataRequirement_semanticFlowMetadata> a <ResourcePagePanelDataRequirement> ;
+  rdfs:label "Semantic Flow metadata" .
 
 <hasResourcePagePanelSelection> a owl:ObjectProperty ;
   rdfs:domain <ResourcePagePresentationPolicy> ;

@@ -115,6 +115,12 @@ Deno.test("old config names and boolean policy switches stay retired", async () 
     "targetAccessUrlLocatorKind",
     "generateResourcePages",
     "createHistoricalStatesOnWeave",
+    "hasDefaultHistoryTrackingPolicy",
+    "hasHistoryTrackingDefault",
+    "hasDefaultResourcePageGenerationPolicy",
+    "hasResourcePageGenerationDefault",
+    "hasDefaultResourcePagePresentationConfig",
+    "panelDataRequirement_semanticFlowMetadataOptIn",
   ] as const;
 
   for (const relativePath of ACTIVE_RDF_FILES) {

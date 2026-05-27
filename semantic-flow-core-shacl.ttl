@@ -865,6 +865,79 @@
   ];
   sh:targetClass sflo:DigitalArtifact .
 
+<https://semantic-flow.github.io/sflo/ontology/shacl/PolicyDefinitionShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A PolicyDefinition must carry at least one supported policy-slot value.";
+  rdfs:label "PolicyDefinition structure";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A PolicyDefinition MUST declare at least one supported policy-slot value.";
+    sh:select "PREFIX sfcfg: <https://semantic-flow.github.io/sflo/config/>\nSELECT $this WHERE {\n  FILTER NOT EXISTS {\n    { $this sfcfg:hasHistoryTrackingPolicy ?history }\n    UNION { $this sfcfg:hasResourcePageGenerationPolicy ?generation }\n    UNION { $this sfcfg:hasResourcePagePresentationPolicy ?presentation }\n  }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:PolicyDefinition .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/PolicyBindingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A PolicyBinding associates exactly one PolicyDefinition with exactly one explicit PolicyTarget.";
+  rdfs:label "PolicyBinding structure";
+  sh:property [
+    sh:class sfcfg:PolicyDefinition;
+    sh:maxCount 1;
+    sh:message "A PolicyBinding MUST bind exactly one sfcfg:PolicyDefinition.";
+    sh:minCount 1;
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:bindsPolicy;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:PolicyTarget;
+    sh:maxCount 1;
+    sh:message "A PolicyBinding MUST apply to exactly one sfcfg:PolicyTarget.";
+    sh:minCount 1;
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:appliesToPolicyTarget;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:integer;
+    sh:maxCount 1;
+    sh:message "If present, sfcfg:policyPriority MUST be a single integer.";
+    sh:path sfcfg:policyPriority;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:PolicyBinding .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactRolePolicyTargetShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "An ArtifactRolePolicyTarget covers governed artifacts with one explicit ArtifactRole.";
+  rdfs:label "ArtifactRolePolicyTarget structure";
+  sh:property [
+    sh:class sfcfg:ArtifactRole;
+    sh:maxCount 1;
+    sh:message "An ArtifactRolePolicyTarget MUST declare exactly one sfcfg:hasArtifactRole value typed sfcfg:ArtifactRole.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasArtifactRole;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:ArtifactRolePolicyTarget .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ExactArtifactPolicyTargetShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "An ExactArtifactPolicyTarget covers one explicit governed DigitalArtifact.";
+  rdfs:label "ExactArtifactPolicyTarget structure";
+  sh:property [
+    sh:class sflo:DigitalArtifact;
+    sh:maxCount 1;
+    sh:message "An ExactArtifactPolicyTarget MUST declare exactly one sfcfg:targetsArtifact value typed sflo:DigitalArtifact.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:targetsArtifact;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:ExactArtifactPolicyTarget .
+
 <https://semantic-flow.github.io/sflo/ontology/shacl/ResourcePagePresentationPolicyShape>
   rdf:type sh:NodeShape;
   rdfs:comment "A ResourcePagePresentationPolicy names the built-in or governed presentation assets and panel selections that a renderer can resolve.";
@@ -897,11 +970,10 @@
   ];
   sh:property [
     sh:class sfcfg:ResourcePagePanelSelection;
-    sh:message "A ResourcePagePresentationPolicy SHOULD have at least one sfcfg:hasResourcePagePanelSelection value typed sfcfg:ResourcePagePanelSelection.";
-    sh:minCount 1;
+    sh:message "If present, sfcfg:hasResourcePagePanelSelection values must be IRIs typed sfcfg:ResourcePagePanelSelection.";
     sh:nodeKind sh:IRI;
     sh:path sfcfg:hasResourcePagePanelSelection;
-    sh:severity sh:Warning
+    sh:severity sh:Violation
   ];
   sh:targetClass sfcfg:ResourcePagePresentationPolicy .
 
@@ -968,27 +1040,13 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/ResourcePageDefinitionPresentationConfigShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "A ResourcePageDefinition may opt into adjacent presentation config and selected generated ResourcePage panels.";
-  rdfs:label "ResourcePageDefinition presentation config";
-  sh:property [
-    sh:class sfcfg:ResourcePagePresentationPolicy;
-    sh:maxCount 1;
-    sh:message "If present, sfcfg:hasResourcePagePresentationPolicy must be a single IRI typed sfcfg:ResourcePagePresentationPolicy.";
-    sh:nodeKind sh:IRI;
-    sh:path sfcfg:hasResourcePagePresentationPolicy;
-    sh:severity sh:Violation
-  ];
+  rdfs:comment "A ResourcePageDefinition may declare page-local generated panel selections as authored composition over the resolved presentation policy.";
+  rdfs:label "ResourcePageDefinition generated panel selection";
   sh:property [
     sh:class sfcfg:ResourcePagePanelSelection;
     sh:message "If present, sfcfg:hasGeneratedResourcePagePanelSelection values must be IRIs typed sfcfg:ResourcePagePanelSelection.";
     sh:nodeKind sh:IRI;
     sh:path sfcfg:hasGeneratedResourcePagePanelSelection;
-    sh:severity sh:Violation
-  ];
-  sh:sparql [
-    rdf:type sh:SPARQLConstraint;
-    sh:message "A ResourcePageDefinition with sfcfg:hasGeneratedResourcePagePanelSelection MUST also declare sfcfg:hasResourcePagePresentationPolicy.";
-    sh:select "PREFIX sfcfg: <https://semantic-flow.github.io/sflo/config/>\nSELECT $this WHERE {\n  $this sfcfg:hasGeneratedResourcePagePanelSelection ?selection .\n  FILTER NOT EXISTS { $this sfcfg:hasResourcePagePresentationPolicy ?config }\n}";
     sh:severity sh:Violation
   ];
   sh:targetClass sflo:ResourcePageDefinition .

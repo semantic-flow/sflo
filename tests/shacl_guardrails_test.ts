@@ -29,6 +29,12 @@ const SHAPES = {
   ReferenceSource: `${SFLO_SHACL_NAMESPACE}ReferenceSourceShape`,
   ArtifactResolutionModeUsage:
     `${SFLO_SHACL_NAMESPACE}ArtifactResolutionModeUsageShape`,
+  PolicyDefinition: `${SFLO_SHACL_NAMESPACE}PolicyDefinitionShape`,
+  PolicyBinding: `${SFLO_SHACL_NAMESPACE}PolicyBindingShape`,
+  ArtifactRolePolicyTarget:
+    `${SFLO_SHACL_NAMESPACE}ArtifactRolePolicyTargetShape`,
+  ExactArtifactPolicyTarget:
+    `${SFLO_SHACL_NAMESPACE}ExactArtifactPolicyTargetShape`,
   ResourcePagePresentationPolicy:
     `${SFLO_SHACL_NAMESPACE}ResourcePagePresentationPolicyShape`,
   ResourcePagePanelSelection:
@@ -40,6 +46,11 @@ const SHAPES = {
 const TERMS = {
   ArtifactResolutionSpec: `${SFLO_NAMESPACE}ArtifactResolutionSpec`,
   ConfigSource: `${SFCFG_NAMESPACE}ConfigSource`,
+  PolicyDefinition: `${SFCFG_NAMESPACE}PolicyDefinition`,
+  PolicyBinding: `${SFCFG_NAMESPACE}PolicyBinding`,
+  PolicyTarget: `${SFCFG_NAMESPACE}PolicyTarget`,
+  ArtifactRolePolicyTarget: `${SFCFG_NAMESPACE}ArtifactRolePolicyTarget`,
+  ExactArtifactPolicyTarget: `${SFCFG_NAMESPACE}ExactArtifactPolicyTarget`,
   PublicationProfile: `${SFCFG_NAMESPACE}PublicationProfile`,
   ResourcePageDefinition: `${SFLO_NAMESPACE}ResourcePageDefinition`,
   ResourcePagePresentationPolicy:
@@ -51,6 +62,11 @@ const TERMS = {
     `${SFLO_NAMESPACE}artifactResolutionMode_working`,
   hasInnerResourcePageTemplate:
     `${SFCFG_NAMESPACE}hasInnerResourcePageTemplate`,
+  bindsPolicy: `${SFCFG_NAMESPACE}bindsPolicy`,
+  appliesToPolicyTarget: `${SFCFG_NAMESPACE}appliesToPolicyTarget`,
+  policyPriority: `${SFCFG_NAMESPACE}policyPriority`,
+  hasArtifactRole: `${SFCFG_NAMESPACE}hasArtifactRole`,
+  targetsArtifact: `${SFCFG_NAMESPACE}targetsArtifact`,
   hasGeneratedResourcePagePanelSelection:
     `${SFCFG_NAMESPACE}hasGeneratedResourcePagePanelSelection`,
   hasPanelDataRequirement: `${SFCFG_NAMESPACE}hasPanelDataRequirement`,
@@ -94,6 +110,10 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
   assertNodeShape(quads, SHAPES.KnopSourceBinding);
   assertNodeShape(quads, SHAPES.LocalWorkingSourceBinding);
   assertNodeShape(quads, SHAPES.ArtifactResolutionModeUsage);
+  assertNodeShape(quads, SHAPES.PolicyDefinition);
+  assertNodeShape(quads, SHAPES.PolicyBinding);
+  assertNodeShape(quads, SHAPES.ArtifactRolePolicyTarget);
+  assertNodeShape(quads, SHAPES.ExactArtifactPolicyTarget);
   assertNodeShape(quads, SHAPES.ResourcePagePresentationPolicy);
   assertNodeShape(quads, SHAPES.ResourcePagePanelSelection);
   assertNodeShape(quads, SHAPES.ResourcePageDefinitionPresentationConfig);
@@ -277,7 +297,7 @@ Deno.test("ResourcePage presentation SHACL declares required config and panel se
     SHAPES.ResourcePagePresentationPolicy,
     TERMS.hasResourcePageStylesheet,
   );
-  assertRequiredProperty(
+  assertOptionalProperty(
     quads,
     SHAPES.ResourcePagePresentationPolicy,
     TERMS.hasResourcePagePanelSelection,
@@ -330,6 +350,107 @@ Deno.test("ResourcePage presentation SHACL declares required config and panel se
     SHAPES.ResourcePagePanelSelection,
     TERMS.hasPanelDataRequirement,
   );
+});
+
+Deno.test("Policy binding SHACL declares explicit definition and target constraints", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.PolicyDefinition,
+      SH.targetClass,
+      TERMS.PolicyDefinition,
+    ),
+    "PolicyDefinition shape should target PolicyDefinition",
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.PolicyBinding,
+      SH.targetClass,
+      TERMS.PolicyBinding,
+    ),
+    "PolicyBinding shape should target PolicyBinding",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.bindsPolicy,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.bindsPolicy,
+    1,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.appliesToPolicyTarget,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.appliesToPolicyTarget,
+    1,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.policyPriority,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.policyPriority,
+    1,
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ArtifactRolePolicyTarget,
+      SH.targetClass,
+      TERMS.ArtifactRolePolicyTarget,
+    ),
+    "ArtifactRolePolicyTarget shape should target ArtifactRolePolicyTarget",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ArtifactRolePolicyTarget,
+    TERMS.hasArtifactRole,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ArtifactRolePolicyTarget,
+    TERMS.hasArtifactRole,
+    1,
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ExactArtifactPolicyTarget,
+      SH.targetClass,
+      TERMS.ExactArtifactPolicyTarget,
+    ),
+    "ExactArtifactPolicyTarget shape should target ExactArtifactPolicyTarget",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ExactArtifactPolicyTarget,
+    TERMS.targetsArtifact,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ExactArtifactPolicyTarget,
+    TERMS.targetsArtifact,
+    1,
+  );
+});
+
+Deno.test("ResourcePageDefinition SHACL declares generated panel selection composition", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
   assert(
     hasTriple(
       quads,
@@ -338,17 +459,6 @@ Deno.test("ResourcePage presentation SHACL declares required config and panel se
       TERMS.ResourcePageDefinition,
     ),
     "ResourcePageDefinition presentation shape should target ResourcePageDefinition",
-  );
-  assertOptionalProperty(
-    quads,
-    SHAPES.ResourcePageDefinitionPresentationConfig,
-    TERMS.hasResourcePagePresentationPolicy,
-  );
-  assertPropertyMaxCount(
-    quads,
-    SHAPES.ResourcePageDefinitionPresentationConfig,
-    TERMS.hasResourcePagePresentationPolicy,
-    1,
   );
   assertOptionalProperty(
     quads,
@@ -363,6 +473,11 @@ Deno.test("config ontology carries publication, source, and resource-page config
   for (
     const term of [
       TERMS.ConfigSource,
+      TERMS.PolicyDefinition,
+      TERMS.PolicyBinding,
+      TERMS.PolicyTarget,
+      TERMS.ArtifactRolePolicyTarget,
+      TERMS.ExactArtifactPolicyTarget,
       TERMS.PublicationProfile,
       TERMS.ResourcePagePresentationPolicy,
     ]
