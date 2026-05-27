@@ -13,7 +13,7 @@
   dcterms:description "Vocabulary for Semantic Flow configuration resources, authored config attachment, resolver policy, derived resolved-config records, and resource-page presentation policy. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcterms:hasVersion <https://semantic-flow.github.io/sflo/config/releases/v0.2.0> ;
-  dcterms:modified "2026-05-26"^^xsd:date ;
+  dcterms:modified "2026-05-27"^^xsd:date ;
   owl:versionInfo "0.2.0" ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.2.0/semantic-flow-config-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfcfg" ;
@@ -758,6 +758,40 @@
   rdfs:range xsd:string ;
   rdfs:label "workspace root relative to mesh root" ;
   rdfs:comment "A normalized relative path from the mesh root to the containing local workspace root, used by mesh-carried config to describe how the mesh is situated inside a larger project. This should not be interpreted as an absolute host path or as a broad access grant; host-local path and remote-access trust policy belongs to implementation- or service-specific runtime configuration." .
+
+<MeshWorkspacePathRule> a rdfs:Class ;
+  rdfs:label "Mesh workspace path rule" ;
+  rdfs:comment "A portable mesh-carried rule that allows a specific local path prefix, interpreted relative to the mesh root, for selected local relative path locator kinds. The resolved prefix must stay inside the workspace described by the active mesh configuration and runtime context; this class is not host-local trust policy." .
+
+<LocalPathLocatorKind> a rdfs:Class ;
+  rdfs:label "Local path locator kind" ;
+  rdfs:comment "A controlled vocabulary for local relative path locator slots whose resolution may be constrained by mesh workspace path rules." .
+
+<localPathLocatorKind_workingLocalRelativePath> a <LocalPathLocatorKind> ;
+  rdfs:label "working local relative path" ;
+  rdfs:comment "The rule applies to local working-source paths, such as authored source files adjacent to a sidecar mesh." .
+
+<localPathLocatorKind_targetLocalRelativePath> a <LocalPathLocatorKind> ;
+  rdfs:label "target local relative path" ;
+  rdfs:comment "The rule applies to target mesh-local relative paths, such as direct unmanaged file references that are resolved from local mesh data." .
+
+<hasMeshWorkspacePathRule> a owl:ObjectProperty ;
+  rdfs:domain <MeshConfig> ;
+  rdfs:range <MeshWorkspacePathRule> ;
+  rdfs:label "has mesh workspace path rule" ;
+  rdfs:comment "Associates a MeshConfig with a constrained portable path rule for local paths inside the active workspace boundary." .
+
+<workspacePathPrefix> a owl:DatatypeProperty ;
+  rdfs:domain <MeshWorkspacePathRule> ;
+  rdfs:range xsd:string ;
+  rdfs:label "workspace path prefix" ;
+  rdfs:comment "A POSIX-style relative path prefix interpreted from the mesh root. It may name mesh-adjacent workspace directories such as ../ontology/ for sidecar meshes, but it must not be absolute or broaden to arbitrary host traversal." .
+
+<appliesToLocalPathLocatorKind> a owl:ObjectProperty ;
+  rdfs:domain <MeshWorkspacePathRule> ;
+  rdfs:range <LocalPathLocatorKind> ;
+  rdfs:label "applies to local path locator kind" ;
+  rdfs:comment "Identifies the local relative path locator kind or kinds governed by a mesh workspace path rule." .
 
 #################################################################
 #################################################################

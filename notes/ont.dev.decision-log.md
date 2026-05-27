@@ -10,6 +10,21 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-05-27: Split portable mesh workspace rules from host-local access grants
+
+- Status: Active
+- Decision: Replace the old portable `LocalPathAccessRule` / `LocalPathBase` model with a narrower mesh-carried `MeshWorkspacePathRule` model. MeshConfig may carry `hasMeshWorkspacePathRule` rules with `workspacePathPrefix` values interpreted relative to the mesh root and constrained by the active workspace boundary, plus explicit `appliesToLocalPathLocatorKind` values. Host-local user, home, absolute-path, and broader runtime trust grants do not belong in portable Semantic Flow config vocabulary; implementation-specific runtimes such as Weave should model them in their own settings or runtime policy layer.
+- References: [[wa.task.2026.2026-05-25_1609-config-policy-ontology-and-runtime]], [[wa.completed.2026.2026-05-26_2030-user-settings]], [[sf.config]]
+- Why:
+  - sidecar meshes still need portable, repo-traveling rules for known workspace-adjacent authored source directories such as `../ontology/`
+  - the previous `LocalPathBase` shape was too broad for portable config because it mixed mesh-root-relative workspace allowances with host-local home and absolute-path grants
+  - keeping the path prefix relative to mesh root preserves the existing sidecar authoring model while making the workspace boundary explicit
+  - user/operator trust decisions need a different lifecycle from mesh-carried config and should not travel as `sfcfg:` data
+- Notes:
+  - `workspacePathPrefix` is POSIX-style, relative to mesh root, and must not be host-absolute
+  - runtimes must fail closed for broad `..` traversal and for prefixes that resolve outside the active workspace boundary
+  - `LocalPathLocatorKind` remains portable because it identifies Semantic Flow locator slots, not host trust policy
+
 ### 2026-05-24: Separate resolution targets from resolution observations and clarify reference sources
 
 - Status: Active
@@ -73,7 +88,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 ### 2026-04-12: Model runtime-resolution policy in the config ontology with mesh/local access layers
 
-- Status: Active
+- Status: Superseded by 2026-05-27 split between portable mesh workspace rules and host-local runtime/user settings
 - Decision: Keep the first-pass runtime-resolution vocabulary in the live config ontology rather than blocking on a separate host/operational companion ontology. Use `MeshConfig` for portable mesh-carried config and `LocalConfig` for user- or machine-local config; keep `OperationalConfig` for host/runtime policy rather than making mesh config a subclass of it. Model local-boundary allowances with positive `LocalPathAccessRule` resources carrying an explicit base plus `pathPrefix`, and model remote-boundary allowances with positive `RemoteAccessRule` resources carrying locator-kind plus scheme/origin constraints.
 - References: [[wd.task.2026.2026-04-11_1723-operational-config-for-runtime-resolution]], [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[wa.cancelled.2026.2026-03-23-config-modernization]]
 - Why:
