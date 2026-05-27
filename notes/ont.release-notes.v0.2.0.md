@@ -46,6 +46,7 @@ The job and provenance ontology source files remain tagged source vocabulary unl
 - `ReferenceSource`, `ImportSource`, and `IntegrationSource` join `ExtractionSource` and `ResourcePageSource` as shared `ArtifactResolutionSpec` subclasses.
 - `ArtifactResolutionObservation` records observed byte evidence only when an operation intentionally records resolution evidence; concrete observed coordinates are represented by its nested `observedArtifactResolutionSpec`.
 - Config vocabulary adds `PublicationProfile`, `publicationProfile_none`, `publicationProfile_githubPages`, and `hasPublicationProfile` so a mesh can persist its resolved static-publication host profile.
+- Config vocabulary clarifies that reusable `ConfigArtifact` and `ConfigSource` records do not create a separate precedence layer; role-specific attachment properties determine the scope and layer where referenced config participates.
 - GitHub Pages profile semantics are intentionally narrow: the profile covers host controls such as `.nojekyll`; Weave and the ontology do not treat `CNAME` as managed publication state.
 - `hasNextHistorySegmentHint` and `hasNextStateSegmentHint` are now scoped to the relevant digital-artifact/history progression objects instead of generic config resources.
 - Repository-backed source binding shapes now allow mutable working/ref-following bindings while warning when deterministic replay evidence such as commit or digest is absent.

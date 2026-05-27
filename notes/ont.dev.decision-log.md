@@ -10,6 +10,20 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-05-27: Config sources do not create their own precedence layer
+
+- Status: Active
+- Decision: Treat `sfcfg:ConfigSource` and reusable `sfcfg:ConfigArtifact` references as source/provenance inputs that participate at the attachment point that used them. Do not model reusable config as its own `ConfigLayerRole`. Clarify `configLayerRole_knopInheritable` as an authored outbound offer to descendant scopes rather than an implicit local layer for the declaring Knop.
+- References: [[wa.task.2026.2026-05-25_1609-config-policy-ontology-and-runtime]], [[sf.spec.2026-05-25-config-behavior]], [[sf.config]]
+- Why:
+  - config source location is not authority; a Knop-owned config artifact can participate at mesh scope only when a mesh-level attachment uses it
+  - "reusable config" describes identity and source reuse, not precedence
+  - Knop-inheritable config needs a different lifecycle from Knop-local config because it is projected into descendants before it is consumed
+- Notes:
+  - role-specific attachment properties such as `hasMeshConfigSource`, `hasKnopLocalConfigSource`, and `hasKnopInheritableConfigSource` carry the role where resolved config participates
+  - `ConfigResolutionRecord` / `ResolvedConfig` may still record the referenced ConfigSource for diagnostics and provenance
+  - if one config artifact should apply both locally and to descendants, attach it through both local and inheritable attachment properties
+
 ### 2026-05-27: Split portable mesh workspace rules from host-local access grants
 
 - Status: Active
