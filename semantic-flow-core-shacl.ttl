@@ -229,6 +229,58 @@
   ];
   sh:targetClass sfcfg:ConfigSource .
 
+<https://semantic-flow.github.io/sflo/ontology/shacl/LocalConfigAttachmentSubjectShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Generic local config attachments are meaningful only on recognized config-bearing scopes.";
+  rdfs:label "Local config attachment subject";
+  sh:property [
+    sh:class sfcfg:Config;
+    sh:message "A local sfcfg:hasConfig value MUST be typed sfcfg:Config.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:hasConfig;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ConfigSource;
+    sh:message "A local sfcfg:hasConfigSource value MUST be typed sfcfg:ConfigSource.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:hasConfigSource;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "Only sflo:SemanticMesh or sflo:Knop resources may use generic local config attachment properties in this version of the model.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nPREFIX sfcfg: <https://semantic-flow.github.io/sflo/config/>\nSELECT DISTINCT $this WHERE {\n  { $this sfcfg:hasConfig ?config }\n  UNION\n  { $this sfcfg:hasConfigSource ?source }\n  FILTER NOT EXISTS { $this a sflo:SemanticMesh }\n  FILTER NOT EXISTS { $this a sflo:Knop }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sfcfg:hasConfig, sfcfg:hasConfigSource .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/InheritableConfigAttachmentSubjectShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Generic inheritable config attachments are Knop subtree-default offers.";
+  rdfs:label "Inheritable config attachment subject";
+  sh:property [
+    sh:class sfcfg:Config;
+    sh:message "An sfcfg:hasInheritableConfig value MUST be typed sfcfg:Config.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:hasInheritableConfig;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ConfigSource;
+    sh:message "An sfcfg:hasInheritableConfigSource value MUST be typed sfcfg:ConfigSource.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:hasInheritableConfigSource;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "Only sflo:Knop resources may use generic inheritable config attachment properties.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nPREFIX sfcfg: <https://semantic-flow.github.io/sflo/config/>\nSELECT DISTINCT $this WHERE {\n  { $this sfcfg:hasInheritableConfig ?config }\n  UNION\n  { $this sfcfg:hasInheritableConfigSource ?source }\n  FILTER NOT EXISTS { $this a sflo:Knop }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sfcfg:hasInheritableConfig, sfcfg:hasInheritableConfigSource .
+
 <https://semantic-flow.github.io/sflo/ontology/shacl/RepositorySourceLocatorShape>
   rdf:type sh:NodeShape;
   rdfs:comment "A repository source locator records durable repository coordinates for bytes or a tree path without implying local checkout access.";

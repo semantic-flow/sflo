@@ -61,11 +61,6 @@
   rdfs:label "has config resolution config" ;
   rdfs:comment "Links a Config to the ConfigResolutionConfig it includes, requests, or exposes. Portable uses remain subject to trusted bootstrap resolver policy and cannot expand their own trust boundary." .
 
-<KnopConfig> a rdfs:Class ;
-  rdfs:subClassOf <Config> ;
-  rdfs:label "Knop config" ;
-  rdfs:comment "Optional scope marker for portable Config intended for use at a Knop scope. Knop-local and Knop-inheritable semantics are expressed by attachment properties, ConfigLayerRole values, and resolution context rather than by this class alone." .
-
 <MeshConfig> a rdfs:Class ;
   rdfs:subClassOf <Config> ;
   rdfs:label "Mesh config" ;
@@ -94,7 +89,7 @@
   rdfs:range <Config> ;
   owl:inverseOf <configFor> ;
   rdfs:label "has config" ;
-  rdfs:comment "Associates a resource with one or more configuration descriptions. Prefer role-specific subproperties when the attachment role affects scope, precedence, merge behavior, or inheritance projection." .
+  rdfs:comment "Associates a recognized config-bearing scope, such as a SemanticMesh or Knop, with local authored config for that subject's scope. Mesh versus Knop participation comes from the attachment subject; subtree-default inheritance uses hasInheritableConfig rather than this local attachment property." .
 
 <configFor> a owl:ObjectProperty ;
   rdfs:domain <Config> ;
@@ -104,7 +99,6 @@
   rdfs:comment "Inverse of hasConfig: identifies a resource that a Config is intended to configure." .
 
 <hasEffectiveConfig> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasConfig> ;
   rdfs:domain rdfs:Resource ;
   rdfs:range <Config> ;
   rdfs:label "has effective config" ;
@@ -130,74 +124,23 @@
 #################################################################
 #################################################################
 
-<hasMeshConfig> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasConfig> ;
-  rdfs:domain sflo:SemanticMesh ;
-  rdfs:range <Config> ;
-  rdfs:label "has mesh config" ;
-  rdfs:comment "Associates a SemanticMesh with mesh-local authored config for the mesh surface and defaults that apply at mesh scope. Referenced ConfigArtifacts used through this attachment participate as mesh-local config rather than as a separate reusable layer." .
-
-<hasMeshInheritableConfig> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasConfig> ;
-  rdfs:domain sflo:SemanticMesh ;
-  rdfs:range <Config> ;
-  rdfs:label "has mesh inheritable config" ;
-  rdfs:comment "Associates a SemanticMesh with authored defaults it offers to Knops, submeshes, or descendant scopes inside the mesh boundary. It is an inheritance offer that is projected into descendant resolution scopes according to resolver policy." .
-
-<hasKnopConfig> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasConfig> ;
+<hasInheritableConfig> a owl:ObjectProperty ;
   rdfs:domain sflo:Knop ;
   rdfs:range <Config> ;
-  rdfs:label "has Knop config" ;
-  rdfs:comment "Associates a Knop with portable authored config. Prefer hasKnopLocalConfig or hasKnopInheritableConfig when the local application role or descendant-offer role matters." .
-
-<hasKnopLocalConfig> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasKnopConfig> ;
-  rdfs:domain sflo:Knop ;
-  rdfs:range <Config> ;
-  rdfs:label "has Knop local config" ;
-  rdfs:comment "Associates a Knop with config that applies locally to that Knop, its ResourcePage, and artifacts governed at that Knop." .
-
-<hasKnopInheritableConfig> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasKnopConfig> ;
-  rdfs:domain sflo:Knop ;
-  rdfs:range <Config> ;
-  rdfs:label "has Knop inheritable config" ;
-  rdfs:comment "Associates a Knop with config offered to descendant Knops and subtrees. This is a descendant offer, not an implicit local override for the declaring Knop; attach the same config as Knop-local when it should also apply at the declaring Knop." .
+  rdfs:label "has inheritable config" ;
+  rdfs:comment "Associates a Knop with authored config offered to descendant Knops and subtrees. This is a descendant offer, not an implicit local attachment for the declaring Knop; attach the same config through hasConfig when it should also apply locally." .
 
 <hasConfigSource> a owl:ObjectProperty ;
   rdfs:domain rdfs:Resource ;
   rdfs:range <ConfigSource> ;
   rdfs:label "has config source" ;
-  rdfs:comment "Associates a config layer, config-bearing resource, or authored config attachment with a ConfigSource that resolves a ConfigArtifact or config bytes. Reuse core artifact-resolution spec properties for working, latest-state, exact target, fallback spec, and expected content digest behavior. The source is not its own precedence layer; the attachment property determines the scope and role where the resolved config participates." .
+  rdfs:comment "Associates a recognized config-bearing scope, such as a SemanticMesh or Knop, with a ConfigSource whose resolved config participates as local config for that subject's scope. Reuse core artifact-resolution spec properties for working, latest-state, exact target, fallback spec, and expected content digest behavior. The source is not its own precedence layer; authority comes from this local attachment point." .
 
-<hasMeshConfigSource> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasConfigSource> ;
-  rdfs:domain sflo:SemanticMesh ;
-  rdfs:range <ConfigSource> ;
-  rdfs:label "has mesh config source" ;
-  rdfs:comment "Associates a SemanticMesh with a mesh-local ConfigSource, often a spec pointing at _mesh/_config or a reusable ConfigArtifact. The resolved config participates at mesh-local scope." .
-
-<hasMeshInheritableConfigSource> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasConfigSource> ;
-  rdfs:domain sflo:SemanticMesh ;
-  rdfs:range <ConfigSource> ;
-  rdfs:label "has mesh inheritable config source" ;
-  rdfs:comment "Associates a SemanticMesh with a ConfigSource it offers to descendant scopes inside the mesh boundary. The resolved config is projected as inherited config when consumed by a descendant scope." .
-
-<hasKnopLocalConfigSource> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasConfigSource> ;
+<hasInheritableConfigSource> a owl:ObjectProperty ;
   rdfs:domain sflo:Knop ;
   rdfs:range <ConfigSource> ;
-  rdfs:label "has Knop local config source" ;
-  rdfs:comment "Associates a Knop with a ConfigSource whose resolved config applies locally to that Knop." .
-
-<hasKnopInheritableConfigSource> a owl:ObjectProperty ;
-  rdfs:subPropertyOf <hasConfigSource> ;
-  rdfs:domain sflo:Knop ;
-  rdfs:range <ConfigSource> ;
-  rdfs:label "has Knop inheritable config source" ;
-  rdfs:comment "Associates a Knop with a ConfigSource it offers to descendants. The resolved config does not apply locally at the declaring Knop unless also attached through a local config attachment." .
+  rdfs:label "has inheritable config source" ;
+  rdfs:comment "Associates a Knop with a ConfigSource whose resolved config is offered to descendant Knops and subtrees. The resolved config does not apply locally at the declaring Knop unless also attached through hasConfigSource." .
 
 #################################################################
 #################################################################
@@ -512,13 +455,9 @@
   rdfs:label "mesh local" ;
   rdfs:comment "Mesh-attached config consumed at mesh scope." .
 
-<configLayerRole_meshInheritable> a <ConfigLayerRole> ;
-  rdfs:label "mesh inheritable" ;
-  rdfs:comment "Mesh-authored config offered to descendant scopes. It is projected according to inheritance policy before descendant resolution consumes it." .
-
 <configLayerRole_knopInherited> a <ConfigLayerRole> ;
   rdfs:label "Knop inherited" ;
-  rdfs:comment "Config projected into a Knop scope from ancestor mesh or Knop inheritable attachments." .
+  rdfs:comment "Config projected into a Knop scope from ancestor Knop inheritable attachments." .
 
 <configLayerRole_knopLocal> a <ConfigLayerRole> ;
   rdfs:label "Knop local" ;

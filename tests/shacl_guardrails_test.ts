@@ -13,6 +13,10 @@ import {
 } from "./helpers/rdf.ts";
 
 const CORE_SHACL_FILE = "semantic-flow-core-shacl.ttl";
+const OWL_OBJECT_PROPERTY = "http://www.w3.org/2002/07/owl#ObjectProperty";
+const RDFS_CLASS = "http://www.w3.org/2000/01/rdf-schema#Class";
+const RDFS_SUB_PROPERTY_OF =
+  "http://www.w3.org/2000/01/rdf-schema#subPropertyOf";
 
 const SHAPES = {
   ArtifactResolutionObservation:
@@ -22,6 +26,10 @@ const SHAPES = {
   ArtifactResolutionFallbackSpec:
     `${SFLO_SHACL_NAMESPACE}ArtifactResolutionFallbackSpecShape`,
   ConfigSource: `${SFLO_SHACL_NAMESPACE}ConfigSourceShape`,
+  LocalConfigAttachmentSubject:
+    `${SFLO_SHACL_NAMESPACE}LocalConfigAttachmentSubjectShape`,
+  InheritableConfigAttachmentSubject:
+    `${SFLO_SHACL_NAMESPACE}InheritableConfigAttachmentSubjectShape`,
   KnopSourceBinding: `${SFLO_SHACL_NAMESPACE}KnopSourceBindingShape`,
   LocalWorkingSourceBinding:
     `${SFLO_SHACL_NAMESPACE}LocalWorkingSourceBindingShape`,
@@ -45,6 +53,7 @@ const SHAPES = {
 
 const TERMS = {
   ArtifactResolutionSpec: `${SFLO_NAMESPACE}ArtifactResolutionSpec`,
+  Config: `${SFCFG_NAMESPACE}Config`,
   ConfigSource: `${SFCFG_NAMESPACE}ConfigSource`,
   PolicyDefinition: `${SFCFG_NAMESPACE}PolicyDefinition`,
   PolicyBinding: `${SFCFG_NAMESPACE}PolicyBinding`,
@@ -62,6 +71,11 @@ const TERMS = {
     `${SFLO_NAMESPACE}artifactResolutionMode_working`,
   hasInnerResourcePageTemplate:
     `${SFCFG_NAMESPACE}hasInnerResourcePageTemplate`,
+  hasConfig: `${SFCFG_NAMESPACE}hasConfig`,
+  hasEffectiveConfig: `${SFCFG_NAMESPACE}hasEffectiveConfig`,
+  hasConfigSource: `${SFCFG_NAMESPACE}hasConfigSource`,
+  hasInheritableConfig: `${SFCFG_NAMESPACE}hasInheritableConfig`,
+  hasInheritableConfigSource: `${SFCFG_NAMESPACE}hasInheritableConfigSource`,
   bindsPolicy: `${SFCFG_NAMESPACE}bindsPolicy`,
   appliesToPolicyTarget: `${SFCFG_NAMESPACE}appliesToPolicyTarget`,
   policyPriority: `${SFCFG_NAMESPACE}policyPriority`,
@@ -107,6 +121,8 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
   assertNodeShape(quads, SHAPES.ArtifactResolutionObservationLink);
   assertNodeShape(quads, SHAPES.ArtifactResolutionFallbackSpec);
   assertNodeShape(quads, SHAPES.ConfigSource);
+  assertNodeShape(quads, SHAPES.LocalConfigAttachmentSubject);
+  assertNodeShape(quads, SHAPES.InheritableConfigAttachmentSubject);
   assertNodeShape(quads, SHAPES.KnopSourceBinding);
   assertNodeShape(quads, SHAPES.LocalWorkingSourceBinding);
   assertNodeShape(quads, SHAPES.ArtifactResolutionModeUsage);
@@ -255,6 +271,84 @@ Deno.test("ArtifactResolutionSpec SHACL declares recursive fallback constraint",
     SHAPES.ArtifactResolutionFallbackSpec,
     TERMS.hasFallbackArtifactResolutionSpec,
     1,
+  );
+});
+
+Deno.test("config attachment SHACL declares local and inheritable subject constraints", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.LocalConfigAttachmentSubject,
+      SH.targetSubjectsOf,
+      TERMS.hasConfig,
+    ),
+    "local config attachment shape should target sfcfg:hasConfig subjects",
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.LocalConfigAttachmentSubject,
+      SH.targetSubjectsOf,
+      TERMS.hasConfigSource,
+    ),
+    "local config attachment shape should target sfcfg:hasConfigSource subjects",
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.LocalConfigAttachmentSubject,
+    TERMS.hasConfig,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.LocalConfigAttachmentSubject,
+    TERMS.hasConfigSource,
+  );
+  assert(
+    objectsFor(
+      quads,
+      SHAPES.LocalConfigAttachmentSubject,
+      SH.sparql,
+    ).length > 0,
+    "local config attachment shape should reject unrecognized subjects",
+  );
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.InheritableConfigAttachmentSubject,
+      SH.targetSubjectsOf,
+      TERMS.hasInheritableConfig,
+    ),
+    "inheritable config attachment shape should target sfcfg:hasInheritableConfig subjects",
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.InheritableConfigAttachmentSubject,
+      SH.targetSubjectsOf,
+      TERMS.hasInheritableConfigSource,
+    ),
+    "inheritable config attachment shape should target sfcfg:hasInheritableConfigSource subjects",
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.InheritableConfigAttachmentSubject,
+    TERMS.hasInheritableConfig,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.InheritableConfigAttachmentSubject,
+    TERMS.hasInheritableConfigSource,
+  );
+  assert(
+    objectsFor(
+      quads,
+      SHAPES.InheritableConfigAttachmentSubject,
+      SH.sparql,
+    ).length > 0,
+    "inheritable config attachment shape should reject non-Knop subjects",
   );
 });
 
@@ -487,11 +581,54 @@ Deno.test("config ontology carries publication, source, and resource-page config
         quads,
         term,
         RDF.type,
-        "http://www.w3.org/2000/01/rdf-schema#Class",
+        RDFS_CLASS,
       ),
       `${term} should be declared as an rdfs:Class`,
     );
   }
+
+  for (
+    const term of [
+      TERMS.hasConfig,
+      TERMS.hasEffectiveConfig,
+      TERMS.hasConfigSource,
+      TERMS.hasInheritableConfig,
+      TERMS.hasInheritableConfigSource,
+    ]
+  ) {
+    assert(
+      hasTriple(quads, term, RDF.type, OWL_OBJECT_PROPERTY),
+      `${term} should be declared as an owl:ObjectProperty`,
+    );
+  }
+
+  assert(
+    !hasTriple(
+      quads,
+      TERMS.hasInheritableConfig,
+      RDFS_SUB_PROPERTY_OF,
+      TERMS.hasConfig,
+    ),
+    "hasInheritableConfig should not be a subproperty of local hasConfig",
+  );
+  assert(
+    !hasTriple(
+      quads,
+      TERMS.hasEffectiveConfig,
+      RDFS_SUB_PROPERTY_OF,
+      TERMS.hasConfig,
+    ),
+    "hasEffectiveConfig should not be a subproperty of authored local hasConfig",
+  );
+  assert(
+    !hasTriple(
+      quads,
+      TERMS.hasInheritableConfigSource,
+      RDFS_SUB_PROPERTY_OF,
+      TERMS.hasConfigSource,
+    ),
+    "hasInheritableConfigSource should not be a subproperty of local hasConfigSource",
+  );
 });
 
 Deno.test("selected ArtifactResolutionMode SHACL checks accept working-source examples", async () => {

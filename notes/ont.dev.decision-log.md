@@ -10,9 +10,23 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
-### 2026-05-27: Config sources do not create their own precedence layer
+### 2026-05-27: Config attachment roles use generic local and Knop-inheritable properties
 
 - Status: Active
+- Decision: Retire `sfcfg:KnopConfig`, role-specific config attachment properties, role-specific config-source attachment properties, and the mesh-inheritable layer role from the live pre-1.0 config ontology. Keep `sfcfg:MeshConfig` as the portable mesh-owned config class. Use `sfcfg:hasConfig` and `sfcfg:hasConfigSource` for local config on recognized config-bearing subjects, and use `sfcfg:hasInheritableConfig` and `sfcfg:hasInheritableConfigSource` only as Knop-authored subtree-default offers. Do not make inheritable attachments subproperties of local attachments.
+- References: [[wa.task.2026.2026-05-27_1347-drop-MeshInheritableConfig]], [[sf.config]], [[sf.spec.2026-05-25-config-behavior]]
+- Why:
+  - mesh-level defaults for Knop-governed targets can be ordinary mesh config with appropriate selectors, rather than a separate mesh-inheritable authoring surface
+  - `KnopConfig` is redundant because Knops can attach ordinary `Config` / `ConfigArtifact` values
+  - making inheritable attachments subproperties of local attachments would make RDFS reasoning collapse the local-versus-descendant-offer distinction
+- Notes:
+  - derived runtime links such as `hasEffectiveConfig` must also remain separate from authored local `hasConfig`
+  - `_mesh/_config/config.ttl` and `<knop>/_knop/_config/config.ttl` are conventional bootstrap locations, but RDF attachment semantics still determine local versus inheritable participation inside a config graph
+  - generic attachment properties on unrecognized subjects must fail closed or be rejected by validation rather than silently affecting runtime config
+
+### 2026-05-27: Config sources do not create their own precedence layer
+
+- Status: Superseded in part by the preceding config attachment role decision.
 - Decision: Treat `sfcfg:ConfigSource` and reusable `sfcfg:ConfigArtifact` references as source/provenance inputs that participate at the attachment point that used them. Do not model reusable config as its own `ConfigLayerRole`. Clarify `configLayerRole_knopInheritable` as an authored outbound offer to descendant scopes rather than an implicit local layer for the declaring Knop.
 - References: [[wa.task.2026.2026-05-25_1609-config-policy-ontology-and-runtime]], [[sf.spec.2026-05-25-config-behavior]], [[sf.config]]
 - Why:
