@@ -10,6 +10,22 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-06-12: Treat `ArtifactHistory` as a facet and split default history from current history
+
+- Status: Active
+- Decision: Type `ArtifactHistory` as both `DigitalArtifactFacet` and `SemanticFlowResource`, because a history is a diachronic facet of a `DigitalArtifact`'s identity rather than merely a support resource. Add functional `defaultArtifactHistory` as the `DigitalArtifact -> ArtifactHistory` pointer that operations should use when no history is explicitly selected. Keep `currentArtifactHistory` as a compatibility/current-lineage pointer, but do not use it as the normative default write target.
+- References: [[ont.summary.core]], [[wa.conv.2026.2026-06-11_1347-jimbo-weave-picking-up-the-trail-codex]]
+- Why:
+  - all artifact layers are facets of a `DigitalArtifact`'s identity at different levels of temporal or byte specificity
+  - `ArtifactHistory` is the layer that distinguishes release, draft, archive, curation, and other lineages for the same artifact
+  - "current" conflates at least two concerns: the lineage currently endorsed or most recently updated, and the lineage that ordinary versioning operations should extend
+  - an explicit default history lets Weave use the usual lineage safely while still allowing other histories to exist
+  - if current/latest-updated and default histories diverge, write operations should require explicit history selection rather than guessing
+- Notes:
+  - `defaultArtifactHistory` is a subproperty of `hasArtifactHistory`
+  - data may assert both `defaultArtifactHistory` and `currentArtifactHistory` to the same history when the current lineage is also the default write target
+  - existing data and Weave code that use `currentArtifactHistory` need a migration path before `currentArtifactHistory` can be narrowed further or deprecated
+
 ### 2026-05-27: Config attachment roles use generic local and Knop-inheritable properties
 
 - Status: Active
@@ -210,7 +226,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 ### 2026-03-26: Introduce explicit `ArtifactHistory` and remove `ArtifactContainer`
 
-- Status: Active
+- Status: Partially superseded on 2026-06-12 by the `ArtifactHistory` facet and `defaultArtifactHistory` decision.
 - Decision: Reintroduce a narrow explicit `ArtifactHistory` resource as the lineage handle for published artifact history, while keeping `ArtifactFlow` out of the active core. A `DigitalArtifact` relates to one or more histories through `hasArtifactHistory`, may identify the active one through functional `currentArtifactHistory`, and may track `nextHistoryOrdinal`. An `ArtifactHistory` owns `hasHistoricalState` and `latestHistoricalState`, may carry `historyOrdinal` and `nextStateOrdinal`; each `HistoricalState` may carry `stateOrdinal`; and `ArtifactHistory` is typed only as a `SemanticFlowResource`. Remove `ArtifactContainer` from the active core.
 - References: [[ont.completed.2026.2026-03-26-ArtifactHistory]], [[sf.conv.2026.2026-03-25_1413-title-mesh-alice-bio-codex]]
 - Why:

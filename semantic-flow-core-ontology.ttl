@@ -49,9 +49,9 @@
   rdfs:comment "A digital artifact considered as the governing artifact-level resource across its states, manifestations, and retrievable files. In the current Semantic Flow model, payload, metadata, and inventory roles classify DigitalArtifacts directly." .
 
 <ArtifactHistory> a rdfs:Class ;
-  rdfs:subClassOf <SemanticFlowResource> ;
+  rdfs:subClassOf <DigitalArtifactFacet>, <SemanticFlowResource> ;
   rdfs:label "Artifact history" ;
-  rdfs:comment "An explicit history-lineage resource for a DigitalArtifact. It groups published HistoricalStates, carries lineage-level operational metadata such as ordinals, and may have its own ResourcePage." .
+  rdfs:comment "An explicit diachronic facet and history-lineage resource for a DigitalArtifact. It groups published HistoricalStates, carries lineage-level operational metadata such as ordinals, and may have its own ResourcePage." .
 
 <DigitalArtifactFacet> a rdfs:Class ;
   rdfs:label "Digital artifact facet" ;
@@ -102,7 +102,14 @@
   rdfs:domain <DigitalArtifact> ;
   rdfs:range <ArtifactHistory> ;
   rdfs:label "current artifact history" ;
-  rdfs:comment "Convenience pointer from a DigitalArtifact to its current/default explicit ArtifactHistory. When explicit histories are in use, this is the normative target for subsequent weave/version operations." .
+  rdfs:comment "Compatibility/current-lineage pointer from a DigitalArtifact to an explicit ArtifactHistory. Use defaultArtifactHistory for the normative default target of subsequent weave/version operations when no history is explicitly selected. Data may assert both properties to the same ArtifactHistory when the endorsed current lineage is also the default write target." .
+
+<defaultArtifactHistory> a owl:ObjectProperty, owl:FunctionalProperty ;
+  rdfs:subPropertyOf <hasArtifactHistory> ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:range <ArtifactHistory> ;
+  rdfs:label "default artifact history" ;
+  rdfs:comment "Convenience pointer from a DigitalArtifact to the explicit ArtifactHistory that operations should extend when no history is explicitly selected. If another history is considered current, latest, or recently updated, operations SHOULD require an explicit history selection rather than assuming that history is the default write target." .
 
 <previousHistoricalState> a owl:ObjectProperty, owl:FunctionalProperty ;
   rdfs:subPropertyOf prov:wasRevisionOf ;
@@ -535,7 +542,7 @@
 
 <artifactResolutionMode_latestState> a <ArtifactResolutionMode> ;
   rdfs:label "Latest state" ;
-  rdfs:comment "Resolve the latest settled HistoricalState for the target artifact. When targetArtifactHistory is present, the search is bounded to that ArtifactHistory; otherwise the implementation may use the artifact's current/default history or the latest state across known histories according to its policy." .
+  rdfs:comment "Resolve the latest settled HistoricalState for the target artifact. When targetArtifactHistory is present, the search is bounded to that ArtifactHistory; otherwise the implementation may use the artifact's defaultArtifactHistory or require explicit history selection according to its policy." .
 
 <ResourcePageRegion> a rdfs:Class ;
   rdfs:label "Resource page region" ;

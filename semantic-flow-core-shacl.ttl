@@ -803,7 +803,7 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/DigitalArtifactHistoryShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "DigitalArtifacts may point to explicit ArtifactHistory resources, may designate one current ArtifactHistory, may track the nextHistoryOrdinal for default history allocation, and may have at most one working LocatedFile.";
+  rdfs:comment "DigitalArtifacts may point to explicit ArtifactHistory resources, may designate one default ArtifactHistory for implicit write operations, may identify a current ArtifactHistory for compatibility or current-lineage display, may track the nextHistoryOrdinal for default history allocation, and may have at most one working LocatedFile.";
   rdfs:label "DigitalArtifact history and working surface";
   sh:property [
     sh:class sflo:LocatedFile;
@@ -819,6 +819,14 @@
     sh:message "If present, sflo:nextHistoryOrdinal SHOULD be a single xsd:nonNegativeInteger.";
     sh:path sflo:nextHistoryOrdinal;
     sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:ArtifactHistory;
+    sh:maxCount 1;
+    sh:message "If present, sflo:defaultArtifactHistory must be a single IRI typed sflo:ArtifactHistory.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:defaultArtifactHistory;
+    sh:severity sh:Violation
   ];
   sh:property [
     sh:class sflo:ArtifactHistory;
@@ -841,6 +849,18 @@
     sh:nodeKind sh:IRI;
     sh:path sflo:locatedFileForArtifact;
     sh:severity sh:Info
+  ];
+  sh:targetClass sflo:DigitalArtifact .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/DefaultArtifactHistoryIsMemberShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "If defaultArtifactHistory is asserted, it must also be asserted as a hasArtifactHistory of the same DigitalArtifact.";
+  rdfs:label "defaultArtifactHistory must be among hasArtifactHistory";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "If a DigitalArtifact has sflo:defaultArtifactHistory, that value MUST also appear among sflo:hasArtifactHistory values.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:defaultArtifactHistory ?h .\n  FILTER NOT EXISTS { $this sflo:hasArtifactHistory ?h }\n}";
+    sh:severity sh:Violation
   ];
   sh:targetClass sflo:DigitalArtifact .
 
@@ -905,14 +925,14 @@
   ];
   sh:targetClass sflo:ArtifactHistory .
 
-<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactHasCurrentHistoryShape>
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactHasDefaultHistoryShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "If a DigitalArtifact explicitly tracks ArtifactHistory resources, it should usually identify one as the current/default history.";
-  rdfs:label "currentArtifactHistory should usually be present when histories exist";
+  rdfs:comment "If a DigitalArtifact explicitly tracks ArtifactHistory resources, it should usually identify one as the default history for implicit write operations.";
+  rdfs:label "defaultArtifactHistory should usually be present when histories exist";
   sh:sparql [
     rdf:type sh:SPARQLConstraint;
-    sh:message "If a DigitalArtifact has explicit sflo:hasArtifactHistory values, it SHOULD also identify one sflo:currentArtifactHistory.";
-    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT DISTINCT $this WHERE {\n  $this sflo:hasArtifactHistory ?h .\n  FILTER NOT EXISTS { $this sflo:currentArtifactHistory ?current }\n}";
+    sh:message "If a DigitalArtifact has explicit sflo:hasArtifactHistory values, it SHOULD also identify one sflo:defaultArtifactHistory.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT DISTINCT $this WHERE {\n  $this sflo:hasArtifactHistory ?h .\n  FILTER NOT EXISTS { $this sflo:defaultArtifactHistory ?default }\n}";
     sh:severity sh:Warning
   ];
   sh:targetClass sflo:DigitalArtifact .

@@ -53,9 +53,9 @@ For detailed `ReferenceCatalog` / `ReferenceLink` serialization and dereferencea
 
 `DigitalArtifact` is the governing artifact-level class in the current model.
 
-`ArtifactHistory` is the explicit lineage resource used when a mesh materializes one or more history streams for a `DigitalArtifact`.
+`ArtifactHistory` is the explicit diachronic facet and lineage resource used when a mesh materializes one or more history streams for a `DigitalArtifact`.
 
-`DigitalArtifactFacet` is the facet-side superclass for states, manifestations, and retrievable files. `ArtifactHistory` is not a facet.
+`DigitalArtifactFacet` is the facet-side superclass for histories, states, manifestations, and retrievable files.
 
 The main explicit history chain is:
 
@@ -64,7 +64,7 @@ The main explicit history chain is:
 Interpretation:
 
 - `DigitalArtifact`: the governing over-time artifact-level resource
-- `ArtifactHistory`: an explicit lineage resource for a digital artifact's published states
+- `ArtifactHistory`: an explicit diachronic facet and lineage resource for a digital artifact's published states
 - `HistoricalState`: an immutable version representing the content of the artifact at a particular point within one `ArtifactHistory`
 - `ArtifactManifestation`: a concrete variant of the artifact or state whose bytes may be provided by one or more `LocatedFile`s
 - `LocatedFile`: retrievable bytes at some location
@@ -120,7 +120,8 @@ Substantive RDF about a referent should normally live in a payload artifact or d
 - `ArtifactHistory` is the explicit lineage resource when a mesh materializes history.
 - `HistoricalState` is the explicit state class within an `ArtifactHistory`.
 - `stateOrdinal` lives on `HistoricalState` for default generated state naming like `_s0001`.
-- `currentArtifactHistory` is the `DigitalArtifact`-level pointer to the active explicit history.
+- `defaultArtifactHistory` is the `DigitalArtifact`-level pointer to the explicit history that operations should extend when no history is explicitly selected.
+- `currentArtifactHistory` remains available as a compatibility/current-lineage pointer; use `defaultArtifactHistory` for the normative default write target.
 - `latestHistoricalState` is a convenience pointer from `ArtifactHistory`.
 - `nextHistoryOrdinal` lives on `DigitalArtifact` for default generated history allocation.
 - `nextStateOrdinal` lives on `ArtifactHistory` for default generated state allocation.
@@ -135,8 +136,8 @@ Substantive RDF about a referent should normally live in a payload artifact or d
 ## Other Important Vocabulary
 
 - `RdfDocument` is an orthogonal content-kind classification that may be applied selectively to a `DigitalArtifact` or to a specific `DigitalArtifactFacet`.
-- `ArtifactHistory` is an explicit lineage resource, not a `DigitalArtifactFacet`.
-- `DigitalArtifactFacet` is the common superclass for `HistoricalState`, `ArtifactManifestation`, and `LocatedFile`.
+- `ArtifactHistory` is an explicit diachronic facet and lineage resource.
+- `DigitalArtifactFacet` is the common superclass for `ArtifactHistory`, `HistoricalState`, `ArtifactManifestation`, and `LocatedFile`.
 - `ResourcePage` is a `LocatedFile` subclass for the human-facing HTML resource pages that should accompany every `SemanticFlowResource`
 - `ResourcePageDefinition` is a separate artifact-level control resource for customized identifier-page composition; it is not the same thing as the generated HTML `ResourcePage`
 - `KnopAssetBundle` is a bounded helper structure for local `_knop/_assets` modeling and does not by itself imply governed artifacts or recursive inventory capture
