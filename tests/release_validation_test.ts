@@ -40,7 +40,7 @@ Deno.test("release validation can pin the expected release version", async () =>
   assert(
     result.errors.some((error) =>
       error.includes(
-        `semantic-flow-core-ontology.ttl: expected dcterms:hasVersion to be <https://semantic-flow.github.io/sflo/ontology/releases/v${expectedVersion}>`,
+        `semantic-flow-core-ontology.ttl: expected dcat:hasVersion to be <https://semantic-flow.github.io/sflo/ontology/releases/v${expectedVersion}>`,
       )
     ),
   );

@@ -16,7 +16,7 @@
   rdf:type owl:Ontology;
   dcterms:description "SHACL shapes for validating Semantic Flow data structures and operational invariants.";
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.2.0>;
+  dcat:hasVersion <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.2.0>;
   dcterms:modified "2026-05-19"^^xsd:date;
   vann:preferredNamespacePrefix "sflo-shacl";
   vann:preferredNamespaceUri "https://semantic-flow.github.io/sflo/ontology/shacl/";
@@ -25,7 +25,7 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.2.0>
   rdf:type owl:Ontology, sflo:HistoricalState;
-  dcterms:isVersionOf <https://semantic-flow.github.io/sflo/ontology/shacl>;
+  dcat:isVersionOf <https://semantic-flow.github.io/sflo/ontology/shacl>;
   dcterms:issued "2026-05-24"^^xsd:date;
   owl:versionInfo "0.2.0";
   schema:contentUrl <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.2.0/ttl/semantic-flow-core-shacl.ttl>;

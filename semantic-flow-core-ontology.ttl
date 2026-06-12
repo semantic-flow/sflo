@@ -10,11 +10,11 @@
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 
-<https://semantic-flow.github.io/sflo/ontology> a owl:Ontology ;
+<https://semantic-flow.github.io/sflo/ontology> a owl:Ontology, <DigitalArtifact> ;
   dcterms:title "Semantic Flow Core Ontology" ;
   dcterms:description "The Semantic Flow Core Ontology defines the classes and properties needed by Semantic Meshes." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/sflo/ontology/releases/v0.2.0> ;
+  dcat:hasVersion <https://semantic-flow.github.io/sflo/ontology/releases/v0.2.0> ;
   dcterms:modified "2026-05-19"^^xsd:date ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.2.0/semantic-flow-core-ontology.ttl> ;
   owl:versionInfo "0.2.0" ;
@@ -23,7 +23,7 @@
 
 <https://semantic-flow.github.io/sflo/ontology/releases/v0.2.0>
   a owl:Ontology, <HistoricalState> ;
-  dcterms:isVersionOf <https://semantic-flow.github.io/sflo/ontology> ;
+  dcat:isVersionOf <https://semantic-flow.github.io/sflo/ontology> ;
   dcterms:issued "2026-05-24"^^xsd:date ;
   owl:versionInfo "0.2.0" ;
   schema:contentUrl <https://semantic-flow.github.io/sflo/ontology/releases/v0.2.0/ttl/semantic-flow-core-ontology.ttl> ;
@@ -85,10 +85,11 @@
 #################################################################
 
 <hasHistoricalState> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcat:hasVersion ;
   rdfs:domain <ArtifactHistory> ;
   rdfs:range <HistoricalState> ;
   rdfs:label "has historical state" ;
-  rdfs:comment "Relates an ArtifactHistory to one of its published HistoricalStates." .
+  rdfs:comment "Relates an ArtifactHistory to one of its published HistoricalStates. This specializes dcat:hasVersion for the states in a named Semantic Flow artifact history." .
 
 <hasArtifactHistory> a owl:ObjectProperty ;
   rdfs:subPropertyOf dcterms:hasPart ;
@@ -112,11 +113,11 @@
   rdfs:comment "Convenience pointer from a DigitalArtifact to the explicit ArtifactHistory that operations should extend when no history is explicitly selected. If another history is considered current, latest, or recently updated, operations SHOULD require an explicit history selection rather than assuming that history is the default write target." .
 
 <previousHistoricalState> a owl:ObjectProperty, owl:FunctionalProperty ;
-  rdfs:subPropertyOf prov:wasRevisionOf ;
+  rdfs:subPropertyOf dcat:previousVersion ;
   rdfs:domain <HistoricalState> ;
   rdfs:range <HistoricalState> ;
   rdfs:label "previous historical state" ;
-  rdfs:comment "Links a HistoricalState to the immediately preceding HistoricalState in its published revision lineage." .
+  rdfs:comment "Links a HistoricalState to the immediately preceding HistoricalState in its published revision lineage. This specializes dcat:previousVersion for Semantic Flow historical states." .
 
 <latestHistoricalState> a owl:ObjectProperty ;
   rdfs:subPropertyOf <hasHistoricalState> ;

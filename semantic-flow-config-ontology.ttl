@@ -12,7 +12,7 @@
   dcterms:title "Semantic Flow Config Ontology" ;
   dcterms:description "Vocabulary for Semantic Flow configuration resources, authored config attachment, resolver policy, derived resolved-config records, and resource-page presentation policy. Content composition terms such as page regions, page sources, and direct target/current-byte locators remain in the core ontology." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/sflo/config/releases/v0.2.0> ;
+  dcat:hasVersion <https://semantic-flow.github.io/sflo/config/releases/v0.2.0> ;
   dcterms:modified "2026-05-27"^^xsd:date ;
   owl:versionInfo "0.2.0" ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.2.0/semantic-flow-config-ontology.ttl> ;
@@ -21,7 +21,7 @@
 
 <https://semantic-flow.github.io/sflo/config/releases/v0.2.0>
   a owl:Ontology, sflo:HistoricalState ;
-  dcterms:isVersionOf <https://semantic-flow.github.io/sflo/config> ;
+  dcat:isVersionOf <https://semantic-flow.github.io/sflo/config> ;
   dcterms:issued "2026-05-24"^^xsd:date ;
   owl:versionInfo "0.2.0" ;
   schema:contentUrl <https://semantic-flow.github.io/sflo/config/releases/v0.2.0/ttl/semantic-flow-config-ontology.ttl> ;

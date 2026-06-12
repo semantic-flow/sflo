@@ -10,6 +10,20 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-06-12: Align historical states with DCAT versioning
+
+- Status: Active
+- Decision: Use DCAT versioning vocabulary for broad artifact/version relationships in published ontology headers: `dcat:hasVersion` from the continuing ontology resource to its release state, and `dcat:isVersionOf` from the release state back to the continuing resource. Keep the Semantic Flow class name `HistoricalState`, because "state" avoids implying a named public release and can cover any settled save/publish point. Make `hasHistoricalState` a subproperty of `dcat:hasVersion`, and make `previousHistoricalState` a subproperty of `dcat:previousVersion`.
+- References: [[ont.summary.core]], [[wa.conv.2026.2026-06-11_1347-jimbo-weave-picking-up-the-trail-codex]]
+- Why:
+  - DCAT 3 already provides general resource versioning (`dcat:hasVersion`, `dcat:isVersionOf`, `dcat:previousVersion`, `dcat:hasCurrentVersion`), so Semantic Flow should reuse that layer rather than shadow it with DCTERMS for the broad version relation
+  - `HistoricalState` remains the Semantic Flow-specific settled-state coordinate inside an `ArtifactHistory`
+  - `ArtifactHistory` contributes named internal lineages such as releases, drafts, curation, archives, or source-import histories, not merely the fact that versions exist
+  - the paper's DCAT comparison should frame Semantic Flow as a static artifact-publication profile over DCAT-compatible versioned resources
+- Notes:
+  - do not rename `HistoricalState` to `HistoricalVersion`; the DCAT alignment supplies version semantics where useful while preserving the broader "state" terminology
+  - `latestHistoricalState` remains a Semantic Flow convenience pointer within an `ArtifactHistory`; do not equate it globally with `dcat:hasCurrentVersion`
+
 ### 2026-06-12: Treat `ArtifactHistory` as a facet and split default history from current history
 
 - Status: Active
