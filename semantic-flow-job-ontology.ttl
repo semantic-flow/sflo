@@ -17,7 +17,6 @@
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcat:hasVersion <https://semantic-flow.github.io/ontology/job/releases/v0.2.0> ;
   dcterms:modified "2026-05-06"^^xsd:date ;
-  owl:versionInfo "0.2.0" ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.2.0/semantic-flow-job-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfjob" ;
   vann:preferredNamespaceUri "https://semantic-flow.github.io/ontology/job/" .

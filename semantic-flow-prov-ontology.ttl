@@ -16,7 +16,6 @@
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
   dcat:hasVersion <https://semantic-flow.github.io/ontology/prov/releases/v0.2.0> ;
   dcterms:modified "2026-05-06"^^xsd:date ;
-  owl:versionInfo "0.2.0" ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.2.0/semantic-flow-prov-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfprov" ;
   vann:preferredNamespaceUri "https://semantic-flow.github.io/ontology/prov/" .

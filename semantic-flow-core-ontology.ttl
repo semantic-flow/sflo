@@ -17,7 +17,6 @@
   dcat:hasVersion <https://semantic-flow.github.io/sflo/ontology/releases/v0.2.0> ;
   dcterms:modified "2026-05-19"^^xsd:date ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.2.0/semantic-flow-core-ontology.ttl> ;
-  owl:versionInfo "0.2.0" ;
   vann:preferredNamespacePrefix "sflo" ;
   vann:preferredNamespaceUri "https://semantic-flow.github.io/sflo/ontology/" .
 
