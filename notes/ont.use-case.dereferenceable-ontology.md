@@ -66,10 +66,10 @@ For example:
 <https://example.org/project/ontology>
     a owl:Ontology, sflo:DigitalArtifact ;
     owl:versionIRI <https://example.org/project/ontology/releases/v0.2.0/ttl/example-ontology.ttl> ;
-    dcterms:hasVersion <https://example.org/project/ontology/releases/v0.2.0> .
+    dcat:hasVersion <https://example.org/project/ontology/releases/v0.2.0> .
 ```
 
-That lets OWL tooling retrieve the versioned Turtle file while Semantic Flow-aware tooling can still follow `dcterms:hasVersion` or the mesh inventory to the richer historical-state graph.
+That lets OWL tooling retrieve the versioned Turtle file while Semantic Flow-aware tooling can still follow `dcat:hasVersion` or the mesh inventory to the richer historical-state graph.
 
 ## What Belongs In The Ontology File
 

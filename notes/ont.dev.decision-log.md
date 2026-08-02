@@ -10,22 +10,95 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-06-12: Align historical states with DCAT versioning
+
+- Status: Active
+- Decision: Use DCAT versioning vocabulary for broad artifact/version relationships in published ontology headers: `dcat:hasVersion` from the continuing ontology resource to its release state, and `dcat:isVersionOf` from the release state back to the continuing resource. Keep the Semantic Flow class name `HistoricalState`, because "state" avoids implying a named public release and can cover any settled save/publish point. Make `hasHistoricalState` a subproperty of `dcat:hasVersion`, and make `previousHistoricalState` a subproperty of `dcat:previousVersion`.
+- References: [[ont.summary.core]], [[wa.conv.2026.2026-06-11_1347-jimbo-weave-picking-up-the-trail-codex]]
+- Why:
+  - DCAT 3 already provides general resource versioning (`dcat:hasVersion`, `dcat:isVersionOf`, `dcat:previousVersion`, `dcat:hasCurrentVersion`), so Semantic Flow should reuse that layer rather than shadow it with DCTERMS for the broad version relation
+  - `HistoricalState` remains the Semantic Flow-specific settled-state coordinate inside an `ArtifactHistory`
+  - `ArtifactHistory` contributes named internal lineages such as releases, drafts, curation, archives, or source-import histories, not merely the fact that versions exist
+  - the paper's DCAT comparison should frame Semantic Flow as a static artifact-publication profile over DCAT-compatible versioned resources
+- Notes:
+  - do not rename `HistoricalState` to `HistoricalVersion`; the DCAT alignment supplies version semantics where useful while preserving the broader "state" terminology
+  - `latestHistoricalState` remains a Semantic Flow convenience pointer within an `ArtifactHistory`; do not equate it globally with `dcat:hasCurrentVersion`
+
+### 2026-06-12: Treat `ArtifactHistory` as a facet and split default history from current history
+
+- Status: Active
+- Decision: Type `ArtifactHistory` as both `DigitalArtifactFacet` and `SemanticFlowResource`, because a history is a diachronic facet of a `DigitalArtifact`'s identity rather than merely a support resource. Add functional `defaultArtifactHistory` as the `DigitalArtifact -> ArtifactHistory` pointer that operations should use when no history is explicitly selected. Keep `currentArtifactHistory` as a compatibility/current-lineage pointer, but do not use it as the normative default write target.
+- References: [[ont.summary.core]], [[wa.conv.2026.2026-06-11_1347-jimbo-weave-picking-up-the-trail-codex]]
+- Why:
+  - all artifact layers are facets of a `DigitalArtifact`'s identity at different levels of temporal or byte specificity
+  - `ArtifactHistory` is the layer that distinguishes release, draft, archive, curation, and other lineages for the same artifact
+  - "current" conflates at least two concerns: the lineage currently endorsed or most recently updated, and the lineage that ordinary versioning operations should extend
+  - an explicit default history lets Weave use the usual lineage safely while still allowing other histories to exist
+  - if current/latest-updated and default histories diverge, write operations should require explicit history selection rather than guessing
+- Notes:
+  - `defaultArtifactHistory` is a subproperty of `hasArtifactHistory`
+  - data may assert both `defaultArtifactHistory` and `currentArtifactHistory` to the same history when the current lineage is also the default write target
+  - existing data and Weave code that use `currentArtifactHistory` need a migration path before `currentArtifactHistory` can be narrowed further or deprecated
+
+### 2026-05-27: Config attachment roles use generic local and Knop-inheritable properties
+
+- Status: Active
+- Decision: Retire `sfcfg:KnopConfig`, role-specific config attachment properties, role-specific config-source attachment properties, and the mesh-inheritable layer role from the live pre-1.0 config ontology. Keep `sfcfg:MeshConfig` as the portable mesh-owned config class. Use `sfcfg:hasConfig` and `sfcfg:hasConfigSource` for local config on recognized config-bearing subjects, and use `sfcfg:hasInheritableConfig` and `sfcfg:hasInheritableConfigSource` only as Knop-authored subtree-default offers. Do not make inheritable attachments subproperties of local attachments.
+- References: [[wa.task.2026.2026-05-27_1347-drop-MeshInheritableConfig]], [[sf.config]], [[sf.spec.2026-05-25-config-behavior]]
+- Why:
+  - mesh-level defaults for Knop-governed targets can be ordinary mesh config with appropriate selectors, rather than a separate mesh-inheritable authoring surface
+  - `KnopConfig` is redundant because Knops can attach ordinary `Config` / `ConfigArtifact` values
+  - making inheritable attachments subproperties of local attachments would make RDFS reasoning collapse the local-versus-descendant-offer distinction
+- Notes:
+  - derived runtime links such as `hasEffectiveConfig` must also remain separate from authored local `hasConfig`
+  - `_mesh/_config/config.ttl` and `<knop>/_knop/_config/config.ttl` are conventional bootstrap locations, but RDF attachment semantics still determine local versus inheritable participation inside a config graph
+  - generic attachment properties on unrecognized subjects must fail closed or be rejected by validation rather than silently affecting runtime config
+
+### 2026-05-27: Config sources do not create their own precedence layer
+
+- Status: Superseded in part by the preceding config attachment role decision.
+- Decision: Treat `sfcfg:ConfigSource` and reusable `sfcfg:ConfigArtifact` references as source/provenance inputs that participate at the attachment point that used them. Do not model reusable config as its own `ConfigLayerRole`. Clarify `configLayerRole_knopInheritable` as an authored outbound offer to descendant scopes rather than an implicit local layer for the declaring Knop.
+- References: [[wa.task.2026.2026-05-25_1609-config-policy-ontology-and-runtime]], [[sf.spec.2026-05-25-config-behavior]], [[sf.config]]
+- Why:
+  - config source location is not authority; a Knop-owned config artifact can participate at mesh scope only when a mesh-level attachment uses it
+  - "reusable config" describes identity and source reuse, not precedence
+  - Knop-inheritable config needs a different lifecycle from Knop-local config because it is projected into descendants before it is consumed
+- Notes:
+  - role-specific attachment properties such as `hasMeshConfigSource`, `hasKnopLocalConfigSource`, and `hasKnopInheritableConfigSource` carry the role where resolved config participates
+  - `ConfigResolutionRecord` / `ResolvedConfig` may still record the referenced ConfigSource for diagnostics and provenance
+  - if one config artifact should apply both locally and to descendants, attach it through both local and inheritable attachment properties
+
+### 2026-05-27: Split portable mesh workspace rules from host-local access grants
+
+- Status: Active
+- Decision: Replace the old portable `LocalPathAccessRule` / `LocalPathBase` model with a narrower mesh-carried `MeshWorkspacePathRule` model. MeshConfig may carry `hasMeshWorkspacePathRule` rules with `workspacePathPrefix` values interpreted relative to the mesh root and constrained by the active workspace boundary, plus explicit `appliesToLocalPathLocatorKind` values. Host-local user, home, absolute-path, and broader runtime trust grants do not belong in portable Semantic Flow config vocabulary; implementation-specific runtimes such as Weave should model them in their own settings or runtime policy layer.
+- References: [[wa.task.2026.2026-05-25_1609-config-policy-ontology-and-runtime]], [[wa.completed.2026.2026-05-26_2030-user-settings]], [[sf.config]]
+- Why:
+  - sidecar meshes still need portable, repo-traveling rules for known workspace-adjacent authored source directories such as `../ontology/`
+  - the previous `LocalPathBase` shape was too broad for portable config because it mixed mesh-root-relative workspace allowances with host-local home and absolute-path grants
+  - keeping the path prefix relative to mesh root preserves the existing sidecar authoring model while making the workspace boundary explicit
+  - user/operator trust decisions need a different lifecycle from mesh-carried config and should not travel as `sfcfg:` data
+- Notes:
+  - `workspacePathPrefix` is POSIX-style, relative to mesh root, and must not be host-absolute
+  - runtimes must fail closed for broad `..` traversal and for prefixes that resolve outside the active workspace boundary
+  - `LocalPathLocatorKind` remains portable because it identifies Semantic Flow locator slots, not host trust policy
+
 ### 2026-05-24: Separate resolution targets from resolution observations and clarify reference sources
 
 - Status: Active
-- Decision: Keep `ArtifactResolutionTarget` as the requested-coordinate / resolution-policy relator, and add `ArtifactResolutionObservation` for observed resolution evidence. Add `ReferenceSource`, `ImportSource`, and `IntegrationSource` as `ArtifactResolutionTarget` subclasses alongside existing `ExtractionSource` and `ResourcePageSource`. Replace direct `ReferenceLink` target vocabulary with `hasReferenceSource`; remove `referenceTarget`, `referenceTargetState`, `referenceUriLiteral`, and extraction-scoped observed-source properties from the live model.
+- Decision: Keep `ArtifactResolutionSpec` as the requested-coordinate / resolution-policy relator, and add `ArtifactResolutionObservation` for observed resolution evidence. Add `ReferenceSource`, `ImportSource`, and `IntegrationSource` as `ArtifactResolutionSpec` subclasses alongside existing `ExtractionSource` and `ResourcePageSource`. Replace direct `ReferenceLink` target vocabulary with `hasReferenceSource`; remove `referenceTarget`, `referenceTargetState`, `referenceUriLiteral`, and extraction-scoped observed-source properties from the live model.
 - References: [[ont.summary.core]], [[ont.reference-links]], [[ont.task.2026.2026-05-24_1256-artifact-resolution-observations]], [[wa.task.2026.2026-05-22_1128-referencelink-clarification]]
 - Why:
   - requested coordinates and observations have different lifecycles: coordinates are source-binding policy, while observations are appendable evidence records
   - extraction-specific observed evidence would become increasingly awkward as import, integrate, reference, and page-source resolution all need the same evidence pattern
   - `referenceTarget` was misleading because the target of the reference relation is already named by `referenceLinkFor`; the RDF data being read is a source
   - `ReferenceLink` should remain the semantic curated-reference relator, while `ReferenceSource` carries byte-resolution coordinates
-  - import and integrate are distinct application concerns and should not be hidden behind bare `ArtifactResolutionTarget` bindings
+  - import and integrate are distinct application concerns and should not be hidden behind bare `ArtifactResolutionSpec` bindings
 - Notes:
   - `ReferenceLink` remains RDF-reference-data-only in this slice; do not rename it to `RdfReferenceLink`
   - use `hasReferenceSource` from `ReferenceLink` to exactly one `ReferenceSource` in the first slice
-  - use `hasResolutionObservation` from an `ArtifactResolutionTarget` subclass to one or more `ArtifactResolutionObservation` records when an operation intentionally records evidence
-  - keep `expectsContentDigest` on `ArtifactResolutionTarget`, but record observed byte identity as `observedContentDigest` on observations
+  - use `hasResolutionObservation` from an `ArtifactResolutionSpec` subclass to one or more `ArtifactResolutionObservation` records when an operation intentionally records evidence
+  - keep `expectsContentDigest` on `ArtifactResolutionSpec`, but record observed byte identity as `observedContentDigest` on observations
   - ordinary runtime reads and page generation should not mutate RDF merely by resolving source bytes
 
 ### 2026-05-16: Separate sparse artifact file links from manifestation file links
@@ -50,7 +123,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
   - extraction provenance is source provenance, and belongs with other source bindings rather than making KnopInventory carry bulky source records
   - source registries can carry both repository-backed payload source bindings and extraction-source bindings without making mesh config a provenance bucket
   - keeping the Knop-level `hasExtractionSource` pointer preserves the simple "what source grounds this extracted resource?" query shape
-  - repository-backed source-binding SHACL should apply only to bindings with `hasTargetRepositorySource`; not every `hasSourceBinding` relator is repository materialization
+  - repository-backed source-binding SHACL should apply only to bindings with `targetRepositorySource`; not every `hasSourceBinding` relator is repository materialization
 - Notes:
   - KnopInventory still links the source registry with `hasKnopSourceRegistry` and links the primary extraction source with `hasExtractionSource`
   - `_knop/_sources/sources.ttl` owns the `ExtractionSource` block and links it from the registry with `hasSourceBinding`
@@ -59,13 +132,13 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 ### 2026-05-15: Keep repository source provenance in Knop source registries
 
 - Status: Active
-- Decision: Add `KnopSourceRegistry` as a Knop-owned support artifact for source bindings about artifacts carried by or resources grounded through that Knop. Link it with `hasKnopSourceRegistry`, and let each registry point to `ArtifactResolutionTarget` relators through `hasSourceBinding`. Repository-backed bindings reuse the existing `RepositorySourceLocator`, digest, and target locator vocabulary.
+- Decision: Add `KnopSourceRegistry` as a Knop-owned support artifact for source bindings about artifacts carried by or resources grounded through that Knop. Link it with `hasKnopSourceRegistry`, and let each registry point to `ArtifactResolutionSpec` relators through `hasSourceBinding`. Repository-backed bindings reuse the existing `RepositorySourceLocator`, digest, and target locator vocabulary.
 - References: [[wd.task.2026.2026-05-15_1113-mesh-branch-fantasy-rules]], [[wd.task.2026.2026-05-13_1655-support-gh-pages-branch-based-deployments]]
 - Why:
   - source provenance for included artifacts belongs beside the target Knop rather than in `_mesh/_config/config.ttl`
   - mesh config should remain operational policy/configuration rather than growing into a provenance registry for every materialized artifact
   - a dedicated `_knop/_sources` artifact keeps inventory from carrying bulky repository binding details while still giving the registry a durable, dereferenceable home
-  - reusing `ArtifactResolutionTarget` keeps repository source bindings aligned with extraction and page-source resolution instead of inventing a branch-deploy-only relator
+  - reusing `ArtifactResolutionSpec` keeps repository source bindings aligned with extraction and page-source resolution instead of inventing a branch-deploy-only relator
 - Notes:
   - conventional serialization is `D/_knop/_sources/sources.ttl`, linked from the Knop inventory with `hasKnopSourceRegistry`
   - source binding IRIs may be registry-rooted fragments such as `D/_knop/_sources#branch-source-ontology`
@@ -73,7 +146,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 ### 2026-04-12: Model runtime-resolution policy in the config ontology with mesh/local access layers
 
-- Status: Active
+- Status: Superseded by 2026-05-27 split between portable mesh workspace rules and host-local runtime/user settings
 - Decision: Keep the first-pass runtime-resolution vocabulary in the live config ontology rather than blocking on a separate host/operational companion ontology. Use `MeshConfig` for portable mesh-carried config and `LocalConfig` for user- or machine-local config; keep `OperationalConfig` for host/runtime policy rather than making mesh config a subclass of it. Model local-boundary allowances with positive `LocalPathAccessRule` resources carrying an explicit base plus `pathPrefix`, and model remote-boundary allowances with positive `RemoteAccessRule` resources carrying locator-kind plus scheme/origin constraints.
 - References: [[wd.task.2026.2026-04-11_1723-operational-config-for-runtime-resolution]], [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[wa.cancelled.2026.2026-03-23-config-modernization]]
 - Why:
@@ -103,10 +176,10 @@ Superseded decisions are intentionally retained for traceability. When a decisio
   - whole-root meshes where workspace root and mesh root are the same do not need a config artifact solely to record `"."`
   - local runtimes can use the recorded relationship as a portable boundary hint while still enforcing their active workspace boundary and explicit allow rules
 
-### 2026-04-11: Generalize page-source resolution around `ArtifactResolutionTarget`
+### 2026-04-11: Generalize page-source resolution around `ArtifactResolutionSpec`
 
 - Status: Active
-- Decision: Keep `ResourcePageDefinition` as the Knop-owned support artifact for customized identifier pages, but replace the earlier page-bundle helper model with a more general resolution model. Introduce `ArtifactResolutionTarget` as a generic policy-bearing relator for resolving bytes from either a `DigitalArtifact`, a direct mesh-local path string, a direct access URL, a direct `LocatedFile`, or another explicit packaged target. Keep `ResourcePageSource` as a page-specific subclass of `ArtifactResolutionTarget`, but have it use the generic target/history/state/mode/fallback properties directly rather than duplicating page-specific alias properties; use `targetLocalRelativePath` for unmanaged mesh-local file references; use `targetAccessUrl` for explicit remote/external target URLs when operational policy allows them; and use `KnopAssetBundle` only for the bounded `_knop/_assets` helper area. Leave template/chrome configuration for the separate config-ontology track.
+- Decision: Keep `ResourcePageDefinition` as the Knop-owned support artifact for customized identifier pages, but replace the earlier page-bundle helper model with a more general resolution model. Introduce `ArtifactResolutionSpec` as a generic policy-bearing relator for resolving bytes from either a `DigitalArtifact`, a direct mesh-local path string, a direct access URL, a direct `LocatedFile`, or another explicit packaged target. Keep `ResourcePageSource` as a page-specific subclass of `ArtifactResolutionSpec`, but have it use the generic target/history/state/mode/fallback properties directly rather than duplicating page-specific alias properties; use `targetLocalRelativePath` for unmanaged mesh-local file references; use `targetAccessUrl` for explicit remote/external target URLs when operational policy allows them; and use `KnopAssetBundle` only for the bounded `_knop/_assets` helper area. Leave template/chrome configuration for the separate config-ontology track.
 - References: [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[wa.cancelled.2026.2026-03-23-config-modernization]]
 - Why:
   - identifier-page customization needs an explicit control-plane artifact without pretending the identifier itself is a payload-bearing `DigitalArtifact`
@@ -118,7 +191,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 ### 2026-05-04: Model Extraction Source Binding As An Inventory Relator
 
 - Status: Superseded by 2026-05-16
-- Decision: Add `ExtractionSource` as an `ArtifactResolutionTarget` subclass for the RDF document bytes from which a Knop-managed resource was extracted or first grounded, and add `hasExtractionSource` from `Knop` to `ExtractionSource`. Use inventory-rooted fragment IRIs such as `D/_knop/_inventory#extraction-source` for the carried local extraction slices.
+- Decision: Add `ExtractionSource` as an `ArtifactResolutionSpec` subclass for the RDF document bytes from which a Knop-managed resource was extracted or first grounded, and add `hasExtractionSource` from `Knop` to `ExtractionSource`. Use inventory-rooted fragment IRIs such as `D/_knop/_inventory#extraction-source` for the carried local extraction slices.
 - References: [[wd.task.2026.2026-05-03-term-extraction]], [[wd.task.2026.2026-05-02-fantasy-rules-sidecar]], [[sf.spec.2026-04-05-extract-behavior]]
 - Why:
   - Extraction source binding is not a `ReferenceLink`; it is operational provenance for the extracted identifier surface and should sit with the Knop inventory that already carries current support artifact state.
@@ -129,8 +202,8 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 - Notes:
   - prefer `ResourcePageRegion` over `Slot` in core
   - `accept` belongs to fallback policy, not to the working-vs-exact source mode axis
-  - `ResourcePageSource` remains useful as a page-specific relator even though the generic pattern is now captured by `ArtifactResolutionTarget`
-  - `hasTargetArtifact` is optional when `targetLocalRelativePath`, `targetAccessUrl`, or a direct `hasTargetLocatedFile` is sufficient to identify the bytes that should be resolved
+  - `ResourcePageSource` remains useful as a page-specific relator even though the generic pattern is now captured by `ArtifactResolutionSpec`
+  - `targetArtifact` is optional when `targetLocalRelativePath`, `targetAccessUrl`, or a direct `targetLocatedFile` is sufficient to identify the bytes that should be resolved
   - `workingLocalRelativePath` is the operational local current-byte locator for a `DigitalArtifact`; `workingAccessUrl` is the operational remote/external current-byte locator; `hasWorkingLocatedFile` remains the semantic `LocatedFile` facet hook
   - when `workingLocalRelativePath`, `workingAccessUrl`, and `hasWorkingLocatedFile` are all present for the same current working surface, they should agree and mismatch should fail closed in operational profiles that rely on them
   - allowed-directory rules for `targetLocalRelativePath` and `workingLocalRelativePath` belong to host/runtime operational config rather than to core ontology
@@ -139,7 +212,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 ### 2026-04-09: Model customizable identifier pages with bounded page-definition helpers
 
-- Status: Superseded on 2026-04-11 by the `ArtifactResolutionTarget` decision
+- Status: Superseded on 2026-04-11 by the `ArtifactResolutionSpec` decision
 - Decision: Add `ResourcePageDefinition` to the live core model as a Knop-owned support artifact for customizable identifier pages. Model the local `_knop/_page` boundary with `ResourcePageBundle`, model member files with `ResourcePageBundleFile`, model `_knop/_page/_assets` with `ResourcePageAssetBundle`, and model authored content composition with `ResourcePageRegion` plus `ResourcePageSource`. Keep per-source requested state, source mode, and fallback policy in core, but leave template/chrome configuration for the separate config-ontology track.
 - References: [[wd.task.2026.2026-04-08_1545-resource-page-definition-and-sources]], [[wd.task.2026.2026-04-08_1735-page-definition-ontology-and-config]], [[wa.cancelled.2026.2026-03-23-config-modernization]]
 - Why:
@@ -167,7 +240,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 ### 2026-03-26: Introduce explicit `ArtifactHistory` and remove `ArtifactContainer`
 
-- Status: Active
+- Status: Partially superseded on 2026-06-12 by the `ArtifactHistory` facet and `defaultArtifactHistory` decision.
 - Decision: Reintroduce a narrow explicit `ArtifactHistory` resource as the lineage handle for published artifact history, while keeping `ArtifactFlow` out of the active core. A `DigitalArtifact` relates to one or more histories through `hasArtifactHistory`, may identify the active one through functional `currentArtifactHistory`, and may track `nextHistoryOrdinal`. An `ArtifactHistory` owns `hasHistoricalState` and `latestHistoricalState`, may carry `historyOrdinal` and `nextStateOrdinal`; each `HistoricalState` may carry `stateOrdinal`; and `ArtifactHistory` is typed only as a `SemanticFlowResource`. Remove `ArtifactContainer` from the active core.
 - References: [[ont.completed.2026.2026-03-26-ArtifactHistory]], [[sf.conv.2026.2026-03-25_1413-title-mesh-alice-bio-codex]]
 - Why:

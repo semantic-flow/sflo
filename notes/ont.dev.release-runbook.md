@@ -31,7 +31,7 @@ Use SemVer-shaped ontology versions such as `0.1.0`, and tag them as `v0.1.0`.
 Before cutting a release, every actively released Turtle file should agree on:
 
 - `owl:versionInfo`
-- `dcterms:hasVersion`
+- `dcat:hasVersion`
 - the release resource's `owl:versionInfo`
 - `dcterms:issued`
 - `owl:versionIRI`

@@ -15,16 +15,15 @@
   dcterms:title "Semantic Flow Job Ontology" ;
   dcterms:description "The Semantic Flow Job ontology defines public Semantic Flow API vocabulary for jobs, targets, progress, results, errors, and job events." ;
   dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
-  dcterms:hasVersion <https://semantic-flow.github.io/ontology/job/releases/v0.2.0> ;
+  dcat:hasVersion <https://semantic-flow.github.io/ontology/job/releases/v0.2.0> ;
   dcterms:modified "2026-05-06"^^xsd:date ;
-  owl:versionInfo "0.2.0" ;
   owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.2.0/semantic-flow-job-ontology.ttl> ;
   vann:preferredNamespacePrefix "sfjob" ;
   vann:preferredNamespaceUri "https://semantic-flow.github.io/ontology/job/" .
 
 <https://semantic-flow.github.io/ontology/job/releases/v0.2.0>
   a owl:Ontology, sflo:HistoricalState ;
-  dcterms:isVersionOf <https://semantic-flow.github.io/ontology/job> ;
+  dcat:isVersionOf <https://semantic-flow.github.io/ontology/job> ;
   dcterms:issued "2026-05-24"^^xsd:date ;
   owl:versionInfo "0.2.0" ;
   schema:contentUrl <https://semantic-flow.github.io/ontology/job/releases/v0.2.0/ttl/semantic-flow-job-ontology.ttl> ;

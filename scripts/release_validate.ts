@@ -20,13 +20,13 @@ const OWL = {
 } as const;
 
 const DCTERMS = {
-  hasVersion: "http://purl.org/dc/terms/hasVersion",
-  isVersionOf: "http://purl.org/dc/terms/isVersionOf",
   issued: "http://purl.org/dc/terms/issued",
 } as const;
 
 const DCAT = {
   downloadURL: "http://www.w3.org/ns/dcat#downloadURL",
+  hasVersion: "http://www.w3.org/ns/dcat#hasVersion",
+  isVersionOf: "http://www.w3.org/ns/dcat#isVersionOf",
 } as const;
 
 const SCHEMA = {
@@ -291,7 +291,7 @@ function validateReleaseFile(
     versionIri,
   } = releaseIris(descriptor, validationVersion);
 
-  requireSingleObject(quads, file, subject, DCTERMS.hasVersion, errors, {
+  requireSingleObject(quads, file, subject, DCAT.hasVersion, errors, {
     expectedNamedNode: releaseIri,
   });
   requireSingleObject(quads, file, subject, OWL.versionIRI, errors, {
@@ -323,7 +323,7 @@ function validateReleaseFile(
     SFLO.HistoricalState,
     errors,
   );
-  requireSingleObject(quads, file, releaseIri, DCTERMS.isVersionOf, errors, {
+  requireSingleObject(quads, file, releaseIri, DCAT.isVersionOf, errors, {
     expectedNamedNode: ontologyIri,
   });
   requireSingleObject(quads, file, releaseIri, OWL.versionInfo, errors, {

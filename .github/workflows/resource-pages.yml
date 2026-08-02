@@ -1,0 +1,109 @@
+name: Re-generate Resource Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_weave_validate:
+        description: Run weave mesh/publication validation before generation
+        required: true
+        default: true
+        type: boolean
+      publish_mode:
+        description: What to do with generated publication changes
+        required: true
+        default: artifact
+        type: choice
+        options:
+          - artifact
+          - commit-to-gh-pages
+      publication_branch:
+        description: Branch containing the detached Pages mesh
+        required: true
+        default: gh-pages
+        type: string
+      ref_to_publish:
+        description: Ref to check out for generation
+        required: true
+        default: gh-pages
+        type: string
+      mesh_root:
+        description: Mesh root inside the publication checkout
+        required: true
+        default: .
+        type: string
+      weave_version:
+        description: npm version/range for @semantic-flow/weave
+        required: true
+        default: latest
+        type: string
+
+concurrency:
+  group: sflo-resource-pages-${{ inputs.publication_branch }}
+  cancel-in-progress: false
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out publication branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.ref_to_publish }}
+          fetch-depth: 0
+          path: publication
+
+      - name: Install Weave
+        env:
+          WEAVE_VERSION: ${{ inputs.weave_version }}
+        run: |
+          npm install --global "@semantic-flow/weave@${WEAVE_VERSION}"
+          weave --version
+
+      - name: Validate publication mesh
+        if: ${{ inputs.run_weave_validate }}
+        env:
+          MESH_ROOT: publication/${{ inputs.mesh_root }}
+        run: |
+          weave validate mesh --mesh-root "$MESH_ROOT"
+          weave validate publication --mesh-root "$MESH_ROOT"
+
+      - name: Generate ResourcePages
+        env:
+          MESH_ROOT: publication/${{ inputs.mesh_root }}
+        run: weave generate --mesh-root "$MESH_ROOT"
+
+      - name: Capture publication diff
+        run: |
+          mkdir -p .workflow-artifacts
+          git -C publication status --short > .workflow-artifacts/resource-pages.status
+          git -C publication add -N .
+          git -C publication diff --binary > .workflow-artifacts/resource-pages.patch
+          cat .workflow-artifacts/resource-pages.status
+
+      - name: Upload publication diff
+        if: ${{ inputs.publish_mode == 'artifact' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: sflo-resource-pages-diff
+          path: .workflow-artifacts/**
+          if-no-files-found: error
+
+      - name: Commit generated publication changes
+        if: ${{ inputs.publish_mode == 'commit-to-gh-pages' }}
+        env:
+          PUBLICATION_BRANCH: ${{ inputs.publication_branch }}
+        run: |
+          if [ -z "$(git -C publication status --short)" ]; then
+            echo "No generated publication changes to commit."
+            exit 0
+          fi
+
+          git -C publication config user.name "github-actions[bot]"
+          git -C publication config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C publication add -A
+          git -C publication commit -m "Regenerate SFLO ResourcePages"
+          git -C publication push origin "HEAD:${PUBLICATION_BRANCH}"

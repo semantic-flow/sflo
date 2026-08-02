@@ -13,12 +13,23 @@ import {
 } from "./helpers/rdf.ts";
 
 const CORE_SHACL_FILE = "semantic-flow-core-shacl.ttl";
+const OWL_OBJECT_PROPERTY = "http://www.w3.org/2002/07/owl#ObjectProperty";
+const RDFS_CLASS = "http://www.w3.org/2000/01/rdf-schema#Class";
+const RDFS_SUB_PROPERTY_OF =
+  "http://www.w3.org/2000/01/rdf-schema#subPropertyOf";
 
 const SHAPES = {
   ArtifactResolutionObservation:
     `${SFLO_SHACL_NAMESPACE}ArtifactResolutionObservationShape`,
   ArtifactResolutionObservationLink:
     `${SFLO_SHACL_NAMESPACE}ArtifactResolutionObservationLinkShape`,
+  ArtifactResolutionFallbackSpec:
+    `${SFLO_SHACL_NAMESPACE}ArtifactResolutionFallbackSpecShape`,
+  ConfigSource: `${SFLO_SHACL_NAMESPACE}ConfigSourceShape`,
+  LocalConfigAttachmentSubject:
+    `${SFLO_SHACL_NAMESPACE}LocalConfigAttachmentSubjectShape`,
+  InheritableConfigAttachmentSubject:
+    `${SFLO_SHACL_NAMESPACE}InheritableConfigAttachmentSubjectShape`,
   KnopSourceBinding: `${SFLO_SHACL_NAMESPACE}KnopSourceBindingShape`,
   LocalWorkingSourceBinding:
     `${SFLO_SHACL_NAMESPACE}LocalWorkingSourceBindingShape`,
@@ -26,8 +37,14 @@ const SHAPES = {
   ReferenceSource: `${SFLO_SHACL_NAMESPACE}ReferenceSourceShape`,
   ArtifactResolutionModeUsage:
     `${SFLO_SHACL_NAMESPACE}ArtifactResolutionModeUsageShape`,
-  ResourcePagePresentationConfig:
-    `${SFLO_SHACL_NAMESPACE}ResourcePagePresentationConfigShape`,
+  PolicyDefinition: `${SFLO_SHACL_NAMESPACE}PolicyDefinitionShape`,
+  PolicyBinding: `${SFLO_SHACL_NAMESPACE}PolicyBindingShape`,
+  ArtifactRolePolicyTarget:
+    `${SFLO_SHACL_NAMESPACE}ArtifactRolePolicyTargetShape`,
+  ExactArtifactPolicyTarget:
+    `${SFLO_SHACL_NAMESPACE}ExactArtifactPolicyTargetShape`,
+  ResourcePagePresentationPolicy:
+    `${SFLO_SHACL_NAMESPACE}ResourcePagePresentationPolicyShape`,
   ResourcePagePanelSelection:
     `${SFLO_SHACL_NAMESPACE}ResourcePagePanelSelectionShape`,
   ResourcePageDefinitionPresentationConfig:
@@ -35,13 +52,18 @@ const SHAPES = {
 } as const;
 
 const TERMS = {
-  ArtifactResolutionTarget: `${SFLO_NAMESPACE}ArtifactResolutionTarget`,
-  LocalPathAccessRule: `${SFCFG_NAMESPACE}LocalPathAccessRule`,
+  ArtifactResolutionSpec: `${SFLO_NAMESPACE}ArtifactResolutionSpec`,
+  Config: `${SFCFG_NAMESPACE}Config`,
+  ConfigSource: `${SFCFG_NAMESPACE}ConfigSource`,
+  PolicyDefinition: `${SFCFG_NAMESPACE}PolicyDefinition`,
+  PolicyBinding: `${SFCFG_NAMESPACE}PolicyBinding`,
+  PolicyTarget: `${SFCFG_NAMESPACE}PolicyTarget`,
+  ArtifactRolePolicyTarget: `${SFCFG_NAMESPACE}ArtifactRolePolicyTarget`,
+  ExactArtifactPolicyTarget: `${SFCFG_NAMESPACE}ExactArtifactPolicyTarget`,
   PublicationProfile: `${SFCFG_NAMESPACE}PublicationProfile`,
-  RemoteAccessRule: `${SFCFG_NAMESPACE}RemoteAccessRule`,
   ResourcePageDefinition: `${SFLO_NAMESPACE}ResourcePageDefinition`,
-  ResourcePagePresentationConfig:
-    `${SFCFG_NAMESPACE}ResourcePagePresentationConfig`,
+  ResourcePagePresentationPolicy:
+    `${SFCFG_NAMESPACE}ResourcePagePresentationPolicy`,
   ResourcePagePanelSelection: `${SFCFG_NAMESPACE}ResourcePagePanelSelection`,
   artifactResolutionModeLatestState:
     `${SFLO_NAMESPACE}artifactResolutionMode_latestState`,
@@ -49,14 +71,26 @@ const TERMS = {
     `${SFLO_NAMESPACE}artifactResolutionMode_working`,
   hasInnerResourcePageTemplate:
     `${SFCFG_NAMESPACE}hasInnerResourcePageTemplate`,
+  hasConfig: `${SFCFG_NAMESPACE}hasConfig`,
+  hasEffectiveConfig: `${SFCFG_NAMESPACE}hasEffectiveConfig`,
+  hasConfigSource: `${SFCFG_NAMESPACE}hasConfigSource`,
+  hasInheritableConfig: `${SFCFG_NAMESPACE}hasInheritableConfig`,
+  hasInheritableConfigSource: `${SFCFG_NAMESPACE}hasInheritableConfigSource`,
+  bindsPolicy: `${SFCFG_NAMESPACE}bindsPolicy`,
+  appliesToPolicyTarget: `${SFCFG_NAMESPACE}appliesToPolicyTarget`,
+  policyPriority: `${SFCFG_NAMESPACE}policyPriority`,
+  hasArtifactRole: `${SFCFG_NAMESPACE}hasArtifactRole`,
+  targetsArtifact: `${SFCFG_NAMESPACE}targetsArtifact`,
   hasGeneratedResourcePagePanelSelection:
     `${SFCFG_NAMESPACE}hasGeneratedResourcePagePanelSelection`,
   hasPanelDataRequirement: `${SFCFG_NAMESPACE}hasPanelDataRequirement`,
   hasPanelInclusionPolicy: `${SFCFG_NAMESPACE}hasPanelInclusionPolicy`,
   hasReferenceSource: `${SFLO_NAMESPACE}hasReferenceSource`,
   hasResolutionObservation: `${SFLO_NAMESPACE}hasResolutionObservation`,
-  hasResourcePagePresentationConfig:
-    `${SFCFG_NAMESPACE}hasResourcePagePresentationConfig`,
+  hasFallbackArtifactResolutionSpec:
+    `${SFLO_NAMESPACE}hasFallbackArtifactResolutionSpec`,
+  hasResourcePagePresentationPolicy:
+    `${SFCFG_NAMESPACE}hasResourcePagePresentationPolicy`,
   hasResourcePagePanel: `${SFCFG_NAMESPACE}hasResourcePagePanel`,
   hasResourcePagePanelSelection:
     `${SFCFG_NAMESPACE}hasResourcePagePanelSelection`,
@@ -64,10 +98,12 @@ const TERMS = {
   hasOuterResourcePageTemplate:
     `${SFCFG_NAMESPACE}hasOuterResourcePageTemplate`,
   hasArtifactResolutionMode: `${SFLO_NAMESPACE}hasArtifactResolutionMode`,
-  hasRequestedTargetState: `${SFLO_NAMESPACE}hasRequestedTargetState`,
-  hasTargetArtifact: `${SFLO_NAMESPACE}hasTargetArtifact`,
-  hasTargetRepositorySource: `${SFLO_NAMESPACE}hasTargetRepositorySource`,
+  targetHistoricalState: `${SFLO_NAMESPACE}targetHistoricalState`,
+  targetArtifact: `${SFLO_NAMESPACE}targetArtifact`,
+  targetRepositorySource: `${SFLO_NAMESPACE}targetRepositorySource`,
   observedContentDigest: `${SFLO_NAMESPACE}observedContentDigest`,
+  observedArtifactResolutionSpec:
+    `${SFLO_NAMESPACE}observedArtifactResolutionSpec`,
   observedAt: `${SFLO_NAMESPACE}observedAt`,
   ReferenceSource: `${SFLO_NAMESPACE}ReferenceSource`,
   ArtifactResolutionObservation:
@@ -83,10 +119,18 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
   assertNodeShape(quads, SHAPES.ReferenceSource);
   assertNodeShape(quads, SHAPES.ArtifactResolutionObservation);
   assertNodeShape(quads, SHAPES.ArtifactResolutionObservationLink);
+  assertNodeShape(quads, SHAPES.ArtifactResolutionFallbackSpec);
+  assertNodeShape(quads, SHAPES.ConfigSource);
+  assertNodeShape(quads, SHAPES.LocalConfigAttachmentSubject);
+  assertNodeShape(quads, SHAPES.InheritableConfigAttachmentSubject);
   assertNodeShape(quads, SHAPES.KnopSourceBinding);
   assertNodeShape(quads, SHAPES.LocalWorkingSourceBinding);
   assertNodeShape(quads, SHAPES.ArtifactResolutionModeUsage);
-  assertNodeShape(quads, SHAPES.ResourcePagePresentationConfig);
+  assertNodeShape(quads, SHAPES.PolicyDefinition);
+  assertNodeShape(quads, SHAPES.PolicyBinding);
+  assertNodeShape(quads, SHAPES.ArtifactRolePolicyTarget);
+  assertNodeShape(quads, SHAPES.ExactArtifactPolicyTarget);
+  assertNodeShape(quads, SHAPES.ResourcePagePresentationPolicy);
   assertNodeShape(quads, SHAPES.ResourcePagePanelSelection);
   assertNodeShape(quads, SHAPES.ResourcePageDefinitionPresentationConfig);
 
@@ -95,9 +139,9 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
       quads,
       SHAPES.KnopSourceBinding,
       SH.targetSubjectsOf,
-      TERMS.hasTargetRepositorySource,
+      TERMS.targetRepositorySource,
     ),
-    "repository-backed source binding shape should target sflo:hasTargetRepositorySource subjects",
+    "repository-backed source binding shape should target sflo:targetRepositorySource subjects",
   );
   assert(
     hasTriple(
@@ -145,12 +189,12 @@ Deno.test("ReferenceLink SHACL requires exactly one ReferenceSource", async () =
   assertOptionalProperty(
     quads,
     SHAPES.ReferenceSource,
-    TERMS.hasTargetArtifact,
+    TERMS.targetArtifact,
   );
   assertPropertyMaxCount(
     quads,
     SHAPES.ReferenceSource,
-    TERMS.hasTargetArtifact,
+    TERMS.targetArtifact,
     1,
   );
 });
@@ -166,6 +210,17 @@ Deno.test("ArtifactResolutionObservation SHACL declares observation evidence con
       TERMS.ArtifactResolutionObservation,
     ),
     "ArtifactResolutionObservation shape should target ArtifactResolutionObservation",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ArtifactResolutionObservation,
+    TERMS.observedArtifactResolutionSpec,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ArtifactResolutionObservation,
+    TERMS.observedArtifactResolutionSpec,
+    1,
   );
   assertOptionalProperty(
     quads,
@@ -194,48 +249,151 @@ Deno.test("ArtifactResolutionObservation SHACL declares observation evidence con
   );
 });
 
+Deno.test("ArtifactResolutionSpec SHACL declares recursive fallback constraint", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ArtifactResolutionFallbackSpec,
+      SH.targetSubjectsOf,
+      TERMS.hasFallbackArtifactResolutionSpec,
+    ),
+    "ArtifactResolutionFallbackSpec shape should target hasFallbackArtifactResolutionSpec subjects",
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.ArtifactResolutionFallbackSpec,
+    TERMS.hasFallbackArtifactResolutionSpec,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ArtifactResolutionFallbackSpec,
+    TERMS.hasFallbackArtifactResolutionSpec,
+    1,
+  );
+});
+
+Deno.test("config attachment SHACL declares local and inheritable subject constraints", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.LocalConfigAttachmentSubject,
+      SH.targetSubjectsOf,
+      TERMS.hasConfig,
+    ),
+    "local config attachment shape should target sfcfg:hasConfig subjects",
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.LocalConfigAttachmentSubject,
+      SH.targetSubjectsOf,
+      TERMS.hasConfigSource,
+    ),
+    "local config attachment shape should target sfcfg:hasConfigSource subjects",
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.LocalConfigAttachmentSubject,
+    TERMS.hasConfig,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.LocalConfigAttachmentSubject,
+    TERMS.hasConfigSource,
+  );
+  assert(
+    objectsFor(
+      quads,
+      SHAPES.LocalConfigAttachmentSubject,
+      SH.sparql,
+    ).length > 0,
+    "local config attachment shape should reject unrecognized subjects",
+  );
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.InheritableConfigAttachmentSubject,
+      SH.targetSubjectsOf,
+      TERMS.hasInheritableConfig,
+    ),
+    "inheritable config attachment shape should target sfcfg:hasInheritableConfig subjects",
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.InheritableConfigAttachmentSubject,
+      SH.targetSubjectsOf,
+      TERMS.hasInheritableConfigSource,
+    ),
+    "inheritable config attachment shape should target sfcfg:hasInheritableConfigSource subjects",
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.InheritableConfigAttachmentSubject,
+    TERMS.hasInheritableConfig,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.InheritableConfigAttachmentSubject,
+    TERMS.hasInheritableConfigSource,
+  );
+  assert(
+    objectsFor(
+      quads,
+      SHAPES.InheritableConfigAttachmentSubject,
+      SH.sparql,
+    ).length > 0,
+    "inheritable config attachment shape should reject non-Knop subjects",
+  );
+});
+
 Deno.test("ResourcePage presentation SHACL declares required config and panel selection constraints", async () => {
   const quads = await parseRepoTurtle(CORE_SHACL_FILE);
 
   assert(
     hasTriple(
       quads,
-      SHAPES.ResourcePagePresentationConfig,
+      SHAPES.ResourcePagePresentationPolicy,
       SH.targetClass,
-      TERMS.ResourcePagePresentationConfig,
+      TERMS.ResourcePagePresentationPolicy,
     ),
-    "ResourcePagePresentationConfig shape should target ResourcePagePresentationConfig",
+    "ResourcePagePresentationPolicy shape should target ResourcePagePresentationPolicy",
   );
   assertRequiredProperty(
     quads,
-    SHAPES.ResourcePagePresentationConfig,
+    SHAPES.ResourcePagePresentationPolicy,
     TERMS.hasOuterResourcePageTemplate,
   );
   assertPropertyMaxCount(
     quads,
-    SHAPES.ResourcePagePresentationConfig,
+    SHAPES.ResourcePagePresentationPolicy,
     TERMS.hasOuterResourcePageTemplate,
     1,
   );
   assertRequiredProperty(
     quads,
-    SHAPES.ResourcePagePresentationConfig,
+    SHAPES.ResourcePagePresentationPolicy,
     TERMS.hasInnerResourcePageTemplate,
   );
   assertPropertyMaxCount(
     quads,
-    SHAPES.ResourcePagePresentationConfig,
+    SHAPES.ResourcePagePresentationPolicy,
     TERMS.hasInnerResourcePageTemplate,
     1,
   );
   assertRequiredProperty(
     quads,
-    SHAPES.ResourcePagePresentationConfig,
+    SHAPES.ResourcePagePresentationPolicy,
     TERMS.hasResourcePageStylesheet,
   );
-  assertRequiredProperty(
+  assertOptionalProperty(
     quads,
-    SHAPES.ResourcePagePresentationConfig,
+    SHAPES.ResourcePagePresentationPolicy,
     TERMS.hasResourcePagePanelSelection,
   );
 
@@ -286,6 +444,107 @@ Deno.test("ResourcePage presentation SHACL declares required config and panel se
     SHAPES.ResourcePagePanelSelection,
     TERMS.hasPanelDataRequirement,
   );
+});
+
+Deno.test("Policy binding SHACL declares explicit definition and target constraints", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.PolicyDefinition,
+      SH.targetClass,
+      TERMS.PolicyDefinition,
+    ),
+    "PolicyDefinition shape should target PolicyDefinition",
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.PolicyBinding,
+      SH.targetClass,
+      TERMS.PolicyBinding,
+    ),
+    "PolicyBinding shape should target PolicyBinding",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.bindsPolicy,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.bindsPolicy,
+    1,
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.appliesToPolicyTarget,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.appliesToPolicyTarget,
+    1,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.policyPriority,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.PolicyBinding,
+    TERMS.policyPriority,
+    1,
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ArtifactRolePolicyTarget,
+      SH.targetClass,
+      TERMS.ArtifactRolePolicyTarget,
+    ),
+    "ArtifactRolePolicyTarget shape should target ArtifactRolePolicyTarget",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ArtifactRolePolicyTarget,
+    TERMS.hasArtifactRole,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ArtifactRolePolicyTarget,
+    TERMS.hasArtifactRole,
+    1,
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ExactArtifactPolicyTarget,
+      SH.targetClass,
+      TERMS.ExactArtifactPolicyTarget,
+    ),
+    "ExactArtifactPolicyTarget shape should target ExactArtifactPolicyTarget",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ExactArtifactPolicyTarget,
+    TERMS.targetsArtifact,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ExactArtifactPolicyTarget,
+    TERMS.targetsArtifact,
+    1,
+  );
+});
+
+Deno.test("ResourcePageDefinition SHACL declares generated panel selection composition", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
   assert(
     hasTriple(
       quads,
@@ -298,30 +557,23 @@ Deno.test("ResourcePage presentation SHACL declares required config and panel se
   assertOptionalProperty(
     quads,
     SHAPES.ResourcePageDefinitionPresentationConfig,
-    TERMS.hasResourcePagePresentationConfig,
-  );
-  assertPropertyMaxCount(
-    quads,
-    SHAPES.ResourcePageDefinitionPresentationConfig,
-    TERMS.hasResourcePagePresentationConfig,
-    1,
-  );
-  assertOptionalProperty(
-    quads,
-    SHAPES.ResourcePageDefinitionPresentationConfig,
     TERMS.hasGeneratedResourcePagePanelSelection,
   );
 });
 
-Deno.test("config ontology carries publication, local access, and resource-page config vocabulary", async () => {
+Deno.test("config ontology carries publication, source, and resource-page config vocabulary", async () => {
   const quads = await parseRepoTurtle("semantic-flow-config-ontology.ttl");
 
   for (
     const term of [
-      TERMS.LocalPathAccessRule,
+      TERMS.ConfigSource,
+      TERMS.PolicyDefinition,
+      TERMS.PolicyBinding,
+      TERMS.PolicyTarget,
+      TERMS.ArtifactRolePolicyTarget,
+      TERMS.ExactArtifactPolicyTarget,
       TERMS.PublicationProfile,
-      TERMS.RemoteAccessRule,
-      TERMS.ResourcePagePresentationConfig,
+      TERMS.ResourcePagePresentationPolicy,
     ]
   ) {
     assert(
@@ -329,11 +581,54 @@ Deno.test("config ontology carries publication, local access, and resource-page 
         quads,
         term,
         RDF.type,
-        "http://www.w3.org/2000/01/rdf-schema#Class",
+        RDFS_CLASS,
       ),
       `${term} should be declared as an rdfs:Class`,
     );
   }
+
+  for (
+    const term of [
+      TERMS.hasConfig,
+      TERMS.hasEffectiveConfig,
+      TERMS.hasConfigSource,
+      TERMS.hasInheritableConfig,
+      TERMS.hasInheritableConfigSource,
+    ]
+  ) {
+    assert(
+      hasTriple(quads, term, RDF.type, OWL_OBJECT_PROPERTY),
+      `${term} should be declared as an owl:ObjectProperty`,
+    );
+  }
+
+  assert(
+    !hasTriple(
+      quads,
+      TERMS.hasInheritableConfig,
+      RDFS_SUB_PROPERTY_OF,
+      TERMS.hasConfig,
+    ),
+    "hasInheritableConfig should not be a subproperty of local hasConfig",
+  );
+  assert(
+    !hasTriple(
+      quads,
+      TERMS.hasEffectiveConfig,
+      RDFS_SUB_PROPERTY_OF,
+      TERMS.hasConfig,
+    ),
+    "hasEffectiveConfig should not be a subproperty of authored local hasConfig",
+  );
+  assert(
+    !hasTriple(
+      quads,
+      TERMS.hasInheritableConfigSource,
+      RDFS_SUB_PROPERTY_OF,
+      TERMS.hasConfigSource,
+    ),
+    "hasInheritableConfigSource should not be a subproperty of local hasConfigSource",
+  );
 });
 
 Deno.test("selected ArtifactResolutionMode SHACL checks accept working-source examples", async () => {
@@ -341,7 +636,7 @@ Deno.test("selected ArtifactResolutionMode SHACL checks accept working-source ex
   const dataQuads = parseTurtle(`
     @prefix sflo: <${SFLO_NAMESPACE}> .
 
-    <source-binding> a sflo:ArtifactResolutionTarget ;
+    <source-binding> a sflo:ArtifactResolutionSpec ;
       sflo:hasArtifactResolutionMode sflo:artifactResolutionMode_working ;
       sflo:targetLocalRelativePath "source.ttl" .
   `);
@@ -357,13 +652,13 @@ Deno.test("selected ArtifactResolutionMode SHACL checks distinguish warning and 
   const dataQuads = parseTurtle(`
     @prefix sflo: <${SFLO_NAMESPACE}> .
 
-    <working-plus-exact> a sflo:ArtifactResolutionTarget ;
+    <working-plus-exact> a sflo:ArtifactResolutionSpec ;
       sflo:hasArtifactResolutionMode sflo:artifactResolutionMode_working ;
-      sflo:hasRequestedTargetState <state-1> .
+      sflo:targetHistoricalState <state-1> .
 
-    <latest-plus-exact> a sflo:ArtifactResolutionTarget ;
+    <latest-plus-exact> a sflo:ArtifactResolutionSpec ;
       sflo:hasArtifactResolutionMode sflo:artifactResolutionMode_latestState ;
-      sflo:hasRequestedTargetState <state-1> .
+      sflo:targetHistoricalState <state-1> .
 
     <state-1> a sflo:HistoricalState .
   `);
@@ -465,7 +760,7 @@ function validateArtifactResolutionModeUsage(
       TERMS.artifactResolutionModeWorking,
     )
   ) {
-    if (hasRequestedTargetState(dataQuads, subject)) {
+    if (targetHistoricalState(dataQuads, subject)) {
       findings.push({
         focusNode: subject.value,
         severity: warningSeverity,
@@ -479,7 +774,7 @@ function validateArtifactResolutionModeUsage(
       TERMS.artifactResolutionModeLatestState,
     )
   ) {
-    if (hasRequestedTargetState(dataQuads, subject)) {
+    if (targetHistoricalState(dataQuads, subject)) {
       findings.push({
         focusNode: subject.value,
         severity: infoSeverity,
@@ -534,13 +829,13 @@ function subjectsWithMode(
   ).map((quad) => quad.subject);
 }
 
-function hasRequestedTargetState(
+function targetHistoricalState(
   quads: readonly Quad[],
   subject: Term,
 ): boolean {
   return quads.some((quad) =>
     quad.subject.equals(subject) &&
-    quad.predicate.value === TERMS.hasRequestedTargetState
+    quad.predicate.value === TERMS.targetHistoricalState
   );
 }
 

@@ -53,9 +53,9 @@ For detailed `ReferenceCatalog` / `ReferenceLink` serialization and dereferencea
 
 `DigitalArtifact` is the governing artifact-level class in the current model.
 
-`ArtifactHistory` is the explicit lineage resource used when a mesh materializes one or more history streams for a `DigitalArtifact`.
+`ArtifactHistory` is the explicit diachronic facet and lineage resource used when a mesh materializes one or more history streams for a `DigitalArtifact`.
 
-`DigitalArtifactFacet` is the facet-side superclass for states, manifestations, and retrievable files. `ArtifactHistory` is not a facet.
+`DigitalArtifactFacet` is the facet-side superclass for histories, states, manifestations, and retrievable files.
 
 The main explicit history chain is:
 
@@ -64,7 +64,7 @@ The main explicit history chain is:
 Interpretation:
 
 - `DigitalArtifact`: the governing over-time artifact-level resource
-- `ArtifactHistory`: an explicit lineage resource for a digital artifact's published states
+- `ArtifactHistory`: an explicit diachronic facet and lineage resource for a digital artifact's published states
 - `HistoricalState`: an immutable version representing the content of the artifact at a particular point within one `ArtifactHistory`
 - `ArtifactManifestation`: a concrete variant of the artifact or state whose bytes may be provided by one or more `LocatedFile`s
 - `LocatedFile`: retrievable bytes at some location
@@ -77,7 +77,7 @@ Sparse cases are explicitly supported:
 - a `DigitalArtifact` may link directly to an `ArtifactManifestation` when no explicit `ArtifactHistory` / `HistoricalState` structure is materialized
 - a `SemanticMesh` or `Knop` may point directly to its current inventory file via `hasWorkingMeshInventoryFile` or `hasWorkingKnopInventoryFile` without restating inventory-artifact structure in metadata documents
 
-Use the explicit structural relations `hasArtifactHistory`, `hasHistoricalState`, `hasManifestation`, `locatedFileForManifestation`, `locatedFileForState`, `locatedFileForArtifact`, and `hasWorkingLocatedFile` for artifact/facet structure and sparse shortcuts. Use `workingLocalRelativePath` as the local runtime current-byte locator when present, `workingAccessUrl` as the remote/external current-byte locator when present and operationally allowed, and treat `hasWorkingMeshInventoryFile` and `hasWorkingKnopInventoryFile` only as owner-level shortcuts to current inventory files.
+Use the explicit structural relations `hasArtifactHistory`, `hasHistoricalState`, `hasManifestation`, `locatedFileForManifestation`, `locatedFileForState`, `locatedFileForArtifact`, and `hasWorkingLocatedFile` for artifact/facet structure and sparse shortcuts. `hasHistoricalState` specializes `dcat:hasVersion` for states in a named artifact history, and `previousHistoricalState` specializes `dcat:previousVersion` for the immediately preceding state in that lineage. Use `workingLocalRelativePath` as the local runtime current-byte locator when present, `workingAccessUrl` as the remote/external current-byte locator when present and operationally allowed, and treat `hasWorkingMeshInventoryFile` and `hasWorkingKnopInventoryFile` only as owner-level shortcuts to current inventory files.
 
 ## Mesh Structure
 
@@ -120,7 +120,8 @@ Substantive RDF about a referent should normally live in a payload artifact or d
 - `ArtifactHistory` is the explicit lineage resource when a mesh materializes history.
 - `HistoricalState` is the explicit state class within an `ArtifactHistory`.
 - `stateOrdinal` lives on `HistoricalState` for default generated state naming like `_s0001`.
-- `currentArtifactHistory` is the `DigitalArtifact`-level pointer to the active explicit history.
+- `defaultArtifactHistory` is the `DigitalArtifact`-level pointer to the explicit history that operations should extend when no history is explicitly selected.
+- `currentArtifactHistory` remains available as a compatibility/current-lineage pointer; use `defaultArtifactHistory` for the normative default write target.
 - `latestHistoricalState` is a convenience pointer from `ArtifactHistory`.
 - `nextHistoryOrdinal` lives on `DigitalArtifact` for default generated history allocation.
 - `nextStateOrdinal` lives on `ArtifactHistory` for default generated state allocation.
@@ -135,20 +136,20 @@ Substantive RDF about a referent should normally live in a payload artifact or d
 ## Other Important Vocabulary
 
 - `RdfDocument` is an orthogonal content-kind classification that may be applied selectively to a `DigitalArtifact` or to a specific `DigitalArtifactFacet`.
-- `ArtifactHistory` is an explicit lineage resource, not a `DigitalArtifactFacet`.
-- `DigitalArtifactFacet` is the common superclass for `HistoricalState`, `ArtifactManifestation`, and `LocatedFile`.
+- `ArtifactHistory` is an explicit diachronic facet and lineage resource.
+- `DigitalArtifactFacet` is the common superclass for `ArtifactHistory`, `HistoricalState`, `ArtifactManifestation`, and `LocatedFile`.
 - `ResourcePage` is a `LocatedFile` subclass for the human-facing HTML resource pages that should accompany every `SemanticFlowResource`
 - `ResourcePageDefinition` is a separate artifact-level control resource for customized identifier-page composition; it is not the same thing as the generated HTML `ResourcePage`
 - `KnopAssetBundle` is a bounded helper structure for local `_knop/_assets` modeling and does not by itself imply governed artifacts or recursive inventory capture
 - `KnopSourceRegistry` is a Knop-owned support artifact for source bindings, conventionally materialized under `_knop/_sources`; it records materialization sources and extraction provenance rather than operational mesh configuration or descriptive payload facts
-- `ArtifactResolutionTarget` is the generic policy-bearing relator for application concerns that need to resolve bytes from an artifact, a direct mesh-local path string, a direct access URL, a specific `LocatedFile`, or another explicit packaged target together with optional history/state/mode/fallback inputs; it carries requested coordinates and expectations, not observed evidence directly
-- `ArtifactResolutionObservation` is the relator for observed resolution evidence such as observed state, manifestation, located file, local path, content digest, timestamp, and observer; targets link to observations with `hasResolutionObservation` when an operation intentionally records evidence
-- `ExtractionSource` specializes `ArtifactResolutionTarget` for the source RDF document bytes from which a Knop-managed resource was extracted or first grounded; Knops link to it with `hasExtractionSource`, usually as a source-registry fragment such as `D/_knop/_sources#extraction-source`
-- `ReferenceSource` specializes `ArtifactResolutionTarget` for RDF reference data used by a `ReferenceLink`; it normally lives in the `ReferenceCatalog` beside the owning link
-- `ImportSource` specializes `ArtifactResolutionTarget` for source bytes actively acquired and copied into a governed local working surface by import
-- `IntegrationSource` specializes `ArtifactResolutionTarget` for existing source bytes registered where they already live by integrate
-- `ResourcePageRegion` and `ResourcePageSource` describe page-content composition in core; `ResourcePageSource` specializes `ArtifactResolutionTarget` and uses the generic target/history/state/mode/fallback properties directly while template/chrome policy remains a separate config concern
-- `ReferenceLink` is a curated RDF reference-data relator about the resource named by `referenceLinkFor`; it points to exactly one `ReferenceSource` with `hasReferenceSource`, and that source uses generic target coordinates such as `hasTargetArtifact` and `hasRequestedTargetState`
+- `ArtifactResolutionSpec` is the generic policy-bearing relator for application concerns that need to resolve bytes from an artifact, a direct mesh-local path string, a direct access URL, a specific `LocatedFile`, or another explicit packaged target together with optional history/state/mode/fallback inputs; it carries requested coordinates and expectations, not observed evidence directly
+- `ArtifactResolutionObservation` is the relator for observed resolution evidence; concrete observed coordinates live on its `observedArtifactResolutionSpec`, while content digest, timestamp, and observer stay on the observation itself
+- `ExtractionSource` specializes `ArtifactResolutionSpec` for the source RDF document bytes from which a Knop-managed resource was extracted or first grounded; Knops link to it with `hasExtractionSource`, usually as a source-registry fragment such as `D/_knop/_sources#extraction-source`
+- `ReferenceSource` specializes `ArtifactResolutionSpec` for RDF reference data used by a `ReferenceLink`; it normally lives in the `ReferenceCatalog` beside the owning link
+- `ImportSource` specializes `ArtifactResolutionSpec` for source bytes actively acquired and copied into a governed local working surface by import
+- `IntegrationSource` specializes `ArtifactResolutionSpec` for existing source bytes registered where they already live by integrate
+- `ResourcePageRegion` and `ResourcePageSource` describe page-content composition in core; `ResourcePageSource` specializes `ArtifactResolutionSpec` and uses the generic target/history/state/mode/fallback properties directly while template/chrome policy remains a separate config concern
+- `ReferenceLink` is a curated RDF reference-data relator about the resource named by `referenceLinkFor`; it points to exactly one `ReferenceSource` with `hasReferenceSource`, and that source uses generic target coordinates such as `targetArtifact` and `targetHistoricalState`
 - `designatorPath` is the mesh-relative path-like naming value carried by a `Knop`; it is not a generic path property for every `SemanticFlowResource`.
 - a `Semantic Flow identifier` is the public IRI formed from `meshBase + Knop.designatorPath`; support resources in the mesh may still have ordinary IRIs without thereby being Semantic Flow identifiers.
 - `preferredPayloadFileSlug` is the mutable filename preference.

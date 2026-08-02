@@ -1,0 +1,188 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: SemVer ontology version to validate, without the leading v
+        required: true
+        type: string
+      require_tag:
+        description: Require v<version> to exist and point at HEAD
+        required: true
+        default: false
+        type: boolean
+      generate_after_validation:
+        description: Generate ResourcePages after release validation passes
+        required: true
+        default: false
+        type: boolean
+      publish_mode:
+        description: What to do with generated publication changes
+        required: true
+        default: artifact
+        type: choice
+        options:
+          - artifact
+          - commit-to-gh-pages
+      publication_branch:
+        description: Branch containing the detached Pages mesh
+        required: true
+        default: gh-pages
+        type: string
+      mesh_root:
+        description: Mesh root inside the publication checkout
+        required: true
+        default: .
+        type: string
+      weave_version:
+        description: npm version/range for @semantic-flow/weave
+        required: true
+        default: latest
+        type: string
+      create_github_release:
+        description: Create or update the GitHub Release from the matching release note
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: sflo-release-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2.0.4
+        with:
+          deno-version: 2.7.14
+
+      - name: Run source CI
+        run: deno task ci
+
+      - name: Validate requested release version
+        env:
+          VERSION: ${{ inputs.version }}
+          REQUIRE_TAG: ${{ inputs.require_tag }}
+        run: |
+          args=(--version "$VERSION")
+          if [ "$REQUIRE_TAG" = "true" ]; then
+            args+=(--require-tag)
+          fi
+
+          deno task release:validate -- "${args[@]}"
+
+  generate:
+    if: ${{ inputs.generate_after_validation }}
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out publication branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.publication_branch }}
+          fetch-depth: 0
+          path: publication
+
+      - name: Install Weave
+        env:
+          WEAVE_VERSION: ${{ inputs.weave_version }}
+        run: |
+          npm install --global "@semantic-flow/weave@${WEAVE_VERSION}"
+          weave --version
+
+      - name: Generate ResourcePages
+        env:
+          MESH_ROOT: publication/${{ inputs.mesh_root }}
+        run: |
+          weave generate --mesh-root "$MESH_ROOT"
+          weave validate mesh --mesh-root "$MESH_ROOT"
+          weave validate publication --mesh-root "$MESH_ROOT"
+
+      - name: Capture publication diff
+        run: |
+          mkdir -p .workflow-artifacts
+          git -C publication status --short > .workflow-artifacts/release-resource-pages.status
+          git -C publication add -N .
+          git -C publication diff --binary > .workflow-artifacts/release-resource-pages.patch
+          cat .workflow-artifacts/release-resource-pages.status
+
+      - name: Upload publication diff
+        if: ${{ inputs.publish_mode == 'artifact' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: sflo-release-resource-pages-diff
+          path: .workflow-artifacts/**
+          if-no-files-found: error
+
+      - name: Commit generated publication changes
+        if: ${{ inputs.publish_mode == 'commit-to-gh-pages' }}
+        env:
+          PUBLICATION_BRANCH: ${{ inputs.publication_branch }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [ -z "$(git -C publication status --short)" ]; then
+            echo "No generated publication changes to commit."
+            exit 0
+          fi
+
+          git -C publication config user.name "github-actions[bot]"
+          git -C publication config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C publication add -A
+          git -C publication commit -m "Publish SFLO ontology v${VERSION} ResourcePages"
+          git -C publication push origin "HEAD:${PUBLICATION_BRANCH}"
+
+  github-release:
+    if: ${{ always() && inputs.create_github_release && needs.validate.result == 'success' && (!inputs.generate_after_validation || needs.generate.result == 'success') }}
+    needs:
+      - validate
+      - generate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          tag="v${VERSION}"
+          notes_file="notes/ont.release-notes.v${VERSION}.md"
+
+          if [ ! -f "$notes_file" ]; then
+            echo "Release notes not found: $notes_file" >&2
+            exit 1
+          fi
+
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release edit "$tag" \
+              --title "Semantic Flow ontology $tag" \
+              --notes-file "$notes_file"
+          else
+            gh release create "$tag" \
+              --verify-tag \
+              --title "Semantic Flow ontology $tag" \
+              --notes-file "$notes_file"
+          fi

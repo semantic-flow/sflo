@@ -31,20 +31,23 @@ The job and provenance ontology source files remain tagged source vocabulary unl
 ## Breaking Changes
 
 - The unpublished `v0.1.1` release plan is superseded by `v0.2.0`; no `v0.1.1` tag should be cut from this branch.
-- `ReferenceLink` no longer uses `referenceTarget`, `referenceTargetState`, or `referenceUriLiteral`. A `ReferenceLink` now points to exactly one `ReferenceSource` with `hasReferenceSource`, and that `ReferenceSource` uses the shared `ArtifactResolutionTarget` vocabulary to identify RDF reference-data bytes.
-- Extraction-scoped observed-source properties are removed from the live model: `hasObservedSourceState`, `hasObservedSourceManifestation`, `hasObservedSourceLocatedFile`, `observedSourceLocalRelativePath`, and `observedSourceDigest`. Observed resolution evidence now belongs in `ArtifactResolutionObservation` records linked from an artifact-resolution target with `hasResolutionObservation`.
+- `ReferenceLink` no longer uses `referenceTarget`, `referenceTargetState`, or `referenceUriLiteral`. A `ReferenceLink` now points to exactly one `ReferenceSource` with `hasReferenceSource`, and that `ReferenceSource` uses the shared `ArtifactResolutionSpec` vocabulary to identify RDF reference-data bytes.
+- `ArtifactResolutionTarget` is renamed to `ArtifactResolutionSpec`, and the shared target-coordinate predicates now use direct names such as `targetArtifact`, `targetHistoricalState`, `targetArtifactHistory`, `targetLocatedFile`, `targetManifestation`, and `targetRepositorySource`.
+- Extraction-scoped observed-source properties and the short-lived mirrored observed-target properties are removed from the live model. Observed resolution coordinates now live on an `observedArtifactResolutionSpec` linked from an `ArtifactResolutionObservation`; digest, timestamp, and observer evidence remain on the observation record.
 - The old `artifactResolutionMode_pinned` and `artifactResolutionMode_current` values remain retired. Active resolution mode vocabulary is now `artifactResolutionMode_working` and `artifactResolutionMode_latestState`, with exact requested state, located-file, manifestation, commit, or digest coordinates treated as exact by default.
 - ResourcePage presentation configuration now has explicit config and SHACL structure for templates, stylesheets, generated panel selection, panel ordering, inclusion policy, targeting, and data requirements. Older ad hoc assumptions about generated panels are not the modeled contract for this release.
 - Repository source modeling now distinguishes exact or ref-backed `RepositorySourceLocator` records from mutable working-source `RepositorySourceFloatingLocator` records. Floating locators deliberately omit branch/ref, commit, digest, and local checkout path evidence.
+- Config attachment vocabulary now uses generic local and Knop-inheritable properties. `KnopConfig`, `hasMeshConfig`, `hasMeshInheritableConfig`, `hasKnopConfig`, `hasKnopLocalConfig`, `hasKnopInheritableConfig`, their source variants, and `configLayerRole_meshInheritable` are removed from the live pre-1.0 vocabulary. `hasEffectiveConfig` is no longer a subproperty of authored local `hasConfig`.
 
 ## Highlights
 
 - Core artifact resolution vocabulary distinguishes mutable working-byte resolution from latest settled-state resolution.
 - Exact requested target coordinates, such as a requested `HistoricalState`, `LocatedFile`, manifestation/distribution, commit, or digest, imply exact identity by default.
 - A requested `ArtifactHistory` without a requested state means "latest state in that history" by default.
-- `ReferenceSource`, `ImportSource`, and `IntegrationSource` join `ExtractionSource` and `ResourcePageSource` as shared `ArtifactResolutionTarget` subclasses.
-- `ArtifactResolutionObservation` records observed state, manifestation, located file, local path, digest, timestamp, and observer evidence only when an operation intentionally records resolution evidence.
+- `ReferenceSource`, `ImportSource`, and `IntegrationSource` join `ExtractionSource` and `ResourcePageSource` as shared `ArtifactResolutionSpec` subclasses.
+- `ArtifactResolutionObservation` records observed byte evidence only when an operation intentionally records resolution evidence; concrete observed coordinates are represented by its nested `observedArtifactResolutionSpec`.
 - Config vocabulary adds `PublicationProfile`, `publicationProfile_none`, `publicationProfile_githubPages`, and `hasPublicationProfile` so a mesh can persist its resolved static-publication host profile.
+- Config vocabulary clarifies that reusable `ConfigArtifact` and `ConfigSource` records do not create a separate precedence layer; generic attachment properties plus the attachment subject determine the scope and layer where referenced config participates.
 - GitHub Pages profile semantics are intentionally narrow: the profile covers host controls such as `.nojekyll`; Weave and the ontology do not treat `CNAME` as managed publication state.
 - `hasNextHistorySegmentHint` and `hasNextStateSegmentHint` are now scoped to the relevant digital-artifact/history progression objects instead of generic config resources.
 - Repository-backed source binding shapes now allow mutable working/ref-following bindings while warning when deterministic replay evidence such as commit or digest is absent.
