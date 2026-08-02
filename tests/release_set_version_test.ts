@@ -63,9 +63,13 @@ Deno.test("release set-version dry-run reports changes without writing files", a
     expectedVersion: targetVersion,
     root,
   });
+  // The dry run wrote nothing, so the fixture still declares the old version:
+  // validation must still object to the pinned target. owl:versionInfo lives on
+  // the release resource, so that objection names the missing release IRI.
   assertEquals(
     validation.errors.some((error) =>
-      error.includes(`expected owl:versionInfo literal "${targetVersion}"`)
+      error.includes("owl:versionInfo") &&
+      error.includes(`releases/v${targetVersion}`)
     ),
     true,
   );

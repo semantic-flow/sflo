@@ -30,11 +30,14 @@ Deno.test("release validation can pin the expected release version", async () =>
       )
     ),
   );
+  // owl:versionInfo lives on the release resource, not the version-independent
+  // ontology IRI, so a pinned version that does not match the file surfaces as
+  // a missing release resource rather than a wrong literal.
   assert(
     result.errors.some((error) =>
-      error.includes(
-        `semantic-flow-core-ontology.ttl: expected owl:versionInfo literal "${expectedVersion}"`,
-      )
+      error.includes("semantic-flow-core-ontology.ttl") &&
+      error.includes("owl:versionInfo") &&
+      error.includes(`releases/v${expectedVersion}`)
     ),
   );
   assert(

@@ -264,20 +264,24 @@ function validateReleaseFile(
 
   requireObjectPresent(quads, file, subject, RDF.type, OWL.Ontology, errors);
 
-  const versionInfo = requireSingleObject(
-    quads,
-    file,
-    subject,
-    OWL.versionInfo,
-    errors,
-    expectedVersion
-      ? { expectedLiteralValue: expectedVersion }
-      : { expectedLiteral: true },
-  );
-  const version = versionInfo?.value;
+  // The version-independent ontology IRI carries no owl:versionInfo: a
+  // version-independent resource must not claim a single version. The release
+  // (HistoricalState) resource owns owl:versionInfo, checked below; the
+  // declared version is derived here from dcat:hasVersion, which points at
+  // that release resource.
+  const hasVersionObject = quads.find((quad) =>
+    quad.subject.value === subject && quad.predicate.value === DCAT.hasVersion
+  )?.object;
+  const version = hasVersionObject?.termType === "NamedNode"
+    ? releaseVersionFromIri(hasVersionObject.value)
+    : undefined;
 
   if (!version || !isSemver(version)) {
-    errors.push(`${file}: ontology owl:versionInfo must be SemVer-shaped`);
+    errors.push(
+      `${file}: could not derive a SemVer version from dcat:hasVersion on ${
+        compactIri(subject)
+      }`,
+    );
     return version;
   }
 
@@ -483,6 +487,11 @@ async function runGitCommand(
 
 function quadTerms(quad: Quad): readonly Term[] {
   return [quad.subject, quad.predicate, quad.object, quad.graph];
+}
+
+// Release IRIs end in `.../releases/vX.Y.Z`.
+function releaseVersionFromIri(value: string): string | undefined {
+  return /\/releases\/v([^/]+)$/.exec(value)?.[1];
 }
 
 function compactIri(value: string): string {
