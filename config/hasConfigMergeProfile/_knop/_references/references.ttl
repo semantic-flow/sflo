@@ -1,0 +1,13 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/hasConfigMergeProfile> sflo:hasReferenceLink <config/hasConfigMergeProfile/_knop/_references#reference001> .
+
+<config/hasConfigMergeProfile/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/hasConfigMergeProfile> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:hasReferenceSource <config/hasConfigMergeProfile/_knop/_references#reference001-source> .
+
+<config/hasConfigMergeProfile/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:targetArtifact <config> ;
+  sflo:targetHistoricalState <config/releases/v0.3.0> .

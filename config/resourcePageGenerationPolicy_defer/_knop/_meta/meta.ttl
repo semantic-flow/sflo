@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/resourcePageGenerationPolicy_defer/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/resourcePageGenerationPolicy_defer" ;
+  sflo:hasWorkingKnopInventoryFile <config/resourcePageGenerationPolicy_defer/_knop/_inventory/inventory.ttl> .

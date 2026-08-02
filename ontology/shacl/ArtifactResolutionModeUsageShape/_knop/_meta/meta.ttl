@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/shacl/ArtifactResolutionModeUsageShape/_knop> a sflo:Knop ;
+  sflo:designatorPath "ontology/shacl/ArtifactResolutionModeUsageShape" ;
+  sflo:hasWorkingKnopInventoryFile <ontology/shacl/ArtifactResolutionModeUsageShape/_knop/_inventory/inventory.ttl> .

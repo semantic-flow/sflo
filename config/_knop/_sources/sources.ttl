@@ -1,0 +1,17 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/_knop/_sources/sources.ttl> ;
+  sflo:hasSourceBinding <config/_knop/_sources#payload-source> .
+
+<config/_knop/_sources#payload-source> a sflo:IntegrationSource ;
+  sflo:targetArtifact <https://semantic-flow.github.io/sflo/config> ;
+  sflo:hasArtifactResolutionMode <https://semantic-flow.github.io/sflo/ontology/artifactResolutionMode_working> ;
+  sflo:hasRepositorySourceFloatingLocator [
+    a sflo:RepositorySourceFloatingLocator ;
+    sflo:sourceRepositoryUrl "https://github.com/semantic-flow/sflo.git" ;
+    sflo:sourceRepositoryPathFromRoot "semantic-flow-config-ontology.ttl"
+  ] .
+
+<config/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .

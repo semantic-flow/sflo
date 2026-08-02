@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/PortableResolverHintPolicy/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/PortableResolverHintPolicy" ;
+  sflo:hasWorkingKnopInventoryFile <config/PortableResolverHintPolicy/_knop/_inventory/inventory.ttl> .

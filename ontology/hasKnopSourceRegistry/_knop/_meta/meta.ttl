@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/hasKnopSourceRegistry/_knop> a sflo:Knop ;
+  sflo:designatorPath "ontology/hasKnopSourceRegistry" ;
+  sflo:hasWorkingKnopInventoryFile <ontology/hasKnopSourceRegistry/_knop/_inventory/inventory.ttl> .

@@ -1,0 +1,13 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/historyNamingPolicy_named> sflo:hasReferenceLink <config/historyNamingPolicy_named/_knop/_references#reference001> .
+
+<config/historyNamingPolicy_named/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/historyNamingPolicy_named> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:hasReferenceSource <config/historyNamingPolicy_named/_knop/_references#reference001-source> .
+
+<config/historyNamingPolicy_named/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:targetArtifact <config> ;
+  sflo:targetHistoricalState <config/releases/v0.3.0> .

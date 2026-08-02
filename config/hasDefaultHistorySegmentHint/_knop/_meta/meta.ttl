@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/hasDefaultHistorySegmentHint/_knop> a sflo:Knop ;
+  sflo:designatorPath "config/hasDefaultHistorySegmentHint" ;
+  sflo:hasWorkingKnopInventoryFile <config/hasDefaultHistorySegmentHint/_knop/_inventory/inventory.ttl> .

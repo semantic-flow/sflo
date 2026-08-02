@@ -1,0 +1,41 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<config/hasResourcePagePanelSelection/_knop> a sflo:Knop ;
+  sflo:hasKnopMetadata <config/hasResourcePagePanelSelection/_knop/_meta> ;
+  sflo:hasKnopInventory <config/hasResourcePagePanelSelection/_knop/_inventory> ;
+  sflo:hasKnopSourceRegistry <config/hasResourcePagePanelSelection/_knop/_sources> ;
+  sflo:hasExtractionSource <config/hasResourcePagePanelSelection/_knop/_sources#extraction-source> ;
+  sflo:hasWorkingKnopInventoryFile <config/hasResourcePagePanelSelection/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/hasResourcePagePanelSelection/_knop/index.html> .
+
+<config/hasResourcePagePanelSelection/_knop/_meta> a sflo:KnopMetadata, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasResourcePagePanelSelection/_knop/_meta/meta.ttl> ;
+  sflo:hasResourcePage <config/hasResourcePagePanelSelection/_knop/_meta/index.html> .
+
+<config/hasResourcePagePanelSelection/_knop/_inventory> a sflo:KnopInventory, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasResourcePagePanelSelection/_knop/_inventory/inventory.ttl> ;
+  sflo:hasResourcePage <config/hasResourcePagePanelSelection/_knop/_inventory/index.html> .
+
+<config/hasResourcePagePanelSelection/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasResourcePagePanelSelection/_knop/_sources/sources.ttl> .
+
+<config/hasResourcePagePanelSelection/_knop/_meta/meta.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasResourcePagePanelSelection/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasResourcePagePanelSelection/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasResourcePagePanelSelection/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/hasResourcePagePanelSelection/_knop/_meta/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/hasResourcePagePanelSelection/_knop/_inventory/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<config/hasResourcePagePanelSelection/_knop> sflo:hasReferenceCatalog <config/hasResourcePagePanelSelection/_knop/_references> .
+
+<config/hasResourcePagePanelSelection/_knop/_references> a sflo:ReferenceCatalog, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <config/hasResourcePagePanelSelection/_knop/_references/references.ttl> .
+
+<config/hasResourcePagePanelSelection/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .

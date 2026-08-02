@@ -1,0 +1,13 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/latestHistoricalState> sflo:hasReferenceLink <ontology/latestHistoricalState/_knop/_references#reference001> .
+
+<ontology/latestHistoricalState/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <ontology/latestHistoricalState> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:hasReferenceSource <ontology/latestHistoricalState/_knop/_references#reference001-source> .
+
+<ontology/latestHistoricalState/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:targetArtifact <ontology> ;
+  sflo:targetHistoricalState <ontology/releases/v0.3.0> .

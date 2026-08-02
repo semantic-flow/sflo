@@ -1,0 +1,13 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<config/hasConfigSourceFingerprint> sflo:hasReferenceLink <config/hasConfigSourceFingerprint/_knop/_references#reference001> .
+
+<config/hasConfigSourceFingerprint/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <config/hasConfigSourceFingerprint> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:hasReferenceSource <config/hasConfigSourceFingerprint/_knop/_references#reference001-source> .
+
+<config/hasConfigSourceFingerprint/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:targetArtifact <config> ;
+  sflo:targetHistoricalState <config/releases/v0.3.0> .
