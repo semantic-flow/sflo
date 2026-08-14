@@ -532,6 +532,12 @@
   rdfs:label "has extraction source" ;
   rdfs:comment "Links a Knop to the artifact-resolution spec that identifies the source RDF document bytes for the resource managed by that Knop." .
 
+<extractedFrom> a owl:ObjectProperty ;
+  rdfs:subPropertyOf prov:wasDerivedFrom ;
+  rdfs:domain <DigitalArtifact> ;
+  rdfs:label "extracted from" ;
+  rdfs:comment "Asserts that this artifact's content was produced from the referenced source by extraction - selecting, restructuring, or re-serializing content the source already carries. Transformation beyond what extraction needs is not this relation: a translation, a revision, or a new edition is not extractedFrom its original. A work an artifact merely cites, consults, or draws context from is not extractedFrom it; plain citation stays with dcterms:references or dcterms:source. Recommended object forms: the governing DigitalArtifact, or an exact HistoricalState of it when the source state is known - a state object identifies the derivation's source state, and byte resolution stays with ArtifactResolutionSpec. Prefer the state form when known; a consumer recovers the governing artifact from a state object through its ArtifactHistory." .
+
 <ArtifactResolutionMode> a rdfs:Class ;
   rdfs:label "Artifact resolution mode" ;
   rdfs:comment "A controlled vocabulary describing how an ArtifactResolutionSpec resolves target bytes when the target coordinates alone do not already fix byte identity. Exact coordinates such as a target HistoricalState, LocatedFile, manifestation, commit, or digest are exact by default. A targeted ArtifactHistory resolves to the latest HistoricalState in that history by default." .
