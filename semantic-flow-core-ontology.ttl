@@ -45,7 +45,7 @@
 <DigitalArtifact> a rdfs:Class ;
   rdfs:subClassOf dcat:Dataset ;
   rdfs:label "Digital artifact" ;
-  rdfs:comment "A digital artifact considered as the governing artifact-level resource across its states, manifestations, and retrievable files. In the current Semantic Flow model, payload, metadata, and inventory roles classify DigitalArtifacts directly." .
+  rdfs:comment "A digital artifact considered as the governing artifact-level resource across its states, manifestations, and retrievable files. In the current Semantic Flow model, payload, metadata, and inventory roles classify DigitalArtifacts directly. A byte-bearing resource with no richer facet MAY be named by its LocatedFile IRI, which then serves as the artifact's own identity; where a HistoricalState or other durable facet also identifies the bytes, that durable identity is preferred and this naming does not override it." .
 
 <ArtifactHistory> a rdfs:Class ;
   rdfs:subClassOf <DigitalArtifactFacet>, <SemanticFlowResource> ;
