@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <ontology/hasWorkingMeshInventoryFile/_knop/_references/references.ttl> .
 
 <ontology/hasWorkingMeshInventoryFile/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/hasWorkingMeshInventoryFile/_knop/_references> sflo:hasResourcePage <ontology/hasWorkingMeshInventoryFile/_knop/_references/index.html> .
+<ontology/hasWorkingMeshInventoryFile/_knop/_references/index.html> a sflo:ResourcePage .
+<ontology/hasWorkingMeshInventoryFile/_knop/_references/index.html> a sflo:LocatedFile .

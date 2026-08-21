@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/policyPriority/_knop/_references/references.ttl> .
 
 <config/policyPriority/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/policyPriority/_knop/_references> sflo:hasResourcePage <config/policyPriority/_knop/_references/index.html> .
+<config/policyPriority/_knop/_references/index.html> a sflo:ResourcePage .
+<config/policyPriority/_knop/_references/index.html> a sflo:LocatedFile .

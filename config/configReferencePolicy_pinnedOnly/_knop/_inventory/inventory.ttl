@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/configReferencePolicy_pinnedOnly/_knop/_references/references.ttl> .
 
 <config/configReferencePolicy_pinnedOnly/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/configReferencePolicy_pinnedOnly/_knop/_references> sflo:hasResourcePage <config/configReferencePolicy_pinnedOnly/_knop/_references/index.html> .
+<config/configReferencePolicy_pinnedOnly/_knop/_references/index.html> a sflo:ResourcePage .
+<config/configReferencePolicy_pinnedOnly/_knop/_references/index.html> a sflo:LocatedFile .

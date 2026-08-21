@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/localPathLocatorKind_workingLocalRelativePath/_knop/_references/references.ttl> .
 
 <config/localPathLocatorKind_workingLocalRelativePath/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/localPathLocatorKind_workingLocalRelativePath/_knop/_references> sflo:hasResourcePage <config/localPathLocatorKind_workingLocalRelativePath/_knop/_references/index.html> .
+<config/localPathLocatorKind_workingLocalRelativePath/_knop/_references/index.html> a sflo:ResourcePage .
+<config/localPathLocatorKind_workingLocalRelativePath/_knop/_references/index.html> a sflo:LocatedFile .

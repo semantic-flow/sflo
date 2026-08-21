@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/hasTrustPolicyDigest/_knop/_references/references.ttl> .
 
 <config/hasTrustPolicyDigest/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasTrustPolicyDigest/_knop/_references> sflo:hasResourcePage <config/hasTrustPolicyDigest/_knop/_references/index.html> .
+<config/hasTrustPolicyDigest/_knop/_references/index.html> a sflo:ResourcePage .
+<config/hasTrustPolicyDigest/_knop/_references/index.html> a sflo:LocatedFile .

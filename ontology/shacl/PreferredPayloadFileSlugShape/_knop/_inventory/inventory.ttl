@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_references/references.ttl> .
 
 <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_references> sflo:hasResourcePage <ontology/shacl/PreferredPayloadFileSlugShape/_knop/_references/index.html> .
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_references/index.html> a sflo:ResourcePage .
+<ontology/shacl/PreferredPayloadFileSlugShape/_knop/_references/index.html> a sflo:LocatedFile .

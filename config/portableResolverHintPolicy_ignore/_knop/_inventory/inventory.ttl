@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/portableResolverHintPolicy_ignore/_knop/_references/references.ttl> .
 
 <config/portableResolverHintPolicy_ignore/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/portableResolverHintPolicy_ignore/_knop/_references> sflo:hasResourcePage <config/portableResolverHintPolicy_ignore/_knop/_references/index.html> .
+<config/portableResolverHintPolicy_ignore/_knop/_references/index.html> a sflo:ResourcePage .
+<config/portableResolverHintPolicy_ignore/_knop/_references/index.html> a sflo:LocatedFile .

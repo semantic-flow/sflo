@@ -5519,3 +5519,138 @@
 <ontology/workingLocalRelativePath/index.html> a sflo:ResourcePage, sflo:LocatedFile .
 
 <ontology/workingLocalRelativePath/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<_mesh> sflo:hasKnop <ontology/ContentDigestBearer/_knop> .
+
+<ontology/ContentDigestBearer/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/ContentDigestBearer/_knop/_inventory/inventory.ttl> .
+
+<ontology/ContentDigestBearer/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_mesh> sflo:hasKnop <ontology/ContentDigestMethod/_knop> .
+
+<ontology/ContentDigestMethod/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/ContentDigestMethod/_knop/_inventory/inventory.ttl> .
+
+<ontology/ContentDigestMethod/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_mesh> sflo:hasKnop <ontology/contentDigestMethod_sha256/_knop> .
+
+<ontology/contentDigestMethod_sha256/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/contentDigestMethod_sha256/_knop/_inventory/inventory.ttl> .
+
+<ontology/contentDigestMethod_sha256/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_mesh> sflo:hasKnop <ontology/contentDigestMethodToken/_knop> .
+
+<ontology/contentDigestMethodToken/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/contentDigestMethodToken/_knop/_inventory/inventory.ttl> .
+
+<ontology/contentDigestMethodToken/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_mesh> sflo:hasKnop <ontology/extractedFrom/_knop> .
+
+<ontology/extractedFrom/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/extractedFrom/_knop/_inventory/inventory.ttl> .
+
+<ontology/extractedFrom/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_mesh> sflo:hasKnop <ontology/shacl/ContentDigestBearerTypingShape/_knop> .
+
+<ontology/shacl/ContentDigestBearerTypingShape/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/shacl/ContentDigestBearerTypingShape/_knop/_inventory/inventory.ttl> .
+
+<ontology/shacl/ContentDigestBearerTypingShape/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_mesh> sflo:hasKnop <ontology/shacl/ContentDigestMethodShape/_knop> .
+
+<ontology/shacl/ContentDigestMethodShape/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/shacl/ContentDigestMethodShape/_knop/_inventory/inventory.ttl> .
+
+<ontology/shacl/ContentDigestMethodShape/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_mesh> sflo:hasKnop <ontology/shacl/ExpectedContentDigestTypingShape/_knop> .
+
+<ontology/shacl/ExpectedContentDigestTypingShape/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/shacl/ExpectedContentDigestTypingShape/_knop/_inventory/inventory.ttl> .
+
+<ontology/shacl/ExpectedContentDigestTypingShape/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_mesh> sflo:hasKnop <ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/_knop> .
+
+<ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/_knop/_inventory/inventory.ttl> .
+
+<ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/ContentDigestBearer> sflo:hasResourcePage <ontology/ContentDigestBearer/index.html> .
+
+<ontology/ContentDigestBearer/_knop> sflo:hasResourcePage <ontology/ContentDigestBearer/_knop/index.html> .
+
+<ontology/ContentDigestBearer/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/ContentDigestBearer/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/ContentDigestMethod> sflo:hasResourcePage <ontology/ContentDigestMethod/index.html> .
+
+<ontology/ContentDigestMethod/_knop> sflo:hasResourcePage <ontology/ContentDigestMethod/_knop/index.html> .
+
+<ontology/ContentDigestMethod/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/ContentDigestMethod/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/contentDigestMethod_sha256> sflo:hasResourcePage <ontology/contentDigestMethod_sha256/index.html> .
+
+<ontology/contentDigestMethod_sha256/_knop> sflo:hasResourcePage <ontology/contentDigestMethod_sha256/_knop/index.html> .
+
+<ontology/contentDigestMethod_sha256/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/contentDigestMethod_sha256/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/contentDigestMethodToken> sflo:hasResourcePage <ontology/contentDigestMethodToken/index.html> .
+
+<ontology/contentDigestMethodToken/_knop> sflo:hasResourcePage <ontology/contentDigestMethodToken/_knop/index.html> .
+
+<ontology/contentDigestMethodToken/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/contentDigestMethodToken/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/extractedFrom> sflo:hasResourcePage <ontology/extractedFrom/index.html> .
+
+<ontology/extractedFrom/_knop> sflo:hasResourcePage <ontology/extractedFrom/_knop/index.html> .
+
+<ontology/extractedFrom/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/extractedFrom/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/ContentDigestBearerTypingShape> sflo:hasResourcePage <ontology/shacl/ContentDigestBearerTypingShape/index.html> .
+
+<ontology/shacl/ContentDigestBearerTypingShape/_knop> sflo:hasResourcePage <ontology/shacl/ContentDigestBearerTypingShape/_knop/index.html> .
+
+<ontology/shacl/ContentDigestBearerTypingShape/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/ContentDigestBearerTypingShape/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/ContentDigestMethodShape> sflo:hasResourcePage <ontology/shacl/ContentDigestMethodShape/index.html> .
+
+<ontology/shacl/ContentDigestMethodShape/_knop> sflo:hasResourcePage <ontology/shacl/ContentDigestMethodShape/_knop/index.html> .
+
+<ontology/shacl/ContentDigestMethodShape/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/ContentDigestMethodShape/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/ExpectedContentDigestTypingShape> sflo:hasResourcePage <ontology/shacl/ExpectedContentDigestTypingShape/index.html> .
+
+<ontology/shacl/ExpectedContentDigestTypingShape/_knop> sflo:hasResourcePage <ontology/shacl/ExpectedContentDigestTypingShape/_knop/index.html> .
+
+<ontology/shacl/ExpectedContentDigestTypingShape/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/ExpectedContentDigestTypingShape/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/ManifestationLocatedFileDigestConsistencyShape> sflo:hasResourcePage <ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/index.html> .
+
+<ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/_knop> sflo:hasResourcePage <ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/_knop/index.html> .
+
+<ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .

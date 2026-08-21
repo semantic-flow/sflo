@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <ontology/shacl/ExtractionSourceShape/_knop/_references/references.ttl> .
 
 <ontology/shacl/ExtractionSourceShape/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/shacl/ExtractionSourceShape/_knop/_references> sflo:hasResourcePage <ontology/shacl/ExtractionSourceShape/_knop/_references/index.html> .
+<ontology/shacl/ExtractionSourceShape/_knop/_references/index.html> a sflo:ResourcePage .
+<ontology/shacl/ExtractionSourceShape/_knop/_references/index.html> a sflo:LocatedFile .

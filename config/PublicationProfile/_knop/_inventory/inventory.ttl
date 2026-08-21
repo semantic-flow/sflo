@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/PublicationProfile/_knop/_references/references.ttl> .
 
 <config/PublicationProfile/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/PublicationProfile/_knop/_references> sflo:hasResourcePage <config/PublicationProfile/_knop/_references/index.html> .
+<config/PublicationProfile/_knop/_references/index.html> a sflo:ResourcePage .
+<config/PublicationProfile/_knop/_references/index.html> a sflo:LocatedFile .

@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/workspaceRootRelativeToMeshRoot/_knop/_references/references.ttl> .
 
 <config/workspaceRootRelativeToMeshRoot/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/workspaceRootRelativeToMeshRoot/_knop/_references> sflo:hasResourcePage <config/workspaceRootRelativeToMeshRoot/_knop/_references/index.html> .
+<config/workspaceRootRelativeToMeshRoot/_knop/_references/index.html> a sflo:ResourcePage .
+<config/workspaceRootRelativeToMeshRoot/_knop/_references/index.html> a sflo:LocatedFile .

@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/manifestationNamingPolicy_ordinal/_knop/_references/references.ttl> .
 
 <config/manifestationNamingPolicy_ordinal/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/manifestationNamingPolicy_ordinal/_knop/_references> sflo:hasResourcePage <config/manifestationNamingPolicy_ordinal/_knop/_references/index.html> .
+<config/manifestationNamingPolicy_ordinal/_knop/_references/index.html> a sflo:ResourcePage .
+<config/manifestationNamingPolicy_ordinal/_knop/_references/index.html> a sflo:LocatedFile .

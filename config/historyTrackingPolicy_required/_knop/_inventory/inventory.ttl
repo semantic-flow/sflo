@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/historyTrackingPolicy_required/_knop/_references/references.ttl> .
 
 <config/historyTrackingPolicy_required/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/historyTrackingPolicy_required/_knop/_references> sflo:hasResourcePage <config/historyTrackingPolicy_required/_knop/_references/index.html> .
+<config/historyTrackingPolicy_required/_knop/_references/index.html> a sflo:ResourcePage .
+<config/historyTrackingPolicy_required/_knop/_references/index.html> a sflo:LocatedFile .

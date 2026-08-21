@@ -1,0 +1,13 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/shacl/ContentDigestMethodShape> sflo:hasReferenceLink <ontology/shacl/ContentDigestMethodShape/_knop/_references#reference001> .
+
+<ontology/shacl/ContentDigestMethodShape/_knop/_references#reference001> a sflo:ReferenceLink ;
+  sflo:referenceLinkFor <ontology/shacl/ContentDigestMethodShape> ;
+  sflo:hasReferenceRole <https://semantic-flow.github.io/sflo/ontology/referenceRole_canonical> ;
+  sflo:hasReferenceSource <ontology/shacl/ContentDigestMethodShape/_knop/_references#reference001-source> .
+
+<ontology/shacl/ContentDigestMethodShape/_knop/_references#reference001-source> a sflo:ReferenceSource ;
+  sflo:targetArtifact <ontology/shacl> ;
+  sflo:targetHistoricalState <ontology/shacl/releases/v0.4.0> .

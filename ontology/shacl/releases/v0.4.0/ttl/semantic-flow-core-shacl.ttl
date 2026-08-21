@@ -1,0 +1,1217 @@
+@base <https://semantic-flow.github.io/sflo/ontology/shacl/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sfcfg: <https://semantic-flow.github.io/sflo/config/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl>
+  dcterms:title "Semantic Flow Core SHACL Shapes";
+  rdf:type owl:Ontology;
+  dcterms:description "SHACL shapes for validating Semantic Flow data structures and operational invariants.";
+  dcterms:creator <https://djradon.github.io/ns/dave-richardson> ;
+  dcat:hasVersion <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.4.0>;
+  dcterms:modified "2026-05-19"^^xsd:date;
+  vann:preferredNamespacePrefix "sflo-shacl";
+  vann:preferredNamespaceUri "https://semantic-flow.github.io/sflo/ontology/shacl/";
+  owl:versionIRI <https://raw.githubusercontent.com/semantic-flow/sflo/refs/tags/v0.4.0/semantic-flow-core-shacl.ttl>;
+  owl:versionInfo "0.4.0" .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.4.0>
+  rdf:type owl:Ontology, sflo:HistoricalState;
+  dcat:isVersionOf <https://semantic-flow.github.io/sflo/ontology/shacl>;
+  dcterms:issued "2026-08-21"^^xsd:date;
+  owl:versionInfo "0.4.0";
+  schema:contentUrl <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.4.0/ttl/semantic-flow-core-shacl.ttl>;
+  sflo:hasManifestation <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.4.0/ttl> .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.4.0/ttl>
+  a sflo:ArtifactManifestation;
+  dcat:downloadURL <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.4.0/ttl/semantic-flow-core-shacl.ttl>;
+  sflo:locatedFileForManifestation <https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.4.0/ttl/semantic-flow-core-shacl.ttl> .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.4.0/ttl/semantic-flow-core-shacl.ttl>
+  a sflo:LocatedFile .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceLinkShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A ReferenceLink must identify the thing it is about and the RDF reference source it uses.";
+  rdfs:label "ReferenceLink basics";
+  sh:property [
+    sh:class sflo:ReferenceSource;
+    sh:maxCount 1;
+    sh:message "A ReferenceLink MUST have exactly one sflo:hasReferenceSource value typed sflo:ReferenceSource.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasReferenceSource;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:message "A ReferenceLink SHOULD have at least one sflo:hasReferenceRole.";
+    sh:minCount 1;
+    sh:path sflo:hasReferenceRole;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:maxCount 1;
+    sh:message "A ReferenceLink MUST have exactly one sflo:referenceLinkFor.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:referenceLinkFor;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ReferenceLink .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceSourceShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A ReferenceSource identifies RDF data used by a ReferenceLink.";
+  rdfs:label "ReferenceSource basics";
+  sh:property [
+    sh:class sflo:RdfDocument;
+    sh:maxCount 1;
+    sh:message "If present, a ReferenceSource sflo:targetArtifact value MUST be an IRI typed sflo:RdfDocument.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:targetArtifact;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ReferenceSource .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceLinkForNotKnopShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Reference links must be about the referent or mesh subject, not about the Knop support object itself.";
+  rdfs:label "ReferenceLink subject must not be a Knop";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "sflo:referenceLinkFor MUST identify the actual subject resource, not a sflo:Knop support object.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:referenceLinkFor ?target .\n  ?target a sflo:Knop .\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ReferenceLink .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ReferenceCatalogOwnerShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Only Knops and SemanticMeshes may own a ReferenceCatalog in this version of the model.";
+  rdfs:label "ReferenceCatalog owner constraints";
+  sh:property [
+    sh:class sflo:ReferenceCatalog;
+    sh:maxCount 1;
+    sh:message "An owner may have at most one sflo:hasReferenceCatalog value, and it must be an IRI typed sflo:ReferenceCatalog.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasReferenceCatalog;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "Only sflo:Knop or sflo:SemanticMesh resources may own a sflo:hasReferenceCatalog in this version of the model.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT DISTINCT $this WHERE {\n  $this sflo:hasReferenceCatalog ?catalog .\n  FILTER NOT EXISTS { $this a sflo:Knop }\n  FILTER NOT EXISTS { $this a sflo:SemanticMesh }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:hasReferenceCatalog .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceRegistryShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A KnopSourceRegistry catalogs source bindings and extraction provenance for one Knop.";
+  rdfs:label "KnopSourceRegistry";
+  sh:property [
+    sh:class sflo:ArtifactResolutionSpec;
+    sh:message "A KnopSourceRegistry MUST have at least one sflo:hasSourceBinding value typed sflo:ArtifactResolutionSpec.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasSourceBinding;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:KnopSourceRegistry .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceRegistryAttachmentShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Only Knops may own a KnopSourceRegistry in this version of the model.";
+  rdfs:label "KnopSourceRegistry owner constraints";
+  sh:property [
+    sh:class sflo:KnopSourceRegistry;
+    sh:maxCount 1;
+    sh:message "A Knop may have at most one sflo:hasKnopSourceRegistry value, and it must be an IRI typed sflo:KnopSourceRegistry.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasKnopSourceRegistry;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "Only sflo:Knop resources may own a sflo:hasKnopSourceRegistry in this version of the model.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT DISTINCT $this WHERE {\n  $this sflo:hasKnopSourceRegistry ?registry .\n  FILTER NOT EXISTS { $this a sflo:Knop }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:hasKnopSourceRegistry .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceBindingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A repository-backed source binding carried by a KnopSourceRegistry records the target artifact and its repository source locator. Exact replay evidence such as a commit or expected digest is strongly recommended, but working/ref-following bindings are valid when operational policy allows them.";
+  rdfs:label "Repository-backed Knop source binding";
+  sh:property [
+    sh:maxCount 1;
+    sh:message "A repository-backed Knop source binding MUST identify exactly one sflo:targetArtifact IRI.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:targetArtifact;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A repository-backed Knop source binding MUST declare exactly one sflo:targetLocalRelativePath string literal.";
+    sh:minCount 1;
+    sh:path sflo:targetLocalRelativePath;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A repository-backed Knop source binding SHOULD declare sflo:expectsContentDigest when deterministic byte replay matters.";
+    sh:path sflo:expectsContentDigest;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:RepositorySourceLocator;
+    sh:maxCount 1;
+    sh:message "A repository-backed Knop source binding MUST identify exactly one sflo:targetRepositorySource value typed sflo:RepositorySourceLocator.";
+    sh:minCount 1;
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sflo:targetRepositorySource;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sflo:ArtifactResolutionMode;
+    sh:maxCount 1;
+    sh:message "A repository-backed Knop source binding SHOULD declare one sflo:hasArtifactResolutionMode value typed sflo:ArtifactResolutionMode.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasArtifactResolutionMode;
+    sh:severity sh:Warning
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A repository-backed source binding SHOULD include sourceRepositoryCommit or expectsContentDigest evidence when deterministic replay matters.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:targetRepositorySource ?locator .\n  FILTER NOT EXISTS { ?locator sflo:sourceRepositoryCommit ?commit }\n  FILTER NOT EXISTS { $this sflo:expectsContentDigest ?digest }\n}";
+    sh:severity sh:Warning
+  ];
+  sh:targetSubjectsOf sflo:targetRepositorySource .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/LocalWorkingSourceBindingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A local working source binding uses targetLocalRelativePath directly, without a repository source locator. It is mutable working-byte resolution unless exact state, located-file, or digest evidence says otherwise.";
+  rdfs:label "Local working source binding";
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A local working source binding MUST declare at most one sflo:targetLocalRelativePath string literal.";
+    sh:path sflo:targetLocalRelativePath;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A local working source binding SHOULD declare sflo:hasArtifactResolutionMode, normally sflo:artifactResolutionMode_working, unless exact target coordinates make the mode obvious.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:targetLocalRelativePath ?path .\n  FILTER NOT EXISTS { $this sflo:targetRepositorySource ?repo }\n  FILTER NOT EXISTS { $this sflo:hasArtifactResolutionMode ?mode }\n  FILTER NOT EXISTS { $this sflo:targetHistoricalState ?state }\n  FILTER NOT EXISTS { $this sflo:targetManifestation ?manifestation }\n  FILTER NOT EXISTS { $this sflo:targetLocatedFile ?file }\n  FILTER NOT EXISTS { $this sflo:expectsContentDigest ?digest }\n}";
+    sh:severity sh:Warning
+  ];
+  sh:targetSubjectsOf sflo:targetLocalRelativePath .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ConfigSourceShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A ConfigSource is a config-specific ArtifactResolutionSpec. When it targets an artifact directly, that artifact should be a ConfigArtifact.";
+  rdfs:label "ConfigSource";
+  sh:property [
+    sh:class sfcfg:ConfigArtifact;
+    sh:maxCount 1;
+    sh:message "If present, a ConfigSource sflo:targetArtifact value SHOULD be an IRI typed sfcfg:ConfigArtifact.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:targetArtifact;
+    sh:severity sh:Warning
+  ];
+  sh:targetClass sfcfg:ConfigSource .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/LocalConfigAttachmentSubjectShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Generic local config attachments are meaningful only on recognized config-bearing scopes.";
+  rdfs:label "Local config attachment subject";
+  sh:property [
+    sh:class sfcfg:Config;
+    sh:message "A local sfcfg:hasConfig value MUST be typed sfcfg:Config.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:hasConfig;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ConfigSource;
+    sh:message "A local sfcfg:hasConfigSource value MUST be typed sfcfg:ConfigSource.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:hasConfigSource;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "Only sflo:SemanticMesh or sflo:Knop resources may use generic local config attachment properties in this version of the model.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nPREFIX sfcfg: <https://semantic-flow.github.io/sflo/config/>\nSELECT DISTINCT $this WHERE {\n  { $this sfcfg:hasConfig ?config }\n  UNION\n  { $this sfcfg:hasConfigSource ?source }\n  FILTER NOT EXISTS { $this a sflo:SemanticMesh }\n  FILTER NOT EXISTS { $this a sflo:Knop }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sfcfg:hasConfig, sfcfg:hasConfigSource .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/InheritableConfigAttachmentSubjectShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Generic inheritable config attachments are Knop subtree-default offers.";
+  rdfs:label "Inheritable config attachment subject";
+  sh:property [
+    sh:class sfcfg:Config;
+    sh:message "An sfcfg:hasInheritableConfig value MUST be typed sfcfg:Config.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:hasInheritableConfig;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ConfigSource;
+    sh:message "An sfcfg:hasInheritableConfigSource value MUST be typed sfcfg:ConfigSource.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:hasInheritableConfigSource;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "Only sflo:Knop resources may use generic inheritable config attachment properties.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nPREFIX sfcfg: <https://semantic-flow.github.io/sflo/config/>\nSELECT DISTINCT $this WHERE {\n  { $this sfcfg:hasInheritableConfig ?config }\n  UNION\n  { $this sfcfg:hasInheritableConfigSource ?source }\n  FILTER NOT EXISTS { $this a sflo:Knop }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sfcfg:hasInheritableConfig, sfcfg:hasInheritableConfigSource .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/RepositorySourceLocatorShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A repository source locator records durable repository coordinates for bytes or a tree path without implying local checkout access.";
+  rdfs:label "RepositorySourceLocator";
+  sh:property [
+    sh:maxCount 1;
+    sh:message "A RepositorySourceLocator MUST declare exactly one sflo:sourceRepositoryUrl literal.";
+    sh:minCount 1;
+    sh:nodeKind sh:Literal;
+    sh:path sflo:sourceRepositoryUrl;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A RepositorySourceLocator MUST declare exactly one sflo:sourceRepositoryRef string literal.";
+    sh:minCount 1;
+    sh:path sflo:sourceRepositoryRef;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "If present, sflo:sourceRepositoryCommit MUST be a single string literal.";
+    sh:path sflo:sourceRepositoryCommit;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A RepositorySourceLocator MUST declare exactly one sflo:sourceRepositoryPath string literal.";
+    sh:minCount 1;
+    sh:path sflo:sourceRepositoryPath;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceLocator MUST NOT declare sflo:hasContentDigest; digest requirements belong on the ArtifactResolutionSpec and computed evidence belongs on an ArtifactResolutionObservation.";
+    sh:path sflo:hasContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceLocator MUST NOT declare sflo:expectsContentDigest; digest requirements belong on the ArtifactResolutionSpec that uses the locator.";
+    sh:path sflo:expectsContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceLocator MUST NOT declare sflo:observedContentDigest; computed evidence belongs on an ArtifactResolutionObservation.";
+    sh:path sflo:observedContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:RepositorySourceLocator .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/RepositorySourceFloatingLocatorShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A floating repository source locator records durable repository identity and a path from the repository root for mutable working bytes. It deliberately omits ref, commit, digest, and local checkout path evidence.";
+  rdfs:label "RepositorySourceFloatingLocator";
+  sh:property [
+    sh:maxCount 1;
+    sh:message "A RepositorySourceFloatingLocator MUST declare exactly one sflo:sourceRepositoryUrl literal.";
+    sh:minCount 1;
+    sh:nodeKind sh:Literal;
+    sh:path sflo:sourceRepositoryUrl;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A RepositorySourceFloatingLocator MUST declare exactly one sflo:sourceRepositoryPathFromRoot string literal.";
+    sh:minCount 1;
+    sh:path sflo:sourceRepositoryPathFromRoot;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:sourceRepositoryRef; floating working sources use the currently checked-out ref from operational resolution.";
+    sh:path sflo:sourceRepositoryRef;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:sourceRepositoryCommit; commit-pinned source resolution should use RepositorySourceLocator.";
+    sh:path sflo:sourceRepositoryCommit;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:hasContentDigest; digest requirements belong on the ArtifactResolutionSpec and computed evidence belongs on an ArtifactResolutionObservation.";
+    sh:path sflo:hasContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:expectsContentDigest; digest requirements belong on the ArtifactResolutionSpec that uses the locator.";
+    sh:path sflo:expectsContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:observedContentDigest; computed evidence belongs on an ArtifactResolutionObservation.";
+    sh:path sflo:observedContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:RepositorySourceFloatingLocator .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/FloatingRepositorySourceBindingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A branch-based mesh floating source binding resolves mutable working bytes from a repository checkout selected by operational policy. It should not persist host-local source paths.";
+  rdfs:label "Floating repository source binding";
+  sh:property [
+    sh:class sflo:RepositorySourceFloatingLocator;
+    sh:maxCount 1;
+    sh:message "A floating repository source binding MUST identify exactly one sflo:hasRepositorySourceFloatingLocator value typed sflo:RepositorySourceFloatingLocator.";
+    sh:minCount 1;
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sflo:hasRepositorySourceFloatingLocator;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A floating repository source binding MUST NOT declare sflo:targetLocalRelativePath.";
+    sh:path sflo:targetLocalRelativePath;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A floating repository source binding MUST NOT declare sflo:workingLocalRelativePath.";
+    sh:path sflo:workingLocalRelativePath;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A floating repository source binding MUST NOT declare sflo:hasWorkingLocatedFile.";
+    sh:path sflo:hasWorkingLocatedFile;
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:hasRepositorySourceFloatingLocator .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/PreviousHistoricalStateShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "previousHistoricalState is optional but, if present, must point to exactly one HistoricalState (the immediately preceding published state).";
+  rdfs:label "HistoricalState revision linkage";
+  sh:property [
+    sh:class sflo:HistoricalState;
+    sh:maxCount 1;
+    sh:message "sflo:previousHistoricalState must have at most one value, and it must be an IRI typed sflo:HistoricalState.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:previousHistoricalState;
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:previousHistoricalState .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/PreviousHistoricalStateNotSelfShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Disallow self-links in the published revision chain.";
+  rdfs:label "previousHistoricalState must not be self";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A HistoricalState MUST NOT have itself as sflo:previousHistoricalState.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:previousHistoricalState $this .\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:previousHistoricalState .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/PreferredPayloadFileSlugShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Validates sflo:preferredPayloadFileSlug token constraints (filename stem preference).";
+  rdfs:label "preferredPayloadFileSlug";
+  sh:property [
+    sh:message "If present, sflo:preferredPayloadFileSlug SHOULD be a portable filename stem token (ASCII letters/digits with . _ -).";
+    sh:path sflo:preferredPayloadFileSlug;
+    sh:pattern "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?$";
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "If present, sflo:preferredPayloadFileSlug MUST be a single xsd:string.";
+    sh:path sflo:preferredPayloadFileSlug;
+    sh:severity sh:Warning
+  ];
+  sh:targetClass sflo:PayloadArtifact .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/PreferredPayloadFileSlugIndexBanShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Best-effort guardrail to prevent generating index.html unintentionally.";
+  rdfs:label "preferredPayloadFileSlug should avoid index";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "sflo:preferredPayloadFileSlug SHOULD NOT be 'index' or 'index.html' (index.html is reserved for ResourcePage files).";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:preferredPayloadFileSlug ?s .\n  BIND(LCASE(STR(?s)) AS ?lc)\n  FILTER(?lc = \"index\" || ?lc = \"index.html\")\n}";
+    sh:severity sh:Warning
+  ];
+  sh:targetSubjectsOf sflo:preferredPayloadFileSlug .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/MeshSlotsShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Operational slot expectations for common SemanticMesh-associated artifacts.";
+  rdfs:label "SemanticMesh slots";
+  sh:property [
+    sh:class sflo:ReferenceCatalog;
+    sh:maxCount 1;
+    sh:message "If present, a SemanticMesh may have at most one sflo:hasReferenceCatalog, and it must be an IRI typed sflo:ReferenceCatalog.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasReferenceCatalog;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:LocatedFile;
+    sh:maxCount 1;
+    sh:message "If present, a SemanticMesh may have at most one sflo:hasWorkingMeshInventoryFile, and it must be an IRI typed sflo:LocatedFile.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasWorkingMeshInventoryFile;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:message "A SemanticMesh MUST have exactly one sflo:hasMeshMetadata value typed sflo:MeshMetadata.";
+    sh:path sflo:hasMeshMetadata;
+    sh:qualifiedMaxCount 1;
+    sh:qualifiedMinCount 1;
+    sh:qualifiedValueShape [ sh:class sflo:MeshMetadata ];
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:message "A SemanticMesh MUST have exactly one sflo:hasMeshInventory value typed sflo:MeshInventory.";
+    sh:path sflo:hasMeshInventory;
+    sh:qualifiedMaxCount 1;
+    sh:qualifiedMinCount 1;
+    sh:qualifiedValueShape [ sh:class sflo:MeshInventory ];
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:SemanticMesh .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/MeshBaseShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Ensures a SemanticMesh typically declares a canonical meshBase URI literal.";
+  rdfs:label "SemanticMesh base sanity";
+  sh:property [
+    sh:datatype xsd:anyURI;
+    sh:maxCount 1;
+    sh:message "A SemanticMesh SHOULD declare exactly one sflo:meshBase (xsd:anyURI).";
+    sh:minCount 1;
+    sh:path sflo:meshBase;
+    sh:severity sh:Warning
+  ];
+  sh:targetClass sflo:SemanticMesh .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/LocatedFileForStateConsistencyShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "If locatedFileForState is used as a shortcut, it should align with hasManifestation/locatedFileForManifestation.";
+  rdfs:label "locatedFileForState consistency";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "If a HistoricalState uses sflo:locatedFileForState ?lf, there SHOULD exist an ArtifactManifestation ?m such that ($this sflo:hasManifestation ?m) and (?m sflo:locatedFileForManifestation ?lf).";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:locatedFileForState ?lf .\n  FILTER NOT EXISTS {\n    $this sflo:hasManifestation ?m .\n    ?m sflo:locatedFileForManifestation ?lf .\n  }\n}";
+    sh:severity sh:Warning
+  ];
+  sh:targetSubjectsOf sflo:locatedFileForState .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ContentDigestMethodShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Every published ContentDigestMethod member has one lowercase wire token.";
+  rdfs:label "content digest method";
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A ContentDigestMethod MUST declare exactly one lowercase sflo:contentDigestMethodToken.";
+    sh:minCount 1;
+    sh:path sflo:contentDigestMethodToken;
+    sh:pattern "^[a-z][a-z0-9+._-]*$";
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ContentDigestMethod .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ContentDigestLiteralShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "This release supports SHA-256 content digests as canonical algorithm-qualified lowercase literals. Byte retrieval and cryptographic verification remain runtime responsibilities.";
+  rdfs:label "content digest literal";
+  sh:property [
+    sh:datatype xsd:string;
+    sh:message "sflo:hasContentDigest values MUST be xsd:string literals.";
+    sh:path sflo:hasContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:message "sflo:hasContentDigest values MUST use 'sha256:' followed by 64 lowercase hexadecimal digits.";
+    sh:path sflo:hasContentDigest;
+    sh:pattern "^sha256:[0-9a-f]{64}$";
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A subject MUST NOT declare different sflo:hasContentDigest values for the same method.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?firstDigest, ?secondDigest .\n  FILTER(STRBEFORE(STR(?firstDigest), ':') = STRBEFORE(STR(?secondDigest), ':'))\n  FILTER(STR(?firstDigest) != STR(?secondDigest))\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:hasContentDigest .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ContentDigestBearerTypingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A content-digest subject should declare its known bearer type explicitly while keeping ContentDigestBearer open to downstream subclasses.";
+  rdfs:label "content digest bearer typing";
+  sh:severity sh:Warning;
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A subject using sflo:hasContentDigest SHOULD be explicitly typed sflo:ContentDigestBearer or a subclass.";
+    sh:select "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?digest .\n  FILTER NOT EXISTS { $this a/rdfs:subClassOf* sflo:ContentDigestBearer }\n}"
+  ];
+  sh:targetSubjectsOf sflo:hasContentDigest .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ManifestationLocatedFileDigestConsistencyShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A LocatedFile that provides an ArtifactManifestation must agree with the manifestation's standing digest claim for each method asserted at both levels.";
+  rdfs:label "manifestation and located-file digest consistency";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "An ArtifactManifestation and its LocatedFile MUST NOT declare different content digests for the same method.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?manifestationDigest ;\n    sflo:locatedFileForManifestation ?file .\n  ?file sflo:hasContentDigest ?fileDigest .\n  FILTER(STRBEFORE(STR(?manifestationDigest), ':') = STRBEFORE(STR(?fileDigest), ':'))\n  FILTER(STR(?manifestationDigest) != STR(?fileDigest))\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:locatedFileForManifestation .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ExpectedContentDigestShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "ArtifactResolutionSpecs may carry a single expected digest used by runtime resolution to verify fetched or loaded target bytes before use.";
+  rdfs:label "expected content digest";
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "sflo:expectsContentDigest values MUST be a single xsd:string literal.";
+    sh:path sflo:expectsContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:message "sflo:expectsContentDigest values MUST use 'sha256:' followed by 64 lowercase hexadecimal digits.";
+    sh:path sflo:expectsContentDigest;
+    sh:pattern "^sha256:[0-9a-f]{64}$";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:expectsContentDigest .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ExpectedContentDigestTypingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "An expected digest should be attached to an ArtifactResolutionSpec or one of its subclasses.";
+  rdfs:label "expected content digest subject typing";
+  sh:severity sh:Warning;
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "sflo:expectsContentDigest SHOULD be used on resources typed sflo:ArtifactResolutionSpec or a subclass such as sflo:ExtractionSource, sflo:ReferenceSource, sflo:ImportSource, or sflo:IntegrationSource.";
+    sh:select "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:expectsContentDigest ?digest .\n  FILTER NOT EXISTS { $this a/rdfs:subClassOf* sflo:ArtifactResolutionSpec }\n}"
+  ];
+  sh:targetSubjectsOf sflo:expectsContentDigest .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactResolutionObservationLinkShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "ArtifactResolutionSpecs may link to explicit observation records when an operation intentionally records resolved evidence.";
+  rdfs:label "ArtifactResolutionSpec observations";
+  sh:property [
+    sh:class sflo:ArtifactResolutionObservation;
+    sh:message "sflo:hasResolutionObservation values MUST be IRIs typed sflo:ArtifactResolutionObservation.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasResolutionObservation;
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:hasResolutionObservation .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactResolutionObservationShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "An ArtifactResolutionObservation records evidence observed during one artifact-resolution event. Concrete resolved coordinates are carried by its observedArtifactResolutionSpec.";
+  rdfs:label "ArtifactResolutionObservation";
+  sh:property [
+    sh:class sflo:ArtifactResolutionSpec;
+    sh:maxCount 1;
+    sh:message "An ArtifactResolutionObservation MUST have exactly one sflo:observedArtifactResolutionSpec value typed sflo:ArtifactResolutionSpec.";
+    sh:minCount 1;
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sflo:observedArtifactResolutionSpec;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:string;
+    sh:message "sflo:observedContentDigest values MUST be xsd:string literals.";
+    sh:path sflo:observedContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:message "sflo:observedContentDigest values MUST use 'sha256:' followed by 64 lowercase hexadecimal digits.";
+    sh:path sflo:observedContentDigest;
+    sh:pattern "^sha256:[0-9a-f]{64}$";
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "An ArtifactResolutionObservation MUST NOT declare different observed content-digest values for the same method.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:observedContentDigest ?firstDigest, ?secondDigest .\n  FILTER(STRBEFORE(STR(?firstDigest), ':') = STRBEFORE(STR(?secondDigest), ':'))\n  FILTER(STR(?firstDigest) != STR(?secondDigest))\n}";
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:dateTime;
+    sh:maxCount 1;
+    sh:message "If present, sflo:observedAt MUST be a single xsd:dateTime literal.";
+    sh:path sflo:observedAt;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class dcterms:Agent;
+    sh:maxCount 1;
+    sh:message "If present, sflo:observedBy MUST be a single IRI or blank node typed dcterms:Agent.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sflo:observedBy;
+    sh:severity sh:Warning
+  ];
+  sh:targetClass sflo:ArtifactResolutionObservation;
+  sh:targetSubjectsOf sflo:observedContentDigest .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactResolutionFallbackSpecShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Fallback specs are recursive ArtifactResolutionSpec links. This first pass allows at most one unordered fallback spec.";
+  rdfs:label "ArtifactResolutionSpec fallback";
+  sh:property [
+    sh:class sflo:ArtifactResolutionSpec;
+    sh:maxCount 1;
+    sh:message "sflo:hasFallbackArtifactResolutionSpec values MUST be typed sflo:ArtifactResolutionSpec, and only one unordered fallback spec is allowed in this first pass.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sflo:hasFallbackArtifactResolutionSpec;
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:hasFallbackArtifactResolutionSpec .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactResolutionModeUsageShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "ArtifactResolutionMode usage checks distinguish mutable working-byte resolution from latest settled state resolution.";
+  rdfs:label "ArtifactResolutionMode usage";
+  sh:property [
+    sh:class sflo:ArtifactResolutionMode;
+    sh:maxCount 1;
+    sh:message "If present, sflo:hasArtifactResolutionMode MUST be a single IRI typed sflo:ArtifactResolutionMode.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasArtifactResolutionMode;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "sflo:artifactResolutionMode_working SHOULD NOT be combined with an exact sflo:targetHistoricalState; exact state coordinates are settled-byte resolution.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasArtifactResolutionMode sflo:artifactResolutionMode_working ;\n        sflo:targetHistoricalState ?state .\n}";
+    sh:severity sh:Warning
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "sflo:artifactResolutionMode_latestState SHOULD NOT be combined with an exact sflo:targetHistoricalState; the requested state is already exact.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasArtifactResolutionMode sflo:artifactResolutionMode_latestState ;\n        sflo:targetHistoricalState ?state .\n}";
+    sh:severity sh:Info
+  ];
+  sh:targetSubjectsOf sflo:hasArtifactResolutionMode .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/LatestHistoricalStateIsMemberShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "If latestHistoricalState is asserted, it must also be asserted as a hasHistoricalState of the same ArtifactHistory.";
+  rdfs:label "latestHistoricalState must be among hasHistoricalState";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "If an ArtifactHistory has sflo:latestHistoricalState, that value MUST also appear among sflo:hasHistoricalState values.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:latestHistoricalState ?s .\n  FILTER NOT EXISTS { $this sflo:hasHistoricalState ?s }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ArtifactHistory .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/KnopSlotsShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Operational slot expectations for common Knop-associated artifacts.";
+  rdfs:label "Knop slots";
+  sh:property [
+    sh:class sflo:KnopSourceRegistry;
+    sh:maxCount 1;
+    sh:message "If present, a Knop may have at most one sflo:hasKnopSourceRegistry, and it must be an IRI typed sflo:KnopSourceRegistry.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasKnopSourceRegistry;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:ExtractionSource;
+    sh:maxCount 1;
+    sh:message "If present, a Knop may have at most one sflo:hasExtractionSource value, and it must be an IRI typed sflo:ExtractionSource.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasExtractionSource;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:ReferenceCatalog;
+    sh:maxCount 1;
+    sh:message "If present, a Knop may have at most one sflo:hasReferenceCatalog, and it must be an IRI typed sflo:ReferenceCatalog.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasReferenceCatalog;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:LocatedFile;
+    sh:maxCount 1;
+    sh:message "If present, a Knop may have at most one sflo:hasWorkingKnopInventoryFile, and it must be an IRI typed sflo:LocatedFile.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasWorkingKnopInventoryFile;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:message "A Knop MUST have exactly one sflo:hasKnopInventory value typed sflo:KnopInventory.";
+    sh:path sflo:hasKnopInventory;
+    sh:qualifiedMaxCount 1;
+    sh:qualifiedMinCount 1;
+    sh:qualifiedValueShape [ sh:class sflo:KnopInventory ];
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:message "A Knop MUST have exactly one sflo:hasKnopMetadata value typed sflo:KnopMetadata.";
+    sh:path sflo:hasKnopMetadata;
+    sh:qualifiedMaxCount 1;
+    sh:qualifiedMinCount 1;
+    sh:qualifiedValueShape [ sh:class sflo:KnopMetadata ];
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:Knop .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/KnopPayloadArtifactShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A Knop may have at most one primary payload resource typed sflo:PayloadArtifact.";
+  rdfs:label "Knop payload artifact";
+  sh:property [
+    sh:message "A Knop may have at most one sflo:hasPayloadArtifact value typed sflo:PayloadArtifact.";
+    sh:path sflo:hasPayloadArtifact;
+    sh:qualifiedMaxCount 1;
+    sh:qualifiedValueShape [ sh:class sflo:PayloadArtifact ];
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:Knop .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/KnopDesignatorPathShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Each Knop must declare exactly one mesh-relative designatorPath.";
+  rdfs:label "Knop designatorPath";
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A Knop MUST declare exactly one sflo:designatorPath (xsd:string).";
+    sh:minCount 1;
+    sh:path sflo:designatorPath;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:Knop .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/HistoricalStateHasManifestationShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "HistoricalStates are content-bearing; they should usually have at least one ArtifactManifestation realization.";
+  rdfs:label "HistoricalState realization presence";
+  sh:property [
+    sh:class sflo:ArtifactManifestation;
+    sh:message "A HistoricalState SHOULD have at least one sflo:hasManifestation (IRI) typed sflo:ArtifactManifestation.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasManifestation;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:datatype xsd:nonNegativeInteger;
+    sh:maxCount 1;
+    sh:message "If present, sflo:stateOrdinal SHOULD be a single xsd:nonNegativeInteger.";
+    sh:path sflo:stateOrdinal;
+    sh:severity sh:Warning
+  ];
+  sh:targetClass sflo:HistoricalState .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ExtractionSourceShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "An ExtractionSource identifies the RDF artifact state used to ground an extracted Knop-managed resource.";
+  rdfs:label "ExtractionSource basics";
+  sh:property [
+    sh:class sflo:ArtifactResolutionMode;
+    sh:maxCount 1;
+    sh:message "If present, an ExtractionSource sflo:hasArtifactResolutionMode value MUST be typed sflo:ArtifactResolutionMode.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasArtifactResolutionMode;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "An ExtractionSource SHOULD declare sflo:hasArtifactResolutionMode unless exact target coordinates make the source state obvious.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this a sflo:ExtractionSource .\n  FILTER NOT EXISTS { $this sflo:hasArtifactResolutionMode ?mode }\n  FILTER NOT EXISTS { $this sflo:targetHistoricalState ?state }\n  FILTER NOT EXISTS { $this sflo:targetLocatedFile ?file }\n  FILTER NOT EXISTS { $this sflo:expectsContentDigest ?digest }\n}";
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:HistoricalState;
+    sh:maxCount 1;
+    sh:message "If present, sflo:targetHistoricalState should be a single IRI typed sflo:HistoricalState.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:targetHistoricalState;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:RdfDocument;
+    sh:maxCount 1;
+    sh:message "An ExtractionSource MUST identify exactly one target artifact, and that artifact must be an IRI typed sflo:RdfDocument.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:targetArtifact;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ExtractionSource .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/DigitalArtifactHistoryShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "DigitalArtifacts may point to explicit ArtifactHistory resources, may designate one default ArtifactHistory for implicit write operations, may identify a current ArtifactHistory for compatibility or current-lineage display, may track the nextHistoryOrdinal for default history allocation, and may have at most one working LocatedFile.";
+  rdfs:label "DigitalArtifact history and working surface";
+  sh:property [
+    sh:class sflo:LocatedFile;
+    sh:maxCount 1;
+    sh:message "A DigitalArtifact may have at most one sflo:hasWorkingLocatedFile, and it must be an IRI typed sflo:LocatedFile.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasWorkingLocatedFile;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:nonNegativeInteger;
+    sh:maxCount 1;
+    sh:message "If present, sflo:nextHistoryOrdinal SHOULD be a single xsd:nonNegativeInteger.";
+    sh:path sflo:nextHistoryOrdinal;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:ArtifactHistory;
+    sh:maxCount 1;
+    sh:message "If present, sflo:defaultArtifactHistory must be a single IRI typed sflo:ArtifactHistory.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:defaultArtifactHistory;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sflo:ArtifactHistory;
+    sh:maxCount 1;
+    sh:message "If present, sflo:currentArtifactHistory must be a single IRI typed sflo:ArtifactHistory.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:currentArtifactHistory;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sflo:ArtifactHistory;
+    sh:message "If present, values of sflo:hasArtifactHistory must be IRIs typed sflo:ArtifactHistory.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasArtifactHistory;
+    sh:severity sh:Info
+  ];
+  sh:property [
+    sh:class sflo:LocatedFile;
+    sh:message "If present, values of sflo:locatedFileForArtifact must be IRIs typed sflo:LocatedFile.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:locatedFileForArtifact;
+    sh:severity sh:Info
+  ];
+  sh:targetClass sflo:DigitalArtifact .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/DefaultArtifactHistoryIsMemberShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "If defaultArtifactHistory is asserted, it must also be asserted as a hasArtifactHistory of the same DigitalArtifact.";
+  rdfs:label "defaultArtifactHistory must be among hasArtifactHistory";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "If a DigitalArtifact has sflo:defaultArtifactHistory, that value MUST also appear among sflo:hasArtifactHistory values.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:defaultArtifactHistory ?h .\n  FILTER NOT EXISTS { $this sflo:hasArtifactHistory ?h }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:DigitalArtifact .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/CurrentArtifactHistoryIsMemberShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "If currentArtifactHistory is asserted, it must also be asserted as a hasArtifactHistory of the same DigitalArtifact.";
+  rdfs:label "currentArtifactHistory must be among hasArtifactHistory";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "If a DigitalArtifact has sflo:currentArtifactHistory, that value MUST also appear among sflo:hasArtifactHistory values.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:currentArtifactHistory ?h .\n  FILTER NOT EXISTS { $this sflo:hasArtifactHistory ?h }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:DigitalArtifact .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactManifestationLocatedFileShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Many meshes expect ArtifactManifestations to have at least one LocatedFile. Warning because some manifestation identities may be non-locatable.";
+  rdfs:label "ArtifactManifestation should be locatable (usually)";
+  sh:property [
+    sh:class sflo:LocatedFile;
+    sh:message "An ArtifactManifestation SHOULD have at least one sflo:locatedFileForManifestation (IRI) typed sflo:LocatedFile.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sflo:locatedFileForManifestation;
+    sh:severity sh:Warning
+  ];
+  sh:targetClass sflo:ArtifactManifestation .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactHistoryShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "ArtifactHistory resources may point to published HistoricalStates, designate one latest HistoricalState, and carry history-local ordinal metadata.";
+  rdfs:label "ArtifactHistory structure";
+  sh:property [
+    sh:datatype xsd:nonNegativeInteger;
+    sh:maxCount 1;
+    sh:message "If present, sflo:nextStateOrdinal SHOULD be a single xsd:nonNegativeInteger.";
+    sh:path sflo:nextStateOrdinal;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:datatype xsd:nonNegativeInteger;
+    sh:maxCount 1;
+    sh:message "If present, sflo:historyOrdinal SHOULD be a single xsd:nonNegativeInteger.";
+    sh:path sflo:historyOrdinal;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sflo:HistoricalState;
+    sh:maxCount 1;
+    sh:message "If present, sflo:latestHistoricalState must be a single IRI typed sflo:HistoricalState.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:latestHistoricalState;
+    sh:severity sh:Info
+  ];
+  sh:property [
+    sh:class sflo:HistoricalState;
+    sh:message "If present, values of sflo:hasHistoricalState must be IRIs typed sflo:HistoricalState.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasHistoricalState;
+    sh:severity sh:Info
+  ];
+  sh:targetClass sflo:ArtifactHistory .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactHasDefaultHistoryShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "If a DigitalArtifact explicitly tracks ArtifactHistory resources, it should usually identify one as the default history for implicit write operations.";
+  rdfs:label "defaultArtifactHistory should usually be present when histories exist";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "If a DigitalArtifact has explicit sflo:hasArtifactHistory values, it SHOULD also identify one sflo:defaultArtifactHistory.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT DISTINCT $this WHERE {\n  $this sflo:hasArtifactHistory ?h .\n  FILTER NOT EXISTS { $this sflo:defaultArtifactHistory ?default }\n}";
+    sh:severity sh:Warning
+  ];
+  sh:targetClass sflo:DigitalArtifact .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/PolicyDefinitionShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A PolicyDefinition must carry at least one supported policy-slot value.";
+  rdfs:label "PolicyDefinition structure";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A PolicyDefinition MUST declare at least one supported policy-slot value.";
+    sh:select "PREFIX sfcfg: <https://semantic-flow.github.io/sflo/config/>\nSELECT $this WHERE {\n  FILTER NOT EXISTS {\n    { $this sfcfg:hasHistoryTrackingPolicy ?history }\n    UNION { $this sfcfg:hasResourcePageGenerationPolicy ?generation }\n    UNION { $this sfcfg:hasResourcePagePresentationPolicy ?presentation }\n  }\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:PolicyDefinition .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/PolicyBindingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A PolicyBinding associates exactly one PolicyDefinition with exactly one explicit PolicyTarget.";
+  rdfs:label "PolicyBinding structure";
+  sh:property [
+    sh:class sfcfg:PolicyDefinition;
+    sh:maxCount 1;
+    sh:message "A PolicyBinding MUST bind exactly one sfcfg:PolicyDefinition.";
+    sh:minCount 1;
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:bindsPolicy;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:PolicyTarget;
+    sh:maxCount 1;
+    sh:message "A PolicyBinding MUST apply to exactly one sfcfg:PolicyTarget.";
+    sh:minCount 1;
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sfcfg:appliesToPolicyTarget;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:integer;
+    sh:maxCount 1;
+    sh:message "If present, sfcfg:policyPriority MUST be a single integer.";
+    sh:path sfcfg:policyPriority;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:PolicyBinding .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactRolePolicyTargetShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "An ArtifactRolePolicyTarget covers governed artifacts with one explicit ArtifactRole.";
+  rdfs:label "ArtifactRolePolicyTarget structure";
+  sh:property [
+    sh:class sfcfg:ArtifactRole;
+    sh:maxCount 1;
+    sh:message "An ArtifactRolePolicyTarget MUST declare exactly one sfcfg:hasArtifactRole value typed sfcfg:ArtifactRole.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasArtifactRole;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:ArtifactRolePolicyTarget .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ExactArtifactPolicyTargetShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "An ExactArtifactPolicyTarget covers one explicit governed DigitalArtifact.";
+  rdfs:label "ExactArtifactPolicyTarget structure";
+  sh:property [
+    sh:class sflo:DigitalArtifact;
+    sh:maxCount 1;
+    sh:message "An ExactArtifactPolicyTarget MUST declare exactly one sfcfg:targetsArtifact value typed sflo:DigitalArtifact.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:targetsArtifact;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:ExactArtifactPolicyTarget .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ResourcePagePresentationPolicyShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A ResourcePagePresentationPolicy names the built-in or governed presentation assets and panel selections that a renderer can resolve.";
+  rdfs:label "ResourcePagePresentationPolicy structure";
+  sh:property [
+    sh:class sfcfg:OuterResourcePageTemplate;
+    sh:maxCount 1;
+    sh:message "A ResourcePagePresentationPolicy MUST have exactly one sfcfg:hasOuterResourcePageTemplate value typed sfcfg:OuterResourcePageTemplate.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasOuterResourcePageTemplate;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:InnerResourcePageTemplate;
+    sh:maxCount 1;
+    sh:message "A ResourcePagePresentationPolicy MUST have exactly one sfcfg:hasInnerResourcePageTemplate value typed sfcfg:InnerResourcePageTemplate.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasInnerResourcePageTemplate;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePageStylesheet;
+    sh:message "A ResourcePagePresentationPolicy SHOULD have at least one sfcfg:hasResourcePageStylesheet value typed sfcfg:ResourcePageStylesheet.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasResourcePageStylesheet;
+    sh:severity sh:Warning
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePagePanelSelection;
+    sh:message "If present, sfcfg:hasResourcePagePanelSelection values must be IRIs typed sfcfg:ResourcePagePanelSelection.";
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasResourcePagePanelSelection;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:ResourcePagePresentationPolicy .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ResourcePagePanelSelectionShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A ResourcePagePanelSelection selects one known panel and constrains when that code-backed panel applies.";
+  rdfs:label "ResourcePagePanelSelection structure";
+  sh:property [
+    sh:class sfcfg:ResourcePagePanel;
+    sh:maxCount 1;
+    sh:message "A ResourcePagePanelSelection MUST have exactly one sfcfg:hasResourcePagePanel value typed sfcfg:ResourcePagePanel.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasResourcePagePanel;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:datatype xsd:nonNegativeInteger;
+    sh:maxCount 1;
+    sh:message "A ResourcePagePanelSelection MUST have exactly one non-negative sfcfg:panelOrder value.";
+    sh:minCount 1;
+    sh:path sfcfg:panelOrder;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePagePanelInclusionPolicy;
+    sh:maxCount 1;
+    sh:message "A ResourcePagePanelSelection MUST have exactly one sfcfg:hasPanelInclusionPolicy value typed sfcfg:ResourcePagePanelInclusionPolicy.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasPanelInclusionPolicy;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePageKind;
+    sh:message "If present, sfcfg:hasPanelTargetPageKind values must be IRIs typed sfcfg:ResourcePageKind.";
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasPanelTargetPageKind;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class rdfs:Class;
+    sh:message "If present, sfcfg:hasPanelTargetClass values must be IRIs typed rdfs:Class.";
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasPanelTargetClass;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ArtifactRole;
+    sh:message "If present, sfcfg:hasPanelTargetArtifactRole values must be IRIs typed sfcfg:ArtifactRole.";
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasPanelTargetArtifactRole;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:class sfcfg:ResourcePagePanelDataRequirement;
+    sh:message "A ResourcePagePanelSelection MUST have at least one sfcfg:hasPanelDataRequirement value typed sfcfg:ResourcePagePanelDataRequirement.";
+    sh:minCount 1;
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasPanelDataRequirement;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sfcfg:ResourcePagePanelSelection .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ResourcePageDefinitionPresentationConfigShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A ResourcePageDefinition may declare page-local generated panel selections as authored composition over the resolved presentation policy.";
+  rdfs:label "ResourcePageDefinition generated panel selection";
+  sh:property [
+    sh:class sfcfg:ResourcePagePanelSelection;
+    sh:message "If present, sfcfg:hasGeneratedResourcePagePanelSelection values must be IRIs typed sfcfg:ResourcePagePanelSelection.";
+    sh:nodeKind sh:IRI;
+    sh:path sfcfg:hasGeneratedResourcePagePanelSelection;
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ResourcePageDefinition .

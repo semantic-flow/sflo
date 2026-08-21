@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <ontology/shacl/HistoricalStateHasManifestationShape/_knop/_references/references.ttl> .
 
 <ontology/shacl/HistoricalStateHasManifestationShape/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/shacl/HistoricalStateHasManifestationShape/_knop/_references> sflo:hasResourcePage <ontology/shacl/HistoricalStateHasManifestationShape/_knop/_references/index.html> .
+<ontology/shacl/HistoricalStateHasManifestationShape/_knop/_references/index.html> a sflo:ResourcePage .
+<ontology/shacl/HistoricalStateHasManifestationShape/_knop/_references/index.html> a sflo:LocatedFile .

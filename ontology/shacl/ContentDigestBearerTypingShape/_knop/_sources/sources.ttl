@@ -1,0 +1,22 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/shacl/ContentDigestBearerTypingShape/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/shacl/ContentDigestBearerTypingShape/_knop/_sources/sources.ttl> ;
+  sflo:hasSourceBinding <ontology/shacl/ContentDigestBearerTypingShape/_knop/_sources#extraction-source> .
+
+<ontology/shacl/ContentDigestBearerTypingShape/_knop/_sources#extraction-source> a sflo:ExtractionSource ;
+  sflo:targetArtifact <ontology/shacl> ;
+  sflo:targetHistoricalState <ontology/shacl/releases/v0.4.0> ;
+  sflo:hasResolutionObservation <ontology/shacl/ContentDigestBearerTypingShape/_knop/_sources#extraction-source-observation-001> .
+
+<ontology/shacl/ContentDigestBearerTypingShape/_knop/_sources#extraction-source-observation-001> a sflo:ArtifactResolutionObservation ;
+  sflo:observedArtifactResolutionSpec [
+    a sflo:ArtifactResolutionSpec ;
+    sflo:targetHistoricalState <ontology/shacl/releases/v0.4.0> ;
+    sflo:targetManifestation <ontology/shacl/releases/v0.4.0/ttl> ;
+    sflo:targetLocatedFile <ontology/shacl/releases/v0.4.0/ttl/semantic-flow-core-shacl.ttl>
+  ] ;
+  sflo:observedContentDigest "sha256:61d95e506cbd6f5d84498df6864a1d5d449ce0e25c7f1c28d05901694de83968" .
+
+<ontology/shacl/ContentDigestBearerTypingShape/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .

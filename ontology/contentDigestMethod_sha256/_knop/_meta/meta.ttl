@@ -1,0 +1,6 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/contentDigestMethod_sha256/_knop> a sflo:Knop ;
+  sflo:designatorPath "ontology/contentDigestMethod_sha256" ;
+  sflo:hasWorkingKnopInventoryFile <ontology/contentDigestMethod_sha256/_knop/_inventory/inventory.ttl> .

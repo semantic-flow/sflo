@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/hasNextStateSegmentHint/_knop/_references/references.ttl> .
 
 <config/hasNextStateSegmentHint/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasNextStateSegmentHint/_knop/_references> sflo:hasResourcePage <config/hasNextStateSegmentHint/_knop/_references/index.html> .
+<config/hasNextStateSegmentHint/_knop/_references/index.html> a sflo:ResourcePage .
+<config/hasNextStateSegmentHint/_knop/_references/index.html> a sflo:LocatedFile .

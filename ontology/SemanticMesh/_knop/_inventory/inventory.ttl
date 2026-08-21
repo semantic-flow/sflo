@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <ontology/SemanticMesh/_knop/_references/references.ttl> .
 
 <ontology/SemanticMesh/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/SemanticMesh/_knop/_references> sflo:hasResourcePage <ontology/SemanticMesh/_knop/_references/index.html> .
+<ontology/SemanticMesh/_knop/_references/index.html> a sflo:ResourcePage .
+<ontology/SemanticMesh/_knop/_references/index.html> a sflo:LocatedFile .

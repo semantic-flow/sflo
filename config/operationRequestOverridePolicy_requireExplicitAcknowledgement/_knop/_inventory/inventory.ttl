@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/operationRequestOverridePolicy_requireExplicitAcknowledgement/_knop/_references/references.ttl> .
 
 <config/operationRequestOverridePolicy_requireExplicitAcknowledgement/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/operationRequestOverridePolicy_requireExplicitAcknowledgement/_knop/_references> sflo:hasResourcePage <config/operationRequestOverridePolicy_requireExplicitAcknowledgement/_knop/_references/index.html> .
+<config/operationRequestOverridePolicy_requireExplicitAcknowledgement/_knop/_references/index.html> a sflo:ResourcePage .
+<config/operationRequestOverridePolicy_requireExplicitAcknowledgement/_knop/_references/index.html> a sflo:LocatedFile .

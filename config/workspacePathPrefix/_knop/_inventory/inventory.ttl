@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/workspacePathPrefix/_knop/_references/references.ttl> .
 
 <config/workspacePathPrefix/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/workspacePathPrefix/_knop/_references> sflo:hasResourcePage <config/workspacePathPrefix/_knop/_references/index.html> .
+<config/workspacePathPrefix/_knop/_references/index.html> a sflo:ResourcePage .
+<config/workspacePathPrefix/_knop/_references/index.html> a sflo:LocatedFile .

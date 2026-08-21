@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/panelInclusionPolicy_auto/_knop/_references/references.ttl> .
 
 <config/panelInclusionPolicy_auto/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/panelInclusionPolicy_auto/_knop/_references> sflo:hasResourcePage <config/panelInclusionPolicy_auto/_knop/_references/index.html> .
+<config/panelInclusionPolicy_auto/_knop/_references/index.html> a sflo:ResourcePage .
+<config/panelInclusionPolicy_auto/_knop/_references/index.html> a sflo:LocatedFile .

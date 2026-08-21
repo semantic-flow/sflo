@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/unknownConfigTermPolicy_reject/_knop/_references/references.ttl> .
 
 <config/unknownConfigTermPolicy_reject/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/unknownConfigTermPolicy_reject/_knop/_references> sflo:hasResourcePage <config/unknownConfigTermPolicy_reject/_knop/_references/index.html> .
+<config/unknownConfigTermPolicy_reject/_knop/_references/index.html> a sflo:ResourcePage .
+<config/unknownConfigTermPolicy_reject/_knop/_references/index.html> a sflo:LocatedFile .

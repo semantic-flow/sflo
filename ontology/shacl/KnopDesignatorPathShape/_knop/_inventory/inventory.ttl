@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <ontology/shacl/KnopDesignatorPathShape/_knop/_references/references.ttl> .
 
 <ontology/shacl/KnopDesignatorPathShape/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/shacl/KnopDesignatorPathShape/_knop/_references> sflo:hasResourcePage <ontology/shacl/KnopDesignatorPathShape/_knop/_references/index.html> .
+<ontology/shacl/KnopDesignatorPathShape/_knop/_references/index.html> a sflo:ResourcePage .
+<ontology/shacl/KnopDesignatorPathShape/_knop/_references/index.html> a sflo:LocatedFile .

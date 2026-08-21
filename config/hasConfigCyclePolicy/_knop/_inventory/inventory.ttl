@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/hasConfigCyclePolicy/_knop/_references/references.ttl> .
 
 <config/hasConfigCyclePolicy/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasConfigCyclePolicy/_knop/_references> sflo:hasResourcePage <config/hasConfigCyclePolicy/_knop/_references/index.html> .
+<config/hasConfigCyclePolicy/_knop/_references/index.html> a sflo:ResourcePage .
+<config/hasConfigCyclePolicy/_knop/_references/index.html> a sflo:LocatedFile .

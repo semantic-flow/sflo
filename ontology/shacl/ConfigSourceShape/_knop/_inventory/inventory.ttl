@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <ontology/shacl/ConfigSourceShape/_knop/_references/references.ttl> .
 
 <ontology/shacl/ConfigSourceShape/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/shacl/ConfigSourceShape/_knop/_references> sflo:hasResourcePage <ontology/shacl/ConfigSourceShape/_knop/_references/index.html> .
+<ontology/shacl/ConfigSourceShape/_knop/_references/index.html> a sflo:ResourcePage .
+<ontology/shacl/ConfigSourceShape/_knop/_references/index.html> a sflo:LocatedFile .

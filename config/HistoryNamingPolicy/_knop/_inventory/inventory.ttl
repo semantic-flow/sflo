@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/HistoryNamingPolicy/_knop/_references/references.ttl> .
 
 <config/HistoryNamingPolicy/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/HistoryNamingPolicy/_knop/_references> sflo:hasResourcePage <config/HistoryNamingPolicy/_knop/_references/index.html> .
+<config/HistoryNamingPolicy/_knop/_references/index.html> a sflo:ResourcePage .
+<config/HistoryNamingPolicy/_knop/_references/index.html> a sflo:LocatedFile .

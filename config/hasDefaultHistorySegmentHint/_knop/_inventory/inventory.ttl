@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/hasDefaultHistorySegmentHint/_knop/_references/references.ttl> .
 
 <config/hasDefaultHistorySegmentHint/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/hasDefaultHistorySegmentHint/_knop/_references> sflo:hasResourcePage <config/hasDefaultHistorySegmentHint/_knop/_references/index.html> .
+<config/hasDefaultHistorySegmentHint/_knop/_references/index.html> a sflo:ResourcePage .
+<config/hasDefaultHistorySegmentHint/_knop/_references/index.html> a sflo:LocatedFile .

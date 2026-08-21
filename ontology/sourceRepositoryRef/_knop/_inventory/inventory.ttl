@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <ontology/sourceRepositoryRef/_knop/_references/references.ttl> .
 
 <ontology/sourceRepositoryRef/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/sourceRepositoryRef/_knop/_references> sflo:hasResourcePage <ontology/sourceRepositoryRef/_knop/_references/index.html> .
+<ontology/sourceRepositoryRef/_knop/_references/index.html> a sflo:ResourcePage .
+<ontology/sourceRepositoryRef/_knop/_references/index.html> a sflo:LocatedFile .

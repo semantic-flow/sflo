@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/AnyGovernedArtifactPolicyTarget/_knop/_references/references.ttl> .
 
 <config/AnyGovernedArtifactPolicyTarget/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/AnyGovernedArtifactPolicyTarget/_knop/_references> sflo:hasResourcePage <config/AnyGovernedArtifactPolicyTarget/_knop/_references/index.html> .
+<config/AnyGovernedArtifactPolicyTarget/_knop/_references/index.html> a sflo:ResourcePage .
+<config/AnyGovernedArtifactPolicyTarget/_knop/_references/index.html> a sflo:LocatedFile .

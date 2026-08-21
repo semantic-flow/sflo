@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/configLayerRole_knopInherited/_knop/_references/references.ttl> .
 
 <config/configLayerRole_knopInherited/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/configLayerRole_knopInherited/_knop/_references> sflo:hasResourcePage <config/configLayerRole_knopInherited/_knop/_references/index.html> .
+<config/configLayerRole_knopInherited/_knop/_references/index.html> a sflo:ResourcePage .
+<config/configLayerRole_knopInherited/_knop/_references/index.html> a sflo:LocatedFile .

@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/configInheritancePolicy_acceptDoNotPropagate/_knop/_references/references.ttl> .
 
 <config/configInheritancePolicy_acceptDoNotPropagate/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/configInheritancePolicy_acceptDoNotPropagate/_knop/_references> sflo:hasResourcePage <config/configInheritancePolicy_acceptDoNotPropagate/_knop/_references/index.html> .
+<config/configInheritancePolicy_acceptDoNotPropagate/_knop/_references/index.html> a sflo:ResourcePage .
+<config/configInheritancePolicy_acceptDoNotPropagate/_knop/_references/index.html> a sflo:LocatedFile .

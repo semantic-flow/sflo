@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/resolvedFromConfig/_knop/_references/references.ttl> .
 
 <config/resolvedFromConfig/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/resolvedFromConfig/_knop/_references> sflo:hasResourcePage <config/resolvedFromConfig/_knop/_references/index.html> .
+<config/resolvedFromConfig/_knop/_references/index.html> a sflo:ResourcePage .
+<config/resolvedFromConfig/_knop/_references/index.html> a sflo:LocatedFile .

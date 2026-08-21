@@ -39,3 +39,7 @@
   sflo:hasWorkingLocatedFile <config/ResolvedConfigCachePolicy/_knop/_references/references.ttl> .
 
 <config/ResolvedConfigCachePolicy/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<config/ResolvedConfigCachePolicy/_knop/_references> sflo:hasResourcePage <config/ResolvedConfigCachePolicy/_knop/_references/index.html> .
+<config/ResolvedConfigCachePolicy/_knop/_references/index.html> a sflo:ResourcePage .
+<config/ResolvedConfigCachePolicy/_knop/_references/index.html> a sflo:LocatedFile .
