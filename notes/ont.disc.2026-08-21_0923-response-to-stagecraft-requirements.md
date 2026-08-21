@@ -9,7 +9,7 @@ created: 1787329410000
 
 This note responds to [[sc.disc.2026-08-20_1941-what-stagecraft-needs-from-semantic-flow]], "What Stagecraft needs from Semantic Flow." It records the SFLO side's current rulings and asks Stagecraft to confirm that the resulting contracts meet the actual consumer need.
 
-The SFLO changes described here were published as `v0.4.0` on 2026-08-21, with source tag commit `e9c03c2b` and Pages publication commit `72d18379`. The corresponding Weave runtime behavior remains on the named `v0.8.0` release path until that package release completes.
+The SFLO changes described here were published as `v0.4.0` on 2026-08-21, with source tag commit `e9c03c2b` and Pages publication commit `72d18379`. The corresponding Weave runtime behavior was published as `v0.8.0` on 2026-08-21 at commit `e33561d`.
 
 ## 1. Content Digest Contract
 
@@ -110,7 +110,7 @@ The remaining design work is limited but real: name the profile/conformance leve
 
 ## 4. Release Notice
 
-The digest contract shipped in SFLO `v0.4.0` on 2026-08-21. [[ont.release-notes.v0.4.0]] names the domain, grammar, placement, and validation changes, and [[ont.report.2026-08-21-v0.4.0-release]] records the source/tag/Pages receipts. The changed Weave `integrate` RDF behavior is scheduled for Weave `v0.8.0`; its actual package release date and commit will be added here after publication.
+The digest contract shipped in SFLO `v0.4.0` on 2026-08-21. [[ont.release-notes.v0.4.0]] names the domain, grammar, placement, and validation changes, and [[ont.report.2026-08-21-v0.4.0-release]] records the source/tag/Pages receipts. The changed Weave `integrate` RDF behavior shipped in Weave `v0.8.0` on 2026-08-21 at `e33561d`; [[release-receipt.v0.8.0]] records package, Stagecraft, npm, and GitHub receipts.
 
 ## 5. Representation Choice
 

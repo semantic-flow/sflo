@@ -75,4 +75,4 @@ Dogfooding the live v0.3.0 mesh found two Weave defects before Pages publication
 
 - The current artifact raw aliases mentioned by an older runbook command remain intentionally absent; adding governed mutable copies would be a separate publication-topology decision.
 - Job and provenance ontology Pages topology remains unsettled.
-- Weave `v0.8.0` publication and the Stagecraft press-flow release-candidate smoke are tracked by the active release task; they are not SFLO source or Pages blockers after this receipt.
+- Weave `v0.8.0` and the coordinated Stagecraft press-flow/repository-RDF smoke completed on 2026-08-21 at Weave commit `e33561d`; [[release-receipt.v0.8.0]] carries those receipts.
