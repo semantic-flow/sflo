@@ -73,6 +73,7 @@ export async function loadShaclManifest(
 export async function currentGitCommit(root = Deno.cwd()): Promise<string> {
   const command = new Deno.Command("git", {
     args: ["rev-parse", "HEAD"],
+    clearEnv: true,
     cwd: root,
     stdout: "piped",
     stderr: "piped",
