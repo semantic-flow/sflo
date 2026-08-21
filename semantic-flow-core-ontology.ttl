@@ -45,7 +45,7 @@
 <DigitalArtifact> a rdfs:Class ;
   rdfs:subClassOf dcat:Dataset ;
   rdfs:label "Digital artifact" ;
-  rdfs:comment "A digital artifact considered as the governing artifact-level resource across its states, manifestations, and retrievable files. In the current Semantic Flow model, payload, metadata, and inventory roles classify DigitalArtifacts directly. A byte-bearing resource with no richer facet MAY be named by its LocatedFile IRI, which then serves as the artifact's own identity; where a HistoricalState or other durable facet also identifies the bytes, that durable identity is preferred and this naming does not override it." .
+  rdfs:comment "A digital artifact considered as the governing artifact-level resource across its states, manifestations, and retrievable files. In the current Semantic Flow model, payload, metadata, and inventory roles classify DigitalArtifacts directly. A LocatedFile may stand alone when its governing DigitalArtifact is unnamed or not described in the available graph. Properties whose contracts accept an exact artifact facet may refer directly to that LocatedFile; this does not make the LocatedFile IRI the identity of a DigitalArtifact." .
 
 <ArtifactHistory> a rdfs:Class ;
   rdfs:subClassOf <DigitalArtifactFacet>, <SemanticFlowResource> ;
@@ -55,6 +55,10 @@
 <DigitalArtifactFacet> a rdfs:Class ;
   rdfs:label "Digital artifact facet" ;
   rdfs:comment "A Semantic Flow facet of a DigitalArtifact." .
+
+<ContentDigestBearer> a rdfs:Class ;
+  rdfs:label "Content digest bearer" ;
+  rdfs:comment "A resource whose own represented or retrievable byte stream is the subject of a content-digest claim. Semantic Flow directly classifies ArtifactManifestation and LocatedFile as content-digest bearers; downstream vocabularies may define narrower subclasses for other resources that identify one determinate byte stream." .
 
 #################################################################
 # Artifact facet types
@@ -70,14 +74,14 @@
   rdfs:comment "An immutable snapshot facet for a DigitalArtifact, normally organized within an ArtifactHistory." .
 
 <ArtifactManifestation> a rdfs:Class ;
-  rdfs:subClassOf <DigitalArtifactFacet>, dcat:Distribution ;
+  rdfs:subClassOf <ContentDigestBearer>, <DigitalArtifactFacet>, dcat:Distribution ;
   rdfs:label "Artifact manifestation" ;
-  rdfs:comment "A concrete artifact manifestation: a specific variant (e.g., Markdown vs PDF, Turtle vs JSON-LD, zipped vs unzipped, or distinct build/canonicalization choices) whose bytes may be served from one or more LocatedFiles. ArtifactManifestations are typically linked from HistoricalStates, but may also be linked directly from a DigitalArtifact in sparse cases where no HistoricalState is materialized." .
+  rdfs:comment "A concrete artifact manifestation denoting one exact byte sequence. Formatting, line-ending, compression, packaging, canonicalization, or serialization changes that alter bytes create a different ArtifactManifestation. One manifestation may be served from multiple LocatedFiles only when they provide byte-identical replicas. ArtifactManifestations are typically linked from HistoricalStates, but may also be linked directly from a DigitalArtifact in sparse cases where no HistoricalState is materialized." .
 
 <LocatedFile> a rdfs:Class ;
-  rdfs:subClassOf <DigitalArtifactFacet> ;
+  rdfs:subClassOf <ContentDigestBearer>, <DigitalArtifactFacet> ;
   rdfs:label "Located file" ;
-  rdfs:comment "A retrievable bytes identity (typically with an extension). A LocatedFile may be used as a facet of broader artifacts (ArtifactManifestation, HistoricalState, DigitalArtifact) and may also stand alone in external or partially modeled cases." .
+  rdfs:comment "A retrievable file identity or location, typically with an extension, whose bytes can be checked independently. A LocatedFile may provide the exact bytes of an ArtifactManifestation, serve as a sparse facet of a broader artifact, or stand alone in external or partially modeled cases. If it provides an ArtifactManifestation, its retrieved bytes must match that manifestation's exact byte sequence." .
 
 #################################################################
 # Core structural relations
@@ -186,11 +190,26 @@
   rdfs:label "has working Knop inventory file" ;
   rdfs:comment "Convenience shortcut from a Knop directly to the current working LocatedFile of its Knop inventory document." .
 
+<ContentDigestMethod> a rdfs:Class ;
+  rdfs:label "Content digest method" ;
+  rdfs:comment "An open controlled vocabulary of content-digest methods. Direct members published by a Semantic Flow release identify the methods supported by that release's content-digest grammar." .
+
+<contentDigestMethodToken> a owl:DatatypeProperty, owl:FunctionalProperty ;
+  rdfs:domain <ContentDigestMethod> ;
+  rdfs:range xsd:string ;
+  rdfs:label "content digest method token" ;
+  rdfs:comment "The lowercase wire token occurring before ':' in an algorithm-qualified content-digest literal." .
+
+<contentDigestMethod_sha256> a <ContentDigestMethod> ;
+  rdfs:label "SHA-256" ;
+  rdfs:comment "The SHA-256 content-digest method, represented by the lowercase wire token 'sha256'." ;
+  <contentDigestMethodToken> "sha256" .
+
 <hasContentDigest> a owl:DatatypeProperty ;
-  rdfs:domain rdfs:Resource ;
+  rdfs:domain <ContentDigestBearer> ;
   rdfs:range xsd:string ;
   rdfs:label "has content digest" ;
-  rdfs:comment "A digest for the byte stream or canonical representation of a byte-bearing resource such as a LocatedFile, ArtifactManifestation, or HistoricalState. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'. RDF graph artifacts SHOULD make clear which serialization bytes or canonicalization profile were hashed." .
+  rdfs:comment "A standing claim about the byte stream represented by an ArtifactManifestation or retrieved through a LocatedFile. This release supports exactly the lexical form 'sha256:' followed by 64 lowercase hexadecimal digits. When an ArtifactManifestation and one of its LocatedFiles both declare a digest for the same method, the values must agree." .
 
 <locatedFileForManifestation> a owl:ObjectProperty ;
   rdfs:subPropertyOf dcat:downloadURL ;
@@ -497,7 +516,7 @@
 
 <ArtifactResolutionSpec> a rdfs:Class ;
   rdfs:label "Artifact resolution spec" ;
-  rdfs:comment "A relator/specification that identifies bytes for an application concern by naming a target artifact, a mesh-local file path string, a specific LocatedFile, or another explicit packaged target together with optional requested state, mode, expected digest, fallback spec, and observations. At least one concrete target should normally be provided, but this ontology does not enforce that cardinality directly." .
+  rdfs:comment "A relator/specification that selects and retrieves bytes for an application concern by naming a target artifact, state, manifestation, LocatedFile, repository coordinate, mesh-local path, access URL, or another explicit packaged target together with optional mode, expected digest, fallback spec, and observations. Resolution may select an ArtifactManifestation, but successful operational resolution does not require minting a persistent manifestation merely to record evidence. At least one concrete target should normally be provided, but this ontology does not enforce that cardinality directly." .
 
 <ArtifactResolutionObservation> a rdfs:Class ;
   rdfs:label "Artifact resolution observation" ;
@@ -505,7 +524,7 @@
 
 <RepositorySourceLocator> a rdfs:Class ;
   rdfs:label "Repository source locator" ;
-  rdfs:comment "A durable locator for bytes or a tree path in a version-control repository. It records repository identity, ref or commit coordinates, and a repository-relative path without implying a local checkout path or granting runtime access. Content digests may be expressed with hasContentDigest on this locator or expectsContentDigest on the ArtifactResolutionSpec that uses it." .
+  rdfs:comment "A durable locator for bytes or a tree path in a version-control repository. It records repository identity, ref or commit coordinates, and a repository-relative path without implying a local checkout path or granting runtime access. Digest requirements belong on the ArtifactResolutionSpec that uses the locator, and computed digest evidence belongs on an ArtifactResolutionObservation." .
 
 <RepositorySourceFloatingLocator> a rdfs:Class ;
   rdfs:label "Repository source floating locator" ;
@@ -712,7 +731,7 @@
   rdfs:domain <ArtifactResolutionObservation> ;
   rdfs:range xsd:string ;
   rdfs:label "observed content digest" ;
-  rdfs:comment "Digest of concrete bytes observed while resolving an ArtifactResolutionSpec. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'. Multiple values may be used for multiple digest algorithms." .
+  rdfs:comment "Digest computed from concrete bytes during one ArtifactResolutionObservation. This release supports exactly the lexical form 'sha256:' followed by 64 lowercase hexadecimal digits. Multiple values may be used when a future release supports multiple digest methods." .
 
 <observedAt> a owl:DatatypeProperty ;
   rdfs:domain <ArtifactResolutionObservation> ;
@@ -730,4 +749,4 @@
   rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range xsd:string ;
   rdfs:label "expects content digest" ;
-  rdfs:comment "Digest expected after resolving an ArtifactResolutionSpec. Resolution should verify resolved bytes or canonical representations against this value before using them when policy requires a strong pin. Literal values SHOULD include the algorithm, for example 'sha256:<hex>'." .
+  rdfs:comment "A pre-resolution digest requirement supplied by a caller, authored policy, or durable source binding. Resolution must verify resolved bytes against this value before successful use; a computed observation must not be promoted into an expectation after the fact. This release supports exactly the lexical form 'sha256:' followed by 64 lowercase hexadecimal digits." .

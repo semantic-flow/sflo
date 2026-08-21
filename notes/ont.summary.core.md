@@ -66,8 +66,10 @@ Interpretation:
 - `DigitalArtifact`: the governing over-time artifact-level resource
 - `ArtifactHistory`: an explicit diachronic facet and lineage resource for a digital artifact's published states
 - `HistoricalState`: an immutable version representing the content of the artifact at a particular point within one `ArtifactHistory`
-- `ArtifactManifestation`: a concrete variant of the artifact or state whose bytes may be provided by one or more `LocatedFile`s
-- `LocatedFile`: retrievable bytes at some location
+- `ArtifactManifestation`: one exact byte sequence representing a concrete variant of the artifact or state
+- `LocatedFile`: a retrievable file identity or location whose bytes can be checked independently
+
+An `ArtifactManifestation` may be provided by multiple `LocatedFile` resources only when they are byte-identical replicas. If formatting, line endings, compression, packaging, canonicalization, or serialization changes alter the bytes, the result is a different manifestation even when it carries the same conceptual content or media type.
 
 Sparse cases are explicitly supported:
 
@@ -75,9 +77,21 @@ Sparse cases are explicitly supported:
 - a `DigitalArtifact` may have a `workingLocalRelativePath` when runtime operations need a local current-byte path that is not itself a mesh-addressable `LocatedFile`
 - a `DigitalArtifact` may have a `workingAccessUrl` when its current working bytes are externally accessible without first being copied into a mesh-local working file
 - a `DigitalArtifact` may link directly to an `ArtifactManifestation` when no explicit `ArtifactHistory` / `HistoricalState` structure is materialized
+- a `LocatedFile` may stand alone when its governing `DigitalArtifact` is unnamed or not described; predicates that accept an exact facet may refer to it directly without making the file IRI a `DigitalArtifact` identity
 - a `SemanticMesh` or `Knop` may point directly to its current inventory file via `hasWorkingMeshInventoryFile` or `hasWorkingKnopInventoryFile` without restating inventory-artifact structure in metadata documents
 
 Use the explicit structural relations `hasArtifactHistory`, `hasHistoricalState`, `hasManifestation`, `locatedFileForManifestation`, `locatedFileForState`, `locatedFileForArtifact`, and `hasWorkingLocatedFile` for artifact/facet structure and sparse shortcuts. `hasHistoricalState` specializes `dcat:hasVersion` for states in a named artifact history, and `previousHistoricalState` specializes `dcat:previousVersion` for the immediately preceding state in that lineage. Use `workingLocalRelativePath` as the local runtime current-byte locator when present, `workingAccessUrl` as the remote/external current-byte locator when present and operationally allowed, and treat `hasWorkingMeshInventoryFile` and `hasWorkingKnopInventoryFile` only as owner-level shortcuts to current inventory files.
+
+## Content Digests
+
+`ContentDigestBearer` is the domain of `hasContentDigest`. SFLO directly classifies two bearer types:
+
+- `ArtifactManifestation`, where the digest claims the exact represented byte sequence
+- `LocatedFile`, where the digest is an independently checkable standing claim about retrieved bytes
+
+When a manifestation and one of its located files both assert a digest for the same method, the values must agree. A repository locator is not a digest bearer: put an authored pre-resolution requirement on the relevant `ArtifactResolutionSpec` with `expectsContentDigest`, and put a digest computed during resolution on `ArtifactResolutionObservation` with `observedContentDigest`.
+
+The working contract for the next release supports `sha256:<64 lowercase hexadecimal digits>`. `ContentDigestMethod` is an open controlled vocabulary, with `contentDigestMethod_sha256` and token `sha256` as the supported member. `DigitalArtifact`, `ArtifactHistory`, and `HistoricalState` do not become digest bearers merely through their existing class membership because those layers may span multiple byte representations.
 
 ## Mesh Structure
 

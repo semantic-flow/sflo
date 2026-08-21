@@ -10,6 +10,24 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-08-21: Scope content digests to manifestations and located files
+
+- Status: Active
+- Decision: Keep content digests as algorithm-qualified string literals and support only the canonical `sha256:<64 lowercase hexadecimal digits>` form in the next release. Add `ContentDigestMethod` with `contentDigestMethod_sha256` and its `contentDigestMethodToken`. Make `ContentDigestBearer` the domain of `hasContentDigest`, with `ArtifactManifestation` and `LocatedFile` as SFLO's direct bearer subclasses. A manifestation denotes one exact byte sequence; multiple located files may provide it only as byte-identical replicas. Keep pre-resolution requirements on `ArtifactResolutionSpec` with `expectsContentDigest`, and computed event evidence on `ArtifactResolutionObservation` with `observedContentDigest`.
+- References: [[ont.task.2026.2026-08-14_1949-content-digest-contract]], [[ont.summary.core]], [[sf.spec.2026-08-21-content-digest]]
+- Why:
+  - `ArtifactManifestation` is the exact representation identity, while a digest on `LocatedFile` is an independently checkable standing claim about bytes retrieved through that file identity or location
+  - broad artifact/history/state digest assertions do not identify which representation bytes were hashed
+  - repository locators identify coordinates rather than the content resolved from those coordinates; expectations and observations already provide the correct digest lifecycle
+  - algorithm-qualified literals remain self-describing in RDF, commit messages, receipts, and logs without requiring structured digest nodes
+- Notes:
+  - all three digest properties use the same release-scoped lexical grammar at SHACL violation severity
+  - a bearer or observation may carry multiple methods in a future release, but it must not carry multiple distinct values for the same method
+  - when a manifestation and one of its located files both assert a digest for the same method, the values must agree
+  - expected and observed mismatch is failed verification, and a computed observation must not be promoted into a retroactive expectation
+  - `ContentDigestBearer` is an open extension boundary, but `DigitalArtifact`, `ArtifactHistory`, `HistoricalState`, and repository locator classes do not become bearers merely through their existing SFLO type
+  - additional algorithms, structured digest assertions, and canonical tree or RDF graph hashing remain future decisions
+
 ### 2026-06-12: Align historical states with DCAT versioning
 
 - Status: Active
@@ -131,7 +149,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 ### 2026-05-15: Keep repository source provenance in Knop source registries
 
-- Status: Active
+- Status: Superseded in part by the 2026-08-21 content-digest decision.
 - Decision: Add `KnopSourceRegistry` as a Knop-owned support artifact for source bindings about artifacts carried by or resources grounded through that Knop. Link it with `hasKnopSourceRegistry`, and let each registry point to `ArtifactResolutionSpec` relators through `hasSourceBinding`. Repository-backed bindings reuse the existing `RepositorySourceLocator`, digest, and target locator vocabulary.
 - References: [[wd.task.2026.2026-05-15_1113-mesh-branch-fantasy-rules]], [[wd.task.2026.2026-05-13_1655-support-gh-pages-branch-based-deployments]]
 - Why:
@@ -143,6 +161,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
   - conventional serialization is `D/_knop/_sources/sources.ttl`, linked from the Knop inventory with `hasKnopSourceRegistry`
   - source binding IRIs may be registry-rooted fragments such as `D/_knop/_sources#branch-source-ontology`
   - runtime policy for resolving repository locators remains outside core ontology
+  - the repository-registry placement decision remains active, but repository locators no longer carry `hasContentDigest`; authored requirements use `expectsContentDigest` on the source binding and computed evidence uses `observedContentDigest` on an observation
 
 ### 2026-04-12: Model runtime-resolution policy in the config ontology with mesh/local access layers
 

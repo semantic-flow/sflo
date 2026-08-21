@@ -17,6 +17,7 @@ export const SH = {
   message: "http://www.w3.org/ns/shacl#message",
   minCount: "http://www.w3.org/ns/shacl#minCount",
   path: "http://www.w3.org/ns/shacl#path",
+  pattern: "http://www.w3.org/ns/shacl#pattern",
   property: "http://www.w3.org/ns/shacl#property",
   severity: "http://www.w3.org/ns/shacl#severity",
   sparql: "http://www.w3.org/ns/shacl#sparql",

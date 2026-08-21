@@ -19,6 +19,13 @@ const RDFS_SUB_PROPERTY_OF =
   "http://www.w3.org/2000/01/rdf-schema#subPropertyOf";
 
 const SHAPES = {
+  ContentDigestLiteral: `${SFLO_SHACL_NAMESPACE}ContentDigestLiteralShape`,
+  ContentDigestMethod: `${SFLO_SHACL_NAMESPACE}ContentDigestMethodShape`,
+  ExpectedContentDigest: `${SFLO_SHACL_NAMESPACE}ExpectedContentDigestShape`,
+  ManifestationLocatedFileDigestConsistency:
+    `${SFLO_SHACL_NAMESPACE}ManifestationLocatedFileDigestConsistencyShape`,
+  RepositorySourceLocator:
+    `${SFLO_SHACL_NAMESPACE}RepositorySourceLocatorShape`,
   ArtifactResolutionObservation:
     `${SFLO_SHACL_NAMESPACE}ArtifactResolutionObservationShape`,
   ArtifactResolutionObservationLink:
@@ -52,7 +59,9 @@ const SHAPES = {
 } as const;
 
 const TERMS = {
+  ArtifactManifestation: `${SFLO_NAMESPACE}ArtifactManifestation`,
   ArtifactResolutionSpec: `${SFLO_NAMESPACE}ArtifactResolutionSpec`,
+  ContentDigestMethod: `${SFLO_NAMESPACE}ContentDigestMethod`,
   Config: `${SFCFG_NAMESPACE}Config`,
   ConfigSource: `${SFCFG_NAMESPACE}ConfigSource`,
   PolicyDefinition: `${SFCFG_NAMESPACE}PolicyDefinition`,
@@ -86,6 +95,7 @@ const TERMS = {
   hasPanelDataRequirement: `${SFCFG_NAMESPACE}hasPanelDataRequirement`,
   hasPanelInclusionPolicy: `${SFCFG_NAMESPACE}hasPanelInclusionPolicy`,
   hasReferenceSource: `${SFLO_NAMESPACE}hasReferenceSource`,
+  hasContentDigest: `${SFLO_NAMESPACE}hasContentDigest`,
   hasResolutionObservation: `${SFLO_NAMESPACE}hasResolutionObservation`,
   hasFallbackArtifactResolutionSpec:
     `${SFLO_NAMESPACE}hasFallbackArtifactResolutionSpec`,
@@ -102,6 +112,9 @@ const TERMS = {
   targetArtifact: `${SFLO_NAMESPACE}targetArtifact`,
   targetRepositorySource: `${SFLO_NAMESPACE}targetRepositorySource`,
   observedContentDigest: `${SFLO_NAMESPACE}observedContentDigest`,
+  expectsContentDigest: `${SFLO_NAMESPACE}expectsContentDigest`,
+  contentDigestMethodToken: `${SFLO_NAMESPACE}contentDigestMethodToken`,
+  locatedFileForManifestation: `${SFLO_NAMESPACE}locatedFileForManifestation`,
   observedArtifactResolutionSpec:
     `${SFLO_NAMESPACE}observedArtifactResolutionSpec`,
   observedAt: `${SFLO_NAMESPACE}observedAt`,
@@ -110,12 +123,18 @@ const TERMS = {
     `${SFLO_NAMESPACE}ArtifactResolutionObservation`,
   panelOrder: `${SFCFG_NAMESPACE}panelOrder`,
   targetLocalRelativePath: `${SFLO_NAMESPACE}targetLocalRelativePath`,
+  targetLocatedFile: `${SFLO_NAMESPACE}targetLocatedFile`,
 } as const;
 
 Deno.test("core SHACL declares key source-binding and resolution-mode shapes", async () => {
   const quads = await parseRepoTurtle(CORE_SHACL_FILE);
 
   assertNodeShape(quads, SHAPES.ReferenceLink);
+  assertNodeShape(quads, SHAPES.ContentDigestLiteral);
+  assertNodeShape(quads, SHAPES.ContentDigestMethod);
+  assertNodeShape(quads, SHAPES.ExpectedContentDigest);
+  assertNodeShape(quads, SHAPES.ManifestationLocatedFileDigestConsistency);
+  assertNodeShape(quads, SHAPES.RepositorySourceLocator);
   assertNodeShape(quads, SHAPES.ReferenceSource);
   assertNodeShape(quads, SHAPES.ArtifactResolutionObservation);
   assertNodeShape(quads, SHAPES.ArtifactResolutionObservationLink);
@@ -247,6 +266,149 @@ Deno.test("ArtifactResolutionObservation SHACL declares observation evidence con
     ),
     "ArtifactResolutionObservationLink shape should target hasResolutionObservation subjects",
   );
+});
+
+Deno.test("content-digest SHACL closes the release grammar over lowercase SHA-256", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+  const ontologyQuads = await parseRepoTurtle(
+    "semantic-flow-core-ontology.ttl",
+  );
+  const expectedPattern = "^sha256:[0-9a-f]{64}$";
+
+  const supportedTokens = ontologyQuads.filter((quad) =>
+    quad.predicate.value === RDF.type &&
+    quad.object.value === TERMS.ContentDigestMethod
+  ).flatMap((quad) =>
+    objectsFor(
+      ontologyQuads,
+      quad.subject.value,
+      TERMS.contentDigestMethodToken,
+    ).map((token) => token.value)
+  ).sort();
+  assertEquals(
+    supportedTokens,
+    ["sha256"],
+    "the release grammar and direct ContentDigestMethod members should stay in parity",
+  );
+
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ContentDigestMethod,
+      SH.targetClass,
+      TERMS.ContentDigestMethod,
+    ),
+    "ContentDigestMethod shape should target ContentDigestMethod",
+  );
+  assertRequiredProperty(
+    quads,
+    SHAPES.ContentDigestMethod,
+    TERMS.contentDigestMethodToken,
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.ContentDigestMethod,
+    TERMS.contentDigestMethodToken,
+    1,
+  );
+
+  for (
+    const [shape, path] of [
+      [SHAPES.ContentDigestLiteral, TERMS.hasContentDigest],
+      [SHAPES.ExpectedContentDigest, TERMS.expectsContentDigest],
+      [SHAPES.ArtifactResolutionObservation, TERMS.observedContentDigest],
+    ] as const
+  ) {
+    const propertyShape = objectsFor(quads, shape, SH.property).find(
+      (candidate) =>
+        objectsFor(quads, candidate.value, SH.path).some((term) =>
+          term.value === path
+        ) && objectsFor(quads, candidate.value, SH.pattern).length > 0,
+    );
+    assert(propertyShape, `${shape} should constrain ${path}`);
+    assert(
+      hasTriple(quads, propertyShape.value, SH.pattern, expectedPattern),
+      `${shape} should use the release SHA-256 pattern`,
+    );
+    assert(
+      hasTriple(quads, propertyShape.value, SH.severity, SH.Violation),
+      `${shape} should enforce the release SHA-256 pattern as a violation`,
+    );
+  }
+
+  const digestPattern = new RegExp(expectedPattern);
+  assert(digestPattern.test(`sha256:${"a".repeat(64)}`));
+  for (
+    const invalid of [
+      `sha256:${"A".repeat(64)}`,
+      `sha256:${"a".repeat(63)}`,
+      `sha256:${"g".repeat(64)}`,
+      `sha512:${"a".repeat(64)}`,
+      "sha256:",
+    ]
+  ) {
+    assertEquals(digestPattern.test(invalid), false, invalid);
+  }
+});
+
+Deno.test("content-digest SHACL declares bearer and verification consistency constraints", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assertSparqlViolation(
+    quads,
+    SHAPES.ContentDigestLiteral,
+    "MUST NOT declare different content-digest values",
+  );
+  assertSparqlViolation(
+    quads,
+    SHAPES.ManifestationLocatedFileDigestConsistency,
+    "MUST NOT declare different content digests",
+  );
+  assertSparqlViolation(
+    quads,
+    SHAPES.ArtifactResolutionObservation,
+    "MUST NOT disagree",
+  );
+  assertSparqlViolation(
+    quads,
+    SHAPES.ArtifactResolutionObservation,
+    "MUST NOT declare different observed content-digest values",
+  );
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.RepositorySourceLocator,
+    TERMS.hasContentDigest,
+    0,
+  );
+});
+
+Deno.test("selected content-digest checks distinguish matching and mismatched evidence", () => {
+  const matching = parseTurtle(contentDigestFixture("a", "a", "a", "a"));
+  assertEquals(validateDigestConsistency(matching), []);
+
+  const mismatched = parseTurtle(contentDigestFixture("a", "b", "c", "d"));
+  assertEquals(validateDigestConsistency(mismatched), [
+    "manifestation-located-file",
+    "expected-observed",
+  ]);
+
+  const duplicateMethods = parseTurtle(`
+    @prefix sflo: <${SFLO_NAMESPACE}> .
+
+    <file> a sflo:LocatedFile ;
+      sflo:hasContentDigest
+        "sha256:${"a".repeat(64)}",
+        "sha256:${"b".repeat(64)}" .
+
+    <observation> a sflo:ArtifactResolutionObservation ;
+      sflo:observedContentDigest
+        "sha256:${"c".repeat(64)}",
+        "sha256:${"d".repeat(64)}" .
+  `);
+  assertEquals(validateDigestConsistency(duplicateMethods), [
+    "standing-same-method",
+    "observed-same-method",
+  ]);
 });
 
 Deno.test("ArtifactResolutionSpec SHACL declares recursive fallback constraint", async () => {
@@ -837,6 +999,147 @@ function targetHistoricalState(
     quad.subject.equals(subject) &&
     quad.predicate.value === TERMS.targetHistoricalState
   );
+}
+
+function assertSparqlViolation(
+  quads: readonly Quad[],
+  shape: string,
+  messageSnippet: string,
+): void {
+  const constraint = objectsFor(quads, shape, SH.sparql).find((candidate) =>
+    objectsFor(quads, candidate.value, SH.message).some((message) =>
+      message.value.includes(messageSnippet)
+    )
+  );
+  assert(
+    constraint,
+    `${shape} should declare a SPARQL constraint containing ${messageSnippet}`,
+  );
+  assert(
+    hasTriple(quads, constraint.value, SH.severity, SH.Violation),
+    `${shape} ${messageSnippet} constraint should be a violation`,
+  );
+}
+
+function contentDigestFixture(
+  manifestationHex: string,
+  fileHex: string,
+  expectedHex: string,
+  observedHex: string,
+): string {
+  const digest = (hex: string) => `sha256:${hex.repeat(64)}`;
+  return `
+    @prefix sflo: <${SFLO_NAMESPACE}> .
+
+    <manifestation> a sflo:ArtifactManifestation ;
+      sflo:hasContentDigest "${digest(manifestationHex)}" ;
+      sflo:locatedFileForManifestation <file> .
+
+    <file> a sflo:LocatedFile ;
+      sflo:hasContentDigest "${digest(fileHex)}" .
+
+    <requested> a sflo:ArtifactResolutionSpec ;
+      sflo:expectsContentDigest "${digest(expectedHex)}" ;
+      sflo:hasResolutionObservation <observation> .
+
+    <observation> a sflo:ArtifactResolutionObservation ;
+      sflo:observedArtifactResolutionSpec <observed-spec> ;
+      sflo:observedContentDigest "${digest(observedHex)}" .
+
+    <observed-spec> a sflo:ArtifactResolutionSpec ;
+      sflo:targetLocatedFile <file> .
+  `;
+}
+
+function validateDigestConsistency(
+  quads: readonly Quad[],
+): readonly string[] {
+  const findings: string[] = [];
+
+  for (
+    const [predicate, finding] of [
+      [TERMS.hasContentDigest, "standing-same-method"],
+      [TERMS.observedContentDigest, "observed-same-method"],
+    ] as const
+  ) {
+    const subjects = new Set(
+      quads.filter((quad) => quad.predicate.value === predicate).map((quad) =>
+        quad.subject.value
+      ),
+    );
+    if (
+      [...subjects].some((subject) => {
+        const digests = objectsFor(quads, subject, predicate);
+        return digests.some((left) =>
+          digests.some((right) => sameMethodDifferentValue(left, right))
+        );
+      })
+    ) {
+      findings.push(finding);
+    }
+  }
+
+  for (
+    const link of quads.filter((quad) =>
+      quad.predicate.value === TERMS.locatedFileForManifestation
+    )
+  ) {
+    const manifestationDigests = objectsFor(
+      quads,
+      link.subject.value,
+      TERMS.hasContentDigest,
+    );
+    const fileDigests = objectsFor(
+      quads,
+      link.object.value,
+      TERMS.hasContentDigest,
+    );
+    if (
+      manifestationDigests.some((manifestationDigest) =>
+        fileDigests.some((fileDigest) =>
+          sameMethodDifferentValue(manifestationDigest, fileDigest)
+        )
+      )
+    ) {
+      findings.push("manifestation-located-file");
+      break;
+    }
+  }
+
+  for (
+    const link of quads.filter((quad) =>
+      quad.predicate.value === TERMS.hasResolutionObservation
+    )
+  ) {
+    const expectedDigests = objectsFor(
+      quads,
+      link.subject.value,
+      TERMS.expectsContentDigest,
+    );
+    const observedDigests = objectsFor(
+      quads,
+      link.object.value,
+      TERMS.observedContentDigest,
+    );
+    if (
+      expectedDigests.some((expectedDigest) =>
+        observedDigests.some((observedDigest) =>
+          sameMethodDifferentValue(expectedDigest, observedDigest)
+        )
+      )
+    ) {
+      findings.push("expected-observed");
+      break;
+    }
+  }
+
+  return findings;
+}
+
+function sameMethodDifferentValue(left: Term, right: Term): boolean {
+  const [leftMethod] = left.value.split(":", 1);
+  const [rightMethod] = right.value.split(":", 1);
+  return leftMethod === rightMethod && left.value !== right.value;
 }
 
 interface ValidationFinding {

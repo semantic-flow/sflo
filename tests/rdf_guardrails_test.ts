@@ -1,7 +1,9 @@
 import { assert, assertFalse } from "@std/assert";
 import {
+  hasTriple,
   parseRepoTurtle,
   quadTerms,
+  RDF,
   readRepoFile,
   SFCFG_NAMESPACE,
   SFLO_NAMESPACE,
@@ -10,8 +12,17 @@ import {
 
 const RDFS = {
   Class: "http://www.w3.org/2000/01/rdf-schema#Class",
+  domain: "http://www.w3.org/2000/01/rdf-schema#domain",
+  range: "http://www.w3.org/2000/01/rdf-schema#range",
   subClassOf: "http://www.w3.org/2000/01/rdf-schema#subClassOf",
 } as const;
+
+const OWL = {
+  DatatypeProperty: "http://www.w3.org/2002/07/owl#DatatypeProperty",
+  FunctionalProperty: "http://www.w3.org/2002/07/owl#FunctionalProperty",
+} as const;
+
+const XSD_STRING = "http://www.w3.org/2001/XMLSchema#string";
 
 const ACTIVE_RDF_FILES = [
   "semantic-flow-core-ontology.ttl",
@@ -283,5 +294,86 @@ Deno.test("core ontology declares shared artifact-resolution source and observat
       quad.object.value === RDFS.Class
     ),
     "ArtifactResolutionObservation should be declared as an rdfs:Class",
+  );
+});
+
+Deno.test("core ontology declares the SHA-256 content-digest contract", async () => {
+  const quads = await parseRepoTurtle("semantic-flow-core-ontology.ttl");
+  const term = (localName: string) => `${SFLO_NAMESPACE}${localName}`;
+  const contentDigestBearer = term("ContentDigestBearer");
+  const contentDigestMethod = term("ContentDigestMethod");
+  const methodToken = term("contentDigestMethodToken");
+  const sha256 = term("contentDigestMethod_sha256");
+  const hasContentDigest = term("hasContentDigest");
+
+  assert(
+    hasTriple(quads, contentDigestBearer, RDF.type, RDFS.Class),
+    "ContentDigestBearer should be declared as an rdfs:Class",
+  );
+  for (const bearer of ["ArtifactManifestation", "LocatedFile"]) {
+    assert(
+      hasTriple(
+        quads,
+        term(bearer),
+        RDFS.subClassOf,
+        contentDigestBearer,
+      ),
+      `${bearer} should subclass ContentDigestBearer`,
+    );
+  }
+  for (
+    const nonBearer of [
+      "DigitalArtifact",
+      "ArtifactHistory",
+      "HistoricalState",
+      "RepositorySourceLocator",
+    ]
+  ) {
+    assertFalse(
+      hasTriple(
+        quads,
+        term(nonBearer),
+        RDFS.subClassOf,
+        contentDigestBearer,
+      ),
+      `${nonBearer} should not subclass ContentDigestBearer`,
+    );
+  }
+
+  assert(
+    hasTriple(quads, hasContentDigest, RDFS.domain, contentDigestBearer),
+    "hasContentDigest should have ContentDigestBearer domain",
+  );
+  assert(
+    hasTriple(quads, hasContentDigest, RDFS.range, XSD_STRING),
+    "hasContentDigest should retain xsd:string range",
+  );
+  assert(
+    hasTriple(quads, contentDigestMethod, RDF.type, RDFS.Class),
+    "ContentDigestMethod should be declared as an rdfs:Class",
+  );
+  assert(
+    hasTriple(quads, methodToken, RDF.type, OWL.DatatypeProperty),
+    "contentDigestMethodToken should be an owl:DatatypeProperty",
+  );
+  assert(
+    hasTriple(quads, methodToken, RDF.type, OWL.FunctionalProperty),
+    "contentDigestMethodToken should be functional",
+  );
+  assert(
+    hasTriple(quads, methodToken, RDFS.domain, contentDigestMethod),
+    "contentDigestMethodToken should have ContentDigestMethod domain",
+  );
+  assert(
+    hasTriple(quads, methodToken, RDFS.range, XSD_STRING),
+    "contentDigestMethodToken should have xsd:string range",
+  );
+  assert(
+    hasTriple(quads, sha256, RDF.type, contentDigestMethod),
+    "contentDigestMethod_sha256 should be a ContentDigestMethod",
+  );
+  assert(
+    hasTriple(quads, sha256, methodToken, "sha256"),
+    "contentDigestMethod_sha256 should declare the sha256 token",
   );
 });

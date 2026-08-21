@@ -145,7 +145,7 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/KnopSourceBindingShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "A repository-backed source binding carried by a KnopSourceRegistry records the target artifact and its repository source locator. Exact replay evidence such as a commit or digest is strongly recommended, but working/ref-following bindings are valid when operational policy allows them.";
+  rdfs:comment "A repository-backed source binding carried by a KnopSourceRegistry records the target artifact and its repository source locator. Exact replay evidence such as a commit or expected digest is strongly recommended, but working/ref-following bindings are valid when operational policy allows them.";
   rdfs:label "Repository-backed Knop source binding";
   sh:property [
     sh:maxCount 1;
@@ -190,8 +190,8 @@
   ];
   sh:sparql [
     rdf:type sh:SPARQLConstraint;
-    sh:message "A repository-backed source binding SHOULD include sourceRepositoryCommit, expectsContentDigest, or hasContentDigest evidence when deterministic replay matters.";
-    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:targetRepositorySource ?locator .\n  FILTER NOT EXISTS { ?locator sflo:sourceRepositoryCommit ?commit }\n  FILTER NOT EXISTS { $this sflo:expectsContentDigest ?digest }\n  FILTER NOT EXISTS { ?locator sflo:hasContentDigest ?locatorDigest }\n}";
+    sh:message "A repository-backed source binding SHOULD include sourceRepositoryCommit or expectsContentDigest evidence when deterministic replay matters.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:targetRepositorySource ?locator .\n  FILTER NOT EXISTS { ?locator sflo:sourceRepositoryCommit ?commit }\n  FILTER NOT EXISTS { $this sflo:expectsContentDigest ?digest }\n}";
     sh:severity sh:Warning
   ];
   sh:targetSubjectsOf sflo:targetRepositorySource .
@@ -316,6 +316,12 @@
     sh:path sflo:sourceRepositoryPath;
     sh:severity sh:Violation
   ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceLocator MUST NOT declare sflo:hasContentDigest; digest requirements belong on the ArtifactResolutionSpec and computed evidence belongs on an ArtifactResolutionObservation.";
+    sh:path sflo:hasContentDigest;
+    sh:severity sh:Violation
+  ];
   sh:targetClass sflo:RepositorySourceLocator .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/RepositorySourceFloatingLocatorShape>
@@ -352,7 +358,7 @@
   ];
   sh:property [
     sh:maxCount 0;
-    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:hasContentDigest; digest-pinned source resolution should use exact repository source evidence.";
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:hasContentDigest; digest requirements belong on the ArtifactResolutionSpec and computed evidence belongs on an ArtifactResolutionObservation.";
     sh:path sflo:hasContentDigest;
     sh:severity sh:Violation
   ];
@@ -512,9 +518,24 @@
   ];
   sh:targetSubjectsOf sflo:locatedFileForState .
 
+<https://semantic-flow.github.io/sflo/ontology/shacl/ContentDigestMethodShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "Every published ContentDigestMethod member has one lowercase wire token.";
+  rdfs:label "content digest method";
+  sh:property [
+    sh:datatype xsd:string;
+    sh:maxCount 1;
+    sh:message "A ContentDigestMethod MUST declare exactly one lowercase sflo:contentDigestMethodToken.";
+    sh:minCount 1;
+    sh:path sflo:contentDigestMethodToken;
+    sh:pattern "^[a-z][a-z0-9+._-]*$";
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ContentDigestMethod .
+
 <https://semantic-flow.github.io/sflo/ontology/shacl/ContentDigestLiteralShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "Content digests are compact algorithm-qualified strings such as sha256:<hex>. This shape checks the literal form only; byte retrieval, canonicalization, and cryptographic verification are runtime responsibilities.";
+  rdfs:comment "This release supports SHA-256 content digests as canonical algorithm-qualified lowercase literals. Byte retrieval and cryptographic verification remain runtime responsibilities.";
   rdfs:label "content digest literal";
   sh:property [
     sh:datatype xsd:string;
@@ -523,12 +544,30 @@
     sh:severity sh:Violation
   ];
   sh:property [
-    sh:message "sflo:hasContentDigest values SHOULD include an algorithm prefix followed by ':', for example sha256:<hex>.";
+    sh:message "sflo:hasContentDigest values MUST use 'sha256:' followed by 64 lowercase hexadecimal digits.";
     sh:path sflo:hasContentDigest;
-    sh:pattern "^[A-Za-z][A-Za-z0-9+._-]*:.+$";
-    sh:severity sh:Warning
+    sh:pattern "^sha256:[0-9a-f]{64}$";
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A ContentDigestBearer MUST NOT declare different content-digest values for the same method.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?firstDigest, ?secondDigest .\n  FILTER(STRBEFORE(STR(?firstDigest), ':') = STRBEFORE(STR(?secondDigest), ':'))\n  FILTER(STR(?firstDigest) != STR(?secondDigest))\n}";
+    sh:severity sh:Violation
   ];
   sh:targetSubjectsOf sflo:hasContentDigest .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ManifestationLocatedFileDigestConsistencyShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A LocatedFile that provides an ArtifactManifestation must agree with the manifestation's standing digest claim for each method asserted at both levels.";
+  rdfs:label "manifestation and located-file digest consistency";
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "An ArtifactManifestation and its LocatedFile MUST NOT declare different content digests for the same method.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?manifestationDigest ;\n    sflo:locatedFileForManifestation ?file .\n  ?file sflo:hasContentDigest ?fileDigest .\n  FILTER(STRBEFORE(STR(?manifestationDigest), ':') = STRBEFORE(STR(?fileDigest), ':'))\n  FILTER(STR(?manifestationDigest) != STR(?fileDigest))\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetClass sflo:ArtifactManifestation .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/ExpectedContentDigestShape>
   rdf:type sh:NodeShape;
@@ -542,10 +581,10 @@
     sh:severity sh:Violation
   ];
   sh:property [
-    sh:message "sflo:expectsContentDigest values SHOULD include an algorithm prefix followed by ':', for example sha256:<hex>.";
+    sh:message "sflo:expectsContentDigest values MUST use 'sha256:' followed by 64 lowercase hexadecimal digits.";
     sh:path sflo:expectsContentDigest;
-    sh:pattern "^[A-Za-z][A-Za-z0-9+._-]*:.+$";
-    sh:severity sh:Warning
+    sh:pattern "^sha256:[0-9a-f]{64}$";
+    sh:severity sh:Violation
   ];
   sh:sparql [
     rdf:type sh:SPARQLConstraint;
@@ -588,10 +627,22 @@
     sh:severity sh:Violation
   ];
   sh:property [
-    sh:message "sflo:observedContentDigest values SHOULD include an algorithm prefix followed by ':', for example sha256:<hex>.";
+    sh:message "sflo:observedContentDigest values MUST use 'sha256:' followed by 64 lowercase hexadecimal digits.";
     sh:path sflo:observedContentDigest;
-    sh:pattern "^[A-Za-z][A-Za-z0-9+._-]*:.+$";
-    sh:severity sh:Warning
+    sh:pattern "^sha256:[0-9a-f]{64}$";
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "An ArtifactResolutionObservation MUST NOT disagree with the linked ArtifactResolutionSpec's expected content digest for the same method.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  ?requestedSpec sflo:hasResolutionObservation $this ;\n    sflo:expectsContentDigest ?expectedDigest .\n  $this sflo:observedContentDigest ?observedDigest .\n  FILTER(STRBEFORE(STR(?expectedDigest), ':') = STRBEFORE(STR(?observedDigest), ':'))\n  FILTER(STR(?expectedDigest) != STR(?observedDigest))\n}";
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "An ArtifactResolutionObservation MUST NOT declare different observed content-digest values for the same method.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:observedContentDigest ?firstDigest, ?secondDigest .\n  FILTER(STRBEFORE(STR(?firstDigest), ':') = STRBEFORE(STR(?secondDigest), ':'))\n  FILTER(STR(?firstDigest) != STR(?secondDigest))\n}";
+    sh:severity sh:Violation
   ];
   sh:property [
     sh:datatype xsd:dateTime;
