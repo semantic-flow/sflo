@@ -196,14 +196,19 @@ git -C ../sflo-gh-pages push origin gh-pages
 
 ## Post-Publish Checks
 
-Verify current and release payloads:
+Verify that the current artifact ResourcePages resolve to the intended release and that the immutable release payloads parse. The established mesh does not publish mutable raw aliases at the project root; current pages link to the latest governed release payload and immutable raw tag URL.
 
 ```sh
-curl -fsSL https://semantic-flow.github.io/sflo/semantic-flow-core-ontology.ttl >/tmp/sflo-core.ttl
-curl -fsSL https://semantic-flow.github.io/sflo/ontology/releases/v0.1.0/ttl/semantic-flow-core-ontology.ttl >/tmp/sflo-core-v0.1.0.ttl
-curl -fsSL https://semantic-flow.github.io/sflo/config/releases/v0.1.0/ttl/semantic-flow-config-ontology.ttl >/tmp/sflo-config-v0.1.0.ttl
-curl -fsSL https://semantic-flow.github.io/sflo/ontology/shacl/releases/v0.1.0/ttl/semantic-flow-core-shacl.ttl >/tmp/sflo-shacl-v0.1.0.ttl
-riot --validate /tmp/sflo-core.ttl /tmp/sflo-core-v0.1.0.ttl /tmp/sflo-config-v0.1.0.ttl /tmp/sflo-shacl-v0.1.0.ttl
+VERSION=0.4.0
+curl -fsSL https://semantic-flow.github.io/sflo/ontology/ >/tmp/sflo-core-page.html
+curl -fsSL https://semantic-flow.github.io/sflo/config/ >/tmp/sflo-config-page.html
+curl -fsSL https://semantic-flow.github.io/sflo/ontology/shacl/ >/tmp/sflo-shacl-page.html
+rg "releases/v$VERSION" /tmp/sflo-core-page.html /tmp/sflo-config-page.html /tmp/sflo-shacl-page.html
+
+curl -fsSL "https://semantic-flow.github.io/sflo/ontology/releases/v$VERSION/ttl/semantic-flow-core-ontology.ttl" >/tmp/sflo-core-release.ttl
+curl -fsSL "https://semantic-flow.github.io/sflo/config/releases/v$VERSION/ttl/semantic-flow-config-ontology.ttl" >/tmp/sflo-config-release.ttl
+curl -fsSL "https://semantic-flow.github.io/sflo/ontology/shacl/releases/v$VERSION/ttl/semantic-flow-core-shacl.ttl" >/tmp/sflo-shacl-release.ttl
+riot --validate /tmp/sflo-core-release.ttl /tmp/sflo-config-release.ttl /tmp/sflo-shacl-release.ttl
 ```
 
 Spot-check human-facing pages:
