@@ -78,13 +78,26 @@ python3 -m pip install --requirement requirements-shacl.txt
 deno task ci
 ```
 
-The Python dependency executes the shipped SHACL-SPARQL constraints against positive and negative fixtures. Deno tests continue to own RDF graph guardrails and targeted structural checks; both layers are required because a present-but-broken `sh:select` query is not useful validation.
+The Python dependency executes the shipped SHACL-SPARQL constraints against the canonical positive and negative fixture corpus. `deno task ci` also runs the same corpus through pinned `shacl-engine` over a minimal N3 RDF/JS dataset. Deno tests continue to own RDF graph guardrails and targeted structural checks; all layers are required because a present-but-broken `sh:select` query is not useful validation.
+
+For a release candidate, emit semantic receipts from PySHACL and the public JavaScript runner, run pinned Apache Jena SHACL rather than treating Riot as a SHACL engine, obtain the private Stagecraft adapter receipt when that consumer is an explicit release gate, and compare all receipts:
+
+```sh
+python3 scripts/validate_shacl.py --output /tmp/sflo-pyshacl.json
+deno task conformance:js -- --output /tmp/sflo-shacl-engine.json
+deno task conformance:jena -- --output /tmp/sflo-jena.json
+deno task conformance:compare -- /tmp/sflo-pyshacl.json /tmp/sflo-shacl-engine.json /tmp/sflo-stagecraft-shacl.json /tmp/sflo-jena.json
+```
+
+The Jena task is pinned to Apache Jena SHACL 6.2.0 and refuses a different version. The execution profile unions the checked-out core ontology with each case, uses the checked-out shapes unchanged, enables no inference, reports warnings explicitly, and performs no network loads. Compare normalized conformance, severity, focus node, result path, constraint component, and message key; serialized report bytes, ordering, and engine blank-node identifiers are not comparison surfaces. Any unexpected conformance or severity disagreement blocks publication. Record the candidate commit, engine versions, commands, matrix, adjudications, and receipt digests in an `ont.report.*` note such as [[ont.report.2026-08-21-v0.4.0-shacl-conformance]].
 
 Validate Turtle syntax:
 
 ```sh
 riot --validate semantic-flow-core-ontology.ttl semantic-flow-core-shacl.ttl semantic-flow-config-ontology.ttl semantic-flow-job-ontology.ttl semantic-flow-prov-ontology.ttl
 ```
+
+Riot is syntax preflight only; it does not satisfy the Apache Jena SHACL execution gate.
 
 Check for whitespace damage:
 
