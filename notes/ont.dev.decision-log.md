@@ -14,7 +14,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 - Status: Active
 - Decision: Keep content digests as algorithm-qualified string literals and support only the canonical `sha256:<64 lowercase hexadecimal digits>` form in the next release. Add `ContentDigestMethod` with `contentDigestMethod_sha256` and its `contentDigestMethodToken`. Make `ContentDigestBearer` the domain of `hasContentDigest`, with `ArtifactManifestation` and `LocatedFile` as SFLO's direct bearer subclasses. A manifestation denotes one exact byte sequence; multiple located files may provide it only as byte-identical replicas. Keep pre-resolution requirements on `ArtifactResolutionSpec` with `expectsContentDigest`, and computed event evidence on `ArtifactResolutionObservation` with `observedContentDigest`.
-- References: [[ont.task.2026.2026-08-14_1949-content-digest-contract]], [[ont.summary.core]], [[sf.spec.2026-08-21-content-digest]]
+- References: [[ont.completed.2026.2026-08-14_1949-content-digest-contract]], [[ont.summary.core]], [[sf.spec.2026-08-21-content-digest]]
 - Why:
   - `ArtifactManifestation` is the exact representation identity, while a digest on `LocatedFile` is an independently checkable standing claim about bytes retrieved through that file identity or location
   - broad artifact/history/state digest assertions do not identify which representation bytes were hashed

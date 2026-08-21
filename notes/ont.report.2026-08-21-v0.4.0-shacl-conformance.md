@@ -7,7 +7,7 @@ created: 1787367600000
 
 ## Scope
 
-This report records the completed release-candidate gate from [[ont.task.2026.2026-08-21_1048-cross-engine-shacl-conformance]] for the SFLO v0.4.0 content-digest contract. All engines executed the same eleven cases from `tests/shacl/content-digest/cases.json`, the checked-out `semantic-flow-core-ontology.ttl`, and the checked-out `semantic-flow-core-shacl.ttl` at SFLO commit `7d4933a939ae33492dfc0e5e54503f31b8ccd2a9`.
+This report records the completed release-candidate gate from [[ont.completed.2026.2026-08-21_1048-cross-engine-shacl-conformance]] for the SFLO v0.4.0 content-digest contract. All engines executed the same eleven cases from `tests/shacl/content-digest/cases.json`, the checked-out `semantic-flow-core-ontology.ttl`, and the checked-out `semantic-flow-core-shacl.ttl` at SFLO commit `7d4933a939ae33492dfc0e5e54503f31b8ccd2a9`.
 
 ## Execution Profile
 

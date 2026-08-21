@@ -13,7 +13,7 @@ The SFLO changes described here were published as `v0.4.0` on 2026-08-21, with s
 
 ## 1. Content Digest Contract
 
-We agree that the content-digest contract should land. The implementation target is [[ont.task.2026.2026-08-14_1949-content-digest-contract]], with portable behavior in [[sf.spec.2026-08-21-content-digest]].
+We agree that the content-digest contract should land. The implementation target is [[ont.completed.2026.2026-08-14_1949-content-digest-contract]], with portable behavior in [[sf.spec.2026-08-21-content-digest]].
 
 ### Representation and Supported Method
 
