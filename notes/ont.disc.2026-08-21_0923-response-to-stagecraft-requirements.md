@@ -9,7 +9,7 @@ created: 1787329410000
 
 This note responds to [[sc.disc.2026-08-20_1941-what-stagecraft-needs-from-semantic-flow]], "What Stagecraft needs from Semantic Flow." It records the SFLO side's current rulings and asks Stagecraft to confirm that the resulting contracts meet the actual consumer need.
 
-The changes described here are in working trees and task/spec notes. They are not a published SFLO release yet.
+The changes described here are committed in the SFLO, Semantic Flow Framework, Weave, and task-archive repositories. They are not a published SFLO release yet.
 
 ## 1. Content Digest Contract
 
@@ -116,13 +116,15 @@ The digest contract is targeted for SFLO `v0.4.0`, the next minor release after 
 
 We accept the documentation request. [[ont.summary.core]] should state explicitly that a `SemanticMesh` is a semantic namespace/resource region and that filesystem-backed layout is one representation choice, not a core requirement. In-memory and database-backed implementations owe the same identifier, resource, and operation semantics without owing literal `_mesh` directories until they serialize into that profile.
 
-## Confirmation Requested From Stagecraft
+## Stagecraft Confirmation
 
-Please confirm or challenge these four points:
+Stagecraft confirmed all four points on 2026-08-21:
 
-1. Is the narrow two-bearer contract — `ArtifactManifestation` and `LocatedFile` through `ContentDigestBearer` — sufficient without automatically classifying every `DigitalArtifact` and facet as a bearer?
-2. Is the existing `observedArtifactResolutionSpec` property-path join sufficient for the first attestation slice, given the worked query above?
-3. Does the separate DCAT application-profile direction satisfy the image/media need, with conformance-level cardinalities to be ruled in that task?
-4. Is targeting SFLO `v0.4.0` with release-note notice, but no calendar promise yet, enough for Stagecraft's migration planning?
+1. The narrow two-bearer contract — `ArtifactManifestation` and `LocatedFile` through `ContentDigestBearer` — is sufficient without automatically classifying every `DigitalArtifact` and facet as a bearer.
+2. The existing `observedArtifactResolutionSpec` property-path join is sufficient for the first attestation slice.
+3. The separate DCAT application-profile direction satisfies the image/media need, with conformance-level cardinalities to be ruled in that task.
+4. Targeting SFLO `v0.4.0` with release-note notice, but no calendar promise yet, is sufficient for Stagecraft's migration planning.
+
+No Stagecraft objection remains open against the digest contract described in this note.
 
 Stagecraft's explicit non-asks remain out of scope: namespace allocation/squatting policy, media-family classes, a library-versus-CLI ruling, SPDX replacement, and Knop-per-high-volume-identifier guidance.
