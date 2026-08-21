@@ -21,11 +21,13 @@ This report records the completed release-candidate gate from [[ont.task.2026.20
 
 ## Engines And Commands
 
+`SFLO_ROOT` denotes the root of the checked-out SFLO repository used for the receipt run.
+
 | Engine | Version and adapter | Command |
 | --- | --- | --- |
 | PySHACL | 0.40.0 over RDFlib, SFLO graph-union adapter | `/tmp/sflo-v0.4.0-shacl-venv/bin/python scripts/validate_shacl.py --output /tmp/sflo-v0.4.0-pyshacl.json` |
 | Public JavaScript | `shacl-engine` 1.1.2 with `shacl-engine/sparql.js` over a minimal N3 RDF/JS dataset | `deno task conformance:js -- --output /tmp/sflo-v0.4.0-shacl-engine.json` |
-| Stagecraft private adapter | `shacl-engine` 1.1.2 and Oxigraph 0.5.9 through Stagecraft `createPopulationValidator`; Stagecraft commit `b83fcf6e22e81a4c74ba371ef22706003cb1baa7` | `node /tmp/sflo-stagecraft-shacl-adapter.mjs /home/djradon/hub/semantic-flow/weave/dependencies/github.com/semantic-flow/sflo /tmp/sflo-v0.4.0-stagecraft-shacl.json` |
+| Stagecraft private adapter | `shacl-engine` 1.1.2 and Oxigraph 0.5.9 through Stagecraft `createPopulationValidator`; Stagecraft commit `b83fcf6e22e81a4c74ba371ef22706003cb1baa7` | `node /tmp/sflo-stagecraft-shacl-adapter.mjs "$SFLO_ROOT" /tmp/sflo-v0.4.0-stagecraft-shacl.json` |
 | Apache Jena SHACL | 6.2.0, pinned and version-refusing | `deno task conformance:jena -- --output /tmp/sflo-v0.4.0-jena.json` |
 | Comparator | SFLO normalized semantic comparator | `deno task conformance:compare -- /tmp/sflo-v0.4.0-pyshacl.json /tmp/sflo-v0.4.0-shacl-engine.json /tmp/sflo-v0.4.0-stagecraft-shacl.json /tmp/sflo-v0.4.0-jena.json` |
 

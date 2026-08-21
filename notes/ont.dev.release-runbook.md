@@ -86,6 +86,12 @@ For a release candidate, emit semantic receipts from PySHACL and the public Java
 python3 scripts/validate_shacl.py --output /tmp/sflo-pyshacl.json
 deno task conformance:js -- --output /tmp/sflo-shacl-engine.json
 deno task conformance:jena -- --output /tmp/sflo-jena.json
+deno task conformance:compare -- /tmp/sflo-pyshacl.json /tmp/sflo-shacl-engine.json /tmp/sflo-jena.json
+```
+
+When a private Stagecraft adapter is an explicit gate for the release, produce that receipt first and include it in the comparison:
+
+```sh
 deno task conformance:compare -- /tmp/sflo-pyshacl.json /tmp/sflo-shacl-engine.json /tmp/sflo-stagecraft-shacl.json /tmp/sflo-jena.json
 ```
 
