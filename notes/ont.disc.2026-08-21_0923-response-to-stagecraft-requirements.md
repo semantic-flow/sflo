@@ -58,14 +58,14 @@ The behavior spec includes the requested before/after-compatible worked example 
 
 ### Repository Locators, Expectations, and Observations
 
-A `RepositorySourceLocator` records repository coordinates, not the bytes resolved from those coordinates. Exact and floating repository locator nodes do not carry `hasContentDigest`.
+A `RepositorySourceLocator` records repository coordinates, not the bytes resolved from those coordinates. Exact and floating repository locator nodes carry none of the three digest properties.
 
 - a caller- or policy-supplied pre-resolution requirement uses `expectsContentDigest` on `ArtifactResolutionSpec`
 - a digest computed during resolution uses `observedContentDigest` on `ArtifactResolutionObservation`
 - a computed observation is not promoted into an expectation after the fact
 - expected/observed disagreement for the same linked resolution is failed verification
 
-Weave's repository-backed integrate behavior is being aligned accordingly: it records every computed digest as observation evidence, records an expectation only when the caller supplied one, and stops emitting locator-level `hasContentDigest`.
+Weave's repository-backed integrate behavior follows this separation: it records every computed digest as observation evidence, records an expectation only when the caller supplied one, and emits no digest property on the repository locator. The observation's concrete spec records the local path actually read rather than an empty coordinate node.
 
 ### Attestation Join
 

@@ -230,6 +230,15 @@ Deno.test("ArtifactResolutionObservation SHACL declares observation evidence con
     ),
     "ArtifactResolutionObservation shape should target ArtifactResolutionObservation",
   );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ArtifactResolutionObservation,
+      SH.targetSubjectsOf,
+      TERMS.observedContentDigest,
+    ),
+    "ArtifactResolutionObservation shape should target every observedContentDigest subject",
+  );
   assertRequiredProperty(
     quads,
     SHAPES.ArtifactResolutionObservation,
@@ -354,20 +363,25 @@ Deno.test("content-digest SHACL closes the release grammar over lowercase SHA-25
 Deno.test("content-digest SHACL declares bearer and verification consistency constraints", async () => {
   const quads = await parseRepoTurtle(CORE_SHACL_FILE);
 
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ManifestationLocatedFileDigestConsistency,
+      SH.targetSubjectsOf,
+      TERMS.locatedFileForManifestation,
+    ),
+    "manifestation/file digest consistency should target every linked manifestation subject",
+  );
+
   assertSparqlViolation(
     quads,
     SHAPES.ContentDigestLiteral,
-    "MUST NOT declare different content-digest values",
+    "MUST NOT declare different sflo:hasContentDigest values",
   );
   assertSparqlViolation(
     quads,
     SHAPES.ManifestationLocatedFileDigestConsistency,
     "MUST NOT declare different content digests",
-  );
-  assertSparqlViolation(
-    quads,
-    SHAPES.ArtifactResolutionObservation,
-    "MUST NOT disagree",
   );
   assertSparqlViolation(
     quads,
@@ -380,35 +394,6 @@ Deno.test("content-digest SHACL declares bearer and verification consistency con
     TERMS.hasContentDigest,
     0,
   );
-});
-
-Deno.test("selected content-digest checks distinguish matching and mismatched evidence", () => {
-  const matching = parseTurtle(contentDigestFixture("a", "a", "a", "a"));
-  assertEquals(validateDigestConsistency(matching), []);
-
-  const mismatched = parseTurtle(contentDigestFixture("a", "b", "c", "d"));
-  assertEquals(validateDigestConsistency(mismatched), [
-    "manifestation-located-file",
-    "expected-observed",
-  ]);
-
-  const duplicateMethods = parseTurtle(`
-    @prefix sflo: <${SFLO_NAMESPACE}> .
-
-    <file> a sflo:LocatedFile ;
-      sflo:hasContentDigest
-        "sha256:${"a".repeat(64)}",
-        "sha256:${"b".repeat(64)}" .
-
-    <observation> a sflo:ArtifactResolutionObservation ;
-      sflo:observedContentDigest
-        "sha256:${"c".repeat(64)}",
-        "sha256:${"d".repeat(64)}" .
-  `);
-  assertEquals(validateDigestConsistency(duplicateMethods), [
-    "standing-same-method",
-    "observed-same-method",
-  ]);
 });
 
 Deno.test("ArtifactResolutionSpec SHACL declares recursive fallback constraint", async () => {
@@ -1019,127 +1004,6 @@ function assertSparqlViolation(
     hasTriple(quads, constraint.value, SH.severity, SH.Violation),
     `${shape} ${messageSnippet} constraint should be a violation`,
   );
-}
-
-function contentDigestFixture(
-  manifestationHex: string,
-  fileHex: string,
-  expectedHex: string,
-  observedHex: string,
-): string {
-  const digest = (hex: string) => `sha256:${hex.repeat(64)}`;
-  return `
-    @prefix sflo: <${SFLO_NAMESPACE}> .
-
-    <manifestation> a sflo:ArtifactManifestation ;
-      sflo:hasContentDigest "${digest(manifestationHex)}" ;
-      sflo:locatedFileForManifestation <file> .
-
-    <file> a sflo:LocatedFile ;
-      sflo:hasContentDigest "${digest(fileHex)}" .
-
-    <requested> a sflo:ArtifactResolutionSpec ;
-      sflo:expectsContentDigest "${digest(expectedHex)}" ;
-      sflo:hasResolutionObservation <observation> .
-
-    <observation> a sflo:ArtifactResolutionObservation ;
-      sflo:observedArtifactResolutionSpec <observed-spec> ;
-      sflo:observedContentDigest "${digest(observedHex)}" .
-
-    <observed-spec> a sflo:ArtifactResolutionSpec ;
-      sflo:targetLocatedFile <file> .
-  `;
-}
-
-function validateDigestConsistency(
-  quads: readonly Quad[],
-): readonly string[] {
-  const findings: string[] = [];
-
-  for (
-    const [predicate, finding] of [
-      [TERMS.hasContentDigest, "standing-same-method"],
-      [TERMS.observedContentDigest, "observed-same-method"],
-    ] as const
-  ) {
-    const subjects = new Set(
-      quads.filter((quad) => quad.predicate.value === predicate).map((quad) =>
-        quad.subject.value
-      ),
-    );
-    if (
-      [...subjects].some((subject) => {
-        const digests = objectsFor(quads, subject, predicate);
-        return digests.some((left) =>
-          digests.some((right) => sameMethodDifferentValue(left, right))
-        );
-      })
-    ) {
-      findings.push(finding);
-    }
-  }
-
-  for (
-    const link of quads.filter((quad) =>
-      quad.predicate.value === TERMS.locatedFileForManifestation
-    )
-  ) {
-    const manifestationDigests = objectsFor(
-      quads,
-      link.subject.value,
-      TERMS.hasContentDigest,
-    );
-    const fileDigests = objectsFor(
-      quads,
-      link.object.value,
-      TERMS.hasContentDigest,
-    );
-    if (
-      manifestationDigests.some((manifestationDigest) =>
-        fileDigests.some((fileDigest) =>
-          sameMethodDifferentValue(manifestationDigest, fileDigest)
-        )
-      )
-    ) {
-      findings.push("manifestation-located-file");
-      break;
-    }
-  }
-
-  for (
-    const link of quads.filter((quad) =>
-      quad.predicate.value === TERMS.hasResolutionObservation
-    )
-  ) {
-    const expectedDigests = objectsFor(
-      quads,
-      link.subject.value,
-      TERMS.expectsContentDigest,
-    );
-    const observedDigests = objectsFor(
-      quads,
-      link.object.value,
-      TERMS.observedContentDigest,
-    );
-    if (
-      expectedDigests.some((expectedDigest) =>
-        observedDigests.some((observedDigest) =>
-          sameMethodDifferentValue(expectedDigest, observedDigest)
-        )
-      )
-    ) {
-      findings.push("expected-observed");
-      break;
-    }
-  }
-
-  return findings;
-}
-
-function sameMethodDifferentValue(left: Term, right: Term): boolean {
-  const [leftMethod] = left.value.split(":", 1);
-  const [rightMethod] = right.value.split(":", 1);
-  return leftMethod === rightMethod && left.value !== right.value;
 }
 
 interface ValidationFinding {

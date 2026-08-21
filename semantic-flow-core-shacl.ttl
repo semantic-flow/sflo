@@ -210,7 +210,7 @@
   sh:sparql [
     rdf:type sh:SPARQLConstraint;
     sh:message "A local working source binding SHOULD declare sflo:hasArtifactResolutionMode, normally sflo:artifactResolutionMode_working, unless exact target coordinates make the mode obvious.";
-    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:targetLocalRelativePath ?path .\n  FILTER NOT EXISTS { $this sflo:targetRepositorySource ?repo }\n  FILTER NOT EXISTS { $this sflo:hasArtifactResolutionMode ?mode }\n  FILTER NOT EXISTS { $this sflo:targetHistoricalState ?state }\n  FILTER NOT EXISTS { $this sflo:targetLocatedFile ?file }\n  FILTER NOT EXISTS { $this sflo:expectsContentDigest ?digest }\n}";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:targetLocalRelativePath ?path .\n  FILTER NOT EXISTS { $this sflo:targetRepositorySource ?repo }\n  FILTER NOT EXISTS { $this sflo:hasArtifactResolutionMode ?mode }\n  FILTER NOT EXISTS { $this sflo:targetHistoricalState ?state }\n  FILTER NOT EXISTS { $this sflo:targetManifestation ?manifestation }\n  FILTER NOT EXISTS { $this sflo:targetLocatedFile ?file }\n  FILTER NOT EXISTS { $this sflo:expectsContentDigest ?digest }\n}";
     sh:severity sh:Warning
   ];
   sh:targetSubjectsOf sflo:targetLocalRelativePath .
@@ -322,6 +322,18 @@
     sh:path sflo:hasContentDigest;
     sh:severity sh:Violation
   ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceLocator MUST NOT declare sflo:expectsContentDigest; digest requirements belong on the ArtifactResolutionSpec that uses the locator.";
+    sh:path sflo:expectsContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceLocator MUST NOT declare sflo:observedContentDigest; computed evidence belongs on an ArtifactResolutionObservation.";
+    sh:path sflo:observedContentDigest;
+    sh:severity sh:Violation
+  ];
   sh:targetClass sflo:RepositorySourceLocator .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/RepositorySourceFloatingLocatorShape>
@@ -360,6 +372,18 @@
     sh:maxCount 0;
     sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:hasContentDigest; digest requirements belong on the ArtifactResolutionSpec and computed evidence belongs on an ArtifactResolutionObservation.";
     sh:path sflo:hasContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:expectsContentDigest; digest requirements belong on the ArtifactResolutionSpec that uses the locator.";
+    sh:path sflo:expectsContentDigest;
+    sh:severity sh:Violation
+  ];
+  sh:property [
+    sh:maxCount 0;
+    sh:message "A RepositorySourceFloatingLocator MUST NOT declare sflo:observedContentDigest; computed evidence belongs on an ArtifactResolutionObservation.";
+    sh:path sflo:observedContentDigest;
     sh:severity sh:Violation
   ];
   sh:targetClass sflo:RepositorySourceFloatingLocator .
@@ -551,9 +575,15 @@
   ];
   sh:sparql [
     rdf:type sh:SPARQLConstraint;
-    sh:message "A ContentDigestBearer MUST NOT declare different content-digest values for the same method.";
+    sh:message "A subject MUST NOT declare different sflo:hasContentDigest values for the same method.";
     sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?firstDigest, ?secondDigest .\n  FILTER(STRBEFORE(STR(?firstDigest), ':') = STRBEFORE(STR(?secondDigest), ':'))\n  FILTER(STR(?firstDigest) != STR(?secondDigest))\n}";
     sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "A subject using sflo:hasContentDigest SHOULD be explicitly typed sflo:ContentDigestBearer or a subclass.";
+    sh:select "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?digest .\n  FILTER NOT EXISTS { $this a/rdfs:subClassOf* sflo:ContentDigestBearer }\n}";
+    sh:severity sh:Warning
   ];
   sh:targetSubjectsOf sflo:hasContentDigest .
 
@@ -567,7 +597,7 @@
     sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?manifestationDigest ;\n    sflo:locatedFileForManifestation ?file .\n  ?file sflo:hasContentDigest ?fileDigest .\n  FILTER(STRBEFORE(STR(?manifestationDigest), ':') = STRBEFORE(STR(?fileDigest), ':'))\n  FILTER(STR(?manifestationDigest) != STR(?fileDigest))\n}";
     sh:severity sh:Violation
   ];
-  sh:targetClass sflo:ArtifactManifestation .
+  sh:targetSubjectsOf sflo:locatedFileForManifestation .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/ExpectedContentDigestShape>
   rdf:type sh:NodeShape;
@@ -634,12 +664,6 @@
   ];
   sh:sparql [
     rdf:type sh:SPARQLConstraint;
-    sh:message "An ArtifactResolutionObservation MUST NOT disagree with the linked ArtifactResolutionSpec's expected content digest for the same method.";
-    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  ?requestedSpec sflo:hasResolutionObservation $this ;\n    sflo:expectsContentDigest ?expectedDigest .\n  $this sflo:observedContentDigest ?observedDigest .\n  FILTER(STRBEFORE(STR(?expectedDigest), ':') = STRBEFORE(STR(?observedDigest), ':'))\n  FILTER(STR(?expectedDigest) != STR(?observedDigest))\n}";
-    sh:severity sh:Violation
-  ];
-  sh:sparql [
-    rdf:type sh:SPARQLConstraint;
     sh:message "An ArtifactResolutionObservation MUST NOT declare different observed content-digest values for the same method.";
     sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:observedContentDigest ?firstDigest, ?secondDigest .\n  FILTER(STRBEFORE(STR(?firstDigest), ':') = STRBEFORE(STR(?secondDigest), ':'))\n  FILTER(STR(?firstDigest) != STR(?secondDigest))\n}";
     sh:severity sh:Violation
@@ -659,7 +683,8 @@
     sh:path sflo:observedBy;
     sh:severity sh:Warning
   ];
-  sh:targetClass sflo:ArtifactResolutionObservation .
+  sh:targetClass sflo:ArtifactResolutionObservation;
+  sh:targetSubjectsOf sflo:observedContentDigest .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactResolutionFallbackSpecShape>
   rdf:type sh:NodeShape;

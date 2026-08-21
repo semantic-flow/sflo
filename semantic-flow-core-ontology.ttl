@@ -58,7 +58,7 @@
 
 <ContentDigestBearer> a rdfs:Class ;
   rdfs:label "Content digest bearer" ;
-  rdfs:comment "A resource whose own represented or retrievable byte stream is the subject of a content-digest claim. Semantic Flow directly classifies ArtifactManifestation and LocatedFile as content-digest bearers; downstream vocabularies may define narrower subclasses for other resources that identify one determinate byte stream." .
+  rdfs:comment "A resource whose own represented or retrievable byte stream can be the subject of a content-digest claim. Semantic Flow directly classifies ArtifactManifestation and LocatedFile as content-digest bearers; downstream vocabularies may define narrower subclasses for other resources that identify one determinate byte stream." .
 
 #################################################################
 # Artifact facet types

@@ -24,7 +24,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
   - all three digest properties use the same release-scoped lexical grammar at SHACL violation severity
   - a bearer or observation may carry multiple methods in a future release, but it must not carry multiple distinct values for the same method
   - when a manifestation and one of its located files both assert a digest for the same method, the values must agree
-  - expected and observed mismatch is failed verification, and a computed observation must not be promoted into a retroactive expectation
+  - expected and observed mismatch is failed verification at operation time, and a computed observation must not be promoted into a retroactive expectation; SHACL does not compare mutable current expectations with appendable historical observations
   - `ContentDigestBearer` is an open extension boundary, but `DigitalArtifact`, `ArtifactHistory`, `HistoricalState`, and repository locator classes do not become bearers merely through their existing SFLO type
   - additional algorithms, structured digest assertions, and canonical tree or RDF graph hashing remain future decisions
 

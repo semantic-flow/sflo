@@ -74,8 +74,11 @@ deno task release:validate -- --version 0.1.0
 Run the sflo-owned Deno guardrails for active ontology and SHACL files:
 
 ```sh
+python3 -m pip install --requirement requirements-shacl.txt
 deno task ci
 ```
+
+The Python dependency executes the shipped SHACL-SPARQL constraints against positive and negative fixtures. Deno tests continue to own RDF graph guardrails and targeted structural checks; both layers are required because a present-but-broken `sh:select` query is not useful validation.
 
 Validate Turtle syntax:
 
