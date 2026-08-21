@@ -6,7 +6,7 @@
     "check": "deno check scripts/**/*.ts tests/**/*.ts",
     "test": "deno test --allow-read --allow-write --allow-env=READABLE_STREAM tests",
     "test:shacl": "python3 scripts/validate_shacl.py",
-    "conformance:js": "deno run --node-modules-dir=auto --unsafe-proto --allow-read --allow-write=/tmp --allow-run=git --allow-env=READABLE_STREAM,YARGS_MIN_NODE_VERSION,YARGS_DISABLE_WRAP,_,SHELL,CI,FORCE_COLOR,TRAVIS,CIRCLECI,APPVEYOR,GITLAB_CI,CI_NAME,TEAMCITY_VERSION,TERM_PROGRAM,TERM_PROGRAM_VERSION,TERM,COLORTERM,COMUNICA_CONFIG,LC_ALL,LC_MESSAGES,LANG,LANGUAGE,NODE_ENV scripts/run_shacl_engine_conformance.ts",
+    "conformance:js": "deno run --node-modules-dir=auto --allow-read --allow-write=/tmp --allow-run=git --allow-env=READABLE_STREAM,YARGS_MIN_NODE_VERSION,YARGS_DISABLE_WRAP,_,SHELL,CI,FORCE_COLOR,TRAVIS,CIRCLECI,APPVEYOR,GITLAB_CI,CI_NAME,TEAMCITY_VERSION,TERM_PROGRAM,TERM_PROGRAM_VERSION,TERM,COLORTERM,COMUNICA_CONFIG,LC_ALL,LC_MESSAGES,LANG,LANGUAGE,NODE_ENV scripts/run_shacl_engine_conformance.ts",
     "conformance:jena": "deno run --allow-read --allow-write=/tmp --allow-run=git,shacl --allow-env=READABLE_STREAM scripts/run_jena_shacl_conformance.ts",
     "conformance:compare": "deno run --allow-read scripts/compare_shacl_receipts.ts",
     "release:set-version": "deno run --allow-read --allow-write scripts/release_set_version.ts",
