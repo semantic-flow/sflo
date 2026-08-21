@@ -57,7 +57,7 @@ Three real source issues were corrected before the final agreeing run:
 - Warning severity had been attached to nested `sh:sparql` constraint nodes, where PySHACL applied the default Violation severity. The explicit-bearer and expected-digest subject-typing advisories now carry `sh:severity sh:Warning` on dedicated node shapes; violation-level lexical and placement constraints remain violations.
 - The core ontology release state pointed at an untyped manifestation with no located-file link, so ontology-plus-case validation produced an unrelated warning. Release manifestation and located-file metadata are now explicit and self-conforming.
 
-The public JavaScript runner uses Deno's physical npm compatibility directory because `shacl-engine/sparql.js` does not resolve under cache-only mode. The realized local dependency tree was 75 MiB. This is test/release tooling only; neither SFLO nor Weave adopted Oxigraph as runtime code.
+The public JavaScript runner uses Deno 2.9.2 and its physical npm compatibility directory because `shacl-engine/sparql.js` does not resolve under cache-only mode. The previous Deno 2.7.14 CI pin also fails to resolve the plugin's transitive `cross-fetch/polyfill` entry even in physical mode, so ordinary SFLO CI now pins 2.9.2. The realized local dependency tree was 75 MiB. This is test/release tooling only; neither SFLO nor Weave adopted Oxigraph as runtime code.
 
 ## Receipt Digests
 

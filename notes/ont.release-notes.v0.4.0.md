@@ -62,6 +62,7 @@ Commands required and run for this release candidate:
 
 - `deno task release:set-version -- --version 0.4.0 --issued 2026-08-21`
 - `deno task ci` for formatting, lint, type checks, 30 Deno guardrails, 11 PySHACL fixtures, public `shacl-engine` conformance, and release validation
+- GitHub CI pinned to Deno 2.9.2; Deno 2.7.14 cannot resolve the public SHACL-SPARQL adapter's transitive `cross-fetch/polyfill` entry
 - `deno task conformance:jena` with Apache Jena SHACL 6.2.0
 - the Stagecraft `createPopulationValidator` receipt at Stagecraft commit `b83fcf6e22e81a4c74ba371ef22706003cb1baa7`, using `shacl-engine` 1.1.2 and Oxigraph 0.5.9
 - `deno task conformance:compare` over all four receipt bundles; all eleven normalized semantic receipts agreed
