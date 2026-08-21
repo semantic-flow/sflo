@@ -29,7 +29,12 @@
   <hasManifestation> <https://semantic-flow.github.io/sflo/ontology/releases/v0.3.0/ttl> .
 
 <https://semantic-flow.github.io/sflo/ontology/releases/v0.3.0/ttl>
-  dcat:downloadURL <https://semantic-flow.github.io/sflo/ontology/releases/v0.3.0/ttl/semantic-flow-core-ontology.ttl> .
+  a <ArtifactManifestation> ;
+  dcat:downloadURL <https://semantic-flow.github.io/sflo/ontology/releases/v0.3.0/ttl/semantic-flow-core-ontology.ttl> ;
+  <locatedFileForManifestation> <https://semantic-flow.github.io/sflo/ontology/releases/v0.3.0/ttl/semantic-flow-core-ontology.ttl> .
+
+<https://semantic-flow.github.io/sflo/ontology/releases/v0.3.0/ttl/semantic-flow-core-ontology.ttl>
+  a <LocatedFile> .
 
 #################################################################
 #################################################################

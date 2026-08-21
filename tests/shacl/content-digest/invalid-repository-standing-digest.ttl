@@ -1,0 +1,8 @@
+@prefix ex: <https://example.test/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+ex:locator a sflo:RepositorySourceLocator ;
+  sflo:sourceRepositoryUrl "https://example.test/repository.git" ;
+  sflo:sourceRepositoryRef "main" ;
+  sflo:sourceRepositoryPath "source.ttl" ;
+  sflo:hasContentDigest "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" .

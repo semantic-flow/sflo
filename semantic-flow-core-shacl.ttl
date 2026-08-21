@@ -579,11 +579,17 @@
     sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?firstDigest, ?secondDigest .\n  FILTER(STRBEFORE(STR(?firstDigest), ':') = STRBEFORE(STR(?secondDigest), ':'))\n  FILTER(STR(?firstDigest) != STR(?secondDigest))\n}";
     sh:severity sh:Violation
   ];
+  sh:targetSubjectsOf sflo:hasContentDigest .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ContentDigestBearerTypingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A content-digest subject should declare its known bearer type explicitly while keeping ContentDigestBearer open to downstream subclasses.";
+  rdfs:label "content digest bearer typing";
+  sh:severity sh:Warning;
   sh:sparql [
     rdf:type sh:SPARQLConstraint;
     sh:message "A subject using sflo:hasContentDigest SHOULD be explicitly typed sflo:ContentDigestBearer or a subclass.";
-    sh:select "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?digest .\n  FILTER NOT EXISTS { $this a/rdfs:subClassOf* sflo:ContentDigestBearer }\n}";
-    sh:severity sh:Warning
+    sh:select "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:hasContentDigest ?digest .\n  FILTER NOT EXISTS { $this a/rdfs:subClassOf* sflo:ContentDigestBearer }\n}"
   ];
   sh:targetSubjectsOf sflo:hasContentDigest .
 
@@ -616,11 +622,17 @@
     sh:pattern "^sha256:[0-9a-f]{64}$";
     sh:severity sh:Violation
   ];
+  sh:targetSubjectsOf sflo:expectsContentDigest .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/ExpectedContentDigestTypingShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "An expected digest should be attached to an ArtifactResolutionSpec or one of its subclasses.";
+  rdfs:label "expected content digest subject typing";
+  sh:severity sh:Warning;
   sh:sparql [
     rdf:type sh:SPARQLConstraint;
     sh:message "sflo:expectsContentDigest SHOULD be used on resources typed sflo:ArtifactResolutionSpec or a subclass such as sflo:ExtractionSource, sflo:ReferenceSource, sflo:ImportSource, or sflo:IntegrationSource.";
-    sh:select "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:expectsContentDigest ?digest .\n  FILTER NOT EXISTS { $this a/rdfs:subClassOf* sflo:ArtifactResolutionSpec }\n}";
-    sh:severity sh:Warning
+    sh:select "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:expectsContentDigest ?digest .\n  FILTER NOT EXISTS { $this a/rdfs:subClassOf* sflo:ArtifactResolutionSpec }\n}"
   ];
   sh:targetSubjectsOf sflo:expectsContentDigest .
 

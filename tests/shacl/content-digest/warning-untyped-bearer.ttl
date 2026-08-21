@@ -1,0 +1,4 @@
+@prefix ex: <https://example.test/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+ex:content sflo:hasContentDigest "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" .

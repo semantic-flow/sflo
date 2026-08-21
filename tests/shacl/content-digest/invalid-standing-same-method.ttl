@@ -1,0 +1,7 @@
+@prefix ex: <https://example.test/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+ex:file a sflo:LocatedFile ;
+  sflo:hasContentDigest
+    "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" .

@@ -1,0 +1,8 @@
+@prefix ex: <https://example.test/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+ex:CustomBearer rdfs:subClassOf sflo:ContentDigestBearer .
+
+ex:content a ex:CustomBearer ;
+  sflo:hasContentDigest "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" .

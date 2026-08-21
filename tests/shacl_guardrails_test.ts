@@ -20,8 +20,12 @@ const RDFS_SUB_PROPERTY_OF =
 
 const SHAPES = {
   ContentDigestLiteral: `${SFLO_SHACL_NAMESPACE}ContentDigestLiteralShape`,
+  ContentDigestBearerTyping:
+    `${SFLO_SHACL_NAMESPACE}ContentDigestBearerTypingShape`,
   ContentDigestMethod: `${SFLO_SHACL_NAMESPACE}ContentDigestMethodShape`,
   ExpectedContentDigest: `${SFLO_SHACL_NAMESPACE}ExpectedContentDigestShape`,
+  ExpectedContentDigestTyping:
+    `${SFLO_SHACL_NAMESPACE}ExpectedContentDigestTypingShape`,
   ManifestationLocatedFileDigestConsistency:
     `${SFLO_SHACL_NAMESPACE}ManifestationLocatedFileDigestConsistencyShape`,
   RepositorySourceLocator:
@@ -131,8 +135,10 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
 
   assertNodeShape(quads, SHAPES.ReferenceLink);
   assertNodeShape(quads, SHAPES.ContentDigestLiteral);
+  assertNodeShape(quads, SHAPES.ContentDigestBearerTyping);
   assertNodeShape(quads, SHAPES.ContentDigestMethod);
   assertNodeShape(quads, SHAPES.ExpectedContentDigest);
+  assertNodeShape(quads, SHAPES.ExpectedContentDigestTyping);
   assertNodeShape(quads, SHAPES.ManifestationLocatedFileDigestConsistency);
   assertNodeShape(quads, SHAPES.RepositorySourceLocator);
   assertNodeShape(quads, SHAPES.ReferenceSource);
@@ -377,6 +383,42 @@ Deno.test("content-digest SHACL declares bearer and verification consistency con
     quads,
     SHAPES.ContentDigestLiteral,
     "MUST NOT declare different sflo:hasContentDigest values",
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ContentDigestBearerTyping,
+      SH.targetSubjectsOf,
+      TERMS.hasContentDigest,
+    ),
+    "explicit bearer guidance should target every hasContentDigest subject",
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ContentDigestBearerTyping,
+      SH.severity,
+      SH.Warning,
+    ),
+    "explicit bearer guidance should remain advisory",
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ExpectedContentDigestTyping,
+      SH.targetSubjectsOf,
+      TERMS.expectsContentDigest,
+    ),
+    "expected-digest typing guidance should target every expectsContentDigest subject",
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.ExpectedContentDigestTyping,
+      SH.severity,
+      SH.Warning,
+    ),
+    "expected-digest typing guidance should remain advisory",
   );
   assertSparqlViolation(
     quads,

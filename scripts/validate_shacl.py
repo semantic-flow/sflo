@@ -1,182 +1,185 @@
+import argparse
+import json
+import subprocess
 from pathlib import Path
+from typing import Any
 
+import pyshacl
 from pyshacl import validate
-from rdflib import Graph
+from rdflib import Graph, Namespace, URIRef
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SHAPES_PATH = ROOT / "semantic-flow-core-shacl.ttl"
 ONTOLOGY_PATH = ROOT / "semantic-flow-core-ontology.ttl"
-DIGEST_A = "sha256:" + "a" * 64
-DIGEST_B = "sha256:" + "b" * 64
-
-PREFIXES = """
-@prefix ex: <https://example.test/> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
-"""
+CASES_ROOT = ROOT / "tests" / "shacl" / "content-digest"
+MANIFEST_PATH = CASES_ROOT / "cases.json"
+SH = Namespace("http://www.w3.org/ns/shacl#")
+SEVERITY_RANK = {"Info": 1, "Warning": 2, "Violation": 3}
 
 
-CASES = [
-    (
-        "manifestation target makes a local resolution spec exact",
-        True,
-        """
-        ex:spec a sflo:ArtifactResolutionSpec ;
-          sflo:targetLocalRelativePath "source.ttl" ;
-          sflo:targetManifestation ex:manifestation .
-        ex:manifestation a sflo:ArtifactManifestation ;
-          sflo:locatedFileForManifestation ex:file .
-        ex:file a sflo:LocatedFile .
-        """,
-        None,
-    ),
-    (
-        "valid manifestation and located-file claims",
-        True,
-        f"""
-        ex:manifestation a sflo:ArtifactManifestation ;
-          sflo:hasContentDigest "{DIGEST_A}" ;
-          sflo:locatedFileForManifestation ex:file .
-        ex:file a sflo:LocatedFile ;
-          sflo:hasContentDigest "{DIGEST_A}" .
-        """,
-        None,
-    ),
-    (
-        "valid downstream bearer subclass",
-        True,
-        f"""
-        ex:CustomBearer rdfs:subClassOf sflo:ContentDigestBearer .
-        ex:content a ex:CustomBearer ;
-          sflo:hasContentDigest "{DIGEST_A}" .
-        """,
-        None,
-    ),
-    (
-        "expected and historical observed values may differ in stored RDF",
-        True,
-        f"""
-        ex:requested a sflo:ArtifactResolutionSpec ;
-          sflo:expectsContentDigest "{DIGEST_A}" ;
-          sflo:hasResolutionObservation ex:observation .
-        ex:observation a sflo:ArtifactResolutionObservation ;
-          sflo:observedArtifactResolutionSpec [ a sflo:ArtifactResolutionSpec ] ;
-          sflo:observedContentDigest "{DIGEST_B}" .
-        """,
-        None,
-    ),
-    (
-        "untyped malformed observed digest",
-        False,
-        """
-        ex:observation sflo:observedContentDigest "sha256:XYZ" .
-        """,
-        "sflo:observedContentDigest values MUST use 'sha256:'",
-    ),
-    (
-        "duplicate standing digest method",
-        False,
-        f"""
-        ex:file a sflo:LocatedFile ;
-          sflo:hasContentDigest "{DIGEST_A}", "{DIGEST_B}" .
-        """,
-        "MUST NOT declare different sflo:hasContentDigest values",
-    ),
-    (
-        "manifestation and file mismatch without explicit manifestation type",
-        False,
-        f"""
-        ex:manifestation
-          sflo:hasContentDigest "{DIGEST_A}" ;
-          sflo:locatedFileForManifestation ex:file .
-        ex:file a sflo:LocatedFile ;
-          sflo:hasContentDigest "{DIGEST_B}" .
-        """,
-        "MUST NOT declare different content digests",
-    ),
-    (
-        "duplicate observed digest method",
-        False,
-        f"""
-        ex:observation
-          sflo:observedArtifactResolutionSpec [ a sflo:ArtifactResolutionSpec ] ;
-          sflo:observedContentDigest "{DIGEST_A}", "{DIGEST_B}" .
-        """,
-        "MUST NOT declare different observed content-digest values",
-    ),
-    (
-        "repository locator digest",
-        False,
-        f"""
-        ex:locator a sflo:RepositorySourceLocator ;
-          sflo:sourceRepositoryUrl "https://example.test/repository.git" ;
-          sflo:sourceRepositoryRef "main" ;
-          sflo:sourceRepositoryPath "source.ttl" ;
-          sflo:hasContentDigest "{DIGEST_A}" .
-        """,
-        "RepositorySourceLocator MUST NOT declare sflo:hasContentDigest",
-    ),
-    (
-        "repository locator expected and observed digest leakage",
-        False,
-        f"""
-        ex:locator a sflo:RepositorySourceLocator ;
-          sflo:sourceRepositoryUrl "https://example.test/repository.git" ;
-          sflo:sourceRepositoryRef "main" ;
-          sflo:sourceRepositoryPath "source.ttl" ;
-          sflo:expectsContentDigest "{DIGEST_A}" ;
-          sflo:observedArtifactResolutionSpec [ a sflo:ArtifactResolutionSpec ] ;
-          sflo:observedContentDigest "{DIGEST_A}" .
-        """,
-        "RepositorySourceLocator MUST NOT declare sflo:observedContentDigest",
-    ),
-    (
-        "standing digest without an explicit bearer type",
-        False,
-        f"""
-        ex:content sflo:hasContentDigest "{DIGEST_A}" .
-        """,
-        "SHOULD be explicitly typed sflo:ContentDigestBearer",
-    ),
-]
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path)
+    return parser.parse_args()
 
 
-def parse_turtle(contents: str) -> Graph:
-    graph = Graph()
-    graph.parse(data=PREFIXES + contents, format="turtle")
-    return graph
+def local_name(value: URIRef) -> str:
+    iri = str(value)
+    return iri.rsplit("#", 1)[-1].rsplit("/", 1)[-1]
+
+
+def load_manifest() -> dict[str, Any]:
+    manifest = json.loads(MANIFEST_PATH.read_text())
+    if manifest["schema"] != "sflo.shacl-content-digest-cases.v1":
+        raise RuntimeError(f"Unsupported case schema: {manifest['schema']}")
+    return manifest
+
+
+def message_key(manifest: dict[str, Any], messages: list[str]) -> str:
+    matches = [
+        entry["key"]
+        for entry in manifest["messageKeys"]
+        if any(entry["contains"] in message for message in messages)
+    ]
+    if len(matches) != 1:
+        raise RuntimeError(
+            f"Expected one message-key match, found {len(matches)}: {messages!r}"
+        )
+    return matches[0]
+
+
+def normalized_results(
+    report: Graph,
+    manifest: dict[str, Any],
+) -> list[dict[str, Any]]:
+    results: dict[str, dict[str, Any]] = {}
+    for report_node in report.subjects(SH.result, None):
+        for result in report.objects(report_node, SH.result):
+            focus = report.value(result, SH.focusNode)
+            if focus is None or not str(focus).startswith(manifest["focusNamespace"]):
+                continue
+            severity = report.value(result, SH.resultSeverity)
+            component = report.value(result, SH.sourceConstraintComponent)
+            if not isinstance(severity, URIRef) or not isinstance(component, URIRef):
+                raise RuntimeError(f"Incomplete SHACL result: {result}")
+            path = report.value(result, SH.resultPath)
+            messages = [str(value) for value in report.objects(result, SH.resultMessage)]
+            normalized = {
+                "severity": local_name(severity),
+                "focusNode": str(focus),
+                "resultPath": str(path) if isinstance(path, URIRef) else None,
+                "constraintComponent": local_name(component),
+                "messageKey": message_key(manifest, messages),
+            }
+            results[json.dumps(normalized, sort_keys=True)] = normalized
+    return sorted(results.values(), key=lambda value: json.dumps(value, sort_keys=True))
+
+
+def max_severity(results: list[dict[str, Any]]) -> str | None:
+    if not results:
+        return None
+    return max(
+        (result["severity"] for result in results),
+        key=lambda severity: SEVERITY_RANK[severity],
+    )
+
+
+def assert_expected(receipt: dict[str, Any], fixture: dict[str, Any]) -> None:
+    expected_results = sorted(
+        fixture["expectedResults"],
+        key=lambda value: json.dumps(value, sort_keys=True),
+    )
+    if receipt["rawConforms"] != fixture["expectedConforms"]:
+        raise RuntimeError(
+            f"{fixture['id']}: expected raw conforms={fixture['expectedConforms']}, "
+            f"got {receipt['rawConforms']}"
+        )
+    if receipt["conforms"] != fixture["expectedConforms"]:
+        raise RuntimeError(
+            f"{fixture['id']}: expected normalized conforms="
+            f"{fixture['expectedConforms']}, got {receipt['conforms']}"
+        )
+    if receipt["maxSeverity"] != fixture["expectedMaxSeverity"]:
+        raise RuntimeError(
+            f"{fixture['id']}: expected max severity "
+            f"{fixture['expectedMaxSeverity']}, got {receipt['maxSeverity']}"
+        )
+    if receipt["results"] != expected_results:
+        raise RuntimeError(
+            f"{fixture['id']}: normalized results differ\n"
+            f"expected={json.dumps(expected_results, indent=2)}\n"
+            f"actual={json.dumps(receipt['results'], indent=2)}"
+        )
+
+
+def git_commit() -> str:
+    return subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
 
 
 def main() -> None:
+    args = parse_args()
+    manifest = load_manifest()
     shapes = Graph().parse(SHAPES_PATH, format="turtle")
     ontology = Graph().parse(ONTOLOGY_PATH, format="turtle")
+    receipts: list[dict[str, Any]] = []
 
-    failures: list[str] = []
-    for name, expected_conforms, turtle, expected_message in CASES:
-        conforms, _, report_text = validate(
-            data_graph=parse_turtle(turtle),
+    for fixture in manifest["cases"]:
+        data = Graph()
+        data += ontology
+        data.parse(CASES_ROOT / fixture["dataFile"], format="turtle")
+        conforms, report, _ = validate(
+            data_graph=data,
             shacl_graph=shapes,
-            ont_graph=ontology,
             inference="none",
             advanced=True,
             allow_infos=False,
             allow_warnings=False,
+            do_owl_imports=False,
         )
-        if bool(conforms) != expected_conforms:
-            failures.append(
-                f"{name}: expected conforms={expected_conforms}, got {conforms}\n{report_text}"
-            )
-            continue
-        if expected_message is not None and expected_message not in report_text:
-            failures.append(
-                f"{name}: report omitted expected message {expected_message!r}\n{report_text}"
-            )
+        results = normalized_results(report, manifest)
+        receipt = {
+            "caseId": fixture["id"],
+            "rawConforms": bool(conforms),
+            "conforms": len(results) == 0,
+            "maxSeverity": max_severity(results),
+            "results": results,
+        }
+        assert_expected(receipt, fixture)
+        receipts.append(receipt)
 
-    if failures:
-        raise SystemExit("\n\n".join(failures))
-
-    print(f"Executed {len(CASES)} SHACL fixtures with PySHACL.")
+    bundle = {
+        "schema": "sflo.shacl-conformance-receipts.v1",
+        "engine": {
+            "name": "PySHACL",
+            "version": pyshacl.__version__,
+            "adapter": "SFLO rdflib graph union with PySHACL advanced features",
+        },
+        "sfloCommit": git_commit(),
+        "command": "deno task test:shacl",
+        "graphProfile": {
+            "data": "ontology-union-case",
+            "shapes": "semantic-flow-core-shacl.ttl",
+            "inference": "none",
+            "warnings": "reported",
+            "network": "disabled",
+        },
+        "cases": receipts,
+    }
+    if args.output is not None:
+        args.output.write_text(json.dumps(bundle, indent=2) + "\n")
+        print(f"Wrote {len(receipts)} PySHACL receipts to {args.output}.")
+    else:
+        print(
+            f"Executed {len(receipts)} SHACL fixtures with "
+            f"PySHACL {pyshacl.__version__}."
+        )
 
 
 if __name__ == "__main__":

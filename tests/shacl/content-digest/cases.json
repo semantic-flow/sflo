@@ -1,0 +1,198 @@
+{
+  "schema": "sflo.shacl-content-digest-cases.v1",
+  "focusNamespace": "https://example.test/",
+  "messageKeys": [
+    {
+      "key": "observed-digest-grammar",
+      "contains": "sflo:observedContentDigest values MUST use 'sha256:'"
+    },
+    {
+      "key": "standing-same-method",
+      "contains": "MUST NOT declare different sflo:hasContentDigest values"
+    },
+    {
+      "key": "manifestation-file-digest-mismatch",
+      "contains": "MUST NOT declare different content digests"
+    },
+    {
+      "key": "observed-same-method",
+      "contains": "MUST NOT declare different observed content-digest values"
+    },
+    {
+      "key": "repository-standing-digest",
+      "contains": "RepositorySourceLocator MUST NOT declare sflo:hasContentDigest"
+    },
+    {
+      "key": "repository-expected-digest",
+      "contains": "RepositorySourceLocator MUST NOT declare sflo:expectsContentDigest"
+    },
+    {
+      "key": "repository-observed-digest",
+      "contains": "RepositorySourceLocator MUST NOT declare sflo:observedContentDigest"
+    },
+    {
+      "key": "explicit-bearer-type",
+      "contains": "SHOULD be explicitly typed sflo:ContentDigestBearer"
+    },
+    {
+      "key": "expected-digest-spec-type",
+      "contains": "sflo:expectsContentDigest SHOULD be used on resources typed sflo:ArtifactResolutionSpec"
+    }
+  ],
+  "cases": [
+    {
+      "id": "valid-manifestation-target-resolution",
+      "dataFile": "valid-manifestation-target-resolution.ttl",
+      "expectedConforms": true,
+      "expectedMaxSeverity": null,
+      "expectedResults": []
+    },
+    {
+      "id": "valid-manifestation-file",
+      "dataFile": "valid-manifestation-file.ttl",
+      "expectedConforms": true,
+      "expectedMaxSeverity": null,
+      "expectedResults": []
+    },
+    {
+      "id": "valid-downstream-bearer",
+      "dataFile": "valid-downstream-bearer.ttl",
+      "expectedConforms": true,
+      "expectedMaxSeverity": null,
+      "expectedResults": []
+    },
+    {
+      "id": "valid-historical-observation-after-expectation-change",
+      "dataFile": "valid-historical-observation-after-expectation-change.ttl",
+      "expectedConforms": true,
+      "expectedMaxSeverity": null,
+      "expectedResults": []
+    },
+    {
+      "id": "invalid-untyped-observed-grammar",
+      "dataFile": "invalid-untyped-observed-grammar.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Violation",
+      "expectedResults": [
+        {
+          "severity": "Violation",
+          "focusNode": "https://example.test/observation",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/observedContentDigest",
+          "constraintComponent": "PatternConstraintComponent",
+          "messageKey": "observed-digest-grammar"
+        }
+      ]
+    },
+    {
+      "id": "invalid-standing-same-method",
+      "dataFile": "invalid-standing-same-method.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Violation",
+      "expectedResults": [
+        {
+          "severity": "Violation",
+          "focusNode": "https://example.test/file",
+          "resultPath": null,
+          "constraintComponent": "SPARQLConstraintComponent",
+          "messageKey": "standing-same-method"
+        }
+      ]
+    },
+    {
+      "id": "invalid-manifestation-file-mismatch",
+      "dataFile": "invalid-manifestation-file-mismatch.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Violation",
+      "expectedResults": [
+        {
+          "severity": "Violation",
+          "focusNode": "https://example.test/manifestation",
+          "resultPath": null,
+          "constraintComponent": "SPARQLConstraintComponent",
+          "messageKey": "manifestation-file-digest-mismatch"
+        }
+      ]
+    },
+    {
+      "id": "invalid-observed-same-method",
+      "dataFile": "invalid-observed-same-method.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Violation",
+      "expectedResults": [
+        {
+          "severity": "Violation",
+          "focusNode": "https://example.test/observation",
+          "resultPath": null,
+          "constraintComponent": "SPARQLConstraintComponent",
+          "messageKey": "observed-same-method"
+        }
+      ]
+    },
+    {
+      "id": "invalid-repository-standing-digest",
+      "dataFile": "invalid-repository-standing-digest.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Violation",
+      "expectedResults": [
+        {
+          "severity": "Violation",
+          "focusNode": "https://example.test/locator",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/hasContentDigest",
+          "constraintComponent": "MaxCountConstraintComponent",
+          "messageKey": "repository-standing-digest"
+        },
+        {
+          "severity": "Warning",
+          "focusNode": "https://example.test/locator",
+          "resultPath": null,
+          "constraintComponent": "SPARQLConstraintComponent",
+          "messageKey": "explicit-bearer-type"
+        }
+      ]
+    },
+    {
+      "id": "invalid-repository-expected-observed",
+      "dataFile": "invalid-repository-expected-observed.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Violation",
+      "expectedResults": [
+        {
+          "severity": "Violation",
+          "focusNode": "https://example.test/locator",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/expectsContentDigest",
+          "constraintComponent": "MaxCountConstraintComponent",
+          "messageKey": "repository-expected-digest"
+        },
+        {
+          "severity": "Violation",
+          "focusNode": "https://example.test/locator",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/observedContentDigest",
+          "constraintComponent": "MaxCountConstraintComponent",
+          "messageKey": "repository-observed-digest"
+        },
+        {
+          "severity": "Warning",
+          "focusNode": "https://example.test/locator",
+          "resultPath": null,
+          "constraintComponent": "SPARQLConstraintComponent",
+          "messageKey": "expected-digest-spec-type"
+        }
+      ]
+    },
+    {
+      "id": "warning-untyped-bearer",
+      "dataFile": "warning-untyped-bearer.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Warning",
+      "expectedResults": [
+        {
+          "severity": "Warning",
+          "focusNode": "https://example.test/content",
+          "resultPath": null,
+          "constraintComponent": "SPARQLConstraintComponent",
+          "messageKey": "explicit-bearer-type"
+        }
+      ]
+    }
+  ]
+}

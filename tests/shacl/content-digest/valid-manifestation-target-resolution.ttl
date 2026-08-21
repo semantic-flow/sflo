@@ -1,0 +1,11 @@
+@prefix ex: <https://example.test/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+ex:spec a sflo:ArtifactResolutionSpec ;
+  sflo:targetLocalRelativePath "source.ttl" ;
+  sflo:targetManifestation ex:manifestation .
+
+ex:manifestation a sflo:ArtifactManifestation ;
+  sflo:locatedFileForManifestation ex:file .
+
+ex:file a sflo:LocatedFile .

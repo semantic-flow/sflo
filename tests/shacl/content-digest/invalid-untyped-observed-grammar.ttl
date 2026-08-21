@@ -1,0 +1,6 @@
+@prefix ex: <https://example.test/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+ex:observation
+  sflo:observedArtifactResolutionSpec [ a sflo:ArtifactResolutionSpec ] ;
+  sflo:observedContentDigest "sha256:XYZ" .
