@@ -377,3 +377,38 @@ Deno.test("core ontology declares the SHA-256 content-digest contract", async ()
     "contentDigestMethod_sha256 should declare the sha256 token",
   );
 });
+
+Deno.test("core ontology declares the bounded founding referent data contract", async () => {
+  const quads = await parseRepoTurtle("semantic-flow-core-ontology.ttl");
+  const term = (localName: string) => `${SFLO_NAMESPACE}${localName}`;
+  const founding = term("FoundingReferentData");
+  const hasFounding = term("hasFoundingReferentData");
+
+  assert(hasTriple(quads, founding, RDF.type, RDFS.Class));
+  assert(hasTriple(quads, founding, RDFS.subClassOf, term("DigitalArtifact")));
+  assert(hasTriple(quads, founding, RDFS.subClassOf, term("RdfDocument")));
+  assertFalse(
+    hasTriple(quads, founding, RDFS.subClassOf, term("SemanticFlowResource")),
+    "FoundingReferentData should not be a SemanticFlowResource before a page contract exists",
+  );
+  assert(hasTriple(quads, hasFounding, RDFS.domain, term("Knop")));
+  assert(hasTriple(quads, hasFounding, RDFS.range, founding));
+});
+
+Deno.test("core ontology keeps generic referent metadata and Stagecraft predicates out", async () => {
+  const contents = await readRepoFile("semantic-flow-core-ontology.ttl");
+  for (
+    const forbidden of [
+      "ReferentMetadata",
+      "hasReferentMetadata",
+      "incarnationOf",
+      "byteBearing",
+      "homeGraph",
+    ]
+  ) {
+    assertFalse(
+      contents.includes(forbidden),
+      `core ontology must not contain ${forbidden}`,
+    );
+  }
+});

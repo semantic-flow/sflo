@@ -60,6 +60,8 @@ const SHAPES = {
     `${SFLO_SHACL_NAMESPACE}ResourcePagePanelSelectionShape`,
   ResourcePageDefinitionPresentationConfig:
     `${SFLO_SHACL_NAMESPACE}ResourcePageDefinitionPresentationConfigShape`,
+  FoundingReferentData: `${SFLO_SHACL_NAMESPACE}FoundingReferentDataShape`,
+  KnopSlots: `${SFLO_SHACL_NAMESPACE}KnopSlotsShape`,
 } as const;
 
 const TERMS = {
@@ -128,6 +130,8 @@ const TERMS = {
   panelOrder: `${SFCFG_NAMESPACE}panelOrder`,
   targetLocalRelativePath: `${SFLO_NAMESPACE}targetLocalRelativePath`,
   targetLocatedFile: `${SFLO_NAMESPACE}targetLocatedFile`,
+  hasFoundingReferentData: `${SFLO_NAMESPACE}hasFoundingReferentData`,
+  hasWorkingLocatedFile: `${SFLO_NAMESPACE}hasWorkingLocatedFile`,
 } as const;
 
 Deno.test("core SHACL declares key source-binding and resolution-mode shapes", async () => {
@@ -158,6 +162,7 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
   assertNodeShape(quads, SHAPES.ResourcePagePresentationPolicy);
   assertNodeShape(quads, SHAPES.ResourcePagePanelSelection);
   assertNodeShape(quads, SHAPES.ResourcePageDefinitionPresentationConfig);
+  assertNodeShape(quads, SHAPES.FoundingReferentData);
 
   assert(
     hasTriple(
@@ -185,6 +190,30 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
       TERMS.hasArtifactResolutionMode,
     ),
     "ArtifactResolutionMode usage shape should target sflo:hasArtifactResolutionMode subjects",
+  );
+});
+
+Deno.test("FoundingReferentData SHACL constrains the optional Knop slot and RDF working file", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+
+  assertPropertyMaxCount(
+    quads,
+    SHAPES.KnopSlots,
+    TERMS.hasFoundingReferentData,
+    1,
+  );
+  assertOptionalProperty(
+    quads,
+    SHAPES.FoundingReferentData,
+    TERMS.hasWorkingLocatedFile,
+  );
+  assert(
+    hasTriple(
+      quads,
+      SHAPES.FoundingReferentData,
+      SH.targetClass,
+      `${SFLO_NAMESPACE}FoundingReferentData`,
+    ),
   );
 });
 

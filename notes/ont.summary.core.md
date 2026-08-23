@@ -98,8 +98,9 @@ The working contract for the next release supports `sha256:<64 lowercase hexadec
 - `SemanticMesh` has `Knop`s and mesh-level support resources.
 - `Knop` has exactly one `designatorPath`.
 - `Knop` has support resources and may have one primary payload resource.
+- `Knop` may have one bounded `FoundingReferentData` artifact containing assertions accepted about its associated public referent during identifier initialization.
 - `Knop` may also have a `ResourcePageDefinition` plus an optional `KnopAssetBundle` for customized identifier-page composition and local support assets.
-- The current slot vocabulary uses explicit properties such as `hasKnop`, `hasPayloadArtifact`, `hasReferenceCatalog`, `hasKnopSourceRegistry`, `hasExtractionSource`, `hasKnopMetadata`, and `hasKnopInventory` rather than a generic `containsSemanticFlowResource`.
+- The current slot vocabulary uses explicit properties such as `hasKnop`, `hasPayloadArtifact`, `hasFoundingReferentData`, `hasReferenceCatalog`, `hasKnopSourceRegistry`, `hasExtractionSource`, `hasKnopMetadata`, and `hasKnopInventory` rather than a generic `containsSemanticFlowResource`.
 
 Current path conventions:
 
@@ -113,6 +114,7 @@ Current path conventions:
 These are artifact-level classes used for primary and support artifacts in the mesh surface, not members of the facet lattice:
 
 - `PayloadArtifact`
+- `FoundingReferentData`
 - `ReferenceCatalog`
 - `KnopSourceRegistry`
 - `KnopMetadata`
@@ -127,7 +129,7 @@ Important consequence:
 - a support artifact can still have its own historical states, manifestations, and located files because those hang off the `DigitalArtifact`, not off a separate artifact-lattice branch and not off a separate `Knop`
 - `ReferenceCatalog` is intentionally narrow: use it for managed `ReferenceLink` relators, not for broader descriptive RDF about the referent
 
-Substantive RDF about a referent should normally live in a payload artifact or dataset rather than in a support artifact.
+Substantive RDF about a referent should normally live in a payload artifact or dataset rather than in a support artifact. `FoundingReferentData` is the bounded exception: one small, create-time, single-referent RDF artifact may carry facts accepted when an identifier is initialized. It is not generic referent metadata, a primary payload, or an ongoing descriptive dataset, and it is not a `SemanticFlowResource` until a page contract is defined for it.
 
 ## Historical And Working Model
 
@@ -156,6 +158,7 @@ Substantive RDF about a referent should normally live in a payload artifact or d
 - `ResourcePageDefinition` is a separate artifact-level control resource for customized identifier-page composition; it is not the same thing as the generated HTML `ResourcePage`
 - `KnopAssetBundle` is a bounded helper structure for local `_knop/_assets` modeling and does not by itself imply governed artifacts or recursive inventory capture
 - `KnopSourceRegistry` is a Knop-owned support artifact for source bindings, conventionally materialized under `_knop/_sources`; it records materialization sources and extraction provenance rather than operational mesh configuration or descriptive payload facts
+- `FoundingReferentData` is the optional Knop-owned initialization record at `D/_knop/_founding`; its working RDF file is conventionally `D/_knop/_founding/data.ttl`, and its assertions are about public referent `D`, not support object `D/_knop`
 - `ArtifactResolutionSpec` is the generic policy-bearing relator for application concerns that need to resolve bytes from an artifact, a direct mesh-local path string, a direct access URL, a specific `LocatedFile`, or another explicit packaged target together with optional history/state/mode/fallback inputs; it carries requested coordinates and expectations, not observed evidence directly
 - `ArtifactResolutionObservation` is the relator for observed resolution evidence; concrete observed coordinates live on its `observedArtifactResolutionSpec`, while content digest, timestamp, and observer stay on the observation itself
 - `ExtractionSource` specializes `ArtifactResolutionSpec` for the source RDF document bytes from which a Knop-managed resource was extracted or first grounded; Knops link to it with `hasExtractionSource`, usually as a source-registry fragment such as `D/_knop/_sources#extraction-source`

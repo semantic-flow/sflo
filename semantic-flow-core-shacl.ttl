@@ -760,6 +760,14 @@
   rdfs:comment "Operational slot expectations for common Knop-associated artifacts.";
   rdfs:label "Knop slots";
   sh:property [
+    sh:class sflo:FoundingReferentData;
+    sh:maxCount 1;
+    sh:message "If present, a Knop may have at most one sflo:hasFoundingReferentData, and it must be an IRI typed sflo:FoundingReferentData.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasFoundingReferentData;
+    sh:severity sh:Warning
+  ];
+  sh:property [
     sh:class sflo:KnopSourceRegistry;
     sh:maxCount 1;
     sh:message "If present, a Knop may have at most one sflo:hasKnopSourceRegistry, and it must be an IRI typed sflo:KnopSourceRegistry.";
@@ -808,6 +816,19 @@
     sh:severity sh:Violation
   ];
   sh:targetClass sflo:Knop .
+
+<https://semantic-flow.github.io/sflo/ontology/shacl/FoundingReferentDataShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A FoundingReferentData artifact uses the ordinary DigitalArtifact working-file slot, and a present working file is an RDF LocatedFile.";
+  rdfs:label "FoundingReferentData working file";
+  sh:property [
+    sh:class sflo:RdfDocument;
+    sh:message "If present, a FoundingReferentData sflo:hasWorkingLocatedFile value must be typed sflo:RdfDocument.";
+    sh:nodeKind sh:IRI;
+    sh:path sflo:hasWorkingLocatedFile;
+    sh:severity sh:Warning
+  ];
+  sh:targetClass sflo:FoundingReferentData .
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/KnopPayloadArtifactShape>
   rdf:type sh:NodeShape;

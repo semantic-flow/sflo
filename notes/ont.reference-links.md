@@ -102,4 +102,5 @@ If historical link-name collisions are detected while scanning current plus prio
 - `ReferenceLink` is for curated RDF reference data; do not use it for page prose, Markdown imports, image assets, or generic source provenance.
 - `ReferenceSource` helper nodes may live in the same catalog because they are immediate source bindings for the links.
 - Broader descriptive RDF about the referent should normally live in a payload artifact or dataset.
+- A bounded create-time exception may live in the Knop's optional `FoundingReferentData` artifact. That artifact carries a small, single-referent initialization record and is discovered with `hasFoundingReferentData`; it is not a `ReferenceCatalog`, does not create a `ReferenceLink`, and does not identify separately resolved source bytes.
 - This note does not broaden `ReferenceCatalog` to cover `owl:sameAs` or arbitrary referent description.

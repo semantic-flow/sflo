@@ -37,9 +37,54 @@
     {
       "key": "expected-digest-spec-type",
       "contains": "sflo:expectsContentDigest SHOULD be used on resources typed sflo:ArtifactResolutionSpec"
+    },
+    {
+      "key": "founding-duplicate-slot",
+      "contains": "at most one sflo:hasFoundingReferentData"
+    },
+    {
+      "key": "founding-working-file-rdf-type",
+      "contains": "FoundingReferentData sflo:hasWorkingLocatedFile value must be typed sflo:RdfDocument"
     }
   ],
   "cases": [
+    {
+      "id": "valid-founding-referent-data",
+      "dataFile": "valid-founding-referent-data.ttl",
+      "expectedConforms": true,
+      "expectedMaxSeverity": null,
+      "expectedResults": []
+    },
+    {
+      "id": "warning-founding-duplicate-slot",
+      "dataFile": "warning-founding-duplicate-slot.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Warning",
+      "expectedResults": [
+        {
+          "severity": "Warning",
+          "focusNode": "https://example.test/item/_knop",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/hasFoundingReferentData",
+          "constraintComponent": "MaxCountConstraintComponent",
+          "messageKey": "founding-duplicate-slot"
+        }
+      ]
+    },
+    {
+      "id": "warning-founding-working-file-not-rdf",
+      "dataFile": "warning-founding-working-file-not-rdf.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Warning",
+      "expectedResults": [
+        {
+          "severity": "Warning",
+          "focusNode": "https://example.test/item/_knop/_founding",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/hasWorkingLocatedFile",
+          "constraintComponent": "ClassConstraintComponent",
+          "messageKey": "founding-working-file-rdf-type"
+        }
+      ]
+    },
     {
       "id": "valid-manifestation-target-resolution",
       "dataFile": "valid-manifestation-target-resolution.ttl",

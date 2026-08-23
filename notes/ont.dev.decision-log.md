@@ -10,6 +10,23 @@ created: 1773896763313
 
 Superseded decisions are intentionally retained for traceability. When a decision is reversed or replaced, mark it explicitly rather than deleting it.
 
+### 2026-08-22: Allow bounded FoundingReferentData at identifier initialization
+
+- Status: Active
+- Decision: Narrow the active 2026-04-02 removal of generic `ReferentMetadata` by adding one optional Knop-owned `FoundingReferentData` artifact and the explicit `hasFoundingReferentData` slot. The artifact contains a small, operation-validated RDF record about exactly the public referent associated with the Knop, is accepted atomically during identifier initialization, and follows the ordinary DigitalArtifact history/state/manifestation lifecycle when settled. It is a `DigitalArtifact` and `RdfDocument`, but not a `SemanticFlowResource` until a ResourcePage contract is defined. Keep `KnopMetadata` restricted to metadata about the Knop support object, keep `ReferenceCatalog` restricted to managed `ReferenceLink` relators, and keep broader or ongoing referent data in payload artifacts or datasets.
+- References: [[ont.summary.core]], [[ont.reference-links]], [[wa.task.2026.2026-08-22_1112-founding-referent-data]], [[wa.plan.2026.2026-08-22_1550-stagecraft-iri-initialization]]
+- Why:
+  - identifier-minting applications need a deterministic local record of the few referent facts accepted at creation even when an external reference source is absent or unavailable
+  - those assertions are about the public referent, not about `D/_knop`, so placing them in `KnopMetadata` would collapse the machinery/content boundary
+  - a named, cardinality-bounded artifact with an ordinary immutable-state lifecycle makes the exception discoverable, correctable, and auditable without reviving a generic description bucket
+  - broad mutable descriptions, curated references, and source provenance retain their distinct payload/dataset, `ReferenceCatalog`, and source-registry contracts
+- Notes:
+  - the conventional hierarchy-backed artifact and working file are `D/_knop/_founding` and `D/_knop/_founding/data.ttl`
+  - the first operation profile, rather than union-graph SHACL, enforces the document-local single-subject, absolute-IRI, no-blank-node, size, triple-count, and forbidden-core-vocabulary rules
+  - Stagecraft-specific predicates remain downstream vocabulary and are not added to SFLO
+  - mutable working bytes carry no standing digest; immutable historical manifestation/snapshot bytes may carry and must satisfy the ordinary content-digest contract
+  - generic `ReferentMetadata`, `hasReferentMetadata`, and arbitrary referent-description support slots remain retired
+
 ### 2026-08-21: Scope content digests to manifestations and located files
 
 - Status: Active

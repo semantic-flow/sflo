@@ -399,12 +399,24 @@
   rdfs:label "Payload artifact" ;
   rdfs:comment "A DigitalArtifact used as the primary payload hosted by a Knop." .
 
+<FoundingReferentData> a rdfs:Class ;
+  rdfs:subClassOf <DigitalArtifact>, <RdfDocument> ;
+  rdfs:label "Founding referent data" ;
+  rdfs:comment "A bounded Knop-owned RDF artifact containing assertions accepted about the associated public referent when its Semantic Flow identifier is initialized. It is distinct from metadata about the Knop, from the primary payload, and from curated reference or source-provenance records. This class is not a SemanticFlowResource until a ResourcePage contract is defined for it." .
+
 <hasPayloadArtifact> a owl:ObjectProperty ;
   rdfs:subPropertyOf dcterms:hasPart ;
   rdfs:domain <Knop> ;
   rdfs:range <PayloadArtifact> ;
   rdfs:label "has payload artifact" ;
   rdfs:comment "Links a Knop to its primary PayloadArtifact resource when the Knop carries a mesh-managed digital payload." .
+
+<hasFoundingReferentData> a owl:ObjectProperty ;
+  rdfs:subPropertyOf dcterms:hasPart ;
+  rdfs:domain <Knop> ;
+  rdfs:range <FoundingReferentData> ;
+  rdfs:label "has founding referent data" ;
+  rdfs:comment "Links a Knop to the optional bounded FoundingReferentData artifact containing assertions accepted about the Knop's associated public referent at identifier initialization. The artifact is not KnopMetadata and does not make the referent a PayloadArtifact." .
 
 <preferredPayloadFileSlug> a owl:DatatypeProperty ;
   rdfs:domain <PayloadArtifact> ;
@@ -417,7 +429,7 @@
 # Metadata artifacts
 #################################################################
 
-h<KnopMetadata> a rdfs:Class ;
+<KnopMetadata> a rdfs:Class ;
   rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
   rdfs:label "Knop metadata" ;
   rdfs:comment "A DigitalArtifact RdfDocument used as metadata about a Knop as a mesh-managed support object." .

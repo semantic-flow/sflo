@@ -1,0 +1,19 @@
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<https://example.test/item/_knop> a sflo:Knop ;
+  sflo:designatorPath "item" ;
+  sflo:hasKnopMetadata <https://example.test/item/_knop/_meta> ;
+  sflo:hasKnopInventory <https://example.test/item/_knop/_inventory> ;
+  sflo:hasFoundingReferentData
+    <https://example.test/item/_knop/_founding-a>,
+    <https://example.test/item/_knop/_founding-b> .
+
+<https://example.test/item/_knop/_meta> a sflo:KnopMetadata .
+
+<https://example.test/item/_knop/_inventory> a sflo:KnopInventory .
+
+<https://example.test/item/_knop/_founding-a>
+  a sflo:FoundingReferentData, sflo:DigitalArtifact, sflo:RdfDocument .
+
+<https://example.test/item/_knop/_founding-b>
+  a sflo:FoundingReferentData, sflo:DigitalArtifact, sflo:RdfDocument .
