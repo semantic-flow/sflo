@@ -5654,3 +5654,48 @@
 <ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/index.html> a sflo:ResourcePage, sflo:LocatedFile .
 
 <ontology/shacl/ManifestationLocatedFileDigestConsistencyShape/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<_mesh> sflo:hasKnop <ontology/FoundingReferentData/_knop> .
+
+<ontology/FoundingReferentData/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/FoundingReferentData/_knop/_inventory/inventory.ttl> .
+
+<ontology/FoundingReferentData/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_mesh> sflo:hasKnop <ontology/hasFoundingReferentData/_knop> .
+
+<ontology/hasFoundingReferentData/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/hasFoundingReferentData/_knop/_inventory/inventory.ttl> .
+
+<ontology/hasFoundingReferentData/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<_mesh> sflo:hasKnop <ontology/shacl/FoundingReferentDataShape/_knop> .
+
+<ontology/shacl/FoundingReferentDataShape/_knop> a sflo:Knop ;
+  sflo:hasWorkingKnopInventoryFile <ontology/shacl/FoundingReferentDataShape/_knop/_inventory/inventory.ttl> .
+
+<ontology/shacl/FoundingReferentDataShape/_knop/_inventory/inventory.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+<ontology/FoundingReferentData> sflo:hasResourcePage <ontology/FoundingReferentData/index.html> .
+
+<ontology/FoundingReferentData/_knop> sflo:hasResourcePage <ontology/FoundingReferentData/_knop/index.html> .
+
+<ontology/FoundingReferentData/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/FoundingReferentData/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/hasFoundingReferentData> sflo:hasResourcePage <ontology/hasFoundingReferentData/index.html> .
+
+<ontology/hasFoundingReferentData/_knop> sflo:hasResourcePage <ontology/hasFoundingReferentData/_knop/index.html> .
+
+<ontology/hasFoundingReferentData/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/hasFoundingReferentData/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/FoundingReferentDataShape> sflo:hasResourcePage <ontology/shacl/FoundingReferentDataShape/index.html> .
+
+<ontology/shacl/FoundingReferentDataShape/_knop> sflo:hasResourcePage <ontology/shacl/FoundingReferentDataShape/_knop/index.html> .
+
+<ontology/shacl/FoundingReferentDataShape/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+<ontology/shacl/FoundingReferentDataShape/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .

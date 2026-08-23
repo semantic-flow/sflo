@@ -39,3 +39,10 @@
   sflo:hasWorkingLocatedFile <ontology/ContentDigestBearer/_knop/_references/references.ttl> .
 
 <ontology/ContentDigestBearer/_knop/_references/references.ttl> a sflo:LocatedFile, sflo:RdfDocument .
+
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/ContentDigestBearer/_knop/_references> <ontology/hasResourcePage> <ontology/ContentDigestBearer/_knop/_references/index.html> .
+
+<ontology/ContentDigestBearer/_knop/_references/index.html> a <ontology/ResourcePage>, <ontology/LocatedFile> .

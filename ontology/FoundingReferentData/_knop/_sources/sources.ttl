@@ -1,0 +1,22 @@
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/FoundingReferentData/_knop/_sources> a sflo:KnopSourceRegistry, sflo:DigitalArtifact, sflo:RdfDocument ;
+  sflo:hasWorkingLocatedFile <ontology/FoundingReferentData/_knop/_sources/sources.ttl> ;
+  sflo:hasSourceBinding <ontology/FoundingReferentData/_knop/_sources#extraction-source> .
+
+<ontology/FoundingReferentData/_knop/_sources#extraction-source> a sflo:ExtractionSource ;
+  sflo:targetArtifact <ontology> ;
+  sflo:targetHistoricalState <ontology/releases/v0.5.0> ;
+  sflo:hasResolutionObservation <ontology/FoundingReferentData/_knop/_sources#extraction-source-observation-001> .
+
+<ontology/FoundingReferentData/_knop/_sources#extraction-source-observation-001> a sflo:ArtifactResolutionObservation ;
+  sflo:observedArtifactResolutionSpec [
+    a sflo:ArtifactResolutionSpec ;
+    sflo:targetHistoricalState <ontology/releases/v0.5.0> ;
+    sflo:targetManifestation <ontology/releases/v0.5.0/ttl> ;
+    sflo:targetLocatedFile <ontology/releases/v0.5.0/ttl/semantic-flow-core-ontology.ttl>
+  ] ;
+  sflo:observedContentDigest "sha256:20a8c282038152f6c71bdcc4b7777686df2e544fe587379b074f941df7147871" .
+
+<ontology/FoundingReferentData/_knop/_sources/sources.ttl> a sflo:LocatedFile, sflo:RdfDocument .
