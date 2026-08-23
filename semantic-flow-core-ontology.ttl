@@ -417,7 +417,7 @@
 # Metadata artifacts
 #################################################################
 
-<KnopMetadata> a rdfs:Class ;
+h<KnopMetadata> a rdfs:Class ;
   rdfs:subClassOf <DigitalArtifact>, <RdfDocument>, <SemanticFlowResource> ;
   rdfs:label "Knop metadata" ;
   rdfs:comment "A DigitalArtifact RdfDocument used as metadata about a Knop as a mesh-managed support object." .
