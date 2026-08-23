@@ -14,7 +14,7 @@ Superseded decisions are intentionally retained for traceability. When a decisio
 
 - Status: Active
 - Decision: Narrow the active 2026-04-02 removal of generic `ReferentMetadata` by adding one optional Knop-owned `FoundingReferentData` artifact and the explicit `hasFoundingReferentData` slot. The artifact contains a small, operation-validated RDF record about exactly the public referent associated with the Knop, is accepted atomically during identifier initialization, and follows the ordinary DigitalArtifact history/state/manifestation lifecycle when settled. It is a `DigitalArtifact` and `RdfDocument`, but not a `SemanticFlowResource` until a ResourcePage contract is defined. Keep `KnopMetadata` restricted to metadata about the Knop support object, keep `ReferenceCatalog` restricted to managed `ReferenceLink` relators, and keep broader or ongoing referent data in payload artifacts or datasets.
-- References: [[ont.summary.core]], [[ont.reference-links]], [[wa.task.2026.2026-08-22_1112-founding-referent-data]], [[wa.plan.2026.2026-08-22_1550-stagecraft-iri-initialization]]
+- References: [[ont.summary.core]], [[ont.reference-links]], [[wa.completed.2026.2026-08-22_1112-founding-referent-data]], [[wa.completed-plan.2026.2026-08-22_1550-stagecraft-iri-initialization]]
 - Why:
   - identifier-minting applications need a deterministic local record of the few referent facts accepted at creation even when an external reference source is absent or unavailable
   - those assertions are about the public referent, not about `D/_knop`, so placing them in `KnopMetadata` would collapse the machinery/content boundary
