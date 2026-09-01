@@ -395,14 +395,14 @@
 
 <https://semantic-flow.github.io/sflo/ontology/shacl/FloatingRepositorySourceBindingShape>
   rdf:type sh:NodeShape;
-  rdfs:comment "A branch-based mesh floating source binding resolves mutable working bytes from a repository checkout selected by operational policy. It should not persist host-local source paths.";
+  rdfs:comment "A branch-based mesh floating source binding resolves mutable working bytes through a stable named repository locator selected by operational policy. It should not persist host-local source paths.";
   rdfs:label "Floating repository source binding";
   sh:property [
     sh:class sflo:RepositorySourceFloatingLocator;
     sh:maxCount 1;
-    sh:message "A floating repository source binding MUST identify exactly one sflo:hasRepositorySourceFloatingLocator value typed sflo:RepositorySourceFloatingLocator.";
+    sh:message "A floating repository source binding MUST identify exactly one named sflo:hasRepositorySourceFloatingLocator value typed sflo:RepositorySourceFloatingLocator.";
     sh:minCount 1;
-    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:nodeKind sh:IRI;
     sh:path sflo:hasRepositorySourceFloatingLocator;
     sh:severity sh:Violation
   ];

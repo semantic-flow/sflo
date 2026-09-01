@@ -179,6 +179,8 @@ Source registries are the current home for two related but distinct records:
 
 These records are not curated references. Use `ReferenceCatalog` / `ReferenceLink` / `ReferenceSource` when the mesh wants to say that one resource intentionally references RDF data about it. Use `_knop/_sources` when the mesh needs to explain where carried bytes or extracted-term evidence came from. Inventory-rooted extraction-source detail blocks are historical only; current serialization keeps the details in `_knop/_sources/sources.ttl` and lets the Knop inventory point to that registry and to the primary extraction source.
 
+Persisted `RepositorySourceFloatingLocator` resources are named rather than blank. Stable locator identity lets writers recognize repeated source registration as a semantic no-op and fail closed when the same locator identity is assigned conflicting repository coordinates. Concrete runtimes define their deterministic locator IRI convention; Weave uses the owning payload's `_knop/_sources#payload-source-repository-locator` fragment.
+
 ## Things To Not Reintroduce
 
 These are not part of the current core surface:

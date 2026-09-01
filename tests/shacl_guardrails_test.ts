@@ -30,6 +30,8 @@ const SHAPES = {
     `${SFLO_SHACL_NAMESPACE}ManifestationLocatedFileDigestConsistencyShape`,
   RepositorySourceLocator:
     `${SFLO_SHACL_NAMESPACE}RepositorySourceLocatorShape`,
+  FloatingRepositorySourceBinding:
+    `${SFLO_SHACL_NAMESPACE}FloatingRepositorySourceBindingShape`,
   ArtifactResolutionObservation:
     `${SFLO_SHACL_NAMESPACE}ArtifactResolutionObservationShape`,
   ArtifactResolutionObservationLink:
@@ -117,6 +119,8 @@ const TERMS = {
   targetHistoricalState: `${SFLO_NAMESPACE}targetHistoricalState`,
   targetArtifact: `${SFLO_NAMESPACE}targetArtifact`,
   targetRepositorySource: `${SFLO_NAMESPACE}targetRepositorySource`,
+  hasRepositorySourceFloatingLocator:
+    `${SFLO_NAMESPACE}hasRepositorySourceFloatingLocator`,
   observedContentDigest: `${SFLO_NAMESPACE}observedContentDigest`,
   expectsContentDigest: `${SFLO_NAMESPACE}expectsContentDigest`,
   contentDigestMethodToken: `${SFLO_NAMESPACE}contentDigestMethodToken`,
@@ -145,6 +149,7 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
   assertNodeShape(quads, SHAPES.ExpectedContentDigestTyping);
   assertNodeShape(quads, SHAPES.ManifestationLocatedFileDigestConsistency);
   assertNodeShape(quads, SHAPES.RepositorySourceLocator);
+  assertNodeShape(quads, SHAPES.FloatingRepositorySourceBinding);
   assertNodeShape(quads, SHAPES.ReferenceSource);
   assertNodeShape(quads, SHAPES.ArtifactResolutionObservation);
   assertNodeShape(quads, SHAPES.ArtifactResolutionObservationLink);
@@ -190,6 +195,26 @@ Deno.test("core SHACL declares key source-binding and resolution-mode shapes", a
       TERMS.hasArtifactResolutionMode,
     ),
     "ArtifactResolutionMode usage shape should target sflo:hasArtifactResolutionMode subjects",
+  );
+});
+
+Deno.test("floating repository source bindings require named locator resources", async () => {
+  const quads = await parseRepoTurtle(CORE_SHACL_FILE);
+  const propertyShape = findPropertyShape(
+    quads,
+    SHAPES.FloatingRepositorySourceBinding,
+    TERMS.hasRepositorySourceFloatingLocator,
+  );
+
+  assert(propertyShape);
+  assert(
+    hasTriple(
+      quads,
+      propertyShape.value,
+      "http://www.w3.org/ns/shacl#nodeKind",
+      "http://www.w3.org/ns/shacl#IRI",
+    ),
+    "persisted floating repository locators should require stable IRI identity",
   );
 });
 
