@@ -1,0 +1,9 @@
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<https://example.test/item>
+  sflo:hasRepositorySourceFloatingLocator <https://example.test/item/_knop/_sources#payload-source-repository-locator> .
+
+<https://example.test/item/_knop/_sources#payload-source-repository-locator>
+  a sflo:RepositorySourceFloatingLocator ;
+  sflo:sourceRepositoryUrl "https://github.com/example/source.git" ;
+  sflo:sourceRepositoryPathFromRoot "data/item.ttl" .

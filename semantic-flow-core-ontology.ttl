@@ -545,7 +545,7 @@
 
 <RepositorySourceFloatingLocator> a rdfs:Class ;
   rdfs:label "Repository source floating locator" ;
-  rdfs:comment "A durable locator for mutable working bytes in a version-control repository checkout. It records repository identity and a path from the repository root, but deliberately omits branch, ref, commit, digest, and local checkout path evidence. Runtime operational policy maps the repository identity to a local checkout and reads the currently checked-out bytes." .
+  rdfs:comment "A durable named locator for mutable working bytes in a version-control repository checkout. It records repository identity and a path from the repository root, but deliberately omits branch, ref, commit, digest, and local checkout path evidence. Persisted locators use stable IRI identity so repeated registration can distinguish semantic no-op from conflicting coordinates. Runtime operational policy maps the repository identity to a local checkout and reads the currently checked-out bytes." .
 
 <ExtractionSource> a rdfs:Class ;
   rdfs:subClassOf <ArtifactResolutionSpec> ;
@@ -629,7 +629,7 @@
 <hasRepositorySourceFloatingLocator> a owl:ObjectProperty ;
   rdfs:range <RepositorySourceFloatingLocator> ;
   rdfs:label "has repository source floating locator" ;
-  rdfs:comment "Relates an artifact or ArtifactResolutionSpec to a floating repository source locator for mutable working bytes. This is intended for branch-published meshes whose source bytes live in a separately materialized repository checkout. The local checkout path is resolved operationally and is not persisted in the mesh." .
+  rdfs:comment "Relates an artifact or ArtifactResolutionSpec to a named floating repository source locator for mutable working bytes. This is intended for branch-published meshes whose source bytes live in a separately materialized repository checkout. The local checkout path is resolved operationally and is not persisted in the mesh." .
 
 <sourceRepositoryUrl> a owl:DatatypeProperty ;
   rdfs:range xsd:anyURI ;

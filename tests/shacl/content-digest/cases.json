@@ -45,9 +45,35 @@
     {
       "key": "founding-working-file-rdf-type",
       "contains": "FoundingReferentData sflo:hasWorkingLocatedFile value must be typed sflo:RdfDocument"
+    },
+    {
+      "key": "floating-locator-must-be-named",
+      "contains": "floating repository source binding MUST identify exactly one named sflo:hasRepositorySourceFloatingLocator"
     }
   ],
   "cases": [
+    {
+      "id": "valid-named-repository-floating-locator",
+      "dataFile": "valid-named-repository-floating-locator.ttl",
+      "expectedConforms": true,
+      "expectedMaxSeverity": null,
+      "expectedResults": []
+    },
+    {
+      "id": "invalid-blank-repository-floating-locator",
+      "dataFile": "invalid-blank-repository-floating-locator.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Violation",
+      "expectedResults": [
+        {
+          "severity": "Violation",
+          "focusNode": "https://example.test/item",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/hasRepositorySourceFloatingLocator",
+          "constraintComponent": "NodeKindConstraintComponent",
+          "messageKey": "floating-locator-must-be-named"
+        }
+      ]
+    },
     {
       "id": "valid-founding-referent-data",
       "dataFile": "valid-founding-referent-data.ttl",
