@@ -717,6 +717,26 @@
   ];
   sh:targetSubjectsOf sflo:hasFallbackArtifactResolutionSpec .
 
+<https://semantic-flow.github.io/sflo/ontology/shacl/LocatedFileResolutionSpecShape>
+  rdf:type sh:NodeShape;
+  rdfs:comment "A LocatedFile designates at most one resolution spec, and that spec targets the same LocatedFile exactly once. Files without the edge are unconstrained.";
+  rdfs:label "LocatedFile resolution spec";
+  sh:property [
+    sh:class sflo:ArtifactResolutionSpec;
+    sh:maxCount 1;
+    sh:message "sflo:resolutionSpec values MUST be typed sflo:ArtifactResolutionSpec, and a LocatedFile designates at most one.";
+    sh:nodeKind sh:BlankNodeOrIRI;
+    sh:path sflo:resolutionSpec;
+    sh:severity sh:Violation
+  ];
+  sh:sparql [
+    rdf:type sh:SPARQLConstraint;
+    sh:message "The sflo:resolutionSpec of a LocatedFile MUST declare exactly one sflo:targetLocatedFile, and it MUST be that same LocatedFile.";
+    sh:select "PREFIX sflo: <https://semantic-flow.github.io/sflo/ontology/>\nSELECT $this WHERE {\n  $this sflo:resolutionSpec ?spec .\n  FILTER (\n    NOT EXISTS { ?spec sflo:targetLocatedFile $this }\n    || EXISTS { ?spec sflo:targetLocatedFile ?other . FILTER (?other != $this) }\n  )\n}";
+    sh:severity sh:Violation
+  ];
+  sh:targetSubjectsOf sflo:resolutionSpec .
+
 <https://semantic-flow.github.io/sflo/ontology/shacl/ArtifactResolutionModeUsageShape>
   rdf:type sh:NodeShape;
   rdfs:comment "ArtifactResolutionMode usage checks distinguish mutable working-byte resolution from latest settled state resolution.";

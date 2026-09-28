@@ -1,0 +1,19 @@
+@prefix ex: <https://example.test/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+ex:file a sflo:LocatedFile ;
+  sflo:hasContentDigest "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" ;
+  sflo:resolutionSpec ex:spec .
+
+ex:spec a sflo:ArtifactResolutionSpec ;
+  sflo:targetLocatedFile ex:file ;
+  sflo:targetArtifact ex:artifact ;
+  sflo:targetLocalRelativePath "../drafts/sources/images/study/001-draft.jpg" ;
+  sflo:targetRepositorySource ex:locator ;
+  sflo:expectsContentDigest "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" .
+
+ex:locator a sflo:RepositorySourceLocator ;
+  sflo:sourceRepositoryUrl "https://github.com/example/drafts" ;
+  sflo:sourceRepositoryRef "main" ;
+  sflo:sourceRepositoryCommit "0123456789abcdef0123456789abcdef01234567" ;
+  sflo:sourceRepositoryPath "sources/images/study/001-draft.jpg" .

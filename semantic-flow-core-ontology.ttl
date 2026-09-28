@@ -702,6 +702,16 @@
   rdfs:label "target located file" ;
   rdfs:comment "Relates an ArtifactResolutionSpec directly to a specific LocatedFile when resolution should follow that retrievable bytes identity without requiring an artifact-level target." .
 
+## minted 2026-09-28, no predecessor. The designated resolution instruction for one LocatedFile, so that a catalog record's
+## file can name bytes held in another repository. Content (dale) minted it on execution's need (the multi-repository
+## sourcing build); the name was put to the Semantic Flow owner and taken on a cross-vendor consult's confirmation. It
+## deliberately does not reuse hasSourceBinding, whose domain is KnopSourceRegistry.
+<resolutionSpec> a owl:ObjectProperty ;
+  rdfs:domain <LocatedFile> ;
+  rdfs:range <ArtifactResolutionSpec> ;
+  rdfs:label "resolution spec" ;
+  rdfs:comment "Relates a LocatedFile to the designated specification for locating its bytes. The specification targets the same LocatedFile; its other coordinates and expected digest describe how those bytes may be located and verified. This relation does not itself authorize access to a source." .
+
 <targetManifestation> a owl:ObjectProperty ;
   rdfs:domain <ArtifactResolutionSpec> ;
   rdfs:range <ArtifactManifestation> ;

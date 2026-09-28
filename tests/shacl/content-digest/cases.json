@@ -49,6 +49,18 @@
     {
       "key": "floating-locator-must-be-named",
       "contains": "floating repository source binding MUST identify exactly one named sflo:hasRepositorySourceFloatingLocator"
+    },
+    {
+      "key": "resolution-spec-same-file",
+      "contains": "MUST declare exactly one sflo:targetLocatedFile, and it MUST be that same LocatedFile"
+    },
+    {
+      "key": "resolution-spec-at-most-one",
+      "contains": "a LocatedFile designates at most one"
+    },
+    {
+      "key": "knop-binding-mode",
+      "contains": "SHOULD declare one sflo:hasArtifactResolutionMode value"
     }
   ],
   "cases": [
@@ -262,6 +274,72 @@
           "resultPath": null,
           "constraintComponent": "SPARQLConstraintComponent",
           "messageKey": "explicit-bearer-type"
+        }
+      ]
+    },
+    {
+      "id": "warning-located-file-resolution-spec-exact-pin",
+      "dataFile": "warning-located-file-resolution-spec-exact-pin.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Warning",
+      "expectedResults": [
+        {
+          "severity": "Warning",
+          "focusNode": "https://example.test/spec",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/hasArtifactResolutionMode",
+          "constraintComponent": "MinCountConstraintComponent",
+          "messageKey": "knop-binding-mode"
+        }
+      ]
+    },
+    {
+      "id": "invalid-resolution-spec-target-mismatch",
+      "dataFile": "invalid-resolution-spec-target-mismatch.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Violation",
+      "expectedResults": [
+        {
+          "severity": "Violation",
+          "focusNode": "https://example.test/file",
+          "resultPath": null,
+          "constraintComponent": "SPARQLConstraintComponent",
+          "messageKey": "resolution-spec-same-file"
+        },
+        {
+          "severity": "Warning",
+          "focusNode": "https://example.test/spec",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/hasArtifactResolutionMode",
+          "constraintComponent": "MinCountConstraintComponent",
+          "messageKey": "knop-binding-mode"
+        }
+      ]
+    },
+    {
+      "id": "invalid-two-resolution-specs",
+      "dataFile": "invalid-two-resolution-specs.ttl",
+      "expectedConforms": false,
+      "expectedMaxSeverity": "Violation",
+      "expectedResults": [
+        {
+          "severity": "Violation",
+          "focusNode": "https://example.test/file",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/resolutionSpec",
+          "constraintComponent": "MaxCountConstraintComponent",
+          "messageKey": "resolution-spec-at-most-one"
+        },
+        {
+          "severity": "Warning",
+          "focusNode": "https://example.test/spec",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/hasArtifactResolutionMode",
+          "constraintComponent": "MinCountConstraintComponent",
+          "messageKey": "knop-binding-mode"
+        },
+        {
+          "severity": "Warning",
+          "focusNode": "https://example.test/spec-two",
+          "resultPath": "https://semantic-flow.github.io/sflo/ontology/hasArtifactResolutionMode",
+          "constraintComponent": "MinCountConstraintComponent",
+          "messageKey": "knop-binding-mode"
         }
       ]
     }
