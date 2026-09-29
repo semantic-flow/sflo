@@ -2,9 +2,14 @@ import type {
   ShaclCaseReceipt,
   ShaclReceiptBundle,
 } from "./shacl_conformance.ts";
+import { semanticCaseReceipt } from "./shacl_conformance.ts";
 
-function comparable(cases: readonly ShaclCaseReceipt[]): string {
-  return JSON.stringify(cases);
+export function comparable(cases: readonly ShaclCaseReceipt[]): string {
+  return JSON.stringify(
+    cases.map(semanticCaseReceipt).sort((left, right) =>
+      left.caseId.localeCompare(right.caseId)
+    ),
+  );
 }
 
 async function main(): Promise<void> {

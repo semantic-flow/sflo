@@ -117,11 +117,18 @@ export function sortAndDeduplicateResults(
 ): NormalizedShaclResult[] {
   const byIdentity = new Map<string, NormalizedShaclResult>();
   for (const result of results) {
-    byIdentity.set(JSON.stringify(result), result);
+    const canonical = {
+      severity: result.severity,
+      focusNode: result.focusNode,
+      resultPath: result.resultPath,
+      constraintComponent: result.constraintComponent,
+      messageKey: result.messageKey,
+    };
+    byIdentity.set(JSON.stringify(Object.values(canonical)), canonical);
   }
-  return [...byIdentity.values()].sort((left, right) =>
-    JSON.stringify(left).localeCompare(JSON.stringify(right))
-  );
+  return [...byIdentity.entries()]
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([, result]) => result);
 }
 
 export function maxSeverity(
