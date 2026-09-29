@@ -87,11 +87,11 @@
 <_mesh> sflo:hasKnop <ontology/_knop> .
 
 <ontology> a sflo:PayloadArtifact, sflo:DigitalArtifact, sflo:RdfDocument ;
-  sflo:hasRepositorySourceFloatingLocator [
-    a sflo:RepositorySourceFloatingLocator ;
-    sflo:sourceRepositoryUrl "https://github.com/semantic-flow/sflo.git" ;
-    sflo:sourceRepositoryPathFromRoot "semantic-flow-core-ontology.ttl"
-  ] .
+  sflo:hasRepositorySourceFloatingLocator <ontology/_knop/_sources#payload-source-repository-locator> .
+
+<ontology/_knop/_sources#payload-source-repository-locator> a sflo:RepositorySourceFloatingLocator ;
+  sflo:sourceRepositoryUrl "https://github.com/semantic-flow/sflo.git" ;
+  sflo:sourceRepositoryPathFromRoot "semantic-flow-core-ontology.ttl" .
 
 <ontology/_knop> a sflo:Knop ;
   sflo:hasWorkingKnopInventoryFile <ontology/_knop/_inventory/inventory.ttl> .
@@ -101,11 +101,11 @@
 <_mesh> sflo:hasKnop <config/_knop> .
 
 <config> a sflo:PayloadArtifact, sflo:DigitalArtifact, sflo:RdfDocument ;
-  sflo:hasRepositorySourceFloatingLocator [
-    a sflo:RepositorySourceFloatingLocator ;
-    sflo:sourceRepositoryUrl "https://github.com/semantic-flow/sflo.git" ;
-    sflo:sourceRepositoryPathFromRoot "semantic-flow-config-ontology.ttl"
-  ] .
+  sflo:hasRepositorySourceFloatingLocator <config/_knop/_sources#payload-source-repository-locator> .
+
+<config/_knop/_sources#payload-source-repository-locator> a sflo:RepositorySourceFloatingLocator ;
+  sflo:sourceRepositoryUrl "https://github.com/semantic-flow/sflo.git" ;
+  sflo:sourceRepositoryPathFromRoot "semantic-flow-config-ontology.ttl" .
 
 <config/_knop> a sflo:Knop ;
   sflo:hasWorkingKnopInventoryFile <config/_knop/_inventory/inventory.ttl> .
@@ -115,11 +115,11 @@
 <_mesh> sflo:hasKnop <ontology/shacl/_knop> .
 
 <ontology/shacl> a sflo:PayloadArtifact, sflo:DigitalArtifact, sflo:RdfDocument ;
-  sflo:hasRepositorySourceFloatingLocator [
-    a sflo:RepositorySourceFloatingLocator ;
-    sflo:sourceRepositoryUrl "https://github.com/semantic-flow/sflo.git" ;
-    sflo:sourceRepositoryPathFromRoot "semantic-flow-core-shacl.ttl"
-  ] .
+  sflo:hasRepositorySourceFloatingLocator <ontology/shacl/_knop/_sources#payload-source-repository-locator> .
+
+<ontology/shacl/_knop/_sources#payload-source-repository-locator> a sflo:RepositorySourceFloatingLocator ;
+  sflo:sourceRepositoryUrl "https://github.com/semantic-flow/sflo.git" ;
+  sflo:sourceRepositoryPathFromRoot "semantic-flow-core-shacl.ttl" .
 
 <ontology/shacl/_knop> a sflo:Knop ;
   sflo:hasWorkingKnopInventoryFile <ontology/shacl/_knop/_inventory/inventory.ttl> .
@@ -5699,3 +5699,45 @@
 <ontology/shacl/FoundingReferentDataShape/index.html> a sflo:ResourcePage, sflo:LocatedFile .
 
 <ontology/shacl/FoundingReferentDataShape/_knop/index.html> a sflo:ResourcePage, sflo:LocatedFile .
+
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<_mesh> <ontology/hasKnop> <ontology/resolutionSpec/_knop> .
+
+<ontology/resolutionSpec/_knop> a <ontology/Knop> ;
+  <ontology/hasWorkingKnopInventoryFile> <ontology/resolutionSpec/_knop/_inventory/inventory.ttl> .
+
+<ontology/resolutionSpec/_knop/_inventory/inventory.ttl> a <ontology/LocatedFile>, <ontology/RdfDocument> .
+
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<_mesh> <ontology/hasKnop> <ontology/shacl/LocatedFileResolutionSpecShape/_knop> .
+
+<ontology/shacl/LocatedFileResolutionSpecShape/_knop> a <ontology/Knop> ;
+  <ontology/hasWorkingKnopInventoryFile> <ontology/shacl/LocatedFileResolutionSpecShape/_knop/_inventory/inventory.ttl> .
+
+<ontology/shacl/LocatedFileResolutionSpecShape/_knop/_inventory/inventory.ttl> a <ontology/LocatedFile>, <ontology/RdfDocument> .
+
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/resolutionSpec> <ontology/hasResourcePage> <ontology/resolutionSpec/index.html> .
+
+<ontology/resolutionSpec/_knop> <ontology/hasResourcePage> <ontology/resolutionSpec/_knop/index.html> .
+
+<ontology/resolutionSpec/index.html> a <ontology/ResourcePage>, <ontology/LocatedFile> .
+
+<ontology/resolutionSpec/_knop/index.html> a <ontology/ResourcePage>, <ontology/LocatedFile> .
+
+@base <https://semantic-flow.github.io/sflo/> .
+@prefix sflo: <https://semantic-flow.github.io/sflo/ontology/> .
+
+<ontology/shacl/LocatedFileResolutionSpecShape> <ontology/hasResourcePage> <ontology/shacl/LocatedFileResolutionSpecShape/index.html> .
+
+<ontology/shacl/LocatedFileResolutionSpecShape/_knop> <ontology/hasResourcePage> <ontology/shacl/LocatedFileResolutionSpecShape/_knop/index.html> .
+
+<ontology/shacl/LocatedFileResolutionSpecShape/index.html> a <ontology/ResourcePage>, <ontology/LocatedFile> .
+
+<ontology/shacl/LocatedFileResolutionSpecShape/_knop/index.html> a <ontology/ResourcePage>, <ontology/LocatedFile> .
