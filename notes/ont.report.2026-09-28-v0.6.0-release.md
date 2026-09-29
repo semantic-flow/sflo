@@ -73,5 +73,8 @@ New ResourcePages returned 200, reference the v0.6.0 source state, and emit the 
 
 ## Deferred Work
 
-- The local `main` branches in the sidecar and Alice fixture repositories remain intentionally untouched. They point to obsolete May fixture-ladder histories while canonical remotes contain regenerated and merged August ladders; reconciliation should preserve an archive ref before repointing either local branch.
 - Job and provenance ontology Pages topology remains unsettled.
+
+## Subsequent Fixture Cleanup
+
+The sidecar and Alice fixture repositories initially remained untouched because their local `main` branches pointed to obsolete May fixture-ladder histories while canonical remotes contained regenerated and merged August ladders. Under Dave's explicit authorization later on 2026-09-28, both obsolete local histories were discarded and the local `main` branches were reset to their fetched `origin/main` commits. Both repositories then reported 0 ahead and 0 behind; no archive refs were retained.
